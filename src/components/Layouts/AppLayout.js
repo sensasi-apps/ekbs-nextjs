@@ -1,23 +1,39 @@
-import Navigation from '@/components/Layouts/Navigation'
-import { useAuth } from '@/hooks/auth'
+import { useContext } from 'react';
 
-const AppLayout = ({ header, children }) => {
-    const { user } = useAuth({ middleware: 'auth' })
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Toolbar from '@mui/material/Toolbar';
+
+import MenuList from './MenuList'
+import TopBar from './TopBar'
+
+import { AppContext } from '../AppContext';
+
+
+
+const drawerWidth = 240;
+
+const AppLayout = ({ pageTitle, children }) => {
+    const { isLoading } = useContext(AppContext);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <Navigation user={user} />
+        <Box sx={{ display: 'flex' }}>
+            <TopBar pageTitle={pageTitle} />
+            <MenuList />
 
-            {/* Page Heading */}
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {header}
-                </div>
-            </header>
+            <Box
+                component="main"
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+            >
+                <Toolbar />
 
-            {/* Page Content */}
-            <main>{children}</main>
-        </div>
+                {
+                    isLoading ? <Box textAlign='center'>
+                        <CircularProgress />
+                    </Box> : children
+                }
+            </Box>
+        </Box>
     )
 }
 

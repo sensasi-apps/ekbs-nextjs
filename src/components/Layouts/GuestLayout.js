@@ -4,10 +4,10 @@ const GuestLayout = ({ children }) => {
     return (
         <div>
             <Head>
-                <title>Laravel</title>
+                <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
             </Head>
 
-            <div className="font-sans text-gray-900 antialiased">
+            <div>
                 {children}
             </div>
         </div>
