@@ -81,7 +81,7 @@ function MenuList(props) {
 				</ListItem>
 
 				<ListItem disablePadding>
-					<ListItemButton href='/system/users' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/system/users'}>
+					<ListItemButton href='/users' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/system/users'}>
 						<ListItemIcon>
 							<GroupIcon />
 						</ListItemIcon>
