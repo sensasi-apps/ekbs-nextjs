@@ -6,13 +6,15 @@ import 'moment/locale/id';
 
 import PropTypes from 'prop-types';
 
-function DatePicker({ name, required, fullWidth, margin, ...props }) {
+function DatePicker({ name, required, fullWidth, margin, error, helperText, ...props }) {
 	return (
 		<LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="id">
 			<DatePickerMui
 				{...props}
 				slotProps={{
 					textField: {
+						error,
+						helperText,
 						required,
 						fullWidth,
 						margin,
