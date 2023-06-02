@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import Toolbar from '@mui/material/Toolbar';
 
 import MenuList from './MenuList'
 import TopBar from './TopBar'
 
 import { AppContext } from '../AppContext';
+import LoadingCenter from '../Statuses/LoadingCenter';
 
 
 
@@ -28,9 +28,11 @@ const AppLayout = ({ pageTitle, children }) => {
                 <Toolbar />
 
                 {
-                    isLoading ? <Box textAlign='center'>
-                        <CircularProgress />
-                    </Box> : children
+                    isLoading && <LoadingCenter />
+                }
+
+                {
+                    !isLoading && children
                 }
             </Box>
         </Box>
