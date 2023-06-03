@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+import { AppContext } from '../AppContext';
 import { useContext, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
@@ -12,13 +14,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
-import { Container, Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
-import MailIcon from '@mui/icons-material/Mail';
 import GroupIcon from '@mui/icons-material/Group';
-import { useRouter } from 'next/router';
-import { AppContext } from '../AppContext';
-import { useAuth } from '@/hooks/auth';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const drawerWidth = 240;
 
@@ -52,21 +51,18 @@ function MenuList(props) {
 
 	const drawer = (
 		<>
-
 			<Toolbar />
 			<Divider />
-			<List>
-				{['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
+
+			<ListItem disablePadding>
+				<ListItemButton href='/dashboard' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/dashboard'}>
+					<ListItemIcon>
+						<DashboardIcon />
+					</ListItemIcon>
+					<ListItemText primary="Dasbor" />
+				</ListItemButton>
+			</ListItem>
+
 			<Divider />
 			<Typography ml={2} mt={2} variant='overline' color='grey' fontWeight='bold'>Sistem</Typography>
 
@@ -81,7 +77,7 @@ function MenuList(props) {
 				</ListItem>
 
 				<ListItem disablePadding>
-					<ListItemButton href='/users' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/system/users'}>
+					<ListItemButton href='/users' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/users'}>
 						<ListItemIcon>
 							<GroupIcon />
 						</ListItemIcon>
