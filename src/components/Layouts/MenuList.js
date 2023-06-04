@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -18,6 +17,10 @@ import Typography from '@mui/material/Typography';
 
 import GroupIcon from '@mui/icons-material/Group';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import FireTruckIcon from '@mui/icons-material/FireTruck';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import BalanceIcon from '@mui/icons-material/Balance';
+import ForestIcon from '@mui/icons-material/Forest';
 
 const drawerWidth = 240;
 
@@ -54,7 +57,7 @@ function MenuList(props) {
 			<Toolbar />
 			<Divider />
 
-			<ListItem disablePadding>
+			<ListItem disablePadding sx={{ mt: 2 }}>
 				<ListItemButton href='/dashboard' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/dashboard'}>
 					<ListItemIcon>
 						<DashboardIcon />
@@ -62,20 +65,48 @@ function MenuList(props) {
 					<ListItemText primary="Dasbor" />
 				</ListItemButton>
 			</ListItem>
+			<Typography ml={2} mt={2} variant='overline' color='grey' fontWeight='bold'>Unit</Typography>
 
-			<Divider />
+			<ListItem disablePadding>
+				<ListItemButton href='/TBS' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/TBS'}>
+					<ListItemIcon>
+						<BalanceIcon />
+					</ListItemIcon>
+					<ListItemText primary="TBS" />
+				</ListItemButton>
+			</ListItem>
+
+			<ListItem disablePadding>
+				<ListItemButton href='/saprodi' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/saprodi'}>
+					<ListItemIcon>
+						<ForestIcon />
+					</ListItemIcon>
+					<ListItemText primary="SAPRODI" />
+				</ListItemButton>
+			</ListItem>
+
+			<ListItem disablePadding>
+				<ListItemButton href='/alat-berat' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/alat-berat'}>
+					<ListItemIcon>
+						<FireTruckIcon />
+					</ListItemIcon>
+					<ListItemText primary="Alat Berat" />
+				</ListItemButton>
+			</ListItem>
+
+			<ListItem disablePadding>
+				<ListItemButton href='/spp' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/spp'}>
+					<ListItemIcon>
+						<CurrencyExchangeIcon />
+					</ListItemIcon>
+					<ListItemText primary="SPP" />
+				</ListItemButton>
+			</ListItem>
+
+			<Divider sx={{ mt: 2 }} />
 			<Typography ml={2} mt={2} variant='overline' color='grey' fontWeight='bold'>Sistem</Typography>
 
 			<List>
-				<ListItem disablePadding>
-					<ListItemButton href='/loans' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/loans'}>
-						<ListItemIcon>
-							<InboxIcon />
-						</ListItemIcon>
-						<ListItemText primary="Pinjaman" />
-					</ListItemButton>
-				</ListItem>
-
 				<ListItem disablePadding>
 					<ListItemButton href='/users' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/users'}>
 						<ListItemIcon>
