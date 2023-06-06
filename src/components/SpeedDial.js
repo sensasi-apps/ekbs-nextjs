@@ -8,7 +8,7 @@ function SpeedDial({ icon, actions = [], color, ...props }) {
 	return (
 		<SpeedDialMui
 			{...props}
-			sx={{ position: 'absolute', bottom: 38, right: 38 }}
+			sx={{ position: 'fixed', bottom: 38, right: 38 }}
 			icon={icon || <SpeedDialIcon />}
 			FabProps={{
 				color
