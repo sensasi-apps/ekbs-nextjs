@@ -8,7 +8,7 @@ import 'moment/locale/id';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-function DatePicker({ name, required, fullWidth, margin, error: extError, helperText, minDate, maxDate, ...props }) {
+function DatePicker({ name, required, fullWidth, margin, error: extError, helperText, minDate, maxDate, value, ...props }) {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
@@ -36,6 +36,7 @@ function DatePicker({ name, required, fullWidth, margin, error: extError, helper
 	return (
 		<LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="id">
 			<DatePickerMui
+				value={value ? moment(value) : null}
 				minDate={minDate || moment('1970-01-01')}
 				maxDate={maxDate || moment('2038-01-19')}
 				onError={(err) => setError(err)}
