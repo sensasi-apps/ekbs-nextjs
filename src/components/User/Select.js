@@ -12,30 +12,15 @@ import Typography from '@mui/material/Typography';
 
 import axios from '@/lib/axios';
 
-const DEBOUNCE_MS = 500
-
 const UserSelect = ({ user, setUser }) => {
 	const [searchText, setSearchText] = useState('');
-	const [debouncedSearchText, setDebouncedSearchText] = useState('');
+	const [submittedSearchText, setSubmittedSearchText] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-
-
-	// Menggunakan setTimeout untuk mendebounce input
-	useEffect(() => {
-		const timeoutId = setTimeout(() => {
-			setDebouncedSearchText(searchText);
-		}, DEBOUNCE_MS);
-
-		return () => clearTimeout(timeoutId);
-	}, [searchText]);
-
-
-
 
 	const fetchUserOptions = async (searchUrl) => {
 		setIsLoading(true);
 
-		const response = await axios.get(searchUrl);
+		const response = await axios.get(`${searchUrl}?query=${submittedSearchText}`);
 		const data = response.data;
 
 		setIsLoading(false);
@@ -43,22 +28,15 @@ const UserSelect = ({ user, setUser }) => {
 		return data;
 	};
 
+	useEffect(() => {
+		mutate();
+	}, [submittedSearchText]);
 
 
-	const { data: userOptionsData } = useSWR(
-		debouncedSearchText.length >= 3 ? `/users/search?query=${debouncedSearchText}` : null,
+	const { data: userOptionsData, mutate } = useSWR(
+		submittedSearchText.length >= 3 ? `/users/search` : null,
 		fetchUserOptions
 	);
-
-	useEffect(() => {
-		const userIndexOnOptions = (userOptionsData || []).findIndex((u) => u.id === user?.id);
-
-		if (user?.id && userIndexOnOptions === -1) userOptionsData.unshift(user);
-		if (user?.id && userIndexOnOptions !== -1) userOptionsData[userIndexOnOptions] = user;
-	}, [user]);
-
-
-
 
 	return (
 		<Autocomplete
@@ -67,10 +45,12 @@ const UserSelect = ({ user, setUser }) => {
 					elevation: 8,
 				}
 			}}
+			isOptionEqualToValue={(option, value) => option.id === value.id}
 			options={userOptionsData || []}
 			value={user}
 			getOptionLabel={(user) => user.name}
 			onChange={(event, newValue) => setUser(newValue)}
+			onKeyDown={(e) => e.key === 'Enter' ? setSubmittedSearchText(searchText) : null}
 			noOptionsText="Pengguna tidak ditemukan"
 			loadingText="Memuat..."
 			filterOptions={(x) => x}
@@ -79,23 +59,23 @@ const UserSelect = ({ user, setUser }) => {
 			renderOption={(props, option) => (
 				<li {...props} key={option.id}>
 					<Box display='flex' alignItems='center'>
+						<Typography mr={1} variant='caption'>
+							{option.id}
+						</Typography>
 						<Typography mr={2}>
 							{option.name}
 						</Typography>
-						<Typography mr={2} variant='caption'>
-							{option.employee?.code || option.member?.code || option.courier?.code}
-						</Typography>
 
 						{
-							option.employee?.is_active && <Chip size='small' label="Pegawai" />
+							option.is_employee?.is_active && <Chip size='small' label="Pegawai" />
 						}
 
 						{
-							option.member?.is_active && <Chip size='small' label="Anggota" />
+							option.is_member?.is_active && <Chip size='small' label="Anggota" />
 						}
 
 						{
-							option.courier?.is_active && <Chip size='small' label="Kurir" />
+							option.is_courier?.is_active && <Chip size='small' label="Kurir" />
 						}
 					</Box>
 				</li>
