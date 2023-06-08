@@ -38,6 +38,7 @@ export default function ActivationToggle({ user }) {
 		<FormControl
 			fullWidth
 			margin='normal'
+			disabled={!user.email}
 			error={Boolean(errorMessage)}
 		>
 			<FormLabel>Status Akun</FormLabel>
