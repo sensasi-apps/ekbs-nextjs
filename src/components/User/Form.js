@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
 {/* TODO: set role and permission */ }
-{/* TODO: set socmed */ }
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { mutate } from 'swr';
 
 import Box from '@mui/material/Box';
@@ -29,18 +28,21 @@ const defaultNewUser = {
 }
 
 export default function UserForm({
-	user,
-	onChange,
+	data: user,
+	onSubmitted,
 	onClose,
 	...props
 }) {
-
 	const [userDraft, setUserDraft] = useState(user || defaultNewUser);
 	const [errors, setErrors] = useState([]);
 	const [statusTitle, setStatusTitle] = useState(null);
 
 	const [isError, setIsError] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		setUserDraft(user || defaultNewUser);
+	}, [user]);
 
 	const handleChange = (event) => {
 
@@ -71,8 +73,8 @@ export default function UserForm({
 
 		try {
 			let response;
-			if (userDraft.id) {
-				response = await axios.put(`/users/${userDraft.id}`, userDraft);
+			if (userDraft.uuid) {
+				response = await axios.put(`/users/${userDraft.uuid}`, userDraft);
 			} else {
 				response = await axios.post('/users', userDraft);
 				await mutate('/users/summary');
@@ -80,8 +82,8 @@ export default function UserForm({
 
 			await mutate('/users/search');
 
-			if (onChange) {
-				onChange(response.data);
+			if (onSubmitted) {
+				onSubmitted(response.data);
 			}
 
 			onClose();
@@ -102,12 +104,6 @@ export default function UserForm({
 
 	if (isError) return <ErrorCenter message={statusTitle} onClose={() => setIsError(false)} />
 	if (isLoading) return <LoadingCenter />
-
-	window.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape') {
-			return onClose();
-		}
-	});
 
 	return (
 		<form {...props} onSubmit={handleSubmit}>
