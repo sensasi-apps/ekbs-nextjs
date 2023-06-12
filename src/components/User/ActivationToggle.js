@@ -19,7 +19,7 @@ export default function ActivationToggle({ user }) {
 		setIsLoading(true);
 
 		try {
-			const { data: responseData } = await axios.put(`/users/${user.id}/set-active`, {
+			const { data: responseData } = await axios.put(`/users/${user.uuid}/set-active`, {
 				is_active: !isUserActive
 			})
 

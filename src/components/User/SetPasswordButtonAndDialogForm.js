@@ -57,7 +57,7 @@ export default function SetPasswordButtonAndDialogForm({ user }) {
 		setIsLoading(true);
 
 		try {
-			await axios.put(`/users/${user.id}/set-password`, passwordsData);
+			await axios.put(`/users/${user.uuid}/set-password`, passwordsData);
 
 			setIsComplete(true);
 		} catch (error) {
@@ -104,9 +104,8 @@ export default function SetPasswordButtonAndDialogForm({ user }) {
 		<>
 			<Button
 				variant="outlined"
-				color='warning'
+				color='error'
 				size="small"
-				sx={{ mt: 2 }}
 				onClick={() => setIsOpen(true)}
 			>
 				Atur kata sandi
