@@ -8,18 +8,18 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import LoadingCenter from './Statuses/LoadingCenter';
 
 
-export default function SelectInputFromApi({ endpoint, value = '', name, label, onChange, ...props }) {
-	const [internalValue, setInternalValue] = useState(value);
+export default function SelectInputFromApi({ endpoint, name, label, onChange, selectProps, ...props }) {
 
 	const fetcher = async url => {
 		return (await axios.get(url)).data;
 	}
 
-	const { data } = useSWR(endpoint, fetcher);
+	const { data, isLoading } = useSWR(endpoint, fetcher);
 
-	if (!data) return;
+	if (isLoading) return <LoadingCenter />;
 
 	return (
 		<FormControl
@@ -29,15 +29,14 @@ export default function SelectInputFromApi({ endpoint, value = '', name, label, 
 		>
 			<InputLabel>{label}</InputLabel>
 			<Select
-				value={internalValue}
 				name={name}
 				onChange={e => {
-					setInternalValue(e.target.value);
 					if (onChange) {
 						onChange(e);
 					}
 				}}
 				label={label}
+				{...selectProps}
 			>
 				<MenuItem value="" disabled></MenuItem>
 				{
