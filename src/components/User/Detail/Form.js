@@ -22,7 +22,7 @@ import DatePicker from "@/components/DatePicker";
 import LoadingCenter from "@/components/Statuses/LoadingCenter";
 import SelectInputFromApi from "@/components/SelectInputFromApi";
 
-export default function UserDetailForm({ isShow = true, onSubmitted, onClose, data: userDetail, uuid, ...props }) {
+export default function UserDetailForm({ isShow = true, onSubmitted = () => { }, onClose = () => { }, data: userDetail, uuid, ...props }) {
 	if (!isShow) return null;
 
 	const [errors, setErrors] = useState({});
@@ -54,7 +54,7 @@ export default function UserDetailForm({ isShow = true, onSubmitted, onClose, da
 			await axios.post(`/users/${uuid}/detail`, formData);
 			await mutate(`/users/${uuid}`);
 
-			if (onSubmitted) onSubmitted();
+			onSubmitted();
 		} catch (error) {
 			if (error?.response?.status === 422) {
 				setErrors(error?.response?.data?.errors);
@@ -176,7 +176,9 @@ export default function UserDetailForm({ isShow = true, onSubmitted, onClose, da
 				endpoint='/select/educations'
 				label='Pendidikan Terakhir'
 				name='last_education_id'
-				value={userDetail?.last_education_id || ''}
+				selectProps={{
+					defaultValue: userDetail?.last_education_id || null
+				}}
 			/>
 
 			<Grid container spacing={2}>
@@ -185,7 +187,9 @@ export default function UserDetailForm({ isShow = true, onSubmitted, onClose, da
 						endpoint='/select/marital-statuses'
 						label='Status Pernikahan'
 						name='marital_status_id'
-						value={userDetail?.marital_status_id || ''}
+						selectProps={{
+							defaultValue: userDetail?.marital_status_id || null
+						}}
 					/>
 				</Grid>
 
