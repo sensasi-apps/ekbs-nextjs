@@ -15,6 +15,8 @@ import UserDetailBox from './Detail/Box';
 
 import AddIcon from '@mui/icons-material/Add';
 import UserDetailForm from './Detail/Form';
+import MemberBox from '../Member/Box';
+import MemberForm from '../Member/Form';
 
 
 function TabPanel(props) {
@@ -85,6 +87,14 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 							userDetail={detail}
 						/>
 
+						<UserDetailForm
+							uuid={uuid}
+							data={detail}
+							isShow={isFormOpen}
+							onSubmitted={() => setIsFormOpen(false)}
+							onClose={() => setIsFormOpen(false)}
+						/>
+
 						<Typography
 							variant="body2"
 							color="text.secondary"
@@ -95,7 +105,7 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 
 						<Button
 							sx={{
-								display: isFormOpen || member ? 'none' : 'flex'
+								display: isFormOpen ? 'none' : 'flex'
 							}}
 							color={detail ? 'warning' : 'success'}
 							startIcon={detail ? null : <AddIcon />}
@@ -105,14 +115,6 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 								detail ? 'Perbaharui detail pengguna' : 'Masukkan detail pengguna'
 							}
 						</Button>
-
-						<UserDetailForm
-							uuid={uuid}
-							data={detail}
-							isShow={isFormOpen}
-							onSubmitted={() => setIsFormOpen(false)}
-							onClose={() => setIsFormOpen(false)}
-						/>
 					</TabPanel>
 
 
@@ -126,6 +128,22 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 
 
 					<TabPanel value={value} index={2}>
+						<MemberBox
+							sx={{
+								display: isFormOpen || !member ? 'none' : 'block'
+							}}
+							uuid={uuid}
+							data={member}
+						/>
+
+						<MemberForm
+							uuid={uuid}
+							data={member}
+							isShow={isFormOpen}
+							onSubmitted={() => setIsFormOpen(false)}
+							onClose={() => setIsFormOpen(false)}
+						/>
+
 						<Typography
 							variant="body2"
 							color="text.secondary"
@@ -136,7 +154,7 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 
 						<Button
 							sx={{
-								display: isFormOpen || member ? 'none' : 'flex'
+								display: isFormOpen ? 'none' : 'flex'
 							}}
 							color={member ? 'warning' : 'success'}
 							startIcon={member ? null : <AddIcon />}
