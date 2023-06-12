@@ -12,7 +12,12 @@ function DatePicker({ name, required, fullWidth, margin, error: extError, helper
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		setError('Ekternal error');
+		if (extError) {
+			setError('Ekternal error');
+		} else {
+			setError(null);
+		}
+
 	}, [extError]);
 
 	const errorMessage = useMemo(() => {
@@ -28,7 +33,7 @@ function DatePicker({ name, required, fullWidth, margin, error: extError, helper
 			}
 
 			default: {
-				return '';
+				return helperText;
 			}
 		}
 	}, [error]);
@@ -43,7 +48,8 @@ function DatePicker({ name, required, fullWidth, margin, error: extError, helper
 				{...props}
 				slotProps={{
 					textField: {
-						helperText: (errorMessage || helperText),
+						error: Boolean(error),
+						helperText: (errorMessage),
 						required,
 						fullWidth,
 						margin,
