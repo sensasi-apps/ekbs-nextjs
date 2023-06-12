@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import useSWR from 'swr';
+import { useState } from 'react';
+
+import useSWRMutation from 'swr/mutation';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
@@ -12,31 +13,42 @@ import Typography from '@mui/material/Typography';
 
 import axios from '@/lib/axios';
 
-const UserSelect = ({ user, setUser }) => {
+const UserSelect = (props) => {
 	const [searchText, setSearchText] = useState('');
-	const [submittedSearchText, setSubmittedSearchText] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
+	const [isSearched, setIsSearched] = useState(false);
+	const [userOptions, setUserOptions] = useState([]);
 
-	const fetchUserOptions = async (searchUrl) => {
-		setIsLoading(true);
-
-		const response = await axios.get(`${searchUrl}?query=${submittedSearchText}`);
-		const data = response.data;
-
-		setIsLoading(false);
-
+	const fetchUserOptions = async (searchUrl, { arg: { searchText } }) => {
+		const { data } = await axios.get(`${searchUrl}?query=${searchText}`);
 		return data;
 	};
 
-	useEffect(() => {
-		mutate();
-	}, [submittedSearchText]);
+	const { trigger, isMutating } = useSWRMutation(`/users/search`, fetchUserOptions, {
+		revalidateOnFocus: false,
+	});
 
+	const handleKeyDown = async (e) => {
+		if (e.key === 'Enter' && e.target.value.length >= 3 && !isMutating) {
+			setIsSearched(true);
+			const data = await trigger({ searchText: e.target.value });
+			setUserOptions(data);
+		}
+	};
 
-	const { data: userOptionsData, mutate } = useSWR(
-		submittedSearchText.length >= 3 ? `/users/search` : null,
-		fetchUserOptions
-	);
+	const handleKeyUp = (e) => {
+		if (e.key === 'Enter') return;
+
+		setIsSearched(false);
+		setSearchText(e.target.value);
+	};
+
+	const getNoOptionsText = () => {
+		if (searchText.length < 3) return 'Ketik minimal 3 karakter';
+
+		if (!isSearched) return 'Tekan Enter untuk mencari';
+
+		return 'Pengguna tidak ditemukan';
+	};
 
 	return (
 		<Autocomplete
@@ -46,15 +58,15 @@ const UserSelect = ({ user, setUser }) => {
 				}
 			}}
 			isOptionEqualToValue={(option, value) => option.id === value.id}
-			options={userOptionsData || []}
-			value={user}
-			getOptionLabel={(user) => user.name}
-			onChange={(event, newValue) => setUser(newValue)}
-			onKeyDown={(e) => e.key === 'Enter' ? setSubmittedSearchText(searchText) : null}
-			noOptionsText="Pengguna tidak ditemukan"
+			options={userOptions}
+			getOptionLabel={(user) => `#${user.id} - ${user.name}`}
+			onChange={props.onChange}
+			onKeyDown={handleKeyDown}
+			onKeyUp={handleKeyUp}
+			noOptionsText={getNoOptionsText()}
 			loadingText="Memuat..."
 			filterOptions={(x) => x}
-			loading={isLoading}
+			loading={isMutating}
 			placeholder='Cari Pengguna'
 			renderOption={(props, option) => (
 				<li {...props} key={option.id}>
@@ -67,15 +79,15 @@ const UserSelect = ({ user, setUser }) => {
 						</Typography>
 
 						{
-							option.is_employee?.is_active && <Chip size='small' label="Pegawai" />
+							option.employee_count > 0 && <Chip size='small' label="Pegawai" />
 						}
 
 						{
-							option.is_member?.is_active && <Chip size='small' label="Anggota" />
+							option.member_count > 0 && <Chip size='small' label="Anggota" />
 						}
 
 						{
-							option.is_courier?.is_active && <Chip size='small' label="Kurir" />
+							option.courier_count > 0 && <Chip size='small' label="Pengangkut" />
 						}
 					</Box>
 				</li>
@@ -84,19 +96,18 @@ const UserSelect = ({ user, setUser }) => {
 				<TextField
 					{...params}
 					label="Cari Pengguna"
-					value={searchText}
-					onChange={e => setSearchText(e.target.value)}
 					InputProps={{
 						...params.InputProps,
 						endAdornment: (
 							<>
-								{isLoading && <CircularProgress color="inherit" size={20} />}
+								{isMutating && <CircularProgress color="inherit" size={20} />}
 								{params.InputProps.endAdornment}
 							</>
 						),
 					}}
 				/>
 			)}
+			{...props}
 		/>
 	);
 };
