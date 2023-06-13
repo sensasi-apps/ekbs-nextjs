@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from 'react';
 import axios from '@/lib/axios';
 import useSWR from 'swr';
 
 import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import LoadingCenter from './Statuses/LoadingCenter';
 
 
-export default function SelectInputFromApi({ endpoint, name, label, onChange, selectProps, ...props }) {
+export default function SelectInputFromApi({ endpoint, name, label, onChange, selectProps, helperText, ...props }) {
 
 	const fetcher = async url => {
 		return (await axios.get(url)).data;
@@ -43,6 +43,7 @@ export default function SelectInputFromApi({ endpoint, name, label, onChange, se
 					data?.map(item => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)
 				}
 			</Select>
+			<FormHelperText>{helperText}</FormHelperText>
 		</FormControl>
 	)
 }
