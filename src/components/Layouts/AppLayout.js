@@ -1,20 +1,12 @@
-import { useContext } from 'react';
-
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 
 import MenuList from './MenuList'
 import TopBar from './TopBar'
 
-import { AppContext } from '../AppContext';
-import LoadingCenter from '../Statuses/LoadingCenter';
-
-
-
 const drawerWidth = 240;
 
 const AppLayout = ({ pageTitle, children }) => {
-    const { isLoading } = useContext(AppContext);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -24,7 +16,8 @@ const AppLayout = ({ pageTitle, children }) => {
             <Box
                 component="main"
                 sx={{
-                    flexGrow: 1, p: 3, width: {
+                    flexGrow: 1, p: 3,
+                    width: {
                         xs: '100%',
                         sm: `calc(100% - ${drawerWidth}px)`,
                     }
@@ -32,13 +25,8 @@ const AppLayout = ({ pageTitle, children }) => {
             >
                 <Toolbar />
 
-                {
-                    isLoading && <LoadingCenter />
-                }
+                {children}
 
-                {
-                    !isLoading && children
-                }
             </Box>
         </Box>
     )

@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
 import { AppContext } from '../AppContext';
-import { useContext, useEffect } from 'react';
-
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -25,32 +23,9 @@ import ForestIcon from '@mui/icons-material/Forest';
 const drawerWidth = 240;
 
 function MenuList(props) {
-	const { window } = props;
 
 	const router = useRouter();
-	const { setIsLoading, isDrawerOpen, toggleDrawer } = useContext(AppContext);
-
-	const handleLinkClick = () => {
-		setIsLoading(true);
-	};
-
-	useEffect(() => {
-		const handleRouteChangeStart = () => {
-			setIsLoading(true);
-		};
-
-		const handleRouteChangeComplete = () => {
-			setIsLoading(false);
-		};
-
-		router.events.on('routeChangeStart', handleRouteChangeStart);
-		router.events.on('routeChangeComplete', handleRouteChangeComplete);
-
-		return () => {
-			router.events.off('routeChangeStart', handleRouteChangeStart);
-			router.events.off('routeChangeComplete', handleRouteChangeComplete);
-		};
-	}, []);
+	const { isDrawerOpen, toggleDrawer } = useContext(AppContext);
 
 	const drawer = (
 		<>
@@ -58,7 +33,7 @@ function MenuList(props) {
 			<Divider />
 
 			<ListItem disablePadding sx={{ mt: 2 }}>
-				<ListItemButton href='/dashboard' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/dashboard'}>
+				<ListItemButton href='/dashboard' shallow={true} passHref selected={router.pathname === '/dashboard'}>
 					<ListItemIcon>
 						<DashboardIcon />
 					</ListItemIcon>
@@ -68,7 +43,7 @@ function MenuList(props) {
 			<Typography ml={2} mt={2} variant='overline' color='grey' fontWeight='bold'>Unit</Typography>
 
 			<ListItem disablePadding>
-				<ListItemButton href='/TBS' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/TBS'}>
+				<ListItemButton href='/TBS' shallow={true} passHref selected={router.pathname === '/TBS'}>
 					<ListItemIcon>
 						<BalanceIcon />
 					</ListItemIcon>
@@ -77,7 +52,7 @@ function MenuList(props) {
 			</ListItem>
 
 			<ListItem disablePadding>
-				<ListItemButton href='/saprodi' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/saprodi'}>
+				<ListItemButton href='/saprodi' shallow={true} passHref selected={router.pathname === '/saprodi'}>
 					<ListItemIcon>
 						<ForestIcon />
 					</ListItemIcon>
@@ -86,7 +61,7 @@ function MenuList(props) {
 			</ListItem>
 
 			<ListItem disablePadding>
-				<ListItemButton href='/alat-berat' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/alat-berat'}>
+				<ListItemButton href='/alat-berat' shallow={true} passHref selected={router.pathname === '/alat-berat'}>
 					<ListItemIcon>
 						<FireTruckIcon />
 					</ListItemIcon>
@@ -95,7 +70,7 @@ function MenuList(props) {
 			</ListItem>
 
 			<ListItem disablePadding>
-				<ListItemButton href='/spp' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/spp'}>
+				<ListItemButton href='/spp' shallow={true} passHref selected={router.pathname === '/spp'}>
 					<ListItemIcon>
 						<CurrencyExchangeIcon />
 					</ListItemIcon>
@@ -108,7 +83,7 @@ function MenuList(props) {
 
 			<List>
 				<ListItem disablePadding>
-					<ListItemButton href='/users' shallow={true} passHref onClick={handleLinkClick} selected={router.pathname === '/users'}>
+					<ListItemButton href='/users' shallow={true} passHref selected={router.pathname === '/users/[[...uuid]]'}>
 						<ListItemIcon>
 							<GroupIcon />
 						</ListItemIcon>
@@ -119,8 +94,6 @@ function MenuList(props) {
 		</>
 	)
 
-	const container = window !== undefined ? () => window().document.body : undefined;
-
 	return (
 		<Box
 			component="nav"
@@ -129,7 +102,6 @@ function MenuList(props) {
 		>
 			{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
 			<Drawer
-				container={container}
 				variant="temporary"
 				open={isDrawerOpen}
 				onClose={toggleDrawer}
@@ -157,13 +129,5 @@ function MenuList(props) {
 		</Box>
 	);
 }
-
-MenuList.propTypes = {
-	/**
-	 * Injected by the documentation to work in an iframe.
-	 * You won't need it on your project.
-	 */
-	window: PropTypes.func,
-};
 
 export default MenuList;

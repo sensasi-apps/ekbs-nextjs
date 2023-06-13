@@ -3,8 +3,6 @@ import React, { createContext, useEffect, useState } from 'react';
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-	const [data, setData] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
 	const [themeColorMode, setThemeColorMode] = useState('dark');
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -31,7 +29,7 @@ const AppProvider = ({ children }) => {
 
 
 	return (
-		<AppContext.Provider value={{ data, setData, isLoading, setIsLoading, themeColorMode, toggleColorMode, isDrawerOpen, toggleDrawer }}>
+		<AppContext.Provider value={{ themeColorMode, toggleColorMode, isDrawerOpen, toggleDrawer }}>
 			{children}
 		</AppContext.Provider>
 	);
