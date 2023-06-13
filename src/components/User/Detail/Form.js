@@ -177,7 +177,7 @@ export default function UserDetailForm({ isShow = true, onSubmitted = () => { },
 				label='Pendidikan Terakhir'
 				name='last_education_id'
 				selectProps={{
-					defaultValue: userDetail?.last_education_id || null
+					defaultValue: userDetail?.last_education_id || ''
 				}}
 			/>
 
@@ -188,7 +188,7 @@ export default function UserDetailForm({ isShow = true, onSubmitted = () => { },
 						label='Status Pernikahan'
 						name='marital_status_id'
 						selectProps={{
-							defaultValue: userDetail?.marital_status_id || null
+							defaultValue: userDetail?.marital_status_id || ''
 						}}
 					/>
 				</Grid>
