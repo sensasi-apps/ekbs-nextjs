@@ -17,6 +17,8 @@ import AddIcon from '@mui/icons-material/Add';
 import UserDetailForm from './Detail/Form';
 import MemberBox from '../Member/Box';
 import MemberForm from '../Member/Form';
+import EmployeeBox from '../Employee/Box';
+import EmployeeForm from '../Employee/Form';
 
 
 function TabPanel(props) {
@@ -46,16 +48,16 @@ TabPanel.propTypes = {
 };
 
 function a11yProps(index) {
-	return {
-		id: `simple-tab-${index}`,
-		'aria-controls': `simple-tabpanel-${index}`,
-	};
+	// return {
+	// 	id: `simple-tab-${index}`,
+	// 	'aria-controls': `simple-tabpanel-${index}`,
+	// };
 }
 
 export default function UserDetailsTabCard({ data: user, ...props }) {
 	if (!user) return null;
 
-	const { uuid, detail, member } = user;
+	const { uuid, detail, member, employee, courier } = user;
 
 	const [value, setValue] = useState(0);
 	const [isFormOpen, setIsFormOpen] = useState(false);
@@ -68,104 +70,147 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 	return (
 		<Card {...props}>
 			<CardContent>
-				<Box>
-					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-						<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-							<Tab label="Detail" {...a11yProps(0)} />
-							<Tab label="Karyawan" {...a11yProps(1)} />
-							<Tab label="Anggota" {...a11yProps(2)} />
-							<Tab label="Pengangkut" {...a11yProps(3)} />
-						</Tabs>
-					</Box>
-
-					<TabPanel value={value} index={0}>
-						<UserDetailBox
-							sx={{
-								display: isFormOpen || !detail ? 'none' : 'block'
-							}}
-							uuid={uuid}
-							userDetail={detail}
-						/>
-
-						<UserDetailForm
-							uuid={uuid}
-							data={detail}
-							isShow={isFormOpen}
-							onSubmitted={() => setIsFormOpen(false)}
-							onClose={() => setIsFormOpen(false)}
-						/>
-
-						<Typography
-							variant="body2"
-							color="text.secondary"
-							sx={{ display: isFormOpen || detail ? 'none' : 'block' }}
-						>
-							Belum ada data detail pengguna.
-						</Typography>
-
-						<Button
-							sx={{
-								display: isFormOpen ? 'none' : 'flex'
-							}}
-							color={detail ? 'warning' : 'success'}
-							startIcon={detail ? null : <AddIcon />}
-							onClick={() => setIsFormOpen(true)}
-						>
-							{
-								detail ? 'Perbaharui detail pengguna' : 'Masukkan detail pengguna'
-							}
-						</Button>
-					</TabPanel>
-
-
-
-
-					<TabPanel value={value} index={1}>
-
-					</TabPanel>
-
-
-
-
-					<TabPanel value={value} index={2}>
-						<MemberBox
-							sx={{
-								display: isFormOpen || !member ? 'none' : 'block'
-							}}
-							uuid={uuid}
-							data={member}
-						/>
-
-						<MemberForm
-							uuid={uuid}
-							data={member}
-							isShow={isFormOpen}
-							onSubmitted={() => setIsFormOpen(false)}
-							onClose={() => setIsFormOpen(false)}
-						/>
-
-						<Typography
-							variant="body2"
-							color="text.secondary"
-							sx={{ display: isFormOpen || member ? 'none' : 'block' }}
-						>
-							Belum ada data anggota.
-						</Typography>
-
-						<Button
-							sx={{
-								display: isFormOpen ? 'none' : 'flex'
-							}}
-							color={member ? 'warning' : 'success'}
-							startIcon={member ? null : <AddIcon />}
-							onClick={() => setIsFormOpen(true)}
-						>
-							{
-								member ? 'Perbaharui data anggota' : 'Masukkan data anggota'
-							}
-						</Button>
-					</TabPanel>
+				<Box sx={{
+					borderBottom: 1,
+					borderColor: 'divider'
+				}}>
+					<Tabs
+						variant="scrollable"
+						scrollButtons="false"
+						value={value}
+						onChange={handleChange}
+					>
+						<Tab label="Alamat & Kontak" {...a11yProps(0)} />
+						<Tab label="Detail" {...a11yProps(1)} />
+						<Tab label="Karyawan" {...a11yProps(2)} />
+						<Tab label="Anggota" {...a11yProps(3)} />
+						<Tab label="Pengangkut" {...a11yProps(4)} />
+					</Tabs>
 				</Box>
+
+				<TabPanel value={value} index={1}>
+					<UserDetailBox
+						sx={{
+							display: isFormOpen || !detail ? 'none' : 'block'
+						}}
+						uuid={uuid}
+						userDetail={detail}
+					/>
+
+					<UserDetailForm
+						uuid={uuid}
+						data={detail}
+						isShow={isFormOpen}
+						onSubmitted={() => setIsFormOpen(false)}
+						onClose={() => setIsFormOpen(false)}
+					/>
+
+					<Typography
+						variant="body2"
+						color="text.secondary"
+						sx={{ display: isFormOpen || detail ? 'none' : 'block' }}
+					>
+						Belum ada data detail pengguna.
+					</Typography>
+
+					<Button
+						sx={{
+							display: isFormOpen ? 'none' : 'flex'
+						}}
+						color={detail ? 'warning' : 'success'}
+						startIcon={detail ? null : <AddIcon />}
+						onClick={() => setIsFormOpen(true)}
+					>
+						{
+							detail ? 'Perbaharui detail pengguna' : 'Masukkan detail pengguna'
+						}
+					</Button>
+				</TabPanel>
+
+
+
+
+				<TabPanel value={value} index={2}>
+					<EmployeeBox
+						sx={{
+							display: isFormOpen || !employee ? 'none' : 'block'
+						}}
+						uuid={uuid}
+						data={employee}
+					/>
+
+					<EmployeeForm
+						uuid={uuid}
+						data={employee}
+						isShow={isFormOpen}
+						onSubmitted={() => setIsFormOpen(false)}
+						onClose={() => setIsFormOpen(false)}
+					/>
+
+					<Typography
+						variant="body2"
+						color="text.secondary"
+						sx={{ display: isFormOpen || employee ? 'none' : 'block' }}
+					>
+						Belum ada data karyawan.
+					</Typography>
+
+					<Button
+						sx={{
+							display: isFormOpen ? 'none' : 'flex'
+						}}
+						color={employee ? 'warning' : 'success'}
+						startIcon={employee ? null : <AddIcon />}
+						onClick={() => setIsFormOpen(true)}
+					>
+						{
+							employee ? 'Perbaharui data karyawan' : 'Masukkan data karyawan'
+						}
+					</Button>
+
+				</TabPanel>
+
+
+
+
+				<TabPanel value={value} index={3}>
+					<MemberBox
+						sx={{
+							display: isFormOpen || !member ? 'none' : 'block'
+						}}
+						uuid={uuid}
+						data={member}
+					/>
+
+					<MemberForm
+						uuid={uuid}
+						data={member}
+						isShow={isFormOpen}
+						onSubmitted={() => setIsFormOpen(false)}
+						onClose={() => setIsFormOpen(false)}
+					/>
+
+					<Typography
+						variant="body2"
+						color="text.secondary"
+						sx={{ display: isFormOpen || member ? 'none' : 'block' }}
+					>
+						Belum ada data anggota.
+					</Typography>
+
+					<Button
+						sx={{
+							display: isFormOpen ? 'none' : 'flex'
+						}}
+						color={member ? 'warning' : 'success'}
+						startIcon={member ? null : <AddIcon />}
+						onClick={() => setIsFormOpen(true)}
+					>
+						{
+							member ? 'Perbaharui data anggota' : 'Masukkan data anggota'
+						}
+					</Button>
+				</TabPanel>
 			</CardContent>
 		</Card >
 	)

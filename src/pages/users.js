@@ -71,56 +71,61 @@ const Users = () => {
 					}
 				}}
 			>
-				<Grid item sm={12} md={8}>
-					<Box display='flex' flexDirection='column' gap={3}>
-						<UserSelect value={workingUser} onChange={userSelectOnChange} />
+				<Grid
+					item
+					sm={12}
+					md={8}
+					width='100%'
+					display='flex'
+					flexDirection='column'
+					gap={3}
+				>
+					<UserSelect value={workingUser} onChange={userSelectOnChange} />
 
-						<LoadingCenter isShow={isLoading} />
+					<LoadingCenter isShow={isLoading} />
 
-						{/* User Card */}
-						<Card sx={{
-							display: isLoading || !workingUser || isUserFormOpen ? 'none' : 'block'
-						}}>
-							<CardContent>
-								<UserBox data={workingUser}>
-									{/* TODO: set role and permission */}
-									{/* TODO: set socmed */}
+					{/* User Card */}
+					<Card sx={{
+						display: isLoading || !workingUser || isUserFormOpen ? 'none' : 'block'
+					}}>
+						<CardContent>
+							<UserBox data={workingUser}>
+								{/* TODO: set role and permission */}
+								{/* TODO: set socmed */}
 
-									<ActivationToggle user={workingUser} />
+								<ActivationToggle user={workingUser} />
 
-									<Box mt={2} display='flex' justifyContent='space-between' alignItems='center'>
-										<SetPasswordButtonAndDialogForm user={workingUser} />
-										<Button
-											size="small"
-											color='warning'
-											onClick={() => setIsUserFormOpen(true)}
-										>Perbaharui data akun</Button>
-									</Box>
-								</UserBox>
-							</CardContent>
-						</Card>
+								<Box mt={2} display='flex' justifyContent='space-between' alignItems='center'>
+									<SetPasswordButtonAndDialogForm user={workingUser} />
+									<Button
+										size="small"
+										color='warning'
+										onClick={() => setIsUserFormOpen(true)}
+									>Perbaharui data akun</Button>
+								</Box>
+							</UserBox>
+						</CardContent>
+					</Card>
 
-						{/* User Form Card */}
-						<Card sx={{
-							display: !isUserFormOpen ? 'none' : 'block'
-						}}>
-							<CardContent>
-								<UserForm
-									data={workingUser}
-									onSubmitted={user => setWorkingUser(user)}
-									onClose={() => setIsUserFormOpen(false)}
-									style={{
-										display: isUserFormOpen ? 'block' : 'none'
-									}}
-								/>
-							</CardContent>
-						</Card>
+					{/* User Form Card */}
+					<Card sx={{
+						display: !isUserFormOpen ? 'none' : 'block'
+					}}>
+						<CardContent>
+							<UserForm
+								data={workingUser}
+								onSubmitted={user => setWorkingUser(user)}
+								onClose={() => setIsUserFormOpen(false)}
+								style={{
+									display: isUserFormOpen ? 'block' : 'none'
+								}}
+							/>
+						</CardContent>
+					</Card>
 
-						<UserDetailsTabCard data={workingUser} sx={{
-							display: isLoading ? 'none' : 'block',
-							minWidth: 320,
-						}} />
-					</Box>
+					<UserDetailsTabCard data={workingUser} sx={{
+						display: isLoading ? 'none' : 'block'
+					}} />
 				</Grid>
 
 				<Grid item sm={12} md={4} width='100%'>
