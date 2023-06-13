@@ -19,6 +19,8 @@ import MemberBox from '../Member/Box';
 import MemberForm from '../Member/Form';
 import EmployeeBox from '../Employee/Box';
 import EmployeeForm from '../Employee/Form';
+import CourierBox from '../Courier/Box';
+import CourierForm from '../Courier/Form';
 
 
 function TabPanel(props) {
@@ -47,13 +49,6 @@ TabPanel.propTypes = {
 	value: PropTypes.number.isRequired,
 };
 
-function a11yProps(index) {
-	// return {
-	// 	id: `simple-tab-${index}`,
-	// 	'aria-controls': `simple-tabpanel-${index}`,
-	// };
-}
-
 export default function UserDetailsTabCard({ data: user, ...props }) {
 	if (!user) return null;
 
@@ -76,15 +71,15 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 				}}>
 					<Tabs
 						variant="scrollable"
-						scrollButtons="false"
+						scrollButtons={false}
 						value={value}
 						onChange={handleChange}
 					>
-						<Tab label="Alamat & Kontak" {...a11yProps(0)} />
-						<Tab label="Detail" {...a11yProps(1)} />
-						<Tab label="Karyawan" {...a11yProps(2)} />
-						<Tab label="Anggota" {...a11yProps(3)} />
-						<Tab label="Pengangkut" {...a11yProps(4)} />
+						<Tab label="Alamat & Kontak" />
+						<Tab label="Detail" />
+						<Tab label="Karyawan" />
+						<Tab label="Anggota" />
+						<Tab label="Pengangkut" />
 					</Tabs>
 				</Box>
 
@@ -128,8 +123,6 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 				</TabPanel>
 
 
-
-
 				<TabPanel value={value} index={2}>
 					<EmployeeBox
 						sx={{
@@ -167,11 +160,7 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 							employee ? 'Perbaharui data karyawan' : 'Masukkan data karyawan'
 						}
 					</Button>
-
 				</TabPanel>
-
-
-
 
 				<TabPanel value={value} index={3}>
 					<MemberBox
@@ -210,6 +199,49 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 							member ? 'Perbaharui data anggota' : 'Masukkan data anggota'
 						}
 					</Button>
+
+					{/* TODO: CURD land */}
+				</TabPanel>
+
+				<TabPanel value={value} index={4}>
+					<CourierBox
+						sx={{
+							display: isFormOpen || !courier ? 'none' : 'block'
+						}}
+						uuid={uuid}
+						data={courier}
+					/>
+
+					<CourierForm
+						uuid={uuid}
+						data={courier}
+						isShow={isFormOpen}
+						onSubmitted={() => setIsFormOpen(false)}
+						onClose={() => setIsFormOpen(false)}
+					/>
+
+					<Typography
+						variant="body2"
+						color="text.secondary"
+						sx={{ display: isFormOpen || courier ? 'none' : 'block' }}
+					>
+						Belum ada data pengangkut.
+					</Typography>
+
+					<Button
+						sx={{
+							display: isFormOpen ? 'none' : 'flex'
+						}}
+						color={courier ? 'warning' : 'success'}
+						startIcon={courier ? null : <AddIcon />}
+						onClick={() => setIsFormOpen(true)}
+					>
+						{
+							courier ? 'Perbaharui data pengangkut' : 'Masukkan data pengangkut'
+						}
+					</Button>
+
+					{/* TODO: CRU vehicles & drivers */}
 				</TabPanel>
 			</CardContent>
 		</Card >
