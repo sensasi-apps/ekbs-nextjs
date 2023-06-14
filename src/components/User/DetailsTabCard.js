@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Skeleton from '@mui/material/Skeleton';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -21,6 +22,7 @@ import EmployeeBox from '../Employee/Box';
 import EmployeeForm from '../Employee/Form';
 import CourierBox from '../Courier/Box';
 import CourierForm from '../Courier/Form';
+import UserSocialsBox from './Socials/Box';
 
 
 function TabPanel(props) {
@@ -49,10 +51,21 @@ TabPanel.propTypes = {
 	value: PropTypes.number.isRequired,
 };
 
-export default function UserDetailsTabCard({ data: user, ...props }) {
-	if (!user) return null;
+const TabContentSkeleton = () => <>
+	<Typography variant='h2' component='div'>
+		<Skeleton />
+	</Typography>
 
-	const { uuid, detail, member, employee, courier } = user;
+	<Skeleton />
+	<Skeleton />
+	<Skeleton />
+</>
+
+
+export default function UserDetailsTabCard({ data: user = {}, isLoading, ...props }) {
+	if (!user.uuid && !isLoading) return null;
+
+	const { uuid, detail, member, employee, courier, socials } = user;
 
 	const [value, setValue] = useState(0);
 	const [isFormOpen, setIsFormOpen] = useState(false);
@@ -69,19 +82,33 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 					borderBottom: 1,
 					borderColor: 'divider'
 				}}>
-					<Tabs
-						variant="scrollable"
-						scrollButtons={false}
-						value={value}
-						onChange={handleChange}
-					>
-						<Tab label="Alamat & Kontak" />
-						<Tab label="Detail" />
-						<Tab label="Karyawan" />
-						<Tab label="Anggota" />
-						<Tab label="Pengangkut" />
-					</Tabs>
+					{
+						!isLoading
+							? <Tabs
+								variant="scrollable"
+								scrollButtons={false}
+								value={value}
+								onChange={handleChange}
+							>
+								<Tab label="Kontak & Alamat" />
+								<Tab label="Detail" />
+								<Tab label="Karyawan" />
+								<Tab label="Anggota" />
+								<Tab label="Pengangkut" />
+							</Tabs>
+							: <Skeleton variant='rectangular' height={36} />
+
+					}
+
 				</Box>
+
+				<TabPanel value={value} index={0}>
+					{
+						!isLoading
+							? <UserSocialsBox userUuid={uuid} data={socials} />
+							: <TabContentSkeleton />
+					}
+				</TabPanel>
 
 				<TabPanel value={value} index={1}>
 					<UserDetailBox
@@ -162,6 +189,7 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 					</Button>
 				</TabPanel>
 
+
 				<TabPanel value={value} index={3}>
 					<MemberBox
 						sx={{
@@ -202,6 +230,7 @@ export default function UserDetailsTabCard({ data: user, ...props }) {
 
 					{/* TODO: CURD land */}
 				</TabPanel>
+
 
 				<TabPanel value={value} index={4}>
 					<CourierBox
