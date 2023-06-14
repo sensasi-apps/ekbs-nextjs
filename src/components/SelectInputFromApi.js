@@ -8,7 +8,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import LoadingCenter from './Statuses/LoadingCenter';
+import Skeleton from '@mui/material/Skeleton';
 
 
 export default function SelectInputFromApi({ endpoint, name, label, onChange, selectProps, helperText, ...props }) {
@@ -19,7 +19,7 @@ export default function SelectInputFromApi({ endpoint, name, label, onChange, se
 
 	const { data, isLoading } = useSWR(endpoint, fetcher);
 
-	if (isLoading) return <LoadingCenter />;
+	if (isLoading) return <Skeleton height='100%' />;
 
 	return (
 		<FormControl
