@@ -24,7 +24,6 @@ export default function SelectInputFromApi({ endpoint, name, label, onChange, se
 	return (
 		<FormControl
 			fullWidth
-			margin="normal"
 			{...props}
 		>
 			<InputLabel>{label}</InputLabel>
