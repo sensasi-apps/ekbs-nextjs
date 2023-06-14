@@ -17,6 +17,7 @@ const AppLayout = ({ pageTitle, children }) => {
                 component="main"
                 sx={{
                     flexGrow: 1, p: 3,
+                    mb: 10,
                     width: {
                         xs: '100%',
                         sm: `calc(100% - ${drawerWidth}px)`,
