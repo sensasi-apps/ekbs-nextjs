@@ -11,13 +11,13 @@ export default function UserBox({ data: user, onClose, children, isLoading, ...p
 		<Box {...props}>
 			<Typography variant="h5" component="div">
 				{
-					user?.name ? user.name : <Skeleton />
+					isLoading ? <Skeleton /> : user?.name
 				}
 			</Typography>
 
 			<Typography variant="caption" color='GrayText'>
 				{
-					user?.email ? user.email : <Skeleton />
+					isLoading ? <Skeleton /> : user?.email
 				}
 			</Typography>
 
