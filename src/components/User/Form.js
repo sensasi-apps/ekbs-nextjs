@@ -4,6 +4,8 @@
 
 import { useEffect, useState } from 'react';
 import { mutate } from 'swr';
+import { useRouter } from 'next/router';
+import axios from '@/lib/axios';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,12 +16,10 @@ import FormLabel from '@mui/material/FormLabel';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 
-import axios from '@/lib/axios';
-
 import LoadingCenter from '../Statuses/LoadingCenter';
 import ErrorCenter from '../Statuses/ErrorCenter';
 
-const defaultNewUser = {
+const DEFAULT_NEW_USER = {
 	name: null,
 	email: null,
 	citizenship_id: null,
@@ -32,7 +32,8 @@ export default function UserForm({
 	onClose,
 	...props
 }) {
-	const [userDraft, setUserDraft] = useState(user || defaultNewUser);
+	const router = useRouter();
+	const [userDraft, setUserDraft] = useState(user || DEFAULT_NEW_USER);
 	const [errors, setErrors] = useState([]);
 	const [statusTitle, setStatusTitle] = useState(null);
 
@@ -40,7 +41,7 @@ export default function UserForm({
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		setUserDraft(user || defaultNewUser);
+		setUserDraft(user || DEFAULT_NEW_USER);
 	}, [user]);
 
 	const handleChange = (event) => {
@@ -71,13 +72,12 @@ export default function UserForm({
 		setIsLoading(true);
 
 		try {
-			let response;
 			if (userDraft.uuid) {
-				response = await axios.put(`/users/${userDraft.uuid}`, userDraft);
+				await axios.put(`/users/${userDraft.uuid}`, userDraft);
 				await mutate(`/users/${userDraft.uuid}`);
 			} else {
-				response = await axios.post('/users', userDraft);
-				await mutate('/users/summary');
+				const { data } = await axios.post('/users', userDraft);
+				router.push(`/users/${data.uuid}`);
 			}
 
 			if (onClose) onClose();

@@ -105,7 +105,7 @@ export default function SetPasswordButtonAndDialogForm({ data: user, isLoading: 
 	return (
 		<>
 			<Button
-				disabled={isDataLoading}
+				disabled={isDataLoading || user.is_active === false}
 				variant="outlined"
 				color='error'
 				size="small"
