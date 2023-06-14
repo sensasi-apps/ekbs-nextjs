@@ -1,21 +1,18 @@
-"use client";
-
-import { useState, useEffect } from 'react';
+import useSWR from 'swr';
+import axios from '@/lib/axios';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import GroupsIcon from '@mui/icons-material/Groups';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import BadgeIcon from '@mui/icons-material/Badge';
 import FireTruckIcon from '@mui/icons-material/FireTruck';
 
-import useSWR from 'swr';
-import axios from '@/lib/axios';
 
-const cardsData = [
+const CARDS_METADATA = [
 	{
 		title: 'Total',
 		dataName: 'n_user',
@@ -47,7 +44,7 @@ const TheCard = ({ title, icon, value }) => <Box>
 				</Typography>
 
 				<Typography variant="h4" component="div">
-					{value === undefined ? <CircularProgress size={20} /> : value}
+					{value === undefined ? <Skeleton /> : value}
 				</Typography>
 			</Box>
 		</Box>
@@ -55,20 +52,10 @@ const TheCard = ({ title, icon, value }) => <Box>
 </Box>
 
 export default function Summary({ sx, ...props }) {
-	const [datax, setData] = useState({});
-
-	const { data: response } = useSWR('/users/summary', url => axios.get(url));
-
-	useEffect(() => {
-		if (response?.data) {
-			setData(response.data);
-		}
-	}, [response]);
-
+	const { data = {} } = useSWR('/users/summary', url => axios.get(url).then(({ data }) => data));
 
 	return (
 		<Box
-			{...props}
 			sx={{
 				display: 'flex',
 				overflowX: 'auto',
@@ -78,12 +65,13 @@ export default function Summary({ sx, ...props }) {
 				},
 				...sx
 			}}
+			{...props}
 		>
 			{
-				cardsData.map((data, index) => <TheCard
+				CARDS_METADATA.map((meta, index) => <TheCard
 					key={index}
-					{...data}
-					value={datax[data.dataName]}
+					{...meta}
+					value={data[meta.dataName]}
 				/>)
 			}
 		</Box>
