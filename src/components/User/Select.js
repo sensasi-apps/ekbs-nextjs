@@ -57,7 +57,7 @@ const UserSelect = (props) => {
 					elevation: 8,
 				}
 			}}
-			isOptionEqualToValue={(option, value) => option.id === value.id}
+			isOptionEqualToValue={(option, value) => option?.id === value?.id}
 			options={userOptions}
 			getOptionLabel={(user) => `#${user.id} - ${user.name}`}
 			onChange={props.onChange}
