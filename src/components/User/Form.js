@@ -29,7 +29,6 @@ const defaultNewUser = {
 
 export default function UserForm({
 	data: user,
-	onSubmitted,
 	onClose,
 	...props
 }) {
@@ -75,18 +74,13 @@ export default function UserForm({
 			let response;
 			if (userDraft.uuid) {
 				response = await axios.put(`/users/${userDraft.uuid}`, userDraft);
+				await mutate(`/users/${userDraft.uuid}`);
 			} else {
 				response = await axios.post('/users', userDraft);
 				await mutate('/users/summary');
 			}
 
-			await mutate('/users/search');
-
-			if (onSubmitted) {
-				onSubmitted(response.data);
-			}
-
-			onClose();
+			if (onClose) onClose();
 		} catch (error) {
 
 			if (error.response && error.response.status === 422) {

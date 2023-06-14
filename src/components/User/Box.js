@@ -1,21 +1,24 @@
 "use client";
 
 import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
-export default function UserBox({ data: user, onClose, children, ...props }) {
-	if (!user) return null;
+export default function UserBox({ data: user, onClose, children, isLoading, ...props }) {
+	if (!user && !isLoading) return null;
 
 	return (
 		<Box {...props}>
-			<Box display='flex' alignItems='center' mb={1}>
-				<Typography variant="h5" component="div" mr={1}>
-					{user.name}
-				</Typography>
-			</Box>
+			<Typography variant="h5" component="div">
+				{
+					user?.name ? user.name : <Skeleton />
+				}
+			</Typography>
 
-			<Typography mr={1}>
-				{user.email}
+			<Typography variant="caption" color='GrayText'>
+				{
+					user?.email ? user.email : <Skeleton />
+				}
 			</Typography>
 
 			{children}

@@ -1,16 +1,30 @@
 "use client";
 
 import { useState } from 'react';
-
 import axios from '@/lib/axios';
+
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
+import Skeleton from '@mui/material/Skeleton';
 import Switch from '@mui/material/Switch';
+
 import LoadingCenter from '../Statuses/LoadingCenter';
 
-export default function ActivationToggle({ user }) {
+const SkeletonDataLoading = () => <Skeleton
+	variant='rounded'
+	width={48}
+	height={48}
+	sx={{
+		mt: 2
+	}}
+/>;
+
+export default function ActivationToggle({ data: user, isLoading: isDataLoading, ...props }) {
+	if (!user && !isDataLoading) return null;
+	if (isDataLoading) return <SkeletonDataLoading />;
+
 	const [isUserActive, setIsUserActive] = useState(user.is_active);
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState(null);
