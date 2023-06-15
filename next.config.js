@@ -2,13 +2,9 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: '/auth/google/callback',
-        destination: 'http://localhost:8000/auth/google/callback',
-      },
-      {
-        source: '/api/auth/:path*',
-        destination: 'http://localhost:8000/api/auth/:path*',
-      },
+        source: '/api/oauth/:path*',
+        destination: process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
+      }
     ]
   },
 }

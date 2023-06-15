@@ -10,19 +10,20 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
+import Divider from '@mui/material/Divider'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import GoogleIcon from '@mui/icons-material/Google'
 
 import GuestLayout from '@/components/Layouts/GuestLayout'
 
 const Login = () => {
-    const router = useRouter()
+    const router = useRouter();
 
     const { login } = useAuth({
         middleware: 'guest',
@@ -49,6 +50,16 @@ const Login = () => {
             setLoading(false);
         }
     }, [errors])
+
+
+
+    useEffect(() => {
+        const error = new URLSearchParams(window.location.search).get('error');
+
+        if (error) {
+            setErrors([error]);
+        }
+    }, []);
 
     const submitForm = async event => {
         event.preventDefault();
@@ -140,13 +151,22 @@ const Login = () => {
                                     >
                                         Sign In
                                     </Button>
-                                    <Grid container>
-                                        <Grid item xs>
-                                            <Link href="#" variant="body2">
-                                                Lupa password?
-                                            </Link>
-                                        </Grid>
-                                    </Grid>
+                                    <Link href="/" variant="body2">
+                                        Lupa password?
+                                    </Link>
+                                </Box>
+                                <Box width='100%'>
+                                    <Divider sx={{
+                                        my: 2,
+                                    }}>Atau</Divider>
+
+                                    <Button
+                                        fullWidth
+                                        color='inherit'
+                                        variant="contained"
+                                        startIcon={<GoogleIcon />}
+                                        onClick={() => router.push('/api/oauth/google')}
+                                    >Login dengan Google</Button>
                                 </Box>
                             </>
                     }
