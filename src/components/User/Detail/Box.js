@@ -1,19 +1,19 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { mutate } from 'swr';
-
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-
-import EditIcon from '@mui/icons-material/Edit';
-
-
 import moment from 'moment';
 import 'moment/locale/id';
+
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { Tooltip } from '@mui/material';
+
 import ImageForm from '@/components/ImageForm';
+
+const getBirthRegion = (userDetail) => {
+	return userDetail?.birth_village || userDetail?.birth_district || userDetail?.birth_regency || null;
+}
 
 export default function UserDetailBox({ uuid, userDetail, ...props }) {
 	if (!userDetail) return null;
@@ -24,6 +24,8 @@ export default function UserDetailBox({ uuid, userDetail, ...props }) {
 		birth_regency_id,
 		birth_district,
 		birth_district_id,
+		birth_village,
+		birth_village_id,
 		bpjs_kesehatan_no,
 		citizen_id,
 		files,
@@ -73,16 +75,30 @@ export default function UserDetailBox({ uuid, userDetail, ...props }) {
 
 					<Row title='Tempat dan Tanggal Lahir'>
 						<Typography>
-							{
-								birth_regency_id ? (`${birth_regency.name}, `) : '-'
-							}
+							<Tooltip placement='top-start' title={<>
+								<Typography component='p'>
+									{getBirthRegion(userDetail)?.id}
+								</Typography>
+								<Typography component='p'>
+									{birth_regency?.name}
+								</Typography>
+								<Typography component='p'>
+									{birth_district?.name}
+								</Typography>
+							</>}>
+								<u>
+									{getBirthRegion(userDetail)?.name}
+								</u>
+							</Tooltip>
+
+							<i>
+								{
+									getBirthRegion(userDetail) ? '' : 'belum diisi'
+								}
+							</i>
 
 							{
-								birth_district_id ? (`${birth_district.name}, `) : '-'
-							}
-
-							{
-								birth_at ? moment(birth_at).format('DD MMMM YYYY') : '-'
+								birth_at ? ', ' + moment(birth_at).format('DD MMMM YYYY') : '-'
 							}
 						</Typography>
 					</Row>
@@ -108,15 +124,6 @@ export default function UserDetailBox({ uuid, userDetail, ...props }) {
 					</Row>
 				</Box>
 			}
-
-
-			{/* {
-					isFormOpen && <UserForm
-						user={user}
-						onChange={(newUser) => setUser(newUser)}
-						onClose={() => setIsFormOpen(false)}
-					/>
-				} */}
 		</Box>
 	)
 }

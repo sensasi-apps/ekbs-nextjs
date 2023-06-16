@@ -21,6 +21,11 @@ import ImageInput from "@/components/ImageInput";
 import DatePicker from "@/components/DatePicker";
 import LoadingCenter from "@/components/Statuses/LoadingCenter";
 import SelectInputFromApi from "@/components/SelectInputFromApi";
+import Autocomplete from "@/components/Inputs/Autocomplete";
+
+const getBirthRegion = (userDetail) => {
+	return userDetail?.birth_village || userDetail?.birth_district || userDetail?.birth_regency || null;
+}
 
 export default function UserDetailForm({ isShow = true, onSubmitted = () => { }, onClose = () => { }, data: userDetail, uuid, ...props }) {
 	if (!isShow) return null;
@@ -45,7 +50,7 @@ export default function UserDetailForm({ isShow = true, onSubmitted = () => { },
 		setIsLoading(true);
 
 		try {
-			const formData = new FormData(event.target);
+			const formData = new FormData(event.target.closest('form'));
 
 			if (birthAt) {
 				formData.set('birth_at', birthAt.format('YYYY-MM-DD'));
@@ -69,7 +74,7 @@ export default function UserDetailForm({ isShow = true, onSubmitted = () => { },
 	if (isLoading) return <LoadingCenter />;
 
 	return (
-		<form onSubmit={handleSubmit} {...props}>
+		<form {...props}>
 			<ImageInput
 				name="pas_foto"
 				label="Pas Foto"
@@ -116,18 +121,17 @@ export default function UserDetailForm({ isShow = true, onSubmitted = () => { },
 			</FormControl>
 
 
-			{/* TODO: birth_place */}
-			{/* <FormControl>
-				<FormLabel>Tempat Lahir</FormLabel>
-				<RadioGroup
-					row
-					aria-labelledby="demo-row-radio-buttons-group-label"
-					name="row-radio-buttons-group"
-				>
-					<FormControlLabel value="regency" control={<Radio />} label="Kota" />
-					<FormControlLabel value="district" control={<Radio />} label="Kecamatan" />
-				</RadioGroup>
-			</FormControl> */}
+			<input type="hidden" name="birth_region_id" defaultValue={getBirthRegion(userDetail)?.id || ''} />
+
+			<Autocomplete
+				margin="normal"
+				onChange={(e, value) => {
+					document.querySelector('input[name="birth_region_id"]').value = value?.id || '';
+				}}
+				defaultValue={getBirthRegion(userDetail)}
+				endpoint={`/select2/administrative-regions`}
+				label="Tempat Lahir"
+			/>
 
 
 			<DatePicker
@@ -176,12 +180,13 @@ export default function UserDetailForm({ isShow = true, onSubmitted = () => { },
 				endpoint='/select/educations'
 				label='Pendidikan Terakhir'
 				name='last_education_id'
+				margin='normal'
 				selectProps={{
 					defaultValue: userDetail?.last_education_id || ''
 				}}
 			/>
 
-			<Grid container spacing={2}>
+			<Grid container spacing={2} mt={0}>
 				<Grid item xs={6}>
 					<SelectInputFromApi
 						endpoint='/select/marital-statuses'
@@ -197,7 +202,6 @@ export default function UserDetailForm({ isShow = true, onSubmitted = () => { },
 					<TextField
 						fullWidth
 						type="number"
-						margin='normal'
 						label="Jumlah Anak"
 						name="n_children"
 						defaultValue={userDetail?.n_children || ''}
@@ -207,12 +211,9 @@ export default function UserDetailForm({ isShow = true, onSubmitted = () => { },
 				</Grid>
 			</Grid>
 
-			{/* TODO: set addresses */}
-			{/* TODO: set socmed */}
-
-			<Box display="flex" justifyContent='end' mt={1}>
-				<Button onClick={() => onClose()}>Batal</Button>
-				<Button type='submit'>Simpan</Button>
+			<Box display="flex" justifyContent='end' mt={2}>
+				<Button onClick={() => onClose()} color="info">Batal</Button>
+				<Button onClick={handleSubmit} color="info" variant="contained">Simpan</Button>
 			</Box>
 		</form>
 	)
