@@ -81,11 +81,23 @@ export default function EmployeeForm({ isShow = true, uuid: userUuid, data: empl
 				endpoint='/select/employee-statuses'
 				label='Status Karyawan'
 				name='employee_status_id'
+				margin='normal'
+				required
 				selectProps={{
 					defaultValue: employee?.employee_status_id || '',
 				}}
 				error={Boolean(errors.employee_status_id)}
 				helperText={errors.employee_status_id}
+			/>
+
+			<TextField
+				fullWidth
+				name='position'
+				label='Jabatan'
+				margin='normal'
+				defaultValue={employee?.position || ''}
+				error={Boolean(errors.position)}
+				helperText={errors.position}
 			/>
 
 			<DatePicker

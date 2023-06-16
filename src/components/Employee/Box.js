@@ -6,7 +6,7 @@ import moment from "moment";
 export default function EmployeeBox({ data: employee, ...props }) {
 	if (!employee) return null;
 
-	const { joined_at, unjoined_at, unjoined_reason, note, employee_status } = employee
+	const { joined_at, unjoined_at, unjoined_reason, note, employee_status, position } = employee
 
 	const getStatus = () => {
 		if (unjoined_at) return 'Berhenti / Keluar';
@@ -23,6 +23,10 @@ export default function EmployeeBox({ data: employee, ...props }) {
 				<Typography>
 					{employee_status?.name}
 				</Typography>
+			</Row>
+
+			<Row title='Jabatan'>
+				{position}
 			</Row>
 
 			<Row title='Tanggal Bergabung'>
