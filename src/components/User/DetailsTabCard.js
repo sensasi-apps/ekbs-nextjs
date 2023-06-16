@@ -23,6 +23,7 @@ import EmployeeForm from '../Employee/Form';
 import CourierBox from '../Courier/Box';
 import CourierForm from '../Courier/Form';
 import UserSocialsBox from './Socials/Box';
+import UserAddressesBox from './Address/Box';
 
 
 function TabPanel(props) {
@@ -65,7 +66,7 @@ const TabContentSkeleton = () => <>
 export default function UserDetailsTabCard({ data: user = {}, isLoading, ...props }) {
 	if (!user.uuid && !isLoading) return null;
 
-	const { uuid, detail, member, employee, courier, socials } = user;
+	const { uuid, detail, member, employee, courier, socials, addresses } = user;
 
 	const [value, setValue] = useState(0);
 	const [isFormOpen, setIsFormOpen] = useState(false);
@@ -105,7 +106,10 @@ export default function UserDetailsTabCard({ data: user = {}, isLoading, ...prop
 				<TabPanel value={value} index={0}>
 					{
 						!isLoading
-							? <UserSocialsBox userUuid={uuid} data={socials} />
+							? <>
+								<UserSocialsBox userUuid={uuid} data={socials} />
+								<UserAddressesBox userUuid={uuid} data={addresses} mt={2} />
+							</>
 							: <TabContentSkeleton />
 					}
 				</TabPanel>
