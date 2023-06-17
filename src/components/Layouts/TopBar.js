@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
-
+import { AppContext } from "../AppContext";
+import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/auth";
 
 import AppBar from "@mui/material/AppBar";
@@ -18,14 +19,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from "@mui/icons-material/Logout";
 
-import { AppContext } from "../AppContext";
-
 const drawerWidth = 240;
 
 export default function TopBar({ pageTitle }) {
 	const { themeColorMode, toggleColorMode, toggleDrawer } = useContext(AppContext);
-
-	const { logout } = useAuth();
+	const router = useRouter();
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
@@ -93,7 +91,7 @@ export default function TopBar({ pageTitle }) {
 						</MenuItem>
 
 						<Divider />
-						<MenuItem onClick={logout}>
+						<MenuItem onClick={() => router.push('/logout')}>
 							<ListItemIcon>
 								<LogoutIcon fontSize="small" />
 							</ListItemIcon>
