@@ -19,7 +19,7 @@ const Dashboard = () => {
             <Box display='flex' gap={1}>
                 <Typography variant="h5" component='span'>Selamat datang,</Typography>
                 <Typography variant="h5" component='span' display='flex'>
-                    <span style={{ color: 'darkturquoise' }}>{user.name || <Skeleton component='span' width="5rem" />}</span>.
+                    <span style={{ color: 'darkturquoise' }}>{user?.name || <Skeleton component='span' width="5rem" />}</span>.
                 </Typography>
             </Box>
         </AppLayout>
