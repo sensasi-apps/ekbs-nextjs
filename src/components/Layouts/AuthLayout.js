@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography'
 
 import Head from 'next/head'
 import LoadingCenter from '../Statuses/LoadingCenter'
-import CompleteCenter from '../Statuses/CompleteCenter'
 import ErrorCenter from '../Statuses/ErrorCenter'
 
 const AuthLayout = ({
@@ -15,7 +14,6 @@ const AuthLayout = ({
 	title,
 	icon,
 	isLoading = false,
-	isComplete = false,
 	isError = false,
 	message,
 }) => {
@@ -36,7 +34,6 @@ const AuthLayout = ({
 					<Avatar sx={{
 						m: 1, bgcolor: () => {
 							if (isLoading) return 'primary.main'
-							if (isComplete) return 'success.main'
 							if (isError) return 'error.main'
 						}
 					}}>
@@ -55,10 +52,8 @@ const AuthLayout = ({
 
 					<ErrorCenter isShow={isError} message={message} />
 
-					<CompleteCenter isShow={isComplete} message={message} />
-
 					<Box
-						display={isLoading || isComplete ? 'none' : 'block'}
+						display={isLoading ? 'none' : 'block'}
 						mt={2}
 					>
 						{children}

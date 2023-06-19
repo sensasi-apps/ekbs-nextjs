@@ -1,5 +1,5 @@
 import { useAuth } from '@/hooks/auth'
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -18,33 +18,35 @@ const ForgotPassword = () => {
 
     // ui data
     const [isLoading, setIsLoading] = useState(false)
-    const [isComplete, setIsComplete] = useState(false)
     const [errors, setErrors] = useState([])
-    const [status, setStatus] = useState('aswd')
+    const [status, setStatus] = useState(null)
 
-    const submitForm = async event => {
+    const submitForm = event => {
         event.preventDefault()
 
+        setErrors([])
+        setStatus(null)
         setIsLoading(true)
+        forgotPassword({ email, setErrors, setStatus })
+    }
 
-        try {
-            await forgotPassword({ email, setErrors, setStatus })
-            setIsComplete(true)
-        } catch (error) {
+    useEffect(() => {
+        const tempErrors = Object.values(errors);
 
+        if (tempErrors.length > 0) {
+            setIsLoading(false)
+            setStatus(tempErrors[0][0])
         }
 
-        setIsLoading(false)
-    }
+    }, [errors])
 
     return (
         <AuthLayout
             title="Lupa kata sandi"
             icon={<SyncLockIcon />}
             isLoading={isLoading}
-            isComplete={isComplete}
-            isError={errors.length > 0}
-            message={status || errors.join(', ')}
+            isError={Object.values(errors).length > 0}
+            message={status}
         >
             <form onSubmit={submitForm} style={{ marginTop: '1rem' }}>
                 <TextField
@@ -67,12 +69,6 @@ const ForgotPassword = () => {
                     sx={{ mt: 3, mb: 1 }}
                 >
                     Kirim tautan pengaturan kata sandi
-                </Button>
-                <Button
-                    href="/login"
-                    fullWidth
-                >
-                    Kembali ke halaman login
                 </Button>
             </form>
         </AuthLayout>

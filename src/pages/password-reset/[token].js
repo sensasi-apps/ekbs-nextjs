@@ -20,44 +20,47 @@ const PasswordReset = () => {
     const [password, setPassword] = useState('')
 
     // ui data
-    const [isComplete, setIsComplete] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
 
-    const submitForm = async event => {
+    const submitForm = event => {
         event.preventDefault()
 
+        setErrors([])
+        setStatus(null)
         setIsLoading(true)
 
-        try {
-            await resetPassword({
-                email,
-                password,
-                password_confirmation: passwordConfirmation,
-                setErrors,
-                setStatus,
-            })
-            setIsComplete(true)
-        } catch (error) {
-
-        }
-
-        setIsLoading(false)
+        resetPassword({
+            email,
+            password,
+            password_confirmation: passwordConfirmation,
+            setErrors,
+            setStatus,
+        })
     }
 
     useEffect(() => {
         setEmail(router.query.email || '')
     }, [router.query.email])
 
+    useEffect(() => {
+        const tempErrors = Object.values(errors);
+
+        if (tempErrors.length > 0) {
+            setStatus(tempErrors[0][0])
+            setIsLoading(false)
+        }
+
+    }, [errors])
+
     return (
         <AuthLayout
-            title="Lupa kata sandi"
+            title="Atur kata sandi"
             icon={<LockResetIcon />}
             isLoading={isLoading}
-            isComplete={isComplete}
-            isError={errors.length > 0}
-            message={status || errors.join(', ')}
+            isError={Object.values(errors).length > 0}
+            message={status}
         >
             <form onSubmit={submitForm} style={{ marginTop: '1rem' }}>
                 <TextField
