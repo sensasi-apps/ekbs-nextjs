@@ -8,29 +8,33 @@ import Typography from "@mui/material/Typography";
 
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-function ErrorCenter({ message, onClose, ...props }) {
-	return <Box {...props} textAlign='center' my={4}>
+function ErrorCenter({ message, isShow = true, onClose, children, ...props }) {
+	return <Box textAlign='center' my={4} display={isShow ? 'block' : 'none'} {...props}>
 		<Typography>
 			<ErrorOutlineIcon sx={{ fontSize: '8rem' }} color="error" />
 		</Typography>
 
 		<Typography variant="overline">
-			{message}
+			{message || children || 'Terjadi kesalahan.'}
 		</Typography>
 
-		<Box mt={6}>
-			<Button
-				variant="contained"
-				onClick={onClose}
-				color="error"
-			>Kembali</Button>
-		</Box>
+		{
+			onClose && <Box mt={6}>
+				<Button
+					variant="contained"
+					onClick={onClose}
+					color="error"
+				>Kembali</Button>
+			</Box>
+		}
+
 	</Box>;
 }
 
 ErrorCenter.propTypes = {
 	message: PropTypes.string,
-	onClose: PropTypes.func.isRequired
+	children: PropTypes.string,
+	onClose: PropTypes.func
 };
 
 
