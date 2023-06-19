@@ -8,6 +8,7 @@ import { Box, Button, Card, CardContent, Fab } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import ActivationToggle from './ActivationToggle';
+import RolesAndPermissionButtonAndDialogForm from './RolesAndPermissions/ButtonAndDialogForm';
 import SetPasswordButtonAndDialogForm from './SetPasswordButtonAndDialogForm';
 import UserBox from './Box';
 import UserDetailsTabCard from './DetailsTabCard';
@@ -33,12 +34,12 @@ export default function UserCards() {
 					<Card>
 						<CardContent>
 							<UserBox data={userWithDetails} isLoading={isLoading}>
-								{/* TODO: set role and permission */}
 								<ActivationToggle data={userWithDetails} isLoading={isLoading} />
+
 
 								<Box mt={2} display='flex' justifyContent='space-between' alignItems='center'>
 									<SetPasswordButtonAndDialogForm data={userWithDetails} isLoading={isLoading} />
-
+									<RolesAndPermissionButtonAndDialogForm data={userWithDetails} />
 									<Button
 										disabled={isLoading}
 										size="small"

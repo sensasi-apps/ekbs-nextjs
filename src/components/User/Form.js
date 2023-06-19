@@ -1,7 +1,5 @@
 "use client";
 
-{/* TODO: set role and permission */ }
-
 import { useEffect, useState } from 'react';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
