@@ -1,26 +1,19 @@
 import { useEffect, useState } from 'react'
-
 import { useAuth } from '@/hooks/auth'
-
 import { useRouter } from 'next/router'
 
-import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
-import CircularProgress from '@mui/material/CircularProgress'
-import Container from '@mui/material/Container'
 import Divider from '@mui/material/Divider'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Link from '@mui/material/Link'
-import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import GoogleIcon from '@mui/icons-material/Google'
 
-import GuestLayout from '@/components/Layouts/GuestLayout'
+import AuthLayout from '@/components/Layouts/AuthLayout'
 
 const Login = () => {
     const router = useRouter();
@@ -30,12 +23,15 @@ const Login = () => {
         redirectIfAuthenticated: '/dashboard',
     })
 
+    // form data
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [shouldRemember, setShouldRemember] = useState(false)
+
+    // ui data
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (router.query.reset?.length > 0 && errors.length === 0) {
@@ -47,7 +43,7 @@ const Login = () => {
 
     useEffect(() => {
         if (Object.keys(errors).length > 0) {
-            setLoading(false);
+            setIsLoading(false);
         }
     }, [errors])
 
@@ -64,7 +60,7 @@ const Login = () => {
     const submitForm = async event => {
         event.preventDefault();
 
-        setLoading(true);
+        setIsLoading(true);
 
         login({
             email,
@@ -76,113 +72,71 @@ const Login = () => {
     }
 
     return (
-        <GuestLayout>
-            <Container component="main" maxWidth="xs">
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
+        <AuthLayout
+            title="Login"
+            icon={<LockOutlinedIcon />}
+            isLoading={isLoading}
+            isError={errors.length > 0}
+            message={status || errors.join(', ')}
+        >
+            <Box component="form" onSubmit={submitForm}>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+
+                    onChange={event => setEmail(event.target.value)}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+
+                    onChange={event => setPassword(event.target.value)}
+                />
+                <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                    onChange={event => setShouldRemember(event.target.checked)}
+                />
+
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Login
-                    </Typography>
+                    Sign In
+                </Button>
+                <Link href="/forgot-password" variant="body2">
+                    Lupa password?
+                </Link>
+            </Box>
+            <Box width='100%'>
+                <Divider sx={{
+                    my: 2,
+                }}>Atau</Divider>
 
-                    {
-                        loading ?
-                            <Box textAlign='center' mt={4}>
-                                <CircularProgress />
-                            </Box> :
-                            <>
-                                {
-                                    Object.keys(errors).length > 0 && <Paper elevation={3} sx={{ backgroundColor: "#ef5350", color: "#FFF", p: 2, mt: 2, mb: 2, width: '100%', maxWidth: '400px' }}>
-                                        {
-                                            Object.keys(errors).map((key, index) => {
-                                                return (
-                                                    <Typography key={index} variant="body2" align="center">
-                                                        {errors[key]}
-                                                    </Typography>
-                                                )
-                                            })
-                                        }
-                                    </Paper>
-                                }
-                                <Box component="form" onSubmit={submitForm} noValidate sx={{ mt: 1 }}>
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
-                                        autoFocus
-
-                                        onChange={event => setEmail(event.target.value)}
-                                    />
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="current-password"
-
-                                        onChange={event => setPassword(event.target.value)}
-                                    />
-                                    <FormControlLabel
-                                        control={<Checkbox value="remember" color="primary" />}
-                                        label="Remember me"
-                                        onChange={event => setShouldRemember(event.target.checked)}
-                                    />
-
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        sx={{ mt: 3, mb: 2 }}
-                                    >
-                                        Sign In
-                                    </Button>
-                                    <Link href="/" variant="body2">
-                                        Lupa password?
-                                    </Link>
-                                </Box>
-                                <Box width='100%'>
-                                    <Divider sx={{
-                                        my: 2,
-                                    }}>Atau</Divider>
-
-                                    <Button
-                                        fullWidth
-                                        color='inherit'
-                                        variant="contained"
-                                        startIcon={<GoogleIcon />}
-                                        onClick={() => router.push('/api/oauth/google')}
-                                    >Login dengan Google</Button>
-                                </Box>
-                            </>
-                    }
-                </Box>
-
-                <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8, mb: 4 }}>
-                    {'Copyright © '}
-                    <Link color="inherit" href="https://github.com/sensasi-apps" target='_blank'>
-                        Sensasi Apps
-                    </Link>{' '}
-                    {new Date().getFullYear()}
-                    {'.'}
-                </Typography>
-            </Container>
-        </GuestLayout>
-
+                <Button
+                    fullWidth
+                    color='inherit'
+                    variant="contained"
+                    startIcon={<GoogleIcon />}
+                    onClick={() => router.push('/api/oauth/google')}
+                >Login dengan Google</Button>
+            </Box>
+        </AuthLayout>
     )
 }
 
