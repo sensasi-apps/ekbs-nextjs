@@ -88,38 +88,56 @@ const MENUS_DATA = [
 		href: '/dashboard',
 		label: 'Dasbor',
 		pathname: '/dashboard',
-		icon: <DashboardIcon />
+		icon: <DashboardIcon />,
+		forRoles: [],
+		forPermissions: []
 	}, {
-		component: <SubTitle children='Unit' />
+		component: <SubTitle children='Unit' />,
+		forRoles: [],
+		forPermissions: []
 	}, {
 		href: '/TBS',
 		label: 'TBS',
 		pathname: '/TBS',
-		icon: <BalanceIcon />
+		icon: <BalanceIcon />,
+		forRoles: [],
+		forPermissions: []
 	}, {
 		href: '/saprodi',
 		label: 'SAPRODI',
 		pathname: '/saprodi',
-		icon: <ForestIcon />
+		icon: <ForestIcon />,
+		forRoles: [],
+		forPermissions: []
 	}, {
 		href: '/alat-berat',
 		label: 'Alat Berat',
 		pathname: '/alat-berat',
-		icon: <FireTruckIcon />
+		icon: <FireTruckIcon />,
+		forRoles: [],
+		forPermissions: []
 	}, {
 		href: '/spp',
 		label: 'SPP',
 		pathname: '/spp',
-		icon: <CurrencyExchangeIcon />
+		icon: <CurrencyExchangeIcon />,
+		forRoles: [],
+		forPermissions: []
 	}, {
-		component: <Divider sx={{ mt: 2 }} />
+		component: <Divider sx={{ mt: 2 }} />,
+		forRoles: [],
+		forPermissions: []
 	}, {
-		component: <SubTitle children='Keuangan' />
+		component: <SubTitle children='Keuangan' />,
+		forRoles: [],
+		forPermissions: []
 	}, {
 		href: '/cashes',
 		label: 'Kas',
 		pathname: '/cashes/[[...uuid]]',
-		icon: <AutoStoriesIcon />
+		icon: <AutoStoriesIcon />,
+		forRoles: [],
+		forPermissions: []
 	}, {
 		component: <Divider sx={{ mt: 2 }} />,
 		forRoles: ['users admin'],
