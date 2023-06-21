@@ -17,7 +17,7 @@ import AuthLayout from '@/components/Layouts/AuthLayout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 
 const Login = () => {
-    const router = useRouter();
+    const router = useRouter()
 
     const { login } = useAuth({
         middleware: 'guest',
@@ -31,39 +31,38 @@ const Login = () => {
 
     // ui data
     const [errors, setErrors] = useState([])
-    const [status, setStatus] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        const reset = new URLSearchParams(window.location.search).get('reset');
+        const reset = new URLSearchParams(window.location.search).get('reset')
         if (reset) {
             setStatus(atob(reset))
         } else {
             setStatus(null)
         }
 
-        const error = new URLSearchParams(window.location.search).get('error');
+        const error = new URLSearchParams(window.location.search).get('error')
         if (error) {
-            setErrors([[atob(error)]]);
+            setErrors([[atob(error)]])
         }
-    }, []);
+    }, [])
 
     useEffect(() => {
-        const tempErrors = Object.values(errors);
+        const tempErrors = Object.values(errors)
 
         if (tempErrors.length > 0) {
-            setIsLoading(false);
+            setIsLoading(false)
             setStatus(tempErrors[0][0])
         }
-
     }, [errors])
 
     const submitForm = event => {
-        event.preventDefault();
+        event.preventDefault()
 
         setErrors([])
         setStatus(null)
-        setIsLoading(true);
+        setIsLoading(true)
 
         login({
             email,
@@ -80,9 +79,11 @@ const Login = () => {
             icon={<LockOutlinedIcon />}
             isLoading={isLoading}
             isError={Object.values(errors).length > 0}
-            message={status}
-        >
-            <CompleteCenter isShow={router.query.reset?.length > 0 && errors.length === 0} message={status} />
+            message={status}>
+            <CompleteCenter
+                isShow={router.query.reset?.length > 0 && errors.length === 0}
+                message={status}
+            />
 
             <Box component="form" onSubmit={submitForm}>
                 <TextField
@@ -106,7 +107,6 @@ const Login = () => {
                     type="password"
                     id="password"
                     autoComplete="current-password"
-
                     onChange={event => setPassword(event.target.value)}
                 />
                 <FormControlLabel
@@ -119,26 +119,29 @@ const Login = () => {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                >
+                    sx={{ mt: 3, mb: 2 }}>
                     Sign In
                 </Button>
                 <Link href="/forgot-password" variant="body2">
                     Lupa password?
                 </Link>
             </Box>
-            <Box width='100%'>
-                <Divider sx={{
-                    my: 2,
-                }}>Atau</Divider>
+            <Box width="100%">
+                <Divider
+                    sx={{
+                        my: 2,
+                    }}>
+                    Atau
+                </Divider>
 
                 <Button
                     fullWidth
-                    color='inherit'
+                    color="inherit"
                     variant="contained"
                     startIcon={<GoogleIcon />}
-                    onClick={() => router.push('/api/oauth/google')}
-                >Login dengan Google</Button>
+                    onClick={() => router.push('/api/oauth/google')}>
+                    Login dengan Google
+                </Button>
             </Box>
         </AuthLayout>
     )

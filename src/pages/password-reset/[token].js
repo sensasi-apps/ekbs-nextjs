@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-import LockResetIcon from '@mui/icons-material/LockReset';
+import LockResetIcon from '@mui/icons-material/LockReset'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
@@ -20,7 +20,7 @@ const PasswordReset = () => {
     const [password, setPassword] = useState('')
 
     // ui data
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
 
@@ -45,13 +45,12 @@ const PasswordReset = () => {
     }, [router.query.email])
 
     useEffect(() => {
-        const tempErrors = Object.values(errors);
+        const tempErrors = Object.values(errors)
 
         if (tempErrors.length > 0) {
             setStatus(tempErrors[0][0])
             setIsLoading(false)
         }
-
     }, [errors])
 
     return (
@@ -60,8 +59,7 @@ const PasswordReset = () => {
             icon={<LockResetIcon />}
             isLoading={isLoading}
             isError={Object.values(errors).length > 0}
-            message={status}
-        >
+            message={status}>
             <form onSubmit={submitForm} style={{ marginTop: '1rem' }}>
                 <TextField
                     autoFocus
@@ -93,15 +91,16 @@ const PasswordReset = () => {
                     label="Ulangi kata sandi baru"
                     type="password"
                     name="password_confirmation"
-                    onChange={event => setPasswordConfirmation(event.target.value)}
+                    onChange={event =>
+                        setPasswordConfirmation(event.target.value)
+                    }
                 />
 
                 <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 1 }}
-                >
+                    sx={{ mt: 3, mb: 1 }}>
                     Simpan kata sandi
                 </Button>
             </form>

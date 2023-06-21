@@ -1,155 +1,162 @@
-"use client";
+'use client'
 
-import { useState } from 'react';
-import { mutate } from 'swr';
-import moment from 'moment';
+import { useState } from 'react'
+import { mutate } from 'swr'
+import moment from 'moment'
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
 
-import DatePicker from '../DatePicker';
-import axios from '@/lib/axios';
-import LoadingCenter from '../Statuses/LoadingCenter';
-import SelectInputFromApi from '../SelectInputFromApi';
+import DatePicker from '../DatePicker'
+import axios from '@/lib/axios'
+import LoadingCenter from '../Statuses/LoadingCenter'
+import SelectInputFromApi from '../SelectInputFromApi'
 
+export default function EmployeeForm({
+    isShow = true,
+    uuid: userUuid,
+    data: employee,
+    onClose,
+    onSubmitted,
+    ...props
+}) {
+    if (!isShow) return null
 
-export default function EmployeeForm({ isShow = true, uuid: userUuid, data: employee, onClose, onSubmitted, ...props }) {
+    const [joinedAt, setJoinedAt] = useState(
+        employee?.joined_at ? moment(employee?.joined_at) : null,
+    )
+    const [unjoinedAt, setUnjoinedAt] = useState(
+        employee?.unjoined_at ? moment(employee?.unjoined_at) : null,
+    )
 
-	if (!isShow) return null;
+    const [isLoading, setIsLoading] = useState(false)
+    const [errors, setErrors] = useState({})
 
-	const [joinedAt, setJoinedAt] = useState(employee?.joined_at ? moment(employee?.joined_at) : null);
-	const [unjoinedAt, setUnjoinedAt] = useState(employee?.unjoined_at ? moment(employee?.unjoined_at) : null);
+    const handleJoinedAtChange = value => {
+        setJoinedAt(value)
+        setErrors({
+            ...errors,
+            joined_at: null,
+        })
+    }
 
-	const [isLoading, setIsLoading] = useState(false);
-	const [errors, setErrors] = useState({});
+    const handleUnjoinedAtChange = value => {
+        setUnjoinedAt(value)
+        setErrors({
+            ...errors,
+            unjoined_at: null,
+        })
+    }
 
-	const handleJoinedAtChange = (value) => {
-		setJoinedAt(value);
-		setErrors({
-			...errors,
-			joined_at: null
-		});
-	}
+    const handleSubmit = async e => {
+        e.preventDefault()
+        setIsLoading(true)
 
-	const handleUnjoinedAtChange = (value) => {
-		setUnjoinedAt(value);
-		setErrors({
-			...errors,
-			unjoined_at: null
-		});
-	}
+        try {
+            const formData = new FormData(e.target)
 
-	const handleSubmit = async e => {
-		e.preventDefault();
-		setIsLoading(true);
+            if (joinedAt) {
+                formData.set('joined_at', joinedAt.format('YYYY-MM-DD'))
+            }
 
-		try {
-			const formData = new FormData(e.target);
+            if (unjoinedAt) {
+                formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'))
+            }
 
-			if (joinedAt) {
-				formData.set('joined_at', joinedAt.format('YYYY-MM-DD'));
-			}
+            await axios.post(`/users/${userUuid}/employee`, formData)
+            mutate(`/users/${userUuid}`)
 
-			if (unjoinedAt) {
-				formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'));
-			}
+            if (onSubmitted) {
+                onSubmitted()
+            }
+        } catch (error) {
+            if (error?.response?.status === 422) {
+                setErrors(error?.response?.data?.errors)
+            } else {
+                console.error(error)
+            }
+        }
 
-			await axios.post(`/users/${userUuid}/employee`, formData);
-			mutate(`/users/${userUuid}`);
+        setIsLoading(false)
+    }
 
-			if (onSubmitted) {
-				onSubmitted();
-			}
+    if (isLoading) return <LoadingCenter />
 
-		} catch (error) {
-			if (error?.response?.status === 422) {
-				setErrors(error?.response?.data?.errors);
-			} else {
-				console.error(error);
-			}
-		}
+    return (
+        <form onSubmit={handleSubmit} {...props}>
+            <SelectInputFromApi
+                endpoint="/select/employee-statuses"
+                label="Status Karyawan"
+                name="employee_status_id"
+                margin="normal"
+                required
+                selectProps={{
+                    defaultValue: employee?.employee_status_id || '',
+                }}
+                error={Boolean(errors.employee_status_id)}
+                helperText={errors.employee_status_id}
+            />
 
-		setIsLoading(false);
-	}
+            <TextField
+                fullWidth
+                name="position"
+                label="Jabatan"
+                margin="normal"
+                defaultValue={employee?.position || ''}
+                error={Boolean(errors.position)}
+                helperText={errors.position}
+            />
 
-	if (isLoading) return <LoadingCenter />
+            <DatePicker
+                required
+                fullWidth
+                onChange={handleJoinedAtChange}
+                label="Tanggal Bergabung"
+                margin="normal"
+                name="joined_at"
+                defaultValue={employee?.joined_at ? joinedAt : null}
+                error={Boolean(errors.joined_at)}
+                helperText={errors.joined_at}
+            />
 
-	return (
-		<form onSubmit={handleSubmit} {...props}>
-			<SelectInputFromApi
-				endpoint='/select/employee-statuses'
-				label='Status Karyawan'
-				name='employee_status_id'
-				margin='normal'
-				required
-				selectProps={{
-					defaultValue: employee?.employee_status_id || '',
-				}}
-				error={Boolean(errors.employee_status_id)}
-				helperText={errors.employee_status_id}
-			/>
+            <DatePicker
+                fullWidth
+                onChange={handleUnjoinedAtChange}
+                label="Tanggal Berhenti/Keluar"
+                margin="normal"
+                name="unjoined_at"
+                defaultValue={employee?.unjoined_at ? unjoinedAt : null}
+                error={Boolean(errors.unjoined_at)}
+                helperText={errors.unjoined_at}
+            />
 
-			<TextField
-				fullWidth
-				name='position'
-				label='Jabatan'
-				margin='normal'
-				defaultValue={employee?.position || ''}
-				error={Boolean(errors.position)}
-				helperText={errors.position}
-			/>
+            <TextField
+                fullWidth
+                multiline
+                name="unjoined_reason"
+                label="Alasan Berhenti/Keluar"
+                margin="normal"
+                defaultValue={employee?.unjoined_reason || ''}
+                error={Boolean(errors.unjoined_reason)}
+                helperText={errors.unjoined_reason}
+            />
 
-			<DatePicker
-				required
-				fullWidth
-				onChange={handleJoinedAtChange}
-				label="Tanggal Bergabung"
-				margin='normal'
-				name="joined_at"
-				defaultValue={employee?.joined_at ? joinedAt : null}
-				error={Boolean(errors.joined_at)}
-				helperText={errors.joined_at}
-			/>
+            <TextField
+                fullWidth
+                multiline
+                name="note"
+                label="Catatan tambahan"
+                margin="normal"
+                defaultValue={employee?.note || ''}
+                error={Boolean(errors.note)}
+                helperText={errors.note}
+            />
 
-			<DatePicker
-				fullWidth
-				onChange={handleUnjoinedAtChange}
-				label="Tanggal Berhenti/Keluar"
-				margin='normal'
-				name="unjoined_at"
-				defaultValue={employee?.unjoined_at ? unjoinedAt : null}
-				error={Boolean(errors.unjoined_at)}
-				helperText={errors.unjoined_at}
-			/>
-
-			<TextField
-				fullWidth
-				multiline
-				name='unjoined_reason'
-				label='Alasan Berhenti/Keluar'
-				margin='normal'
-				defaultValue={employee?.unjoined_reason || ''}
-				error={Boolean(errors.unjoined_reason)}
-				helperText={errors.unjoined_reason}
-			/>
-
-			<TextField
-				fullWidth
-				multiline
-				name='note'
-				label='Catatan tambahan'
-				margin='normal'
-				defaultValue={employee?.note || ''}
-				error={Boolean(errors.note)}
-				helperText={errors.note}
-			/>
-
-
-			<Box display='flex' mt={2} justifyContent='end'>
-				<Button onClick={() => onClose()}>Batal</Button>
-				<Button type='submit'>Simpan</Button>
-			</Box>
-		</form>
-	)
+            <Box display="flex" mt={2} justifyContent="end">
+                <Button onClick={() => onClose()}>Batal</Button>
+                <Button type="submit">Simpan</Button>
+            </Box>
+        </form>
+    )
 }

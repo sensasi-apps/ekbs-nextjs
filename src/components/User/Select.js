@@ -1,115 +1,122 @@
-"use client";
+'use client'
 
-import { useState } from 'react';
+import { useState } from 'react'
 
-import useSWRMutation from 'swr/mutation';
+import useSWRMutation from 'swr/mutation'
 
-import Autocomplete from '@mui/material/Autocomplete';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import Autocomplete from '@mui/material/Autocomplete'
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import CircularProgress from '@mui/material/CircularProgress'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 
-import axios from '@/lib/axios';
+import axios from '@/lib/axios'
 
-const UserSelect = (props) => {
-	const [searchText, setSearchText] = useState('');
-	const [isSearched, setIsSearched] = useState(false);
-	const [userOptions, setUserOptions] = useState([]);
+const UserSelect = props => {
+    const [searchText, setSearchText] = useState('')
+    const [isSearched, setIsSearched] = useState(false)
+    const [userOptions, setUserOptions] = useState([])
 
-	const fetchUserOptions = async (searchUrl, { arg: { searchText } }) => {
-		const { data } = await axios.get(`${searchUrl}?query=${searchText}`);
-		return data;
-	};
+    const fetchUserOptions = async (searchUrl, { arg: { searchText } }) => {
+        const { data } = await axios.get(`${searchUrl}?query=${searchText}`)
+        return data
+    }
 
-	const { trigger, isMutating } = useSWRMutation(`/users/search`, fetchUserOptions, {
-		revalidateOnFocus: false,
-	});
+    const { trigger, isMutating } = useSWRMutation(
+        `/users/search`,
+        fetchUserOptions,
+        {
+            revalidateOnFocus: false,
+        },
+    )
 
-	const handleKeyDown = async (e) => {
-		if (e.key === 'Enter' && e.target.value.length >= 3 && !isMutating) {
-			setIsSearched(true);
-			const data = await trigger({ searchText: e.target.value });
-			setUserOptions(data);
-		}
-	};
+    const handleKeyDown = async e => {
+        if (e.key === 'Enter' && e.target.value.length >= 3 && !isMutating) {
+            setIsSearched(true)
+            const data = await trigger({ searchText: e.target.value })
+            setUserOptions(data)
+        }
+    }
 
-	const handleKeyUp = (e) => {
-		if (e.key === 'Enter') return;
+    const handleKeyUp = e => {
+        if (e.key === 'Enter') return
 
-		setIsSearched(false);
-		setSearchText(e.target.value);
-	};
+        setIsSearched(false)
+        setSearchText(e.target.value)
+    }
 
-	const getNoOptionsText = () => {
-		if (searchText.length < 3) return 'Ketik minimal 3 karakter';
+    const getNoOptionsText = () => {
+        if (searchText.length < 3) return 'Ketik minimal 3 karakter'
 
-		if (!isSearched) return 'Tekan Enter untuk mencari';
+        if (!isSearched) return 'Tekan Enter untuk mencari'
 
-		return 'Pengguna tidak ditemukan';
-	};
+        return 'Pengguna tidak ditemukan'
+    }
 
-	return (
-		<Autocomplete
-			componentsProps={{
-				paper: {
-					elevation: 8,
-				}
-			}}
-			isOptionEqualToValue={(option, value) => option?.id === value?.id}
-			options={userOptions}
-			getOptionLabel={(user) => `#${user.id} - ${user.name}`}
-			onChange={props.onChange}
-			onKeyDown={handleKeyDown}
-			onKeyUp={handleKeyUp}
-			noOptionsText={getNoOptionsText()}
-			loadingText="Memuat..."
-			filterOptions={(x) => x}
-			loading={isMutating}
-			placeholder='Cari Pengguna'
-			renderOption={(props, option) => (
-				<li {...props} key={option.id}>
-					<Box display='flex' alignItems='center'>
-						<Typography mr={1} variant='caption'>
-							{option.id}
-						</Typography>
-						<Typography mr={2}>
-							{option.name}
-						</Typography>
+    return (
+        <Autocomplete
+            componentsProps={{
+                paper: {
+                    elevation: 8,
+                },
+            }}
+            isOptionEqualToValue={(option, value) => option?.id === value?.id}
+            options={userOptions}
+            getOptionLabel={user => `#${user.id} - ${user.name}`}
+            onChange={props.onChange}
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
+            noOptionsText={getNoOptionsText()}
+            loadingText="Memuat..."
+            filterOptions={x => x}
+            loading={isMutating}
+            placeholder="Cari Pengguna"
+            renderOption={(props, option) => (
+                <li {...props} key={option.id}>
+                    <Box display="flex" alignItems="center">
+                        <Typography mr={1} variant="caption">
+                            {option.id}
+                        </Typography>
+                        <Typography mr={2}>{option.name}</Typography>
 
-						{
-							option.employee_count > 0 && <Chip size='small' label="Pegawai" />
-						}
+                        {option.employee_count > 0 && (
+                            <Chip size="small" label="Pegawai" />
+                        )}
 
-						{
-							option.member_count > 0 && <Chip size='small' label="Anggota" />
-						}
+                        {option.member_count > 0 && (
+                            <Chip size="small" label="Anggota" />
+                        )}
 
-						{
-							option.courier_count > 0 && <Chip size='small' label="Pengangkut" />
-						}
-					</Box>
-				</li>
-			)}
-			renderInput={(params) => (
-				<TextField
-					{...params}
-					label="Cari Pengguna"
-					InputProps={{
-						...params.InputProps,
-						endAdornment: (
-							<>
-								{isMutating && <CircularProgress color="inherit" size={20} />}
-								{params.InputProps.endAdornment}
-							</>
-						),
-					}}
-				/>
-			)}
-			{...props}
-		/>
-	);
-};
+                        {option.courier_count > 0 && (
+                            <Chip size="small" label="Pengangkut" />
+                        )}
+                    </Box>
+                </li>
+            )}
+            renderInput={params => (
+                <TextField
+                    {...params}
+                    label="Cari Pengguna"
+                    InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                            <>
+                                {isMutating && (
+                                    <CircularProgress
+                                        color="inherit"
+                                        size={20}
+                                    />
+                                )}
+                                {params.InputProps.endAdornment}
+                            </>
+                        ),
+                    }}
+                />
+            )}
+            {...props}
+        />
+    )
+}
 
-export default UserSelect;
+export default UserSelect
