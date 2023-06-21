@@ -1,131 +1,138 @@
-"use client";
+'use client'
 
-import { useState } from 'react';
-import { mutate } from 'swr';
-import moment from 'moment';
+import { useState } from 'react'
+import { mutate } from 'swr'
+import moment from 'moment'
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
 
-import axios from '@/lib/axios';
-import DatePicker from '../DatePicker';
-import LoadingCenter from '../Statuses/LoadingCenter';
+import axios from '@/lib/axios'
+import DatePicker from '../DatePicker'
+import LoadingCenter from '../Statuses/LoadingCenter'
 
+export default function CourierForm({
+    isShow = true,
+    uuid: userUuid,
+    data: courier,
+    onClose,
+    onSubmitted,
+    ...props
+}) {
+    if (!isShow) return null
 
-export default function CourierForm({ isShow = true, uuid: userUuid, data: courier, onClose, onSubmitted, ...props }) {
+    const [joinedAt, setJoinedAt] = useState(
+        courier?.joined_at ? moment(courier?.joined_at) : null,
+    )
+    const [unjoinedAt, setUnjoinedAt] = useState(
+        courier?.unjoined_at ? moment(courier?.unjoined_at) : null,
+    )
 
-	if (!isShow) return null;
+    const [isLoading, setIsLoading] = useState(false)
+    const [errors, setErrors] = useState({})
 
-	const [joinedAt, setJoinedAt] = useState(courier?.joined_at ? moment(courier?.joined_at) : null);
-	const [unjoinedAt, setUnjoinedAt] = useState(courier?.unjoined_at ? moment(courier?.unjoined_at) : null);
+    const handleJoinedAtChange = value => {
+        setJoinedAt(value)
+        setErrors({
+            ...errors,
+            joined_at: null,
+        })
+    }
 
-	const [isLoading, setIsLoading] = useState(false);
-	const [errors, setErrors] = useState({});
+    const handleUnjoinedAtChange = value => {
+        setUnjoinedAt(value)
+        setErrors({
+            ...errors,
+            unjoined_at: null,
+        })
+    }
 
-	const handleJoinedAtChange = (value) => {
-		setJoinedAt(value);
-		setErrors({
-			...errors,
-			joined_at: null
-		});
-	}
+    const handleSubmit = async e => {
+        e.preventDefault()
+        setIsLoading(true)
 
-	const handleUnjoinedAtChange = (value) => {
-		setUnjoinedAt(value);
-		setErrors({
-			...errors,
-			unjoined_at: null
-		});
-	}
+        try {
+            const formData = new FormData(e.target)
 
-	const handleSubmit = async e => {
-		e.preventDefault();
-		setIsLoading(true);
+            if (joinedAt) {
+                formData.set('joined_at', joinedAt.format('YYYY-MM-DD'))
+            }
 
-		try {
-			const formData = new FormData(e.target);
+            if (unjoinedAt) {
+                formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'))
+            }
 
-			if (joinedAt) {
-				formData.set('joined_at', joinedAt.format('YYYY-MM-DD'));
-			}
+            await axios.post(`/users/${userUuid}/courier`, formData)
+            mutate(`/users/${userUuid}`)
 
-			if (unjoinedAt) {
-				formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'));
-			}
+            if (onSubmitted) {
+                onSubmitted()
+            }
+        } catch (error) {
+            if (error?.response?.status === 422) {
+                setErrors(error?.response?.data?.errors)
+            } else {
+                console.error(error)
+            }
+        }
 
-			await axios.post(`/users/${userUuid}/courier`, formData);
-			mutate(`/users/${userUuid}`);
+        setIsLoading(false)
+    }
 
-			if (onSubmitted) {
-				onSubmitted();
-			}
+    if (isLoading) return <LoadingCenter />
 
-		} catch (error) {
-			if (error?.response?.status === 422) {
-				setErrors(error?.response?.data?.errors);
-			} else {
-				console.error(error);
-			}
-		}
+    return (
+        <form onSubmit={handleSubmit} {...props}>
+            <DatePicker
+                required
+                fullWidth
+                onChange={handleJoinedAtChange}
+                label="Tanggal Bergabung"
+                margin="normal"
+                name="joined_at"
+                defaultValue={courier?.joined_at ? joinedAt : null}
+                error={Boolean(errors.joined_at)}
+                helperText={errors.joined_at}
+            />
 
-		setIsLoading(false);
-	}
+            <DatePicker
+                fullWidth
+                onChange={handleUnjoinedAtChange}
+                label="Tanggal Berhenti/Keluar"
+                margin="normal"
+                name="unjoined_at"
+                defaultValue={courier?.unjoined_at ? unjoinedAt : null}
+                error={Boolean(errors.unjoined_at)}
+                helperText={errors.unjoined_at}
+            />
 
-	if (isLoading) return <LoadingCenter />
+            <TextField
+                fullWidth
+                multiline
+                name="unjoined_reason"
+                label="Alasan Berhenti/Keluar"
+                margin="normal"
+                defaultValue={courier?.unjoined_reason || ''}
+                error={Boolean(errors.unjoined_reason)}
+                helperText={errors.unjoined_reason}
+            />
 
-	return (
-		<form onSubmit={handleSubmit} {...props}>
-			<DatePicker
-				required
-				fullWidth
-				onChange={handleJoinedAtChange}
-				label="Tanggal Bergabung"
-				margin='normal'
-				name="joined_at"
-				defaultValue={courier?.joined_at ? joinedAt : null}
-				error={Boolean(errors.joined_at)}
-				helperText={errors.joined_at}
-			/>
+            <TextField
+                fullWidth
+                multiline
+                name="note"
+                label="Catatan tambahan"
+                margin="normal"
+                defaultValue={courier?.note || ''}
+                error={Boolean(errors.note)}
+                helperText={errors.note}
+            />
 
-			<DatePicker
-				fullWidth
-				onChange={handleUnjoinedAtChange}
-				label="Tanggal Berhenti/Keluar"
-				margin='normal'
-				name="unjoined_at"
-				defaultValue={courier?.unjoined_at ? unjoinedAt : null}
-				error={Boolean(errors.unjoined_at)}
-				helperText={errors.unjoined_at}
-			/>
-
-			<TextField
-				fullWidth
-				multiline
-				name='unjoined_reason'
-				label='Alasan Berhenti/Keluar'
-				margin='normal'
-				defaultValue={courier?.unjoined_reason || ''}
-				error={Boolean(errors.unjoined_reason)}
-				helperText={errors.unjoined_reason}
-			/>
-
-			<TextField
-				fullWidth
-				multiline
-				name='note'
-				label='Catatan tambahan'
-				margin='normal'
-				defaultValue={courier?.note || ''}
-				error={Boolean(errors.note)}
-				helperText={errors.note}
-			/>
-
-
-			<Box display='flex' mt={2} justifyContent='end'>
-				<Button onClick={() => onClose()}>Batal</Button>
-				<Button type='submit'>Simpan</Button>
-			</Box>
-		</form>
-	)
+            <Box display="flex" mt={2} justifyContent="end">
+                <Button onClick={() => onClose()}>Batal</Button>
+                <Button type="submit">Simpan</Button>
+            </Box>
+        </form>
+    )
 }
