@@ -1,0 +1,114 @@
+import { Divider, Typography } from '@mui/material'
+
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
+import BalanceIcon from '@mui/icons-material/Balance'
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import FireTruckIcon from '@mui/icons-material/FireTruck'
+import ForestIcon from '@mui/icons-material/Forest'
+import GroupIcon from '@mui/icons-material/Group'
+
+const SubTitle = ({ children }) => (
+    <Typography ml={2} mt={2} variant="overline" color="grey" fontWeight="bold">
+        {children}
+    </Typography>
+)
+
+export default [
+    {
+        href: '/dashboard',
+        label: 'Dasbor',
+        pathname: '/dashboard',
+        icon: <DashboardIcon />,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        component: <SubTitle>Unit</SubTitle>,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        href: '/TBS',
+        label: 'TBS',
+        pathname: '/TBS',
+        icon: <BalanceIcon />,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        href: '/saprodi',
+        label: 'SAPRODI',
+        pathname: '/saprodi',
+        icon: <ForestIcon />,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        href: '/alat-berat',
+        label: 'Alat Berat',
+        pathname: '/alat-berat',
+        icon: <FireTruckIcon />,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        href: '/spp',
+        label: 'SPP',
+        pathname: '/spp',
+        icon: <CurrencyExchangeIcon />,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        component: <Divider sx={{ mt: 2 }} />,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        component: <SubTitle>Keuangan</SubTitle>,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        href: '/cashes',
+        label: 'Kas',
+        pathname: '/cashes/[[...uuid]]',
+        icon: <AutoStoriesIcon />,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        component: <Divider sx={{ mt: 2 }} />,
+        forRoles: ['users admin'],
+        forPermissions: [
+            'users create',
+            'users update',
+            'users read',
+            'users search',
+        ],
+    },
+    {
+        component: <SubTitle>Sistem</SubTitle>,
+        forRoles: ['users admin'],
+        forPermissions: [
+            'users create',
+            'users update',
+            'users read',
+            'users search',
+        ],
+    },
+    {
+        href: '/users',
+        label: 'Pengguna',
+        pathname: '/users/[[...uuid]]',
+        icon: <GroupIcon />,
+        forRoles: ['users admin'],
+        forPermissions: [
+            'users create',
+            'users update',
+            'users read',
+            'users search',
+        ],
+    },
+]

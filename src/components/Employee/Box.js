@@ -1,79 +1,78 @@
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
-import moment from "moment";
+import moment from 'moment'
 
 export default function EmployeeBox({ data: employee, ...props }) {
-	if (!employee) return null;
+    if (!employee) return null
 
-	const { joined_at, unjoined_at, unjoined_reason, note, employee_status, position } = employee
+    const {
+        joined_at,
+        unjoined_at,
+        unjoined_reason,
+        note,
+        employee_status,
+        position,
+    } = employee
 
-	const getStatus = () => {
-		if (unjoined_at) return 'Berhenti / Keluar';
+    const getStatus = () => {
+        if (unjoined_at) return 'Berhenti / Keluar'
 
-		return 'Aktif';
-	}
+        return 'Aktif'
+    }
 
-	return (
-		<Box {...props}>
-			<Row title='Status'>
-				<Typography variant="h5" color={unjoined_at ? 'error.light' : 'success.light'} component='div'>
-					{getStatus()}
-				</Typography>
-				<Typography>
-					{employee_status?.name}
-				</Typography>
-			</Row>
+    return (
+        <Box {...props}>
+            <Row title="Status">
+                <Typography
+                    variant="h5"
+                    color={unjoined_at ? 'error.light' : 'success.light'}
+                    component="div">
+                    {getStatus()}
+                </Typography>
+                <Typography>{employee_status?.name}</Typography>
+            </Row>
 
-			<Row title='Jabatan'>
-				{position}
-			</Row>
+            <Row title="Jabatan">{position}</Row>
 
-			<Row title='Tanggal Bergabung'>
-				{joined_at ? moment(joined_at).format('DD MMMM YYYY') : '-'}
-			</Row>
+            <Row title="Tanggal Bergabung">
+                {joined_at ? moment(joined_at).format('DD MMMM YYYY') : '-'}
+            </Row>
 
-			{
-				unjoined_at && <>
-					<Row title='Tanggal Berhenti/Keluar'>
-						{unjoined_at ? moment(unjoined_at).format('DD MMMM YYYY') : '-'}
-					</Row>
+            {unjoined_at && (
+                <>
+                    <Row title="Tanggal Berhenti/Keluar">
+                        {unjoined_at
+                            ? moment(unjoined_at).format('DD MMMM YYYY')
+                            : '-'}
+                    </Row>
 
-					<Row title='Alasan Berhenti/Keluar'>
-						{unjoined_reason || '-'}
-					</Row>
-				</>
-			}
+                    <Row title="Alasan Berhenti/Keluar">
+                        {unjoined_reason || '-'}
+                    </Row>
+                </>
+            )}
 
-			<Row title='Catatan tambahan'>
-				{note || '-'}
-			</Row>
-		</Box>
-	)
+            <Row title="Catatan tambahan">{note || '-'}</Row>
+        </Box>
+    )
 }
 
 function Row({ title, children, helperText, ...props }) {
-	return (
-		<Box {...props} mb={1}>
-			<Typography variant='caption' color='text.secondary'>
-				{title}
-			</Typography>
-			{
-				typeof children === 'string' &&
-				<Typography>
-					{children}
-				</Typography>
-			}
+    return (
+        <Box {...props} mb={1}>
+            <Typography variant="caption" color="text.secondary">
+                {title}
+            </Typography>
+            {typeof children === 'string' && (
+                <Typography>{children}</Typography>
+            )}
 
-			{
-				typeof children !== 'string' && children
-			}
+            {typeof children !== 'string' && children}
 
-			{
-				helperText && <Typography variant='body2'>
-					{helperText}
-				</Typography>
-			}
-		</Box>
-	)
+            {helperText && (
+                <Typography variant="body2">{helperText}</Typography>
+            )}
+        </Box>
+    )
 }

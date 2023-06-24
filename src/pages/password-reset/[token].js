@@ -1,29 +1,35 @@
-import ApplicationLogo from '@/components/ApplicationLogo'
-import AuthCard from '@/components/AuthCard'
-import AuthSessionStatus from '@/components/AuthSessionStatus'
-import Button from '@/components/Button'
-import GuestLayout from '@/components/Layouts/GuestLayout'
-import Input from '@/components/Input'
-import InputError from '@/components/InputError'
-import Label from '@/components/Label'
-import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+
+import LockResetIcon from '@mui/icons-material/LockReset'
+
+import AuthLayout from '@/components/Layouts/AuthLayout'
 
 const PasswordReset = () => {
     const router = useRouter()
 
     const { resetPassword } = useAuth({ middleware: 'guest' })
 
+    // form data
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
+    const [password, setPassword] = useState('')
+
+    // ui data
+    const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
 
     const submitForm = event => {
         event.preventDefault()
+
+        setErrors([])
+        setStatus(null)
+        setIsLoading(true)
 
         resetPassword({
             email,
@@ -38,82 +44,67 @@ const PasswordReset = () => {
         setEmail(router.query.email || '')
     }, [router.query.email])
 
+    useEffect(() => {
+        const tempErrors = Object.values(errors)
+
+        if (tempErrors.length > 0) {
+            setStatus(tempErrors[0][0])
+            setIsLoading(false)
+        }
+    }, [errors])
+
     return (
-        <GuestLayout>
-            <AuthCard
-                logo={
-                    <Link href="/">
-                        <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-                    </Link>
-                }>
-                {/* Session Status */}
-                <AuthSessionStatus className="mb-4" status={status} />
+        <AuthLayout
+            title="Atur kata sandi"
+            icon={<LockResetIcon />}
+            isLoading={isLoading}
+            isError={Object.values(errors).length > 0}
+            message={status}>
+            <form onSubmit={submitForm} style={{ marginTop: '1rem' }}>
+                <TextField
+                    autoFocus
+                    required
+                    fullWidth
+                    margin="normal"
+                    label="Email Address"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    value={email}
+                    readOnly
+                    disabled
+                />
 
-                <form onSubmit={submitForm}>
-                    {/* Email Address */}
-                    <div>
-                        <Label htmlFor="email">Email</Label>
+                <TextField
+                    required
+                    fullWidth
+                    margin="normal"
+                    label="Kata sandi baru"
+                    onChange={event => setPassword(event.target.value)}
+                    type="password"
+                    name="password"
+                />
 
-                        <Input
-                            id="email"
-                            type="email"
-                            value={email}
-                            className="block mt-1 w-full"
-                            onChange={event => setEmail(event.target.value)}
-                            required
-                            autoFocus
-                        />
+                <TextField
+                    required
+                    fullWidth
+                    label="Ulangi kata sandi baru"
+                    type="password"
+                    name="password_confirmation"
+                    onChange={event =>
+                        setPasswordConfirmation(event.target.value)
+                    }
+                />
 
-                        <InputError messages={errors.email} className="mt-2" />
-                    </div>
-
-                    {/* Password */}
-                    <div className="mt-4">
-                        <Label htmlFor="password">Password</Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            value={password}
-                            className="block mt-1 w-full"
-                            onChange={event => setPassword(event.target.value)}
-                            required
-                        />
-
-                        <InputError
-                            messages={errors.password}
-                            className="mt-2"
-                        />
-                    </div>
-
-                    {/* Confirm Password */}
-                    <div className="mt-4">
-                        <Label htmlFor="passwordConfirmation">
-                            Confirm Password
-                        </Label>
-
-                        <Input
-                            id="passwordConfirmation"
-                            type="password"
-                            value={passwordConfirmation}
-                            className="block mt-1 w-full"
-                            onChange={event =>
-                                setPasswordConfirmation(event.target.value)
-                            }
-                            required
-                        />
-
-                        <InputError
-                            messages={errors.password_confirmation}
-                            className="mt-2"
-                        />
-                    </div>
-
-                    <div className="flex items-center justify-end mt-4">
-                        <Button>Reset Password</Button>
-                    </div>
-                </form>
-            </AuthCard>
-        </GuestLayout>
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 1 }}>
+                    Simpan kata sandi
+                </Button>
+            </form>
+        </AuthLayout>
     )
 }
 

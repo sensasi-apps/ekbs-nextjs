@@ -6,7 +6,11 @@ import { useRouter } from 'next/router'
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const router = useRouter()
 
-    const { data: user, error, mutate } = useSWR('/api/user', () =>
+    const {
+        data: user,
+        error,
+        mutate,
+    } = useSWR('/api/user', () =>
         axios
             .get('/api/user')
             .then(res => res.data)
@@ -58,7 +62,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
         axios
             .post('/forgot-password', { email })
-            .then(response => setStatus(response.data.status))
+            .then(response =>
+                router.push('/login?reset=' + btoa(response.data.status)),
+            )
             .catch(error => {
                 if (error.response.status !== 422) throw error
 
