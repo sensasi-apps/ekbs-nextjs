@@ -10,9 +10,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         data: user,
         error,
         mutate,
-    } = useSWR('/api/user', () =>
+    } = useSWR('/api/user', url =>
         axios
-            .get('/api/user')
+            .get(url)
             .then(res => res.data)
             .catch(error => {
                 if (error.response.status !== 409) throw error
@@ -101,6 +101,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             await axios.post('/logout').then(() => mutate())
         }
 
+        window.localStorage.removeItem('isLoggedIn')
         window.location.pathname = '/login'
     }
 
@@ -114,6 +115,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             router.push(redirectIfAuthenticated)
         if (middleware === 'auth' && error) logout()
         if (user && !user.is_active) logout()
+        if (user && user.is_active)
+            window.localStorage.setItem('isLoggedIn', true)
     }, [user, error])
 
     return {
