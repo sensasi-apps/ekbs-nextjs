@@ -1,16 +1,18 @@
+import dynamic from 'next/dynamic'
+
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 
-import MenuList from './MenuList'
-import TopBar from './TopBar'
+const DynamicMenuList = dynamic(() => import('./MenuList'))
+const DynamicTopBar = dynamic(() => import('./TopBar'))
 
 const drawerWidth = 240
 
 const AppLayout = ({ pageTitle, children }) => {
     return (
         <Box sx={{ display: 'flex' }}>
-            <TopBar pageTitle={pageTitle} />
-            <MenuList />
+            <DynamicTopBar pageTitle={pageTitle} />
+            <DynamicMenuList />
 
             <Box
                 component="main"
