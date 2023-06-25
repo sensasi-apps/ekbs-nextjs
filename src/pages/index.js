@@ -5,8 +5,8 @@ export default function Index() {
     const router = useRouter()
 
     useEffect(() => {
-        router.replace('/dashboard')
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
+        if (isLoggedIn) router.replace('/dashboard')
+        if (!isLoggedIn) router.replace('/login')
     }, [])
-
-    return null
 }

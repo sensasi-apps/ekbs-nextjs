@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import Head from 'next/head'
@@ -6,8 +7,9 @@ import Grid from '@mui/material/Grid'
 
 import AppLayout from '@/components/Layouts/AppLayout'
 import Summary from '@/components/User/Summary'
-import UserCards from '@/components/User/Cards'
 import UserSelect from '@/components/User/Select'
+
+const DynamicUserCards = dynamic(() => import('@/components/User/Cards'))
 
 export default function users() {
     const router = useRouter()
@@ -43,7 +45,7 @@ export default function users() {
                     flexDirection="column"
                     gap={3}>
                     <UserSelect onChange={userSelectOnChange} />
-                    <UserCards />
+                    <DynamicUserCards />
                 </Grid>
 
                 <Grid item sm={12} md={4} width="100%">
