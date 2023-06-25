@@ -1,5 +1,8 @@
-module.exports = {
-    async rewrites() {
+'use strict'
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    rewrites() {
         return [
             {
                 source: '/api/oauth/:path*',
@@ -9,3 +12,5 @@ module.exports = {
         ]
     },
 }
+
+module.exports = nextConfig
