@@ -6,8 +6,11 @@ import AppContext from '@/providers/App'
 import Head from 'next/head'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import { useRouter } from 'next/router'
 
 export default function Logout() {
+    const router = useRouter()
+
     const {
         auth: { mutate },
     } = useContext(AppContext)
@@ -17,7 +20,12 @@ export default function Logout() {
             mutate()
             window.localStorage.removeItem('isLoggedIn')
         })
-        window.location.pathname = '/login?error=' + btoa('Akun tidak aktif')
+
+        if (router.query.error) {
+            router.push('/login?error=' + btoa('Akun tidak aktif'))
+        } else {
+            router.push('/login')
+        }
     }
 
     useEffect(() => {
