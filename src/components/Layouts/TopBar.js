@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
-import { AppContext } from '../AppContext'
 import { useRouter } from 'next/router'
-import { useAuth } from '@/hooks/auth'
+
+import AppContext from '@/providers/App'
 
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -19,16 +19,18 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
 
-const drawerWidth = 240
-
-export default function TopBar({ pageTitle }) {
-    const { themeColorMode, toggleColorMode, toggleDrawer } =
-        useContext(AppContext)
+export default function TopBar({ pageTitle, toggleDrawer }) {
+    const drawerWidth = 240
     const router = useRouter()
+
+    const {
+        themeColorMode,
+        toggleColorMode,
+        auth: { user },
+    } = useContext(AppContext)
 
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
-    const { user } = useAuth({ middleware: 'auth' })
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget)

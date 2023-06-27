@@ -1,18 +1,39 @@
-import { useAuth } from '@/hooks/auth'
+import { useContext, useEffect } from 'react'
+
+import axios from '@/lib/axios'
+import AppContext from '@/providers/App'
 
 import Head from 'next/head'
-import AppLayout from '@/components/Layouts/AppLayout'
+import AuthLayout from '@/components/Layouts/AuthLayout'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import { useRouter } from 'next/router'
 
-export default function logout() {
-    const { logout } = useAuth({ middleware: 'auth' })
+export default function Logout() {
+    const router = useRouter()
 
-    if (logout) {
-        logout()
+    const {
+        auth: { mutate },
+    } = useContext(AppContext)
+
+    const logout = async () => {
+        await axios.post('/logout').then(() => {
+            mutate()
+            window.localStorage.removeItem('isLoggedIn')
+        })
+
+        if (router.query.error) {
+            router.push('/login?error=' + btoa('Akun tidak aktif'))
+        } else {
+            router.push('/login')
+        }
     }
 
+    useEffect(() => {
+        logout()
+    }, [])
+
     return (
-        <AppLayout pageTitle="Logout">
+        <AuthLayout pageTitle="Logout">
             <Head>
                 <title>{`Logout — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
@@ -20,6 +41,6 @@ export default function logout() {
             <LoadingCenter>
                 Sedang melakukan <i>logout</i>, harap tunggu.
             </LoadingCenter>
-        </AppLayout>
+        </AuthLayout>
     )
 }
