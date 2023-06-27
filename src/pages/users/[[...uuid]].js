@@ -1,11 +1,10 @@
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 
 import Head from 'next/head'
-
 import Grid from '@mui/material/Grid'
 
-import AppLayout from '@/components/Layouts/AppLayout'
+import AuthLayout from '@/components/Layouts/AuthLayout'
 import Summary from '@/components/User/Summary'
 import UserSelect from '@/components/User/Select'
 
@@ -21,7 +20,7 @@ export default function users() {
     }
 
     return (
-        <AppLayout pageTitle="Pengguna">
+        <AuthLayout pageTitle="Pengguna">
             <Head>
                 <title>{`Pengguna — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
@@ -52,6 +51,6 @@ export default function users() {
                     <Summary />
                 </Grid>
             </Grid>
-        </AppLayout>
+        </AuthLayout>
     )
 }

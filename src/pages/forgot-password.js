@@ -1,17 +1,32 @@
-import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+
+import axios from '@/lib/axios'
 
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
 import SyncLockIcon from '@mui/icons-material/SyncLock'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
 
 const ForgotPassword = () => {
-    const { forgotPassword } = useAuth({
-        middleware: 'guest',
-        redirectIfAuthenticated: '/dashboard',
-    })
+    const router = useRouter()
+
+    const forgotPassword = async ({ setErrors, setStatus, email }) => {
+        setErrors([])
+        setStatus(null)
+
+        axios
+            .post('/forgot-password', { email })
+            .then(response =>
+                router.push('/login?reset=' + btoa(response.data.status)),
+            )
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
+            })
+    }
 
     // form data
     const [email, setEmail] = useState('')
@@ -40,7 +55,7 @@ const ForgotPassword = () => {
     }, [errors])
 
     return (
-        <AuthLayout
+        <GuestFormLayout
             title="Lupa kata sandi"
             icon={<SyncLockIcon />}
             isLoading={isLoading}
@@ -68,7 +83,7 @@ const ForgotPassword = () => {
                     Kirim tautan pengaturan kata sandi
                 </Button>
             </form>
-        </AuthLayout>
+        </GuestFormLayout>
     )
 }
 

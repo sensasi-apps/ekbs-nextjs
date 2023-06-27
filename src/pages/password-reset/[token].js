@@ -1,4 +1,3 @@
-import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
@@ -7,12 +6,27 @@ import TextField from '@mui/material/TextField'
 
 import LockResetIcon from '@mui/icons-material/LockReset'
 
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
+import axios from '@/lib/axios'
 
 const PasswordReset = () => {
     const router = useRouter()
 
-    const { resetPassword } = useAuth({ middleware: 'guest' })
+    const resetPassword = async ({ setErrors, setStatus, ...props }) => {
+        setErrors([])
+        setStatus(null)
+
+        axios
+            .post('/reset-password', { token: router.query.token, ...props })
+            .then(response =>
+                router.push('/login?reset=' + btoa(response.data.status)),
+            )
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
+            })
+    }
 
     // form data
     const [email, setEmail] = useState('')
@@ -54,7 +68,7 @@ const PasswordReset = () => {
     }, [errors])
 
     return (
-        <AuthLayout
+        <GuestFormLayout
             title="Atur kata sandi"
             icon={<LockResetIcon />}
             isLoading={isLoading}
@@ -104,7 +118,7 @@ const PasswordReset = () => {
                     Simpan kata sandi
                 </Button>
             </form>
-        </AuthLayout>
+        </GuestFormLayout>
     )
 }
 
