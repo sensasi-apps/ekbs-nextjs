@@ -17,7 +17,7 @@ const AuthLayout = ({ title, children }) => {
         if (
             window !== undefined &&
             (window.localStorage.getItem('isLoggedIn') === 'false' ||
-                window.localStorage.getItem('isLoggedIn') === undefined)
+                window.localStorage.getItem('isLoggedIn') === null)
         ) {
             router.replace('/login')
         }

@@ -12,14 +12,16 @@ export default function Logout() {
     const router = useRouter()
 
     const {
-        auth: { mutate },
+        auth: { error, mutate },
     } = useContext(AppContext)
 
     const logout = async () => {
-        await axios.post('/logout').then(() => {
+        if (!error) {
+            await axios.post('/logout')
             mutate()
-            window.localStorage.removeItem('isLoggedIn')
-        })
+        }
+
+        window.localStorage.removeItem('isLoggedIn')
 
         if (router.query.error) {
             router.push('/login?error=' + btoa('Akun tidak aktif'))

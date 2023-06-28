@@ -12,7 +12,7 @@ export const AppProvider = ({ children }) => {
 
     const {
         data: user,
-        // error,
+        error,
         mutate,
     } = useSWR('/api/user', url =>
         axios
@@ -63,6 +63,7 @@ export const AppProvider = ({ children }) => {
                 toggleColorMode,
                 auth: {
                     user,
+                    error,
                     mutate,
                 },
             }}>
