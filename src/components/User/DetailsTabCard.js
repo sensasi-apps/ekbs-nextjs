@@ -25,6 +25,7 @@ import UserAddressesBox from './Address/Box'
 import UserDetailBox from './Detail/Box'
 import UserDetailForm from './Detail/Form'
 import UserSocialsBox from './Socials/Box'
+import UserBankAccsBox from './BankAccs/Box'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props
@@ -70,7 +71,16 @@ export default function UserDetailsTabCard({
 }) {
     if (!user.uuid && !isLoading) return null
 
-    const { uuid, detail, member, employee, courier, socials, addresses } = user
+    const {
+        uuid,
+        detail,
+        member,
+        employee,
+        courier,
+        socials,
+        addresses,
+        bank_accs,
+    } = user
 
     const [value, setValue] = useState(0)
     const [isFormOpen, setIsFormOpen] = useState(false)
@@ -112,6 +122,11 @@ export default function UserDetailsTabCard({
                             <UserAddressesBox
                                 userUuid={uuid}
                                 data={addresses}
+                                mt={2}
+                            />
+                            <UserBankAccsBox
+                                userUuid={uuid}
+                                data={bank_accs}
                                 mt={2}
                             />
                         </>
