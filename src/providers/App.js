@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext } from 'react'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 
@@ -8,7 +8,6 @@ const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
     const router = useRouter()
-    const [themeColorMode, setThemeColorMode] = useState('dark')
 
     const {
         data: user,
@@ -40,27 +39,9 @@ export const AppProvider = ({ children }) => {
             }),
     )
 
-    useEffect(function () {
-        const savedMode = localStorage.getItem('colorMode')
-
-        if (savedMode !== 'light') setThemeColorMode('dark')
-    }, [])
-
-    const toggleColorMode = () => {
-        setThemeColorMode(prevMode => {
-            const newMode = prevMode === 'light' ? 'dark' : 'light'
-
-            localStorage.setItem('colorMode', newMode)
-
-            return newMode
-        })
-    }
-
     return (
         <AppContext.Provider
             value={{
-                themeColorMode,
-                toggleColorMode,
                 auth: {
                     user,
                     error,

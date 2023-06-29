@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useTheme } from '@mui/material'
 
 import AppContext from '@/providers/App'
 
@@ -21,11 +22,11 @@ import LogoutIcon from '@mui/icons-material/Logout'
 
 export default function TopBar({ pageTitle, toggleDrawer }) {
     const drawerWidth = 240
+
     const router = useRouter()
+    const theme = useTheme()
 
     const {
-        themeColorMode,
-        toggleColorMode,
         auth: { user },
     } = useContext(AppContext)
 
@@ -80,13 +81,13 @@ export default function TopBar({ pageTitle, toggleDrawer }) {
                             </Typography>
                         </Box>
 
-                        <MenuItem onClick={toggleColorMode}>
+                        <MenuItem onClick={theme.palette.toggleColorMode}>
                             <FormControlLabel
                                 label="Mode Gelap"
                                 control={
                                     <Switch
-                                        onClick={toggleColorMode}
-                                        checked={themeColorMode === 'dark'}
+                                        onClick={theme.palette.toggleColorMode}
+                                        checked={theme.palette.mode === 'dark'}
                                     />
                                 }
                             />

@@ -1,10 +1,8 @@
-import { forwardRef, useContext, useMemo } from 'react'
+import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { createTheme } from '@mui/material/styles'
 
-import AppContext from '@/providers/App'
-
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
-import { CssBaseline } from '@mui/material'
+import { CssBaseline, useMediaQuery } from '@mui/material'
 import Link from 'next/link'
 
 const LinkBehaviour = forwardRef(function LinkBehaviour(props, ref) {
@@ -12,7 +10,28 @@ const LinkBehaviour = forwardRef(function LinkBehaviour(props, ref) {
 })
 
 const ThemeProvider = ({ children }) => {
-    const { themeColorMode } = useContext(AppContext)
+    const [colorMode, setColorMode] = useState(undefined)
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
+    useEffect(() => {
+        const colorMode = localStorage.getItem('colorMode')
+
+        if (colorMode) {
+            setColorMode(colorMode)
+        } else {
+            setColorMode(prefersDarkMode ? 'dark' : 'light')
+        }
+    }, [prefersDarkMode])
+
+    const toggleColorMode = () => {
+        setColorMode(prevMode => {
+            const newMode = prevMode === 'dark' ? 'light' : 'dark'
+
+            localStorage.setItem('colorMode', newMode)
+
+            return newMode
+        })
+    }
 
     const theme = useMemo(
         () =>
@@ -30,10 +49,11 @@ const ThemeProvider = ({ children }) => {
                     },
                 },
                 palette: {
-                    mode: themeColorMode,
+                    mode: colorMode,
+                    toggleColorMode,
                 },
             }),
-        [themeColorMode],
+        [colorMode],
     )
 
     return (

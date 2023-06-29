@@ -3,11 +3,11 @@ import ThemeProvider from '@/providers/Theme'
 
 const App = ({ Component, pageProps }) => {
     return (
-        <AppProvider>
-            <ThemeProvider>
+        <ThemeProvider>
+            <AppProvider>
                 <Component {...pageProps} />
-            </ThemeProvider>
-        </AppProvider>
+            </AppProvider>
+        </ThemeProvider>
     )
 }
 
