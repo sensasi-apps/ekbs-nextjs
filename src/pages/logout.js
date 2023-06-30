@@ -24,7 +24,7 @@ export default function Logout() {
         window.localStorage.removeItem('isLoggedIn')
 
         if (router.query.error) {
-            router.push('/login?error=' + btoa('Akun tidak aktif'))
+            router.push('/login?error=' + error)
         } else {
             router.push('/login')
         }
