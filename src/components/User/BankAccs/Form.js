@@ -38,7 +38,7 @@ export default function UserBankAccForm({
             if (err.response?.status === 422) {
                 setErrors(err.response.data.errors)
             } else {
-                console.log(err)
+                throw err
             }
         }
 

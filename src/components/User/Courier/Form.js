@@ -9,8 +9,8 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
 import axios from '@/lib/axios'
-import DatePicker from '../DatePicker'
-import LoadingCenter from '../Statuses/LoadingCenter'
+import DatePicker from '../../DatePicker'
+import LoadingCenter from '../../Statuses/LoadingCenter'
 
 export default function CourierForm({
     isShow = true,

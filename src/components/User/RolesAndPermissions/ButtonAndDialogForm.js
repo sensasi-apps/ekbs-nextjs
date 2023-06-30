@@ -61,8 +61,8 @@ export default function RolesAndPermissionButtonAndDialogForm({
 
             setIsComplete(true)
         } catch (error) {
-            console.log(error)
             setError(error.response?.data.message)
+            throw error
         }
 
         setIsLoading(false)
@@ -82,8 +82,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
                 variant="outlined"
                 color="error"
                 size="small"
-                onClick={() => setIsOpen(true)}
-                startIcon={<ManageAccountsIcon />}>
+                onClick={() => setIsOpen(true)}>
                 Hak akses
             </Button>
 
@@ -119,7 +118,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
                         <LoadingCenter isShow={isLoading} />
 
                         <ErrorCenter
-                            isShow={error}
+                            isShow={Boolean(error)}
                             message={error}
                             onClose={() => setError(undefined)}
                         />

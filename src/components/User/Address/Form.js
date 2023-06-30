@@ -38,7 +38,7 @@ export default function AddressForm({
             if (err.response?.status === 422) {
                 setErrors(err.response.data.errors)
             } else {
-                console.error(err)
+                throw err
             }
         }
 
@@ -98,6 +98,7 @@ export default function AddressForm({
                 margin="normal"
                 name="zip_code"
                 label="Kode Pos"
+                type="number"
                 error={Boolean(errors.zip_code)}
                 helperText={errors.zip_code}
             />
