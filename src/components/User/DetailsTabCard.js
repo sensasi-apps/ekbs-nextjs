@@ -15,17 +15,18 @@ import Typography from '@mui/material/Typography'
 
 import AddIcon from '@mui/icons-material/Add'
 
-import CourierBox from '../Courier/Box'
-import CourierForm from '../Courier/Form'
-import EmployeeBox from '../Employee/Box'
-import EmployeeForm from '../Employee/Form'
-import MemberBox from '../Member/Box'
-import MemberForm from '../Member/Form'
+import CourierBox from './Courier/Box'
+import CourierForm from './Courier/Form'
+import EmployeeBox from './Employee/Box'
+import EmployeeForm from './Employee/Form'
+import MemberBox from './Member/Box'
+import MemberForm from './Member/Form'
 import UserAddressesBox from './Address/Box'
 import UserDetailBox from './Detail/Box'
 import UserDetailForm from './Detail/Form'
 import UserSocialsBox from './Socials/Box'
 import UserBankAccsBox from './BankAccs/Box'
+import MemberLandsBox from './Member/Lands/Box'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props
@@ -105,6 +106,7 @@ export default function UserDetailsTabCard({
                             value={value}
                             onChange={handleChange}>
                             <Tab label="Kontak & Alamat" />
+                            <Tab label="Rekening" />
                             <Tab label="Detail" />
                             <Tab label="Karyawan" />
                             <Tab label="Anggota" />
@@ -124,11 +126,6 @@ export default function UserDetailsTabCard({
                                 data={addresses}
                                 mt={2}
                             />
-                            <UserBankAccsBox
-                                userUuid={uuid}
-                                data={bank_accs}
-                                mt={2}
-                            />
                         </>
                     ) : (
                         <TabContentSkeleton />
@@ -136,6 +133,10 @@ export default function UserDetailsTabCard({
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
+                    <UserBankAccsBox userUuid={uuid} data={bank_accs} />
+                </TabPanel>
+
+                <TabPanel value={value} index={2}>
                     <UserDetailBox
                         sx={{
                             display: isFormOpen || !detail ? 'none' : 'block',
@@ -174,7 +175,7 @@ export default function UserDetailsTabCard({
                     </Button>
                 </TabPanel>
 
-                <TabPanel value={value} index={2}>
+                <TabPanel value={value} index={3}>
                     <EmployeeBox
                         sx={{
                             display: isFormOpen || !employee ? 'none' : 'block',
@@ -213,7 +214,7 @@ export default function UserDetailsTabCard({
                     </Button>
                 </TabPanel>
 
-                <TabPanel value={value} index={3}>
+                <TabPanel value={value} index={4}>
                     <MemberBox
                         sx={{
                             display: isFormOpen || !member ? 'none' : 'block',
@@ -239,22 +240,29 @@ export default function UserDetailsTabCard({
                         Belum ada data anggota.
                     </Typography>
 
-                    <Button
-                        sx={{
-                            display: isFormOpen ? 'none' : 'flex',
-                        }}
-                        color={member ? 'warning' : 'success'}
-                        startIcon={member ? null : <AddIcon />}
-                        onClick={() => setIsFormOpen(true)}>
-                        {member
-                            ? 'Perbaharui data anggota'
-                            : 'Masukkan data anggota'}
-                    </Button>
+                    <Box
+                        display="flex"
+                        justifyContent={member ? 'end' : 'start'}>
+                        <Button
+                            sx={{
+                                display: isFormOpen ? 'none' : null,
+                            }}
+                            variant={member ? 'outlined' : 'text'}
+                            color={member ? 'warning' : 'success'}
+                            startIcon={member ? null : <AddIcon />}
+                            onClick={() => setIsFormOpen(true)}>
+                            {member
+                                ? 'Perbaharui data anggota'
+                                : 'Masukkan data anggota'}
+                        </Button>
+                    </Box>
 
-                    {/* TODO: CURD land */}
+                    {member && (
+                        <MemberLandsBox data={member?.lands} userUuid={uuid} />
+                    )}
                 </TabPanel>
 
-                <TabPanel value={value} index={4}>
+                <TabPanel value={value} index={5}>
                     <CourierBox
                         sx={{
                             display: isFormOpen || !courier ? 'none' : 'block',
