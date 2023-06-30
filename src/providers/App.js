@@ -33,9 +33,16 @@ export const AppProvider = ({ children }) => {
                 return res.data
             })
             .catch(error => {
-                if (error.response.status !== 409) throw error
+                if (error.response.status === 409)
+                    return router.replace('/verify-email')
 
-                return router.replace('/verify-email')
+                if (
+                    window.localStorage.getItem('isLoggedIn') === 'true' &&
+                    error.response.status === 401
+                )
+                    router.push('/logout')
+
+                throw error
             }),
     )
 
