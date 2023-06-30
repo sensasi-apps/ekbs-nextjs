@@ -8,9 +8,9 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-import DatePicker from '../DatePicker'
+import DatePicker from '../../DatePicker'
 import axios from '@/lib/axios'
-import LoadingCenter from '../Statuses/LoadingCenter'
+import LoadingCenter from '../../Statuses/LoadingCenter'
 
 export default function MemberForm({
     isShow = true,
@@ -74,7 +74,7 @@ export default function MemberForm({
             if (error?.response?.status === 422) {
                 setErrors(error?.response?.data?.errors)
             } else {
-                console.error(error)
+                throw error
             }
         }
 

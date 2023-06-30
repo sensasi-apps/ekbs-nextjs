@@ -8,10 +8,10 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-import DatePicker from '../DatePicker'
+import DatePicker from '../../DatePicker'
 import axios from '@/lib/axios'
-import LoadingCenter from '../Statuses/LoadingCenter'
-import SelectInputFromApi from '../SelectInputFromApi'
+import LoadingCenter from '../../Statuses/LoadingCenter'
+import SelectInputFromApi from '../../SelectInputFromApi'
 
 export default function EmployeeForm({
     isShow = true,
