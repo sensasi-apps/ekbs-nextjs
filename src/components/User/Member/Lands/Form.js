@@ -35,7 +35,7 @@ export default function MemberLandForm({
                 )
             }
 
-            await axios.post(`/users/${userUuid}/lands`, formData)
+            await axios.post(`/users/members/${userUuid}/lands`, formData)
             await mutate(`/users/${userUuid}`)
 
             if (onSubmitted) {

@@ -31,7 +31,7 @@ function ListItem({
     const handleDelete = async () => {
         setIsDeleting(true)
 
-        await axios.delete(`/users/lands/${uuid}`)
+        await axios.delete(`/users/members/lands/${uuid}`)
         await mutate(`/users/${userUuid}`)
 
         setIsDeleting(false)
