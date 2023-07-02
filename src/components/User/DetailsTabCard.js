@@ -27,6 +27,7 @@ import UserDetailForm from './Detail/Form'
 import UserSocialsBox from './Socials/Box'
 import UserBankAccsBox from './BankAccs/Box'
 import MemberLandsBox from './Member/Lands/Box'
+import CourierDriversBox from './Courier/Drivers/Box'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props
@@ -89,6 +90,22 @@ export default function UserDetailsTabCard({
     const handleChange = (event, newValue) => {
         setIsFormOpen(false)
         setValue(newValue)
+    }
+
+    function CreateOrEditButton({ isCreate, dataName }) {
+        return (
+            <Button
+                sx={{
+                    display: isFormOpen ? 'none' : null,
+                }}
+                variant={isCreate ? 'outlined' : 'text'}
+                size={isCreate ? 'small' : ''}
+                color={isCreate ? 'warning' : 'success'}
+                startIcon={isCreate ? null : <AddIcon />}
+                onClick={() => setIsFormOpen(true)}>
+                {isCreate ? 'Perbaharui data ' : 'Masukkan data '} {dataName}
+            </Button>
+        )
     }
 
     return (
@@ -192,26 +209,16 @@ export default function UserDetailsTabCard({
                         onClose={() => setIsFormOpen(false)}
                     />
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                            display: isFormOpen || employee ? 'none' : 'block',
-                        }}>
-                        Belum ada data karyawan.
-                    </Typography>
+                    {!isFormOpen && !employee && (
+                        <Typography variant="body2" color="text.secondary">
+                            <i>Belum ada data karyawan.</i>
+                        </Typography>
+                    )}
 
-                    <Button
-                        sx={{
-                            display: isFormOpen ? 'none' : 'flex',
-                        }}
-                        color={employee ? 'warning' : 'success'}
-                        startIcon={employee ? null : <AddIcon />}
-                        onClick={() => setIsFormOpen(true)}>
-                        {employee
-                            ? 'Perbaharui data karyawan'
-                            : 'Masukkan data karyawan'}
-                    </Button>
+                    <CreateOrEditButton
+                        isCreate={Boolean(employee)}
+                        dataName="karyawan"
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={4}>
@@ -231,34 +238,23 @@ export default function UserDetailsTabCard({
                         onClose={() => setIsFormOpen(false)}
                     />
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                            display: isFormOpen || member ? 'none' : 'block',
-                        }}>
-                        Belum ada data anggota.
-                    </Typography>
+                    {!isFormOpen && !member && (
+                        <Typography variant="body2" color="text.secondary">
+                            <i>Belum ada data anggota.</i>
+                        </Typography>
+                    )}
 
-                    <Box
-                        display="flex"
-                        justifyContent={member ? 'end' : 'start'}>
-                        <Button
-                            sx={{
-                                display: isFormOpen ? 'none' : null,
-                            }}
-                            variant={member ? 'outlined' : 'text'}
-                            color={member ? 'warning' : 'success'}
-                            startIcon={member ? null : <AddIcon />}
-                            onClick={() => setIsFormOpen(true)}>
-                            {member
-                                ? 'Perbaharui data anggota'
-                                : 'Masukkan data anggota'}
-                        </Button>
-                    </Box>
+                    <CreateOrEditButton
+                        isCreate={Boolean(member)}
+                        dataName="anggota"
+                    />
 
                     {member && (
-                        <MemberLandsBox data={member?.lands} userUuid={uuid} />
+                        <MemberLandsBox
+                            data={member?.lands}
+                            userUuid={uuid}
+                            mt={2}
+                        />
                     )}
                 </TabPanel>
 
@@ -279,28 +275,25 @@ export default function UserDetailsTabCard({
                         onClose={() => setIsFormOpen(false)}
                     />
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                            display: isFormOpen || courier ? 'none' : 'block',
-                        }}>
-                        Belum ada data pengangkut.
-                    </Typography>
+                    {!isFormOpen && !courier && (
+                        <Typography variant="body2" color="text.secondary">
+                            <i>Belum ada data pengangkut.</i>
+                        </Typography>
+                    )}
 
-                    <Button
-                        sx={{
-                            display: isFormOpen ? 'none' : 'flex',
-                        }}
-                        color={courier ? 'warning' : 'success'}
-                        startIcon={courier ? null : <AddIcon />}
-                        onClick={() => setIsFormOpen(true)}>
-                        {courier
-                            ? 'Perbaharui data pengangkut'
-                            : 'Masukkan data pengangkut'}
-                    </Button>
+                    <CreateOrEditButton
+                        isShow={isFormOpen}
+                        isCreate={Boolean(courier)}
+                        dataName="pengangkut"
+                    />
 
-                    {/* TODO: CRU vehicles & drivers */}
+                    {courier && (
+                        <CourierDriversBox
+                            data={courier?.drivers}
+                            courierUserUuid={uuid}
+                            mt={2}
+                        />
+                    )}
                 </TabPanel>
             </CardContent>
         </Card>
