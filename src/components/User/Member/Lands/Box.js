@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import MemberLandForm from './Form'
+import MemberLandForm from '../Land/Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 
 function ListItem({
@@ -85,7 +85,7 @@ export default function MemberLandsBox({
         <Box {...props}>
             <Box display="flex" alignItems="center">
                 <Typography variant="h6" component="div">
-                    Kebun
+                    Daftar Kebun
                 </Typography>
 
                 <IconButton color="success" onClick={() => setIsFormOpen(true)}>
