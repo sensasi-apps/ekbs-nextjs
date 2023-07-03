@@ -41,8 +41,6 @@ export default function RolesAndPermissionButtonAndDialogForm({
         axios.get(url).then(response => response.data),
     )
 
-    if (!user && !isDataLoading) return null
-
     const handleSubmit = async e => {
         e.preventDefault()
 
@@ -78,7 +76,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
     return (
         <>
             <Button
-                disabled={isDataLoading || user.is_active === false}
+                disabled={!user || isDataLoading || user.is_active === false}
                 variant="outlined"
                 color="error"
                 size="small"

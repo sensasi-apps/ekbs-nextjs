@@ -41,6 +41,7 @@ export default function UserCards() {
                                 <ActivationToggle
                                     data={userWithDetails}
                                     isLoading={isLoading}
+                                    disabled
                                 />
 
                                 <Box
