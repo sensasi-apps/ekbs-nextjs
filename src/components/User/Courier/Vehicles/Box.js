@@ -16,22 +16,17 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import CourierDriverForm from '../Driver/Form'
+import CourierVehicleForm from '../Vehicle/Form'
 
-export default function CourierDriversBox({
+export default function CourierVehiclesBox({
     courierUserUuid,
-    data: drivers = [],
+    data: vehicles = [],
     ...props
 }) {
     const [isFormOpen, setIsFormOpen] = useState(false)
 
     function ListItem({
-        data: {
-            user: { id, name },
-            license_number,
-            user_uuid: driverUserUuid,
-        },
-        courierUserUuid,
+        data: { uuid, brand, type, max_capacity_ton, plate_number },
     }) {
         const [isDeleting, setIsDeleting] = useState(false)
 
@@ -39,7 +34,7 @@ export default function CourierDriversBox({
             setIsDeleting(true)
 
             await axios.delete(
-                `/users/couriers/drivers/${courierUserUuid}/${driverUserUuid}`,
+                `/users/couriers/vehicles/${courierUserUuid}/${uuid}`,
             )
             await mutate(`/users/${courierUserUuid}`)
 
@@ -62,18 +57,18 @@ export default function CourierDriversBox({
                         component="p"
                         display="flex"
                         alignItems="center">
-                        {name}
+                        {type}
                         <Typography
                             variant="body2"
                             color="GrayText"
                             component="span"
                             ml={1}>
-                            #{id}
+                            {max_capacity_ton} TON
                         </Typography>
                     </Typography>
 
                     <Typography variant="body2" color="GrayText" component="p">
-                        {license_number}
+                        {brand} | {plate_number}
                     </Typography>
                 </ListItemText>
             </MuiListItem>
@@ -84,7 +79,7 @@ export default function CourierDriversBox({
         <Box {...props}>
             <Box display="flex" alignItems="center">
                 <Typography variant="h6" component="div">
-                    Pengemudi
+                    Kendaraan
                 </Typography>
 
                 <IconButton color="success" onClick={() => setIsFormOpen(true)}>
@@ -92,25 +87,25 @@ export default function CourierDriversBox({
                 </IconButton>
             </Box>
 
-            {drivers.length === 0 && !isFormOpen && (
+            {vehicles.length === 0 && !isFormOpen && (
                 <Typography>
-                    <i>Belum ada data pengemudi</i>
+                    <i>Belum ada data kendaraan</i>
                 </Typography>
             )}
 
-            {drivers.length > 0 && (
-                <List disablePadding>
-                    {drivers.map(drivers => (
+            {vehicles.length > 0 && (
+                <List>
+                    {vehicles.map(vehicle => (
                         <ListItem
-                            key={drivers.user_uuid}
-                            data={drivers}
+                            key={vehicle.uuid}
+                            data={vehicle}
                             courierUserUuid={courierUserUuid}
                         />
                     ))}
                 </List>
             )}
 
-            <CourierDriverForm
+            <CourierVehicleForm
                 courierUserUuid={courierUserUuid}
                 isShow={isFormOpen}
                 onClose={() => setIsFormOpen(false)}

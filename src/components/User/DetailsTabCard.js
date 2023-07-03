@@ -28,6 +28,7 @@ import UserSocialsBox from './Socials/Box'
 import UserBankAccsBox from './BankAccs/Box'
 import MemberLandsBox from './Member/Lands/Box'
 import CourierDriversBox from './Courier/Drivers/Box'
+import CourierVehiclesBox from './Courier/Vehicles/Box'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props
@@ -288,10 +289,18 @@ export default function UserDetailsTabCard({
                     />
 
                     {courier && (
+                        <CourierVehiclesBox
+                            data={courier?.vehicles}
+                            courierUserUuid={uuid}
+                            mt={3}
+                        />
+                    )}
+
+                    {courier && (
                         <CourierDriversBox
                             data={courier?.drivers}
                             courierUserUuid={uuid}
-                            mt={2}
+                            mt={3}
                         />
                     )}
                 </TabPanel>
