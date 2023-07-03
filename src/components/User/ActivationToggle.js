@@ -26,7 +26,7 @@ const SkeletonDataLoading = () => (
 export default function ActivationToggle({
     data: user,
     isLoading: isDataLoading,
-    // ...props
+    disabled,
 }) {
     if (!user && !isDataLoading) return null
     if (isDataLoading) return <SkeletonDataLoading />
@@ -61,7 +61,7 @@ export default function ActivationToggle({
         <FormControl
             fullWidth
             margin="normal"
-            disabled={!user.email}
+            disabled={!user.email || disabled}
             error={Boolean(errorMessage)}>
             <FormLabel>Status Akun</FormLabel>
             <FormControlLabel
