@@ -85,7 +85,7 @@ export default function MemberLandsBox({
         <Box {...props}>
             <Box display="flex" alignItems="center">
                 <Typography variant="h6" component="div">
-                    Daftar Kebun
+                    Kebun
                 </Typography>
 
                 <IconButton color="success" onClick={() => setIsFormOpen(true)}>
@@ -100,7 +100,7 @@ export default function MemberLandsBox({
             )}
 
             {lands.length > 0 && (
-                <List>
+                <List disablePadding>
                     {lands.map(land => (
                         <ListItem
                             key={land.uuid}

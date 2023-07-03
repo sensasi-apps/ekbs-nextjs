@@ -57,7 +57,11 @@ export default function CourierDriversBox({
                     </IconButton>
                 }>
                 <ListItemText disableTypography>
-                    <Typography variant="h6" component="p">
+                    <Typography
+                        variant="h6"
+                        component="p"
+                        display="flex"
+                        alignItems="center">
                         {name}
                         <Typography
                             variant="body2"
@@ -80,7 +84,7 @@ export default function CourierDriversBox({
         <Box {...props}>
             <Box display="flex" alignItems="center">
                 <Typography variant="h6" component="div">
-                    Daftar Pengemudi
+                    Pengemudi
                 </Typography>
 
                 <IconButton color="success" onClick={() => setIsFormOpen(true)}>
@@ -95,7 +99,7 @@ export default function CourierDriversBox({
             )}
 
             {drivers.length > 0 && (
-                <List>
+                <List disablePadding>
                     {drivers.map(drivers => (
                         <ListItem
                             key={drivers.user_uuid}
