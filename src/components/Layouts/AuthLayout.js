@@ -13,6 +13,18 @@ const AuthLayout = ({ title, children }) => {
     const router = useRouter()
 
     useEffect(() => {
+        const queryString = window.location.search
+
+        if (queryString) {
+            const urlParams = new URLSearchParams(queryString)
+            const oauth = urlParams.get('oauth')
+
+            if (oauth && atob(oauth) === 'success') {
+                window.localStorage.setItem('isLoggedIn', true)
+                router.replace('/dashboard')
+            }
+        }
+
         // redirect if not logged in
         if (
             window !== undefined &&
