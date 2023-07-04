@@ -28,7 +28,7 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import ErrorCenter from '@/components/Statuses/ErrorCenter'
 
 export default function RolesAndPermissionButtonAndDialogForm({
-    data: user,
+    data: user = {},
     isLoading: isDataLoading,
 }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -110,7 +110,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
 
                         <CompleteCenter
                             isShow={isComplete}
-                            message={`Hak akses ${user?.name} berhasil diubah`}
+                            message={`Hak akses ${user.name} berhasil diubah`}
                         />
 
                         <LoadingCenter isShow={isLoading} />
@@ -150,7 +150,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
                                                                 value={
                                                                     role.name
                                                                 }
-                                                                defaultChecked={user.role_names.includes(
+                                                                defaultChecked={user.role_names?.includes(
                                                                     role.name,
                                                                 )}
                                                             />
