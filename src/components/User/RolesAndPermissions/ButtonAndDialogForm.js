@@ -110,7 +110,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
 
                         <CompleteCenter
                             isShow={isComplete}
-                            message={`Hak akses ${user.name} berhasil diubah`}
+                            message={`Hak akses ${user?.name} berhasil diubah`}
                         />
 
                         <LoadingCenter isShow={isLoading} />
