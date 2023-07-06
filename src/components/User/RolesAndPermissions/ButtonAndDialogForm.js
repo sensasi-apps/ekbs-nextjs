@@ -37,8 +37,12 @@ export default function RolesAndPermissionButtonAndDialogForm({
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(undefined)
 
-    const { data: roles } = useSWR('/data/roles', url =>
-        axios.get(url).then(response => response.data),
+    const { data: roles } = useSWR(
+        '/data/roles',
+        url => axios.get(url).then(response => response.data),
+        {
+            revalidateOnFocus: false,
+        },
     )
 
     const handleSubmit = async e => {
@@ -86,7 +90,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
                 Hak akses
             </Button>
 
-            {!isDataLoading && (
+            {user.uuid && (
                 <Dialog
                     fullWidth
                     maxWidth="xs"
