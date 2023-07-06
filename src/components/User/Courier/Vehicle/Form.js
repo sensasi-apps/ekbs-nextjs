@@ -26,7 +26,7 @@ export default function CourierVehicleForm({
             const formData = new FormData(formEl)
 
             await axios.post(
-                `/users/couriers/${courierUserUuid}/vehicles`,
+                `/users/${courierUserUuid}/courier/vehicles`,
                 formData,
             )
             await mutate(`/users/${courierUserUuid}`)

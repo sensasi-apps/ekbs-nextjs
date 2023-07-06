@@ -26,7 +26,13 @@ export default function CourierVehiclesBox({
     const [isFormOpen, setIsFormOpen] = useState(false)
 
     function ListItem({
-        data: { uuid, brand, type, max_capacity_ton, plate_number },
+        data: {
+            uuid: vehicleUuid,
+            brand,
+            type,
+            max_capacity_ton,
+            plate_number,
+        },
     }) {
         const [isDeleting, setIsDeleting] = useState(false)
 
@@ -34,7 +40,7 @@ export default function CourierVehiclesBox({
             setIsDeleting(true)
 
             await axios.delete(
-                `/users/couriers/vehicles/${courierUserUuid}/${uuid}`,
+                `/users/${courierUserUuid}/courier/vehicles/${vehicleUuid}`,
             )
             await mutate(`/users/${courierUserUuid}`)
 
