@@ -76,7 +76,9 @@ export default function RolesAndPermissionButtonAndDialogForm({
     return (
         <>
             <Button
-                disabled={!user || isDataLoading || user.is_active === false}
+                disabled={
+                    !user.uuid || isDataLoading || user.is_active === false
+                }
                 variant="outlined"
                 color="error"
                 size="small"
