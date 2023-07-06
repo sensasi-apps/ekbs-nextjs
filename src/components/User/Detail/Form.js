@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 
 import moment from 'moment'
@@ -97,6 +95,8 @@ export default function UserDetailForm({
                         ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`
                         : null
                 }
+                error={Boolean(errors.pas_foto || errors.pas_foto_capture)}
+                helperText={errors.pas_foto || errors.pas_foto_capture}
             />
 
             <TextField
@@ -118,6 +118,8 @@ export default function UserDetailForm({
                 }
                 name="foto_ktp"
                 label="Foto KTP"
+                error={Boolean(errors.foto_ktp || errors.foto_ktp_capture)}
+                helperText={errors.foto_ktp || errors.foto_ktp_capture}
             />
 
             <FormControl
