@@ -26,7 +26,7 @@ export default function CourierDriverForm({
             const formData = new FormData(e.target.closest('form'))
 
             await axios.post(
-                `/users/couriers/${courierUserUuid}/drivers`,
+                `/users/${courierUserUuid}/courier/drivers`,
                 formData,
             )
             await mutate(`/users/${courierUserUuid}`)

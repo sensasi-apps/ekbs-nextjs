@@ -27,9 +27,9 @@ export default function CourierDriversBox({
 
     function ListItem({
         data: {
+            uuid: driverUuid,
             user: { id, name },
             license_number,
-            user_uuid: driverUserUuid,
         },
         courierUserUuid,
     }) {
@@ -39,7 +39,7 @@ export default function CourierDriversBox({
             setIsDeleting(true)
 
             await axios.delete(
-                `/users/couriers/drivers/${courierUserUuid}/${driverUserUuid}`,
+                `/users/${courierUserUuid}/courier/drivers/${driverUuid}`,
             )
             await mutate(`/users/${courierUserUuid}`)
 
@@ -100,10 +100,10 @@ export default function CourierDriversBox({
 
             {drivers.length > 0 && (
                 <List disablePadding>
-                    {drivers.map(drivers => (
+                    {drivers.map(driver => (
                         <ListItem
-                            key={drivers.user_uuid}
-                            data={drivers}
+                            key={driver.uuid}
+                            data={driver}
                             courierUserUuid={courierUserUuid}
                         />
                     ))}
