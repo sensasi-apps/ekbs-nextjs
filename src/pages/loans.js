@@ -1,4 +1,4 @@
-import AppLayout from '@/components/Layouts/AppLayout'
+import AuthLayout from '@/components/Layouts/AuthLayout'
 import { useState } from 'react'
 
 import {
@@ -34,7 +34,7 @@ const Loans = () => {
     }
 
     return (
-        <AppLayout header={'Loans'}>
+        <AuthLayout header={'Loans'}>
             <Head>
                 <title>Loans</title>
             </Head>
@@ -73,7 +73,7 @@ const Loans = () => {
             </form>
 
             <LoanSummary loanId={searchLoanId} />
-        </AppLayout>
+        </AuthLayout>
     )
 }
 

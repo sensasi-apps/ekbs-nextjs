@@ -8,15 +8,14 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-import DatePicker from '../DatePicker'
 import axios from '@/lib/axios'
-import LoadingCenter from '../Statuses/LoadingCenter'
-import SelectInputFromApi from '../SelectInputFromApi'
+import DatePicker from '../../DatePicker'
+import LoadingCenter from '../../Statuses/LoadingCenter'
 
-export default function EmployeeForm({
+export default function CourierForm({
     isShow = true,
     uuid: userUuid,
-    data: employee,
+    data: courier,
     onClose,
     onSubmitted,
     ...props
@@ -24,10 +23,10 @@ export default function EmployeeForm({
     if (!isShow) return null
 
     const [joinedAt, setJoinedAt] = useState(
-        employee?.joined_at ? moment(employee?.joined_at) : null,
+        courier?.joined_at ? moment(courier?.joined_at) : null,
     )
     const [unjoinedAt, setUnjoinedAt] = useState(
-        employee?.unjoined_at ? moment(employee?.unjoined_at) : null,
+        courier?.unjoined_at ? moment(courier?.unjoined_at) : null,
     )
 
     const [isLoading, setIsLoading] = useState(false)
@@ -64,7 +63,7 @@ export default function EmployeeForm({
                 formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'))
             }
 
-            await axios.post(`/users/${userUuid}/employee`, formData)
+            await axios.post(`/users/${userUuid}/courier`, formData)
             mutate(`/users/${userUuid}`)
 
             if (onSubmitted) {
@@ -85,29 +84,6 @@ export default function EmployeeForm({
 
     return (
         <form onSubmit={handleSubmit} {...props}>
-            <SelectInputFromApi
-                endpoint="/select/employee-statuses"
-                label="Status Karyawan"
-                name="employee_status_id"
-                margin="normal"
-                required
-                selectProps={{
-                    defaultValue: employee?.employee_status_id || '',
-                }}
-                error={Boolean(errors.employee_status_id)}
-                helperText={errors.employee_status_id}
-            />
-
-            <TextField
-                fullWidth
-                name="position"
-                label="Jabatan"
-                margin="normal"
-                defaultValue={employee?.position || ''}
-                error={Boolean(errors.position)}
-                helperText={errors.position}
-            />
-
             <DatePicker
                 required
                 fullWidth
@@ -115,7 +91,7 @@ export default function EmployeeForm({
                 label="Tanggal Bergabung"
                 margin="normal"
                 name="joined_at"
-                defaultValue={employee?.joined_at ? joinedAt : null}
+                defaultValue={courier?.joined_at ? joinedAt : null}
                 error={Boolean(errors.joined_at)}
                 helperText={errors.joined_at}
             />
@@ -126,7 +102,7 @@ export default function EmployeeForm({
                 label="Tanggal Berhenti/Keluar"
                 margin="normal"
                 name="unjoined_at"
-                defaultValue={employee?.unjoined_at ? unjoinedAt : null}
+                defaultValue={courier?.unjoined_at ? unjoinedAt : null}
                 error={Boolean(errors.unjoined_at)}
                 helperText={errors.unjoined_at}
             />
@@ -137,7 +113,7 @@ export default function EmployeeForm({
                 name="unjoined_reason"
                 label="Alasan Berhenti/Keluar"
                 margin="normal"
-                defaultValue={employee?.unjoined_reason || ''}
+                defaultValue={courier?.unjoined_reason || ''}
                 error={Boolean(errors.unjoined_reason)}
                 helperText={errors.unjoined_reason}
             />
@@ -148,7 +124,7 @@ export default function EmployeeForm({
                 name="note"
                 label="Catatan tambahan"
                 margin="normal"
-                defaultValue={employee?.note || ''}
+                defaultValue={courier?.note || ''}
                 error={Boolean(errors.note)}
                 helperText={errors.note}
             />

@@ -8,14 +8,14 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
+import DatePicker from '../../DatePicker'
 import axios from '@/lib/axios'
-import DatePicker from '../DatePicker'
-import LoadingCenter from '../Statuses/LoadingCenter'
+import LoadingCenter from '../../Statuses/LoadingCenter'
 
-export default function CourierForm({
+export default function MemberForm({
     isShow = true,
     uuid: userUuid,
-    data: courier,
+    data: member,
     onClose,
     onSubmitted,
     ...props
@@ -23,10 +23,11 @@ export default function CourierForm({
     if (!isShow) return null
 
     const [joinedAt, setJoinedAt] = useState(
-        courier?.joined_at ? moment(courier?.joined_at) : null,
+        member?.joined_at ? moment(member?.joined_at) : null,
     )
+
     const [unjoinedAt, setUnjoinedAt] = useState(
-        courier?.unjoined_at ? moment(courier?.unjoined_at) : null,
+        member?.unjoined_at ? moment(member?.unjoined_at) : null,
     )
 
     const [isLoading, setIsLoading] = useState(false)
@@ -63,7 +64,7 @@ export default function CourierForm({
                 formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'))
             }
 
-            await axios.post(`/users/${userUuid}/courier`, formData)
+            await axios.post(`/users/${userUuid}/member`, formData)
             mutate(`/users/${userUuid}`)
 
             if (onSubmitted) {
@@ -73,7 +74,7 @@ export default function CourierForm({
             if (error?.response?.status === 422) {
                 setErrors(error?.response?.data?.errors)
             } else {
-                console.error(error)
+                throw error
             }
         }
 
@@ -91,7 +92,7 @@ export default function CourierForm({
                 label="Tanggal Bergabung"
                 margin="normal"
                 name="joined_at"
-                defaultValue={courier?.joined_at ? joinedAt : null}
+                defaultValue={member?.joined_at ? joinedAt : null}
                 error={Boolean(errors.joined_at)}
                 helperText={errors.joined_at}
             />
@@ -102,7 +103,7 @@ export default function CourierForm({
                 label="Tanggal Berhenti/Keluar"
                 margin="normal"
                 name="unjoined_at"
-                defaultValue={courier?.unjoined_at ? unjoinedAt : null}
+                defaultValue={member?.unjoined_at ? unjoinedAt : null}
                 error={Boolean(errors.unjoined_at)}
                 helperText={errors.unjoined_at}
             />
@@ -113,7 +114,7 @@ export default function CourierForm({
                 name="unjoined_reason"
                 label="Alasan Berhenti/Keluar"
                 margin="normal"
-                defaultValue={courier?.unjoined_reason || ''}
+                defaultValue={member?.unjoined_reason || ''}
                 error={Boolean(errors.unjoined_reason)}
                 helperText={errors.unjoined_reason}
             />
@@ -124,7 +125,7 @@ export default function CourierForm({
                 name="note"
                 label="Catatan tambahan"
                 margin="normal"
-                defaultValue={courier?.note || ''}
+                defaultValue={member?.note || ''}
                 error={Boolean(errors.note)}
                 helperText={errors.note}
             />

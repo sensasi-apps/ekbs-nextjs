@@ -20,65 +20,68 @@ import HomeIcon from '@mui/icons-material/Home'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import AddressForm from './Form'
 
-const AddressListItem = ({ data: { name, address }, userUuid }) => {
-    const [isDeleting, setIsDeleting] = useState(false)
-
-    const { province, regency, district, village } = address
-
-    const handleDelete = async () => {
-        setIsDeleting(true)
-        try {
-            await axios.delete(`/users/addresses/${address.id}`)
-            await mutate(`/users/${userUuid}`)
-        } catch (err) {
-            console.error(err)
-        }
-        setIsDeleting(false)
-    }
-
-    if (isDeleting) return <LoadingCenter />
-
-    return (
-        <ListItem
-            disablePadding
-            secondaryAction={
-                <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={handleDelete}>
-                    <DeleteIcon />
-                </IconButton>
-            }>
-            <ListItemAvatar>
-                <Avatar>
-                    <HomeIcon />
-                </Avatar>
-            </ListItemAvatar>
-
-            <ListItemText disableTypography>
-                <Typography color="GrayText" gutterBottom>
-                    {name}
-                </Typography>
-                <Typography gutterBottom>{address.detail}</Typography>
-                <Typography variant="caption" component="p">
-                    {province.name}, {regency.name}
-                    {district ? ', ' + district.name : ''}
-                    {village ? ', ' + village.name : ''}
-                </Typography>
-                <Typography variant="caption" component="p">
-                    {address.zip_code}
-                </Typography>
-            </ListItemText>
-        </ListItem>
-    )
-}
-
 export default function UserAddressesBox({
     userUuid,
-    data: addresses = [],
+    data: userAddresses = [],
     ...props
 }) {
     const [isFormOpen, setIsFormOpen] = useState(false)
+
+    const AddressListItem = ({
+        data: { name, address, uuid: userAddressUuid },
+        userUuid,
+    }) => {
+        const [isDeleting, setIsDeleting] = useState(false)
+
+        const { province, regency, district, village } = address
+
+        const handleDelete = async () => {
+            setIsDeleting(true)
+
+            await axios.delete(
+                `/users/${userUuid}/addresses/${userAddressUuid}`,
+            )
+            await mutate(`/users/${userUuid}`)
+
+            setIsDeleting(false)
+        }
+
+        if (isDeleting) return <LoadingCenter />
+
+        return (
+            <ListItem
+                disablePadding
+                secondaryAction={
+                    <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={handleDelete}>
+                        <DeleteIcon />
+                    </IconButton>
+                }>
+                <ListItemAvatar>
+                    <Avatar>
+                        <HomeIcon />
+                    </Avatar>
+                </ListItemAvatar>
+
+                <ListItemText disableTypography>
+                    <Typography color="GrayText" gutterBottom>
+                        {name}
+                    </Typography>
+                    <Typography gutterBottom>{address.detail}</Typography>
+                    <Typography variant="caption" component="p">
+                        {province.name}, {regency.name}
+                        {district ? ', ' + district.name : ''}
+                        {village ? ', ' + village.name : ''}
+                    </Typography>
+                    <Typography variant="caption" component="p">
+                        {address.zip_code}
+                    </Typography>
+                </ListItemText>
+            </ListItem>
+        )
+    }
 
     return (
         <Box {...props}>
@@ -92,18 +95,18 @@ export default function UserAddressesBox({
                 </IconButton>
             </Box>
 
-            {addresses.length === 0 && (
+            {userAddresses.length === 0 && (
                 <Typography>
                     <i>Belum ada data alamat</i>
                 </Typography>
             )}
 
-            {addresses.length > 0 && (
+            {userAddresses.length > 0 && (
                 <List>
-                    {addresses.map(address => (
+                    {userAddresses.map(userAddress => (
                         <AddressListItem
-                            key={address.address_id}
-                            data={address}
+                            key={userAddress.uuid}
+                            data={userAddress}
                             userUuid={userUuid}
                         />
                     ))}

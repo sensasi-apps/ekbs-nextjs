@@ -7,54 +7,6 @@ import { Box, Button, Grid, TextField } from '@mui/material'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 
-const GET_INPUT_PROPS = id => {
-    switch (id) {
-        case 2:
-            return {
-                label: 'Alamat email',
-                type: 'email',
-            }
-
-        case 3:
-            return {
-                label: 'Nomor WhatsApp',
-                helperText:
-                    'Awali dengan +62 untuk Indonesia, Contoh: 6281234567890',
-                type: 'number',
-                InputProps: {
-                    startAdornment: '+',
-                },
-            }
-
-        case 4:
-            return {
-                label: 'URL Profil Facebook',
-                InputProps: {
-                    startAdornment: 'facebook.com/',
-                },
-            }
-
-        case 5:
-            return {
-                label: 'Username Instagram',
-                InputProps: {
-                    startAdornment: '@',
-                },
-            }
-
-        default:
-            return {
-                label: 'Nomor Telp/HP',
-                helperText:
-                    'Awali dengan +62 untuk Indonesia, Contoh: 6281234567890',
-                type: 'number',
-                InputProps: {
-                    startAdornment: '+',
-                },
-            }
-    }
-}
-
 export default function SocialForm({
     isShow,
     onClose,
@@ -65,6 +17,9 @@ export default function SocialForm({
     const [errors, setErrors] = useState({})
     const [socialId, setSocialId] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
+
+    if (!isShow) return null
+    if (isLoading) return <LoadingCenter />
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -89,15 +44,60 @@ export default function SocialForm({
             if (err.response?.status === 422) {
                 setErrors(err.response.data.errors)
             } else {
-                console.log(err)
+                throw err
             }
         }
 
         setIsLoading(false)
     }
 
-    if (!isShow) return null
-    if (isLoading) return <LoadingCenter />
+    const GET_INPUT_PROPS = id => {
+        switch (id) {
+            case 2:
+                return {
+                    label: 'Alamat email',
+                    type: 'email',
+                }
+
+            case 3:
+                return {
+                    label: 'Nomor WhatsApp',
+                    helperText:
+                        'Awali dengan +62 untuk Indonesia, Contoh: 6281234567890',
+                    type: 'number',
+                    InputProps: {
+                        startAdornment: '+',
+                    },
+                }
+
+            case 4:
+                return {
+                    label: 'URL Profil Facebook',
+                    InputProps: {
+                        startAdornment: 'facebook.com/',
+                    },
+                }
+
+            case 5:
+                return {
+                    label: 'Username Instagram',
+                    InputProps: {
+                        startAdornment: '@',
+                    },
+                }
+
+            default:
+                return {
+                    label: 'Nomor Telp/HP',
+                    helperText:
+                        'Awali dengan +62 untuk Indonesia, Contoh: 6281234567890',
+                    InputProps: {
+                        type: 'number',
+                        startAdornment: '+',
+                    },
+                }
+        }
+    }
 
     return (
         <form
@@ -105,12 +105,11 @@ export default function SocialForm({
                 marginTop: '1rem',
             }}
             onSubmit={handleSubmit}
-            autoComplete="off"
             {...props}>
             <Grid container spacing={1}>
                 <Grid item xs={4}>
                     <SelectInputFromApi
-                        endpoint="/select/socials"
+                        endpoint="/data/socials"
                         name="social_id"
                         selectProps={{
                             defaultValue: 1,
@@ -132,6 +131,7 @@ export default function SocialForm({
                         fullWidth
                         required
                         name="username"
+                        autoComplete="off"
                         onChange={() =>
                             setErrors({
                                 ...errors,

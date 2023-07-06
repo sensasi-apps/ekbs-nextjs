@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { AppContext } from '../AppContext'
 import { useContext } from 'react'
-import { useAuth } from '@/hooks/auth'
 
+import AppContext from '@/providers/App'
 import MENUS_DATA from './menusData'
 import debounce from '@/lib/debounce'
 
@@ -73,13 +72,13 @@ function CustomListItem({ data, user, ...props }) {
     )
 }
 
-const drawerWidth = 240
+function MenuList({ isDrawerOpen, toggleDrawer }) {
+    const drawerWidth = 240
 
-function MenuList() {
-    const { isDrawerOpen, toggleDrawer } = useContext(AppContext)
+    const {
+        auth: { user },
+    } = useContext(AppContext)
     const [drawerProps, setDrawerProps] = useState({})
-
-    const { user } = useAuth({ middleware: 'auth' })
 
     function GET_DRAWER_PROPS() {
         if (window.innerWidth < 600) {

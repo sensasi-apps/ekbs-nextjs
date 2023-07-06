@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
@@ -8,6 +6,7 @@ import Typography from '@mui/material/Typography'
 
 import ImageIcon from '@mui/icons-material/Image'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
+import { FormControl, FormHelperText } from '@mui/material'
 
 const IMG_STYLE = {
     maxHeight: '320px',
@@ -19,6 +18,8 @@ export default function ImageInput({
     label,
     onChange,
     defaultValue,
+    error,
+    helperText,
     ...props
 }) {
     const [isCaptureSupported, setIsCaptureSupported] = useState(true)
@@ -66,54 +67,56 @@ export default function ImageInput({
                 />
             )}
 
-            <Box display="flex" justifyContent="space-between">
-                <Box display="flex" gap={2}>
-                    <Button
-                        component="label"
-                        size="small"
-                        startIcon={<ImageIcon />}>
-                        {defaultValue || selectedImagePreview
-                            ? 'Ganti Pilihan'
-                            : 'Pilih file'}
-                        <input
-                            type="file"
-                            hidden
-                            accept="image/*"
-                            name={name}
-                            onChange={handleImageChange}
-                            onMouseEnter={e => console.log(e.target.files)}
-                        />
-                    </Button>
-
-                    {isCaptureSupported && (
+            <FormControl fullWidth error={error}>
+                <Box display="flex" justifyContent="space-between">
+                    <Box display="flex" gap={2}>
                         <Button
                             component="label"
                             size="small"
-                            startIcon={<CameraAltIcon />}>
-                            Buka Kamera
+                            startIcon={<ImageIcon />}>
+                            {defaultValue || selectedImagePreview
+                                ? 'Ganti Pilihan'
+                                : 'Pilih file'}
                             <input
                                 type="file"
                                 hidden
                                 accept="image/*"
-                                capture="user"
                                 name={name}
                                 onChange={handleImageChange}
                             />
                         </Button>
-                    )}
-                </Box>
 
-                <Box
-                    sx={{
-                        display: selectedImage ? 'flex' : 'none',
-                    }}>
-                    <Button
-                        type="button"
-                        onClick={() => setSelectedImage(null)}>
-                        Batal
-                    </Button>
+                        {isCaptureSupported && (
+                            <Button
+                                component="label"
+                                size="small"
+                                startIcon={<CameraAltIcon />}>
+                                Buka Kamera
+                                <input
+                                    type="file"
+                                    hidden
+                                    accept="image/*"
+                                    capture="user"
+                                    name={name + '_capture'}
+                                    onChange={handleImageChange}
+                                />
+                            </Button>
+                        )}
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: selectedImage ? 'flex' : 'none',
+                        }}>
+                        <Button
+                            type="button"
+                            onClick={() => setSelectedImage(null)}>
+                            Batal
+                        </Button>
+                    </Box>
                 </Box>
-            </Box>
+                <FormHelperText>{helperText}</FormHelperText>
+            </FormControl>
         </Box>
     )
 }

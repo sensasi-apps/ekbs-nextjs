@@ -28,7 +28,7 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import ErrorCenter from '@/components/Statuses/ErrorCenter'
 
 export default function RolesAndPermissionButtonAndDialogForm({
-    data: user,
+    data: user = {},
     isLoading: isDataLoading,
 }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -37,11 +37,13 @@ export default function RolesAndPermissionButtonAndDialogForm({
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(undefined)
 
-    const { data: roles } = useSWR('/data/roles', url =>
-        axios.get(url).then(response => response.data),
+    const { data: roles } = useSWR(
+        '/data/roles',
+        url => axios.get(url).then(response => response.data),
+        {
+            revalidateOnFocus: false,
+        },
     )
-
-    if (!user && !isDataLoading) return null
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -61,8 +63,8 @@ export default function RolesAndPermissionButtonAndDialogForm({
 
             setIsComplete(true)
         } catch (error) {
-            console.log(error)
             setError(error.response?.data.message)
+            throw error
         }
 
         setIsLoading(false)
@@ -78,16 +80,17 @@ export default function RolesAndPermissionButtonAndDialogForm({
     return (
         <>
             <Button
-                disabled={isDataLoading || user.is_active === false}
+                disabled={
+                    !user.uuid || isDataLoading || user.is_active === false
+                }
                 variant="outlined"
                 color="error"
                 size="small"
-                onClick={() => setIsOpen(true)}
-                startIcon={<ManageAccountsIcon />}>
+                onClick={() => setIsOpen(true)}>
                 Hak akses
             </Button>
 
-            {!isDataLoading && (
+            {user.uuid && (
                 <Dialog
                     fullWidth
                     maxWidth="xs"
@@ -119,7 +122,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
                         <LoadingCenter isShow={isLoading} />
 
                         <ErrorCenter
-                            isShow={error}
+                            isShow={Boolean(error)}
                             message={error}
                             onClose={() => setError(undefined)}
                         />
@@ -153,7 +156,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
                                                                 value={
                                                                     role.name
                                                                 }
-                                                                defaultChecked={user.role_names.includes(
+                                                                defaultChecked={user.role_names?.includes(
                                                                     role.name,
                                                                 )}
                                                             />
