@@ -1,16 +1,8 @@
-'use client'
-
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 
-export default function UserBox({
-    data: user,
-    // onClose,
-    children,
-    isLoading,
-    ...props
-}) {
+export default function UserBox({ data: user, children, isLoading, ...props }) {
     if (!user && !isLoading) return null
 
     return (
