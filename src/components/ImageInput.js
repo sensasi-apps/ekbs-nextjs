@@ -81,7 +81,6 @@ export default function ImageInput({
                             accept="image/*"
                             name={name}
                             onChange={handleImageChange}
-                            onMouseEnter={e => console.log(e.target.files)}
                         />
                     </Button>
 
@@ -96,7 +95,7 @@ export default function ImageInput({
                                 hidden
                                 accept="image/*"
                                 capture="user"
-                                name={name}
+                                name={name + '_capture'}
                                 onChange={handleImageChange}
                             />
                         </Button>

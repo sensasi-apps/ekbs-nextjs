@@ -9,6 +9,13 @@ export default function UserBox({ data: user, children, isLoading, ...props }) {
         <Box {...props}>
             <Typography variant="h5" component="div">
                 {isLoading ? <Skeleton /> : user?.name}
+                <Typography
+                    variant="h6"
+                    ml={1}
+                    color="GrayText"
+                    component="span">
+                    #{user?.id}
+                </Typography>
             </Typography>
 
             <Typography variant="caption" color="GrayText">

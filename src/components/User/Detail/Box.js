@@ -1,16 +1,9 @@
-'use client'
-
-import { mutate } from 'swr'
 import moment from 'moment'
 import 'moment/locale/id'
 
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import { Tooltip } from '@mui/material'
+import { Box, Typography, Tooltip } from '@mui/material'
 
-import ImageForm from '@/components/ImageForm'
-
-export default function UserDetailBox({ uuid, userDetail, ...props }) {
+export default function UserDetailBox({ userDetail, ...props }) {
     if (!userDetail) return null
 
     const getBirthRegion = userDetail => {
@@ -40,35 +33,60 @@ export default function UserDetailBox({ uuid, userDetail, ...props }) {
     const pasFoto = files.find(file => file.alias === 'Pas Foto')
     const fotoKtp = files.find(file => file.alias === 'Foto KTP')
 
+    function Row({ title, children, helperText, ...props }) {
+        return (
+            <Box {...props} mb={1}>
+                <Typography variant="caption" color="text.secondary">
+                    {title}
+                </Typography>
+                {typeof children === 'string' && (
+                    <Typography>{children}</Typography>
+                )}
+
+                {typeof children !== 'string' && children}
+
+                {helperText && (
+                    <Typography variant="body2">{helperText}</Typography>
+                )}
+            </Box>
+        )
+    }
+
     return (
         <Box {...props}>
             <Box>
                 <Row title="Foto Diri">
-                    <ImageForm
-                        defaultValue={
-                            pasFoto?.uuid
-                                ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`
-                                : null
-                        }
-                        action={`/users/${uuid}/detail/pas-foto-upload`}
-                        onSubmitted={() => mutate(`/users/${uuid}`)}
-                        name="pas_foto"
-                    />
+                    <div>
+                        {pasFoto?.uuid ? (
+                            <img
+                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`}
+                                style={{
+                                    maxHeight: '320px',
+                                    maxWidth: '100%',
+                                }}
+                            />
+                        ) : (
+                            <i>Foto Diri tidak ditemukan</i>
+                        )}
+                    </div>
                 </Row>
 
                 <Row title="NIK">{citizen_id || '='}</Row>
 
                 <Row title="Foto KTP">
-                    <ImageForm
-                        defaultValue={
-                            fotoKtp?.uuid
-                                ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}`
-                                : null
-                        }
-                        action={`/users/${uuid}/detail/ktp-upload`}
-                        onSubmitted={() => mutate(`/users/${uuid}`)}
-                        name="foto_ktp"
-                    />
+                    <div>
+                        {fotoKtp?.uuid ? (
+                            <img
+                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}`}
+                                style={{
+                                    maxHeight: '320px',
+                                    maxWidth: '100%',
+                                }}
+                            />
+                        ) : (
+                            <i>Foto KTP tidak ditemukan</i>
+                        )}
+                    </div>
                 </Row>
 
                 <Row title="Jenis Kelamin">{gender?.name || '-'}</Row>
@@ -121,25 +139,6 @@ export default function UserDetailBox({ uuid, userDetail, ...props }) {
                     {n_children === null ? '-' : `${n_children} orang`}
                 </Row>
             </Box>
-        </Box>
-    )
-}
-
-function Row({ title, children, helperText, ...props }) {
-    return (
-        <Box {...props} mb={1}>
-            <Typography variant="caption" color="text.secondary">
-                {title}
-            </Typography>
-            {typeof children === 'string' && (
-                <Typography>{children}</Typography>
-            )}
-
-            {typeof children !== 'string' && children}
-
-            {helperText && (
-                <Typography variant="body2">{helperText}</Typography>
-            )}
         </Box>
     )
 }

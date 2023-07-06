@@ -21,7 +21,14 @@ import MemberLandForm from '../Land/Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 
 function ListItem({
-    data: { uuid, address, rea_land_id, planted_at, n_area_hectares, note },
+    data: {
+        uuid: landUuuid,
+        address,
+        rea_land_id,
+        planted_at,
+        n_area_hectares,
+        note,
+    },
     userUuid,
 }) {
     const { province, regency, district, village } = address
@@ -31,7 +38,7 @@ function ListItem({
     const handleDelete = async () => {
         setIsDeleting(true)
 
-        await axios.delete(`/users/members/lands/${uuid}`)
+        await axios.delete(`/users/${userUuid}/member/lands/${landUuuid}`)
         await mutate(`/users/${userUuid}`)
 
         setIsDeleting(false)

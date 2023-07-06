@@ -207,7 +207,7 @@ export default function UserDetailForm({
             />
 
             <SelectInputFromApi
-                endpoint="/select/educations"
+                endpoint="/data/educations"
                 label="Pendidikan Terakhir"
                 name="last_education_id"
                 margin="normal"
@@ -219,7 +219,7 @@ export default function UserDetailForm({
             <Grid container spacing={2} mt={0}>
                 <Grid item xs={6}>
                     <SelectInputFromApi
-                        endpoint="/select/marital-statuses"
+                        endpoint="/data/marital-statuses"
                         label="Status Pernikahan"
                         name="marital_status_id"
                         selectProps={{

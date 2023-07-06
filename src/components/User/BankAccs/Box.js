@@ -20,17 +20,13 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import UserBankAccForm from './Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 
-function ListItem({ data: { no, no_decrypted, name }, userUuid }) {
+function ListItem({ data: { uuid, no_decrypted, name }, userUuid }) {
     const [isDeleting, setIsDeleting] = useState(false)
 
     const handleDelete = async () => {
         setIsDeleting(true)
-        try {
-            await axios.delete(`/users/bank-accs/${no}`)
-            await mutate(`/users/${userUuid}`)
-        } catch (err) {
-            console.error(err)
-        }
+        await axios.delete(`/users/${userUuid}/bank-accs/${uuid}`)
+        await mutate(`/users/${userUuid}`)
         setIsDeleting(false)
     }
 
@@ -90,7 +86,7 @@ export default function UserBankAccsBox({
                 <List>
                     {bankAccs.map(bankAcc => (
                         <ListItem
-                            key={bankAcc.no}
+                            key={bankAcc.uuid}
                             data={bankAcc}
                             userUuid={userUuid}
                         />
