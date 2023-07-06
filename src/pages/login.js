@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
+
+import axios from '@/lib/axios'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -13,16 +14,11 @@ import TextField from '@mui/material/TextField'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import GoogleIcon from '@mui/icons-material/Google'
 
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 
 const Login = () => {
     const router = useRouter()
-
-    const { login } = useAuth({
-        middleware: 'guest',
-        redirectIfAuthenticated: '/dashboard',
-    })
 
     // form data
     const [email, setEmail] = useState('')
@@ -33,6 +29,23 @@ const Login = () => {
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+
+    const login = async ({ setErrors, setStatus, ...props }) => {
+        setErrors([])
+        setStatus(null)
+
+        axios
+            .post('/login', props)
+            .then(() => {
+                window.localStorage.setItem('isLoggedIn', true)
+                router.push('/dashboard')
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
+            })
+    }
 
     useEffect(() => {
         const reset = new URLSearchParams(window.location.search).get('reset')
@@ -74,7 +87,7 @@ const Login = () => {
     }
 
     return (
-        <AuthLayout
+        <GuestFormLayout
             title="Login"
             icon={<LockOutlinedIcon />}
             isLoading={isLoading}
@@ -143,7 +156,7 @@ const Login = () => {
                     Login dengan Google
                 </Button>
             </Box>
-        </AuthLayout>
+        </GuestFormLayout>
     )
 }
 

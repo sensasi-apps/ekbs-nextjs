@@ -1,13 +1,20 @@
-import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 
-import { Button } from '@mui/material'
+import axios from '@/lib/axios'
+
+import Button from '@mui/material/Button'
 
 const VerifyEmail = () => {
-    const { logout, resendEmailVerification } = useAuth({
-        middleware: 'auth',
-        redirectIfAuthenticated: '/dashboard',
-    })
+    // const { logout, resendEmailVerification } = useAuth({
+    //     middleware: 'auth',
+    //     redirectIfAuthenticated: '/dashboard',
+    // })
+
+    const resendEmailVerification = ({ setStatus }) => {
+        axios
+            .post('/email/verification-notification')
+            .then(response => setStatus(response.data.status))
+    }
 
     const [status, setStatus] = useState(null)
 
@@ -34,8 +41,7 @@ const VerifyEmail = () => {
 
                 <button
                     type="button"
-                    className="underline text-sm text-gray-600 hover:text-gray-900"
-                    onClick={logout}>
+                    className="underline text-sm text-gray-600 hover:text-gray-900">
                     Logout
                 </button>
             </div>

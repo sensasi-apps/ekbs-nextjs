@@ -19,42 +19,40 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 import PhoneIcon from '@mui/icons-material/Phone'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 
-import SocialForm from './Form'
+import SocialForm from '../Social/Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import axios from '@/lib/axios'
-
-const GET_ICON_NODE = name => {
-    switch (name.toLowerCase()) {
-        case 'phone':
-            return <PhoneIcon color="info" />
-        case 'email':
-            return <EmailIcon />
-        case 'whatsapp':
-            return <WhatsAppIcon color="success" />
-        case 'instagram':
-            return <InstagramIcon color="error" />
-        case 'facebook':
-            return <FacebookIcon color="info" />
-        default:
-            return null
-    }
-}
 
 const ContactListItem = ({ data: { uuid, username, social }, userUuid }) => {
     const [isDeleting, setIsDeleting] = useState(false)
 
+    if (isDeleting) return <LoadingCenter />
+
     const handleDelete = async () => {
         setIsDeleting(true)
-        try {
-            await axios.delete(`/users/socials/${uuid}`)
-            await mutate(`/users/${userUuid}`)
-        } catch (err) {
-            console.error(err)
-        }
+
+        await axios.delete(`/users/${userUuid}/socials/${uuid}`)
+        await mutate(`/users/${userUuid}`)
+
         setIsDeleting(false)
     }
 
-    if (isDeleting) return <LoadingCenter />
+    const GET_ICON_NODE = name => {
+        switch (name.toLowerCase()) {
+            case 'phone':
+                return <PhoneIcon color="info" />
+            case 'email':
+                return <EmailIcon />
+            case 'whatsapp':
+                return <WhatsAppIcon color="success" />
+            case 'instagram':
+                return <InstagramIcon color="error" />
+            case 'facebook':
+                return <FacebookIcon color="info" />
+            default:
+                return null
+        }
+    }
 
     return (
         <ListItem

@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 
 import axios from '@/lib/axios'
 
-const UserSelect = props => {
+const UserSelect = ({ error, helperText, ...props }) => {
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
     const [userOptions, setUserOptions] = useState([])
@@ -96,7 +96,6 @@ const UserSelect = props => {
             )}
             renderInput={params => (
                 <TextField
-                    {...params}
                     label="Cari Pengguna"
                     InputProps={{
                         ...params.InputProps,
@@ -112,6 +111,9 @@ const UserSelect = props => {
                             </>
                         ),
                     }}
+                    error={error}
+                    helperText={helperText}
+                    {...params}
                 />
             )}
             {...props}

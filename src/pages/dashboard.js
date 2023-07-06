@@ -1,21 +1,24 @@
-import Head from 'next/head'
+import { useContext } from 'react'
 
+import AppContext from '@/providers/App'
+
+import Head from 'next/head'
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 
-import AppLayout from '@/components/Layouts/AppLayout'
-import { useAuth } from '@/hooks/auth'
+import AuthLayout from '@/components/Layouts/AuthLayout'
 
 const Dashboard = () => {
-    const { user } = useAuth({ middleware: 'auth' })
+    const {
+        auth: { user },
+    } = useContext(AppContext)
 
     return (
-        <AppLayout pageTitle="Dasbor">
+        <AuthLayout pageTitle="Dasbor">
             <Head>
                 <title>{`Dasbor — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
-
             <Box display="flex" gap={1}>
                 <Typography variant="h5" component="span">
                     Selamat datang,
@@ -29,7 +32,7 @@ const Dashboard = () => {
                     .
                 </Typography>
             </Box>
-        </AppLayout>
+        </AuthLayout>
     )
 }
 

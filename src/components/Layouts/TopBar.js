@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react'
-import { AppContext } from '../AppContext'
 import { useRouter } from 'next/router'
-import { useAuth } from '@/hooks/auth'
+import { useTheme } from '@mui/material'
+
+import AppContext from '@/providers/App'
 
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -19,16 +20,18 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
 
-const drawerWidth = 240
+export default function TopBar({ pageTitle, toggleDrawer }) {
+    const drawerWidth = 240
 
-export default function TopBar({ pageTitle }) {
-    const { themeColorMode, toggleColorMode, toggleDrawer } =
-        useContext(AppContext)
     const router = useRouter()
+    const theme = useTheme()
+
+    const {
+        auth: { user },
+    } = useContext(AppContext)
 
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
-    const { user } = useAuth({ middleware: 'auth' })
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget)
@@ -78,13 +81,13 @@ export default function TopBar({ pageTitle }) {
                             </Typography>
                         </Box>
 
-                        <MenuItem onClick={toggleColorMode}>
+                        <MenuItem onClick={theme.palette.toggleColorMode}>
                             <FormControlLabel
                                 label="Mode Gelap"
                                 control={
                                     <Switch
-                                        onClick={toggleColorMode}
-                                        checked={themeColorMode === 'dark'}
+                                        onClick={theme.palette.toggleColorMode}
+                                        checked={theme.palette.mode === 'dark'}
                                     />
                                 }
                             />

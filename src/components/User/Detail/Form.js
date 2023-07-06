@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 
 import moment from 'moment'
@@ -23,15 +21,6 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 
-const getBirthRegion = userDetail => {
-    return (
-        userDetail?.birth_village ||
-        userDetail?.birth_district ||
-        userDetail?.birth_regency ||
-        null
-    )
-}
-
 export default function UserDetailForm({
     isShow = true,
     onSubmitted = () => null,
@@ -41,6 +30,15 @@ export default function UserDetailForm({
     ...props
 }) {
     if (!isShow) return null
+
+    const getBirthRegion = userDetail => {
+        return (
+            userDetail?.birth_village ||
+            userDetail?.birth_district ||
+            userDetail?.birth_regency ||
+            null
+        )
+    }
 
     const [errors, setErrors] = useState({})
     const [isLoading, setIsLoading] = useState(false)
@@ -78,7 +76,7 @@ export default function UserDetailForm({
             if (error?.response?.status === 422) {
                 setErrors(error?.response?.data?.errors)
             } else {
-                console.error('Error:', error)
+                throw error
             }
         }
 
@@ -97,6 +95,8 @@ export default function UserDetailForm({
                         ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`
                         : null
                 }
+                error={Boolean(errors.pas_foto || errors.pas_foto_capture)}
+                helperText={errors.pas_foto || errors.pas_foto_capture}
             />
 
             <TextField
@@ -118,6 +118,8 @@ export default function UserDetailForm({
                 }
                 name="foto_ktp"
                 label="Foto KTP"
+                error={Boolean(errors.foto_ktp || errors.foto_ktp_capture)}
+                helperText={errors.foto_ktp || errors.foto_ktp_capture}
             />
 
             <FormControl
@@ -207,7 +209,7 @@ export default function UserDetailForm({
             />
 
             <SelectInputFromApi
-                endpoint="/select/educations"
+                endpoint="/data/educations"
                 label="Pendidikan Terakhir"
                 name="last_education_id"
                 margin="normal"
@@ -219,7 +221,7 @@ export default function UserDetailForm({
             <Grid container spacing={2} mt={0}>
                 <Grid item xs={6}>
                     <SelectInputFromApi
-                        endpoint="/select/marital-statuses"
+                        endpoint="/data/marital-statuses"
                         label="Status Pernikahan"
                         name="marital_status_id"
                         selectProps={{

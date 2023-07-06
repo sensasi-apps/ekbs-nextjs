@@ -8,14 +8,15 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-import DatePicker from '../DatePicker'
+import DatePicker from '../../DatePicker'
 import axios from '@/lib/axios'
-import LoadingCenter from '../Statuses/LoadingCenter'
+import LoadingCenter from '../../Statuses/LoadingCenter'
+import SelectInputFromApi from '../../SelectInputFromApi'
 
-export default function MemberForm({
+export default function EmployeeForm({
     isShow = true,
     uuid: userUuid,
-    data: member,
+    data: employee,
     onClose,
     onSubmitted,
     ...props
@@ -23,11 +24,10 @@ export default function MemberForm({
     if (!isShow) return null
 
     const [joinedAt, setJoinedAt] = useState(
-        member?.joined_at ? moment(member?.joined_at) : null,
+        employee?.joined_at ? moment(employee?.joined_at) : null,
     )
-
     const [unjoinedAt, setUnjoinedAt] = useState(
-        member?.unjoined_at ? moment(member?.unjoined_at) : null,
+        employee?.unjoined_at ? moment(employee?.unjoined_at) : null,
     )
 
     const [isLoading, setIsLoading] = useState(false)
@@ -64,7 +64,7 @@ export default function MemberForm({
                 formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'))
             }
 
-            await axios.post(`/users/${userUuid}/member`, formData)
+            await axios.post(`/users/${userUuid}/employee`, formData)
             mutate(`/users/${userUuid}`)
 
             if (onSubmitted) {
@@ -74,7 +74,7 @@ export default function MemberForm({
             if (error?.response?.status === 422) {
                 setErrors(error?.response?.data?.errors)
             } else {
-                console.error(error)
+                throw error
             }
         }
 
@@ -85,6 +85,29 @@ export default function MemberForm({
 
     return (
         <form onSubmit={handleSubmit} {...props}>
+            <SelectInputFromApi
+                endpoint="/data/employee-statuses"
+                label="Status Karyawan"
+                name="employee_status_id"
+                margin="normal"
+                required
+                selectProps={{
+                    defaultValue: employee?.employee_status_id || '',
+                }}
+                error={Boolean(errors.employee_status_id)}
+                helperText={errors.employee_status_id}
+            />
+
+            <TextField
+                fullWidth
+                name="position"
+                label="Jabatan"
+                margin="normal"
+                defaultValue={employee?.position || ''}
+                error={Boolean(errors.position)}
+                helperText={errors.position}
+            />
+
             <DatePicker
                 required
                 fullWidth
@@ -92,7 +115,7 @@ export default function MemberForm({
                 label="Tanggal Bergabung"
                 margin="normal"
                 name="joined_at"
-                defaultValue={member?.joined_at ? joinedAt : null}
+                defaultValue={employee?.joined_at ? joinedAt : null}
                 error={Boolean(errors.joined_at)}
                 helperText={errors.joined_at}
             />
@@ -103,7 +126,7 @@ export default function MemberForm({
                 label="Tanggal Berhenti/Keluar"
                 margin="normal"
                 name="unjoined_at"
-                defaultValue={member?.unjoined_at ? unjoinedAt : null}
+                defaultValue={employee?.unjoined_at ? unjoinedAt : null}
                 error={Boolean(errors.unjoined_at)}
                 helperText={errors.unjoined_at}
             />
@@ -114,7 +137,7 @@ export default function MemberForm({
                 name="unjoined_reason"
                 label="Alasan Berhenti/Keluar"
                 margin="normal"
-                defaultValue={member?.unjoined_reason || ''}
+                defaultValue={employee?.unjoined_reason || ''}
                 error={Boolean(errors.unjoined_reason)}
                 helperText={errors.unjoined_reason}
             />
@@ -125,7 +148,7 @@ export default function MemberForm({
                 name="note"
                 label="Catatan tambahan"
                 margin="normal"
-                defaultValue={member?.note || ''}
+                defaultValue={employee?.note || ''}
                 error={Boolean(errors.note)}
                 helperText={errors.note}
             />

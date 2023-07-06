@@ -1,13 +1,14 @@
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 
 import Head from 'next/head'
-
 import Grid from '@mui/material/Grid'
 
-import AppLayout from '@/components/Layouts/AppLayout'
+import AuthLayout from '@/components/Layouts/AuthLayout'
 import Summary from '@/components/User/Summary'
-import UserCards from '@/components/User/Cards'
 import UserSelect from '@/components/User/Select'
+
+const DynamicUserCards = dynamic(() => import('@/components/User/Cards'))
 
 export default function users() {
     const router = useRouter()
@@ -19,7 +20,7 @@ export default function users() {
     }
 
     return (
-        <AppLayout pageTitle="Pengguna">
+        <AuthLayout pageTitle="Pengguna">
             <Head>
                 <title>{`Pengguna — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
@@ -43,13 +44,13 @@ export default function users() {
                     flexDirection="column"
                     gap={3}>
                     <UserSelect onChange={userSelectOnChange} />
-                    <UserCards />
+                    <DynamicUserCards />
                 </Grid>
 
                 <Grid item sm={12} md={4} width="100%">
                     <Summary />
                 </Grid>
             </Grid>
-        </AppLayout>
+        </AuthLayout>
     )
 }
