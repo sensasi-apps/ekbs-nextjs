@@ -1,18 +1,19 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import useSWR from 'swr'
+
 import axios from '@/lib/axios'
 
 import { Box, Button, Card, CardContent, Fab } from '@mui/material'
 
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
-import ActivationToggle from './ActivationToggle'
 import RolesAndPermissionButtonAndDialogForm from './RolesAndPermissions/ButtonAndDialogForm'
 import SetPasswordButtonAndDialogForm from './SetPasswordButtonAndDialogForm'
 import UserBox from './Box'
 import UserDetailsTabCard from './DetailsTabCard'
 import UserForm from './Form'
+import IsActiveDisplay from './IsActiveDisplay'
 
 export default function UserCards() {
     const [userDraft, setUserDraft] = useState(undefined)
@@ -38,10 +39,8 @@ export default function UserCards() {
                             <UserBox
                                 data={userWithDetails}
                                 isLoading={isLoading}>
-                                <ActivationToggle
-                                    data={userWithDetails}
-                                    isLoading={isLoading}
-                                    disabled
+                                <IsActiveDisplay
+                                    isActive={userWithDetails?.is_active}
                                 />
 
                                 <Box
