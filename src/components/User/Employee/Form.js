@@ -74,7 +74,7 @@ export default function EmployeeForm({
             if (error?.response?.status === 422) {
                 setErrors(error?.response?.data?.errors)
             } else {
-                console.error(error)
+                throw error
             }
         }
 
@@ -86,7 +86,7 @@ export default function EmployeeForm({
     return (
         <form onSubmit={handleSubmit} {...props}>
             <SelectInputFromApi
-                endpoint="/select/employee-statuses"
+                endpoint="/data/employee-statuses"
                 label="Status Karyawan"
                 name="employee_status_id"
                 margin="normal"
