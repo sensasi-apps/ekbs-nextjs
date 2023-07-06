@@ -10,26 +10,22 @@ import { Tooltip } from '@mui/material'
 
 import ImageForm from '@/components/ImageForm'
 
-const getBirthRegion = userDetail => {
-    return (
-        userDetail?.birth_village ||
-        userDetail?.birth_district ||
-        userDetail?.birth_regency ||
-        null
-    )
-}
-
 export default function UserDetailBox({ uuid, userDetail, ...props }) {
     if (!userDetail) return null
+
+    const getBirthRegion = userDetail => {
+        return (
+            userDetail?.birth_village ||
+            userDetail?.birth_district ||
+            userDetail?.birth_regency ||
+            null
+        )
+    }
 
     const {
         birth_at,
         birth_regency,
-        // birth_regency_id,
         birth_district,
-        // birth_district_id,
-        // birth_village,
-        // birth_village_id,
         bpjs_kesehatan_no,
         citizen_id,
         files,

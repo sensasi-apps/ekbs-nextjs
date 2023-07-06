@@ -23,15 +23,6 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 
-const getBirthRegion = userDetail => {
-    return (
-        userDetail?.birth_village ||
-        userDetail?.birth_district ||
-        userDetail?.birth_regency ||
-        null
-    )
-}
-
 export default function UserDetailForm({
     isShow = true,
     onSubmitted = () => null,
@@ -41,6 +32,15 @@ export default function UserDetailForm({
     ...props
 }) {
     if (!isShow) return null
+
+    const getBirthRegion = userDetail => {
+        return (
+            userDetail?.birth_village ||
+            userDetail?.birth_district ||
+            userDetail?.birth_regency ||
+            null
+        )
+    }
 
     const [errors, setErrors] = useState({})
     const [isLoading, setIsLoading] = useState(false)
@@ -78,7 +78,7 @@ export default function UserDetailForm({
             if (error?.response?.status === 422) {
                 setErrors(error?.response?.data?.errors)
             } else {
-                console.error('Error:', error)
+                throw error
             }
         }
 
