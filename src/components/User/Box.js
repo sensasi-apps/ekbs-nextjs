@@ -2,24 +2,25 @@ import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 
-export default function UserBox({ data: user, children, isLoading, ...props }) {
-    if (!user && !isLoading) return null
-
+export default function UserBox({ data: user, children, ...props }) {
     return (
         <Box {...props}>
             <Typography variant="h5" component="div">
-                {isLoading ? <Skeleton /> : user?.name}
-                <Typography
-                    variant="h6"
-                    ml={1}
-                    color="GrayText"
-                    component="span">
-                    #{user?.id}
-                </Typography>
+                {user?.name || <Skeleton />}
+
+                {user.uuid && (
+                    <Typography
+                        variant="h6"
+                        ml={1}
+                        color="GrayText"
+                        component="span">
+                        #{user?.id}
+                    </Typography>
+                )}
             </Typography>
 
             <Typography variant="caption" color="GrayText">
-                {isLoading ? <Skeleton /> : user?.email}
+                {user.uuid ? user?.email : <Skeleton />}
             </Typography>
 
             {children}
