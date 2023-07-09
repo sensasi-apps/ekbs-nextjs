@@ -63,7 +63,9 @@ function ListItem({
                 </Typography>
                 <Typography gutterBottom>{rea_land_id}</Typography>
                 <Typography gutterBottom>
-                    {moment(planted_at).format('DD MMMM YYYY')}
+                    {planted_at
+                        ? moment(planted_at).format('DD MMMM YYYY')
+                        : null}
                 </Typography>
                 <Typography color="GrayText" gutterBottom>
                     {address.detail}
