@@ -20,7 +20,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
 
-export default function TopBar({ pageTitle, toggleDrawer }) {
+export default function TopBar({ title, toggleDrawer }) {
     const drawerWidth = 240
 
     const router = useRouter()
@@ -62,7 +62,7 @@ export default function TopBar({ pageTitle, toggleDrawer }) {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap component="div">
-                    {pageTitle}
+                    {title}
                 </Typography>
                 <Box>
                     <IconButton color="inherit" onClick={handleClick}>
