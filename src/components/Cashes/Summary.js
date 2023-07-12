@@ -22,13 +22,13 @@ export default function CashesSummary({ sx, handleEdit, handleNew, ...props }) {
     const { auth: { user } = {} } = useContext(AppContext)
     const isSuperman = user?.role_names.includes('superman')
     const isUserCanRead =
-        isSuperman || user.permission_names?.includes('cashes read')
+        isSuperman || user?.permission_names?.includes('cashes read')
     if (!isUserCanRead) return false
 
     const isUserCanCreate =
-        isSuperman || user.permission_names?.includes('cashes create')
+        isSuperman || user?.permission_names?.includes('cashes create')
     const isUserCanUpdate =
-        isSuperman || user.permission_names?.includes('cashes update')
+        isSuperman || user?.permission_names?.includes('cashes update')
 
     const { data: cashes = [], isLoading } = useSWR('/data/cashes', url =>
         axios.get(url).then(({ data }) => data),

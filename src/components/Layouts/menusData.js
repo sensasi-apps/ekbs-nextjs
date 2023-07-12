@@ -123,5 +123,6 @@ export default [
         pathname: '/settings',
         icon: <SettingsIcon />,
         forRoles: ['systems admin'],
+        forPermissions: ['settings update'],
     },
 ]

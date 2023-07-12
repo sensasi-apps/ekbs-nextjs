@@ -13,7 +13,7 @@ export default function CashForm({ data: cash, handleClose }) {
     const { auth: { user } = {} } = useContext(AppContext)
     const isSuperman = user?.role_names.includes('superman')
     const isUserCanDelete =
-        isSuperman || user.permission_names?.includes('cashes delete')
+        isSuperman || user?.permission_names?.includes('cashes delete')
 
     const [validationErrors, setValidationErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
