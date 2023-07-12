@@ -41,7 +41,7 @@ export default function users() {
     )
 
     return (
-        <AuthLayout pageTitle="Pengguna">
+        <AuthLayout title="Pengguna">
             <Head>
                 <title>{`Pengguna — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
