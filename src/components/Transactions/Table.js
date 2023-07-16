@@ -148,9 +148,8 @@ export default function TransactionsTable({
                 onClose={() => setSelectedUserActivityLogs(undefined)}
                 maxWidth="xs">
                 <DialogTitle display="flex" justifyContent="space-between">
-                    {selectedUserActivityLogs?.uuid
-                        ? `Ubah Data Transaksi`
-                        : 'Tambah Transaksi baru'}
+                    Riwayat data transaksi:
+                    {selectedUserActivityLogs[0]?.model_uuid}
                     <IconButton
                         size="small"
                         onClick={() => setSelectedUserActivityLogs(undefined)}>
