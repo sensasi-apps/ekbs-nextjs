@@ -149,7 +149,7 @@ export default function TransactionsTable({
                 maxWidth="xs">
                 <DialogTitle display="flex" justifyContent="space-between">
                     Riwayat data transaksi:
-                    {selectedUserActivityLogs.lenght > 0 &&
+                    {selectedUserActivityLogs.length > 0 &&
                         selectedUserActivityLogs[0]?.model_uuid}
                     <IconButton
                         size="small"
