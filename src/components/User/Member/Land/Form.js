@@ -45,6 +45,8 @@ export default function MemberLandForm({
             if (onClose) {
                 onClose()
             }
+
+            e.target.closest('form').reset()
         } catch (err) {
             if (err.response?.status === 422) {
                 setErrors(err.response.data.errors)
@@ -180,6 +182,7 @@ export default function MemberLandForm({
 
                 <Box textAlign="right" mt={1}>
                     <Button
+                        type="reset"
                         onClick={() => {
                             if (onClose) onClose()
                         }}>

@@ -7,6 +7,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
 import ForestIcon from '@mui/icons-material/Forest'
 import GroupIcon from '@mui/icons-material/Group'
+import SettingsIcon from '@mui/icons-material/Settings'
 
 const SubTitle = ({ children }) => (
     <Typography ml={2} mt={2} variant="overline" color="grey" fontWeight="bold">
@@ -73,10 +74,15 @@ export default [
     {
         href: '/cashes',
         label: 'Kas',
-        pathname: '/cashes/[[...uuid]]',
+        pathname: '/cashes',
         icon: <AutoStoriesIcon />,
-        forRoles: [],
-        forPermissions: [],
+        forRoles: ['cashes manager'],
+        forPermissions: [
+            'cashes create',
+            'cashes update',
+            'cashes read',
+            'cashes search',
+        ],
     },
     {
         component: <Divider sx={{ mt: 2 }} />,
@@ -110,5 +116,13 @@ export default [
             'users read',
             'users search',
         ],
+    },
+    {
+        href: '/settings',
+        label: 'Pengaturan',
+        pathname: '/settings',
+        icon: <SettingsIcon />,
+        forRoles: ['systems admin'],
+        forPermissions: ['settings update'],
     },
 ]

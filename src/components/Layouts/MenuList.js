@@ -14,64 +14,6 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Toolbar from '@mui/material/Toolbar'
 
-function isAuthorized(user, menu) {
-    if (
-        user?.role_names?.includes('superman') ||
-        !menu.forRoles ||
-        !menu.forPermissions
-    ) {
-        return true
-    }
-
-    let isAuthorized = false
-
-    user?.role_names?.forEach(role => {
-        if (menu.forRoles.includes(role)) {
-            isAuthorized = true
-            return
-        }
-    })
-
-    if (isAuthorized) {
-        return isAuthorized
-    }
-
-    user?.permission_names?.forEach(permission => {
-        if (menu.forPermissions.includes(permission)) {
-            isAuthorized = true
-            return
-        }
-    })
-
-    return isAuthorized
-}
-
-function CustomListItem({ data, user, ...props }) {
-    const router = useRouter()
-
-    if (!isAuthorized(user, data)) {
-        return
-    }
-
-    if (data.component) {
-        return data.component
-    }
-
-    return (
-        <ListItem disablePadding>
-            <ListItemButton
-                shallow={true}
-                passHref
-                href={data.href}
-                selected={router.pathname === data.pathname}
-                {...props}>
-                <ListItemIcon>{data.icon}</ListItemIcon>
-                <ListItemText primary={data.label} />
-            </ListItemButton>
-        </ListItem>
-    )
-}
-
 function MenuList({ isDrawerOpen, toggleDrawer }) {
     const drawerWidth = 240
 
@@ -104,6 +46,64 @@ function MenuList({ isDrawerOpen, toggleDrawer }) {
             }, 300),
         )
     }, [])
+
+    function isAuthorized(user, menu) {
+        if (
+            user?.role_names?.includes('superman') ||
+            !menu.forRoles ||
+            !menu.forPermissions
+        ) {
+            return true
+        }
+
+        let isAuthorized = false
+
+        user?.role_names?.forEach(role => {
+            if (menu.forRoles.includes(role)) {
+                isAuthorized = true
+                return
+            }
+        })
+
+        if (isAuthorized) {
+            return isAuthorized
+        }
+
+        user?.permission_names?.forEach(permission => {
+            if (menu.forPermissions.includes(permission)) {
+                isAuthorized = true
+                return
+            }
+        })
+
+        return isAuthorized
+    }
+
+    function CustomListItem({ data, user, ...props }) {
+        const router = useRouter()
+
+        if (!isAuthorized(user, data)) {
+            return
+        }
+
+        if (data.component) {
+            return data.component
+        }
+
+        return (
+            <ListItem disablePadding>
+                <ListItemButton
+                    shallow={true}
+                    passHref
+                    href={data.href}
+                    selected={router.pathname === data.pathname}
+                    {...props}>
+                    <ListItemIcon>{data.icon}</ListItemIcon>
+                    <ListItemText primary={data.label} />
+                </ListItemButton>
+            </ListItem>
+        )
+    }
 
     return (
         <Box

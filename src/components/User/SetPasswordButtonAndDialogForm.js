@@ -24,10 +24,7 @@ const EMPTY_PASSWORDS_DATA = {
     new_password_confirmation: '',
 }
 
-export default function SetPasswordButtonAndDialogForm({
-    data: user,
-    isLoading: isDataLoading,
-}) {
+export default function SetPasswordButtonAndDialogForm({ data: user }) {
     const [isOpen, setIsOpen] = useState(false)
     const [validationErrors, setValidationErrors] = useState([])
 
@@ -47,7 +44,7 @@ export default function SetPasswordButtonAndDialogForm({
         }
     }, [isOpen])
 
-    if (!user && !isDataLoading) return null
+    if (!user) return null
 
     const isSubmitDisabled = () =>
         validationErrors.new_password !== undefined ||
@@ -110,7 +107,7 @@ export default function SetPasswordButtonAndDialogForm({
     return (
         <>
             <Button
-                disabled={isDataLoading || user.is_active === false}
+                disabled={!user?.uuid || user.is_active === false}
                 variant="outlined"
                 color="error"
                 size="small"
@@ -118,101 +115,95 @@ export default function SetPasswordButtonAndDialogForm({
                 Atur kata sandi
             </Button>
 
-            {!isDataLoading && (
-                <Dialog
-                    fullWidth
-                    maxWidth="xs"
-                    open={isOpen}
-                    onKeyDown={e => e.key === 'Escape' && setIsOpen(false)}>
-                    <DialogContent>
-                        <Box display="flex" mb={1.5} alignItems="center">
-                            <KeyIcon color="warning" />
-                            <Typography
-                                variant="h6"
-                                component="h2"
-                                ml={1}
-                                flexGrow={1}>
-                                Pengaturan kata sandi
-                            </Typography>
+            <Dialog
+                fullWidth
+                maxWidth="xs"
+                open={isOpen}
+                onKeyDown={e => e.key === 'Escape' && setIsOpen(false)}>
+                <DialogContent>
+                    <Box display="flex" mb={1.5} alignItems="center">
+                        <KeyIcon color="warning" />
+                        <Typography
+                            variant="h6"
+                            component="h2"
+                            ml={1}
+                            flexGrow={1}>
+                            Pengaturan kata sandi
+                        </Typography>
 
-                            <IconButton
-                                disabled={isLoading}
-                                onClick={() => setIsOpen(false)}>
-                                <CloseIcon />
-                            </IconButton>
-                        </Box>
+                        <IconButton
+                            disabled={isLoading}
+                            onClick={() => setIsOpen(false)}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
 
-                        <CompleteCenter
-                            isShow={isComplete}
-                            message={`Kata sandi akun ${user.name} berhasil diubah`}
-                        />
+                    <CompleteCenter
+                        isShow={isComplete}
+                        message={`Kata sandi akun ${user.name} berhasil diubah`}
+                    />
 
-                        <LoadingCenter isShow={isLoading} />
+                    <LoadingCenter isShow={isLoading} />
 
-                        <ErrorCenter
-                            isShow={error !== undefined}
-                            message={error}
-                            onClose={() => setError(undefined)}
-                        />
+                    <ErrorCenter
+                        isShow={error !== undefined}
+                        message={error}
+                        onClose={() => setError(undefined)}
+                    />
 
-                        <Box
-                            sx={{
-                                display:
-                                    isComplete || isLoading || error
-                                        ? 'none'
-                                        : 'block',
-                            }}>
-                            <DialogContentText>
-                                Pastikan Anda mengatur kata sandi yang aman
-                                untuk akun <strong>{user.name}</strong>.
-                            </DialogContentText>
-                            <form
-                                id="set_password_form"
-                                onSubmit={handleSubmit}>
-                                <TextField
-                                    margin="dense"
-                                    name="new_password"
-                                    label="Kata sandi baru"
-                                    type="password"
-                                    fullWidth
-                                    onChange={handleChange}
-                                    error={Boolean(
-                                        validationErrors.new_password,
-                                    )}
-                                    helperText={validationErrors.new_password}
-                                />
+                    <Box
+                        sx={{
+                            display:
+                                isComplete || isLoading || error
+                                    ? 'none'
+                                    : 'block',
+                        }}>
+                        <DialogContentText>
+                            Pastikan Anda mengatur kata sandi yang aman untuk
+                            akun <strong>{user.name}</strong>.
+                        </DialogContentText>
+                        <form id="set_password_form" onSubmit={handleSubmit}>
+                            <TextField
+                                margin="dense"
+                                name="new_password"
+                                label="Kata sandi baru"
+                                type="password"
+                                fullWidth
+                                onChange={handleChange}
+                                error={Boolean(validationErrors.new_password)}
+                                helperText={validationErrors.new_password}
+                            />
 
-                                <TextField
-                                    margin="dense"
-                                    name="new_password_confirmation"
-                                    label="Ulangi kata sandi baru"
-                                    type="password"
-                                    fullWidth
-                                    onChange={handleChange}
-                                    error={Boolean(
-                                        validationErrors.new_password_confirmation,
-                                    )}
-                                    helperText={
-                                        validationErrors.new_password_confirmation
-                                    }
-                                />
-                            </form>
-                        </Box>
-                    </DialogContent>
+                            <TextField
+                                margin="dense"
+                                name="new_password_confirmation"
+                                label="Ulangi kata sandi baru"
+                                type="password"
+                                fullWidth
+                                onChange={handleChange}
+                                error={Boolean(
+                                    validationErrors.new_password_confirmation,
+                                )}
+                                helperText={
+                                    validationErrors.new_password_confirmation
+                                }
+                            />
+                        </form>
+                    </Box>
+                </DialogContent>
 
-                    {!isComplete && (
-                        <DialogActions>
-                            <Button
-                                color="warning"
-                                disabled={isSubmitDisabled()}
-                                type="submit"
-                                form="set_password_form">
-                                Simpan
-                            </Button>
-                        </DialogActions>
-                    )}
-                </Dialog>
-            )}
+                {!isComplete && (
+                    <DialogActions>
+                        <Button
+                            color="warning"
+                            disabled={isSubmitDisabled()}
+                            type="submit"
+                            form="set_password_form">
+                            Simpan
+                        </Button>
+                    </DialogActions>
+                )}
+            </Dialog>
         </>
     )
 }

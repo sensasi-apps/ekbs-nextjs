@@ -15,7 +15,7 @@ const Dashboard = () => {
     } = useContext(AppContext)
 
     return (
-        <AuthLayout pageTitle="Dasbor">
+        <AuthLayout title="Dasbor">
             <Head>
                 <title>{`Dasbor — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>

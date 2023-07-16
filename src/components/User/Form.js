@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { mutate } from 'swr'
 import { useRouter } from 'next/router'
+
 import axios from '@/lib/axios'
 
 import Box from '@mui/material/Box'
@@ -15,46 +16,26 @@ import TextField from '@mui/material/TextField'
 import LoadingCenter from '../Statuses/LoadingCenter'
 import ErrorCenter from '../Statuses/ErrorCenter'
 
-const DEFAULT_NEW_USER = {
-    name: null,
-    email: null,
-    citizenship_id: null,
-    gender_id: null,
-    is_active: false,
-}
-
-export default function UserForm({ data: user, onClose, ...props }) {
+export default function UserForm({ data: user = {}, onClose, ...props }) {
     const router = useRouter()
-    const [userDraft, setUserDraft] = useState(user || DEFAULT_NEW_USER)
     const [errors, setErrors] = useState([])
-    const [statusTitle, setStatusTitle] = useState(null)
+
+    const [formValues, setFormValues] = useState({
+        citizen_id: user?.detail?.citizen_id || '',
+        name: user?.name || '',
+        email: user?.email || '',
+        is_active: user?.is_active || false,
+    })
 
     const [isError, setIsError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [statusTitle, setStatusTitle] = useState(null)
 
-    useEffect(() => {
-        setUserDraft(user || DEFAULT_NEW_USER)
-    }, [user])
-
-    const handleChange = event => {
+    const clearThisError = event => {
         setErrors({
             ...errors,
             [event.target.name]: null,
         })
-
-        const { name, value, type, checked } = event.target
-
-        const newUserDraft = structuredClone(userDraft)
-        let newValue = value
-
-        if (type === 'checkbox') newValue = checked
-
-        if (name === 'email' && newValue) newUserDraft.is_active = true
-        if (name === 'email' && !newValue) newUserDraft.is_active = false
-
-        newUserDraft[name] = newValue
-
-        return setUserDraft(newUserDraft)
     }
 
     const handleSubmit = async event => {
@@ -63,11 +44,11 @@ export default function UserForm({ data: user, onClose, ...props }) {
         setIsLoading(true)
 
         try {
-            if (userDraft.uuid) {
-                await axios.put(`/users/${userDraft.uuid}`, userDraft)
-                await mutate(`/users/${userDraft.uuid}`)
+            if (user.uuid) {
+                await axios.put(`/users/${user.uuid}`, formValues)
+                await mutate(`/users/${user.uuid}`)
             } else {
-                const { data } = await axios.post('/users', userDraft)
+                const { data } = await axios.post('/users', formValues)
                 router.push(`/users/${data.uuid}`)
             }
 
@@ -96,56 +77,92 @@ export default function UserForm({ data: user, onClose, ...props }) {
 
     return (
         <form {...props} onSubmit={handleSubmit}>
+            {!user.uuid && (
+                <TextField
+                    name="citizen_id"
+                    label="Nomor Induk Kependudukan"
+                    fullWidth
+                    required
+                    defaultValue={formValues.citizen_id || ''}
+                    margin="normal"
+                    error={Boolean(errors.citizen_id)}
+                    helperText={errors.citizen_id}
+                    onChange={e => {
+                        setFormValues({
+                            ...formValues,
+                            citizen_id: e.target.value,
+                        })
+                        clearThisError(e)
+                    }}
+                />
+            )}
+
             <TextField
                 name="name"
                 label="Nama"
-                value={userDraft.name || ''}
-                onChange={handleChange}
+                defaultValue={formValues.name || ''}
                 fullWidth
                 required
                 margin="normal"
                 error={Boolean(errors.name)}
                 helperText={errors.name}
+                onChange={e => {
+                    setFormValues({
+                        ...formValues,
+                        name: e.target.value,
+                    })
+                    clearThisError(e)
+                }}
             />
 
             <TextField
                 name="email"
                 label="Email"
                 type="email"
-                value={userDraft.email || ''}
-                onChange={handleChange}
+                defaultValue={formValues.email || ''}
                 fullWidth
                 margin="normal"
                 error={Boolean(errors.email)}
                 helperText={errors.email}
+                onChange={e => {
+                    setFormValues({
+                        ...formValues,
+                        email: e.target.value,
+                    })
+                    clearThisError(e)
+                }}
             />
 
             <FormControl
                 fullWidth
-                disabled={!userDraft.email}
+                disabled={!formValues.email}
                 margin="normal"
                 error={Boolean(errors.is_active)}>
                 <FormLabel>Status Akun</FormLabel>
                 <FormControlLabel
-                    onChange={handleChange}
+                    onChange={e => {
+                        setFormValues({
+                            ...formValues,
+                            is_active: e.target.checked,
+                        })
+                        clearThisError(e)
+                    }}
                     sx={{
-                        color: userDraft.is_active
+                        color: formValues.is_active
                             ? 'success.light'
                             : 'text.secondary',
                     }}
-                    label={userDraft.is_active ? 'Aktif' : 'Nonaktif'}
+                    label={formValues.is_active ? 'Aktif' : 'Nonaktif'}
                     control={
                         <Switch
                             color="success"
                             name="is_active"
-                            checked={userDraft.is_active || false}
+                            value="1"
+                            defaultChecked={formValues.is_active}
                         />
                     }
                 />
-
-                {Boolean(errors.is_active) && (
-                    <FormHelperText>{errors.is_active}</FormHelperText>
-                )}
+                <FormHelperText>{errors.is_active}</FormHelperText>
             </FormControl>
 
             <Box display="flex" justifyContent="end">
