@@ -8,7 +8,7 @@ import SelectInputFromApi from '../SelectInputFromApi'
 
 import dmyToYmd from '@/lib/dmyToYmd'
 
-export default function TransactionsFilterForm({ isLoading }) {
+export default function TransactionsFilterForm({ isLoading, ...props }) {
     const router = useRouter()
 
     if (!router.isReady) return null
@@ -29,7 +29,7 @@ export default function TransactionsFilterForm({ isLoading }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} {...props}>
             <Grid container spacing={1} mt={1}>
                 <Grid item xs={12} sm={3} md={3}>
                     <DatePicker

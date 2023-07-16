@@ -49,7 +49,12 @@ export default function TransactionsCrud() {
 
     return (
         <>
-            <TransactionsFilterForm isLoading={isLoading || isValidating} />
+            <TransactionsFilterForm
+                isLoading={isLoading || isValidating}
+                style={{
+                    marginBottom: '1em',
+                }}
+            />
             <TransactionsTable
                 data={transactions}
                 isLoading={isLoading || isValidating}
