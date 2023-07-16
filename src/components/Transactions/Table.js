@@ -148,7 +148,7 @@ export default function TransactionsTable({
                 onClose={() => setSelectedUserActivityLogs(undefined)}
                 maxWidth="xs">
                 <DialogTitle display="flex" justifyContent="space-between">
-                    Riwayat data transaksi:
+                    Riwayat data transaksi:&bnsp;
                     {selectedUserActivityLogs?.length > 0 &&
                         selectedUserActivityLogs[0]?.model_uuid}
                     <IconButton
