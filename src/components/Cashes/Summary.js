@@ -1,4 +1,6 @@
+import { useContext } from 'react'
 import useSWR from 'swr'
+
 import axios from '@/lib/axios'
 
 import {
@@ -15,24 +17,18 @@ import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
 
 import numberFormat from '@/lib/numberFormat'
-import { useContext } from 'react'
 import AppContext from '@/providers/App'
 
 export default function CashesSummary({ sx, handleEdit, handleNew, ...props }) {
-    const { auth: { user } = {} } = useContext(AppContext)
-    const isSuperman = user?.role_names.includes('superman')
-    const isUserCanRead =
-        isSuperman || user?.permission_names?.includes('cashes read')
-    if (!isUserCanRead) return false
+    const {
+        auth: { userHasPermission },
+    } = useContext(AppContext)
 
-    const isUserCanCreate =
-        isSuperman || user?.permission_names?.includes('cashes create')
-    const isUserCanUpdate =
-        isSuperman || user?.permission_names?.includes('cashes update')
-
-    const { data: cashes = [], isLoading } = useSWR('/data/cashes', url =>
+    const { data: cashes = [], isLoading } = useSWR('data/cashes', url =>
         axios.get(url).then(({ data }) => data),
     )
+
+    if (!userHasPermission('cashes read')) return null
 
     const ThisCard = ({ data: cash }) => {
         const { code, name, balance } = cash
@@ -49,7 +45,7 @@ export default function CashesSummary({ sx, handleEdit, handleNew, ...props }) {
                                 color="text.secondary"
                                 gutterBottom>
                                 {name}
-                                {isUserCanUpdate && (
+                                {userHasPermission('cashes update') && (
                                     <IconButton
                                         size="small"
                                         onClick={() => handleEdit(cash)}>
@@ -58,7 +54,7 @@ export default function CashesSummary({ sx, handleEdit, handleNew, ...props }) {
                                 )}
                             </Typography>
 
-                            <Typography variant="h4" component="div">
+                            <Typography variant="h4" component="div" noWrap>
                                 {balance ? numberFormat(balance) : <Skeleton />}
                             </Typography>
                         </Box>
@@ -84,9 +80,12 @@ export default function CashesSummary({ sx, handleEdit, handleNew, ...props }) {
                 <ThisCard data={cash} key={cash.uuid} />
             ))}
 
-            {!isLoading && isUserCanCreate && (
+            {!isLoading && userHasPermission('cashes create') && (
                 <Button
                     fullWidth
+                    sx={{
+                        minWidth: 200,
+                    }}
                     size="large"
                     variant="outlined"
                     onClick={handleNew}

@@ -10,10 +10,11 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AppContext from '@/providers/App'
 
 export default function CashForm({ data: cash, handleClose }) {
-    const { auth: { user } = {} } = useContext(AppContext)
-    const isSuperman = user?.role_names.includes('superman')
-    const isUserCanDelete =
-        isSuperman || user?.permission_names?.includes('cashes delete')
+    const {
+        auth: { userHasPermission },
+    } = useContext(AppContext)
+
+    const isUserCanDelete = userHasPermission('cashes delete')
 
     const [validationErrors, setValidationErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -27,8 +28,8 @@ export default function CashForm({ data: cash, handleClose }) {
         try {
             const formData = new FormData(e.target)
 
-            await axios.post('/cashes', formData)
-            await mutate(`/data/cashes`)
+            await axios.post('cashes', formData)
+            await mutate(`data/cashes`)
 
             handleClose()
         } catch (error) {
@@ -47,7 +48,7 @@ export default function CashForm({ data: cash, handleClose }) {
 
         try {
             await axios.delete(`/cashes/${cash.uuid}`)
-            await mutate(`/data/cashes`)
+            await mutate(`data/cashes`)
 
             handleClose()
         } catch (error) {
