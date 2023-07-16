@@ -13,10 +13,13 @@ function DatePicker({
     required,
     fullWidth,
     margin,
+    size,
     error: extError,
     helperText,
     minDate,
     maxDate,
+    value,
+    defaultValue,
     ...props
 }) {
     const [error, setError] = useState(null)
@@ -50,6 +53,9 @@ function DatePicker({
             <DatePickerMui
                 minDate={minDate || moment('1970-01-01')}
                 maxDate={maxDate || moment('2038-01-19')}
+                format="DD-MM-YYYY"
+                value={value ? moment(value) : undefined}
+                defaultValue={defaultValue ? moment(defaultValue) : undefined}
                 onError={err => setError(err)}
                 slotProps={{
                     textField: {
@@ -57,6 +63,7 @@ function DatePicker({
                         helperText: errorMessage,
                         required,
                         fullWidth,
+                        size,
                         margin,
                         name,
                     },

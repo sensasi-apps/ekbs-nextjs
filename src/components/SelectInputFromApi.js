@@ -11,6 +11,7 @@ import Select from '@mui/material/Select'
 import Skeleton from '@mui/material/Skeleton'
 
 export default function SelectInputFromApi({
+    nullLabel,
     endpoint,
     name,
     label,
@@ -26,10 +27,14 @@ export default function SelectInputFromApi({
     const { data, isLoading } = useSWR(endpoint, fetcher)
 
     if (isLoading) return <Skeleton height="100%" />
-
     return (
         <FormControl fullWidth {...props}>
-            <InputLabel>{label}</InputLabel>
+            {label && (
+                <InputLabel shrink={selectProps.displayEmpty}>
+                    {label}
+                </InputLabel>
+            )}
+
             <Select
                 name={name}
                 onChange={e => {
@@ -39,14 +44,21 @@ export default function SelectInputFromApi({
                 }}
                 label={label}
                 {...selectProps}>
-                <MenuItem value="" disabled />
+                {nullLabel && (
+                    <MenuItem value="" disabled={!selectProps.displayEmpty}>
+                        <em>{nullLabel}</em>
+                    </MenuItem>
+                )}
+
                 {data?.map(item => (
-                    <MenuItem key={item.id} value={item.id}>
+                    <MenuItem
+                        key={item.uuid || item.id}
+                        value={item.uuid || item.id}>
                         {item.name}
                     </MenuItem>
                 ))}
             </Select>
-            <FormHelperText>{helperText}</FormHelperText>
+            {helperText && <FormHelperText>{helperText}</FormHelperText>}
         </FormControl>
     )
 }

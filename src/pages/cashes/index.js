@@ -2,12 +2,19 @@ import { useState } from 'react'
 
 import Head from 'next/head'
 
-import Grid from '@mui/material/Grid'
+import {
+    Card,
+    CardContent,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Grid,
+} from '@mui/material'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import CashesSummary from '@/components/Cashes/Summary'
-import { Dialog, DialogContent, DialogTitle } from '@mui/material'
 import CashForm from '@/components/Cash/Form'
+import TransactionsCrud from '@/components/Transactions/Crud'
 
 export default function cashses() {
     const [selectedCash, setSelectedCash] = useState(undefined)
@@ -48,8 +55,11 @@ export default function cashses() {
                     display="flex"
                     flexDirection="column"
                     gap={3}>
-                    {/* <UserSelect onChange={userSelectOnChange} /> */}
-                    {/* <UserCards /> */}
+                    <Card>
+                        <CardContent>
+                            <TransactionsCrud />
+                        </CardContent>
+                    </Card>
                 </Grid>
 
                 <Grid item sm={12} md={4} width="100%">
