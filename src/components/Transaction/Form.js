@@ -244,7 +244,11 @@ export default function TransactionForm({
             <Box
                 mt={2}
                 display="flex"
-                justifyContent={transaction?.uuid && isUserCanDelete}>
+                justifyContent={
+                    transaction?.uuid && isUserCanDelete
+                        ? 'space-between'
+                        : 'end'
+                }>
                 {transaction?.uuid && isUserCanDelete && (
                     <LoadingButton
                         onClick={handleDelete}
