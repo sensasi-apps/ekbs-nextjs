@@ -145,7 +145,7 @@ export default function TransactionForm({
             <DatePicker
                 name="at"
                 required
-                label="Tanggal transaksi"
+                label="Tanggal"
                 margin="dense"
                 disabled={isSubmitting || isDeleting}
                 defaultValue={transaction?.at || new Date()}
@@ -163,7 +163,7 @@ export default function TransactionForm({
                     margin="dense"
                     required
                     selectProps={{
-                        defaultValue: transaction?.cash_uuid || '',
+                        defaultValue: transaction?.cashable_uuid || '',
                     }}
                     error={Boolean(validationErrors.cash_uuid)}
                     helperText={validationErrors.cash_uuid}
@@ -180,7 +180,8 @@ export default function TransactionForm({
                         selectProps={{
                             defaultValue:
                                 transaction?.cash_transfer_origin
-                                    ?.transaction_destination?.cash_uuid || '',
+                                    ?.transaction_destination?.cashable_uuid ||
+                                '',
                         }}
                         error={Boolean(validationErrors.to_cash_uuid)}
                         helperText={validationErrors.to_cash_uuid}
@@ -225,20 +226,6 @@ export default function TransactionForm({
                 defaultValue={transaction?.desc}
                 error={Boolean(validationErrors.desc)}
                 helperText={validationErrors.desc}
-            />
-
-            <TextField
-                fullWidth
-                multiline
-                rows={2}
-                disabled={isSubmitting || isDeleting}
-                margin="dense"
-                name="note"
-                label="Catatan"
-                onChange={handleChange}
-                defaultValue={transaction?.note}
-                error={Boolean(validationErrors.note)}
-                helperText={validationErrors.note}
             />
 
             <Box
