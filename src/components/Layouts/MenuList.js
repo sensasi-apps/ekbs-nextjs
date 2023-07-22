@@ -4,7 +4,6 @@ import { useContext } from 'react'
 
 import AppContext from '@/providers/App'
 import MENUS_DATA from './menusData'
-import debounce from '@/lib/debounce'
 
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
@@ -36,15 +35,19 @@ function MenuList({ isDrawerOpen, toggleDrawer }) {
         }
     }
 
+    function handleResize() {
+        setDrawerProps(GET_DRAWER_PROPS())
+    }
+
     useEffect(() => {
         setDrawerProps(GET_DRAWER_PROPS())
 
-        window.addEventListener(
-            'resize',
-            debounce(() => {
-                setDrawerProps(GET_DRAWER_PROPS())
-            }, 300),
-        )
+        window.addEventListener('resize', handleResize, { passive: true })
+
+        return () =>
+            window.removeEventListener('resize', handleResize, {
+                passive: true,
+            })
     }, [])
 
     function isAuthorized(user, menu) {
@@ -129,7 +132,7 @@ function MenuList({ isDrawerOpen, toggleDrawer }) {
                         key={index}
                         data={data}
                         user={user}
-                        onClick={debounce(toggleDrawer, 300)}
+                        onClick={toggleDrawer}
                     />
                 ))}
             </Drawer>
