@@ -14,8 +14,9 @@ import {
     TableRow,
     Skeleton,
     Dialog,
-    DialogTitle,
     DialogContent,
+    Box,
+    Typography,
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
@@ -147,17 +148,23 @@ export default function TransactionsTable({
                 fullWidth
                 onClose={() => setSelectedUserActivityLogs(undefined)}
                 maxWidth="xs">
-                <DialogTitle display="flex" justifyContent="space-between">
-                    Riwayat data transaksi:&bnsp;
-                    {selectedUserActivityLogs?.length > 0 &&
-                        selectedUserActivityLogs[0]?.model_uuid}
-                    <IconButton
-                        size="small"
-                        onClick={() => setSelectedUserActivityLogs(undefined)}>
-                        <CloseIcon />
-                    </IconButton>
-                </DialogTitle>
                 <DialogContent>
+                    <Box display="flex" justifyContent="space-between" mb={1}>
+                        <div>
+                            <Typography>Riwayat data transaksi:</Typography>
+                            <Typography variant="h6" component="p">
+                                {selectedUserActivityLogs?.length > 0 &&
+                                    selectedUserActivityLogs[0]?.model_uuid}
+                            </Typography>
+                        </div>
+                        <IconButton
+                            size="small"
+                            onClick={() =>
+                                setSelectedUserActivityLogs(undefined)
+                            }>
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
                     <UserActivityLogsTable data={selectedUserActivityLogs} />
                 </DialogContent>
             </Dialog>
