@@ -19,12 +19,17 @@ import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
+import TncpDialog from '../TncpDialog'
+
+import GradingIcon from '@mui/icons-material/Grading'
 
 export default function TopBar({ title, toggleDrawer }) {
     const drawerWidth = 240
 
     const router = useRouter()
     const theme = useTheme()
+
+    const [isOpenTncp, setIsOpenTncp] = useState(false)
 
     const {
         auth: { user },
@@ -94,6 +99,13 @@ export default function TopBar({ title, toggleDrawer }) {
                         </MenuItem>
 
                         <Divider />
+                        <MenuItem onClick={() => setIsOpenTncp(true)}>
+                            <ListItemIcon>
+                                <GradingIcon fontSize="small" />
+                            </ListItemIcon>
+                            Syarat, Ketentuan, dan Kebijakan Privasi
+                        </MenuItem>
+                        <Divider />
                         <MenuItem onClick={() => router.push('/logout')}>
                             <ListItemIcon>
                                 <LogoutIcon fontSize="small" />
@@ -103,6 +115,11 @@ export default function TopBar({ title, toggleDrawer }) {
                     </Menu>
                 </Box>
             </Toolbar>
+
+            <TncpDialog
+                open={isOpenTncp}
+                handleClose={() => setIsOpenTncp(false)}
+            />
         </AppBar>
     )
 }
