@@ -43,6 +43,13 @@ export const AppProvider = ({ children }) => {
         )
     }
 
+    function userHasRole(role) {
+        return (
+            user?.role_names?.includes('superman') ||
+            user?.permission_names?.includes(role)
+        )
+    }
+
     return (
         <AppContext.Provider
             value={{
@@ -51,6 +58,7 @@ export const AppProvider = ({ children }) => {
                     error,
                     mutate,
                     userHasPermission,
+                    userHasRole,
                 },
             }}>
             {children}
