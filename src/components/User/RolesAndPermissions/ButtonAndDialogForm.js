@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import useSWR, { mutate } from 'swr'
 import axios from '@/lib/axios'
