@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types'
+
 import { forwardRef } from 'react'
 import { NumericFormat } from 'react-number-format'
-import PropTypes from 'prop-types'
 
 const NumericMasking = forwardRef(function NumericMasking(props, ref) {
     const { onChange, ...other } = props
@@ -19,14 +20,15 @@ const NumericMasking = forwardRef(function NumericMasking(props, ref) {
             decimalSeparator=","
             thousandSeparator="."
             valueIsNumericString
+            allowNegative={false}
             {...other}
         />
     )
 })
 
 NumericMasking.propTypes = {
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    onChange: PropTypes.func,
 }
 
 export default NumericMasking

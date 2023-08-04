@@ -3,9 +3,10 @@ import { mutate } from 'swr'
 
 import axios from '@/lib/axios'
 
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, InputAdornment, TextField } from '@mui/material'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import NumericMasking from '@/components/Inputs/NumericMasking'
 
 export default function CourierVehicleForm({
     isShow,
@@ -16,6 +17,7 @@ export default function CourierVehicleForm({
 }) {
     const [errors, setErrors] = useState({})
     const [isLoading, setIsLoading] = useState(false)
+    const [inputMaxCapacityValue, setInputMaxCapacityValue] = useState('')
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -35,9 +37,9 @@ export default function CourierVehicleForm({
                 onSubmitted()
             }
 
-            formEl.reset()
-
             if (onClose) {
+                formEl.reset()
+                setInputMaxCapacityValue('')
                 onClose()
             }
         } catch (err) {
@@ -49,6 +51,17 @@ export default function CourierVehicleForm({
         }
 
         setIsLoading(false)
+    }
+
+    const clearError = e => {
+        const { name } = e.target
+
+        if (errors[name]) {
+            setErrors({
+                ...errors,
+                [name]: null,
+            })
+        }
     }
 
     return (
@@ -69,12 +82,7 @@ export default function CourierVehicleForm({
                     label="Merk"
                     name="brand"
                     error={Boolean(errors.brand)}
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            brand: null,
-                        })
-                    }
+                    onChange={clearError}
                     helperText={errors.brand}
                 />
 
@@ -85,32 +93,39 @@ export default function CourierVehicleForm({
                     label="Model / Tipe"
                     name="type"
                     error={Boolean(errors.type)}
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            type: null,
-                        })
-                    }
+                    onChange={clearError}
                     helperText={errors.type}
+                />
+
+                <input
+                    type="hidden"
+                    id="max_capacity_ton"
+                    name="max_capacity_ton"
                 />
 
                 <TextField
                     fullWidth
                     required
                     margin="normal"
-                    label="Kapasitas Muatan (Ton)"
-                    name="max_capacity_ton"
-                    type="number"
-                    inputProps={{
-                        step: 0.01,
+                    label="Kapasitas Muatan"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="start">
+                                Ton
+                            </InputAdornment>
+                        ),
+                        inputComponent: NumericMasking,
                     }}
                     error={Boolean(errors.max_capacity_ton)}
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            max_capacity_ton: null,
-                        })
-                    }
+                    onChange={e => {
+                        const { value } = e.target
+                        document.getElementById('max_capacity_ton').value =
+                            value
+                        setInputMaxCapacityValue(value)
+
+                        return clearError(e)
+                    }}
+                    value={inputMaxCapacityValue}
                     helperText={errors.max_capacity_ton}
                 />
 
@@ -121,23 +136,23 @@ export default function CourierVehicleForm({
                     label="Nomor Plat Kendaraan"
                     name="plate_number"
                     error={Boolean(errors.plate_number)}
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            plate_number: null,
-                        })
-                    }
+                    onChange={clearError}
                     helperText={errors.plate_number}
                 />
+
                 <Box textAlign="right" mt={1}>
                     <Button
                         type="reset"
                         onClick={() => {
+                            setInputMaxCapacityValue('')
+
                             if (onClose) onClose()
                         }}>
                         Batal
                     </Button>
-                    <Button type="submit">Simpan</Button>
+                    <Button type="submit" variant="contained">
+                        Simpan
+                    </Button>
                 </Box>
             </form>
         </>
