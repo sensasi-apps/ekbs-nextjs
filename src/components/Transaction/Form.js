@@ -23,8 +23,8 @@ import AppContext from '@/providers/App'
 import SelectInputFromApi from '../SelectInputFromApi'
 import DatePicker from '../DatePicker'
 
-import dmyToYmd from '@/lib/dmyToYmd'
 import NumericMasking from '../Inputs/NumericMasking'
+import moment from 'moment'
 
 export default function TransactionForm({
     data: transaction,
@@ -34,8 +34,6 @@ export default function TransactionForm({
         auth: { userHasPermission },
     } = useContext(AppContext)
 
-    const isUserCanDelete = userHasPermission('transactions delete')
-
     const [validationErrors, setValidationErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
@@ -43,13 +41,17 @@ export default function TransactionForm({
 
     if (!transaction) return null
 
+    const isUserCanDelete = userHasPermission('transactions delete')
+
+    let atMoment = moment(transaction?.at)
+
     const handleSubmit = async e => {
         e.preventDefault()
 
         setIsSubmitting(true)
 
         const formData = new FormData(e.target)
-        formData.set('at', dmyToYmd(formData.get('at')))
+        formData.set('at', atMoment)
 
         try {
             if (transaction?.uuid) {
@@ -151,7 +153,8 @@ export default function TransactionForm({
                 label="Tanggal"
                 margin="dense"
                 disabled={isSubmitting || isDeleting}
-                defaultValue={transaction?.at || new Date()}
+                onChange={date => (atMoment = date)}
+                defaultValue={atMoment}
                 fullWidth
                 error={Boolean(validationErrors.at)}
                 helperText={validationErrors.at}
