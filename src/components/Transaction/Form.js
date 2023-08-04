@@ -24,6 +24,7 @@ import SelectInputFromApi from '../SelectInputFromApi'
 import DatePicker from '../DatePicker'
 
 import dmyToYmd from '@/lib/dmyToYmd'
+import NumericMasking from '../Inputs/NumericMasking'
 
 export default function TransactionForm({
     data: transaction,
@@ -96,7 +97,9 @@ export default function TransactionForm({
     const handleChange = e => {
         const { name } = e.target
 
-        setValidationErrors(prev => ({ ...prev, [name]: undefined }))
+        if (validationErrors[name]) {
+            setValidationErrors(prev => ({ ...prev, [name]: undefined }))
+        }
     }
 
     return (
@@ -189,21 +192,30 @@ export default function TransactionForm({
                 )}
             </Box>
 
+            <input type="hidden" id="amount" name="amount" />
+
             <TextField
                 disabled={isSubmitting || isDeleting}
                 fullWidth
                 required
                 margin="dense"
-                name="amount"
                 label="Jumlah"
-                type="number"
-                step="any"
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">Rp</InputAdornment>
                     ),
+                    inputComponent: NumericMasking,
                 }}
-                onChange={handleChange}
+                inputProps={{
+                    decimalScale: 0,
+                    minLength: 1,
+                    maxLength: 19,
+                }}
+                onChange={e => {
+                    const { value } = e.target
+                    document.getElementById('amount').value = value
+                    return handleChange(e)
+                }}
                 defaultValue={
                     transaction?.amount < 0
                         ? -transaction?.amount

@@ -31,7 +31,8 @@ function ListItem({
     },
     userUuid,
 }) {
-    const { province, regency, district, village } = address
+    const { province, regency, district, village, detail, zip_code } =
+        address || {}
 
     const [isDeleting, setIsDeleting] = useState(false)
 
@@ -68,15 +69,15 @@ function ListItem({
                         : null}
                 </Typography>
                 <Typography color="GrayText" gutterBottom>
-                    {address.detail}
+                    {detail}
                 </Typography>
                 <Typography color="GrayText" variant="caption" component="p">
-                    {province.name}, {regency.name}
+                    {province?.name}, {regency?.name}
                     {district ? ', ' + district.name : ''}
                     {village ? ', ' + village.name : ''}
                 </Typography>
                 <Typography color="GrayText" variant="caption" component="p">
-                    {address.zip_code}
+                    {zip_code}
                 </Typography>
             </ListItemText>
         </MuiListItem>

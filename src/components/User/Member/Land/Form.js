@@ -3,11 +3,12 @@ import { mutate } from 'swr'
 
 import axios from '@/lib/axios'
 
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, InputAdornment, TextField } from '@mui/material'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import DatePicker from '@/components/DatePicker'
+import NumericMasking from '@/components/Inputs/NumericMasking'
 
 export default function MemberLandForm({
     isShow,
@@ -58,6 +59,17 @@ export default function MemberLandForm({
         setIsLoading(false)
     }
 
+    const clearError = e => {
+        const { name } = e.target
+
+        if (errors[name]) {
+            setErrors({
+                ...errors,
+                [name]: undefined,
+            })
+        }
+    }
+
     return (
         <>
             <LoadingCenter isShow={isLoading} />
@@ -77,7 +89,7 @@ export default function MemberLandForm({
                             'input[name="region_id"]',
                         ).value = value?.id
                     }}
-                    endpoint={`/select2/administrative-regions`}
+                    endpoint="/select2/administrative-regions"
                     label="Wilayah Administratif"
                 />
 
@@ -88,12 +100,7 @@ export default function MemberLandForm({
                     name="detail"
                     label="Alamat Lengkap"
                     error={Boolean(errors.detail)}
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            detail: null,
-                        })
-                    }
+                    onChange={clearError}
                     helperText={errors.detail}
                 />
 
@@ -102,14 +109,16 @@ export default function MemberLandForm({
                     margin="normal"
                     name="zip_code"
                     label="Kode Pos"
-                    type="number"
+                    InputProps={{
+                        inputComponent: NumericMasking,
+                    }}
+                    inputProps={{
+                        thousandSeparator: false,
+                        decimalScale: 0,
+                        maxLength: 5,
+                    }}
                     error={Boolean(errors.zip_code)}
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            zip_code: null,
-                        })
-                    }
+                    onChange={clearError}
                     helperText={errors.zip_code}
                 />
 
@@ -118,33 +127,34 @@ export default function MemberLandForm({
                     label="LAND ID (REA)"
                     margin="normal"
                     name="rea_land_id"
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            rea_land_id: null,
-                        })
-                    }
+                    onChange={clearError}
                     error={Boolean(errors.rea_land_id)}
                     helperText={errors.rea_land_id}
+                />
+
+                <input
+                    type="hidden"
+                    name="n_area_hectares"
+                    id="n_area_hectares"
                 />
 
                 <TextField
                     fullWidth
                     required
-                    type="number"
-                    inputMode="numeric"
-                    inputProps={{
-                        step: 0.01,
-                    }}
-                    label="Luas Lahan (Ha)"
+                    label="Luas Lahan"
                     margin="normal"
-                    name="n_area_hectares"
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            n_area_hectares: null,
-                        })
-                    }
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="start">Ha</InputAdornment>
+                        ),
+                        inputComponent: NumericMasking,
+                    }}
+                    onChange={e => {
+                        const { value } = e.target
+                        document.getElementById('n_area_hectares').value = value
+
+                        clearError(e)
+                    }}
                     error={Boolean(errors.n_area_hectares)}
                     helperText={errors.n_area_hectares}
                 />
@@ -154,12 +164,7 @@ export default function MemberLandForm({
                     margin="normal"
                     label="Tanggal Tanam"
                     name="planted_at"
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            planted_at: null,
-                        })
-                    }
+                    onChange={clearError}
                     error={Boolean(errors.planted_at)}
                     helperText={errors.planted_at}
                 />
@@ -170,12 +175,7 @@ export default function MemberLandForm({
                     label="Catatan tambahan"
                     margin="normal"
                     name="note"
-                    onChange={() =>
-                        setErrors({
-                            ...errors,
-                            note: null,
-                        })
-                    }
+                    onChange={clearError}
                     error={Boolean(errors.note)}
                     helperText={errors.note}
                 />
@@ -188,7 +188,9 @@ export default function MemberLandForm({
                         }}>
                         Batal
                     </Button>
-                    <Button onClick={handleSubmit}>Simpan</Button>
+                    <Button onClick={handleSubmit} variant="contained">
+                        Simpan
+                    </Button>
                 </Box>
             </form>
         </>
