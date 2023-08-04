@@ -20,6 +20,7 @@ import DatePicker from '@/components/DatePicker'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
 import Autocomplete from '@/components/Inputs/Autocomplete'
+import NumericMasking from '@/components/Inputs/NumericMasking'
 
 export default function UserDetailForm({
     isShow = true,
@@ -233,9 +234,15 @@ export default function UserDetailForm({
                 <Grid item xs={6}>
                     <TextField
                         fullWidth
-                        type="number"
                         label="Jumlah Anak"
                         name="n_children"
+                        InputProps={{
+                            inputComponent: NumericMasking,
+                        }}
+                        inputProps={{
+                            decimalScale: 0,
+                            maxLength: 2,
+                        }}
                         defaultValue={userDetail?.n_children || ''}
                         error={Boolean(errors.n_children)}
                         helperText={errors.n_children}
