@@ -20,9 +20,12 @@
         "@sentry/nextjs": "^7.57.0",
         "axios": "^0.21.1",
         "moment": "^2.29.4",
+        "mui-datatables": "^4.3.0",
         "next": "^13.0.3",
+        "qs": "^6.11.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-number-format": "^5.2.2",
         "swr": "^2.1.5"
     },
     "devDependencies": {
