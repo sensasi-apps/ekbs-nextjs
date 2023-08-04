@@ -2,16 +2,16 @@ import Head from 'next/head'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import LoanMain from '@/components/Loan/Main'
 
-const Loans = () => {
+const UserLoans = () => {
     return (
-        <AuthLayout title="Pinjaman Anda">
+        <AuthLayout title="Kelola Pinjaman">
             <Head>
-                <title>Pinjaman Anda</title>
+                <title>Kelola Pinjaman</title>
             </Head>
 
-            <LoanMain mode="applier" />
+            <LoanMain mode="manager" />
         </AuthLayout>
     )
 }
 
-export default Loans
+export default UserLoans

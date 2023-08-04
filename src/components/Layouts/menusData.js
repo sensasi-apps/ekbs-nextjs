@@ -54,11 +54,29 @@ export default [
         forPermissions: [],
     },
     {
-        href: '/spp',
-        label: 'SPP',
-        pathname: '/spp',
-        icon: <CurrencyExchangeIcon />,
+        component: <Divider sx={{ mt: 2 }} />,
         forRoles: [],
+        forPermissions: [],
+    },
+    {
+        component: <SubTitle>Simpan Pinjam</SubTitle>,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        href: '/loans',
+        label: 'Pinjaman Anda',
+        pathname: '/loans',
+        icon: <CurrencyExchangeIcon />,
+        forRoles: ['member', 'courier', 'employee'],
+        forPermissions: [],
+    },
+    {
+        href: '/user-loans',
+        label: 'Kelola Pinjaman',
+        pathname: '/user-loans',
+        icon: <CurrencyExchangeIcon />,
+        forRoles: ['user loans manager'],
         forPermissions: [],
     },
     {
