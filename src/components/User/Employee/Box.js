@@ -1,10 +1,29 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import useUserWithDetails from '@/providers/UserWithDetails'
+import { Box, Button, Typography } from '@mui/material'
+
+import EditIcon from '@mui/icons-material/Edit'
 
 import moment from 'moment'
+import useFormData from '@/providers/FormData'
 
-export default function EmployeeBox({ data: employee, ...props }) {
-    if (!employee) return null
+const Row = ({ title, children, helperText, ...props }) => (
+    <Box {...props} mb={1}>
+        <Typography variant="caption" color="text.secondary">
+            {title}
+        </Typography>
+        {typeof children === 'string' && <Typography>{children}</Typography>}
+
+        {typeof children !== 'string' && children}
+
+        {helperText && <Typography variant="body2">{helperText}</Typography>}
+    </Box>
+)
+
+const EmployeeBox = () => {
+    const { data: userWithDetails = {} } = useUserWithDetails()
+    const { handleEdit } = useFormData()
+
+    const { employee } = userWithDetails
 
     const {
         joined_at,
@@ -13,16 +32,19 @@ export default function EmployeeBox({ data: employee, ...props }) {
         note,
         employee_status,
         position,
-    } = employee
+    } = employee || {}
 
     const getStatus = () => {
         if (unjoined_at) return 'Berhenti / Keluar'
+        if (!joined_at) return '-'
 
         return 'Aktif'
     }
 
+    const handleEditClick = () => handleEdit(employee || {})
+
     return (
-        <Box {...props}>
+        <div>
             <Row title="Status">
                 <Typography
                     variant="h5"
@@ -33,7 +55,7 @@ export default function EmployeeBox({ data: employee, ...props }) {
                 <Typography>{employee_status?.name}</Typography>
             </Row>
 
-            <Row title="Jabatan">{position}</Row>
+            <Row title="Jabatan">{position || '-'}</Row>
 
             <Row title="Tanggal Bergabung">
                 {joined_at ? moment(joined_at).format('DD MMMM YYYY') : '-'}
@@ -54,25 +76,17 @@ export default function EmployeeBox({ data: employee, ...props }) {
             )}
 
             <Row title="Catatan tambahan">{note || '-'}</Row>
-        </Box>
+
+            <Button
+                size="small"
+                variant="outlined"
+                color="info"
+                startIcon={<EditIcon />}
+                onClick={handleEditClick}>
+                Perbaharui data
+            </Button>
+        </div>
     )
 }
 
-function Row({ title, children, helperText, ...props }) {
-    return (
-        <Box {...props} mb={1}>
-            <Typography variant="caption" color="text.secondary">
-                {title}
-            </Typography>
-            {typeof children === 'string' && (
-                <Typography>{children}</Typography>
-            )}
-
-            {typeof children !== 'string' && children}
-
-            {helperText && (
-                <Typography variant="body2">{helperText}</Typography>
-            )}
-        </Box>
-    )
-}
+export default EmployeeBox
