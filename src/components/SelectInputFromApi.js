@@ -10,6 +10,14 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Skeleton from '@mui/material/Skeleton'
 
+const fetcher = url => {
+    return axios.get(url).then(response => response.data)
+}
+
+const SWR_CONFIG = {
+    revalidateOnFocus: false,
+}
+
 const SelectInputFromApi = ({
     nullLabel,
     endpoint,
@@ -20,11 +28,7 @@ const SelectInputFromApi = ({
     helperText,
     ...props
 }) => {
-    const fetcher = async url => {
-        return (await axios.get(url)).data
-    }
-
-    const { data, isLoading } = useSWR(endpoint, fetcher)
+    const { data, isLoading } = useSWR(endpoint, fetcher, SWR_CONFIG)
 
     if (isLoading) return <Skeleton height="100%" />
     return (

@@ -3,7 +3,7 @@ import 'moment/locale/id'
 
 import { Box, Typography, Tooltip } from '@mui/material'
 
-export default function UserDetailBox({ userDetail, ...props }) {
+export default function UserDetailBox({ data: userDetail }) {
     if (!userDetail) return null
 
     const getBirthRegion = userDetail => {
@@ -53,92 +53,84 @@ export default function UserDetailBox({ userDetail, ...props }) {
     }
 
     return (
-        <Box {...props}>
-            <Box>
-                <Row title="Foto Diri">
-                    <div>
-                        {pasFoto?.uuid ? (
-                            <img
-                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`}
-                                style={{
-                                    maxHeight: '320px',
-                                    maxWidth: '100%',
-                                }}
-                            />
-                        ) : (
-                            <i>Foto Diri tidak ditemukan</i>
-                        )}
-                    </div>
-                </Row>
+        <Box>
+            <Row title="Foto Diri">
+                <div>
+                    {pasFoto?.uuid ? (
+                        <img
+                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`}
+                            style={{
+                                maxHeight: '320px',
+                                maxWidth: '100%',
+                            }}
+                        />
+                    ) : (
+                        <i>Foto Diri tidak ditemukan</i>
+                    )}
+                </div>
+            </Row>
 
-                <Row title="NIK">{citizen_id || '='}</Row>
+            <Row title="NIK">{citizen_id || '='}</Row>
 
-                <Row title="Foto KTP">
-                    <div>
-                        {fotoKtp?.uuid ? (
-                            <img
-                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}`}
-                                style={{
-                                    maxHeight: '320px',
-                                    maxWidth: '100%',
-                                }}
-                            />
-                        ) : (
-                            <i>Foto KTP tidak ditemukan</i>
-                        )}
-                    </div>
-                </Row>
+            <Row title="Foto KTP">
+                <div>
+                    {fotoKtp?.uuid ? (
+                        <img
+                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}`}
+                            style={{
+                                maxHeight: '320px',
+                                maxWidth: '100%',
+                            }}
+                        />
+                    ) : (
+                        <i>Foto KTP tidak ditemukan</i>
+                    )}
+                </div>
+            </Row>
 
-                <Row title="Jenis Kelamin">{gender?.name || '-'}</Row>
+            <Row title="Jenis Kelamin">{gender?.name || '-'}</Row>
 
-                <Row title="Tempat dan Tanggal Lahir">
-                    <Typography>
-                        <Tooltip
-                            placement="top-start"
-                            title={
-                                <>
-                                    <Typography component="p">
-                                        {getBirthRegion(userDetail)?.id}
-                                    </Typography>
-                                    <Typography component="p">
-                                        {birth_regency?.name}
-                                    </Typography>
-                                    <Typography component="p">
-                                        {birth_district?.name}
-                                    </Typography>
-                                </>
-                            }>
-                            <u>{getBirthRegion(userDetail)?.name}</u>
-                        </Tooltip>
+            <Row title="Tempat dan Tanggal Lahir">
+                <Typography>
+                    <Tooltip
+                        placement="top-start"
+                        title={
+                            <>
+                                <Typography component="p">
+                                    {getBirthRegion(userDetail)?.id}
+                                </Typography>
+                                <Typography component="p">
+                                    {birth_regency?.name}
+                                </Typography>
+                                <Typography component="p">
+                                    {birth_district?.name}
+                                </Typography>
+                            </>
+                        }>
+                        <u>{getBirthRegion(userDetail)?.name}</u>
+                    </Tooltip>
 
-                        <i>{getBirthRegion(userDetail) ? '' : 'belum diisi'}</i>
+                    <i>{getBirthRegion(userDetail) ? '' : 'belum diisi'}</i>
 
-                        {birth_at
-                            ? ', ' + moment(birth_at).format('DD MMMM YYYY')
-                            : '-'}
-                    </Typography>
-                </Row>
+                    {birth_at
+                        ? ', ' + moment(birth_at).format('DD MMMM YYYY')
+                        : '-'}
+                </Typography>
+            </Row>
 
-                <Row title="Nomor BPJS Kesehatan">
-                    {bpjs_kesehatan_no || '-'}
-                </Row>
+            <Row title="Nomor BPJS Kesehatan">{bpjs_kesehatan_no || '-'}</Row>
 
-                <Row title="Pekerjaan" helperText={job_desc}>
-                    {job_title || '-'}
-                </Row>
+            <Row title="Pekerjaan" helperText={job_desc}>
+                {job_title || '-'}
+            </Row>
 
-                <Row title="Pendidikan Terakhir">
-                    {last_education?.name || '-'}
-                </Row>
+            <Row title="Pendidikan Terakhir">{last_education?.name || '-'}</Row>
 
-                <Row title="Status Pernikahan">
-                    {marital_status?.name || '-'}
-                </Row>
+            <Row title="Status Pernikahan">{marital_status?.name || '-'}</Row>
 
-                <Row title="Jumlah Anak">
-                    {n_children === null ? '-' : `${n_children} orang`}
-                </Row>
-            </Box>
+            <Row title="Jumlah Anak">
+                {n_children === null ? '-' : `${n_children} orang`}
+            </Row>
         </Box>
     )
 }

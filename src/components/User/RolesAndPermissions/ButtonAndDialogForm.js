@@ -1,22 +1,23 @@
+import PropTypes from 'prop-types'
 import { useState } from 'react'
 import useSWR, { mutate } from 'swr'
 import axios from '@/lib/axios'
 
 import {
+    Box,
+    Button,
     Checkbox,
-    FormControl,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle as MuiDialogTitle,
+    Divider,
     FormControlLabel,
     FormGroup,
-    FormHelperText,
-    FormLabel,
+    IconButton,
+    Typography,
+    Tooltip,
 } from '@mui/material'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
 
 import CloseIcon from '@mui/icons-material/Close'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
@@ -24,11 +25,48 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import ErrorCenter from '@/components/Statuses/ErrorCenter'
+import __ from '@/locales/__'
+import { memo } from 'react'
+import { getRoleIconByIdName } from '../RoleChips'
 
-export default function RolesAndPermissionButtonAndDialogForm({
+const DialogTitle = ({ isLoading, onClose }) => (
+    <MuiDialogTitle
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        typography={false}>
+        <ManageAccountsIcon color="warning" />
+        <Typography variant="h6" component="div" ml={1} flexGrow={1}>
+            Pengaturan peran
+        </Typography>
+
+        <IconButton disabled={isLoading} onClick={onClose}>
+            <CloseIcon />
+        </IconButton>
+    </MuiDialogTitle>
+)
+
+DialogTitle.propTypes = {
+    isLoading: PropTypes.bool,
+    onClose: PropTypes.func,
+}
+
+const isDisabled = (user, role) => {
+    if (role === 'anggota' && user.member) {
+        return true
+    }
+
+    if (role === 'karyawan' && user.employee) {
+        return true
+    }
+
+    return false
+}
+
+const RolesAndPermissionButtonAndDialogForm = ({
     data: user = {},
     isLoading: isDataLoading,
-}) {
+}) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const [isComplete, setIsComplete] = useState(false)
@@ -37,7 +75,8 @@ export default function RolesAndPermissionButtonAndDialogForm({
 
     const { data: roles } = useSWR(
         '/data/roles',
-        url => axios.get(url).then(response => response.data),
+        url =>
+            axios.get(url).then(response => response.data?.map(role => role)),
         {
             revalidateOnFocus: false,
         },
@@ -57,61 +96,83 @@ export default function RolesAndPermissionButtonAndDialogForm({
             )
 
             await axios.put(`/users/${user.uuid}/set-roles`, { roles: roles })
-            await mutate(`users/${user.uuid}`)
+            await mutate(`/users/${user.uuid}`)
 
             setIsComplete(true)
         } catch (error) {
             setError(error.response?.data.message)
-            throw error
         }
 
         setIsLoading(false)
     }
 
-    function handleClose() {
+    const handleClose = () => {
         setIsOpen(false)
         setIsComplete(false)
         setIsLoading(false)
         setError(undefined)
     }
 
+    const checkboxesByGroupName = groupName => (
+        <>
+            <Divider textAlign="left">
+                <Typography variant="caption" color="primary">
+                    {__(groupName, 'role-group-names')}
+                </Typography>
+            </Divider>
+            <FormGroup row>
+                {roles
+                    ?.filter(role => role.group === groupName)
+                    .map(role => (
+                        <Tooltip
+                            arrow={true}
+                            key={role.id}
+                            disableHoverListener={
+                                !isDisabled(user, role.name_id)
+                            }
+                            title="Tidak dapat mengatur peran, silakan mengaturnya melalui tanggal bergabung / keluar"
+                            placement="top">
+                            <FormControlLabel
+                                label={role.name_id}
+                                disabled={isDisabled(user, role.name_id)}
+                                control={
+                                    <Checkbox
+                                        checkedIcon={getRoleIconByIdName(
+                                            role.name_id,
+                                        )}
+                                        name="roles"
+                                        value={role.name}
+                                        color="warning"
+                                        defaultChecked={
+                                            user.role_names_id?.includes(
+                                                role.name_id,
+                                            ) || false
+                                        }
+                                    />
+                                }
+                            />
+                        </Tooltip>
+                    ))}
+            </FormGroup>
+        </>
+    )
+
     return (
         <>
             <Button
-                disabled={
-                    !user.uuid || isDataLoading || user.is_active === false
-                }
-                variant="outlined"
-                color="error"
+                disabled={!user.uuid || isDataLoading}
+                color="warning"
                 size="small"
+                startIcon={<ManageAccountsIcon />}
                 onClick={() => setIsOpen(true)}>
-                Hak akses
+                Atur Peran
             </Button>
 
             {user.uuid && (
-                <Dialog
-                    fullWidth
-                    maxWidth="xs"
-                    open={isOpen}
-                    onKeyDown={e => e.key === 'Escape' && setIsOpen(false)}>
+                <Dialog fullWidth maxWidth="xs" open={isOpen}>
+                    <DialogTitle isLoading={isLoading} onClose={handleClose} />
+
                     <DialogContent>
-                        <Box display="flex" mb={1.5} alignItems="center">
-                            <ManageAccountsIcon color="warning" />
-                            <Typography
-                                variant="h6"
-                                component="h2"
-                                ml={1}
-                                flexGrow={1}>
-                                Pengaturan hak akses
-                            </Typography>
-
-                            <IconButton
-                                disabled={isLoading}
-                                onClick={handleClose}>
-                                <CloseIcon />
-                            </IconButton>
-                        </Box>
-
                         <CompleteCenter
                             isShow={isComplete}
                             message={`Hak akses ${user.name} berhasil diubah`}
@@ -126,51 +187,24 @@ export default function RolesAndPermissionButtonAndDialogForm({
                         />
 
                         <Box
-                            sx={{
-                                display:
-                                    isComplete || isLoading || error
-                                        ? 'none'
-                                        : 'block',
-                            }}>
-                            <form
-                                id="set_roles_and_permission"
-                                onSubmit={handleSubmit}>
-                                <FormControl
-                                    sx={{ mx: 3 }}
-                                    component="fieldset"
-                                    variant="standard">
-                                    <FormLabel component="legend">
-                                        Hak Akses
-                                    </FormLabel>
-                                    <FormGroup>
-                                        {roles?.map(role => (
-                                            <div key={role.id}>
-                                                <FormControlLabel
-                                                    label={role.name}
-                                                    control={
-                                                        <>
-                                                            <Checkbox
-                                                                name="roles"
-                                                                value={
-                                                                    role.name
-                                                                }
-                                                                defaultChecked={user.role_names?.includes(
-                                                                    role.name,
-                                                                )}
-                                                            />
-                                                        </>
-                                                    }
-                                                />
-                                                <FormHelperText>
-                                                    {role.permissions
-                                                        .map(perm => perm.name)
-                                                        .join(', ')}
-                                                </FormHelperText>
-                                            </div>
-                                        ))}
-                                    </FormGroup>
-                                </FormControl>
-                            </form>
+                            display={
+                                isComplete || isLoading || error
+                                    ? 'none'
+                                    : 'flex'
+                            }
+                            flexDirection="column"
+                            gap={3}
+                            component="form"
+                            id="set_roles_and_permission"
+                            onSubmit={handleSubmit}
+                            textTransform="capitalize">
+                            {['basic', 'finance', 'loan', 'system'].map(
+                                groupName => (
+                                    <Box key={groupName}>
+                                        {checkboxesByGroupName(groupName)}
+                                    </Box>
+                                ),
+                            )}
                         </Box>
                     </DialogContent>
 
@@ -198,3 +232,10 @@ export default function RolesAndPermissionButtonAndDialogForm({
         </>
     )
 }
+
+RolesAndPermissionButtonAndDialogForm.propTypes = {
+    data: PropTypes.object,
+    isLoading: PropTypes.bool,
+}
+
+export default memo(RolesAndPermissionButtonAndDialogForm)

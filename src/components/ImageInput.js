@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
+import {
+    Box,
+    Button,
+    Typography,
+    FormControl,
+    FormHelperText,
+} from '@mui/material'
 
 import ImageIcon from '@mui/icons-material/Image'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
-import { FormControl, FormHelperText } from '@mui/material'
 
 const IMG_STYLE = {
     maxHeight: '320px',
@@ -20,6 +23,7 @@ export default function ImageInput({
     defaultValue,
     error,
     helperText,
+    disabled,
     ...props
 }) {
     const [isCaptureSupported, setIsCaptureSupported] = useState(true)
@@ -73,6 +77,7 @@ export default function ImageInput({
                         <Button
                             component="label"
                             size="small"
+                            disabled={disabled}
                             startIcon={<ImageIcon />}>
                             {defaultValue || selectedImagePreview
                                 ? 'Ganti Pilihan'
@@ -90,6 +95,7 @@ export default function ImageInput({
                             <Button
                                 component="label"
                                 size="small"
+                                disabled={disabled}
                                 startIcon={<CameraAltIcon />}>
                                 Buka Kamera
                                 <input

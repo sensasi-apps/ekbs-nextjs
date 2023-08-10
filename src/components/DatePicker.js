@@ -58,12 +58,18 @@ DatePicker.propTypes = {
     name: PropTypes.string,
     required: PropTypes.bool,
     fullWidth: PropTypes.bool,
-    margin: PropTypes.number,
-    size: PropTypes.PropTypes.oneOf(['small', 'medium']),
+    margin: PropTypes.oneOf(['none', 'dense', 'normal']),
+    size: PropTypes.oneOf(['small', 'medium']),
     error: PropTypes.bool,
     helperText: PropTypes.string,
-    value: PropTypes.string,
-    defaultValue: PropTypes.string,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.instanceOf(moment),
+    ]),
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.instanceOf(moment),
+    ]),
 }
 
 export default DatePicker

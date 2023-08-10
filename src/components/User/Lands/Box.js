@@ -17,10 +17,11 @@ import Typography from '@mui/material/Typography'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import MemberLandForm from '../Land/Form'
+import UserLandForm from '../Land/Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import NumericMasking from '@/components/Inputs/NumericMasking'
 
-function ListItem({
+const ListItem = ({
     data: {
         uuid: landUuuid,
         address,
@@ -30,7 +31,7 @@ function ListItem({
         note,
     },
     userUuid,
-}) {
+}) => {
     const { province, regency, district, village, detail, zip_code } =
         address || {}
 
@@ -57,7 +58,12 @@ function ListItem({
             }>
             <ListItemText disableTypography>
                 <Typography gutterBottom variant="h5" component="span">
-                    {n_area_hectares} Ha
+                    <NumericMasking
+                        onChange={() => {}}
+                        displayType="text"
+                        value={n_area_hectares}
+                        suffix=" Ha"
+                    />
                 </Typography>
                 <Typography color="GrayText" gutterBottom>
                     {note}
@@ -84,11 +90,7 @@ function ListItem({
     )
 }
 
-export default function MemberLandsBox({
-    userUuid,
-    data: lands = [],
-    ...props
-}) {
+const UserLandsBox = ({ userUuid, data: lands = [], ...props }) => {
     const [isFormOpen, setIsFormOpen] = useState(false)
 
     return (
@@ -121,7 +123,7 @@ export default function MemberLandsBox({
                 </List>
             )}
 
-            <MemberLandForm
+            <UserLandForm
                 userUuid={userUuid}
                 isShow={isFormOpen}
                 onClose={() => setIsFormOpen(false)}
@@ -129,3 +131,5 @@ export default function MemberLandsBox({
         </Box>
     )
 }
+
+export default UserLandsBox

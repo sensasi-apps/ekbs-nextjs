@@ -6,12 +6,12 @@ import useSWRMutation from 'swr/mutation'
 
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 import axios from '@/lib/axios'
+import RoleChips from './RoleChips'
 
 const UserSelect = ({
     error,
@@ -87,17 +87,7 @@ const UserSelect = ({
                         </Typography>
                         <Typography mr={2}>{option.name}</Typography>
 
-                        {option.employee_count > 0 && (
-                            <Chip size="small" label="Pegawai" />
-                        )}
-
-                        {option.member_count > 0 && (
-                            <Chip size="small" label="Anggota" />
-                        )}
-
-                        {option.courier_count > 0 && (
-                            <Chip size="small" label="Pengangkut" />
-                        )}
+                        <RoleChips data={option.role_names_id} size="small" />
                     </Box>
                 </li>
             )}
