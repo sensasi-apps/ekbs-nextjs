@@ -3,14 +3,13 @@ import { mutate } from 'swr'
 
 import axios from '@/lib/axios'
 
-import {
-    IconButton,
-    List,
-    ListItem as MuiListItem,
-    ListItemText,
-    Tooltip,
-} from '@mui/material'
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import MuiListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import Skeleton from '@mui/material/Skeleton'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
 import AddIcon from '@mui/icons-material/Add'
@@ -19,8 +18,9 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import UserBankAccForm from './Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import useUserWithDetails from '@/providers/UserWithDetails'
 
-function ListItem({ data: { uuid, no_decrypted, name }, userUuid }) {
+const ListItem = ({ data: { uuid, no_decrypted, name }, userUuid }) => {
     const [isDeleting, setIsDeleting] = useState(false)
 
     const handleDelete = async () => {
@@ -37,12 +37,17 @@ function ListItem({ data: { uuid, no_decrypted, name }, userUuid }) {
             disablePadding
             secondaryAction={
                 <>
-                    <IconButton aria-label="delete" onClick={handleDelete}>
+                    <IconButton
+                        aria-label="delete"
+                        onClick={handleDelete}
+                        size="small"
+                        sx={{ mr: 4 }}>
                         <DeleteIcon />
                     </IconButton>
                     <Tooltip title="Salin">
                         <IconButton
                             edge="end"
+                            size="large"
                             aria-label="copy"
                             onClick={() =>
                                 navigator.clipboard.writeText(no_decrypted)
@@ -57,34 +62,45 @@ function ListItem({ data: { uuid, no_decrypted, name }, userUuid }) {
     )
 }
 
-export default function UserBankAccsBox({
-    userUuid,
-    data: bankAccs = [],
-    ...props
-}) {
+const UserBankAccsCrudBox = () => {
+    const { data: userWithDetails, isLoading } = useUserWithDetails()
+
     const [isFormOpen, setIsFormOpen] = useState(false)
 
+    const { bank_accs, uuid: userUuid } = userWithDetails || {}
+
     return (
-        <Box {...props}>
+        <Box>
             <Box display="flex" alignItems="center">
                 <Typography variant="h6" component="div">
                     Rekening Bank
                 </Typography>
 
-                <IconButton color="success" onClick={() => setIsFormOpen(true)}>
+                <IconButton
+                    disabled={isLoading}
+                    color="success"
+                    onClick={() => setIsFormOpen(true)}>
                     <AddIcon />
                 </IconButton>
             </Box>
 
-            {bankAccs.length === 0 && (
-                <Typography>
+            {isLoading && (
+                <>
+                    <Skeleton />
+                    <Skeleton />
+                    <Skeleton />
+                </>
+            )}
+
+            {!isLoading && bank_accs?.length === 0 && (
+                <Typography variant="body2" color="GrayText">
                     <i>Belum ada data rekening</i>
                 </Typography>
             )}
 
-            {bankAccs.length > 0 && (
+            {!isLoading && bank_accs?.length > 0 && (
                 <List>
-                    {bankAccs.map(bankAcc => (
+                    {bank_accs.map(bankAcc => (
                         <ListItem
                             key={bankAcc.uuid}
                             data={bankAcc}
@@ -102,3 +118,5 @@ export default function UserBankAccsBox({
         </Box>
     )
 }
+
+export default UserBankAccsCrudBox

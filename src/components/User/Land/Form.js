@@ -10,13 +10,7 @@ import Autocomplete from '@/components/Inputs/Autocomplete'
 import DatePicker from '@/components/DatePicker'
 import NumericMasking from '@/components/Inputs/NumericMasking'
 
-export default function MemberLandForm({
-    isShow,
-    onClose,
-    onSubmitted,
-    userUuid,
-    ...props
-}) {
+const UserLandForm = ({ isShow, onClose, onSubmitted, userUuid }) => {
     const [errors, setErrors] = useState({})
     const [isLoading, setIsLoading] = useState(false)
 
@@ -24,9 +18,14 @@ export default function MemberLandForm({
         e.preventDefault()
         setIsLoading(true)
 
-        try {
-            const formData = new FormData(e.target.closest('form'))
+        const formEl = e.target.closest('form')
+        if (!formEl.reportValidity()) {
+            setIsLoading(false)
+            return false
+        }
 
+        const formData = new FormData(formEl)
+        try {
             const plantedAt = formData.get('planted_at')
 
             if (plantedAt) {
@@ -78,11 +77,11 @@ export default function MemberLandForm({
                     marginTop: '1rem',
                     display: !isShow || isLoading ? 'none' : undefined,
                 }}
-                autoComplete="off"
-                {...props}>
+                autoComplete="off">
                 <input type="hidden" name="region_id" />
 
                 <Autocomplete
+                    required
                     margin="normal"
                     onChange={(e, value) => {
                         document.querySelector(
@@ -164,7 +163,13 @@ export default function MemberLandForm({
                     margin="normal"
                     label="Tanggal Tanam"
                     name="planted_at"
-                    onChange={clearError}
+                    onChange={() =>
+                        clearError({
+                            target: {
+                                name: 'planted_at',
+                            },
+                        })
+                    }
                     error={Boolean(errors.planted_at)}
                     helperText={errors.planted_at}
                 />
@@ -196,3 +201,5 @@ export default function MemberLandForm({
         </>
     )
 }
+
+export default UserLandForm

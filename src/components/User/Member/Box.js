@@ -1,12 +1,33 @@
+import moment from 'moment'
+
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import moment from 'moment'
+import useUserWithDetails from '@/providers/UserWithDetails'
 
-export default function MemberBox({ data: member, ...props }) {
-    if (!member) return null
+const Row = ({ title, children, helperText, ...props }) => {
+    return (
+        <Box {...props} mb={1}>
+            <Typography variant="caption" color="text.secondary">
+                {title}
+            </Typography>
+            {typeof children === 'string' && (
+                <Typography>{children}</Typography>
+            )}
 
-    const { joined_at, unjoined_at, unjoined_reason, note } = member
+            {typeof children !== 'string' && children}
+
+            {helperText && (
+                <Typography variant="body2">{helperText}</Typography>
+            )}
+        </Box>
+    )
+}
+
+const MemberBox = () => {
+    const { data: userWithDetails = {} } = useUserWithDetails()
+    const { member } = userWithDetails
+    const { joined_at, unjoined_at, unjoined_reason, note } = member || {}
 
     const getStatus = () => {
         if (unjoined_at) return 'Berhenti / Keluar'
@@ -15,7 +36,7 @@ export default function MemberBox({ data: member, ...props }) {
     }
 
     return (
-        <Box {...props}>
+        <Box>
             <Row title="Status">
                 <Typography
                     variant="h5"
@@ -48,21 +69,4 @@ export default function MemberBox({ data: member, ...props }) {
     )
 }
 
-function Row({ title, children, helperText, ...props }) {
-    return (
-        <Box {...props} mb={1}>
-            <Typography variant="caption" color="text.secondary">
-                {title}
-            </Typography>
-            {typeof children === 'string' && (
-                <Typography>{children}</Typography>
-            )}
-
-            {typeof children !== 'string' && children}
-
-            {helperText && (
-                <Typography variant="body2">{helperText}</Typography>
-            )}
-        </Box>
-    )
-}
+export default MemberBox

@@ -107,8 +107,9 @@ export default function SetPasswordButtonAndDialogForm({ data: user }) {
             <Button
                 disabled={!user?.uuid || user.is_active === false}
                 variant="outlined"
-                color="error"
+                color="warning"
                 size="small"
+                startIcon={<KeyIcon />}
                 onClick={() => setIsOpen(true)}>
                 Atur kata sandi
             </Button>
