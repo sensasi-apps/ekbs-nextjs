@@ -1,4 +1,4 @@
-'use client'
+import PropTypes from 'prop-types'
 
 import axios from '@/lib/axios'
 import useSWR from 'swr'
@@ -10,7 +10,15 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Skeleton from '@mui/material/Skeleton'
 
-export default function SelectInputFromApi({
+const fetcher = url => {
+    return axios.get(url).then(response => response.data)
+}
+
+const SWR_CONFIG = {
+    revalidateOnFocus: false,
+}
+
+const SelectInputFromApi = ({
     nullLabel,
     endpoint,
     name,
@@ -19,18 +27,14 @@ export default function SelectInputFromApi({
     selectProps,
     helperText,
     ...props
-}) {
-    const fetcher = async url => {
-        return (await axios.get(url)).data
-    }
-
-    const { data, isLoading } = useSWR(endpoint, fetcher)
+}) => {
+    const { data, isLoading } = useSWR(endpoint, fetcher, SWR_CONFIG)
 
     if (isLoading) return <Skeleton height="100%" />
     return (
         <FormControl fullWidth {...props}>
             {label && (
-                <InputLabel shrink={selectProps.displayEmpty}>
+                <InputLabel shrink={selectProps?.displayEmpty}>
                     {label}
                 </InputLabel>
             )}
@@ -45,7 +49,7 @@ export default function SelectInputFromApi({
                 label={label}
                 {...selectProps}>
                 {nullLabel && (
-                    <MenuItem value="" disabled={!selectProps.displayEmpty}>
+                    <MenuItem value="" disabled={!selectProps?.displayEmpty}>
                         <em>{nullLabel}</em>
                     </MenuItem>
                 )}
@@ -62,3 +66,15 @@ export default function SelectInputFromApi({
         </FormControl>
     )
 }
+
+SelectInputFromApi.propTypes = {
+    nullLabel: PropTypes.string,
+    endpoint: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    onChange: PropTypes.func,
+    selectProps: PropTypes.object,
+    helperText: PropTypes.string,
+}
+
+export default SelectInputFromApi

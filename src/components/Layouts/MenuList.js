@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
 
 import AppContext from '@/providers/App'
 import MENUS_DATA from './menusData'
-import debounce from '@/lib/debounce'
 
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
@@ -12,98 +11,100 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import Skeleton from '@mui/material/Skeleton'
 import Toolbar from '@mui/material/Toolbar'
 
-function MenuList({ isDrawerOpen, toggleDrawer }) {
-    const drawerWidth = 240
-
+const isAuthorized = menuData => {
     const {
-        auth: { user },
+        auth: { userHasRole, userHasPermission },
     } = useContext(AppContext)
-    const [drawerProps, setDrawerProps] = useState({})
 
-    function GET_DRAWER_PROPS() {
-        if (window.innerWidth < 600) {
-            return {
-                variant: 'temporary',
-                onClose: toggleDrawer,
-            }
-        }
-
-        return {
-            variant: 'permanent',
-            onClose: null,
-        }
+    if (
+        userHasRole('superman') ||
+        !menuData.forRoles ||
+        !menuData.forPermissions
+    ) {
+        return true
     }
 
-    useEffect(() => {
-        setDrawerProps(GET_DRAWER_PROPS())
+    let isAuthorized =
+        menuData.forRoles.findIndex(role => userHasRole(role)) !== -1
 
-        window.addEventListener(
-            'resize',
-            debounce(() => {
-                setDrawerProps(GET_DRAWER_PROPS())
-            }, 300),
-        )
-    }, [])
-
-    function isAuthorized(user, menu) {
-        if (
-            user?.role_names?.includes('superman') ||
-            !menu.forRoles ||
-            !menu.forPermissions
-        ) {
-            return true
-        }
-
-        let isAuthorized = false
-
-        user?.role_names?.forEach(role => {
-            if (menu.forRoles.includes(role)) {
-                isAuthorized = true
-                return
-            }
-        })
-
-        if (isAuthorized) {
-            return isAuthorized
-        }
-
-        user?.permission_names?.forEach(permission => {
-            if (menu.forPermissions.includes(permission)) {
-                isAuthorized = true
-                return
-            }
-        })
-
+    if (isAuthorized) {
         return isAuthorized
     }
 
-    function CustomListItem({ data, user, ...props }) {
-        const router = useRouter()
+    isAuthorized =
+        menuData.forPermissions.findIndex(permission =>
+            userHasPermission(permission),
+        ) !== -1
 
-        if (!isAuthorized(user, data)) {
-            return
-        }
+    return isAuthorized
+}
 
-        if (data.component) {
-            return data.component
-        }
+const CustomListItem = ({ data: menuData, ...props }) => {
+    const router = useRouter()
 
-        return (
-            <ListItem disablePadding>
-                <ListItemButton
-                    shallow={true}
-                    passHref
-                    href={data.href}
-                    selected={router.pathname === data.pathname}
-                    {...props}>
-                    <ListItemIcon>{data.icon}</ListItemIcon>
-                    <ListItemText primary={data.label} />
-                </ListItemButton>
-            </ListItem>
-        )
+    if (!isAuthorized(menuData)) {
+        return
     }
+
+    if (menuData.component) {
+        return menuData.component
+    }
+
+    return (
+        <ListItem disablePadding>
+            <ListItemButton
+                shallow={true}
+                passHref
+                href={menuData.href}
+                selected={router.pathname === menuData.pathname}
+                {...props}>
+                <ListItemIcon>{menuData.icon}</ListItemIcon>
+                <ListItemText primary={menuData.label} />
+            </ListItemButton>
+        </ListItem>
+    )
+}
+
+const GET_DRAWER_PROPS = toggleDrawer => {
+    if (window.innerWidth < 600) {
+        return {
+            variant: 'temporary',
+            onClose: toggleDrawer,
+        }
+    }
+
+    return {
+        variant: 'permanent',
+        onClose: null,
+    }
+}
+
+const MenuList = ({ isDrawerOpen, toggleDrawer }) => {
+    const {
+        auth: { user },
+    } = useContext(AppContext)
+
+    const drawerWidth = 240
+
+    const [drawerProps, setDrawerProps] = useState({})
+
+    function handleResize() {
+        setDrawerProps(GET_DRAWER_PROPS(toggleDrawer))
+    }
+
+    useEffect(() => {
+        setDrawerProps(GET_DRAWER_PROPS(toggleDrawer))
+
+        window.addEventListener('resize', handleResize, { passive: true })
+
+        return () =>
+            window.removeEventListener('resize', handleResize, {
+                passive: true,
+            })
+    }, [])
 
     return (
         <Box
@@ -124,17 +125,27 @@ function MenuList({ isDrawerOpen, toggleDrawer }) {
                 }}>
                 <Toolbar />
 
-                {MENUS_DATA.map((data, index) => (
-                    <CustomListItem
-                        key={index}
-                        data={data}
-                        user={user}
-                        onClick={debounce(toggleDrawer, 300)}
-                    />
-                ))}
+                {!user && (
+                    <Box px={4}>
+                        <Skeleton height="4em" />
+                        <Skeleton height="4em" />
+                        <Skeleton height="4em" />
+                        <Skeleton height="4em" />
+                        <Skeleton height="4em" />
+                    </Box>
+                )}
+
+                {user &&
+                    MENUS_DATA.map((data, index) => (
+                        <CustomListItem
+                            key={index}
+                            data={data}
+                            onClick={toggleDrawer}
+                        />
+                    ))}
             </Drawer>
         </Box>
     )
 }
 
-export default MenuList
+export default memo(MenuList)

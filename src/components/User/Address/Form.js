@@ -6,6 +6,7 @@ import { Box, Button, TextField } from '@mui/material'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import Autocomplete from '@/components/Inputs/Autocomplete'
+import NumericMasking from '@/components/Inputs/NumericMasking'
 
 export default function AddressForm({
     isShow,
@@ -98,7 +99,14 @@ export default function AddressForm({
                 margin="normal"
                 name="zip_code"
                 label="Kode Pos"
-                type="number"
+                InputProps={{
+                    inputComponent: NumericMasking,
+                }}
+                inputProps={{
+                    thousandSeparator: false,
+                    decimalScale: 0,
+                    maxLength: 5,
+                }}
                 error={Boolean(errors.zip_code)}
                 helperText={errors.zip_code}
             />

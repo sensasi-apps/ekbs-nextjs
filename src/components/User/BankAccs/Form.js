@@ -5,7 +5,7 @@ import axios from '@/lib/axios'
 
 import { Box, Button, TextField } from '@mui/material'
 
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import { LoadingButton } from '@mui/lab'
 
 export default function UserBankAccForm({
     isShow,
@@ -16,6 +16,8 @@ export default function UserBankAccForm({
 }) {
     const [errors, setErrors] = useState({})
     const [isLoading, setIsLoading] = useState(false)
+
+    if (!isShow) return null
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -45,9 +47,6 @@ export default function UserBankAccForm({
         setIsLoading(false)
     }
 
-    if (!isShow) return null
-    if (isLoading) return <LoadingCenter />
-
     return (
         <form
             style={{
@@ -59,8 +58,9 @@ export default function UserBankAccForm({
             <TextField
                 fullWidth
                 required
+                disabled={isLoading}
                 label="Nama Bank"
-                margin="normal"
+                margin="dense"
                 name="name"
                 onChange={() =>
                     setErrors({
@@ -74,10 +74,11 @@ export default function UserBankAccForm({
 
             <TextField
                 fullWidth
+                disabled={isLoading}
                 required
                 label="Nomor Rekening"
                 name="no"
-                margin="normal"
+                margin="dense"
                 onChange={() =>
                     setErrors({
                         ...errors,
@@ -88,14 +89,20 @@ export default function UserBankAccForm({
                 helperText={errors.no}
             />
 
-            <Box textAlign="right" mt={1}>
+            <Box textAlign="right" mt={2}>
                 <Button
+                    disabled={isLoading}
                     onClick={() => {
                         if (onClose) onClose()
                     }}>
                     Batal
                 </Button>
-                <Button type="submit">Simpan</Button>
+                <LoadingButton
+                    loading={isLoading}
+                    type="submit"
+                    variant="contained">
+                    Simpan
+                </LoadingButton>
             </Box>
         </form>
     )

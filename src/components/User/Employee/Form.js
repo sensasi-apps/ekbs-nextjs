@@ -1,53 +1,42 @@
-'use client'
-
 import { useState } from 'react'
 import { mutate } from 'swr'
-import moment from 'moment'
+import axios from '@/lib/axios'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-import DatePicker from '../../DatePicker'
-import axios from '@/lib/axios'
-import LoadingCenter from '../../Statuses/LoadingCenter'
+import LoadingButton from '@mui/lab/LoadingButton'
+
 import SelectInputFromApi from '../../SelectInputFromApi'
+import DatePicker from '../../DatePicker'
+import useFormData from '@/providers/FormData'
+import useUserWithDetails from '@/providers/UserWithDetails'
 
-export default function EmployeeForm({
-    isShow = true,
-    uuid: userUuid,
-    data: employee,
-    onClose,
-    onSubmitted,
-    ...props
-}) {
-    if (!isShow) return null
-
-    const [joinedAt, setJoinedAt] = useState(
-        employee?.joined_at ? moment(employee?.joined_at) : null,
-    )
-    const [unjoinedAt, setUnjoinedAt] = useState(
-        employee?.unjoined_at ? moment(employee?.unjoined_at) : null,
-    )
-
+const EmployeeForm = () => {
     const [isLoading, setIsLoading] = useState(false)
-    const [errors, setErrors] = useState({})
+    const [validationErrors, setValidationErrors] = useState({})
 
-    const handleJoinedAtChange = value => {
-        setJoinedAt(value)
-        setErrors({
-            ...errors,
-            joined_at: null,
-        })
-    }
+    const { data: user } = useUserWithDetails()
 
-    const handleUnjoinedAtChange = value => {
-        setUnjoinedAt(value)
-        setErrors({
-            ...errors,
-            unjoined_at: null,
-        })
-    }
+    const {
+        data: employee = {},
+        handleClose,
+        isDataNotUndefined,
+    } = useFormData()
+
+    // ############################## HOOKS END ##############################
+
+    if (!isDataNotUndefined) return null
+
+    const {
+        joined_at,
+        unjoined_at,
+        unjoined_reason,
+        note,
+        employee_status_id,
+        position,
+    } = employee
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -56,23 +45,13 @@ export default function EmployeeForm({
         try {
             const formData = new FormData(e.target)
 
-            if (joinedAt) {
-                formData.set('joined_at', joinedAt.format('YYYY-MM-DD'))
-            }
+            await axios.post(`/users/${user.uuid}/employee`, formData)
+            mutate(`/users/${user.uuid}`)
 
-            if (unjoinedAt) {
-                formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'))
-            }
-
-            await axios.post(`/users/${userUuid}/employee`, formData)
-            mutate(`/users/${userUuid}`)
-
-            if (onSubmitted) {
-                onSubmitted()
-            }
+            handleClose()
         } catch (error) {
             if (error?.response?.status === 422) {
-                setErrors(error?.response?.data?.errors)
+                setValidationErrors(error.response.data.errors)
             } else {
                 throw error
             }
@@ -81,82 +60,125 @@ export default function EmployeeForm({
         setIsLoading(false)
     }
 
-    if (isLoading) return <LoadingCenter />
+    const clearValidationErrors = event => {
+        const { name } = event.target
+
+        if (name in validationErrors) {
+            setValidationErrors(prev => {
+                prev[name] = undefined
+                return prev
+            })
+        }
+    }
 
     return (
-        <form onSubmit={handleSubmit} {...props}>
+        <form onSubmit={handleSubmit}>
             <SelectInputFromApi
                 endpoint="/data/employee-statuses"
                 label="Status Karyawan"
+                disabled={isLoading}
                 name="employee_status_id"
                 margin="normal"
                 required
                 selectProps={{
-                    defaultValue: employee?.employee_status_id || '',
+                    defaultValue: employee_status_id || '',
                 }}
-                error={Boolean(errors.employee_status_id)}
-                helperText={errors.employee_status_id}
+                onChange={clearValidationErrors}
+                error={Boolean(validationErrors.employee_status_id)}
+                helperText={validationErrors.employee_status_id}
             />
 
             <TextField
                 fullWidth
+                required
+                disabled={isLoading}
                 name="position"
                 label="Jabatan"
                 margin="normal"
-                defaultValue={employee?.position || ''}
-                error={Boolean(errors.position)}
-                helperText={errors.position}
+                onChange={clearValidationErrors}
+                defaultValue={position || ''}
+                error={Boolean(validationErrors.position)}
+                helperText={validationErrors.position}
             />
 
             <DatePicker
                 required
                 fullWidth
-                onChange={handleJoinedAtChange}
+                disabled={isLoading}
                 label="Tanggal Bergabung"
                 margin="normal"
                 name="joined_at"
-                defaultValue={employee?.joined_at ? joinedAt : null}
-                error={Boolean(errors.joined_at)}
-                helperText={errors.joined_at}
+                defaultValue={joined_at}
+                onChange={() => {
+                    if ('joined_at' in validationErrors) {
+                        setValidationErrors(prev => {
+                            prev.joined_at = undefined
+                            return prev
+                        })
+                    }
+                }}
+                error={Boolean(validationErrors.joined_at)}
+                helperText={validationErrors.joined_at}
             />
 
             <DatePicker
                 fullWidth
-                onChange={handleUnjoinedAtChange}
                 label="Tanggal Berhenti/Keluar"
+                disabled={isLoading}
                 margin="normal"
                 name="unjoined_at"
-                defaultValue={employee?.unjoined_at ? unjoinedAt : null}
-                error={Boolean(errors.unjoined_at)}
-                helperText={errors.unjoined_at}
+                defaultValue={unjoined_at}
+                onChange={() => {
+                    if ('unjoined_at' in validationErrors) {
+                        setValidationErrors(prev => {
+                            prev.unjoined_at = undefined
+                            return prev
+                        })
+                    }
+                }}
+                error={Boolean(validationErrors.unjoined_at)}
+                helperText={validationErrors.unjoined_at}
             />
 
             <TextField
                 fullWidth
                 multiline
+                disabled={isLoading}
                 name="unjoined_reason"
                 label="Alasan Berhenti/Keluar"
                 margin="normal"
-                defaultValue={employee?.unjoined_reason || ''}
-                error={Boolean(errors.unjoined_reason)}
-                helperText={errors.unjoined_reason}
+                defaultValue={unjoined_reason || ''}
+                onChange={clearValidationErrors}
+                error={Boolean(validationErrors.unjoined_reason)}
+                helperText={validationErrors.unjoined_reason}
             />
 
             <TextField
                 fullWidth
                 multiline
                 name="note"
+                disabled={isLoading}
                 label="Catatan tambahan"
                 margin="normal"
-                defaultValue={employee?.note || ''}
-                error={Boolean(errors.note)}
-                helperText={errors.note}
+                defaultValue={note || ''}
+                onChange={clearValidationErrors}
+                error={Boolean(validationErrors.note)}
+                helperText={validationErrors.note}
             />
 
             <Box display="flex" mt={2} justifyContent="end">
-                <Button onClick={() => onClose()}>Batal</Button>
-                <Button type="submit">Simpan</Button>
+                <Button disabled={isLoading} onClick={handleClose}>
+                    Batal
+                </Button>
+                <LoadingButton
+                    variant="contained"
+                    loading={isLoading}
+                    type="submit">
+                    Simpan
+                </LoadingButton>
             </Box>
         </form>
     )
 }
+
+export default EmployeeForm

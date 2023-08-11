@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import axios from '@/lib/axios'
 import useSWRMutation from 'swr/mutation'

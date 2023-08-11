@@ -1,4 +1,4 @@
-'use client'
+import PropTypes from 'prop-types'
 
 import { useState } from 'react'
 
@@ -6,14 +6,21 @@ import useSWRMutation from 'swr/mutation'
 
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 import axios from '@/lib/axios'
+import RoleChips from './RoleChips'
 
-const UserSelect = ({ error, helperText, ...props }) => {
+const UserSelect = ({
+    error,
+    helperText,
+    label = 'Cari Pengguna',
+    margin = 'none',
+    required,
+    ...props
+}) => {
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
     const [userOptions, setUserOptions] = useState([])
@@ -33,6 +40,7 @@ const UserSelect = ({ error, helperText, ...props }) => {
 
     const handleKeyDown = async e => {
         if (e.key === 'Enter' && e.target.value.length >= 3 && !isMutating) {
+            e.preventDefault()
             setIsSearched(true)
             const data = await trigger({ searchText: e.target.value })
             setUserOptions(data)
@@ -71,7 +79,6 @@ const UserSelect = ({ error, helperText, ...props }) => {
             loadingText="Memuat..."
             filterOptions={x => x}
             loading={isMutating}
-            placeholder="Cari Pengguna"
             renderOption={(props, option) => (
                 <li {...props} key={option.id}>
                     <Box display="flex" alignItems="center">
@@ -80,23 +87,18 @@ const UserSelect = ({ error, helperText, ...props }) => {
                         </Typography>
                         <Typography mr={2}>{option.name}</Typography>
 
-                        {option.employee_count > 0 && (
-                            <Chip size="small" label="Pegawai" />
-                        )}
-
-                        {option.member_count > 0 && (
-                            <Chip size="small" label="Anggota" />
-                        )}
-
-                        {option.courier_count > 0 && (
-                            <Chip size="small" label="Pengangkut" />
-                        )}
+                        <RoleChips data={option.role_names_id} size="small" />
                     </Box>
                 </li>
             )}
             renderInput={params => (
                 <TextField
-                    label="Cari Pengguna"
+                    margin={margin}
+                    error={error}
+                    helperText={helperText}
+                    label={label}
+                    required={required}
+                    {...params}
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (
@@ -111,14 +113,19 @@ const UserSelect = ({ error, helperText, ...props }) => {
                             </>
                         ),
                     }}
-                    error={error}
-                    helperText={helperText}
-                    {...params}
                 />
             )}
             {...props}
         />
     )
+}
+
+UserSelect.propTypes = {
+    error: PropTypes.bool,
+    helperText: PropTypes.string,
+    label: PropTypes.string,
+    margin: PropTypes.string,
+    required: PropTypes.bool,
 }
 
 export default UserSelect

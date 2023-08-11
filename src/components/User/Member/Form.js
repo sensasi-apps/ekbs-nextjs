@@ -1,78 +1,41 @@
-'use client'
-
 import { useState } from 'react'
 import { mutate } from 'swr'
-import moment from 'moment'
+import axios from '@/lib/axios'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
 import DatePicker from '../../DatePicker'
-import axios from '@/lib/axios'
-import LoadingCenter from '../../Statuses/LoadingCenter'
 
-export default function MemberForm({
-    isShow = true,
-    uuid: userUuid,
-    data: member,
-    onClose,
-    onSubmitted,
-    ...props
-}) {
-    if (!isShow) return null
+import useUserWithDetails from '@/providers/UserWithDetails'
+import useFormData from '@/providers/FormData'
+import { LoadingButton } from '@mui/lab'
 
-    const [joinedAt, setJoinedAt] = useState(
-        member?.joined_at ? moment(member?.joined_at) : null,
-    )
+const MemberForm = () => {
+    const { data: userWithDetails = {} } = useUserWithDetails()
+    const { handleClose } = useFormData()
 
-    const [unjoinedAt, setUnjoinedAt] = useState(
-        member?.unjoined_at ? moment(member?.unjoined_at) : null,
-    )
+    const { uuid: userUuid, member } = userWithDetails
 
     const [isLoading, setIsLoading] = useState(false)
-    const [errors, setErrors] = useState({})
+    const [validationErrors, setValidationErrors] = useState({})
 
-    const handleJoinedAtChange = value => {
-        setJoinedAt(value)
-        setErrors({
-            ...errors,
-            joined_at: null,
-        })
-    }
-
-    const handleUnjoinedAtChange = value => {
-        setUnjoinedAt(value)
-        setErrors({
-            ...errors,
-            unjoined_at: null,
-        })
-    }
+    // ####### FUNCTIONS #########
 
     const handleSubmit = async e => {
         e.preventDefault()
         setIsLoading(true)
+        const formData = new FormData(e.target)
 
         try {
-            const formData = new FormData(e.target)
-
-            if (joinedAt) {
-                formData.set('joined_at', joinedAt.format('YYYY-MM-DD'))
-            }
-
-            if (unjoinedAt) {
-                formData.set('unjoined_at', unjoinedAt.format('YYYY-MM-DD'))
-            }
-
             await axios.post(`/users/${userUuid}/member`, formData)
-            mutate(`/users/${userUuid}`)
+            await mutate(`/users/${userUuid}`)
 
-            if (onSubmitted) {
-                onSubmitted()
-            }
+            handleClose()
         } catch (error) {
             if (error?.response?.status === 422) {
-                setErrors(error?.response?.data?.errors)
+                setValidationErrors(error.response.data.errors)
             } else {
                 throw error
             }
@@ -81,59 +44,96 @@ export default function MemberForm({
         setIsLoading(false)
     }
 
-    if (isLoading) return <LoadingCenter />
+    const clearValidationErrors = e => {
+        const { name } = e.target
+
+        if (validationErrors[name]) {
+            setValidationErrors(prev => ({
+                ...prev,
+                [name]: null,
+            }))
+        }
+    }
 
     return (
-        <form onSubmit={handleSubmit} {...props}>
+        <form onSubmit={handleSubmit}>
             <DatePicker
                 required
                 fullWidth
-                onChange={handleJoinedAtChange}
+                disabled={isLoading}
+                onChange={() =>
+                    clearValidationErrors({
+                        target: {
+                            name: 'joined_at',
+                        },
+                    })
+                }
                 label="Tanggal Bergabung"
                 margin="normal"
                 name="joined_at"
-                defaultValue={member?.joined_at ? joinedAt : null}
-                error={Boolean(errors.joined_at)}
-                helperText={errors.joined_at}
+                defaultValue={member?.joined_at || null}
+                error={Boolean(validationErrors.joined_at)}
+                helperText={validationErrors.joined_at}
             />
 
             <DatePicker
                 fullWidth
-                onChange={handleUnjoinedAtChange}
+                disabled={isLoading}
                 label="Tanggal Berhenti/Keluar"
                 margin="normal"
                 name="unjoined_at"
-                defaultValue={member?.unjoined_at ? unjoinedAt : null}
-                error={Boolean(errors.unjoined_at)}
-                helperText={errors.unjoined_at}
+                onChange={() =>
+                    clearValidationErrors({
+                        target: {
+                            name: 'joined_at',
+                        },
+                    })
+                }
+                defaultValue={member?.unjoined_at || null}
+                error={Boolean(validationErrors.unjoined_at)}
+                helperText={validationErrors.unjoined_at}
             />
 
             <TextField
                 fullWidth
                 multiline
+                disabled={isLoading}
                 name="unjoined_reason"
                 label="Alasan Berhenti/Keluar"
                 margin="normal"
+                onChange={clearValidationErrors}
                 defaultValue={member?.unjoined_reason || ''}
-                error={Boolean(errors.unjoined_reason)}
-                helperText={errors.unjoined_reason}
+                error={Boolean(validationErrors.unjoined_reason)}
+                helperText={validationErrors.unjoined_reason}
             />
 
             <TextField
                 fullWidth
                 multiline
+                disabled={isLoading}
                 name="note"
                 label="Catatan tambahan"
                 margin="normal"
+                onChange={clearValidationErrors}
                 defaultValue={member?.note || ''}
-                error={Boolean(errors.note)}
-                helperText={errors.note}
+                error={Boolean(validationErrors.note)}
+                helperText={validationErrors.note}
             />
 
             <Box display="flex" mt={2} justifyContent="end">
-                <Button onClick={() => onClose()}>Batal</Button>
-                <Button type="submit">Simpan</Button>
+                <Button disabled={isLoading} onClick={handleClose} color="info">
+                    Batal
+                </Button>
+                <LoadingButton
+                    loading={isLoading}
+                    type="submit"
+                    color="info"
+                    variant="contained">
+                    Simpan
+                </LoadingButton>
             </Box>
         </form>
     )
 }
+
+export default MemberForm

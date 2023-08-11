@@ -1,29 +1,29 @@
 import { mutate } from 'swr'
 import { useContext, useState } from 'react'
-
 import axios from '@/lib/axios'
+import moment from 'moment'
 
-import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    InputAdornment,
-    Radio,
-    RadioGroup,
-    TextField,
-} from '@mui/material'
-
-import DeleteIcon from '@mui/icons-material/Delete'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormLabel from '@mui/material/FormLabel'
+import InputAdornment from '@mui/material/InputAdornment'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 
 import LoadingButton from '@mui/lab/LoadingButton'
+
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import AppContext from '@/providers/App'
 import SelectInputFromApi from '../SelectInputFromApi'
 import DatePicker from '../DatePicker'
 
-import dmyToYmd from '@/lib/dmyToYmd'
+import NumericMasking from '../Inputs/NumericMasking'
+import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
 
 export default function TransactionForm({
     data: transaction,
@@ -33,8 +33,7 @@ export default function TransactionForm({
         auth: { userHasPermission },
     } = useContext(AppContext)
 
-    const isUserCanDelete = userHasPermission('transactions delete')
-
+    const [isLogOpen, setIsLogOpen] = useState(false)
     const [validationErrors, setValidationErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
@@ -42,13 +41,17 @@ export default function TransactionForm({
 
     if (!transaction) return null
 
+    const isUserCanDelete = userHasPermission('transactions delete')
+
+    let atMoment = moment(transaction?.at)
+
     const handleSubmit = async e => {
         e.preventDefault()
 
         setIsSubmitting(true)
 
         const formData = new FormData(e.target)
-        formData.set('at', dmyToYmd(formData.get('at')))
+        formData.set('at', atMoment)
 
         try {
             if (transaction?.uuid) {
@@ -58,7 +61,7 @@ export default function TransactionForm({
                 await axios.post('transactions', formData)
             }
 
-            await mutate(`transactions`)
+            await mutate(`transactions/datatable`)
             await mutate(`data/cashes`)
 
             handleClose()
@@ -96,21 +99,33 @@ export default function TransactionForm({
     const handleChange = e => {
         const { name } = e.target
 
-        setValidationErrors(prev => ({ ...prev, [name]: undefined }))
+        if (validationErrors[name]) {
+            setValidationErrors(prev => ({ ...prev, [name]: undefined }))
+        }
     }
 
     return (
         <form onSubmit={handleSubmit}>
             {transaction?.uuid && (
-                <TextField
-                    disabled
-                    fullWidth
-                    id="uuid"
-                    margin="dense"
-                    variant="filled"
-                    label="Kode Transaksi"
-                    defaultValue={transaction?.uuid || ''}
-                />
+                <Tooltip
+                    arrow
+                    placement="top"
+                    onClick={() => setIsLogOpen(true)}
+                    title="Riwayat perubahan data">
+                    <Button disabled={isSubmitting} fullWidth>
+                        <TextField
+                            disabled
+                            fullWidth
+                            id="uuid"
+                            margin="none"
+                            variant="filled"
+                            label="Kode Transaksi"
+                            defaultValue={transaction?.uuid || ''}
+                            error={Boolean(validationErrors.uuid)}
+                            helperText={validationErrors.uuid}
+                        />
+                    </Button>
+                </Tooltip>
             )}
 
             <FormControl
@@ -145,10 +160,11 @@ export default function TransactionForm({
             <DatePicker
                 name="at"
                 required
-                label="Tanggal transaksi"
+                label="Tanggal"
                 margin="dense"
                 disabled={isSubmitting || isDeleting}
-                defaultValue={transaction?.at || new Date()}
+                onChange={date => (atMoment = date)}
+                defaultValue={atMoment}
                 fullWidth
                 error={Boolean(validationErrors.at)}
                 helperText={validationErrors.at}
@@ -163,7 +179,7 @@ export default function TransactionForm({
                     margin="dense"
                     required
                     selectProps={{
-                        defaultValue: transaction?.cash_uuid || '',
+                        defaultValue: transaction?.cash?.uuid || '',
                     }}
                     error={Boolean(validationErrors.cash_uuid)}
                     helperText={validationErrors.cash_uuid}
@@ -180,7 +196,8 @@ export default function TransactionForm({
                         selectProps={{
                             defaultValue:
                                 transaction?.cash_transfer_origin
-                                    ?.transaction_destination?.cash_uuid || '',
+                                    ?.transaction_destination?.cashable_uuid ||
+                                '',
                         }}
                         error={Boolean(validationErrors.to_cash_uuid)}
                         helperText={validationErrors.to_cash_uuid}
@@ -188,21 +205,39 @@ export default function TransactionForm({
                 )}
             </Box>
 
+            <input
+                type="hidden"
+                id="amount"
+                name="amount"
+                defaultValue={
+                    (transaction?.amount < 0
+                        ? -transaction?.amount
+                        : transaction?.amount) || ''
+                }
+            />
+
             <TextField
                 disabled={isSubmitting || isDeleting}
                 fullWidth
                 required
                 margin="dense"
-                name="amount"
                 label="Jumlah"
-                type="number"
-                step="any"
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">Rp</InputAdornment>
                     ),
+                    inputComponent: NumericMasking,
                 }}
-                onChange={handleChange}
+                inputProps={{
+                    decimalScale: 0,
+                    minLength: 1,
+                    maxLength: 19,
+                }}
+                onChange={e => {
+                    const { value } = e.target
+                    document.getElementById('amount').value = value
+                    return handleChange(e)
+                }}
                 defaultValue={
                     transaction?.amount < 0
                         ? -transaction?.amount
@@ -225,20 +260,6 @@ export default function TransactionForm({
                 defaultValue={transaction?.desc}
                 error={Boolean(validationErrors.desc)}
                 helperText={validationErrors.desc}
-            />
-
-            <TextField
-                fullWidth
-                multiline
-                rows={2}
-                disabled={isSubmitting || isDeleting}
-                margin="dense"
-                name="note"
-                label="Catatan"
-                onChange={handleChange}
-                defaultValue={transaction?.note}
-                error={Boolean(validationErrors.note)}
-                helperText={validationErrors.note}
             />
 
             <Box
@@ -277,6 +298,12 @@ export default function TransactionForm({
                     </LoadingButton>
                 </Box>
             </Box>
+
+            <UserActivityLogsDialogTable
+                open={isLogOpen}
+                setIsOpen={setIsLogOpen}
+                data={transaction?.user_activity_logs}
+            />
         </form>
     )
 }

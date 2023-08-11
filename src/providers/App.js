@@ -39,7 +39,15 @@ export const AppProvider = ({ children }) => {
     function userHasPermission(permission) {
         return (
             user?.role_names?.includes('superman') ||
-            user?.permission_names?.includes(permission)
+            (user?.permission_names?.length > 0 &&
+                user?.permission_names?.includes(permission))
+        )
+    }
+
+    function userHasRole(role) {
+        return (
+            user?.role_names?.includes('superman') ||
+            (user?.role_names?.length > 0 && user?.role_names?.includes(role))
         )
     }
 
@@ -51,6 +59,7 @@ export const AppProvider = ({ children }) => {
                     error,
                     mutate,
                     userHasPermission,
+                    userHasRole,
                 },
             }}>
             {children}

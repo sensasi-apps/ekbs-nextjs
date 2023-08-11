@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -16,8 +16,6 @@ function DatePicker({
     size,
     error: extError,
     helperText,
-    minDate,
-    maxDate,
     value,
     defaultValue,
     ...props
@@ -32,27 +30,9 @@ function DatePicker({
         }
     }, [extError])
 
-    const errorMessage = useMemo(() => {
-        switch (error) {
-            case 'maxDate':
-            case 'minDate':
-                return 'Your date is not valid'
-
-            case 'invalidDate': {
-                return 'Your date is not valid'
-            }
-
-            default: {
-                return helperText
-            }
-        }
-    }, [error])
-
     return (
         <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="id">
             <DatePickerMui
-                minDate={minDate || moment('1970-01-01')}
-                maxDate={maxDate || moment('2038-01-19')}
                 format="DD-MM-YYYY"
                 value={value ? moment(value) : undefined}
                 defaultValue={defaultValue ? moment(defaultValue) : undefined}
@@ -60,7 +40,7 @@ function DatePicker({
                 slotProps={{
                     textField: {
                         error: Boolean(error),
-                        helperText: errorMessage,
+                        helperText: helperText,
                         required,
                         fullWidth,
                         size,
@@ -78,6 +58,18 @@ DatePicker.propTypes = {
     name: PropTypes.string,
     required: PropTypes.bool,
     fullWidth: PropTypes.bool,
+    margin: PropTypes.oneOf(['none', 'dense', 'normal']),
+    size: PropTypes.oneOf(['small', 'medium']),
+    error: PropTypes.bool,
+    helperText: PropTypes.string,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.instanceOf(moment),
+    ]),
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.instanceOf(moment),
+    ]),
 }
 
 export default DatePicker

@@ -4,7 +4,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import BalanceIcon from '@mui/icons-material/Balance'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import FireTruckIcon from '@mui/icons-material/FireTruck'
+import AgricultureIcon from '@mui/icons-material/Agriculture'
 import ForestIcon from '@mui/icons-material/Forest'
 import GroupIcon from '@mui/icons-material/Group'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -49,16 +49,38 @@ export default [
         href: '/alat-berat',
         label: 'Alat Berat',
         pathname: '/alat-berat',
-        icon: <FireTruckIcon />,
+        icon: <AgricultureIcon />,
         forRoles: [],
         forPermissions: [],
     },
     {
-        href: '/spp',
-        label: 'SPP',
-        pathname: '/spp',
-        icon: <CurrencyExchangeIcon />,
+        component: <Divider sx={{ mt: 2 }} />,
         forRoles: [],
+        forPermissions: [],
+    },
+    {
+        component: <SubTitle>Simpan Pinjam</SubTitle>,
+        forRoles: [],
+        forPermissions: [],
+    },
+    {
+        href: '/loans',
+        label: 'Pinjaman Anda',
+        pathname: '/loans',
+        icon: <CurrencyExchangeIcon />,
+        forRoles: ['member', 'courier', 'employee'],
+        forPermissions: [],
+    },
+    {
+        href: '/user-loans',
+        label: 'Kelola Pinjaman',
+        pathname: '/user-loans',
+        icon: <CurrencyExchangeIcon />,
+        forRoles: [
+            'user loans manager',
+            'user loans reviewer',
+            'user loans collector',
+        ],
         forPermissions: [],
     },
     {

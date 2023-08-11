@@ -1,42 +1,37 @@
 import { useState } from 'react'
 import { mutate } from 'swr'
 import { useRouter } from 'next/router'
-
 import axios from '@/lib/axios'
 
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormHelperText from '@mui/material/FormHelperText'
-import FormLabel from '@mui/material/FormLabel'
-import Switch from '@mui/material/Switch'
-import TextField from '@mui/material/TextField'
+import {
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
+    Switch,
+    TextField,
+} from '@mui/material'
 
-import LoadingCenter from '../Statuses/LoadingCenter'
-import ErrorCenter from '../Statuses/ErrorCenter'
+import { LoadingButton } from '@mui/lab'
+import NumericMasking from '../Inputs/NumericMasking'
+import useFormData from '@/providers/FormData'
 
-export default function UserForm({ data: user = {}, onClose, ...props }) {
+const UserForm = () => {
+    const { data: user, handleClose } = useFormData()
+
     const router = useRouter()
-    const [errors, setErrors] = useState([])
 
-    const [formValues, setFormValues] = useState({
-        citizen_id: user?.detail?.citizen_id || '',
-        name: user?.name || '',
-        email: user?.email || '',
-        is_active: user?.is_active || false,
-    })
-
-    const [isError, setIsError] = useState(false)
+    // UI states
+    const [validationErrors, setValidationErrors] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const [statusTitle, setStatusTitle] = useState(null)
 
-    const clearThisError = event => {
-        setErrors({
-            ...errors,
-            [event.target.name]: null,
-        })
-    }
+    // data states
+    const [email, setEmail] = useState(user?.email)
+    const [isActive, setIsActive] = useState(user?.is_active)
+
+    const { uuid, name } = user || {}
 
     const handleSubmit = async event => {
         event.preventDefault()
@@ -44,55 +39,67 @@ export default function UserForm({ data: user = {}, onClose, ...props }) {
         setIsLoading(true)
 
         try {
-            if (user.uuid) {
-                await axios.put(`/users/${user.uuid}`, formValues)
-                await mutate(`/users/${user.uuid}`)
+            const formData = new FormData(event.target.closest('form'))
+            formData.set('is_active', isActive && email ? 1 : 0)
+
+            if (uuid) {
+                formData.set('_method', 'PUT')
+                await axios.post(`/users/${uuid}`, formData)
+                await mutate(`/users/${uuid}`)
             } else {
-                const { data } = await axios.post('/users', formValues)
-                router.push(`/users/${data.uuid}`)
+                const { data: newUserUuid } = await axios.post(
+                    '/users',
+                    formData,
+                )
+                router.push(`/users/${newUserUuid}`)
             }
 
-            if (onClose) onClose()
+            handleClose()
         } catch (error) {
             if (error.response && error.response.status === 422) {
-                setErrors(error.response.data.errors)
+                setValidationErrors(error.response.data.errors)
             } else {
-                setIsError(true)
-                setStatusTitle(`Terjadi kesalahan: ${error.message}`)
+                throw error
             }
         }
 
         setIsLoading(false)
     }
 
-    if (isError)
-        return (
-            <ErrorCenter
-                message={statusTitle}
-                onClose={() => setIsError(false)}
-            />
-        )
-
-    if (isLoading) return <LoadingCenter />
+    const clearValidationErrors = e => {
+        const { name } = e.target
+        if (validationErrors[name]) {
+            setValidationErrors({
+                ...validationErrors,
+                [name]: undefined,
+            })
+        }
+    }
 
     return (
-        <form {...props} onSubmit={handleSubmit}>
-            {!user.uuid && (
+        <form onSubmit={handleSubmit}>
+            {!uuid && (
                 <TextField
-                    name="citizen_id"
-                    label="Nomor Induk Kependudukan"
                     fullWidth
                     required
-                    defaultValue={formValues.citizen_id || ''}
-                    margin="normal"
-                    error={Boolean(errors.citizen_id)}
-                    helperText={errors.citizen_id}
-                    onChange={e => {
-                        setFormValues({
-                            ...formValues,
-                            citizen_id: e.target.value,
-                        })
-                        clearThisError(e)
+                    name="citizen_id"
+                    label="Nomor Induk Kependudukan"
+                    disabled={isLoading}
+                    margin="dense"
+                    error={Boolean(validationErrors.citizen_id)}
+                    helperText={validationErrors.citizen_id}
+                    onChange={clearValidationErrors}
+                    minLength={16}
+                    maxLength={16}
+                    inputMode="numeric"
+                    InputProps={{
+                        inputComponent: NumericMasking,
+                    }}
+                    inputProps={{
+                        decimalScale: 0,
+                        thousandSeparator: '',
+                        minLength: 16,
+                        maxLength: 16,
                     }}
                 />
             )}
@@ -100,79 +107,80 @@ export default function UserForm({ data: user = {}, onClose, ...props }) {
             <TextField
                 name="name"
                 label="Nama"
-                defaultValue={formValues.name || ''}
+                disabled={isLoading}
+                defaultValue={name || ''}
                 fullWidth
                 required
-                margin="normal"
-                error={Boolean(errors.name)}
-                helperText={errors.name}
-                onChange={e => {
-                    setFormValues({
-                        ...formValues,
-                        name: e.target.value,
-                    })
-                    clearThisError(e)
-                }}
+                margin="dense"
+                error={Boolean(validationErrors.name)}
+                helperText={validationErrors.name}
+                onChange={clearValidationErrors}
             />
 
             <TextField
                 name="email"
                 label="Email"
                 type="email"
-                defaultValue={formValues.email || ''}
+                disabled={isLoading}
+                defaultValue={email || ''}
                 fullWidth
-                margin="normal"
-                error={Boolean(errors.email)}
-                helperText={errors.email}
+                margin="dense"
+                error={Boolean(validationErrors.email)}
+                helperText={validationErrors.email}
                 onChange={e => {
-                    setFormValues({
-                        ...formValues,
-                        email: e.target.value,
-                    })
-                    clearThisError(e)
+                    const value = e.target.value
+
+                    setEmail(value)
+                    clearValidationErrors(e)
                 }}
             />
 
             <FormControl
                 fullWidth
-                disabled={!formValues.email}
-                margin="normal"
-                error={Boolean(errors.is_active)}>
+                disabled={!email || isLoading}
+                margin="dense"
+                error={Boolean(validationErrors.is_active)}>
                 <FormLabel>Status Akun</FormLabel>
                 <FormControlLabel
                     onChange={e => {
-                        setFormValues({
-                            ...formValues,
-                            is_active: e.target.checked,
-                        })
-                        clearThisError(e)
+                        setIsActive(e.target.checked)
+                        clearValidationErrors(e)
                     }}
-                    sx={{
-                        color: formValues.is_active
-                            ? 'success.light'
-                            : 'text.secondary',
-                    }}
-                    label={formValues.is_active ? 'Aktif' : 'Nonaktif'}
+                    label={isActive ? 'Aktif' : 'Nonaktif'}
                     control={
                         <Switch
                             color="success"
                             name="is_active"
                             value="1"
-                            defaultChecked={formValues.is_active}
+                            checked={isActive && Boolean(email)}
                         />
                     }
                 />
-                <FormHelperText>{errors.is_active}</FormHelperText>
+                {validationErrors.is_active && (
+                    <FormHelperText>
+                        {validationErrors.is_active}
+                    </FormHelperText>
+                )}
             </FormControl>
 
             <Box display="flex" justifyContent="end">
-                <Button variant="text" onClick={onClose}>
+                <Button
+                    disabled={isLoading}
+                    size="small"
+                    variant="text"
+                    onClick={handleClose}>
                     Batal
                 </Button>
-                <Button type="submit" variant="text">
+
+                <LoadingButton
+                    loading={isLoading}
+                    type="submit"
+                    variant="contained">
                     Simpan
-                </Button>
+                </LoadingButton>
             </Box>
         </form>
     )
 }
+
+export default UserForm
