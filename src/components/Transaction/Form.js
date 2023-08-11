@@ -1,30 +1,29 @@
 import { mutate } from 'swr'
 import { useContext, useState } from 'react'
-
 import axios from '@/lib/axios'
+import moment from 'moment'
 
-import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    InputAdornment,
-    Radio,
-    RadioGroup,
-    TextField,
-} from '@mui/material'
-
-import DeleteIcon from '@mui/icons-material/Delete'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormLabel from '@mui/material/FormLabel'
+import InputAdornment from '@mui/material/InputAdornment'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 
 import LoadingButton from '@mui/lab/LoadingButton'
+
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import AppContext from '@/providers/App'
 import SelectInputFromApi from '../SelectInputFromApi'
 import DatePicker from '../DatePicker'
 
 import NumericMasking from '../Inputs/NumericMasking'
-import moment from 'moment'
+import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
 
 export default function TransactionForm({
     data: transaction,
@@ -34,6 +33,7 @@ export default function TransactionForm({
         auth: { userHasPermission },
     } = useContext(AppContext)
 
+    const [isLogOpen, setIsLogOpen] = useState(false)
     const [validationErrors, setValidationErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
@@ -61,7 +61,7 @@ export default function TransactionForm({
                 await axios.post('transactions', formData)
             }
 
-            await mutate(`transactions`)
+            await mutate(`transactions/datatable`)
             await mutate(`data/cashes`)
 
             handleClose()
@@ -107,15 +107,25 @@ export default function TransactionForm({
     return (
         <form onSubmit={handleSubmit}>
             {transaction?.uuid && (
-                <TextField
-                    disabled
-                    fullWidth
-                    id="uuid"
-                    margin="dense"
-                    variant="filled"
-                    label="Kode Transaksi"
-                    defaultValue={transaction?.uuid || ''}
-                />
+                <Tooltip
+                    arrow
+                    placement="top"
+                    onClick={() => setIsLogOpen(true)}
+                    title="Riwayat perubahan data">
+                    <Button disabled={isSubmitting} fullWidth>
+                        <TextField
+                            disabled
+                            fullWidth
+                            id="uuid"
+                            margin="none"
+                            variant="filled"
+                            label="Kode Transaksi"
+                            defaultValue={transaction?.uuid || ''}
+                            error={Boolean(validationErrors.uuid)}
+                            helperText={validationErrors.uuid}
+                        />
+                    </Button>
+                </Tooltip>
             )}
 
             <FormControl
@@ -169,7 +179,7 @@ export default function TransactionForm({
                     margin="dense"
                     required
                     selectProps={{
-                        defaultValue: transaction?.cashable_uuid || '',
+                        defaultValue: transaction?.cash?.uuid || '',
                     }}
                     error={Boolean(validationErrors.cash_uuid)}
                     helperText={validationErrors.cash_uuid}
@@ -195,7 +205,16 @@ export default function TransactionForm({
                 )}
             </Box>
 
-            <input type="hidden" id="amount" name="amount" />
+            <input
+                type="hidden"
+                id="amount"
+                name="amount"
+                defaultValue={
+                    (transaction?.amount < 0
+                        ? -transaction?.amount
+                        : transaction?.amount) || ''
+                }
+            />
 
             <TextField
                 disabled={isSubmitting || isDeleting}
@@ -279,6 +298,12 @@ export default function TransactionForm({
                     </LoadingButton>
                 </Box>
             </Box>
+
+            <UserActivityLogsDialogTable
+                open={isLogOpen}
+                setIsOpen={setIsLogOpen}
+                data={transaction?.user_activity_logs}
+            />
         </form>
     )
 }
