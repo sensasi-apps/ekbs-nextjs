@@ -1,22 +1,44 @@
-import axios from '@/lib/axios'
+import PropTypes from 'prop-types'
+
 import { useState } from 'react'
-import MUIDataTable, { debounceSearchRender } from 'mui-datatables'
+import axios from '@/lib/axios'
+import useSWRMutation from 'swr/mutation'
 import QueryString from 'qs'
 import moment from 'moment'
+
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import MUIDataTable, { debounceSearchRender } from 'mui-datatables'
+
 import numberFormat from '@/lib/numberFormat'
 import LoadingCenter from '../Statuses/LoadingCenter'
-import { Box, Typography } from '@mui/material'
-import PropTypes from 'prop-types'
 import Loan from '@/classes/loan'
+import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
 
 const LoanDatatable = ({ mode, onRowClick }) => {
-    const [data, setData] = useState([])
-    const [totalData, setTotalData] = useState(0)
+    const {
+        isMutating: isLoading,
+        data: datatableResponse,
+        trigger,
+    } = useSWRMutation(
+        mode === 'manager' ? '/user-loans/datatable' : '/loans/datatable',
+        (url, { arg: params }) =>
+            axios
+                .get(url, {
+                    params: params,
+                    paramsSerializer: params => QueryString.stringify(params),
+                })
+                .then(res => res.data),
+        {
+            revalidateOnMount: false,
+        },
+    )
+    const data = datatableResponse?.data || []
+
     const [sortOrder, setSortOrder] = useState({
         name: 'proposed_at',
         direction: 'desc',
     })
-    const [isLoading, setIsLoading] = useState(false)
 
     const columns = [
         {
@@ -39,6 +61,15 @@ const LoanDatatable = ({ mode, onRowClick }) => {
             options: {
                 customBodyRender: (value, tableMeta) =>
                     data[tableMeta.rowIndex]['user']['name'],
+            },
+        },
+        {
+            name: 'user.id',
+            label: 'ID Pengguna',
+            options: {
+                display: false,
+                customBodyRender: (value, tableMeta) =>
+                    data[tableMeta.rowIndex]['user']['id'],
             },
         },
         {
@@ -76,42 +107,21 @@ const LoanDatatable = ({ mode, onRowClick }) => {
         },
     ]
 
-    const fetchData = async (action, tableState) => {
-        setIsLoading(true)
-
-        const orderIndex = columns.findIndex(
-            column => column.name === tableState.sortOrder.name,
-        )
-        const params = {
-            draw: tableState.page + 1,
-            columns: columns,
-            order: [
-                {
-                    column: orderIndex,
-                    dir: tableState.sortOrder.direction || 'desc',
-                },
-            ],
-            start: tableState.page * tableState.rowsPerPage,
-            length: tableState.rowsPerPage,
-            search: {
-                value: tableState.searchText,
-                regex: false,
-            },
+    const handleFetchData = async (action, tableState) => {
+        if (!ACTIONS_ALLOW_FETCH.includes(action)) {
+            return false
         }
 
-        const response = await axios.get(
-            mode === 'manager' ? '/user-loans/datatable' : '/loans/datatable',
-            {
-                params: params,
-                paramsSerializer: params => QueryString.stringify(params),
-            },
-        )
+        if (action === 'sort') {
+            setSortOrder(prev => {
+                prev.name = tableState.sortOrder.name
+                prev.direction = tableState.sortOrder.direction
 
-        setTotalData(response.data.recordsFiltered)
-        setData(response.data.data)
-        setIsLoading(false)
+                return prev
+            })
+        }
 
-        return response.data
+        trigger(formatToDatatableParams(tableState, columns))
     }
 
     const options = {
@@ -123,26 +133,11 @@ const LoanDatatable = ({ mode, onRowClick }) => {
         selectableRows: 'none',
         download: false,
         print: false,
-        count: totalData,
+        count: datatableResponse?.recordsTotal || 0,
         customSearchRender: debounceSearchRender(750),
         onRowClick: (rowData, rowMeta) => onRowClick(data[rowMeta.dataIndex]),
-        onTableInit: fetchData,
-        onTableChange: (action, tableState) => {
-            if (action === 'sort') {
-                setSortOrder({
-                    name: tableState.sortOrder.name,
-                    direction: tableState.sortOrder.direction,
-                })
-            }
-
-            if (
-                ['sort', 'changePage', 'changeRowsPerPage', 'search'].includes(
-                    action,
-                )
-            ) {
-                fetchData(action, tableState)
-            }
-        },
+        onTableInit: handleFetchData,
+        onTableChange: handleFetchData,
     }
 
     return (
@@ -155,11 +150,9 @@ const LoanDatatable = ({ mode, onRowClick }) => {
             />
             <LoadingCenter
                 isShow={isLoading}
-                sx={{
-                    position: 'absolute',
-                    top: '25%',
-                    left: '50%',
-                }}
+                position="fixed"
+                top="25%"
+                left="50%"
             />
         </Box>
     )
