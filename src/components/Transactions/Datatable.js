@@ -1,27 +1,28 @@
-import PropTypes from 'prop-types'
-
-import { useState } from 'react'
-import axios from '@/lib/axios'
+import { useEffect, useState } from 'react'
 import useSWRMutation from 'swr/mutation'
+import axios from '@/lib/axios'
 import QueryString from 'qs'
 import moment from 'moment'
 
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+
 import MUIDataTable, { debounceSearchRender } from 'mui-datatables'
 
 import numberFormat from '@/lib/numberFormat'
+
 import LoadingCenter from '../Statuses/LoadingCenter'
-import Loan from '@/classes/loan'
+import useFormData from '@/providers/FormData'
 import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
 
-const LoanDatatable = ({ mode, onRowClick }) => {
+const TransactionsDatatable = () => {
+    const { handleEdit, isDataNotUndefined } = useFormData()
+
     const {
         isMutating: isLoading,
         data: datatableResponse,
         trigger,
     } = useSWRMutation(
-        mode === 'manager' ? '/user-loans/datatable' : '/loans/datatable',
+        '/transactions/datatable',
         (url, { arg: params }) =>
             axios
                 .get(url, {
@@ -30,15 +31,23 @@ const LoanDatatable = ({ mode, onRowClick }) => {
                 })
                 .then(res => res.data),
         {
-            revalidateOnMount: false,
+            revalidateOnFocus: false,
         },
     )
+
     const data = datatableResponse?.data || []
 
     const [sortOrder, setSortOrder] = useState({
-        name: 'proposed_at',
+        name: 'at',
         direction: 'desc',
     })
+    const [params, setParams] = useState({})
+
+    useEffect(() => {
+        if (!isDataNotUndefined && Boolean(datatableResponse?.data)) {
+            trigger(params)
+        }
+    }, [isDataNotUndefined])
 
     const columns = [
         {
@@ -49,65 +58,43 @@ const LoanDatatable = ({ mode, onRowClick }) => {
             },
         },
         {
-            name: 'proposed_at',
-            label: 'Tanggal Pengajuan',
+            name: 'at',
+            label: 'Tanggal',
             options: {
                 customBodyRender: value => moment(value).format('DD MMMM YYYY'),
             },
         },
         {
-            name: 'user.name',
-            label: 'Nama',
+            name: 'cash.code',
+            label: 'Kode Kas',
             options: {
                 customBodyRender: (value, tableMeta) =>
-                    data[tableMeta.rowIndex]['user']['name'],
+                    data[tableMeta.rowIndex].cash.code,
             },
         },
         {
-            name: 'user.id',
-            label: 'ID Pengguna',
-            options: {
-                display: false,
-                customBodyRender: (value, tableMeta) =>
-                    data[tableMeta.rowIndex]['user']['id'],
-            },
-        },
-        {
-            name: 'proposed_rp',
-            label: 'Jumlah Pengajuan',
+            name: 'amount',
+            label: 'Nilai',
             options: {
                 customBodyRender: value => numberFormat(value),
             },
         },
         {
-            name: 'type',
-            label: 'Jenis',
+            name: 'desc',
+            label: 'Perihal',
         },
 
         {
-            name: 'purpose',
-            label: 'Keperluan',
-        },
-        {
-            name: 'status',
-            label: 'Status',
-            searchable: false,
-            orderable: false,
+            name: 'userActivityLogs.user.name',
+            label: 'Oleh',
             options: {
-                sort: false,
-                customBodyRender: value => (
-                    <Typography
-                        variant="body2"
-                        color={Loan.colorByStatus(value)}
-                        component="span">
-                        {value}
-                    </Typography>
-                ),
+                customBodyRender: (value, tableMeta) =>
+                    data[tableMeta.rowIndex].user_activity_logs[0]?.user.name,
             },
         },
     ]
 
-    const handleFetchData = async (action, tableState) => {
+    const handleFetchData = (action, tableState) => {
         if (!ACTIONS_ALLOW_FETCH.includes(action)) {
             return false
         }
@@ -121,11 +108,16 @@ const LoanDatatable = ({ mode, onRowClick }) => {
             })
         }
 
-        trigger(formatToDatatableParams(tableState, columns))
+        setParams(prev => {
+            prev = formatToDatatableParams(tableState, columns)
+            trigger(prev)
+
+            return prev
+        })
     }
 
     const options = {
-        tableId: 'user-loans-datatable',
+        tableId: 'tansactions-datatable',
         filter: false,
         sortOrder: sortOrder,
         serverSide: true,
@@ -135,7 +127,7 @@ const LoanDatatable = ({ mode, onRowClick }) => {
         print: false,
         count: datatableResponse?.recordsTotal || 0,
         customSearchRender: debounceSearchRender(750),
-        onRowClick: (rowData, rowMeta) => onRowClick(data[rowMeta.dataIndex]),
+        onRowClick: (rowData, rowMeta) => handleEdit(data[rowMeta.dataIndex]),
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
     }
@@ -143,7 +135,7 @@ const LoanDatatable = ({ mode, onRowClick }) => {
     return (
         <Box>
             <MUIDataTable
-                title={'Riwayat Pinjaman'}
+                title={'Riwayat Transaksi'}
                 data={data}
                 columns={columns}
                 options={options}
@@ -158,8 +150,4 @@ const LoanDatatable = ({ mode, onRowClick }) => {
     )
 }
 
-LoanDatatable.propTypes = {
-    mode: PropTypes.oneOf(['manager', 'applier']).isRequired,
-}
-
-export default LoanDatatable
+export default TransactionsDatatable

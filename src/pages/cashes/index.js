@@ -2,14 +2,10 @@ import { useState } from 'react'
 
 import Head from 'next/head'
 
-import {
-    Card,
-    CardContent,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    Grid,
-} from '@mui/material'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import Grid from '@mui/material/Grid'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import CashesSummary from '@/components/Cashes/Summary'
@@ -55,11 +51,7 @@ export default function cashses() {
                     display="flex"
                     flexDirection="column"
                     gap={3}>
-                    <Card>
-                        <CardContent>
-                            <TransactionsCrud />
-                        </CardContent>
-                    </Card>
+                    <TransactionsCrud />
                 </Grid>
 
                 <Grid item sm={12} md={4} width="100%">
