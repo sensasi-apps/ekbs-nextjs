@@ -41,7 +41,7 @@ const DialogForm = () => {
 
 const EditButton = () => {
     const { data } = useUserWithDetails()
-    const { member } = data
+    const { member } = data || {}
     const { handleEdit } = useFormData()
     const handleEditClick = () => handleEdit(member)
 
