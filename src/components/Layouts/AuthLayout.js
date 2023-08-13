@@ -1,39 +1,25 @@
 import dynamic from 'next/dynamic'
-
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
+import useAuth from '@/providers/Auth'
 
 const DynamicTopBarAndMenuList = dynamic(() => import('./TopBarAndMenuList'))
 
+const drawerWidth = 240
+
 const AuthLayout = ({ title, children }) => {
-    const drawerWidth = 240
     const router = useRouter()
+    const { error } = useAuth()
 
     useEffect(() => {
-        const queryString = window.location.search
-
-        if (queryString) {
-            const urlParams = new URLSearchParams(queryString)
-            const oauth = urlParams.get('oauth')
-
-            if (oauth && atob(oauth) === 'success') {
-                window.localStorage.setItem('isLoggedIn', true)
-                router.replace('/dashboard')
-            }
+        if (error?.response.status === 401) {
+            const redirectTo = location.pathname
+            router.replace(`/login?redirectTo=${redirectTo}`)
         }
-
-        // redirect if not logged in
-        if (
-            window !== undefined &&
-            (window.localStorage.getItem('isLoggedIn') === 'false' ||
-                window.localStorage.getItem('isLoggedIn') === null)
-        ) {
-            router.replace('/login')
-        }
-    }, [])
+    }, [error])
 
     return (
         <Box sx={{ display: 'flex' }}>

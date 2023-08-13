@@ -1,37 +1,25 @@
-import { useContext, useEffect } from 'react'
-
-import axios from '@/lib/axios'
-import AppContext from '@/providers/App'
-
 import Head from 'next/head'
+import { useEffect } from 'react'
+import axios from '@/lib/axios'
+
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import { useRouter } from 'next/router'
+
+import useAuth from '@/providers/Auth'
+
+const logout = async mutate => {
+    await axios.post('/logout').catch(error => {
+        if (![401, 422].includes(error.response.status)) throw error
+    })
+
+    await mutate()
+}
 
 export default function Logout() {
-    const router = useRouter()
-
-    const {
-        auth: { error, mutate },
-    } = useContext(AppContext)
-
-    const logout = async () => {
-        if (!error) {
-            await axios.post('/logout')
-            mutate()
-        }
-
-        window.localStorage.removeItem('isLoggedIn')
-
-        if (router.query.error) {
-            router.push('/login?error=' + error)
-        } else {
-            router.push('/login')
-        }
-    }
+    const { mutate } = useAuth()
 
     useEffect(() => {
-        logout()
+        logout(mutate)
     }, [])
 
     return (

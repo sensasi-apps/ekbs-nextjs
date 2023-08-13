@@ -16,9 +16,24 @@ import GoogleIcon from '@mui/icons-material/Google'
 
 import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
+import useAuth from '@/providers/Auth'
+
+const login = async ({ setErrors, setStatus, mutate, ...props }) => {
+    setErrors([])
+    setStatus(null)
+
+    await axios.post('/login', props).catch(error => {
+        if (error.response.status !== 422) throw error
+
+        setErrors(error.response.data.errors)
+    })
+
+    await mutate()
+}
 
 const Login = () => {
     const router = useRouter()
+    const { mutate } = useAuth()
 
     // form data
     const [email, setEmail] = useState('')
@@ -29,23 +44,6 @@ const Login = () => {
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
-
-    const login = async ({ setErrors, setStatus, ...props }) => {
-        setErrors([])
-        setStatus(null)
-
-        axios
-            .post('/login', props)
-            .then(() => {
-                window.localStorage.setItem('isLoggedIn', true)
-                router.push('/dashboard')
-            })
-            .catch(error => {
-                if (error.response.status !== 422) throw error
-
-                setErrors(error.response.data.errors)
-            })
-    }
 
     useEffect(() => {
         const reset = new URLSearchParams(window.location.search).get('reset')
@@ -81,6 +79,7 @@ const Login = () => {
             email,
             password,
             remember: shouldRemember,
+            mutate,
             setErrors,
             setStatus,
         })

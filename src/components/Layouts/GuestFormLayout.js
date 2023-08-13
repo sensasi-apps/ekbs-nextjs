@@ -1,16 +1,28 @@
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import useAuth from '@/providers/Auth'
+
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
-import Head from 'next/head'
-import LoadingCenter from '../Statuses/LoadingCenter'
-import ErrorCenter from '../Statuses/ErrorCenter'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
+const LoadingCenter = dynamic(() => import('../Statuses/LoadingCenter'))
+const ErrorCenter = dynamic(() => import('../Statuses/ErrorCenter'))
 
-const AuthLayout = ({
+const handleRedirect = router => {
+    const redirectTo = router.query.redirectTo
+    if (redirectTo) {
+        router.replace(redirectTo)
+    } else {
+        router.replace('/dashboard')
+    }
+}
+
+const GuestFormLayout = ({
     children,
     title,
     icon,
@@ -19,17 +31,13 @@ const AuthLayout = ({
     message,
 }) => {
     const router = useRouter()
+    const { data: user } = useAuth()
 
     useEffect(() => {
-        // redirect if logged in
-
-        if (
-            window !== undefined &&
-            window.localStorage.getItem('isLoggedIn') === 'true'
-        ) {
-            router.replace('/dashboard')
+        if (user) {
+            handleRedirect(router)
         }
-    }, [])
+    }, [user])
 
     return (
         <div>
@@ -91,4 +99,4 @@ const AuthLayout = ({
     )
 }
 
-export default AuthLayout
+export default GuestFormLayout
