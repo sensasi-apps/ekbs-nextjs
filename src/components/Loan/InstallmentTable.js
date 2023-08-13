@@ -67,7 +67,12 @@ const LoanInstallmentTable = ({ data: loan }) => {
                     <TableCell>{numberFormat(interest_rp)}</TableCell>
                     <TableCell>{numberFormat(installment_amount)}</TableCell>
                     {loan.hasInstallments && (
-                        <TableCell>
+                        <TableCell
+                            sx={{
+                                color: transactionAt
+                                    ? 'success.main'
+                                    : 'error.main',
+                            }}>
                             {transactionAt
                                 ? moment(transactionAt).format('DD-MM-YYYY')
                                 : '-'}

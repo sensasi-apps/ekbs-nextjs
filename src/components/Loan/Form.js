@@ -461,7 +461,7 @@ const LoanForm = ({ data, handleClose, mode }) => {
                 )}
             </Box>
 
-            <Dialog open={isInstalmentSimulationOpen}>
+            <Dialog open={isInstalmentSimulationOpen} maxWidth="md">
                 <DialogTitle display="flex" justifyContent="space-between">
                     Tabel {loanDraft.hasInstallments ? '' : 'Simulasi '}Angsuran
                     <IconButton

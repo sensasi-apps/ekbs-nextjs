@@ -102,11 +102,11 @@ const Component = () => {
                 gap={3}>
                 <UserSelect onChange={userSelectOnChange} />
 
-                <Fade in={isReady}>
+                <Fade in={isReady} exit={false}>
                     <UserCrud />
                 </Fade>
 
-                <Fade in={isReady} unmountOnExit>
+                <Fade in={isReady} unmountOnExit exit={false}>
                     <UserDetailCrud />
                 </Fade>
 
@@ -120,7 +120,7 @@ const Component = () => {
                         xs: 1,
                     }}
                     spacing={2}>
-                    <Fade in={isReady}>
+                    <Fade in={isReady} exit={false}>
                         <Card>
                             <CardContent>
                                 <UserSocialsCrudBox
@@ -132,7 +132,7 @@ const Component = () => {
                         </Card>
                     </Fade>
 
-                    <Fade in={isReady} unmountOnExit>
+                    <Fade in={isReady} unmountOnExit exit={false}>
                         <Card>
                             <CardContent>
                                 <UserAddressesCrudBox
@@ -144,7 +144,7 @@ const Component = () => {
                         </Card>
                     </Fade>
 
-                    <Fade in={isReady} unmountOnExit>
+                    <Fade in={isReady} unmountOnExit exit={false}>
                         <Card>
                             <CardContent>
                                 <UserBankAccsCrudBox />
@@ -152,7 +152,7 @@ const Component = () => {
                         </Card>
                     </Fade>
 
-                    <Fade in={isShowEmployeeCard} unmountOnExit>
+                    <Fade in={isShowEmployeeCard} unmountOnExit exit={false}>
                         <Card>
                             <CardHeader
                                 avatar={getRoleIconByIdName('karyawan')}
@@ -165,11 +165,11 @@ const Component = () => {
                         </Card>
                     </Fade>
 
-                    <Fade in={isShowMemberCard} unmountOnExit>
+                    <Fade in={isShowMemberCard} unmountOnExit exit={false}>
                         <UserMemberCrudCard />
                     </Fade>
 
-                    <Fade in={isShowLandsCard} unmountOnExit>
+                    <Fade in={isShowLandsCard} unmountOnExit exit={false}>
                         <Card>
                             <CardHeader
                                 avatar={getRoleIconByIdName('petani')}
@@ -182,7 +182,7 @@ const Component = () => {
                         </Card>
                     </Fade>
 
-                    <Fade in={isShowDriversCard} unmountOnExit>
+                    <Fade in={isShowDriversCard} unmountOnExit exit={false}>
                         <Card>
                             <CardHeader
                                 avatar={getRoleIconByIdName('pengangkut')}
@@ -198,7 +198,7 @@ const Component = () => {
                         </Card>
                     </Fade>
 
-                    <Fade in={isShowVehiclesCard} unmountOnExit>
+                    <Fade in={isShowVehiclesCard} unmountOnExit exit={false}>
                         <Card>
                             <CardHeader
                                 avatar={getRoleIconByIdName('pengangkut')}
@@ -214,7 +214,7 @@ const Component = () => {
                         </Card>
                     </Fade>
 
-                    <Fade in={isShowDriverCard} unmountOnExit>
+                    <Fade in={isShowDriverCard} unmountOnExit exit={false}>
                         <Card>
                             <CardHeader
                                 avatar={getRoleIconByIdName('pengemudi')}

@@ -28,10 +28,10 @@ const LoanDatatable = ({ mode, onRowClick }) => {
                     params: params,
                     paramsSerializer: params => QueryString.stringify(params),
                 })
-                .then(res => res.data),
-        {
-            revalidateOnMount: false,
-        },
+                .then(res => res.data)
+                .catch(error => {
+                    if (![401].includes(error.response.status)) throw error
+                }),
     )
     const data = datatableResponse?.data || []
 
