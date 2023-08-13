@@ -41,15 +41,16 @@ const InstallmentPaymentForm = ({ data: installment }) => {
         <Grid
             container
             p={2}
-            pt={0}
             spacing={2}
             component="form"
             alignItems="center"
             onSubmit={handleSubmit}>
             <Grid item xs={12} md={4}>
                 <FormControl fullWidth disabled={isLoading}>
-                    <InputLabel>Dari</InputLabel>
+                    <InputLabel size="small">Dari</InputLabel>
                     <Select
+                        margin="dense"
+                        size="small"
                         name="method"
                         label="Dari"
                         defaultValue=""
@@ -69,8 +70,8 @@ const InstallmentPaymentForm = ({ data: installment }) => {
                         endpoint="data/cashes"
                         label={'Ke Kas'}
                         name="cash_uuid"
+                        size="small"
                         disabled={isLoading}
-                        margin="dense"
                         required
                         selectProps={{
                             defaultValue:
