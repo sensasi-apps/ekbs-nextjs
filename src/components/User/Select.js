@@ -35,6 +35,7 @@ const UserSelect = ({
         fetchUserOptions,
         {
             revalidateOnFocus: false,
+            keepPreviousData: true,
         },
     )
 
