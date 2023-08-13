@@ -1,5 +1,4 @@
 import moment from 'moment'
-import Settings from './settings'
 import Installment from './Installment'
 
 class Loan {
@@ -13,6 +12,8 @@ class Loan {
         term_unit,
         type,
         purpose,
+        is_approved,
+        status,
 
         user,
         responses = [],
@@ -29,6 +30,8 @@ class Loan {
         this.purpose = purpose
         this.type = type
         this.term_unit = term_unit
+        this.is_approved = is_approved
+        this.status = status
 
         this.user = user
         this.responses = responses
@@ -63,20 +66,10 @@ class Loan {
         return this.principalInstallment + this.interestRp
     }
 
-    get status() {
-        if (this.uuid === undefined) return 'Baru'
-        if (this.isRejected) return 'Ditolak'
-        if (!this.isApproved) return 'Menunggu Persetujuan'
-        if (!this.transaction) return 'Menunggu Pencairan'
-        if (this.isHasUnpaidInstallment) return 'Angsuran Aktif'
-
-        return 'Selesai'
-    }
-
     get statusColor() {
         if (this.uuid === undefined) return 'info.main'
-        if (this.isRejected) return 'error.main'
-        if (!this.isApproved) return 'warning.main'
+        if (this.is_approved === false) return 'error.main'
+        if (this.is_approved === null) return 'warning.main'
         if (!this.transaction) return 'info.main'
         if (this.isHasUnpaidInstallment) return 'info.main'
 
@@ -92,18 +85,7 @@ class Loan {
     }
 
     get canBeDisbursed() {
-        return this.isApproved && !this.isDisbursed
-    }
-
-    get isApproved() {
-        const approvedResponses = this.responses.filter(
-            response => response.is_approved,
-        )
-
-        return (
-            this.hasResponses &&
-            approvedResponses.length >= Settings.get('loan_n_approvals')
-        )
+        return this.is_approved && !this.isDisbursed
     }
 
     get isRejected() {
