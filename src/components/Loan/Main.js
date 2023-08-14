@@ -84,9 +84,7 @@ const LoanMain = ({ mode }) => {
     const [draftLoan, setDraftLoan] = useState(undefined)
 
     const { data, isLoading, isValidating } = useSWR(
-        mode === 'applier'
-            ? '/loans/get-unfinished-data'
-            : '/user-loans/get-unfinished-data',
+        `/${mode === 'manager' ? 'user-' : ''}loans/get-unfinished-data`,
         url => axios.get(url).then(res => res.data),
         {
             revalidateOnFocus: false,
@@ -99,7 +97,9 @@ const LoanMain = ({ mode }) => {
             if (tab) {
                 setTab(tab)
             } else {
-                router.replace('/user-loans/histories')
+                router.replace(
+                    `/${mode === 'manager' ? 'user-' : ''}loans/histories`,
+                )
             }
         }
     }, [router])
