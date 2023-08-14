@@ -66,7 +66,7 @@ export default [
     {
         href: '/loans',
         label: 'Pinjaman Anda',
-        pathname: '/loans',
+        pathname: '/loans/[[...tab]]',
         icon: <CurrencyExchangeIcon />,
         forRoles: ['member', 'courier', 'employee'],
         forPermissions: [],
@@ -74,7 +74,7 @@ export default [
     {
         href: '/user-loans',
         label: 'Kelola Pinjaman',
-        pathname: '/user-loans',
+        pathname: '/user-loans/[[...tab]]',
         icon: <CurrencyExchangeIcon />,
         forRoles: [
             'user loans manager',
