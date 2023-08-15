@@ -31,13 +31,13 @@ const GuestFormLayout = ({
     message,
 }) => {
     const router = useRouter()
-    const { data: user } = useAuth()
+    const { data: user, error } = useAuth()
 
     useEffect(() => {
-        if (user) {
+        if (user && !error) {
             handleRedirect(router)
         }
-    }, [user])
+    }, [user, error])
 
     return (
         <div>
