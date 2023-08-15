@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { mutate } from 'swr'
-import moment from 'moment'
 import axios from '@/lib/axios'
 
 import Box from '@mui/material/Box'
@@ -22,6 +21,7 @@ import NumericMasking from '@/components/Inputs/NumericMasking'
 
 import useFormData from '@/providers/FormData'
 import { LoadingButton } from '@mui/lab'
+import useUserWithDetails from '@/providers/UserWithDetails'
 
 const getBirthRegion = userDetail => {
     return (
@@ -33,51 +33,47 @@ const getBirthRegion = userDetail => {
 }
 
 const UserDetailForm = () => {
+    const { data: userWithDetails } = useUserWithDetails()
     const { data: userDetail, handleClose } = useFormData()
 
+    const [gender, setGender] = useState(null)
+    const [birthRegion, setBirthRegion] = useState(getBirthRegion(userDetail))
+    const [lastEducationId, setLastEducationId] = useState(null)
+    const [maritalStatusId, setMaritalStatusId] = useState(null)
     const [validationErrors, setValidationErrors] = useState({})
     const [isLoading, setIsLoading] = useState(false)
-    const [birthAt, setBirthAt] = useState(
-        userDetail?.birth_at ? moment(userDetail.birth_at) : null,
-    )
 
-    const { user_uuid } = userDetail || {}
+    const { user_uuid, files = [] } = userDetail || {}
 
-    const pasFoto = userDetail?.files.find(file => file.alias === 'Pas Foto')
-    const fotoKtp = userDetail?.files.find(file => file.alias === 'Foto KTP')
+    const pasFoto = files.find(file => file.alias === 'Pas Foto')
+    const fotoKtp = files.find(file => file.alias === 'Foto KTP')
 
-    const handleBirthAtChange = value => {
-        setBirthAt(value)
-
-        setValidationErrors({
-            ...validationErrors,
-            birth_at: null,
-        })
-    }
-
-    const clearError = event => {
+    const clearValidationError = event => {
         const { name } = event.target
 
         if (validationErrors[name])
-            setValidationErrors({
-                ...validationErrors,
-                [name]: null,
+            setValidationErrors(prev => {
+                prev[name] = undefined
+                return prev
             })
     }
 
     const handleSubmit = async event => {
         event.preventDefault()
+
+        const formEl = event.target.closest('form')
+        if (!formEl.reportValidity()) return
+
         setIsLoading(true)
 
         try {
-            const formData = new FormData(event.target.closest('form'))
+            const formData = new FormData(formEl)
 
-            if (birthAt) {
-                formData.set('birth_at', birthAt.format('YYYY-MM-DD'))
-            }
-
-            await axios.post(`/users/${user_uuid}/detail`, formData)
-            await mutate(`/users/${user_uuid}`)
+            await axios.post(
+                `/users/${user_uuid || userWithDetails.uuid}/detail`,
+                formData,
+            )
+            await mutate(`/users/${user_uuid || userWithDetails.uuid}`)
 
             handleClose()
         } catch (error) {
@@ -92,12 +88,12 @@ const UserDetailForm = () => {
     }
 
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <ImageInput
                 name="pas_foto"
                 label="Pas Foto"
                 disabled={isLoading}
-                onChange={clearError}
+                onChange={clearValidationError}
                 defaultValue={
                     pasFoto?.uuid
                         ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`
@@ -116,9 +112,10 @@ const UserDetailForm = () => {
             <TextField
                 fullWidth
                 margin="normal"
-                onChange={clearError}
+                onChange={clearValidationError}
                 disabled={isLoading}
                 label="Nomor Induk Kependudukan"
+                required
                 name="citizen_id"
                 defaultValue={userDetail?.citizen_id || ''}
                 error={Boolean(validationErrors.citizen_id)}
@@ -148,14 +145,19 @@ const UserDetailForm = () => {
             <FormControl
                 fullWidth
                 margin="normal"
-                onChange={clearError}
+                onChange={event => {
+                    const { value } = event.target
+
+                    clearValidationError(event)
+                    setGender(value)
+                }}
                 disabled={isLoading}
                 error={Boolean(validationErrors.gender_id)}>
                 <FormLabel>Jenis Kelamin</FormLabel>
 
                 <RadioGroup
                     name="gender_id"
-                    value={userDetail?.gender_id || ''}>
+                    value={gender || userDetail?.gender_id || null}>
                     <FormControlLabel
                         control={<Radio value={1} />}
                         label="Laki-laki"
@@ -176,18 +178,14 @@ const UserDetailForm = () => {
             <input
                 type="hidden"
                 name="birth_region_id"
-                defaultValue={getBirthRegion(userDetail)?.id || ''}
+                defaultValue={birthRegion?.id || ''}
             />
 
             <Autocomplete
                 margin="normal"
                 disabled={isLoading}
-                onChange={(e, value) => {
-                    document.querySelector(
-                        'input[name="birth_region_id"]',
-                    ).value = value?.id || ''
-                }}
-                defaultValue={getBirthRegion(userDetail)}
+                onChange={(e, value) => setBirthRegion(value)}
+                value={birthRegion}
                 endpoint={`/select2/administrative-regions`}
                 label="Tempat Lahir"
             />
@@ -198,10 +196,7 @@ const UserDetailForm = () => {
                 disabled={isLoading}
                 label="Tanggal Lahir"
                 name="birth_at"
-                defaultValue={
-                    userDetail?.birth_at ? moment(userDetail.birth_at) : null
-                }
-                onChange={handleBirthAtChange}
+                defaultValue={userDetail?.birth_at || null}
                 error={Boolean(validationErrors.birth_at)}
                 helperText={validationErrors.birth_at}
             />
@@ -212,7 +207,7 @@ const UserDetailForm = () => {
                 disabled={isLoading}
                 label="Nomor BPJS Kesehatan"
                 name="bpjs_kesehatan_no"
-                onChange={clearError}
+                onChange={clearValidationError}
                 defaultValue={userDetail?.bpjs_kesehatan_no || ''}
                 error={Boolean(validationErrors.bpjs_kesehatan_no)}
                 helperText={validationErrors.bpjs_kesehatan_no}
@@ -224,7 +219,7 @@ const UserDetailForm = () => {
                 disabled={isLoading}
                 label="Pekerjaan"
                 name="job_title"
-                onChange={clearError}
+                onChange={clearValidationError}
                 defaultValue={userDetail?.job_title || ''}
                 error={Boolean(validationErrors.job_title)}
                 helperText={validationErrors.job_title}
@@ -237,7 +232,7 @@ const UserDetailForm = () => {
                 margin="normal"
                 label="Deskripsi Pekerjaan"
                 name="job_desc"
-                onChange={clearError}
+                onChange={clearValidationError}
                 defaultValue={userDetail?.job_desc || ''}
                 error={Boolean(validationErrors.job_desc)}
                 helperText={validationErrors.job_desc}
@@ -249,9 +244,15 @@ const UserDetailForm = () => {
                 label="Pendidikan Terakhir"
                 name="last_education_id"
                 margin="normal"
-                onChange={clearError}
+                onChange={e => {
+                    const { value } = e.target
+
+                    clearValidationError(e)
+                    setLastEducationId(value)
+                }}
                 selectProps={{
-                    value: userDetail?.last_education_id || '',
+                    value:
+                        lastEducationId || userDetail?.last_education_id || '',
                 }}
             />
 
@@ -262,9 +263,17 @@ const UserDetailForm = () => {
                         disabled={isLoading}
                         label="Status Pernikahan"
                         name="marital_status_id"
-                        onChange={clearError}
+                        onChange={e => {
+                            const { value } = e.target
+
+                            clearValidationError(e)
+                            setMaritalStatusId(value)
+                        }}
                         selectProps={{
-                            value: userDetail?.marital_status_id || '',
+                            value:
+                                maritalStatusId ||
+                                userDetail?.marital_status_id ||
+                                '',
                         }}
                     />
                 </Grid>
@@ -275,7 +284,7 @@ const UserDetailForm = () => {
                         label="Jumlah Anak"
                         disabled={isLoading}
                         name="n_children"
-                        onChange={clearError}
+                        onChange={clearValidationError}
                         InputProps={{
                             inputComponent: NumericMasking,
                         }}
@@ -296,7 +305,7 @@ const UserDetailForm = () => {
                 </Button>
                 <LoadingButton
                     loading={isLoading}
-                    onClick={handleSubmit}
+                    type="submit"
                     color="info"
                     variant="contained">
                     Simpan

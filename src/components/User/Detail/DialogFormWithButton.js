@@ -2,8 +2,10 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
 
 import EditIcon from '@mui/icons-material/Edit'
+import CloseIcon from '@mui/icons-material/Close'
 
 import UserDetailForm from './Form'
 
@@ -11,10 +13,10 @@ import useUserWithDetails from '@/providers/UserWithDetails'
 import useFormData from '@/providers/FormData'
 
 const UserDetailDialogFormWithButton = () => {
-    const { data } = useUserWithDetails()
-    const { isDataNotUndefined, handleEdit } = useFormData()
+    const { data: { detail } = {} } = useUserWithDetails()
+    const { isDataNotUndefined, handleEdit, handleClose } = useFormData()
 
-    const handleEditClick = () => handleEdit(data.detail)
+    const handleEditClick = () => handleEdit(detail || {})
 
     return (
         <>
@@ -28,7 +30,12 @@ const UserDetailDialogFormWithButton = () => {
             </Button>
 
             <Dialog maxWidth="sm" open={isDataNotUndefined}>
-                <DialogTitle>Perbaharui detail pengguna</DialogTitle>
+                <DialogTitle display="flex" justifyContent="space-between">
+                    Perbaharui detail pengguna
+                    <IconButton size="small" onClick={handleClose}>
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
                 <DialogContent>
                     <UserDetailForm />
                 </DialogContent>

@@ -32,6 +32,7 @@ export default function Autocomplete({
 
     const handleKeyDown = async e => {
         if (e.key === 'Enter' && e.target.value.length >= 3 && !isMutating) {
+            e.preventDefault()
             setIsSearched(true)
             const data = await trigger({ searchText: e.target.value })
             setUserOptions(data)
@@ -39,8 +40,6 @@ export default function Autocomplete({
     }
 
     const handleKeyUp = e => {
-        if (e.key === 'Enter') return
-
         setIsSearched(false)
         setSearchText(e.target.value)
     }
