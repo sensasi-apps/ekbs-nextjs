@@ -1,48 +1,55 @@
 import PropTypes from 'prop-types'
+
 import { mutate } from 'swr'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 
-import {
-    Box,
-    Button,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    FormLabel,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    MenuItem,
-    Radio,
-    RadioGroup,
-    Select,
-    TextField,
-    Typography,
-} from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
+import FormLabel from '@mui/material/FormLabel'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+
+import DeleteIcon from '@mui/icons-material/Delete'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { LoadingButton } from '@mui/lab'
-import DeleteIcon from '@mui/icons-material/Delete'
-import AppContext from '@/providers/App'
 
-import CloseIcon from '@mui/icons-material/Close'
 import LoanInstallmentTable from './InstallmentTable'
 import UserSelect from '../User/Select'
-import Loan from '@/classes/loan'
 import NumericMasking from '../Inputs/NumericMasking'
 import DatePicker from '../DatePicker'
 import LoadingAddorment from '../LoadingAddorment'
+import useFormData from '@/providers/FormData'
+import useAuth from '@/providers/Auth'
+import Loan from '@/classes/loan'
+
+const fetchUserPreferences = userUuid =>
+    axios
+        .get(`users/${userUuid}/preferences/transaction_term_unit`)
+        .then(response => response.data)
 
 let currentUserTermUnitPreference
 
-const LoanForm = ({ data, handleClose, mode }) => {
-    const {
-        auth: { user: currentUser, userHasPermission, userHasRole },
-    } = useContext(AppContext)
+const LoanForm = ({ mode }) => {
+    const { data: loanDraft = new Loan({}), handleClose, isNew } = useFormData()
 
+    const { data: currentUser } = useAuth()
+
+    const [loanType, setLoanType] = useState(loanDraft.type || null)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     const [isTermUnitLoading, setIsTermUnitLoading] = useState(false)
@@ -50,13 +57,25 @@ const LoanForm = ({ data, handleClose, mode }) => {
         useState(false)
     const [validationErrors, setValidationErrors] = useState({})
 
-    const termUnitRef = useRef()
-
-    const loanDraft = data
+    useEffect(() => {
+        if (mode === 'applier' && Boolean(currentUser)) {
+            setIsTermUnitLoading(true)
+            if (currentUserTermUnitPreference) {
+                loanDraft.term_unit = currentUserTermUnitPreference
+                setIsTermUnitLoading(false)
+            } else {
+                fetchUserPreferences(currentUser.uuid).then(res => {
+                    loanDraft.term_unit = res.data
+                    currentUserTermUnitPreference = res.data
+                    setIsTermUnitLoading(false)
+                })
+            }
+        }
+    }, [currentUser])
 
     const isUserCanDelete =
         loanDraft.hasUuid &&
-        userHasPermission('delete own loan') &&
+        currentUser?.hasPermission('delete own loan') &&
         loanDraft.isCreatedByUser(currentUser) &&
         !loanDraft.hasResponses
 
@@ -85,9 +104,9 @@ const LoanForm = ({ data, handleClose, mode }) => {
             }
 
             if (mode === 'manager') {
-                mutate('/user-loans/get-unfinished-data')
+                await mutate('/user-loans/datatable')
             } else {
-                mutate('/loans/get-unfinished-data')
+                await mutate('/loans/datatable')
             }
 
             handleClose()
@@ -102,34 +121,10 @@ const LoanForm = ({ data, handleClose, mode }) => {
         setIsSubmitting(false)
     }
 
-    useEffect(() => {
-        if (mode === 'applier' && Boolean(currentUser)) {
-            setIsTermUnitLoading(true)
-            if (currentUserTermUnitPreference) {
-                loanDraft.term_unit = currentUserTermUnitPreference
-                setIsTermUnitLoading(false)
-            } else {
-                axios
-                    .get(
-                        `users/${currentUser.uuid}/preferences/transaction_term_unit`,
-                    )
-                    .then(response => {
-                        loanDraft.term_unit = response.data
-                        currentUserTermUnitPreference = response.data
-                        setIsTermUnitLoading(false)
-                    })
-            }
-        }
-    }, [currentUser])
-
     const handleChange = e => {
         const { name, value } = e.target
-
-        if (validationErrors[name]) {
-            setValidationErrors(prev => ({ ...prev, [name]: undefined }))
-        }
-
         loanDraft[name] = isNaN(value) ? value : Number(value)
+        clearValidationError(name)
     }
 
     const handleDelete = async () => {
@@ -167,23 +162,27 @@ const LoanForm = ({ data, handleClose, mode }) => {
     }
 
     const handleUserChange = async (event, user) => {
-        if (validationErrors.user_uuid) {
-            setValidationErrors(prev => {
-                prev.user_uuid = undefined
-                return prev
-            })
-        }
+        clearValidationError('user_uuid')
 
         loanDraft.user = user
         loanDraft.user_uuid = user?.uuid
 
         if (user) {
             setIsTermUnitLoading(true)
-            loanDraft.term_unit = await axios
-                .get(`users/${user.uuid}/preferences/transaction_term_unit`)
-                .then(response => response.data)
+            loanDraft.term_unit = await fetchUserPreferences(user.uuid)
             setIsTermUnitLoading(false)
         }
+    }
+
+    const clearValidationError = name => {
+        if (!validationErrors[name]) {
+            return
+        }
+
+        setValidationErrors(prev => {
+            prev[name] = undefined
+            return prev
+        })
     }
 
     const agreementText =
@@ -197,7 +196,7 @@ const LoanForm = ({ data, handleClose, mode }) => {
 
     return (
         <form onSubmit={handleSubmit} onKeyDown={handleEnter}>
-            {loanDraft.hasUuid && (
+            {!isNew && (
                 <Box mb={2}>
                     <Typography variant="caption">Status:</Typography>
                     <Typography fontWeight="bold" color={loanDraft.statusColor}>
@@ -206,7 +205,21 @@ const LoanForm = ({ data, handleClose, mode }) => {
                 </Box>
             )}
 
-            {loanDraft.hasUuid && (
+            {loanDraft.responses && (
+                <>
+                    <Typography variant="caption">
+                        Telah ditinjau oleh:
+                    </Typography>
+
+                    <ul>
+                        {loanDraft.responses.map((response, i) => (
+                            <li key={i}>{response.by_user.name}</li>
+                        ))}
+                    </ul>
+                </>
+            )}
+
+            {!isNew && (
                 <TextField
                     disabled
                     fullWidth
@@ -224,8 +237,13 @@ const LoanForm = ({ data, handleClose, mode }) => {
                 <RadioGroup
                     row
                     name="type"
-                    onChange={handleChange}
-                    defaultValue={loanDraft.hasUuid ? loanDraft.type : null}>
+                    onChange={e => {
+                        const loanType = e.target.value
+                        loanDraft.type = loanType
+                        setLoanType(loanType)
+                        clearValidationError('type')
+                    }}
+                    value={loanType}>
                     <FormControlLabel
                         value="Dana Tunai"
                         required
@@ -243,24 +261,25 @@ const LoanForm = ({ data, handleClose, mode }) => {
                 )}
             </FormControl>
 
-            {mode === 'manager' && userHasRole('user loans manager') && (
-                <UserSelect
-                    disabled={
-                        isSubmitting ||
-                        isDeleting ||
-                        (loanDraft.hasUuid &&
-                            !loanDraft.isCreatedByUser(currentUser)) ||
-                        loanDraft.hasResponses
-                    }
-                    required
-                    label="Pemohon"
-                    margin="dense"
-                    onChange={handleUserChange}
-                    defaultValue={loanDraft.hasUuid ? loanDraft.user : null}
-                    error={Boolean(validationErrors.user_uuid)}
-                    helperText={validationErrors.user_uuid}
-                />
-            )}
+            {mode === 'manager' &&
+                currentUser?.hasRole('user loans manager') && (
+                    <UserSelect
+                        disabled={
+                            isSubmitting ||
+                            isDeleting ||
+                            (loanDraft.hasUuid &&
+                                !loanDraft.isCreatedByUser(currentUser)) ||
+                            loanDraft.hasResponses
+                        }
+                        required
+                        label="Pemohon"
+                        margin="dense"
+                        onChange={handleUserChange}
+                        value={loanDraft.user || null}
+                        error={Boolean(validationErrors.user_uuid)}
+                        helperText={validationErrors.user_uuid}
+                    />
+                )}
 
             <TextField
                 disabled={isSubmitting || isDeleting || loanDraft.hasResponses}
@@ -330,7 +349,6 @@ const LoanForm = ({ data, handleClose, mode }) => {
                             'bulan'
                         }
                         onChange={handleChange}
-                        inputRef={termUnitRef}
                         endAdornment={
                             <LoadingAddorment show={isTermUnitLoading} />
                         }>
@@ -391,7 +409,7 @@ const LoanForm = ({ data, handleClose, mode }) => {
                     disabled={
                         isSubmitting ||
                         isDeleting ||
-                        !userHasRole('employee') ||
+                        !currentUser?.hasRole('employee') ||
                         loanDraft.hasResponses
                     }
                     fullWidth
@@ -479,9 +497,7 @@ const LoanForm = ({ data, handleClose, mode }) => {
 }
 
 LoanForm.propTypes = {
-    data: PropTypes.instanceOf(Loan).isRequired,
-    handleClose: PropTypes.func.isRequired,
-    mode: PropTypes.oneOf(['applier', 'manager']),
+    mode: PropTypes.oneOf(['applier', 'manager']).isRequired,
 }
 
 export default LoanForm

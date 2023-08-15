@@ -1,12 +1,16 @@
 import { Divider, Typography } from '@mui/material'
 
+import AgricultureIcon from '@mui/icons-material/Agriculture'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
+import BackupTableIcon from '@mui/icons-material/BackupTable'
 import BalanceIcon from '@mui/icons-material/Balance'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import AgricultureIcon from '@mui/icons-material/Agriculture'
 import ForestIcon from '@mui/icons-material/Forest'
 import GroupIcon from '@mui/icons-material/Group'
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
+import RateReviewIcon from '@mui/icons-material/RateReview'
 import SettingsIcon from '@mui/icons-material/Settings'
 
 const SubTitle = ({ children }) => (
@@ -22,12 +26,10 @@ export default [
         pathname: '/dashboard',
         icon: <DashboardIcon />,
         forRoles: [],
-        forPermissions: [],
     },
     {
         component: <SubTitle>Unit</SubTitle>,
         forRoles: [],
-        forPermissions: [],
     },
     {
         href: '/TBS',
@@ -35,7 +37,6 @@ export default [
         pathname: '/TBS',
         icon: <BalanceIcon />,
         forRoles: [],
-        forPermissions: [],
     },
     {
         href: '/saprodi',
@@ -43,7 +44,6 @@ export default [
         pathname: '/saprodi',
         icon: <ForestIcon />,
         forRoles: [],
-        forPermissions: [],
     },
     {
         href: '/alat-berat',
@@ -51,47 +51,71 @@ export default [
         pathname: '/alat-berat',
         icon: <AgricultureIcon />,
         forRoles: [],
-        forPermissions: [],
     },
     {
         component: <Divider sx={{ mt: 2 }} />,
-        forRoles: [],
-        forPermissions: [],
-    },
-    {
-        component: <SubTitle>Simpan Pinjam</SubTitle>,
-        forRoles: [],
-        forPermissions: [],
-    },
-    {
-        href: '/loans',
-        label: 'Pinjaman Anda',
-        pathname: '/loans/[[...tab]]',
-        icon: <CurrencyExchangeIcon />,
-        forRoles: ['member', 'courier', 'employee'],
-        forPermissions: [],
-    },
-    {
-        href: '/user-loans',
-        label: 'Kelola Pinjaman',
-        pathname: '/user-loans/[[...tab]]',
-        icon: <CurrencyExchangeIcon />,
         forRoles: [
+            'member',
+            'employee',
             'user loans manager',
             'user loans reviewer',
             'user loans collector',
         ],
-        forPermissions: [],
+    },
+    {
+        component: <SubTitle>Simpan Pinjam</SubTitle>,
+        forRoles: [
+            'member',
+            'employee',
+            'user loans manager',
+            'user loans disburser',
+            'user loans reviewer',
+            'user loans collector',
+        ],
+    },
+    {
+        href: '/loans',
+        label: 'Pinjaman Anda',
+        pathname: '/loans',
+        icon: <CurrencyExchangeIcon />,
+        forRoles: ['member', 'employee'],
+    },
+
+    {
+        href: '/user-loans/reviews',
+        label: 'Tinjau Pinjaman',
+        pathname: '/user-loans/reviews',
+        icon: <RateReviewIcon />,
+        forRoles: ['user loans reviewer'],
+    },
+    {
+        href: '/user-loans/disburses',
+        label: 'Pencairan Pinjaman',
+        pathname: '/user-loans/disburses',
+        icon: <RequestQuoteIcon />,
+        forRoles: ['user loans disburser'],
+    },
+    {
+        href: '/user-loans/installments',
+        label: 'Pembayaran Angsuran',
+        pathname: '/user-loans/installments',
+        icon: <PointOfSaleIcon />,
+        forRoles: ['user loan installments collector'],
+    },
+    {
+        href: '/user-loans',
+        label: 'Kelola Pinjaman',
+        pathname: '/user-loans',
+        icon: <BackupTableIcon />,
+        forRoles: ['user loans manager'],
     },
     {
         component: <Divider sx={{ mt: 2 }} />,
         forRoles: [],
-        forPermissions: [],
     },
     {
         component: <SubTitle>Keuangan</SubTitle>,
         forRoles: [],
-        forPermissions: [],
     },
     {
         href: '/cashes',
@@ -99,32 +123,14 @@ export default [
         pathname: '/cashes',
         icon: <AutoStoriesIcon />,
         forRoles: ['cashes manager'],
-        forPermissions: [
-            'cashes create',
-            'cashes update',
-            'cashes read',
-            'cashes search',
-        ],
     },
     {
         component: <Divider sx={{ mt: 2 }} />,
         forRoles: ['users admin'],
-        forPermissions: [
-            'users create',
-            'users update',
-            'users read',
-            'users search',
-        ],
     },
     {
         component: <SubTitle>Sistem</SubTitle>,
         forRoles: ['users admin'],
-        forPermissions: [
-            'users create',
-            'users update',
-            'users read',
-            'users search',
-        ],
     },
     {
         href: '/users',
@@ -132,12 +138,6 @@ export default [
         pathname: '/users/[[...uuid]]',
         icon: <GroupIcon />,
         forRoles: ['users admin'],
-        forPermissions: [
-            'users create',
-            'users update',
-            'users read',
-            'users search',
-        ],
     },
     {
         href: '/settings',
@@ -145,6 +145,5 @@ export default [
         pathname: '/settings',
         icon: <SettingsIcon />,
         forRoles: ['systems admin'],
-        forPermissions: ['settings update'],
     },
 ]

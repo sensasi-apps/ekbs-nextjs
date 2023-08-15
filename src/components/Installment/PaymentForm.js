@@ -26,6 +26,7 @@ const InstallmentPaymentForm = ({ data: installment }) => {
                 `/user-loans/${installment.uuid}/collect-installment`,
                 formData,
             )
+            await mutate('/user-loans/active-installments')
         } catch (error) {
             if (error.response.status === 422) {
                 setValidationErrors(error.response.data.errors)
@@ -34,7 +35,6 @@ const InstallmentPaymentForm = ({ data: installment }) => {
             }
         }
 
-        mutate('/user-loans/get-unfinished-data')
         setIsLoading(false)
     }
     return (
