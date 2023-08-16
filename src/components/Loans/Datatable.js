@@ -28,19 +28,17 @@ const fetcher = (url, params) =>
             if (![401].includes(error.response.status)) throw error
         })
 
-const SWR_OPTIONS = {
-    revalidateOnMount: false,
-}
+let params
 
 const LoansDatatable = ({ title, apiUrl }) => {
-    const [params, setParams] = useState({})
+    const [isLoading, setIsloading] = useState(false)
 
     const { handleEdit } = useFormData()
-    const { isLoading, data: { data = [], recordsTotal } = {} } = useSWR(
-        apiUrl,
-        url => fetcher(url, params),
-        SWR_OPTIONS,
-    )
+    const {
+        isLoading: isApiLoading,
+        data: { data = [], recordsTotal } = {},
+        mutate,
+    } = useSWR(params ? apiUrl : null, url => fetcher(url, params))
 
     const [sortOrder, setSortOrder] = useState({
         name: 'proposed_at',
@@ -128,7 +126,10 @@ const LoansDatatable = ({ title, apiUrl }) => {
             })
         }
 
-        setParams(formatToDatatableParams(tableState, columns))
+        setIsloading(true)
+        params = formatToDatatableParams(tableState, columns)
+        await mutate()
+        setIsloading(false)
     }
 
     const options = {
@@ -152,12 +153,12 @@ const LoansDatatable = ({ title, apiUrl }) => {
         <Box>
             <MUIDataTable
                 title={title}
-                data={data}
+                data={data || []}
                 columns={columns}
                 options={options}
             />
             <LoadingCenter
-                isShow={isLoading}
+                isShow={isLoading || isApiLoading}
                 position="fixed"
                 top="25%"
                 left="50%"
