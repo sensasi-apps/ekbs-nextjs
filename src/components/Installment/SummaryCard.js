@@ -1,32 +1,21 @@
-import { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import {
-    Box,
-    Card,
-    CardActionArea,
-    CardContent,
-    Collapse,
-    Grid,
-    Typography,
-} from '@mui/material'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
 import numberFormat from '@/lib/numberFormat'
 
-import UserSimplifiedViewUserBox from '../User/SimplifiedView/ButtonAndDialogForm'
-import { ContactList } from '../User/Socials/CrudBox'
-
-import AppContext from '@/providers/App'
 import Installment from '@/classes/Installment'
 import moment from 'moment'
 import InstallmentPaymentForm from './PaymentForm'
+import CrediturCard from '../Loan/CrediturCard'
+import useAuth from '@/providers/Auth'
 
 const InstallmentSummaryCard = ({ data: installment, mode, sx, ...props }) => {
-    const {
-        auth: { userHasPermission },
-    } = useContext(AppContext)
-
-    const [isCollapsed, setIsCollapsed] = useState(false)
+    const { data: currentUser } = useAuth()
 
     const today = moment().startOf('day')
 
@@ -80,53 +69,23 @@ const InstallmentSummaryCard = ({ data: installment, mode, sx, ...props }) => {
                     {mode === 'manager' && (
                         <Grid item xs={12} md={6}>
                             <Typography color="GrayText">Peminjam:</Typography>
-                            <Card elevation={2}>
-                                <CardActionArea
-                                    onClick={() =>
-                                        setIsCollapsed(prev => !prev)
-                                    }>
-                                    <CardContent>
-                                        <UserSimplifiedViewUserBox
-                                            data={
-                                                installment.installmentable.user
-                                            }
-                                        />
-
-                                        <Collapse in={isCollapsed}>
-                                            <Typography color="GrayText" mt={1}>
-                                                Kontak:
-                                            </Typography>
-                                            <ContactList
-                                                data={
-                                                    installment.installmentable
-                                                        .user?.socials
-                                                }
-                                                readMode
-                                            />
-
-                                            <Typography color="GrayText" mt={1}>
-                                                Riwayat TBS:
-                                            </Typography>
-                                            <Typography>
-                                                <i>Akan datang</i>
-                                            </Typography>
-                                        </Collapse>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
+                            <CrediturCard
+                                data={installment.installmentable.user}
+                            />
                         </Grid>
                     )}
                 </Grid>
             </CardContent>
 
-            {userHasPermission('collect user loan') && mode === 'manager' && (
-                <Box>
-                    <Typography px={2} color="GrayText">
-                        Sudah dibayar:
-                    </Typography>
-                    <InstallmentPaymentForm data={installment} />
-                </Box>
-            )}
+            {currentUser?.hasPermission('collect user loan installment') &&
+                mode === 'manager' && (
+                    <Box>
+                        <Typography px={2} color="GrayText">
+                            Sudah dibayar:
+                        </Typography>
+                        <InstallmentPaymentForm data={installment} />
+                    </Box>
+                )}
         </Card>
     )
 }

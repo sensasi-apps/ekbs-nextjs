@@ -186,26 +186,24 @@ const RolesAndPermissionButtonAndDialogForm = ({
                             onClose={() => setError(undefined)}
                         />
 
-                        <Box
-                            display={
-                                isComplete || isLoading || error
-                                    ? 'none'
-                                    : 'flex'
-                            }
-                            flexDirection="column"
-                            gap={3}
-                            component="form"
-                            id="set_roles_and_permission"
-                            onSubmit={handleSubmit}
-                            textTransform="capitalize">
-                            {['basic', 'finance', 'loan', 'system'].map(
-                                groupName => (
-                                    <Box key={groupName}>
-                                        {checkboxesByGroupName(groupName)}
-                                    </Box>
-                                ),
-                            )}
-                        </Box>
+                        {!(isComplete || isLoading || error) && (
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                gap={3}
+                                component="form"
+                                id="set_roles_and_permission"
+                                onSubmit={handleSubmit}
+                                textTransform="capitalize">
+                                {['basic', 'finance', 'loan', 'system'].map(
+                                    groupName => (
+                                        <Box key={groupName}>
+                                            {checkboxesByGroupName(groupName)}
+                                        </Box>
+                                    ),
+                                )}
+                            </Box>
+                        )}
                     </DialogContent>
 
                     {!isComplete && (

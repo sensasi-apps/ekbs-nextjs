@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 import { useState } from 'react'
 import axios from '@/lib/axios'
-import useSWRMutation from 'swr/mutation'
+import useSWR from 'swr'
 import QueryString from 'qs'
 import moment from 'moment'
 
@@ -15,25 +15,30 @@ import LoadingCenter from '../Statuses/LoadingCenter'
 import Loan from '@/classes/loan'
 import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
 
-const LoanDatatable = ({ mode, onRowClick }) => {
+import useFormData from '@/providers/FormData'
+
+const fetcher = (url, params) =>
+    axios
+        .get(url, {
+            params: params,
+            paramsSerializer: params => QueryString.stringify(params),
+        })
+        .then(res => res.data)
+        .catch(error => {
+            if (![401].includes(error.response.status)) throw error
+        })
+
+let params
+
+const LoansDatatable = ({ title, apiUrl }) => {
+    const [isLoading, setIsloading] = useState(false)
+
+    const { handleEdit } = useFormData()
     const {
-        isMutating: isLoading,
-        data: datatableResponse,
-        trigger,
-    } = useSWRMutation(
-        mode === 'manager' ? '/user-loans/datatable' : '/loans/datatable',
-        (url, { arg: params }) =>
-            axios
-                .get(url, {
-                    params: params,
-                    paramsSerializer: params => QueryString.stringify(params),
-                })
-                .then(res => res.data)
-                .catch(error => {
-                    if (![401].includes(error.response.status)) throw error
-                }),
-    )
-    const data = datatableResponse?.data || []
+        isLoading: isApiLoading,
+        data: { data = [], recordsTotal } = {},
+        mutate,
+    } = useSWR(params ? apiUrl : null, url => fetcher(url, params))
 
     const [sortOrder, setSortOrder] = useState({
         name: 'proposed_at',
@@ -121,7 +126,10 @@ const LoanDatatable = ({ mode, onRowClick }) => {
             })
         }
 
-        trigger(formatToDatatableParams(tableState, columns))
+        setIsloading(true)
+        params = formatToDatatableParams(tableState, columns)
+        await mutate()
+        setIsloading(false)
     }
 
     const options = {
@@ -133,9 +141,10 @@ const LoanDatatable = ({ mode, onRowClick }) => {
         selectableRows: 'none',
         download: false,
         print: false,
-        count: datatableResponse?.recordsTotal || 0,
+        count: recordsTotal || 0,
         customSearchRender: debounceSearchRender(750),
-        onRowClick: (rowData, rowMeta) => onRowClick(data[rowMeta.dataIndex]),
+        onRowClick: (rowData, rowMeta) =>
+            handleEdit(new Loan(data[rowMeta.dataIndex])),
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
     }
@@ -143,13 +152,13 @@ const LoanDatatable = ({ mode, onRowClick }) => {
     return (
         <Box>
             <MUIDataTable
-                title={'Riwayat Pinjaman'}
-                data={data}
+                title={title}
+                data={data || []}
                 columns={columns}
                 options={options}
             />
             <LoadingCenter
-                isShow={isLoading}
+                isShow={isLoading || isApiLoading}
                 position="fixed"
                 top="25%"
                 left="50%"
@@ -158,8 +167,9 @@ const LoanDatatable = ({ mode, onRowClick }) => {
     )
 }
 
-LoanDatatable.propTypes = {
-    mode: PropTypes.oneOf(['manager', 'applier']).isRequired,
+LoansDatatable.propTypes = {
+    title: PropTypes.string,
+    apiUrl: PropTypes.string.isRequired,
 }
 
-export default LoanDatatable
+export default LoansDatatable

@@ -21,11 +21,9 @@ const CARD_CONTENT_SX = {
 }
 
 const UserDetailCollapsibleCard = ({ editButton }) => {
-    const { data, isLoading } = useUserWithDetails()
+    const { data: { detail = {} } = {}, isLoading } = useUserWithDetails()
 
     const [open, setOpen] = useState(false)
-
-    const { detail } = data || {}
 
     const handleCollapseClick = () => {
         setOpen(prev => !prev)
@@ -41,7 +39,7 @@ const UserDetailCollapsibleCard = ({ editButton }) => {
                 }}
                 action={
                     <IconButton
-                        disabled={!detail}
+                        disabled={isLoading}
                         onClick={handleCollapseClick}>
                         {isLoading && (
                             <CircularProgress size={20} color="inherit" />
@@ -52,7 +50,7 @@ const UserDetailCollapsibleCard = ({ editButton }) => {
                 }
             />
 
-            <Collapse in={open && detail && !isLoading}>
+            <Collapse in={open && !isLoading}>
                 <CardContent sx={CARD_CONTENT_SX}>
                     <UserDetailBox data={detail} />
 

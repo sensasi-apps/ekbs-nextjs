@@ -16,30 +16,18 @@ import Toolbar from '@mui/material/Toolbar'
 
 const isAuthorized = menuData => {
     const {
-        auth: { userHasRole, userHasPermission },
+        auth: { userHasRole },
     } = useContext(AppContext)
 
-    if (
-        userHasRole('superman') ||
-        !menuData.forRoles ||
-        !menuData.forPermissions
-    ) {
+    if (userHasRole('superman')) {
         return true
     }
 
-    let isAuthorized =
-        menuData.forRoles.findIndex(role => userHasRole(role)) !== -1
-
-    if (isAuthorized) {
-        return isAuthorized
+    if (!menuData.forRoles) {
+        return true
     }
 
-    isAuthorized =
-        menuData.forPermissions.findIndex(permission =>
-            userHasPermission(permission),
-        ) !== -1
-
-    return isAuthorized
+    return menuData.forRoles.findIndex(role => userHasRole(role)) !== -1
 }
 
 const CustomListItem = ({ data: menuData, ...props }) => {

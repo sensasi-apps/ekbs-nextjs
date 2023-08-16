@@ -17,7 +17,9 @@ const AuthLayout = ({ title, children }) => {
     useEffect(() => {
         if (error?.response.status === 401) {
             const redirectTo = location.pathname
-            router.replace(`/login?redirectTo=${redirectTo}`)
+
+            if (redirectTo === '/logout') router.replace(`/login`)
+            else router.replace(`/login?redirectTo=${redirectTo}`)
         }
     }, [error])
 
