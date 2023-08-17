@@ -10,12 +10,14 @@ const NumericMasking = forwardRef(function NumericMasking(props, ref) {
         <NumericFormat
             getInputRef={ref}
             onValueChange={values => {
-                onChange({
-                    target: {
-                        name: props.name,
-                        value: values.value,
-                    },
-                })
+                if (onChange) {
+                    onChange({
+                        target: {
+                            name: props.name,
+                            value: values.value,
+                        },
+                    })
+                }
             }}
             decimalSeparator=","
             thousandSeparator="."
