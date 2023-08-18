@@ -18,8 +18,11 @@ const AuthLayout = ({ title, children }) => {
         if (error?.response.status === 401) {
             const redirectTo = location.pathname
 
-            if (redirectTo === '/logout') router.replace(`/login`)
-            else router.replace(`/login?redirectTo=${redirectTo}`)
+            if (redirectTo === '/logout') {
+                router.replace(`/login`)
+            } else {
+                router.replace(`/login?redirectTo=${redirectTo}`)
+            }
         }
     }, [error])
 

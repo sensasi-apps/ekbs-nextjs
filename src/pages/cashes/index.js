@@ -12,7 +12,7 @@ import CashesSummary from '@/components/Cashes/Summary'
 import CashForm from '@/components/Cash/Form'
 import TransactionsCrud from '@/components/Transactions/Crud'
 
-export default function cashses() {
+const Cashses = () => {
     const [selectedCash, setSelectedCash] = useState(undefined)
 
     const handleEdit = cash => {
@@ -75,3 +75,5 @@ export default function cashses() {
         </AuthLayout>
     )
 }
+
+export default Cashses

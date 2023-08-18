@@ -23,9 +23,9 @@ import useUserWithDetails, {
 } from '@/providers/UserWithDetails'
 import UserMemberCrudCard from '../User/Member/CrudCard'
 import { getRoleIconByIdName } from '../User/RoleChips'
-import UserLandsBox from '../User/Lands/Box'
 import UserDriversCrudBox from '../User/Drivers/CrudBox'
 import UserVehiclesCrudBox from '../User/Vehicles/CrudBox'
+import UserLandsCrud from '../User/Lands/Crud'
 
 const GRID_CONTAINER_SX = {
     flexDirection: {
@@ -177,7 +177,7 @@ const Component = () => {
                                 titleTypographyProps={TITLE_TYPORAPHY_PROPS}
                             />
                             <CardContent sx={PT_0_SX}>
-                                <UserLandsBox data={lands} userUuid={uuid} />
+                                <UserLandsCrud />
                             </CardContent>
                         </Card>
                     </Fade>

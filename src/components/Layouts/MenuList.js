@@ -1,9 +1,5 @@
 import { useEffect, useState, memo } from 'react'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
-
-import AppContext from '@/providers/App'
-import MENUS_DATA from './menusData'
 
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
@@ -14,12 +10,11 @@ import ListItemText from '@mui/material/ListItemText'
 import Skeleton from '@mui/material/Skeleton'
 import Toolbar from '@mui/material/Toolbar'
 
-const isAuthorized = menuData => {
-    const {
-        auth: { userHasRole },
-    } = useContext(AppContext)
+import useAuth from '@/providers/Auth'
+import MENUS_DATA from './menusData'
 
-    if (userHasRole('superman')) {
+const isAuthorized = (currentUser, menuData) => {
+    if (currentUser.hasRole('superman')) {
         return true
     }
 
@@ -27,13 +22,14 @@ const isAuthorized = menuData => {
         return true
     }
 
-    return menuData.forRoles.findIndex(role => userHasRole(role)) !== -1
+    return menuData.forRoles.findIndex(role => currentUser.hasRole(role)) !== -1
 }
 
-const CustomListItem = ({ data: menuData, ...props }) => {
+const CustomListItem = ({ data: menuData, onClick }) => {
     const router = useRouter()
+    const { data: currentUser } = useAuth()
 
-    if (!isAuthorized(menuData)) {
+    if (!isAuthorized(currentUser, menuData)) {
         return
     }
 
@@ -48,7 +44,7 @@ const CustomListItem = ({ data: menuData, ...props }) => {
                 passHref
                 href={menuData.href}
                 selected={router.pathname === menuData.pathname}
-                {...props}>
+                onClick={onClick}>
                 <ListItemIcon>{menuData.icon}</ListItemIcon>
                 <ListItemText primary={menuData.label} />
             </ListItemButton>
@@ -70,10 +66,18 @@ const GET_DRAWER_PROPS = toggleDrawer => {
     }
 }
 
+const MenuListSkeleton = () => (
+    <Box px={4}>
+        <Skeleton height="4em" />
+        <Skeleton height="4em" />
+        <Skeleton height="4em" />
+        <Skeleton height="4em" />
+        <Skeleton height="4em" />
+    </Box>
+)
+
 const MenuList = ({ isDrawerOpen, toggleDrawer }) => {
-    const {
-        auth: { user },
-    } = useContext(AppContext)
+    const { data: currentUser } = useAuth()
 
     const drawerWidth = 240
 
@@ -113,17 +117,9 @@ const MenuList = ({ isDrawerOpen, toggleDrawer }) => {
                 }}>
                 <Toolbar />
 
-                {!user && (
-                    <Box px={4}>
-                        <Skeleton height="4em" />
-                        <Skeleton height="4em" />
-                        <Skeleton height="4em" />
-                        <Skeleton height="4em" />
-                        <Skeleton height="4em" />
-                    </Box>
-                )}
+                {!currentUser && <MenuListSkeleton />}
 
-                {user &&
+                {currentUser &&
                     MENUS_DATA.map((data, index) => (
                         <CustomListItem
                             key={index}

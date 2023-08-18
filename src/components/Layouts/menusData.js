@@ -19,7 +19,7 @@ const SubTitle = ({ children }) => (
     </Typography>
 )
 
-export default [
+const menusData = [
     {
         href: '/dashboard',
         label: 'Dasbor',
@@ -147,3 +147,5 @@ export default [
         forRoles: ['systems admin'],
     },
 ]
+
+export default menusData
