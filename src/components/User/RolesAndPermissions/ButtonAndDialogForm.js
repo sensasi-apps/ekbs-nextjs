@@ -195,13 +195,17 @@ const RolesAndPermissionButtonAndDialogForm = ({
                                 id="set_roles_and_permission"
                                 onSubmit={handleSubmit}
                                 textTransform="capitalize">
-                                {['basic', 'finance', 'loan', 'system'].map(
-                                    groupName => (
-                                        <Box key={groupName}>
-                                            {checkboxesByGroupName(groupName)}
-                                        </Box>
-                                    ),
-                                )}
+                                {[
+                                    'basic',
+                                    'palm bunch',
+                                    'loan',
+                                    'finance',
+                                    'system',
+                                ].map(groupName => (
+                                    <Box key={groupName}>
+                                        {checkboxesByGroupName(groupName)}
+                                    </Box>
+                                ))}
                             </Box>
                         )}
                     </DialogContent>
