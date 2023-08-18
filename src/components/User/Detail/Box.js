@@ -62,7 +62,7 @@ const UserDetailBox = ({ data: userDetail }) => {
                     {pasFoto?.uuid ? (
                         <Image
                             unoptimized
-                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}.${fotoKtp.extension}`}
+                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}.${pasFoto.extension}`}
                             alt="Foto Diri"
                             sizes="100vw"
                             style={{
