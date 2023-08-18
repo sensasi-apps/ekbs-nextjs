@@ -1,12 +1,18 @@
-import Box from '@mui/material/Box'
+import { FC } from 'react'
+import Box, { BoxProps } from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 
-export default function LoadingCenter({
+interface LoadingCenterProps extends BoxProps {
+    isShow?: boolean
+    message?: string
+}
+
+const LoadingCenter: FC<LoadingCenterProps> = ({
     isShow = true,
     message,
     children,
     ...props
-}) {
+}) => {
     return (
         <Box
             display={isShow ? 'block' : 'none'}
@@ -18,3 +24,5 @@ export default function LoadingCenter({
         </Box>
     )
 }
+
+export default LoadingCenter
