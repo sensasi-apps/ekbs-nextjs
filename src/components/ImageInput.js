@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
-import {
-    Box,
-    Button,
-    Typography,
-    FormControl,
-    FormHelperText,
-} from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import FormControl from '@mui/material/FormControl'
+import FormHelperText from '@mui/material/FormHelperText'
 
 import ImageIcon from '@mui/icons-material/Image'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
-
-const IMG_STYLE = {
-    maxHeight: '320px',
-    maxWidth: '100%',
-}
 
 export default function ImageInput({
     name,
@@ -60,14 +54,34 @@ export default function ImageInput({
             {label && <Typography variant="subtitle2">{label}</Typography>}
 
             {defaultValue && !selectedImagePreview && (
-                <img style={IMG_STYLE} src={defaultValue} alt="Preview" />
+                <Image
+                    unoptimized
+                    src={defaultValue}
+                    alt="Preview"
+                    sizes="100vw"
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        maxWidth: '320px',
+                    }}
+                    width={320}
+                    height={320}
+                />
             )}
 
             {selectedImagePreview && (
-                <img
-                    style={IMG_STYLE}
+                <Image
+                    unoptimized
                     src={selectedImagePreview}
                     alt="Preview"
+                    sizes="100vw"
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        maxWidth: '320px',
+                    }}
+                    width={320}
+                    height={320}
                 />
             )}
 

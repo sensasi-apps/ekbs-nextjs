@@ -13,20 +13,28 @@ interface DialogProps extends MuiDialogProps {
     isCloseDisabled?: boolean
 }
 
-const Dialog: FC<DialogProps> = ({ title, onCloseButtonClick, isCloseDisabled, children, ...props }) => {
+const Dialog: FC<DialogProps> = ({
+    title,
+    onCloseButtonClick,
+    isCloseDisabled,
+    children,
+    ...props
+}) => {
     return (
         <MuiDialog maxWidth="xs" {...props}>
-            <DialogTitle display="flex" justifyContent="space-between" >
+            <DialogTitle display="flex" justifyContent="space-between">
                 {title}
 
-                {
-                    onCloseButtonClick && (<IconButton size="small" disabled={isCloseDisabled} onClick={onCloseButtonClick}>
+                {onCloseButtonClick && (
+                    <IconButton
+                        size="small"
+                        disabled={isCloseDisabled}
+                        onClick={onCloseButtonClick}>
                         <CloseIcon />
-                    </IconButton>)
-                }
-
+                    </IconButton>
+                )}
             </DialogTitle>
-            < DialogContent > {children} </DialogContent>
+            <DialogContent> {children} </DialogContent>
         </MuiDialog>
     )
 }

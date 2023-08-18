@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import moment from 'moment'
 import 'moment/locale/id'
 
@@ -59,12 +60,18 @@ const UserDetailBox = ({ data: userDetail }) => {
             <Row title="Foto Diri">
                 <div>
                     {pasFoto?.uuid ? (
-                        <img
-                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`}
+                        <Image
+                            unoptimized
+                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}.${fotoKtp.extension}`}
+                            alt="Foto Diri"
+                            sizes="100vw"
                             style={{
-                                maxHeight: '320px',
-                                maxWidth: '100%',
+                                width: '100%',
+                                height: 'auto',
+                                maxWidth: '320px',
                             }}
+                            width={320}
+                            height={320}
                         />
                     ) : (
                         <i>Foto Diri tidak ditemukan</i>
@@ -77,12 +84,18 @@ const UserDetailBox = ({ data: userDetail }) => {
             <Row title="Foto KTP">
                 <div>
                     {fotoKtp?.uuid ? (
-                        <img
-                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}`}
+                        <Image
+                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}.${fotoKtp.extension}`}
+                            unoptimized
+                            alt="Foto KTP"
+                            sizes="100vw"
                             style={{
-                                maxHeight: '320px',
-                                maxWidth: '100%',
+                                width: '100%',
+                                height: 'auto',
+                                maxWidth: '320px',
                             }}
+                            width={320}
+                            height={320}
                         />
                     ) : (
                         <i>Foto KTP tidak ditemukan</i>

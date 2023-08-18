@@ -96,7 +96,7 @@ const UserDetailForm = () => {
                 onChange={clearValidationError}
                 defaultValue={
                     pasFoto?.uuid
-                        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}`
+                        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}.${pasFoto.extension}`
                         : null
                 }
                 error={Boolean(
@@ -127,7 +127,7 @@ const UserDetailForm = () => {
                 disabled={isLoading}
                 defaultValue={
                     fotoKtp?.uuid
-                        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}`
+                        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}.${fotoKtp.extension}`
                         : null
                 }
                 name="foto_ktp"

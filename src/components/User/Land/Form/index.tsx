@@ -28,27 +28,29 @@ const INITIAL_STATE = {
 }
 
 type Props = {
-    data: Land,
-    userUuid: string,
-    onCancel: () => void,
-    isLoading: boolean,
-    onSubmit: () => void,
-    setIsLoading: (isLoading: boolean) => void,
+    data: Land
+    userUuid: string
+    onCancel: () => void
+    isLoading: boolean
+    onSubmit: () => void
+    setIsLoading: (isLoading: boolean) => void
 }
 
 const getRegion = (address?: Address): { id: string } | null => {
-    if (!address) return null
-
-    return (
-        address?.village ||
-        address?.district ||
-        address.regency
-    )
+    return address?.village || address?.district || address?.regency || null
 }
 
 const UserLandForm: FC<Props> = (props: Props) => {
-    const { data, userUuid, onCancel, onSubmit, isLoading, setIsLoading } = props
-    const { n_area_hectares, rea_land_id, planted_at, note, address, farmer_group_uuid } = data || {}
+    const { data, userUuid, onCancel, onSubmit, isLoading, setIsLoading } =
+        props
+    const {
+        n_area_hectares,
+        rea_land_id,
+        planted_at,
+        note,
+        address,
+        farmer_group_uuid,
+    } = data || {}
 
     const [validationErrors, setValidationErrors] = useState(INITIAL_STATE)
 
@@ -64,7 +66,10 @@ const UserLandForm: FC<Props> = (props: Props) => {
 
         try {
             if (data?.uuid) {
-                await axios.put(`/users/${userUuid}/lands/${data.uuid}`, dataFormData)
+                await axios.put(
+                    `/users/${userUuid}/lands/${data.uuid}`,
+                    dataFormData,
+                )
             } else {
                 await axios.post(`/users/${userUuid}/lands`, dataFormData)
             }
@@ -82,19 +87,24 @@ const UserLandForm: FC<Props> = (props: Props) => {
     }
 
     const clearValidationError = (e: any) => {
-        const name: string = e.target.name;
+        const name: string = e.target.name
 
         if (validationErrors[name as keyof typeof INITIAL_STATE]) {
-            setValidationErrors((prev) => ({
+            setValidationErrors(prev => ({
                 ...prev,
                 [name]: undefined,
-            }));
+            }))
         }
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="hidden" name="n_area_hectares" id="n_area_hectares" defaultValue={n_area_hectares} />
+            <input
+                type="hidden"
+                name="n_area_hectares"
+                id="n_area_hectares"
+                defaultValue={n_area_hectares}
+            />
 
             <TextField
                 fullWidth
@@ -111,8 +121,12 @@ const UserLandForm: FC<Props> = (props: Props) => {
                 }}
                 onChange={event => {
                     const { value } = event.target
-                    document.getElementById('n_area_hectares')?.setAttribute('value', value)
-                    clearValidationError({ target: { name: 'n_area_hectares' } })
+                    document
+                        .getElementById('n_area_hectares')
+                        ?.setAttribute('value', value)
+                    clearValidationError({
+                        target: { name: 'n_area_hectares' },
+                    })
                 }}
                 error={Boolean(validationErrors.n_area_hectares)}
                 helperText={validationErrors.n_area_hectares}
@@ -138,7 +152,9 @@ const UserLandForm: FC<Props> = (props: Props) => {
                 label="Tanggal Tanam"
                 name="planted_at"
                 defaultValue={planted_at}
-                onChange={() => clearValidationError({ target: { name: 'planted_at' } })}
+                onChange={() =>
+                    clearValidationError({ target: { name: 'planted_at' } })
+                }
                 error={Boolean(validationErrors.planted_at)}
                 helperText={validationErrors.planted_at}
             />
@@ -156,7 +172,11 @@ const UserLandForm: FC<Props> = (props: Props) => {
                 label="Kelompok Tani"
             />
 
-            <input type="hidden" name="region_id" defaultValue={getRegion(address)?.id} />
+            <input
+                type="hidden"
+                name="region_id"
+                defaultValue={getRegion(address)?.id}
+            />
 
             {/* @ts-ignore */}
             <Autocomplete
@@ -165,7 +185,9 @@ const UserLandForm: FC<Props> = (props: Props) => {
                 margin="dense"
                 defaultValue={getRegion(address)}
                 onChange={(e: any, value: any) => {
-                    document.querySelector('input[name="region_id"]')?.setAttribute('value', value?.id)
+                    document
+                        .querySelector('input[name="region_id"]')
+                        ?.setAttribute('value', value?.id)
                     clearValidationError({ target: { name: 'region_id' } })
                 }}
                 endpoint="/select2/administrative-regions"
@@ -220,10 +242,16 @@ const UserLandForm: FC<Props> = (props: Props) => {
             />
 
             <Box display="flex" justifyContent="space-between" mt={2}>
-                <Button disabled={isLoading} color="error">Hapus</Button>
+                <Button disabled={isLoading} color="error">
+                    Hapus
+                </Button>
 
                 <div>
-                    <Button disabled={isLoading} type="reset" color="info" onClick={onCancel}>
+                    <Button
+                        disabled={isLoading}
+                        type="reset"
+                        color="info"
+                        onClick={onCancel}>
                         Batal
                     </Button>
                     <LoadingButton

@@ -1,18 +1,6 @@
 import { createContext, useContext, useState, PropsWithChildren } from 'react'
 
-type props = {
-    data: any,
-    setData: (data: object) => void,
-    isNew: boolean,
-    isOpen: boolean,
-    isLoading: boolean,
-    setIsLoading: (value: boolean) => void,
-    handleClose: () => void,
-    handleEdit: (data: object) => void,
-    handleCreate: () => void,
-}
-
-const DataContex = createContext({} as props)
+const DataContext = createContext(null)
 
 const DataProvider = ({ children }: PropsWithChildren) => {
     const [data, setData] = useState<any>({})
@@ -36,7 +24,7 @@ const DataProvider = ({ children }: PropsWithChildren) => {
     }
 
     return (
-        <DataContex.Provider
+        <DataContext.Provider
             value={{
                 data,
                 setData,
@@ -49,11 +37,23 @@ const DataProvider = ({ children }: PropsWithChildren) => {
                 handleCreate,
             }}>
             {children}
-        </DataContex.Provider>
+        </DataContext.Provider>
     )
 }
 
-const useData = () => useContext(DataContex)
+type UseDataProps = {
+    data: any
+    setData: (data: object) => void
+    isNew: boolean
+    isOpen: boolean
+    isLoading: boolean
+    setIsLoading: (value: boolean) => void
+    handleClose: () => void
+    handleEdit: (data: object) => void
+    handleCreate: () => void
+}
+
+const useData = () => useContext<UseDataProps>(DataContext)
 
 export default useData
 export { DataProvider }
