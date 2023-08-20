@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { forwardRef } from 'react'
 import { NumericFormat } from 'react-number-format'
 
-const NumericMasking = forwardRef(function NumericMasking(props, ref) {
+const MainComponent = (props, ref) => {
     const { onChange, ...other } = props
 
     return (
@@ -26,7 +26,9 @@ const NumericMasking = forwardRef(function NumericMasking(props, ref) {
             {...other}
         />
     )
-})
+}
+
+const NumericMasking = forwardRef(MainComponent)
 
 NumericMasking.propTypes = {
     name: PropTypes.string,
