@@ -9,14 +9,18 @@ import CloseIcon from '@mui/icons-material/Close'
 
 interface DialogProps extends MuiDialogProps {
     title: string
-    onCloseButtonClick?: () => void
-    isCloseDisabled?: boolean
+    closeButtonProps: {
+        onClick: () => void
+        disabled?: boolean
+    }
 }
 
 const Dialog: FC<DialogProps> = ({
     title,
-    onCloseButtonClick,
-    isCloseDisabled,
+    closeButtonProps: {
+        onClick: onCloseButtonClick,
+        disabled: isCloseDisabled,
+    },
     children,
     ...props
 }) => {
@@ -40,3 +44,4 @@ const Dialog: FC<DialogProps> = ({
 }
 
 export default Dialog
+export type { DialogProps }
