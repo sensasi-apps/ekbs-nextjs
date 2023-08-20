@@ -1,7 +1,6 @@
 import { FC } from 'react'
 
-import Dialog from '@/components/Dialog'
-
+import Dialog from '@/components/Global/Dialog'
 import useUserWithDetails from '@/providers/UserWithDetails'
 import useData from '@/providers/useData'
 import UserLandForm from '.'
@@ -15,8 +14,10 @@ const UserLandFormhDialogWithUseContexts: FC<null> = () => {
         <Dialog
             open={isOpen}
             title={`${isNew ? 'Tambah' : 'Perbarui'} Data Kebun`}
-            onCloseButtonClick={handleClose}
-            isCloseDisabled={isLoading}>
+            closeButtonProps={{
+                onClick: handleClose,
+                disabled: isLoading,
+            }}>
             <UserLandForm
                 data={data}
                 userUuid={user?.uuid}
