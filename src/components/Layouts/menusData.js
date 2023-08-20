@@ -6,6 +6,7 @@ import BackupTableIcon from '@mui/icons-material/BackupTable'
 import BalanceIcon from '@mui/icons-material/Balance'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import FireTruckIcon from '@mui/icons-material/FireTruck'
 import ForestIcon from '@mui/icons-material/Forest'
 import GroupIcon from '@mui/icons-material/Group'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
@@ -32,13 +33,6 @@ const menusData = [
         forRoles: [],
     },
     {
-        href: '/TBS',
-        label: 'TBS',
-        pathname: '/TBS',
-        icon: <BalanceIcon />,
-        forRoles: [],
-    },
-    {
         href: '/saprodi',
         label: 'SAPRODI',
         pathname: '/saprodi',
@@ -61,6 +55,31 @@ const menusData = [
             'user loans reviewer',
             'user loans collector',
         ],
+    },
+    {
+        component: <SubTitle>Tandan Buah Segar</SubTitle>,
+        forRoles: ['palm bunches admin'],
+    },
+    {
+        href: '/palm-bunches/delivery-rates',
+        label: 'Tarif Pengantaran',
+        pathname: '/palm-bunches/delivery-rates',
+        icon: <FireTruckIcon />,
+        forRoles: ['palm bunches admin'],
+    },
+    {
+        href: '/palm-bunches/deliveries',
+        label: 'Data Pengantaran',
+        pathname: '/palm-bunches/deliveries',
+        icon: <BalanceIcon />,
+        forRoles: ['palm bunches admin'],
+    },
+    {
+        href: '/palm-bunches/rea-payments',
+        label: 'Pembayaran REA',
+        pathname: '/palm-bunches/rea-payments',
+        icon: <PointOfSaleIcon />,
+        forRoles: ['palm bunches admin'],
     },
     {
         component: <SubTitle>Simpan Pinjam</SubTitle>,
