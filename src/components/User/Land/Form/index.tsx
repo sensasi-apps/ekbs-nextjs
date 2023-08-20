@@ -117,7 +117,6 @@ const UserLandForm: FC<Props> = (props: Props) => {
                     endAdornment: (
                         <InputAdornment position="start">Ha</InputAdornment>
                     ),
-                    // @ts-ignore
                     inputComponent: NumericMasking,
                 }}
                 onChange={event => {
@@ -215,7 +214,6 @@ const UserLandForm: FC<Props> = (props: Props) => {
                 name="zip_code"
                 label="Kode Pos"
                 InputProps={{
-                    // @ts-ignore
                     inputComponent: NumericMasking,
                 }}
                 inputProps={{

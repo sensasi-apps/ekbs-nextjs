@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, PropsWithChildren } from 'react'
 
-const DataContext = createContext(null)
+const DataContext = createContext({} as UseDataProps)
 
 const DataProvider = ({ children }: PropsWithChildren) => {
     const [data, setData] = useState<any>({})
@@ -53,7 +53,7 @@ type UseDataProps = {
     handleCreate: () => void
 }
 
-const useData = () => useContext<UseDataProps>(DataContext)
+const useData = () => useContext(DataContext)
 
 export default useData
 export { DataProvider }

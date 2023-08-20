@@ -197,7 +197,6 @@ const PalmBunchDeliveryRatesForm: FC<
                                                             Rp
                                                         </InputAdornment>
                                                     ),
-                                                    // @ts-ignore
                                                     inputComponent:
                                                         NumericMasking,
                                                 }}
