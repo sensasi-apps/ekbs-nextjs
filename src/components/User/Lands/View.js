@@ -3,12 +3,11 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import Typography from '@mui/material/Typography'
 
-// import DeleteIcon from '@mui/icons-material/Delete'
 import UserLandListItemText from '../Land/ListItemText'
-import useData from '@/providers/useData'
+import useFormData from '@/providers/useFormData2'
 
 const LandsView = ({ data: lands }) => {
-    const { handleEdit } = useData()
+    const { handleEdit } = useFormData()
 
     if (!lands || !lands.length) {
         return (

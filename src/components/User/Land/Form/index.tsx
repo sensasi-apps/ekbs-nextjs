@@ -14,8 +14,8 @@ import DatePicker from '@/components/DatePicker'
 import NumericMasking from '@/components/Inputs/NumericMasking'
 
 import Address from '@/types/Address'
-import Land from '@/types/Land'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
+import UserLandFormPropType from './Prop.type'
 
 const INITIAL_STATE = {
     n_area_hectares: undefined,
@@ -27,20 +27,11 @@ const INITIAL_STATE = {
     note: undefined,
 }
 
-type Props = {
-    data: Land
-    userUuid: string
-    onCancel: () => void
-    isLoading: boolean
-    onSubmit: () => void
-    setIsLoading: (isLoading: boolean) => void
-}
-
 const getRegion = (address?: Address): { id: string } | null => {
     return address?.village || address?.district || address?.regency || null
 }
 
-const UserLandForm: FC<Props> = (props: Props) => {
+const UserLandForm: FC<UserLandFormPropType> = props => {
     const { data, userUuid, onCancel, onSubmit, isLoading, setIsLoading } =
         props
     const {
