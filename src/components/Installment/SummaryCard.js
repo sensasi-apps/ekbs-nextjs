@@ -15,7 +15,7 @@ import CrediturCard from '../Loan/CrediturCard'
 import useAuth from '@/providers/Auth'
 
 const InstallmentSummaryCard = ({ data: installment, mode, sx, ...props }) => {
-    const { data: currentUser } = useAuth()
+    const { userHasPermission } = useAuth()
 
     const today = moment().startOf('day')
 
@@ -77,7 +77,7 @@ const InstallmentSummaryCard = ({ data: installment, mode, sx, ...props }) => {
                 </Grid>
             </CardContent>
 
-            {currentUser?.hasPermission('collect user loan installment') &&
+            {userHasPermission('collect user loan installment') &&
                 mode === 'manager' && (
                     <Box>
                         <Typography px={2} color="GrayText">

@@ -6,11 +6,11 @@ import AddIcon from '@mui/icons-material/Add'
 import useUserWithDetails from '@/providers/UserWithDetails'
 import LandsView from './View'
 import UserLandFormhDialogWithUseContexts from '../Land/Form/DialogWithContexts'
-import useData, { DataProvider } from '@/providers/useData'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 const Component = () => {
     const { data: { lands = [] } = {} } = useUserWithDetails()
-    const { handleCreate } = useData()
+    const { handleCreate } = useFormData()
 
     return (
         <>
@@ -33,9 +33,9 @@ const Component = () => {
 }
 
 const UserLandsCrud = () => (
-    <DataProvider>
+    <FormDataProvider>
         <Component />
-    </DataProvider>
+    </FormDataProvider>
 )
 
 export default UserLandsCrud

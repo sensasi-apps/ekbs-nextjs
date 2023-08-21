@@ -1,28 +1,22 @@
-import { useContext } from 'react'
 import useSWR from 'swr'
-
 import axios from '@/lib/axios'
 
-import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    IconButton,
-    Skeleton,
-    Typography,
-} from '@mui/material'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import IconButton from '@mui/material/IconButton'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
 
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
 
 import numberFormat from '@/lib/numberFormat'
-import AppContext from '@/providers/App'
+import useAuth from '@/providers/Auth'
 
 export default function CashesSummary({ sx, handleEdit, handleNew, ...props }) {
-    const {
-        auth: { userHasPermission },
-    } = useContext(AppContext)
+    const { userHasPermission } = useAuth()
 
     const { data: cashes = [], isLoading } = useSWR('data/cashes', url =>
         axios.get(url).then(({ data }) => data),

@@ -13,23 +13,13 @@ import Toolbar from '@mui/material/Toolbar'
 import useAuth from '@/providers/Auth'
 import MENUS_DATA from './menusData'
 
-const isAuthorized = (currentUser, menuData) => {
-    if (currentUser.hasRole('superman')) {
-        return true
-    }
-
-    if (!menuData.forRoles) {
-        return true
-    }
-
-    return menuData.forRoles.findIndex(role => currentUser.hasRole(role)) !== -1
-}
+const DRAWER_WIDTH = 240
 
 const CustomListItem = ({ data: menuData, onClick }) => {
     const router = useRouter()
-    const { data: currentUser } = useAuth()
+    const { userHasRole } = useAuth()
 
-    if (!isAuthorized(currentUser, menuData)) {
+    if (menuData.forRoles && userHasRole(menuData.forRoles)) {
         return
     }
 
@@ -78,9 +68,6 @@ const MenuListSkeleton = () => (
 
 const MenuList = ({ isDrawerOpen, toggleDrawer }) => {
     const { data: currentUser } = useAuth()
-
-    const drawerWidth = 240
-
     const [drawerProps, setDrawerProps] = useState({})
 
     function handleResize() {
@@ -101,7 +88,7 @@ const MenuList = ({ isDrawerOpen, toggleDrawer }) => {
     return (
         <Box
             component="nav"
-            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+            sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
             aria-label="mailbox folders">
             <Drawer
                 {...drawerProps}
@@ -112,7 +99,7 @@ const MenuList = ({ isDrawerOpen, toggleDrawer }) => {
                 sx={{
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
-                        width: drawerWidth,
+                        width: DRAWER_WIDTH,
                     },
                 }}>
                 <Toolbar />
@@ -133,3 +120,4 @@ const MenuList = ({ isDrawerOpen, toggleDrawer }) => {
 }
 
 export default memo(MenuList)
+export { DRAWER_WIDTH }

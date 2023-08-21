@@ -1,5 +1,5 @@
 import { mutate } from 'swr'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import axios from '@/lib/axios'
 import moment from 'moment'
 
@@ -18,20 +18,15 @@ import LoadingButton from '@mui/lab/LoadingButton'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import AppContext from '@/providers/App'
 import SelectInputFromApi from '../SelectInputFromApi'
 import DatePicker from '../DatePicker'
 
 import NumericMasking from '../Inputs/NumericMasking'
 import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
+import useAuth from '@/providers/Auth'
 
-export default function TransactionForm({
-    data: transaction,
-    handleClose = () => null,
-}) {
-    const {
-        auth: { userHasPermission },
-    } = useContext(AppContext)
+const TransactionForm = ({ data: transaction, handleClose = () => null }) => {
+    const { userHasPermission } = useAuth()
 
     const [isLogOpen, setIsLogOpen] = useState(false)
     const [validationErrors, setValidationErrors] = useState({})
@@ -307,3 +302,5 @@ export default function TransactionForm({
         </form>
     )
 }
+
+export default TransactionForm

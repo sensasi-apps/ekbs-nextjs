@@ -2,28 +2,29 @@ import { FC } from 'react'
 
 import Dialog from '@/components/Global/Dialog'
 import useUserWithDetails from '@/providers/UserWithDetails'
-import useData from '@/providers/useData'
 import UserLandForm from '.'
+import useFormData from '@/providers/useFormData'
+import Land from '@/types/Land'
 
-const UserLandFormhDialogWithUseContexts: FC<null> = () => {
+const UserLandFormhDialogWithUseContexts: FC = () => {
     const { data: user } = useUserWithDetails()
-    const { data, isNew, isOpen, handleClose, isLoading, setIsLoading } =
-        useData()
+    const { data, isNew, formOpen, handleClose, loading, setSubmitting } =
+        useFormData()
 
     return (
         <Dialog
-            open={isOpen}
+            open={formOpen}
             title={`${isNew ? 'Tambah' : 'Perbarui'} Data Kebun`}
             closeButtonProps={{
                 onClick: handleClose,
-                disabled: isLoading,
+                disabled: loading,
             }}>
             <UserLandForm
-                data={data}
+                data={data as Land}
                 userUuid={user?.uuid}
                 onCancel={handleClose}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
+                isLoading={loading}
+                setIsLoading={setSubmitting}
                 onSubmit={handleClose}
             />
         </Dialog>

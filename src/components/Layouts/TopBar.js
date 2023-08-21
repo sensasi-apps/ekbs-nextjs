@@ -1,8 +1,6 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useTheme } from '@mui/material'
-
-import AppContext from '@/providers/App'
 
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -22,19 +20,16 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import TncpDialog from '../TncpDialog'
 
 import GradingIcon from '@mui/icons-material/Grading'
+import useAuth from '@/providers/Auth'
+import { DRAWER_WIDTH } from './MenuList'
 
-export default function TopBar({ title, toggleDrawer }) {
-    const drawerWidth = 240
+const TopBar = ({ title, toggleDrawer }) => {
+    const { data: user } = useAuth()
 
     const router = useRouter()
     const theme = useTheme()
 
     const [isOpenTncp, setIsOpenTncp] = useState(false)
-
-    const {
-        auth: { user },
-    } = useContext(AppContext)
-
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
 
@@ -50,8 +45,8 @@ export default function TopBar({ title, toggleDrawer }) {
         <AppBar
             position="fixed"
             sx={{
-                width: { sm: `calc(100% - ${drawerWidth}px)` },
-                ml: { sm: `${drawerWidth}px` },
+                width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+                ml: { sm: `${DRAWER_WIDTH}px` },
             }}>
             <Toolbar
                 sx={{
@@ -123,3 +118,6 @@ export default function TopBar({ title, toggleDrawer }) {
         </AppBar>
     )
 }
+
+export default TopBar
+export { DRAWER_WIDTH }

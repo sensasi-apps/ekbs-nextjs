@@ -10,12 +10,12 @@ import TextField from '@mui/material/TextField'
 import LoadingButton from '@mui/lab/LoadingButton'
 
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import DatePicker from '@/components/DatePicker'
 import NumericMasking from '@/components/Inputs/NumericMasking'
 
 import Address from '@/types/Address'
-import Land from '@/types/Land'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
+import UserLandFormPropType from './Prop.type'
+import DatePicker from '@/components/Global/DatePicker'
 
 const INITIAL_STATE = {
     n_area_hectares: undefined,
@@ -27,20 +27,11 @@ const INITIAL_STATE = {
     note: undefined,
 }
 
-type Props = {
-    data: Land
-    userUuid: string
-    onCancel: () => void
-    isLoading: boolean
-    onSubmit: () => void
-    setIsLoading: (isLoading: boolean) => void
-}
-
 const getRegion = (address?: Address): { id: string } | null => {
     return address?.village || address?.district || address?.regency || null
 }
 
-const UserLandForm: FC<Props> = (props: Props) => {
+const UserLandForm: FC<UserLandFormPropType> = props => {
     const { data, userUuid, onCancel, onSubmit, isLoading, setIsLoading } =
         props
     const {
@@ -144,19 +135,22 @@ const UserLandForm: FC<Props> = (props: Props) => {
                 helperText={validationErrors.rea_land_id}
             />
 
-            {/* @ts-ignore */}
             <DatePicker
-                fullWidth
                 disabled={isLoading}
-                margin="dense"
-                label="Tanggal Tanam"
-                name="planted_at"
                 defaultValue={planted_at}
+                slotProps={{
+                    textField: {
+                        fullWidth: true,
+                        name: 'planted_at',
+                        label: 'Tanggal Tanam',
+                        margin: 'dense',
+                        error: Boolean(validationErrors.planted_at),
+                        helperText: validationErrors.planted_at,
+                    },
+                }}
                 onChange={() =>
                     clearValidationError({ target: { name: 'planted_at' } })
                 }
-                error={Boolean(validationErrors.planted_at)}
-                helperText={validationErrors.planted_at}
             />
 
             {/* @ts-ignore */}
