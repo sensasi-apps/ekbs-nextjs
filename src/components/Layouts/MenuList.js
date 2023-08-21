@@ -19,7 +19,7 @@ const CustomListItem = ({ data: menuData, onClick }) => {
     const router = useRouter()
     const { userHasRole } = useAuth()
 
-    if (menuData.forRoles && userHasRole(menuData.forRoles)) {
+    if (menuData.forRoles.length === 0 || !userHasRole(menuData.forRoles)) {
         return
     }
 
