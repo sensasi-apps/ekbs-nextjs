@@ -22,8 +22,6 @@ import TncpDialog from '../TncpDialog'
 import GradingIcon from '@mui/icons-material/Grading'
 import useAuth from '@/providers/Auth'
 
-const DRAWER_WIDTH = 240
-
 const TopBar = ({ title, toggleDrawer }) => {
     const { data: user } = useAuth()
 

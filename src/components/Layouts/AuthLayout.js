@@ -5,10 +5,9 @@ import { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import useAuth from '@/providers/Auth'
+import { DRAWER_WIDTH } from './MenuList'
 
 const DynamicTopBarAndMenuList = dynamic(() => import('./TopBarAndMenuList'))
-
-const drawerWidth = 240
 
 const AuthLayout = ({ title, children }) => {
     const router = useRouter()
@@ -38,7 +37,7 @@ const AuthLayout = ({ title, children }) => {
                     mb: 10,
                     width: {
                         xs: '100%',
-                        sm: `calc(100% - ${drawerWidth}px)`,
+                        sm: `calc(100% - ${DRAWER_WIDTH}px)`,
                     },
                 }}>
                 <Toolbar />
