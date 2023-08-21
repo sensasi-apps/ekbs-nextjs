@@ -74,16 +74,18 @@ const Component = () => {
     } = userWithDetails
 
     const isShowEmployeeCard =
-        isReady && Boolean(employee || hasRoleId('karyawan'))
+        isReady && Boolean(employee || userHasRole('karyawan', userWithDetails))
     const isShowMemberCard = isReady && Boolean(member || hasRoleId('anggota'))
     const isShowDriverCard =
-        isReady && Boolean(driver || hasRoleId('pengemudi'))
+        isReady && Boolean(driver || userHasRole('pengemudi', userWithDetails))
     const isShowDriversCard =
-        isReady && (drivers?.length > 0 || hasRoleId('pengangkut'))
+        isReady &&
+        (drivers?.length > 0 || userHasRole('pengangkut', userWithDetails))
     const isShowLandsCard =
-        isReady && (lands?.length > 0 || hasRoleId('petani'))
+        isReady && (lands?.length > 0 || userHasRole('petani', userWithDetails))
     const isShowVehiclesCard =
-        isReady && (vehicles?.length > 0 || hasRoleId('pengangkut'))
+        isReady &&
+        (vehicles?.length > 0 || userHasRole('pengangkut', userWithDetails))
 
     const userSelectOnChange = (e, value) => {
         if (!value) return router.push('/users')
