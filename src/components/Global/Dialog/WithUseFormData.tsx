@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-import useFormData from '@/providers/useFormData2'
+import useFormData from '@/providers/useFormData'
 import Dialog, { DialogProps } from '.'
 
 interface DialogWithUseFormDataProps

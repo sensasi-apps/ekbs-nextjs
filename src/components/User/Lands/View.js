@@ -4,7 +4,7 @@ import ListItemButton from '@mui/material/ListItemButton'
 import Typography from '@mui/material/Typography'
 
 import UserLandListItemText from '../Land/ListItemText'
-import useFormData from '@/providers/useFormData2'
+import useFormData from '@/providers/useFormData'
 
 const LandsView = ({ data: lands }) => {
     const { handleEdit } = useFormData()

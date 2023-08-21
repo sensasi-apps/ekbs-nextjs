@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add'
 import useUserWithDetails from '@/providers/UserWithDetails'
 import LandsView from './View'
 import UserLandFormhDialogWithUseContexts from '../Land/Form/DialogWithContexts'
-import useFormData, { FormDataProvider } from '@/providers/useFormData2'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 const Component = () => {
     const { data: { lands = [] } = {} } = useUserWithDetails()
