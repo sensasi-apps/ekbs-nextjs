@@ -13,8 +13,8 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import TextField from '@mui/material/TextField'
 
+import DatePicker from '@/components/Global/DatePicker'
 import ImageInput from '@/components/ImageInput'
-import DatePicker from '@/components/DatePicker'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import NumericMasking from '@/components/Inputs/NumericMasking'
@@ -191,14 +191,18 @@ const UserDetailForm = () => {
             />
 
             <DatePicker
-                fullWidth
-                margin="normal"
                 disabled={isLoading}
-                label="Tanggal Lahir"
-                name="birth_at"
-                defaultValue={userDetail?.birth_at || null}
-                error={Boolean(validationErrors.birth_at)}
-                helperText={validationErrors.birth_at}
+                defaultValue={birth_at}
+                slotProps={{
+                    textField: {
+                        fullWidth: true,
+                        name: 'birth_at',
+                        label: 'Tanggal Lahir',
+                        margin: 'normal',
+                        error: Boolean(validationErrors.birth_at),
+                        helperText: validationErrors.birth_at,
+                    },
+                }}
             />
 
             <TextField
