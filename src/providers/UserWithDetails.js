@@ -2,12 +2,11 @@ import { createContext, useContext } from 'react'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
-import User from '@/classes/user'
 
 const UserWithDetailsCtx = createContext()
 
 const userWithDetailsFetcher = url =>
-    axios.get(url).then(response => new User(response.data))
+    axios.get(url).then(response => response.data)
 
 export const UserWithDetailsProvider = ({ children }) => {
     const router = useRouter()

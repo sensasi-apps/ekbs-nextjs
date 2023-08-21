@@ -47,7 +47,7 @@ let currentUserTermUnitPreference
 const LoanForm = ({ mode }) => {
     const { data: loanDraft = new Loan({}), handleClose, isNew } = useFormData()
 
-    const { data: currentUser } = useAuth()
+    const { data: currentUser, userHasRole, userHasPermission } = useAuth()
 
     const [loanType, setLoanType] = useState(loanDraft.type || null)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -75,7 +75,7 @@ const LoanForm = ({ mode }) => {
 
     const isUserCanDelete =
         loanDraft.hasUuid &&
-        currentUser?.hasPermission('delete own loan') &&
+        userHasPermission('delete own loan') &&
         loanDraft.isCreatedByUser(currentUser) &&
         !loanDraft.hasResponses
 
@@ -261,25 +261,24 @@ const LoanForm = ({ mode }) => {
                 )}
             </FormControl>
 
-            {mode === 'manager' &&
-                currentUser?.hasRole('user loans manager') && (
-                    <UserSelect
-                        disabled={
-                            isSubmitting ||
-                            isDeleting ||
-                            (loanDraft.hasUuid &&
-                                !loanDraft.isCreatedByUser(currentUser)) ||
-                            loanDraft.hasResponses
-                        }
-                        required
-                        label="Pemohon"
-                        margin="dense"
-                        onChange={handleUserChange}
-                        value={loanDraft.user || null}
-                        error={Boolean(validationErrors.user_uuid)}
-                        helperText={validationErrors.user_uuid}
-                    />
-                )}
+            {mode === 'manager' && userHasRole('user loans manager') && (
+                <UserSelect
+                    disabled={
+                        isSubmitting ||
+                        isDeleting ||
+                        (loanDraft.hasUuid &&
+                            !loanDraft.isCreatedByUser(currentUser)) ||
+                        loanDraft.hasResponses
+                    }
+                    required
+                    label="Pemohon"
+                    margin="dense"
+                    onChange={handleUserChange}
+                    value={loanDraft.user || null}
+                    error={Boolean(validationErrors.user_uuid)}
+                    helperText={validationErrors.user_uuid}
+                />
+            )}
 
             <TextField
                 disabled={isSubmitting || isDeleting || loanDraft.hasResponses}
@@ -409,7 +408,7 @@ const LoanForm = ({ mode }) => {
                     disabled={
                         isSubmitting ||
                         isDeleting ||
-                        !currentUser?.hasRole('employee') ||
+                        userHasRole('employee') ||
                         loanDraft.hasResponses
                     }
                     fullWidth
