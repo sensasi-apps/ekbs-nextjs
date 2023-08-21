@@ -192,7 +192,7 @@ const UserDetailForm = () => {
 
             <DatePicker
                 disabled={isLoading}
-                defaultValue={birth_at}
+                defaultValue={userDetail?.birth_at}
                 slotProps={{
                     textField: {
                         fullWidth: true,

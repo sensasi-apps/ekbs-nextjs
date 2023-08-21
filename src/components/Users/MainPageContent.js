@@ -26,6 +26,7 @@ import { getRoleIconByIdName } from '../User/RoleChips'
 import UserDriversCrudBox from '../User/Drivers/CrudBox'
 import UserVehiclesCrudBox from '../User/Vehicles/CrudBox'
 import UserLandsCrud from '../User/Lands/Crud'
+import useAuth from '@/providers/Auth'
 
 const GRID_CONTAINER_SX = {
     flexDirection: {
@@ -44,6 +45,8 @@ const PT_0_SX = { pt: 0 }
 
 const Component = () => {
     const router = useRouter()
+
+    const { userHasRole } = useAuth()
 
     const {
         data: userWithDetails = {},
