@@ -1,20 +1,18 @@
-import axios from '@/lib/axios'
-import AppContext from '@/providers/App'
-import { LoadingButton } from '@mui/lab'
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    Typography,
-} from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useContext, useEffect, useState } from 'react'
+import axios from '@/lib/axios'
+
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import Typography from '@mui/material/Typography'
+
+import LoadingButton from '@mui/lab/LoadingButton'
+import useAuth from '@/providers/Auth'
 
 const TncpDialog = ({ open, handleClose }) => {
-    const {
-        auth: { user, mutate },
-    } = useContext(AppContext)
+    const { data: user, mutate } = useAuth()
 
     const router = useRouter()
 

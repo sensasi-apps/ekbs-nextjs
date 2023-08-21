@@ -1,5 +1,5 @@
 import { mutate } from 'swr'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 
 import axios from '@/lib/axios'
 
@@ -7,12 +7,10 @@ import { Box, Button, TextField } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 
 import DeleteIcon from '@mui/icons-material/Delete'
-import AppContext from '@/providers/App'
+import useAuth from '@/providers/Auth'
 
 export default function CashForm({ data: cash, handleClose }) {
-    const {
-        auth: { userHasPermission },
-    } = useContext(AppContext)
+    const { userHasPermission } = useAuth()
 
     const isUserCanDelete = userHasPermission('cashes delete')
 
