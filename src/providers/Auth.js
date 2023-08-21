@@ -26,6 +26,32 @@ const AuthProvider = ({ children }) => {
             }),
     )
 
+    const { data: user } = swr
+
+    swr.userHasPermission = permissionName => {
+        if (typeof permissionName === 'string') {
+            return (
+                user?.role_names?.includes('superman') ||
+                user?.permission_names.includes(permissionName)
+            )
+        }
+
+        if (permissionName instanceof Array) {
+            return (
+                user?.role_names?.includes('superman') ||
+                permissionName.every(p => user?.permission_names.includes(p))
+            )
+        }
+    }
+
+    swr.userHasRole = roleName =>
+        user?.role_names?.includes('superman') ||
+        user?.role_names.includes(roleName)
+
+    swr.userHasRoleId = roleNameId =>
+        user?.role_names?.includes('superman') ||
+        user?.role_names_id.includes(roleNameId)
+
     return <AuthContext.Provider value={swr}>{children}</AuthContext.Provider>
 }
 

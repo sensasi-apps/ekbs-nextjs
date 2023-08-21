@@ -1,18 +1,13 @@
-import { useContext } from 'react'
-
-import AppContext from '@/providers/App'
-
 import Head from 'next/head'
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
+import useAuth from '@/providers/Auth'
 
 const Dashboard = () => {
-    const {
-        auth: { user },
-    } = useContext(AppContext)
+    const { data: user } = useAuth()
 
     return (
         <AuthLayout title="Dasbor">
