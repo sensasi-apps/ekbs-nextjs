@@ -1,8 +1,8 @@
 import * as Sentry from '@sentry/nextjs'
 
-if (process.env.NEXT_PUBLIC_VERCEL_ENV) {
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
     Sentry.init({
-        dsn: 'https://0abfd6d239ca40fbadc2d0f9606e1e3b@o1289319.ingest.sentry.io/4505351364870144',
+        dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
         // Replay may only be enabled for the client-side
         integrations: [new Sentry.Replay()],
