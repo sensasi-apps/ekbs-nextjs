@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
@@ -8,9 +9,15 @@ import FabWithUseFormData from '@/components/Global/Fab/WithUseFormData'
 import SellIcon from '@mui/icons-material/Sell'
 import Datatable, { getDataRow } from '@/components/Global/Datatable'
 import moment from 'moment'
-import DialogWithUseFormData from '@/components/Global/Dialog/WithUseFormData'
-import PalmBunchDeliveryRatesForm from '@/components/PalmBunchDeliveryRates/Form'
 import FormActionsBox from '@/components/Global/FormActionsBox'
+
+const DialogWithUseFormData = dynamic(
+    () => import('@/components/Global/Dialog/WithUseFormData'),
+)
+
+const PalmBunchDeliveryRatesForm = dynamic(
+    () => import('@/components/PalmBunchDeliveryRates/Form/index'),
+)
 
 const PalmBuncesDeliveryRatesPage: FC = () => {
     return (
