@@ -72,13 +72,12 @@ const Component = () => {
         lands,
         drivers,
         vehicles,
-
-        hasRoleId = () => undefined,
     } = userWithDetails
 
     const isShowEmployeeCard =
         isReady && Boolean(employee || userHasRole('karyawan', userWithDetails))
-    const isShowMemberCard = isReady && Boolean(member || hasRoleId('anggota'))
+    const isShowMemberCard =
+        isReady && Boolean(member || userHasRole('anggota', userWithDetails))
     const isShowDriverCard =
         isReady && Boolean(driver || userHasRole('pengemudi', userWithDetails))
     const isShowDriversCard =
