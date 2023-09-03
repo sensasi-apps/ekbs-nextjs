@@ -50,6 +50,9 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
         {
             name: 'uuid',
             label: 'uuid',
+            options: {
+                display: false,
+            },
         },
         {
             name: 'from_at',
@@ -68,6 +71,15 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
         {
             name: 'final_rp',
             label: 'Nilai Akhir',
+            options: {
+                customBodyRender: (value: number) => (
+                    <NumericFormat value={value} displayType="text" />
+                ),
+            },
+        },
+        {
+            name: 'n_details',
+            label: 'Jumlah Tiket',
             options: {
                 customBodyRender: (value: number) => (
                     <NumericFormat value={value} displayType="text" />
