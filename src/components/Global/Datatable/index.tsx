@@ -46,9 +46,12 @@ const Datatable: FC<DatatableProps> = ({
 }) => {
     const {
         isLoading: isApiLoading,
+        isValidating,
         data: { data = [], recordsTotal } = {},
         mutate,
-    } = useSWR(params ? apiUrl : null, (url: string) => fetcher(url, params))
+    } = useSWR(params ? apiUrl : null, (url: string) => fetcher(url, params), {
+        revalidateOnFocus: false,
+    })
 
     const [isLoading, setIsloading] = useState(false)
 
@@ -105,7 +108,7 @@ const Datatable: FC<DatatableProps> = ({
             />
 
             <LoadingCenter
-                isShow={isLoading || isApiLoading}
+                isShow={isLoading || isApiLoading || isValidating}
                 position="fixed"
                 top="25%"
                 left="50%"
