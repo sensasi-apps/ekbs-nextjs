@@ -3,18 +3,16 @@ import { mutate } from 'swr'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 
-import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    FormLabel,
-    Switch,
-    TextField,
-} from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
+import FormLabel from '@mui/material/FormLabel'
+import Switch from '@mui/material/Switch'
+import TextField from '@mui/material/TextField'
 
-import { LoadingButton } from '@mui/lab'
+import LoadingButton from '@mui/lab/LoadingButton'
 import NumericMasking from '../Inputs/NumericMasking'
 import useFormData from '@/providers/FormData'
 
@@ -31,7 +29,7 @@ const UserForm = () => {
     const [email, setEmail] = useState(user?.email)
     const [isActive, setIsActive] = useState(user?.is_active)
 
-    const { uuid, name } = user || {}
+    const { uuid, name, nickname } = user || {}
 
     const handleSubmit = async event => {
         event.preventDefault()
@@ -106,7 +104,7 @@ const UserForm = () => {
 
             <TextField
                 name="name"
-                label="Nama"
+                label="Nama Lengkap"
                 disabled={isLoading}
                 defaultValue={name || ''}
                 fullWidth
@@ -114,6 +112,18 @@ const UserForm = () => {
                 margin="dense"
                 error={Boolean(validationErrors.name)}
                 helperText={validationErrors.name}
+                onChange={clearValidationErrors}
+            />
+
+            <TextField
+                name="nickname"
+                label="Nama Panggilan"
+                disabled={isLoading}
+                defaultValue={nickname || ''}
+                fullWidth
+                margin="dense"
+                error={Boolean(validationErrors.nickname)}
+                helperText={validationErrors.nickname}
                 onChange={clearValidationErrors}
             />
 
