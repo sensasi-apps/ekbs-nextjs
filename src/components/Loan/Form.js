@@ -26,7 +26,7 @@ import Typography from '@mui/material/Typography'
 import DeleteIcon from '@mui/icons-material/Delete'
 import CloseIcon from '@mui/icons-material/Close'
 
-import { LoadingButton } from '@mui/lab'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 import LoanInstallmentTable from './InstallmentTable'
 import UserSelect from '../User/Select'
@@ -60,13 +60,16 @@ const LoanForm = ({ mode }) => {
     useEffect(() => {
         if (mode === 'applier' && Boolean(currentUser)) {
             setIsTermUnitLoading(true)
+
             if (currentUserTermUnitPreference) {
                 loanDraft.term_unit = currentUserTermUnitPreference
+
                 setIsTermUnitLoading(false)
             } else {
-                fetchUserPreferences(currentUser.uuid).then(res => {
-                    loanDraft.term_unit = res.data
-                    currentUserTermUnitPreference = res.data
+                fetchUserPreferences(currentUser.uuid).then(data => {
+                    loanDraft.term_unit = data
+                    currentUserTermUnitPreference = data
+
                     setIsTermUnitLoading(false)
                 })
             }
@@ -435,7 +438,9 @@ const LoanForm = ({ mode }) => {
             </Box>
 
             <Box my={0.5} textAlign="end">
-                <Button onClick={() => setIsInstalmentSimulationOpen(true)}>
+                <Button
+                    disabled={isSubmitting || isDeleting}
+                    onClick={() => setIsInstalmentSimulationOpen(true)}>
                     Tabel {loanDraft.hasInstallments ? '' : 'Simulasi '}Angsuran
                 </Button>
             </Box>
