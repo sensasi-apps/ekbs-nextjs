@@ -16,7 +16,7 @@ const Component = () => {
     return (
         <AuthLayout title="Kelola Pinjaman">
             <Head>
-                <title>Kelola Pinjaman</title>
+                <title>{`Kelola Pinjaman — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
             <LoansDatatable
