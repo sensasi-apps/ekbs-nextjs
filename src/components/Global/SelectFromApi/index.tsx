@@ -41,10 +41,7 @@ const SelectFromApi: FC<SelectFromApiProps> = ({
                 </InputLabel>
             )}
 
-            <Select
-                {...{ ...(props as SelectProps), margin: undefined }}
-                {...selectProps}
-                label={label}>
+            <Select {...(props as SelectProps)} {...selectProps} label={label}>
                 {data?.map((item: any) => (
                     <MenuItem
                         key={item.uuid || item.id}

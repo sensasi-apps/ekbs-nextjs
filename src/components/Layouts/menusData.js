@@ -68,9 +68,9 @@ const menusData = [
         forRoles: ['palm bunches admin'],
     },
     {
-        href: '/palm-bunches/deliveries',
-        label: 'Data Pengantaran',
-        pathname: '/palm-bunches/deliveries',
+        href: '/palm-bunches/rea-tickets',
+        label: 'Tiket REA',
+        pathname: '/palm-bunches/rea-tickets',
         icon: <BalanceIcon />,
         forRoles: ['palm bunches admin'],
     },
