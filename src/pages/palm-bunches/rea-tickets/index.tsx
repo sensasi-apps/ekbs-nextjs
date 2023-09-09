@@ -1,8 +1,12 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import Head from 'next/head'
 import moment from 'moment'
 import { mutate } from 'swr'
 import 'moment/locale/id'
+
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 
 import ReceiptIcon from '@mui/icons-material/Receipt'
 
@@ -16,6 +20,7 @@ import DialogWithUseFormData from '@/components/Global/Dialog/WithUseFormData'
 import MainForm from '@/components/PalmBunchesReaTicket/Form/index'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
+import NumericFormat from '@/components/Global/NumericFormat'
 
 const PalmBuncesReaTicketsPage: FC = () => {
     return (
@@ -34,6 +39,8 @@ const PalmBuncesReaTicketsPage: FC = () => {
 export default PalmBuncesReaTicketsPage
 
 const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
+    const [filter, setFilter] = useState<string | undefined>()
+
     const {
         data,
         submitting,
@@ -110,26 +117,96 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
             name: 'delivery.n_bunches',
             label: 'Janjang',
             options: {
-                customBodyRender: (_: any, rowMeta: any) =>
-                    getDataRow(rowMeta.rowIndex).delivery.n_bunches,
+                customBodyRender: (_: any, rowMeta: any) => (
+                    <NumericFormat
+                        value={getDataRow(rowMeta.rowIndex).delivery.n_bunches}
+                        displayType="text"
+                    />
+                ),
             },
         },
         {
             name: 'delivery.n_kg',
-            label: 'Bobot (kg)',
+            label: 'Bobot',
             options: {
-                customBodyRender: (_: any, rowMeta: any) =>
-                    getDataRow(rowMeta.rowIndex).delivery.n_kg,
+                customBodyRender: (_: any, rowMeta: any) => (
+                    <NumericFormat
+                        value={getDataRow(rowMeta.rowIndex).delivery.n_kg}
+                        suffix=" kg"
+                        displayType="text"
+                    />
+                ),
+            },
+        },
+        {
+            name: 'net_rp',
+            label: 'Pembayaran REA',
+            options: {
+                sort: false,
+                customBodyRender: (value: null | number) => (
+                    <NumericFormat
+                        value={value}
+                        prefix="Rp. "
+                        displayType="text"
+                    />
+                ),
+            },
+        },
+        {
+            name: 'status',
+            label: 'Status',
+            options: {
+                sort: false,
+                customBodyRender: (value: string) => (
+                    <Typography
+                        color={
+                            value === 'Lunas' ? 'success.main' : 'warning.main'
+                        }
+                        variant="body2"
+                        component="div">
+                        {value}
+                    </Typography>
+                ),
             },
         },
     ]
 
     return (
         <>
+            <Box
+                sx={{
+                    overflowX: 'auto',
+                }}
+                mb={3}
+                display="flex"
+                gap={1}>
+                <Chip
+                    label="Semua"
+                    color={filter === undefined ? 'success' : undefined}
+                    onClick={() => setFilter(undefined)}
+                />
+
+                <Chip
+                    label="Data pembayaran tidak cocok"
+                    color={
+                        filter === 'filter=unmatched' ? 'success' : undefined
+                    }
+                    onClick={() => setFilter('filter=unmatched')}
+                />
+
+                <Chip
+                    label="Data pembayaran tidak ditemukan"
+                    color={
+                        filter === 'filter=not-found' ? 'success' : undefined
+                    }
+                    onClick={() => setFilter('filter=not-found')}
+                />
+            </Box>
+
             <Datatable
                 title="Riwayat"
                 tableId="PalmBunchDeliveryRateDatatable"
-                apiUrl="/palm-bunches/rea-tickets/datatable"
+                apiUrl={'/palm-bunches/rea-tickets/datatable?' + (filter || '')}
                 onRowClick={(_, rowMeta) =>
                     handleEdit(getDataRow(rowMeta.rowIndex))
                 }
@@ -145,7 +222,10 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
                     loading={loading}
                     setSubmitting={setSubmitting}
                     handleClose={() => {
-                        mutate('/palm-bunches/rea-tickets/datatable')
+                        mutate(
+                            '/palm-bunches/rea-tickets/datatable?' +
+                                (filter || ''),
+                        )
                         handleClose()
                     }}
                     actionsSlot={

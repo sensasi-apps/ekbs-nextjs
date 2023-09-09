@@ -129,12 +129,13 @@ const menusData = [
         forRoles: ['user loans manager'],
     },
     {
-        component: <Divider sx={{ mt: 2 }} />,
-        forRoles: [],
-    },
-    {
-        component: <SubTitle>Keuangan</SubTitle>,
-        forRoles: [],
+        component: (
+            <>
+                <Divider sx={{ mt: 2 }} />
+                <SubTitle>Keuangan</SubTitle>
+            </>
+        ),
+        forRoles: ['cashes manager'],
     },
     {
         href: '/cashes',
@@ -144,11 +145,12 @@ const menusData = [
         forRoles: ['cashes manager'],
     },
     {
-        component: <Divider sx={{ mt: 2 }} />,
-        forRoles: ['users admin'],
-    },
-    {
-        component: <SubTitle>Sistem</SubTitle>,
+        component: (
+            <>
+                <Divider sx={{ mt: 2 }} />
+                <SubTitle>Sistem</SubTitle>
+            </>
+        ),
         forRoles: ['users admin'],
     },
     {

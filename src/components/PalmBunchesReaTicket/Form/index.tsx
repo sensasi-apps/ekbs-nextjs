@@ -21,7 +21,9 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
     setSubmitting,
     handleClose,
 }) => {
-    const disabled = Boolean(loading || data?.delivery?.transaction)
+    const disabled = Boolean(
+        loading || data?.delivery?.transactions?.length > 0,
+    )
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -98,7 +100,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
                 />
             </Box>
 
-            {actionsSlot}
+            {!data?.delivery?.transactions?.length && actionsSlot}
         </form>
     )
 }

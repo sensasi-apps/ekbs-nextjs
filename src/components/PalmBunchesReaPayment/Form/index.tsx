@@ -56,9 +56,13 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
     const [file, setFile] = useState<File>()
     const [isPaid, setIsPaid] = useState(hasTransactions)
     const [transactions, setTransactions] = useState(
-        data.transactions?.filter((_, i) => i > 0) ||
-            data.transaction_drafts ||
-            [],
+        data.transactions.length > 0
+            ? data.transactions.filter((_, i) => i > 0)
+            : data.transaction_drafts.map(tx => {
+                  tx.amount = parseInt(tx.amount + '')
+
+                  return tx
+              }) || [],
     )
     const [validationErrors, setValidationErrors] =
         useState<ValidationErrorsType>({})
@@ -74,6 +78,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
         net_rp,
         excel_file,
     } = data
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
@@ -347,6 +352,19 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
                                                     decimalScale: 4,
                                                     minLength: 1,
                                                     maxLength: 19,
+                                                    onValueChange: ({
+                                                        floatValue,
+                                                    }: {
+                                                        floatValue: number
+                                                    }) => {
+                                                        transactions[
+                                                            index
+                                                        ].amount = floatValue
+
+                                                        setTransactions([
+                                                            ...transactions,
+                                                        ])
+                                                    },
                                                     style: {
                                                         textAlign: 'right',
                                                     },
@@ -356,27 +374,6 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
                                                 defaultValue={
                                                     transaction.amount || ''
                                                 }
-                                                onBlur={e => {
-                                                    const value = e.target.value
-
-                                                    transactions[index].amount =
-                                                        parseFloat(
-                                                            value
-                                                                .replace(
-                                                                    /\./g,
-                                                                    '',
-                                                                )
-                                                                .replace(
-                                                                    ',',
-                                                                    '.',
-                                                                ),
-                                                        )
-
-                                                    setTransactions([
-                                                        ...transactions,
-                                                    ])
-                                                }}
-
                                                 // error={Boolean(validationErrors[transaction.desc])}
                                                 // helperText={validationErrors[transaction.desc]}
                                             />
@@ -405,14 +402,8 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
                                     <TableCell align="right">
                                         <NumericFormat
                                             value={transactions.reduce(
-                                                (a, b) =>
-                                                    a +
-                                                    (b.amount
-                                                        ? parseFloat(
-                                                              b.amount + '',
-                                                          )
-                                                        : 0),
-                                                parseFloat(net_rp + ''),
+                                                (a, b) => a + (b.amount || 0),
+                                                net_rp,
                                             )}
                                             prefix="Rp. "
                                             displayType="text"
