@@ -1,5 +1,6 @@
 import { Divider, Typography } from '@mui/material'
 
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import AgricultureIcon from '@mui/icons-material/Agriculture'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
@@ -142,6 +143,13 @@ const menusData = [
         label: 'Kas',
         pathname: '/cashes',
         icon: <AutoStoriesIcon />,
+        forRoles: ['cashes manager'],
+    },
+    {
+        href: '/wallets',
+        label: 'EKBS Wallet',
+        pathname: '/wallets',
+        icon: <AccountBalanceWalletIcon />,
         forRoles: ['cashes manager'],
     },
     {
