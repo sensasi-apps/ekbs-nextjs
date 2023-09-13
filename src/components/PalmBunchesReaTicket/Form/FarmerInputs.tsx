@@ -8,12 +8,12 @@ import TextField from '@mui/material/TextField'
 
 import AddIcon from '@mui/icons-material/Add'
 
-import UserSelect from '@/components/User/Select'
-import SelectFromApi from '@/components/Global/SelectFromApi'
 import NumericFormat from '@/components/Global/NumericFormat'
+import SelectFromApi from '@/components/Global/SelectFromApi'
+import UserAutocomplete from '@/components/Global/UserAutocomplete'
 
-import ValidationErrorsType from '@/types/ValidationErrors.type'
 import PalmBunchDataType from '@/dataTypes/PalmBunch'
+import ValidationErrorsType from '@/types/ValidationErrors.type'
 
 const PalmBunchesReaDeliveryFarmerInputs: FC<{
     data?: PalmBunchDataType[]
@@ -34,11 +34,11 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
 
     return (
         <>
-            <Typography variant="h6" component="h2">
+            <Typography variant="h6" component="h2" mt={3} mb={2}>
                 Data Pemilik Buah
             </Typography>
 
-            <Grid container mt={2} rowGap={3}>
+            <Grid container rowGap={3}>
                 {palmBunches.map((palmBunch, index) => (
                     <Grid
                         item
@@ -60,12 +60,9 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                 value={palmBunch.owner_user_uuid || ''}
                             />
 
-                            <UserSelect
+                            <UserAutocomplete
                                 disabled={disabled}
                                 fullWidth
-                                required
-                                label="Nama"
-                                size="small"
                                 onChange={(_: any, user: any) => {
                                     setPalmBunches(
                                         palmBunches.map((palmBunch, i) => {
@@ -83,15 +80,21 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                         `palm_bunches.${index}.owner_user_uuid`,
                                     )
                                 }}
-                                error={Boolean(
-                                    validationErrors[
-                                        `palm_bunches.${index}.owner_user_uuid`
-                                    ],
-                                )}
                                 defaultValue={palmBunch.owner_user || null}
-                                helperText={validationErrors[
-                                    `palm_bunches.${index}.owner_user_uuid`
-                                ]?.join(', ')}
+                                size="small"
+                                textFieldProps={{
+                                    required: true,
+                                    label: 'Nama',
+                                    error: Boolean(
+                                        validationErrors[
+                                            `palm_bunches.${index}.owner_user_uuid`
+                                        ],
+                                    ),
+                                    helperText:
+                                        validationErrors[
+                                            `palm_bunches.${index}.owner_user_uuid`
+                                        ]?.join(', '),
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm>

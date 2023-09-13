@@ -36,7 +36,7 @@ import Text from '@/components/Global/Text'
 import DatePicker from '@/components/Global/DatePicker'
 
 const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
-    data: dataProp,
+    data: dataProp = {} as PalmBunchesReaPaymentDataType,
     actionsSlot,
     loading,
     setSubmitting,
@@ -50,7 +50,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
         dataProp.to_at = moment(dataProp.to_at)
     }
 
-    const hasTransactions = dataProp.transactions?.length > 0
+    const hasTransactions = (dataProp?.transactions?.length || 0) > 0
 
     const [data, setData] = useState<PalmBunchesReaPaymentDataType>(dataProp)
     const [file, setFile] = useState<File>()

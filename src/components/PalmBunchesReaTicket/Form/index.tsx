@@ -1,18 +1,18 @@
 import React, { FC } from 'react'
-// import moment from 'moment'
 import axios from '@/lib/axios'
 
-import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
 import FormType from '@/components/Global/Form/Form.type'
 
-import useValidationErrors from '@/hooks/useValidationErrors'
 import PalmBunchesReaDeliveryMainInputs from './MainInputs'
 import PalmBunchesReaDeliveryFarmerInputs from './FarmerInputs'
 import GradingItemInputs from './GradingItemInputs'
+import PalmBuncesReaTicketRegisterAsForm from './RegisterAs'
+
+import useValidationErrors from '@/hooks/useValidationErrors'
 
 const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
     data,
@@ -22,7 +22,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
     handleClose,
 }) => {
     const disabled = Boolean(
-        loading || data?.delivery?.transactions?.length > 0,
+        loading || (data?.delivery?.transactions?.length || 0) > 0,
     )
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,7 +38,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
             const formData = new FormData(formEl)
 
             await axios.post(
-                `/palm-bunches/rea-tickets/${data.id || ''}`,
+                `/palm-bunches/rea-tickets/${data?.id || ''}`,
                 formData,
             )
             handleClose()
@@ -90,15 +90,20 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
                 </Grid>
             </Grid>
 
-            <Box my={4}>
-                <PalmBunchesReaDeliveryFarmerInputs
-                    data={data.delivery?.palm_bunches}
-                    disabled={disabled}
-                    validationErrors={validationErrors}
-                    clearByEvent={clearByEvent}
-                    clearByName={clearByName}
-                />
-            </Box>
+            <PalmBuncesReaTicketRegisterAsForm
+                data={data}
+                disabled={disabled}
+                clearByEvent={clearByEvent}
+                validationErrors={validationErrors}
+            />
+
+            <PalmBunchesReaDeliveryFarmerInputs
+                data={data?.delivery?.palm_bunches}
+                disabled={disabled}
+                validationErrors={validationErrors}
+                clearByEvent={clearByEvent}
+                clearByName={clearByName}
+            />
 
             {!data?.delivery?.transactions?.length && actionsSlot}
         </form>
