@@ -154,7 +154,10 @@ const TxHistory: FC<any> = ({
 
             {txs?.data?.length === 0 && (
                 <Box>
-                    <Typography fontStyle="italic" textAlign="center">
+                    <Typography
+                        fontStyle="italic"
+                        textAlign="center"
+                        color="text.secondary">
                         Tidak ada data transaksi
                     </Typography>
                 </Box>
