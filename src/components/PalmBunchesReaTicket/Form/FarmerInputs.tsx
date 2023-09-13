@@ -161,6 +161,7 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                     inputComponent: NumericFormat as any,
                                 }}
                                 inputProps={{
+                                    allowNegative: false,
                                     onValueChange: (values: any) => {
                                         document
                                             .querySelector(

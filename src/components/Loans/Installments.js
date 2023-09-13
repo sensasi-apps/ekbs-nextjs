@@ -31,15 +31,11 @@ const LoansInstallments = () => {
     const handleChange = e => {
         const filterValue = e.target.value.toLowerCase()
 
-        if (filterValue) {
-            setFiltered(
-                activeInstallments.filter(installment =>
-                    installment.loan.user.name
-                        .toLowerCase()
-                        .includes(filterValue),
-                ),
-            )
-        }
+        setFiltered(
+            activeInstallments.filter(installment =>
+                installment.loan.user.name.toLowerCase().includes(filterValue),
+            ),
+        )
     }
 
     useEffect(() => {
@@ -59,11 +55,14 @@ const LoansInstallments = () => {
     return (
         <Box>
             <TextField
+                autoComplete="off"
                 fullWidth
                 margin="normal"
                 label="Cari nama peminjam"
+                name="search"
                 onChange={handleChange}
             />
+
             <Typography mb={3} variant="body2" textAlign="end">
                 Menampilkan {filtered.length} hasil dari{' '}
                 {activeInstallments.length} data
