@@ -1,11 +1,14 @@
 import { FC } from 'react'
 import Head from 'next/head'
 import moment from 'moment'
-import { mutate } from 'swr'
+import useSWR, { mutate } from 'swr'
 import 'moment/locale/id'
 
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
@@ -19,6 +22,7 @@ import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form/i
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 import PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment.type'
+import axios from '@/lib/axios'
 
 const PalmBuncesReaPaymentsPage: FC = () => {
     return (
@@ -44,25 +48,33 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
         handleEdit,
     } = useFormData()
 
-    const title = 'Pembayaran'
+    const { data: paymentsNotFound = [] } = useSWR(
+        '/palm-bunches/rea-payments/ticket-data-not-found',
+        url => axios.get(url).then(res => res.data),
+    )
 
     const columns = [
         {
             name: 'uuid',
             label: 'uuid',
+            options: {
+                display: false,
+            },
         },
         {
             name: 'from_at',
             label: 'Tanggal Tiket Awal',
             options: {
-                customBodyRender: (value: string) => moment(value).format('LL'),
+                customBodyRender: (value: string) =>
+                    moment(value).format('DD-MM-YYYY'),
             },
         },
         {
             name: 'to_at',
             label: 'Tanggal Tiket Akhir',
             options: {
-                customBodyRender: (value: string) => moment(value).format('LL'),
+                customBodyRender: (value: string) =>
+                    moment(value).format('DD-MM-YYYY'),
             },
         },
         {
@@ -71,6 +83,34 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
             options: {
                 customBodyRender: (value: number) => (
                     <NumericFormat value={value} displayType="text" />
+                ),
+            },
+        },
+        {
+            name: 'n_details',
+            label: 'Jumlah Tiket',
+            options: {
+                sort: false,
+                customBodyRender: (value: number) => (
+                    <NumericFormat value={value} displayType="text" />
+                ),
+            },
+        },
+        {
+            name: 'n_tickets_has_paid',
+            label: 'Tiket lunas',
+            options: {
+                sort: false,
+                customBodyRender: (value: number, rowMeta: any) => (
+                    <Typography
+                        color={
+                            rowMeta.rowData.n_details === value
+                                ? 'success.main'
+                                : 'warning.main'
+                        }
+                        fontWeight="bold">
+                        <NumericFormat value={value} displayType="text" />
+                    </Typography>
                 ),
             },
         },
@@ -89,7 +129,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                 defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
             />
 
-            <DialogWithUseFormData title={title} maxWidth="sm">
+            <DialogWithUseFormData title="Pembayaran" maxWidth="sm">
                 <PalmBunchesReaPaymentForm
                     data={data as PalmBunchesReaPaymentDataType}
                     loading={loading}
@@ -106,6 +146,30 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                     }
                 />
             </DialogWithUseFormData>
+
+            {paymentsNotFound.map((payment: any, index: number) => (
+                <Box mb={3} key={index}>
+                    <Alert severity="warning">
+                        <Tooltip
+                            title={payment.details.map((detail: any) => (
+                                <div key={detail.wb_ticket_no}>
+                                    {detail.wb_ticket_no}
+                                </div>
+                            ))}>
+                            <span
+                                style={{
+                                    textDecoration: 'underline',
+                                    textDecorationStyle: 'dotted',
+                                    cursor: 'pointer',
+                                }}>
+                                <b>{payment.details.length} tiket</b> tidak
+                                memiliki data tiket
+                            </span>
+                        </Tooltip>{' '}
+                        pada pembayaran dengan UUID: <b>{payment.uuid}</b>
+                    </Alert>
+                </Box>
+            ))}
 
             <FabWithUseFormData>
                 <BackupTableIcon />

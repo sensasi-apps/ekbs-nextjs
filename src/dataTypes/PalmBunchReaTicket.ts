@@ -11,6 +11,10 @@ type PalmBunchesReaTicketDataType = {
     rp_per_kg: number
     wb_ticket_no: string
 
+    as_farmer_id: string
+    as_farmer_name: string
+    as_farm_land_id: string
+
     delivery: PalmBunchesDeliveryDataType
     gradings: PalmBunchesReaGradingDataType[]
 }

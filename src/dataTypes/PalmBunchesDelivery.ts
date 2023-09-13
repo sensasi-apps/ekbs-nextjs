@@ -14,7 +14,7 @@ type PalmBunchesDeliveryDataType = {
 
     courier_user: UserDataType
     palm_bunches: PalmBunchDataType[]
-    transaction: any
+    transactions: []
 }
 
 export default PalmBunchesDeliveryDataType
