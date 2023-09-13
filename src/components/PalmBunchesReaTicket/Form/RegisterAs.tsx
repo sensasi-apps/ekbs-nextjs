@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField'
 
 import ValidationErrorsType from '@/types/ValidationErrors.type'
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
+import NumericFormat from '@/components/Global/NumericFormat'
 
 const PalmBuncesReaTicketRegisterAsForm: FC<{
     data?: PalmBunchesReaTicketDataType
@@ -34,6 +35,14 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                         margin="none"
                         required
                         disabled={disabled}
+                        InputProps={{
+                            inputComponent: NumericFormat as any,
+                        }}
+                        inputProps={{
+                            allowNegative: false,
+                            thousandSeparator: false,
+                            decimalScale: 0,
+                        }}
                         defaultValue={palmBunchesReaTicket?.as_farmer_id || ''}
                         onChange={clearByEvent}
                         error={Boolean(validationErrors?.as_farmer_id)}
@@ -69,6 +78,14 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                         defaultValue={
                             palmBunchesReaTicket?.as_farm_land_id || ''
                         }
+                        InputProps={{
+                            inputComponent: NumericFormat as any,
+                        }}
+                        inputProps={{
+                            allowNegative: false,
+                            thousandSeparator: false,
+                            decimalScale: 0,
+                        }}
                         onChange={clearByEvent}
                         error={Boolean(validationErrors?.as_farm_land_id)}
                         helperText={validationErrors?.as_farm_land_id}
