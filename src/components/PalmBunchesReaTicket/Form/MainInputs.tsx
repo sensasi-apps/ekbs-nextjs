@@ -7,12 +7,10 @@ import Typography from '@mui/material/Typography'
 
 import DatePicker from '@/components/Global/DatePicker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
+import UserAutocomplete from '@/components/Global/UserAutocomplete'
 import NumericFormat from '@/components/Global/NumericFormat'
-
-import UserSelect from '@/components/User/Select'
-
-import ValidationErrorsType from '@/types/ValidationErrors.type'
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
+import ValidationErrorsType from '@/types/ValidationErrors.type'
 
 type MainInputPropTypes = {
     data?: PalmBunchesReaTicketDataType
@@ -45,7 +43,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
             from_position = '',
             n_bunches = '',
             vehicle_no = '',
-            courier_user,
+            courier_user = null,
         } = {},
     } = data
 
@@ -257,6 +255,8 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
                 helperText={validationErrors.rp_per_kg}
             />
 
+            <input type="hidden" name="n_bunches" value={n_bunches || ''} />
+
             <TextField
                 disabled={disabled}
                 fullWidth
@@ -264,7 +264,6 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
                 margin="dense"
                 label="Total Janjang"
                 size="small"
-                name="n_bunches"
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">Janjang</InputAdornment>
@@ -274,6 +273,16 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
                 inputProps={{
                     decimalScale: 0,
                     maxLength: 10,
+                    onValueChange: ({ floatValue }: any) => {
+                        setData(prevData => ({
+                            ...prevData,
+                            delivery: {
+                                ...prevData.delivery,
+                                n_bunches: floatValue,
+                            },
+                        }))
+                        clearByName('n_bunches')
+                    },
                 }}
                 onChange={clearByEvent}
                 defaultValue={n_bunches}
@@ -287,14 +296,10 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
                 value={courier_user?.uuid || ''}
             />
 
-            <UserSelect
+            <UserAutocomplete
                 disabled={disabled}
                 fullWidth
-                required
-                margin="dense"
-                label="Pengantar"
-                size="small"
-                onChange={(_: any, user: any) => {
+                onChange={(_, user) => {
                     setData((prevData: any) => ({
                         ...prevData,
                         delivery: {
@@ -304,9 +309,15 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
                     }))
                     clearByName('courier_user_uuid')
                 }}
-                defaultValue={courier_user}
-                error={Boolean(validationErrors.courier_user_uuid)}
-                helperText={validationErrors.courier_user_uuid}
+                value={courier_user}
+                size="small"
+                textFieldProps={{
+                    required: true,
+                    margin: 'dense',
+                    label: 'Pengantar',
+                    error: Boolean(validationErrors.courier_user_uuid),
+                    helperText: validationErrors.courier_user_uuid,
+                }}
             />
 
             <TextField

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
-type FormType<T> = {
-    data: T
+type FormType<T = undefined> = {
+    data?: T
     loading: boolean
     handleClose: () => void
     setSubmitting: (loading: boolean) => void
