@@ -141,9 +141,9 @@ const LoanForm = ({ mode }) => {
             }
 
             if (mode === 'manager') {
-                mutate('/user-loans/get-unfinished-data')
+                mutate('/user-loans/datatable')
             } else {
-                mutate('/loans/get-unfinished-data')
+                mutate('/loans/datatable')
             }
 
             handleClose()

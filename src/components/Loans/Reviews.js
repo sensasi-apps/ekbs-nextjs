@@ -25,7 +25,7 @@ const LoansReviews = () => {
         data = [],
         mutate,
         isLoading: apiLoading,
-    } = useSWR('/user-loans/review-waits', fetcher)
+    } = useSWR('/user-loans/wait-for-review', fetcher)
 
     const [isLoading, setIsLoading] = useState(false)
 

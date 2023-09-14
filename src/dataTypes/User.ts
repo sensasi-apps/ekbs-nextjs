@@ -11,6 +11,9 @@ type UserDataType = {
     name: string
     email: string
     uuid: UUID
+
+    socials?: []
+    last_six_months_tbs_performance?: []
 }
 
 export default UserDataType
