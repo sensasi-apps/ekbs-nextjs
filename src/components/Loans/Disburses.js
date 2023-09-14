@@ -21,7 +21,7 @@ const LoansDisburses = () => {
         data = [],
         mutate,
         isLoading: apiLoading,
-    } = useSWR('/user-loans/disburse-waits', fetcher)
+    } = useSWR('/user-loans/wait-for-disburse', fetcher)
 
     const [isLoading, setIsLoading] = useState(false)
     const [validationErrors, setValidationErrors] = useState({})

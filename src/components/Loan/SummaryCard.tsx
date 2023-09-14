@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-
+import { FC } from 'react'
 import moment from 'moment'
 import 'moment/locale/id'
 
@@ -19,14 +18,13 @@ import Loan from '@/classes/loan'
 
 import CrediturCard from './CrediturCard'
 
-const LoanSummaryCard = ({
-    data: loan,
-    mode,
-    isLoading,
-    handleEdit,
-    children,
-    ...props
-}) => {
+const LoanSummaryCard: FC<{
+    data: Loan
+    mode: 'applier' | 'manager'
+    isLoading?: boolean
+    handleEdit?: () => void
+    children?: React.ReactNode
+}> = ({ data: loan, mode, isLoading, handleEdit, children, ...props }) => {
     const {
         proposed_at,
         proposed_rp,
@@ -93,7 +91,9 @@ const LoanSummaryCard = ({
                     <Grid item xs={6} md={3}>
                         <Box display="flex" gap={2} mb={3}>
                             <Box>
-                                <Typography color="GrayText">Bunga:</Typography>
+                                <Typography color="GrayText">
+                                    Biaya Jasa:
+                                </Typography>
                                 <Typography color="GrayText" component="span">
                                     Tenor:
                                 </Typography>
@@ -136,12 +136,6 @@ const LoanSummaryCard = ({
             {children}
         </Card>
     )
-}
-
-LoanSummaryCard.propTypes = {
-    data: PropTypes.instanceOf(Loan).isRequired,
-    mode: PropTypes.oneOf(['applier', 'manager']).isRequired,
-    handleEdit: PropTypes.func,
 }
 
 export default LoanSummaryCard
