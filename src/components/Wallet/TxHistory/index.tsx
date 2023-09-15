@@ -19,7 +19,20 @@ import Skeletons from '@/components/Global/Skeletons'
 import TransactionDataType from '@/dataTypes/Transaction'
 import TxHistoryItem from './Item'
 
-const TxHistory: FC<any> = ({
+const TxHistory: FC<{
+    walletData: {
+        uuid: string
+        balance: number
+        user: {
+            name: string
+        }
+    }
+    printContent?: any
+    fromDate: Moment
+    setFromDate: any
+    toDate: Moment
+    setToDate: any
+}> = ({
     walletData,
     printContent,
     fromDate,
@@ -107,21 +120,23 @@ const TxHistory: FC<any> = ({
             </Box>
 
             <Box textAlign="end" mb={2}>
-                <ReactToPrint
-                    pageStyle="@page { margin: auto; }"
-                    content={printContent}
-                    trigger={() => (
-                        <Tooltip title="Cetak">
-                            <span>
-                                <IconButton
-                                    disabled={isLoading}
-                                    color="primary">
-                                    <PrintIcon />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
-                    )}
-                />
+                {printContent && (
+                    <ReactToPrint
+                        pageStyle="@page { margin: auto; }"
+                        content={printContent}
+                        trigger={() => (
+                            <Tooltip title="Cetak">
+                                <span>
+                                    <IconButton
+                                        disabled={isLoading}
+                                        color="primary">
+                                        <PrintIcon />
+                                    </IconButton>
+                                </span>
+                            </Tooltip>
+                        )}
+                    />
+                )}
 
                 <Tooltip title="Ekspor Excel">
                     <span>
