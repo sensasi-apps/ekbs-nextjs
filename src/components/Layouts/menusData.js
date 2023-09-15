@@ -136,7 +136,14 @@ const menusData = [
                 <SubTitle>Keuangan</SubTitle>
             </>
         ),
-        forRoles: ['cashes manager'],
+        forRoles: ['member', 'employee', 'cashes manager'],
+    },
+    {
+        href: '/wallet',
+        label: 'Wallet Anda',
+        pathname: '/wallet',
+        icon: <AccountBalanceWalletIcon />,
+        forRoles: ['member', 'employee'],
     },
     {
         href: '/cashes',
@@ -147,7 +154,7 @@ const menusData = [
     },
     {
         href: '/wallets',
-        label: 'EKBS Wallet',
+        label: 'Wallet Pengguna',
         pathname: '/wallets',
         icon: <AccountBalanceWalletIcon />,
         forRoles: ['cashes manager'],
