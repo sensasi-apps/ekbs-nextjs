@@ -61,11 +61,11 @@ const PalmBunchDeliveryRatesForm: FC<
             handleClose()
         } catch (error: any) {
             if (error.response.status !== 422) {
-                setSubmitting(false)
                 throw error
             }
 
             setValidationErrors(error.response.data.errors)
+            setSubmitting(false)
         }
     }
 
