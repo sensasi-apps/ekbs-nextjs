@@ -22,9 +22,9 @@ const PalmBunchDeliveryRatesForm = dynamic(
 
 const PalmBuncesDeliveryRatesPage: FC = () => {
     return (
-        <AuthLayout title="Tarif Pengantaran">
+        <AuthLayout title="Tarif Angkut">
             <Head>
-                <title>{`Tarif Pengantaran — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
+                <title>{`Tarif Angkut — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
             <FormDataProvider>
@@ -77,7 +77,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
     return (
         <>
             <Datatable
-                title="Daftar Tarif Pengantaran"
+                title="Daftar Tarif Angkut"
                 tableId="PalmBunchDeliveryRateDatatable"
                 apiUrl="/palm-bunches/delivery-rates/datatable"
                 onRowClick={(rowData, rowMeta) =>

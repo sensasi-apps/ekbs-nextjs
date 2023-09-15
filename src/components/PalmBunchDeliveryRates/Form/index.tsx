@@ -197,6 +197,11 @@ const PalmBunchDeliveryRatesForm: FC<
                                                             Rp
                                                         </InputAdornment>
                                                     ),
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            /kg
+                                                        </InputAdornment>
+                                                    ),
                                                     inputComponent:
                                                         NumericMasking,
                                                 }}
