@@ -50,7 +50,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
     return (
         <>
             <Typography variant="h6" component="h2" gutterBottom>
-                Data Pengantaran
+                Data Pengangkutan
             </Typography>
 
             {id && (
@@ -314,7 +314,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
                 textFieldProps={{
                     required: true,
                     margin: 'dense',
-                    label: 'Pengantar',
+                    label: 'Pengangkut',
                     error: Boolean(validationErrors.courier_user_uuid),
                     helperText: validationErrors.courier_user_uuid,
                 }}

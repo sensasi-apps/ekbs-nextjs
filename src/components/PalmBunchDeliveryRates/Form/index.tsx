@@ -61,11 +61,11 @@ const PalmBunchDeliveryRatesForm: FC<
             handleClose()
         } catch (error: any) {
             if (error.response.status !== 422) {
-                setSubmitting(false)
                 throw error
             }
 
             setValidationErrors(error.response.data.errors)
+            setSubmitting(false)
         }
     }
 
@@ -195,6 +195,11 @@ const PalmBunchDeliveryRatesForm: FC<
                                                     startAdornment: (
                                                         <InputAdornment position="start">
                                                             Rp
+                                                        </InputAdornment>
+                                                    ),
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            /kg
                                                         </InputAdornment>
                                                     ),
                                                     inputComponent:

@@ -42,6 +42,7 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                             allowNegative: false,
                             thousandSeparator: false,
                             decimalScale: 0,
+                            maxLength: 10,
                         }}
                         defaultValue={palmBunchesReaTicket?.as_farmer_id || ''}
                         onChange={clearByEvent}
@@ -85,6 +86,7 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                             allowNegative: false,
                             thousandSeparator: false,
                             decimalScale: 0,
+                            maxLength: 10,
                         }}
                         onChange={clearByEvent}
                         error={Boolean(validationErrors?.as_farm_land_id)}

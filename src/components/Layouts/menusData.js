@@ -1,4 +1,5 @@
-import { Divider, Typography } from '@mui/material'
+import Divider from '@mui/material/Divider'
+import Typography from '@mui/material/Typography'
 
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import AgricultureIcon from '@mui/icons-material/Agriculture'
@@ -63,7 +64,7 @@ const menusData = [
     },
     {
         href: '/palm-bunches/delivery-rates',
-        label: 'Tarif Pengantaran',
+        label: 'Tarif Angkut',
         pathname: '/palm-bunches/delivery-rates',
         icon: <FireTruckIcon />,
         forRoles: ['palm bunches admin'],

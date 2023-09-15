@@ -53,7 +53,7 @@ const TbsPerformanceChart: FC<{
                 <Line
                     type="monotone"
                     dataKey="palmBunchDeliveriesRp"
-                    name="Pengantaran"
+                    name="Pengangkutan"
                     stroke="#82ca9d"
                 />
             </LineChart>
