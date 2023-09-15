@@ -77,7 +77,7 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
         },
         {
             name: 'delivery.courierUser.name',
-            label: 'Pengantar',
+            label: 'Pengangkut',
             options: {
                 customBodyRender: (_: any, rowMeta: any) => {
                     const courier_user = getDataRow(rowMeta.rowIndex).delivery
@@ -143,13 +143,17 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
             label: 'Pembayaran REA',
             options: {
                 sort: false,
-                customBodyRender: (value: null | number) => (
-                    <NumericFormat
-                        value={value}
-                        prefix="Rp. "
-                        displayType="text"
-                    />
-                ),
+                customBodyRender: (value: null | number) => {
+                    if (value === null) return '-'
+
+                    return (
+                        <NumericFormat
+                            value={value}
+                            prefix="Rp. "
+                            displayType="text"
+                        />
+                    )
+                },
             },
         },
         {
@@ -215,7 +219,7 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
             />
 
             <DialogWithUseFormData
-                title={`${isNew ? 'Masukkan' : 'Perbarui'} Data Pengantaran`}
+                title={`${isNew ? 'Masukkan' : 'Perbarui'} Data Pengangkutan`}
                 maxWidth="lg">
                 <MainForm
                     data={data as PalmBunchesReaTicketDataType}

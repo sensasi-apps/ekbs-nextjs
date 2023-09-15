@@ -10,6 +10,7 @@ import SellIcon from '@mui/icons-material/Sell'
 import Datatable, { getDataRow } from '@/components/Global/Datatable'
 import moment from 'moment'
 import FormActionsBox from '@/components/Global/FormActionsBox'
+import { mutate } from 'swr'
 
 const DialogWithUseFormData = dynamic(
     () => import('@/components/Global/Dialog/WithUseFormData'),
@@ -21,9 +22,9 @@ const PalmBunchDeliveryRatesForm = dynamic(
 
 const PalmBuncesDeliveryRatesPage: FC = () => {
     return (
-        <AuthLayout title="Tarif Pengantaran">
+        <AuthLayout title="Tarif Angkut">
             <Head>
-                <title>{`Tarif Pengantaran — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
+                <title>{`Tarif Angkut — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
             <FormDataProvider>
@@ -76,7 +77,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
     return (
         <>
             <Datatable
-                title="Daftar Tarif Pengantaran"
+                title="Daftar Tarif Angkut"
                 tableId="PalmBunchDeliveryRateDatatable"
                 apiUrl="/palm-bunches/delivery-rates/datatable"
                 onRowClick={(rowData, rowMeta) =>
@@ -91,7 +92,11 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                     data={data}
                     loading={loading}
                     setSubmitting={setSubmitting}
-                    handleClose={handleClose}
+                    handleClose={async () => {
+                        await mutate('/palm-bunches/delivery-rates/datatable')
+                        handleClose()
+                        setSubmitting(false)
+                    }}
                     actionsSlot={
                         <FormActionsBox
                             onCancel={handleClose}
