@@ -177,6 +177,13 @@ const menusData = [
         forRoles: ['users admin'],
     },
     {
+        href: '/roles',
+        label: 'Peran',
+        pathname: '/roles',
+        icon: <GroupIcon />,
+        forRoles: ['superman'],
+    },
+    {
         href: '/settings',
         label: 'Pengaturan',
         pathname: '/settings',
