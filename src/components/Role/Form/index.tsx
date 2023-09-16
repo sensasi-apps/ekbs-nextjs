@@ -26,15 +26,7 @@ const RoleForm: FC<FormType<Role>> = ({
 }) => {
     const { validationErrors, setValidationErrors } = useValidationErrors()
 
-    const { data: permissions = [], isLoading } = useSWR(
-        '/data/permissions',
-        url => axios.get(url).then(res => res.data),
-        {
-            revalidateOnFocus: false,
-            revalidateOnMount: false,
-            revalidateOnReconnect: false,
-        },
-    )
+    const { data: permissions = [], isLoading } = useSWR('/data/permissions')
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
