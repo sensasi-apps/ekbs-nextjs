@@ -98,7 +98,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
             })
 
             await axios.post(
-                `/palm-bunches/rea-payments/${uuid || ''}`,
+                `/palm-bunches/rea-payments${'/' + uuid || ''}`,
                 formData,
             )
 
@@ -127,7 +127,9 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
             formData.append('excel_file', e.target.files?.[0] as File)
             const data = await axios
                 .post(
-                    `/palm-bunches/rea-payments/excel-parser/${uuid || ''}`,
+                    `/palm-bunches/rea-payments/excel-parser${
+                        '/' + uuid || ''
+                    }`,
                     formData,
                 )
                 .then(res => res.data)
