@@ -54,7 +54,7 @@ const PalmBunchDeliveryRatesForm: FC<
             const payload = Object.fromEntries(formData.entries())
 
             await axios.post(
-                `/palm-bunches/delivery-rates${'/' + id || ''}`,
+                `/palm-bunches/delivery-rates${id ? '/' + id : ''}`,
                 QueryString.stringify(payload),
             )
 

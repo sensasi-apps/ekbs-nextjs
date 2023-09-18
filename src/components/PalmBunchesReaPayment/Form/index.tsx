@@ -98,7 +98,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
             })
 
             await axios.post(
-                `/palm-bunches/rea-payments${'/' + uuid || ''}`,
+                `/palm-bunches/rea-payments${uuid ? '/' + uuid : ''}`,
                 formData,
             )
 
@@ -128,7 +128,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
             const data = await axios
                 .post(
                     `/palm-bunches/rea-payments/excel-parser${
-                        '/' + uuid || ''
+                        uuid ? '/' + uuid : ''
                     }`,
                     formData,
                 )
