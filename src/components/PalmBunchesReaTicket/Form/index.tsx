@@ -38,7 +38,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
             const formData = new FormData(formEl)
 
             await axios.post(
-                `/palm-bunches/rea-tickets${'/' + data?.id || ''}`,
+                `/palm-bunches/rea-tickets${data?.id ? '/' + data?.id : ''}`,
                 formData,
             )
             handleClose()
