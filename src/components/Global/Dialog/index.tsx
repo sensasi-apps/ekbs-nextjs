@@ -1,39 +1,45 @@
 import { FC } from 'react'
 
-import MuiDialog, { DialogProps as MuiDialogProps } from '@mui/material/Dialog'
+import MuiDialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 
 import CloseIcon from '@mui/icons-material/Close'
 
+import type { DialogProps as MuiDialogProps } from '@mui/material/Dialog'
+import type { DialogTitleProps } from '@mui/material/DialogTitle'
+
 interface DialogProps extends MuiDialogProps {
-    title: string
-    closeButtonProps: {
-        onClick: () => void
+    closeButtonProps?: {
+        onClick?: () => void
         disabled?: boolean
     }
+    dialogTitleProps?: DialogTitleProps
+    title: string
 }
 
 const Dialog: FC<DialogProps> = ({
-    title,
-    closeButtonProps: {
-        onClick: onCloseButtonClick,
-        disabled: isCloseDisabled,
-    },
     children,
+    closeButtonProps,
+    dialogTitleProps,
+    title,
     ...props
 }) => {
     return (
         <MuiDialog maxWidth="xs" {...props}>
-            <DialogTitle display="flex" justifyContent="space-between">
+            <DialogTitle
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                {...dialogTitleProps}>
                 {title}
 
-                {onCloseButtonClick && (
+                {closeButtonProps?.onClick && (
                     <IconButton
                         size="small"
-                        disabled={isCloseDisabled}
-                        onClick={onCloseButtonClick}>
+                        disabled={closeButtonProps.disabled}
+                        onClick={closeButtonProps.onClick}>
                         <CloseIcon />
                     </IconButton>
                 )}

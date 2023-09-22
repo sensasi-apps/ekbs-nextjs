@@ -1,12 +1,18 @@
-import PropTypes from 'prop-types'
+import { FC } from 'react'
 
-import Box from '@mui/material/Box'
+import Box, { BoxProps } from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
-function ErrorCenter({ message, isShow = true, onClose, children, ...props }) {
+const ErrorCenter: FC<
+    {
+        message?: string
+        isShow?: boolean
+        onClose?: () => void
+    } & BoxProps
+> = ({ message, isShow = true, onClose, children, ...props }) => {
     return (
         <Box
             textAlign="center"
@@ -30,12 +36,6 @@ function ErrorCenter({ message, isShow = true, onClose, children, ...props }) {
             )}
         </Box>
     )
-}
-
-ErrorCenter.propTypes = {
-    message: PropTypes.string,
-    children: PropTypes.string,
-    onClose: PropTypes.func,
 }
 
 export default ErrorCenter
