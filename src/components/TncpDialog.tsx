@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FC, FormEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 
@@ -10,9 +10,13 @@ import Typography from '@mui/material/Typography'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 import useAuth from '@/providers/Auth'
+import { dbPromise } from '@/lib/idb'
 
-const TncpDialog = ({ open, handleClose }) => {
-    const { data: user, mutate } = useAuth()
+const TncpDialog: FC<{
+    open: boolean
+    handleClose: () => void
+}> = ({ open, handleClose }) => {
+    const { user } = useAuth()
 
     const router = useRouter()
 
@@ -25,13 +29,18 @@ const TncpDialog = ({ open, handleClose }) => {
         }
     }, [user?.is_agreed_tncp])
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         setIsLoading(true)
 
-        await axios.post(`/users/agree-tcnp`)
-        await mutate()
+        await axios
+            .post(`/users/agree-tcnp`)
+            .then(() =>
+                dbPromise.then(db =>
+                    db.put('user', { ...user, is_agreed_tncp: true }, 0),
+                ),
+            )
 
         setIsOpen(false)
         setIsLoading(false)

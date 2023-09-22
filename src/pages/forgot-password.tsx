@@ -1,49 +1,22 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-
+import { useEffect, useState, FormEvent } from 'react'
 import axios from '@/lib/axios'
 
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
 import SyncLockIcon from '@mui/icons-material/SyncLock'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
+import CompleteCenter from '@/components/Statuses/CompleteCenter'
 
-const ForgotPassword = () => {
-    const router = useRouter()
-
-    const forgotPassword = async ({ setErrors, setStatus, email }) => {
-        setErrors([])
-        setStatus(null)
-
-        axios
-            .post('/forgot-password', { email })
-            .then(response =>
-                router.push('/login?reset=' + btoa(response.data.status)),
-            )
-            .catch(error => {
-                if (error.response.status !== 422) throw error
-
-                setErrors(error.response.data.errors)
-            })
-    }
-
+export default function ForgotPassword() {
     // form data
     const [email, setEmail] = useState('')
 
     // ui data
     const [isLoading, setIsLoading] = useState(false)
-    const [errors, setErrors] = useState([])
-    const [status, setStatus] = useState(null)
-
-    const submitForm = event => {
-        event.preventDefault()
-
-        setErrors([])
-        setStatus(null)
-        setIsLoading(true)
-        forgotPassword({ email, setErrors, setStatus })
-    }
+    const [errors, setErrors] = useState<any[]>([])
+    const [status, setStatus] = useState<string>()
 
     useEffect(() => {
         const tempErrors = Object.values(errors)
@@ -54,6 +27,30 @@ const ForgotPassword = () => {
         }
     }, [errors])
 
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
+        setErrors([])
+        setStatus(undefined)
+        setIsLoading(true)
+
+        return axios
+            .post('/forgot-password', { email })
+            .then(response => {
+                setStatus(response.data.status)
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
+            })
+            .finally(() => setIsLoading(false))
+    }
+
+    const handleBack = () => {
+        if (typeof window !== 'undefined') return history.back()
+    }
+
     return (
         <GuestFormLayout
             title="Lupa kata sandi"
@@ -61,7 +58,11 @@ const ForgotPassword = () => {
             isLoading={isLoading}
             isError={Object.values(errors).length > 0}
             message={status}>
-            <form onSubmit={submitForm} style={{ marginTop: '1rem' }}>
+            <CompleteCenter
+                isShow={Boolean(status && Object.values(errors).length === 0)}
+                message={status}
+            />
+            <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
                 <TextField
                     autoFocus
                     required
@@ -83,8 +84,15 @@ const ForgotPassword = () => {
                     Kirim tautan pengaturan kata sandi
                 </Button>
             </form>
+
+            <Button
+                variant="text"
+                size="small"
+                startIcon={<ArrowBackIcon />}
+                sx={{ mt: 3, mb: 1 }}
+                onClick={handleBack}>
+                Kembali
+            </Button>
         </GuestFormLayout>
     )
 }
-
-export default ForgotPassword

@@ -19,7 +19,7 @@ const fetcher = url =>
     axios.get(url).then(res => res.data.map(loan => new Loan(loan)))
 
 const LoansReviews = () => {
-    const { data: currentUser } = useAuth()
+    const { user: currentUser } = useAuth()
 
     const {
         data = [],

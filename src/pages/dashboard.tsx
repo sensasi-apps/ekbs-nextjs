@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import useAuth from '@/providers/Auth'
 
-const Dashboard = () => {
-    const { data: user } = useAuth()
+export default function Dashboard() {
+    const { user } = useAuth()
 
     return (
         <AuthLayout title="Dasbor">
@@ -30,5 +30,3 @@ const Dashboard = () => {
         </AuthLayout>
     )
 }
-
-export default Dashboard

@@ -1,20 +1,23 @@
-import dynamic from 'next/dynamic'
+import { FC, useEffect, ReactNode } from 'react'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import useAuth from '@/providers/Auth'
+
 import { DRAWER_WIDTH } from './MenuList'
+import TopBarAndMenuList from './TopBarAndMenuList'
+import LoginFormDialog from './Auth/LoginFormDialog'
 
-const DynamicTopBarAndMenuList = dynamic(() => import('./TopBarAndMenuList'))
-
-const AuthLayout = ({ title, children }) => {
+const AuthLayout: FC<{
+    title: string
+    children?: ReactNode
+}> = ({ title, children }) => {
     const router = useRouter()
-    const { error } = useAuth()
+    const { user } = useAuth()
 
     useEffect(() => {
-        if (error?.response.status === 401) {
+        if (user === null) {
             const redirectTo = location.pathname
 
             if (redirectTo === '/logout') {
@@ -23,11 +26,11 @@ const AuthLayout = ({ title, children }) => {
                 router.replace(`/login?redirectTo=${redirectTo}`)
             }
         }
-    }, [error])
+    }, [user])
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <DynamicTopBarAndMenuList title={title} />
+            <TopBarAndMenuList title={title} />
 
             <Box
                 component="main"
@@ -44,6 +47,8 @@ const AuthLayout = ({ title, children }) => {
 
                 {children}
             </Box>
+
+            <LoginFormDialog />
         </Box>
     )
 }

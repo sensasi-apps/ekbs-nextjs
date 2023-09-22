@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 
 import TopBar from './TopBar'
 import MenuList from './MenuList'
 
-function TopBarAndMenuList({ title }) {
+const TopBarAndMenuList: FC<{
+    title: string
+}> = ({ title }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
     const toggleDrawer = () => setIsDrawerOpen(prev => !prev)

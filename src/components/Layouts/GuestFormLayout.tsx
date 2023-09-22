@@ -1,5 +1,6 @@
+import { FC, ReactNode } from 'react'
+
 import Head from 'next/head'
-import dynamic from 'next/dynamic'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import useAuth from '@/providers/Auth'
@@ -10,19 +11,17 @@ import Container from '@mui/material/Container'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
-const LoadingCenter = dynamic(() => import('../Statuses/LoadingCenter'))
-const ErrorCenter = dynamic(() => import('../Statuses/ErrorCenter'))
+import ErrorCenter from '../Statuses/ErrorCenter'
+import LoadingCenter from '../Statuses/LoadingCenter'
 
-const handleRedirect = router => {
-    const redirectTo = router.query.redirectTo
-    if (redirectTo) {
-        router.replace(redirectTo)
-    } else {
-        router.replace('/dashboard')
-    }
-}
-
-const GuestFormLayout = ({
+const GuestFormLayout: FC<{
+    children: ReactNode
+    icon: ReactNode
+    isLoading?: boolean
+    isError?: boolean
+    message?: string
+    title: string
+}> = ({
     children,
     title,
     icon,
@@ -31,13 +30,19 @@ const GuestFormLayout = ({
     message,
 }) => {
     const router = useRouter()
-    const { data: user, error } = useAuth()
+    const { user } = useAuth()
 
     useEffect(() => {
-        if (user && !error) {
-            handleRedirect(router)
+        if (user) {
+            const redirectTo = router.query.redirectTo
+
+            if (redirectTo) {
+                router.replace(redirectTo.toString())
+            } else {
+                router.replace('/dashboard')
+            }
         }
-    }, [user, error])
+    }, [user])
 
     return (
         <div>

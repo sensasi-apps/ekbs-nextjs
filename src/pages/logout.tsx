@@ -4,26 +4,22 @@ import axios from '@/lib/axios'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-
 import useAuth from '@/providers/Auth'
 
-const logout = async mutate => {
-    await axios.post('/logout').catch(error => {
+const logout = () =>
+    axios.post('/logout').catch(error => {
         if (![401, 422].includes(error.response.status)) throw error
     })
 
-    await mutate()
-}
-
-export default function Logout() {
-    const { mutate } = useAuth()
+const LogoutPage = () => {
+    const { onLogoutSuccess } = useAuth()
 
     useEffect(() => {
-        logout(mutate)
+        logout().then(onLogoutSuccess)
     }, [])
 
     return (
-        <AuthLayout pageTitle="Logout">
+        <AuthLayout title="Logout">
             <Head>
                 <title>{`Logout — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
@@ -34,3 +30,5 @@ export default function Logout() {
         </AuthLayout>
     )
 }
+
+export default LogoutPage
