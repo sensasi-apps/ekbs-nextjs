@@ -6,11 +6,12 @@ import {
     ReactNode,
     useEffect,
 } from 'react'
-import { dbPromise } from '@/lib/idb'
 
-import UserDataType from '@/dataTypes/User'
+import axios from '@/lib/axios'
 
-const AuthContext = createContext({})
+import type UserDataType from '@/dataTypes/User'
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 const AuthProvider: FC<{
     children?: ReactNode
@@ -19,16 +20,14 @@ const AuthProvider: FC<{
     const [user, setUser] = useState<UserDataType | null | undefined>(undefined)
 
     useEffect(() => {
-        dbPromise.then(db => {
-            db.get('user', 0).then(user => {
-                if (!user) {
-                    return setUser(null)
-                }
-
+        axios
+            .get('/api/user')
+            .then(res => res.data)
+            .then(user => {
                 setUser(user)
                 setIsAuthenticated(true)
             })
-        })
+            .catch(() => setUser(null))
     }, [])
 
     const userHasPermission = (
@@ -80,12 +79,10 @@ const AuthProvider: FC<{
         onLoginSuccess: (userParam: UserDataType) => {
             setIsAuthenticated(true)
             setUser(userParam)
-            dbPromise.then(db => db.put('user', userParam, 0))
         },
         onLogoutSuccess: () => {
             setUser(null)
             setIsAuthenticated(false)
-            dbPromise.then(db => db.clear('user'))
         },
         userHasPermission,
         userHasRole,

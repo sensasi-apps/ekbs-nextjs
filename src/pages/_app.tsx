@@ -2,34 +2,17 @@ import type { AppProps } from 'next/app'
 import type { SnackbarKey } from 'notistack'
 
 import { useEffect } from 'react'
+import QueryString from 'qs'
+import { SWRConfig } from 'swr'
 import { closeSnackbar, enqueueSnackbar, SnackbarProvider } from 'notistack'
 
 import Typography from '@mui/material/Typography'
 
 import ThemeProvider from '@/providers/Theme'
 import { AuthProvider } from '@/providers/Auth'
+import axios from '@/lib/axios'
 
-let persistedSnacbarKey: SnackbarKey
-
-const onlineNotification = () => {
-    closeSnackbar(persistedSnacbarKey)
-
-    enqueueSnackbar('Anda kembali online', {
-        variant: 'success',
-    })
-}
-
-const offlineNotification = () => {
-    persistedSnacbarKey = enqueueSnackbar(
-        'Jaringan terputus, mohon periksa jaringan anda',
-        {
-            variant: 'warning',
-            persist: true,
-        },
-    )
-}
-
-const App = ({ Component, pageProps }: AppProps) => {
+export default function App({ Component, pageProps }: AppProps) {
     useEffect(() => {
         window.addEventListener('online', onlineNotification, false)
         window.addEventListener('offline', offlineNotification, false)
@@ -49,7 +32,36 @@ const App = ({ Component, pageProps }: AppProps) => {
                         horizontal: 'left',
                     }}
                 />
-                <Component {...pageProps} />
+
+                <SWRConfig
+                    value={{
+                        fetcher: (endpointPassed: any[] | string) => {
+                            // TODO: apply global swr
+
+                            let endpoint: string
+                            let params: any
+
+                            if (endpointPassed instanceof Array) {
+                                ;[endpoint, params] = endpointPassed
+                            } else {
+                                endpoint = endpointPassed
+                                params = {}
+                            }
+
+                            return axios
+                                .get(endpoint, {
+                                    params: params,
+                                    paramsSerializer: params =>
+                                        QueryString.stringify(params),
+                                })
+                                .then(res => res.data)
+                        },
+                        shouldRetryOnError: false,
+                        revalidateOnFocus: false,
+                        revalidateIfStale: false,
+                    }}>
+                    <Component {...pageProps} />
+                </SWRConfig>
 
                 {process.env.VERCEL_ENV === 'preview' && (
                     <Typography
@@ -74,4 +86,22 @@ const App = ({ Component, pageProps }: AppProps) => {
     )
 }
 
-export default App
+let persistedSnacbarKey: SnackbarKey
+
+const onlineNotification = () => {
+    closeSnackbar(persistedSnacbarKey)
+
+    enqueueSnackbar('Anda kembali online', {
+        variant: 'success',
+    })
+}
+
+const offlineNotification = () => {
+    persistedSnacbarKey = enqueueSnackbar(
+        'Jaringan terputus, mohon periksa jaringan anda',
+        {
+            variant: 'warning',
+            persist: true,
+        },
+    )
+}

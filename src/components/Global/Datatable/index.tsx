@@ -1,27 +1,17 @@
-import axios from '@/lib/axios'
-import { FC, useState } from 'react'
-import useSWR from 'swr'
-import MUIDataTable, {
+import type {
     MUIDataTableColumn,
     MUIDataTableOptions,
     MUIDataTableState,
     MUISortOptions,
-    debounceSearchRender,
 } from 'mui-datatables'
-import QueryString from 'qs'
-import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
 
-const fetcher = (url: string, params: object) =>
-    axios
-        .get(url, {
-            params: params,
-            paramsSerializer: params => QueryString.stringify(params),
-        })
-        .then(res => res.data)
-        .catch(error => {
-            if (![401].includes(error.response.status)) throw error
-        })
+import { FC, useState } from 'react'
+import useSWR from 'swr'
+import MUIDataTable, { debounceSearchRender } from 'mui-datatables'
+
+import LinearProgress from '@mui/material/LinearProgress'
+
+import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
 
 interface DatatableProps {
     apiUrl: string
@@ -32,9 +22,10 @@ interface DatatableProps {
     onRowClick?: (rowData: any, rowMeta: any) => void
 }
 
-let params: object
+let getDataRow: (index: number) => object
 
-let getDataRow: (index: number) => any
+// TODO: access mutator
+//
 
 const Datatable: FC<DatatableProps> = ({
     title,
@@ -44,18 +35,14 @@ const Datatable: FC<DatatableProps> = ({
     onRowClick,
     defaultSortOrder,
 }) => {
+    const [params, setParams] = useState<any>()
+    const [sortOrder, setSortOrder] = useState<MUISortOptions>(defaultSortOrder)
+
     const {
         isLoading: isApiLoading,
         isValidating,
         data: { data = [], recordsTotal } = {},
-        mutate,
-    } = useSWR(params ? apiUrl : null, (url: string) => fetcher(url, params), {
-        revalidateOnFocus: false,
-    })
-
-    const [isLoading, setIsloading] = useState(false)
-
-    const [sortOrder, setSortOrder] = useState<MUISortOptions>(defaultSortOrder)
+    } = useSWR(params ? [apiUrl, params] : null)
 
     getDataRow = (index: number) => data[index]
 
@@ -76,10 +63,7 @@ const Datatable: FC<DatatableProps> = ({
             })
         }
 
-        setIsloading(true)
-        params = formatToDatatableParams(tableState, columns)
-        await mutate()
-        setIsloading(false)
+        setParams(formatToDatatableParams(tableState, columns))
     }
 
     const options: MUIDataTableOptions = {
@@ -96,27 +80,39 @@ const Datatable: FC<DatatableProps> = ({
         onRowClick: onRowClick,
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
+        textLabels: {
+            body: {
+                noMatch:
+                    isApiLoading || isValidating
+                        ? 'Memuat data...'
+                        : 'Tidak ada data yang tersedia',
+                toolTip: 'Sort',
+            },
+        },
     }
 
     return (
         <div>
+            {(isApiLoading || isValidating) && (
+                <LinearProgress
+                    sx={{
+                        borderTopLeftRadius: 11,
+                        borderTopRightRadius: 11,
+                        translate: '0 4px',
+                        zIndex: 1,
+                    }}
+                />
+            )}
+
             <MUIDataTable
                 title={title}
                 data={data || []}
                 columns={columns}
                 options={options}
             />
-
-            <LoadingCenter
-                isShow={isLoading || isApiLoading || isValidating}
-                position="fixed"
-                top="25%"
-                left="50%"
-            />
         </div>
     )
 }
 
 export default Datatable
-
 export { getDataRow }

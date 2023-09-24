@@ -14,7 +14,17 @@ const AuthLayout: FC<{
     children?: ReactNode
 }> = ({ title, children }) => {
     const router = useRouter()
-    const { user } = useAuth()
+    const { onError401, user } = useAuth()
+
+    useEffect(() => {
+        // TODO: pending handler
+        // window.addEventListener('online', onlineNotification, false)
+
+        window.addEventListener('401Error', onError401, false)
+        return () => {
+            window.removeEventListener('401Error', onError401, false)
+        }
+    }, [])
 
     useEffect(() => {
         if (user === null) {

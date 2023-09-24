@@ -1,4 +1,7 @@
+import type { TransitionProps } from '@mui/material/transitions/transition'
+
 import { FC, forwardRef, FormEvent, useState } from 'react'
+import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 
 import Box from '@mui/material/Box'
@@ -7,17 +10,17 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Slide from '@mui/material/Slide'
 import TextField from '@mui/material/TextField'
-import { TransitionProps } from '@mui/material/transitions/transition'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 
 import LogoutIcon from '@mui/icons-material/Logout'
 
-import Dialog from '../../Global/Dialog'
+import Dialog from '@/components/Global/Dialog'
 import useAuth from '@/providers/Auth'
 import useValidationErrors from '@/hooks/useValidationErrors'
 
 const LoginFormDialog: FC = () => {
+    const router = useRouter()
     const { isAuthenticated, user, onLoginSuccess } = useAuth()
     const [isLoading, setIsLoading] = useState(false)
     const { validationErrors, setValidationErrors, clearByEvent } =
@@ -39,6 +42,7 @@ const LoginFormDialog: FC = () => {
             .post(`/relogin/${user?.uuid}`, formData)
             .then(res => res.data)
             .then(onLoginSuccess)
+            .then(router.reload)
             .catch(err => {
                 if (err.response) {
                     const { data } = err.response

@@ -41,9 +41,9 @@ const MenuList: FC<{
     useEffect(() => {
         setDrawerProps(makeDrawerProps())
 
-        window.addEventListener('resize', handleResize, { passive: true })
+        window.addEventListener('resize', handleResize, false)
 
-        return () => window.removeEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize, false)
     }, [])
 
     return (

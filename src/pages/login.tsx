@@ -1,5 +1,6 @@
 import { useEffect, useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -15,7 +16,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 import useAuth from '@/providers/Auth'
-import axios from '@/lib/axios'
 
 const LoginPage = () => {
     const router = useRouter()
@@ -111,7 +111,7 @@ const LoginPage = () => {
                         setErrors([[data.message]])
                     }
                 } else {
-                    setErrors([['Terjadi kesalahan, silahkan coba lagi']])
+                    setErrors([[error.message]])
                 }
 
                 setIsLoading(false)
