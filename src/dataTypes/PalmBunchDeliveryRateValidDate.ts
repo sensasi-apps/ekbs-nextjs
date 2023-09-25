@@ -1,5 +1,5 @@
 import { Moment } from 'moment'
-import PalmBunchDeliveryRateType from './PalmBunchDeliveryRate.type'
+import PalmBunchDeliveryRateType from './PalmBunchDeliveryRate'
 
 type PalmBunchDeliveryRateValidDateType = {
     id?: number
