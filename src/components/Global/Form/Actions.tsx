@@ -12,7 +12,7 @@ const FormActions: FC<FormActionsProps> = ({
     onDelete,
 }) => (
     <Box
-        display="inline-flex"
+        display="flex"
         justifyContent={onDelete ? 'space-between' : 'flex-end'}
         alignContent="end"
         mt={2}>
@@ -26,7 +26,7 @@ const FormActions: FC<FormActionsProps> = ({
             </LoadingButton>
         )}
 
-        <Box display="inline-flex" gap={1}>
+        <Box display="flex" gap={1}>
             <Button
                 disabled={submitting || deleting || disabled}
                 type="reset"
