@@ -4,6 +4,7 @@ import type {
     MUIDataTableState,
     MUISortOptions,
 } from 'mui-datatables'
+import type { KeyedMutator } from 'swr'
 
 import { FC, useState } from 'react'
 import useSWR from 'swr'
@@ -13,28 +14,23 @@ import LinearProgress from '@mui/material/LinearProgress'
 
 import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
 
-interface DatatableProps {
+let getDataRow: <T = any>(index: number) => T
+let mutatorForExport: KeyedMutator<any>
+
+const Datatable: FC<{
     apiUrl: string
     columns: MUIDataTableColumn[]
     defaultSortOrder: MUISortOptions
     tableId: string
     title?: string
-    onRowClick?: (rowData: any, rowMeta: any) => void
-}
-
-let getDataRow: (index: number) => object
-
-// TODO: access mutator
-//
-
-const Datatable: FC<DatatableProps> = ({
-    title,
-    tableId,
-    apiUrl,
-    columns,
-    onRowClick,
-    defaultSortOrder,
-}) => {
+    onRowClick?: (
+        rowData: string[],
+        rowMeta: {
+            dataIndex: number
+            rowIndex: number
+        },
+    ) => void
+}> = ({ title, tableId, apiUrl, columns, onRowClick, defaultSortOrder }) => {
     const [params, setParams] = useState<any>()
     const [sortOrder, setSortOrder] = useState<MUISortOptions>(defaultSortOrder)
 
@@ -42,9 +38,11 @@ const Datatable: FC<DatatableProps> = ({
         isLoading: isApiLoading,
         isValidating,
         data: { data = [], recordsTotal } = {},
+        mutate,
     } = useSWR(params ? [apiUrl, params] : null)
 
     getDataRow = (index: number) => data[index]
+    mutatorForExport = mutate
 
     const handleFetchData = async (
         action: string,
@@ -115,4 +113,4 @@ const Datatable: FC<DatatableProps> = ({
 }
 
 export default Datatable
-export { getDataRow }
+export { getDataRow, mutatorForExport as mutate }
