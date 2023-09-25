@@ -18,7 +18,7 @@ import TxHistory from '@/components/Wallet/TxHistory'
 import WalletWithdrawForm from '@/components/Wallet/WithdrawForm'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import DialogWithUseFormData from '@/components/Global/Dialog/WithUseFormData'
-import FormActionsBox from '@/components/Global/FormActionsBox'
+import FormActions from '@/components/Global/Form/Actions'
 import { mutate } from 'swr'
 
 const WalletsPage: FC = () => {
@@ -165,7 +165,7 @@ const WithdrawButtonAndForm: FC = () => {
                     loading={loading}
                     setSubmitting={setSubmitting}
                     actionsSlot={
-                        <FormActionsBox
+                        <FormActions
                             onCancel={handleClose}
                             submitting={submitting}
                         />

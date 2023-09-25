@@ -1,19 +1,17 @@
+import type Role from '@/dataTypes/Role'
+
 import { FC } from 'react'
 import Head from 'next/head'
-import dynamic from 'next/dynamic'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
-import Datatable, { getDataRow } from '@/components/Global/Datatable'
-import FormActionsBox from '@/components/Global/FormActionsBox'
-import { mutate } from 'swr'
-import RoleForm from '@/components/Role/Form'
-import Role from '@/dataTypes/Role'
 
-const DialogWithUseFormData = dynamic(
-    () => import('@/components/Global/Dialog/WithUseFormData'),
-)
+import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import FormActions from '@/components/Global/Form/Actions'
+import Dialog from '@/components/Global/Dialog'
+
+import RoleForm from '@/components/Role/Form'
 
 const RolesPage: FC = () => {
     return (
@@ -66,26 +64,31 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
             />
 
-            <DialogWithUseFormData
+            <Dialog
+                open={data !== undefined}
                 title={'Perbaharui Data Peran'}
-                maxWidth="sm">
+                maxWidth="sm"
+                closeButtonProps={{
+                    onClick: handleClose,
+                    disabled: loading,
+                }}>
                 <RoleForm
                     data={data as Role}
                     loading={loading}
                     setSubmitting={setSubmitting}
-                    handleClose={async () => {
-                        await mutate('/roles/datatable')
+                    onSubmitted={async () => {
+                        await mutate()
                         handleClose()
                         setSubmitting(false)
                     }}
                     actionsSlot={
-                        <FormActionsBox
+                        <FormActions
                             onCancel={handleClose}
                             submitting={submitting}
                         />
                     }
                 />
-            </DialogWithUseFormData>
+            </Dialog>
         </>
     )
 }

@@ -1,31 +1,21 @@
 import { FC } from 'react'
 
-import Box, { BoxProps } from '@mui/material/Box'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
 
-interface FormActionsBoxProps extends BoxProps {
-    submitting?: boolean
-    deleting?: boolean
-    disabled?: boolean
-    onCancel: () => void
-    onDelete?: () => void
-}
-
-const FormActionsBox: FC<FormActionsBoxProps> = ({
+const FormActions: FC<FormActionsProps> = ({
     submitting,
     deleting,
     disabled,
     onCancel,
     onDelete,
-    ...rest
 }) => (
     <Box
-        display="flex"
+        display="inline-flex"
         justifyContent={onDelete ? 'space-between' : 'flex-end'}
         alignContent="end"
-        mt={2}
-        {...rest}>
+        mt={2}>
         {onDelete && (
             <LoadingButton
                 onClick={onDelete}
@@ -36,7 +26,7 @@ const FormActionsBox: FC<FormActionsBoxProps> = ({
             </LoadingButton>
         )}
 
-        <div>
+        <Box display="inline-flex" gap={1}>
             <Button
                 disabled={submitting || deleting || disabled}
                 type="reset"
@@ -53,8 +43,16 @@ const FormActionsBox: FC<FormActionsBoxProps> = ({
                 color="info">
                 Simpan
             </LoadingButton>
-        </div>
+        </Box>
     </Box>
 )
 
-export default FormActionsBox
+export default FormActions
+
+interface FormActionsProps {
+    submitting?: boolean
+    deleting?: boolean
+    disabled?: boolean
+    onCancel: () => void
+    onDelete?: () => void
+}
