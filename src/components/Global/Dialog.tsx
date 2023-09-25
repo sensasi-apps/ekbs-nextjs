@@ -7,22 +7,11 @@ import IconButton from '@mui/material/IconButton'
 
 import CloseIcon from '@mui/icons-material/Close'
 
-import type { DialogProps as MuiDialogProps } from '@mui/material/Dialog'
-import type { DialogTitleProps } from '@mui/material/DialogTitle'
-
-interface DialogProps extends MuiDialogProps {
-    closeButtonProps?: {
-        onClick?: () => void
-        disabled?: boolean
-    }
-    dialogTitleProps?: DialogTitleProps
-    title: string
-}
-
 const Dialog: FC<DialogProps> = ({
     children,
     closeButtonProps,
     dialogTitleProps,
+    middleHead,
     title,
     ...props
 }) => {
@@ -32,8 +21,11 @@ const Dialog: FC<DialogProps> = ({
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
+                component="div"
                 {...dialogTitleProps}>
                 {title}
+
+                {middleHead}
 
                 {closeButtonProps?.onClick && (
                     <IconButton
@@ -44,10 +36,25 @@ const Dialog: FC<DialogProps> = ({
                     </IconButton>
                 )}
             </DialogTitle>
-            <DialogContent> {children} </DialogContent>
+            <DialogContent>{children}</DialogContent>
         </MuiDialog>
     )
 }
 
 export default Dialog
+
+import type { ReactNode } from 'react'
+import type { DialogProps as MuiDialogProps } from '@mui/material/Dialog'
+import type { DialogTitleProps } from '@mui/material/DialogTitle'
+
+interface DialogProps extends MuiDialogProps {
+    closeButtonProps?: {
+        onClick?: () => void
+        disabled?: boolean
+    }
+    dialogTitleProps?: DialogTitleProps
+    middleHead?: ReactNode
+    title: string
+}
+
 export type { DialogProps }
