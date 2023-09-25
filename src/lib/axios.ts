@@ -9,20 +9,24 @@ const axios = Axios.create({
     withCredentials: true,
 })
 
-// axios.interceptors.request.use(config => {
-// TODO: implement pendings when offline
-// if (!navigator.onLine && config.method === 'post') {
-// enqueueSnackbar(
-//     'Anda sedang offline, mohon periksa koneksi internet anda',
-//     {
-//         variant: 'error',
-//     },
-// )
-// return Promise.reject('offline')
-// }
+axios.interceptors.request.use(config => {
+    if (
+        !navigator.onLine &&
+        (config.method === 'post' ||
+            config.method === 'put' ||
+            config.method === 'delete')
+    ) {
+        enqueueSnackbar(
+            'Tidak dapat mengirimkan data karena Anda sedang offline, mohon periksa koneksi internet anda',
+            {
+                variant: 'error',
+            },
+        )
+        return Promise.reject('offline')
+    }
 
-// return config
-// })
+    return config
+})
 
 axios.interceptors.response.use(undefined, error => {
     if (error.response) {
