@@ -1,6 +1,5 @@
 import { useEffect, useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
-import axios from 'axios'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -12,6 +11,8 @@ import TextField from '@mui/material/TextField'
 
 import GoogleIcon from '@mui/icons-material/Google'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+
+import axios from '@/lib/axios'
 
 import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
