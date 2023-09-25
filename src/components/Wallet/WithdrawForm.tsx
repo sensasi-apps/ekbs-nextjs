@@ -12,11 +12,11 @@ import NumericFormat from '@/components/Global/NumericFormat'
 import axios from '@/lib/axios'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 
-const WalletWithdrawForm: FC<FormType> = ({
+const WalletWithdrawForm: FC<FormType<any>> = ({
     loading,
     actionsSlot,
     setSubmitting,
-    handleClose = () => {},
+    onSubmitted,
 }) => {
     const [userUuid, setUserUuid] = useState<string | undefined>(undefined)
     const [fromCash, setFromCash] = useState<any>(undefined)
@@ -38,7 +38,7 @@ const WalletWithdrawForm: FC<FormType> = ({
         try {
             await axios.post('/wallets/withdraw', formData)
 
-            handleClose()
+            onSubmitted()
         } catch (error: any) {
             if (!(error.response?.status === 422)) {
                 throw error

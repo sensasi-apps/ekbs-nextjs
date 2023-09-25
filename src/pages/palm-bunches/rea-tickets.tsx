@@ -1,28 +1,9 @@
-import { FC, useState } from 'react'
 import Head from 'next/head'
-import moment from 'moment'
-import { mutate } from 'swr'
-import 'moment/locale/id'
-
-import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
-import Typography from '@mui/material/Typography'
-
-import ReceiptIcon from '@mui/icons-material/Receipt'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
+import { FormDataProvider } from '@/providers/useFormData'
 
-import FabWithUseFormData from '@/components/Global/Fab/WithUseFormData'
-import Datatable, { getDataRow } from '@/components/Global/Datatable'
-import FormActionsBox from '@/components/Global/FormActionsBox'
-import DialogWithUseFormData from '@/components/Global/Dialog/WithUseFormData'
-
-import MainForm from '@/components/PalmBunchesReaTicket/Form/index'
-import useFormData, { FormDataProvider } from '@/providers/useFormData'
-import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
-import NumericFormat from '@/components/Global/NumericFormat'
-
-const PalmBuncesReaTicketsPage: FC = () => {
+export default function PalmBuncesReaTickets() {
     return (
         <AuthLayout title="Daftar Tiket REA">
             <Head>
@@ -36,7 +17,23 @@ const PalmBuncesReaTicketsPage: FC = () => {
     )
 }
 
-export default PalmBuncesReaTicketsPage
+import { FC, useState } from 'react'
+import { mutate } from 'swr'
+import moment from 'moment'
+import 'moment/locale/id'
+
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
+
+import Datatable, { getDataRow } from '@/components/Global/Datatable'
+import Dialog from '@/components/Global/Dialog'
+import FormActions from '@/components/Global/Form/Actions'
+
+import MainForm from '@/components/PalmBunchesReaTicket/Form/index'
+import useFormData from '@/providers/useFormData'
+import NumericFormat from '@/components/Global/NumericFormat'
+import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
 
 const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
     const [filter, setFilter] = useState<string | undefined>()
@@ -46,6 +43,7 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
         submitting,
         loading,
         isNew,
+        formOpen,
         setSubmitting,
         handleClose,
         handleEdit,
@@ -218,14 +216,18 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
             />
 
-            <DialogWithUseFormData
+            <Dialog
                 title={`${isNew ? 'Masukkan' : 'Perbarui'} Data Pengangkutan`}
-                maxWidth="lg">
+                maxWidth="lg"
+                open={formOpen}
+                closeButtonProps={{
+                    onClick: handleClose,
+                }}>
                 <MainForm
                     data={data as PalmBunchesReaTicketDataType}
                     loading={loading}
                     setSubmitting={setSubmitting}
-                    handleClose={() => {
+                    onSubmitted={() => {
                         mutate(
                             '/palm-bunches/rea-tickets/datatable?' +
                                 (filter || ''),
@@ -233,17 +235,13 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
                         handleClose()
                     }}
                     actionsSlot={
-                        <FormActionsBox
+                        <FormActions
                             onCancel={handleClose}
                             submitting={submitting}
                         />
                     }
                 />
-            </DialogWithUseFormData>
-
-            <FabWithUseFormData>
-                <ReceiptIcon />
-            </FabWithUseFormData>
+            </Dialog>
         </>
     )
 }

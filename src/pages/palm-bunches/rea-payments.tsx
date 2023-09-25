@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import Head from 'next/head'
 import moment from 'moment'
-import useSWR, { mutate } from 'swr'
+import useSWR from 'swr'
 import 'moment/locale/id'
 
 import Alert from '@mui/material/Alert'
@@ -12,17 +12,16 @@ import Typography from '@mui/material/Typography'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
+
+import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Dialog from '@/components/Global/Dialog'
 import FabWithUseFormData from '@/components/Global/Fab/WithUseFormData'
-import Datatable, { getDataRow } from '@/components/Global/Datatable'
-import FormActionsBox from '@/components/Global/FormActionsBox'
-import DialogWithUseFormData from '@/components/Global/Dialog/WithUseFormData'
+import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'
 
 import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form/index'
-import useFormData, { FormDataProvider } from '@/providers/useFormData'
-
 import PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment.type'
-import axios from '@/lib/axios'
 
 const PalmBuncesReaPaymentsPage: FC = () => {
     return (
@@ -43,6 +42,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
         data,
         submitting,
         loading,
+        formOpen,
         setSubmitting,
         handleClose,
         handleEdit,
@@ -50,7 +50,6 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
 
     const { data: paymentsNotFound = [] } = useSWR(
         '/palm-bunches/rea-payments/ticket-data-not-found',
-        url => axios.get(url).then(res => res.data),
     )
 
     const columns = [
@@ -129,23 +128,30 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                 defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
             />
 
-            <DialogWithUseFormData title="Pembayaran" maxWidth="sm">
+            <Dialog
+                open={formOpen}
+                closeButtonProps={{
+                    onClick: handleClose,
+                    disabled: loading,
+                }}
+                title="Pembayaran"
+                maxWidth="sm">
                 <PalmBunchesReaPaymentForm
                     data={data as PalmBunchesReaPaymentDataType}
                     loading={loading}
                     setSubmitting={setSubmitting}
-                    handleClose={() => {
-                        mutate('/palm-bunches/rea-payments/datatable')
+                    onSubmitted={() => {
+                        mutate()
                         handleClose()
                     }}
                     actionsSlot={
-                        <FormActionsBox
+                        <FormActions
                             onCancel={handleClose}
                             submitting={submitting}
                         />
                     }
                 />
-            </DialogWithUseFormData>
+            </Dialog>
 
             {paymentsNotFound.map((payment: any, index: number) => (
                 <Box mb={3} key={index}>

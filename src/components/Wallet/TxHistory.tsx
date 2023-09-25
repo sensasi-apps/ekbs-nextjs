@@ -17,7 +17,7 @@ import DatePicker from '@/components/Global/DatePicker'
 import NumericFormat from '@/components/Global/NumericFormat'
 import Skeletons from '@/components/Global/Skeletons'
 import TransactionDataType from '@/dataTypes/Transaction'
-import TxHistoryItem from './Item'
+import TxHistoryItem from './TxHistory/Item'
 
 const TxHistory: FC<{
     walletData: {

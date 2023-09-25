@@ -9,17 +9,15 @@ import Button from '@mui/material/Button'
 
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 
-import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { getDataRow } from '@/components/Global/Datatable'
-import NumericFormat from '@/components/Global/NumericFormat'
-import Dialog from '@/components/Global/Dialog'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
+import AuthLayout from '@/components/Layouts/AuthLayout'
+import Dialog from '@/components/Global/Dialog'
+import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import FormActions from '@/components/Global/Form/Actions'
+import NumericFormat from '@/components/Global/NumericFormat'
 import TxHistory from '@/components/Wallet/TxHistory'
 import WalletWithdrawForm from '@/components/Wallet/WithdrawForm'
-import useFormData, { FormDataProvider } from '@/providers/useFormData'
-import DialogWithUseFormData from '@/components/Global/Dialog/WithUseFormData'
-import FormActions from '@/components/Global/Form/Actions'
-import { mutate } from 'swr'
 
 const WalletsPage: FC = () => {
     return (
@@ -142,8 +140,14 @@ const MainContent: FC = () => {
 }
 
 const WithdrawButtonAndForm: FC = () => {
-    const { handleCreate, loading, handleClose, submitting, setSubmitting } =
-        useFormData()
+    const {
+        formOpen,
+        handleCreate,
+        loading,
+        handleClose,
+        submitting,
+        setSubmitting,
+    } = useFormData()
     return (
         <>
             <Box mb={2}>
@@ -156,10 +160,16 @@ const WithdrawButtonAndForm: FC = () => {
                 </Button>
             </Box>
 
-            <DialogWithUseFormData title="Penarikan Dana" maxWidth="sm">
+            <Dialog
+                title="Penarikan Dana"
+                open={formOpen}
+                closeButtonProps={{
+                    onClick: handleClose,
+                }}
+                maxWidth="sm">
                 <WalletWithdrawForm
-                    handleClose={() => {
-                        mutate('/wallets/datatable')
+                    onSubmitted={async () => {
+                        await mutate()
                         handleClose()
                     }}
                     loading={loading}
@@ -171,7 +181,7 @@ const WithdrawButtonAndForm: FC = () => {
                         />
                     }
                 />
-            </DialogWithUseFormData>
+            </Dialog>
         </>
     )
 }
