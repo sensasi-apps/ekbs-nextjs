@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 
-import ValidationErrorsType from '@/types/ValidationErrors.type'
+import type ValidationErrorsType from '@/types/ValidationErrors'
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
 import NumericFormat from '@/components/Global/NumericFormat'
 

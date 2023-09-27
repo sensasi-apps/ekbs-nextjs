@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import ValidationErrorsType from '@/types/ValidationErrors.type'
+import type ValidationErrorsType from '@/types/ValidationErrors'
 
 const useValidationErrors = () => {
     const [validationErrors, setValidationErrors] =

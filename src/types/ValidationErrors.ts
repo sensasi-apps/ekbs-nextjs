@@ -1,4 +1,4 @@
-type ValidationErrorsType = {
+interface ValidationErrorsType {
     [key: string]: string[]
 }
 

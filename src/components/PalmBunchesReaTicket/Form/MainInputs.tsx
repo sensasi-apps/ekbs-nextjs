@@ -10,7 +10,7 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 import NumericFormat from '@/components/Global/NumericFormat'
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
-import ValidationErrorsType from '@/types/ValidationErrors.type'
+import type ValidationErrorsType from '@/types/ValidationErrors'
 
 type MainInputPropTypes = {
     data?: PalmBunchesReaTicketDataType

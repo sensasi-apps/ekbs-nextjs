@@ -1,7 +1,7 @@
 import { UUID } from 'crypto'
 import { Moment } from 'moment'
 import TransactionDataType from './Transaction'
-import FileType from './File.type'
+import type FileType from './File'
 
 type PalmBunchesReaPaymentDataType = {
     uuid: UUID

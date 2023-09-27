@@ -25,7 +25,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import AddIcon from '@mui/icons-material/Add'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 
-import ValidationErrorsType from '@/types/ValidationErrors.type'
+import type ValidationErrorsType from '@/types/ValidationErrors'
 import PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
 import FormType from '@/components/Global/Form/type'
 import NumericFormat from '@/components/Global/NumericFormat'

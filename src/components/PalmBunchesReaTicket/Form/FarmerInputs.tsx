@@ -13,7 +13,7 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 
 import PalmBunchDataType from '@/dataTypes/PalmBunch'
-import ValidationErrorsType from '@/types/ValidationErrors.type'
+import type ValidationErrorsType from '@/types/ValidationErrors'
 
 const PalmBunchesReaDeliveryFarmerInputs: FC<{
     data?: PalmBunchDataType[]

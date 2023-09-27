@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 import NumericFormat from '@/components/Global/NumericFormat'
-import ValidationErrorsType from '@/types/ValidationErrors.type'
+import type ValidationErrorsType from '@/types/ValidationErrors'
 import PalmBunchesReaGradingDataType from '@/dataTypes/PalmBunchesReaGrading'
 import PalmBunchesReaGradingItemDataType from '@/dataTypes/PalmBunchesReaGradingItem'
 import Skeletons from '@/components/Global/Skeletons'
