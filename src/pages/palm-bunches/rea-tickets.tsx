@@ -32,7 +32,7 @@ import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 
-import MainForm from '@/components/PalmBunchesReaTicket/Form/index'
+import MainForm from '@/components/PalmBunchesReaTicket/Form'
 import useFormData from '@/providers/useFormData'
 import NumericFormat from '@/components/Global/NumericFormat'
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'

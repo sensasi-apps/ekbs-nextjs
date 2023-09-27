@@ -7,10 +7,10 @@ import Grid from '@mui/material/Grid'
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
 import FormType from '@/components/Global/Form/type'
 
-import PalmBunchesReaDeliveryMainInputs from './MainInputs'
-import PalmBunchesReaDeliveryFarmerInputs from './FarmerInputs'
-import GradingItemInputs from './GradingItemInputs'
-import PalmBuncesReaTicketRegisterAsForm from './RegisterAs'
+import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
+import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
+import GradingItemInputs from './Form/GradingItemInputs'
+import PalmBuncesReaTicketRegisterAsForm from './Form/RegisterAs'
 
 import useValidationErrors from '@/hooks/useValidationErrors'
 

@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import QueryString from 'qs'
+import useSWR from 'swr'
 
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -8,28 +10,25 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 
-import FormType from '@/components/Global/Form/type'
-import Role from '@/dataTypes/Role'
-import useValidationErrors from '@/hooks/useValidationErrors'
+import Masonry from '@mui/lab/Masonry'
+
 import axios from '@/lib/axios'
-import useSWR from 'swr'
+
+import useValidationErrors from '@/hooks/useValidationErrors'
+import Role from '@/dataTypes/Role'
+import FormType from '@/components/Global/Form/type'
 import Skeletons from '@/components/Global/Skeletons'
-import { Masonry } from '@mui/lab'
-import QueryString from 'qs'
 
 const RoleForm: FC<FormType<Role>> = ({
     data: { id, name_id, group, permissions: rolePermissions } = {},
     loading,
     actionsSlot,
-    handleClose,
+    onSubmitted,
     setSubmitting,
 }) => {
     const { validationErrors, setValidationErrors } = useValidationErrors()
 
-    const { data: permissions = [], isLoading } = useSWR(
-        '/data/permissions',
-        url => axios.get(url).then(res => res.data),
-    )
+    const { data: permissions = [], isLoading } = useSWR('/data/permissions')
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -47,7 +46,7 @@ const RoleForm: FC<FormType<Role>> = ({
 
             await axios.put(`/roles/${id}`, QueryString.stringify(payload))
 
-            handleClose()
+            onSubmitted()
         } catch (error: any) {
             setSubmitting(false)
 

@@ -20,7 +20,7 @@ import FabWithUseFormData from '@/components/Global/Fab/WithUseFormData'
 import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'
 
-import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form/index'
+import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form'
 import PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
 
 const PalmBuncesReaPaymentsPage: FC = () => {

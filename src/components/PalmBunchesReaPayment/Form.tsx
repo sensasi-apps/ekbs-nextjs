@@ -40,7 +40,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
     actionsSlot,
     loading,
     setSubmitting,
-    handleClose,
+    onSubmitted,
 }) => {
     if (dataProp?.from_at && !moment.isMoment(dataProp.from_at)) {
         dataProp.from_at = moment(dataProp.from_at)
@@ -102,7 +102,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
                 formData,
             )
 
-            handleClose()
+            onSubmitted()
         } catch (error: any) {
             setSubmitting(false)
             if (error.response?.status === 422) {
