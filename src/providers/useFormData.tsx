@@ -1,120 +1,153 @@
-import { UUID } from 'crypto'
 import {
     createContext,
+    FC,
+    ReactNode,
+    Reducer,
     useContext,
     useReducer,
-    FC,
-    Reducer,
-    PropsWithChildren,
 } from 'react'
 
-enum ReducerActionTypes {
-    SetSubmitting = 'SET_SUBMITTING',
-    SetDeleting = 'SET_DELETING',
-    HandleClose = 'HANDLE_CLOSE',
-    HandleEdit = 'HANDLE_EDIT',
-    HandleCreate = 'HANDLE_CREATE',
-}
-
-type DefaultDataType = { id?: number; uuid?: UUID }
-
-type StateType<T = DefaultDataType> = {
-    data: T
-    formOpen: boolean
-    submitting: boolean
-    deleting: boolean
-}
-
-type ReducerActionType<T = DefaultDataType> = {
-    type: ReducerActionTypes
-    payload?: T | boolean
-}
-
-type FormDataContextValueType<T = DefaultDataType> = StateType<T> & {
+interface ContextType<T = object> extends StateType<T> {
+    handleClose: () => void
+    handleCreate: () => void
+    handleEdit: (data: T) => void
+    isDirty: boolean
     isNew: boolean
     loading: boolean
-    setSubmitting: (value: boolean) => void
+    setData: (value: T) => void
     setDeleting: (value: boolean) => void
-    handleClose: () => void
-    handleEdit: (data: T) => void
-    handleCreate: () => void
+    setSubmitting: (value: boolean) => void
 }
 
-const { SetSubmitting, SetDeleting, HandleClose, HandleEdit, HandleCreate } =
-    ReducerActionTypes
+interface StateType<T = object> {
+    data: T
+    deleting: boolean
+    formOpen: boolean
+    initialDataInString: string
+    submitting: boolean
+}
+
+enum ReducerActions {
+    HandleClose = 'HANDLE_CLOSE',
+    HandleCreate = 'HANDLE_CREATE',
+    HandleEdit = 'HANDLE_EDIT',
+    SetData = 'SET_DATA',
+    SetDeleting = 'SET_DELETING',
+    SetSubmitting = 'SET_SUBMITTING',
+}
 
 const initialState: StateType = {
     data: {},
+    initialDataInString: JSON.stringify({}),
     formOpen: false,
     submitting: false,
     deleting: false,
 }
 
-const reducer: Reducer<StateType, ReducerActionType> = (state, action) => {
-    switch (action.type) {
-        case SetSubmitting:
-            return {
-                ...state,
-                submitting: action.payload as boolean,
-            }
-        case SetDeleting:
-            return {
-                ...state,
-                deleting: action.payload as boolean,
-            }
-        case HandleClose:
-            return {
-                ...state,
-                formOpen: false,
-            }
-        case HandleEdit:
-            return {
-                ...state,
-                data: action.payload as DefaultDataType,
-                formOpen: true,
-            }
-        case HandleCreate:
-            return {
-                ...state,
-                data: {},
-                formOpen: true,
-            }
-        default:
-            return state
-    }
+interface ReducerActionType<T = object> {
+    payload?: T | boolean
+    type: ReducerActions
 }
 
-const FormDataContext = createContext({} as FormDataContextValueType)
-
-const FormDataProvider: FC<PropsWithChildren> = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, initialState)
-
-    const { uuid, id } = state.data
-
-    const value: FormDataContextValueType = {
-        ...state,
-        loading: state.submitting || state.deleting,
-        isNew: !(uuid || id),
-        setSubmitting: (value: boolean) =>
-            dispatch({
-                type: SetSubmitting,
-                payload: value,
-            }),
-        setDeleting: (value: boolean) =>
-            dispatch({ type: SetDeleting, payload: value }),
-        handleClose: () => dispatch({ type: HandleClose }),
-        handleEdit: data => dispatch({ type: HandleEdit, payload: data }),
-        handleCreate: () => dispatch({ type: HandleCreate }),
+const reducer: Reducer<StateType, ReducerActionType> = (state, action) => {
+    if (action.type === ReducerActions.HandleClose) {
+        return {
+            ...state,
+            formOpen: false,
+        }
     }
 
+    if (action.type === ReducerActions.HandleCreate) {
+        return {
+            ...state,
+            data: initialState.data,
+            initialDataInString: initialState.initialDataInString,
+            formOpen: true,
+        }
+    }
+
+    if (action.type === ReducerActions.HandleEdit) {
+        return {
+            ...state,
+            data: action.payload as object,
+            initialDataInString: JSON.stringify(action.payload),
+            formOpen: true,
+        }
+    }
+
+    if (action.type === ReducerActions.SetData) {
+        return {
+            ...state,
+            data: action.payload as object,
+        }
+    }
+
+    if (action.type === ReducerActions.SetDeleting) {
+        return {
+            ...state,
+            deleting: action.payload as boolean,
+        }
+    }
+
+    if (action.type === ReducerActions.SetSubmitting) {
+        return {
+            ...state,
+            submitting: action.payload as boolean,
+        }
+    }
+
+    return state
+}
+
+const Context = createContext(initialState as ContextType)
+
+export const FormDataProvider: FC<{
+    children: ReactNode
+}> = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, initialState)
+
+    const isNew = !((state.data as any).uuid || (state.data as any).id)
+    const isDirty = state.initialDataInString !== JSON.stringify(state.data)
+
     return (
-        <FormDataContext.Provider value={value}>
+        <Context.Provider
+            value={{
+                ...state,
+                handleClose: () =>
+                    dispatch({ type: ReducerActions.HandleClose }),
+                handleCreate: () =>
+                    dispatch({ type: ReducerActions.HandleCreate }),
+                handleEdit: data =>
+                    dispatch({
+                        type: ReducerActions.HandleEdit,
+                        payload: data,
+                    }),
+                isNew,
+                isDirty,
+                loading: state.submitting || state.deleting,
+                setData: data =>
+                    dispatch({
+                        type: ReducerActions.SetData,
+                        payload: data,
+                    }),
+                setDeleting: (value: boolean) =>
+                    dispatch({
+                        type: ReducerActions.SetDeleting,
+                        payload: value,
+                    }),
+                setSubmitting: (value: boolean) =>
+                    dispatch({
+                        type: ReducerActions.SetSubmitting,
+                        payload: value,
+                    }),
+            }}>
             {children}
-        </FormDataContext.Provider>
+        </Context.Provider>
     )
 }
 
-const useFormData = () => useContext(FormDataContext)
+const useFormData = (() => useContext(Context)) as <
+    T = object,
+>() => ContextType<T>
 
 export default useFormData
-export { FormDataProvider }
