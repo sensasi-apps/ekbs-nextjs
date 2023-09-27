@@ -18,15 +18,10 @@ import NumericFormat from '@/components/Global/NumericFormat'
 import Skeletons from '@/components/Global/Skeletons'
 import TransactionDataType from '@/dataTypes/Transaction'
 import TxHistoryItem from './TxHistory/Item'
+import WalletType from '@/dataTypes/Wallet'
 
 const TxHistory: FC<{
-    walletData: {
-        uuid: string
-        balance: number
-        user: {
-            name: string
-        }
-    }
+    walletData: WalletType
     printContent?: any
     fromDate: Moment
     setFromDate: any

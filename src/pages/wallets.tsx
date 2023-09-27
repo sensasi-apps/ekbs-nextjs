@@ -1,5 +1,6 @@
 import { FC, useState, useRef } from 'react'
 import Head from 'next/head'
+import type { Moment } from 'moment'
 import moment from 'moment'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -18,6 +19,7 @@ import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'
 import TxHistory from '@/components/Wallet/TxHistory'
 import WalletWithdrawForm from '@/components/Wallet/WithdrawForm'
+import WalletType from '@/dataTypes/Wallet'
 
 const WalletsPage: FC = () => {
     return (
@@ -40,9 +42,9 @@ export default WalletsPage
 const theme = createTheme()
 
 const MainContent: FC = () => {
-    const [walletData, setWalletData] = useState<any>(undefined)
-    const [fromDate, setFromDate] = useState<any>(moment().startOf('month'))
-    const [toDate, setToDate] = useState<any>(moment().endOf('month'))
+    const [walletData, setWalletData] = useState<WalletType>()
+    const [fromDate, setFromDate] = useState<Moment>(moment().startOf('month'))
+    const [toDate, setToDate] = useState<Moment>(moment().endOf('month'))
 
     const componentRef = useRef(null)
 
@@ -60,7 +62,7 @@ const MainContent: FC = () => {
             options: {
                 display: false,
                 customBodyRender: (_: any, rowMeta: any) =>
-                    getDataRow(rowMeta.rowIndex).user.id,
+                    getDataRow<WalletType>(rowMeta.rowIndex).user.id,
             },
         },
         {
@@ -68,7 +70,7 @@ const MainContent: FC = () => {
             label: 'Nama Pengguna',
             options: {
                 customBodyRender: (_: any, rowMeta: any) => {
-                    const user = getDataRow(rowMeta.rowIndex).user
+                    const user = getDataRow<WalletType>(rowMeta.rowIndex).user
 
                     return `#${user.id} ${user.name}`
                 },
@@ -109,14 +111,16 @@ const MainContent: FC = () => {
                 closeButtonProps={{
                     onClick: () => setWalletData(undefined),
                 }}>
-                <TxHistory
-                    walletData={walletData}
-                    printContent={() => componentRef.current}
-                    fromDate={fromDate}
-                    setFromDate={setFromDate}
-                    toDate={toDate}
-                    setToDate={setToDate}
-                />
+                {walletData && (
+                    <TxHistory
+                        walletData={walletData}
+                        printContent={() => componentRef.current}
+                        fromDate={fromDate}
+                        setFromDate={setFromDate}
+                        toDate={toDate}
+                        setToDate={setToDate}
+                    />
+                )}
 
                 <div
                     style={{
@@ -124,13 +128,15 @@ const MainContent: FC = () => {
                     }}>
                     <div ref={componentRef}>
                         <ThemeProvider theme={theme}>
-                            <TxHistory
-                                walletData={walletData}
-                                fromDate={fromDate}
-                                setFromDate={setFromDate}
-                                toDate={toDate}
-                                setToDate={setToDate}
-                            />
+                            {walletData && (
+                                <TxHistory
+                                    walletData={walletData}
+                                    fromDate={fromDate}
+                                    setFromDate={setFromDate}
+                                    toDate={toDate}
+                                    setToDate={setToDate}
+                                />
+                            )}
                         </ThemeProvider>
                     </div>
                 </div>
@@ -168,6 +174,7 @@ const WithdrawButtonAndForm: FC = () => {
                 }}
                 maxWidth="sm">
                 <WalletWithdrawForm
+                    data={undefined}
                     onSubmitted={async () => {
                         await mutate()
                         handleClose()
