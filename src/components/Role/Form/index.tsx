@@ -8,7 +8,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 
-import FormType from '@/components/Global/Form/Form.type'
+import FormType from '@/components/Global/Form/type'
 import Role from '@/dataTypes/Role'
 import useValidationErrors from '@/hooks/useValidationErrors'
 import axios from '@/lib/axios'

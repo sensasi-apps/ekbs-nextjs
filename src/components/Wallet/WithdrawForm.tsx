@@ -5,7 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
 import TextField from '@mui/material/TextField'
 
-import FormType from '@/components/Global/Form/Form.type'
+import FormType from '@/components/Global/Form/type'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import useValidationErrors from '@/hooks/useValidationErrors'
 import NumericFormat from '@/components/Global/NumericFormat'

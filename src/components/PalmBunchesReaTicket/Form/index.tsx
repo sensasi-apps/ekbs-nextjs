@@ -5,7 +5,7 @@ import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
-import FormType from '@/components/Global/Form/Form.type'
+import FormType from '@/components/Global/Form/type'
 
 import PalmBunchesReaDeliveryMainInputs from './MainInputs'
 import PalmBunchesReaDeliveryFarmerInputs from './FarmerInputs'
@@ -19,7 +19,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
     actionsSlot,
     loading,
     setSubmitting,
-    handleClose,
+    onSubmitted,
 }) => {
     const disabled = Boolean(
         loading || (data?.delivery?.transactions?.length || 0) > 0,
@@ -41,7 +41,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
                 `/palm-bunches/rea-tickets${data?.id ? '/' + data?.id : ''}`,
                 formData,
             )
-            handleClose()
+            onSubmitted()
         } catch (error: any) {
             if (error?.response.status === 422) {
                 setValidationErrors(error?.response.data.errors)
