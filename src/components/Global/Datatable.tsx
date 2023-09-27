@@ -14,7 +14,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 
 import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
 
-let getDataRow: <T = any>(index: number) => T
+let getDataRow: <T = object>(index: number) => T
 let mutatorForExport: KeyedMutator<any>
 
 const Datatable: FC<{
@@ -41,7 +41,7 @@ const Datatable: FC<{
         mutate,
     } = useSWR(params ? [apiUrl, params] : null)
 
-    getDataRow = (index: number) => data[index]
+    getDataRow = index => data[index]
     mutatorForExport = mutate
 
     const handleFetchData = async (
