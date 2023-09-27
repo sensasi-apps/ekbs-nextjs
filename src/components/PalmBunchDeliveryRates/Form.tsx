@@ -1,7 +1,11 @@
-import { FC, useState } from 'react'
+import type FormType from '@/components/Global/Form/type'
+import type PalmBunchDeliveryRateType from '@/dataTypes/PalmBunchDeliveryRate'
+import type PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
+
+import { FC, useEffect, useState, ChangeEvent } from 'react'
 import moment, { Moment } from 'moment'
 import axios from '@/lib/axios'
-import QueryString from 'qs'
+import { debounce } from 'debounce'
 
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
@@ -14,87 +18,118 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
 
-import ValidationErrorsType from '@/types/ValidationErrors.type'
-import PalmBunchDeliveryRateValidDateType from '@/types/PalmBunchDeliveryRateValidDate.type'
-
 import DatePicker from '@/components/Global/DatePicker'
-import NumericMasking from '@/components/Inputs/NumericMasking'
-import FormType from '@/components/Global/Form/Form.type'
+import NumericFormat from '@/components/Global/NumericFormat'
+import useValidationErrors from '@/hooks/useValidationErrors'
+import weekOfMonths from '@/lib/weekOfMonth'
 
 const oilMillCodes: readonly string[] = ['COM', 'POM', 'SOM']
 const categories: readonly string[] = ['Atas', 'Bawah', 'Tengah']
+const emptyDeliveryRates: PalmBunchDeliveryRateType[] = oilMillCodes.reduce(
+    (acc: PalmBunchDeliveryRateType[], millCode) => {
+        categories.forEach(category => {
+            acc.push({
+                to_oil_mill_code: millCode,
+                from_position: category,
+                rp_per_kg: 0,
+            })
+        })
+
+        return acc
+    },
+    [],
+)
 
 const PalmBunchDeliveryRatesForm: FC<
     FormType<PalmBunchDeliveryRateValidDateType>
-> = ({
-    data: { id, valid_from, delivery_rates } = {},
-    loading,
-    actionsSlot,
-    handleClose,
-    setSubmitting,
-}) => {
-    const [validationErrors, setValidationErrors] =
-        useState<ValidationErrorsType>({})
+> = ({ data, loading, actionsSlot, onSubmitted, setSubmitting, onChange }) => {
+    const { id, valid_from, delivery_rates } = data
+
+    const { validationErrors, setValidationErrors, clearByEvent, clearByName } =
+        useValidationErrors()
     const [validFrom, setValidFrom] = useState<Moment | null>(
         valid_from ? moment(valid_from) : null,
     )
+    const [deliveryRates, setDeliveryRates] = useState<
+        PalmBunchDeliveryRateType[]
+    >(structuredClone(delivery_rates || emptyDeliveryRates))
+
+    useEffect(() => {
+        setValidFrom(valid_from ? moment(valid_from) : null)
+        setDeliveryRates(structuredClone(delivery_rates || emptyDeliveryRates))
+    }, [data])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if (loading) return
+        if (loading || !validFrom) return
 
         const formEl = e.currentTarget
         if (!formEl.checkValidity()) return
 
         setSubmitting(true)
 
-        try {
-            const formData = new FormData(formEl)
-            const payload = Object.fromEntries(formData.entries())
-
-            await axios.post(
-                `/palm-bunches/delivery-rates${id ? '/' + id : ''}`,
-                QueryString.stringify(payload),
-            )
-
-            handleClose()
-        } catch (error: any) {
-            if (error.response.status !== 422) {
-                throw error
-            }
-
-            setValidationErrors(error.response.data.errors)
-            setSubmitting(false)
+        const payload = {
+            valid_from: validFrom.format(),
+            valid_until: validFrom.clone().add(6, 'days').format(),
+            delivery_rates: deliveryRates,
         }
-    }
 
-    const clearValidationErrors = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-        const { name } = event.target
+        return axios
+            .post(`/palm-bunches/delivery-rates${id ? '/' + id : ''}`, payload)
+            .then(() => onSubmitted(payload))
+            .catch(error => {
+                if (error?.response?.status !== 422) {
+                    throw error
+                }
 
-        if (validationErrors[name]) {
-            setValidationErrors(prev => {
-                delete prev[name]
-                return prev
+                setValidationErrors(error.response.data.errors)
+                setSubmitting(false)
             })
-        }
     }
-
-    const weekOfMonths: number | null = validFrom
-        ? validFrom?.weeks() - validFrom?.clone().startOf('month').weeks() + 1
-        : null
 
     const getRpValue = (millCode: string, category: string) => {
-        const deliveryRate = delivery_rates?.find(
+        const deliveryRate = deliveryRates.find(
             rate =>
                 rate.to_oil_mill_code === millCode &&
                 rate.from_position === category,
         )
 
-        return deliveryRate?.rp_per_kg
+        return deliveryRate?.rp_per_kg || undefined
     }
+
+    const setRate = (millCode: string, category: string, value: number) =>
+        setDeliveryRates(prev => {
+            const rateIndex = prev.findIndex(
+                rate =>
+                    rate.to_oil_mill_code === millCode &&
+                    rate.from_position === category,
+            )
+
+            if (rateIndex === -1) return prev
+
+            const newDeliveryRates = [...prev]
+
+            newDeliveryRates[rateIndex].rp_per_kg = value
+
+            return newDeliveryRates
+        })
+
+    const handleValuesChange = (event: ChangeEvent<HTMLInputElement>) => {
+        clearByEvent(event)
+        return handleOnChange()
+    }
+
+    const handleOnChange = debounce(() => {
+        if (!onChange || !validFrom) return
+
+        return onChange({
+            ...data,
+            delivery_rates: deliveryRates,
+            valid_from: validFrom.format(),
+            valid_until: validFrom.clone().add(6, 'days').format(),
+        })
+    }, 500)
 
     return (
         <form onSubmit={handleSubmit} autoComplete="off">
@@ -103,7 +138,7 @@ const PalmBunchDeliveryRatesForm: FC<
                     <DatePicker
                         shouldDisableDate={date => date?.day() !== 2}
                         disabled={loading}
-                        defaultValue={valid_from}
+                        value={validFrom}
                         slotProps={{
                             textField: {
                                 required: true,
@@ -118,13 +153,7 @@ const PalmBunchDeliveryRatesForm: FC<
                         }}
                         onChange={value => {
                             setValidFrom(value)
-
-                            if (validationErrors.valid_from) {
-                                setValidationErrors(prev => {
-                                    delete prev.valid_from
-                                    return prev
-                                })
-                            }
+                            clearByName('valid_until')
                         }}
                     />
                 </Grid>
@@ -134,7 +163,7 @@ const PalmBunchDeliveryRatesForm: FC<
                         readOnly
                         disabled={loading}
                         value={
-                            validFrom ? moment(validFrom).add(6, 'days') : null
+                            validFrom ? validFrom.clone().add(6, 'days') : null
                         }
                         slotProps={{
                             textField: {
@@ -159,7 +188,8 @@ const PalmBunchDeliveryRatesForm: FC<
                         component="div"
                         textAlign="center"
                         mt={4}>
-                        {validFrom?.format('MMMM ')} #{weekOfMonths}{' '}
+                        {validFrom?.format('MMMM ')} #
+                        {validFrom && weekOfMonths(validFrom)}{' '}
                         <Typography
                             variant="caption"
                             color="GrayText"
@@ -190,28 +220,24 @@ const PalmBunchDeliveryRatesForm: FC<
                                                 required
                                                 margin="none"
                                                 size="small"
-                                                name={`rp_per_kgs[${millCode}][${category}]`}
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            Rp
-                                                        </InputAdornment>
-                                                    ),
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            /kg
-                                                        </InputAdornment>
-                                                    ),
-                                                    inputComponent:
-                                                        NumericMasking,
-                                                }}
                                                 inputProps={{
                                                     decimalScale: 0,
                                                     minLength: 1,
                                                     maxLength: 5,
+                                                    valueIsNumericString: false,
+                                                    onValueChange: ({
+                                                        floatValue,
+                                                    }: {
+                                                        floatValue: number
+                                                    }) =>
+                                                        setRate(
+                                                            millCode,
+                                                            category,
+                                                            floatValue,
+                                                        ),
                                                 }}
-                                                onChange={clearValidationErrors}
-                                                defaultValue={getRpValue(
+                                                onChange={handleValuesChange}
+                                                value={getRpValue(
                                                     millCode,
                                                     category,
                                                 )}
@@ -225,6 +251,20 @@ const PalmBunchDeliveryRatesForm: FC<
                                                         `rp_per_kgs[${millCode}][${category}]`
                                                     ]
                                                 }
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            Rp
+                                                        </InputAdornment>
+                                                    ),
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            /kg
+                                                        </InputAdornment>
+                                                    ),
+                                                    inputComponent:
+                                                        NumericFormat,
+                                                }}
                                             />
                                         </TableCell>
                                     ))}

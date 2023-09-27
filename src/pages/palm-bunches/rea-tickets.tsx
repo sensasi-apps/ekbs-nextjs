@@ -11,22 +11,24 @@ export default function PalmBuncesReaTickets() {
             </Head>
 
             <FormDataProvider>
-                <PalmBunchesReaTicketsCrudWithUseFormData />
+                <Crud />
             </FormDataProvider>
         </AuthLayout>
     )
 }
 
 import { FC, useState } from 'react'
-import { mutate } from 'swr'
 import moment from 'moment'
 import 'moment/locale/id'
 
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import Fab from '@mui/material/Fab'
 import Typography from '@mui/material/Typography'
 
-import Datatable, { getDataRow } from '@/components/Global/Datatable'
+import ReceiptIcon from '@mui/icons-material/Receipt'
+
+import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 
@@ -35,7 +37,7 @@ import useFormData from '@/providers/useFormData'
 import NumericFormat from '@/components/Global/NumericFormat'
 import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
 
-const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
+const Crud: FC = () => {
     const [filter, setFilter] = useState<string | undefined>()
 
     const {
@@ -47,7 +49,8 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
         setSubmitting,
         handleClose,
         handleEdit,
-    } = useFormData()
+        handleCreate,
+    } = useFormData<PalmBunchesReaTicketDataType>()
 
     const columns = [
         {
@@ -66,7 +69,8 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
             label: 'Pabrik',
             options: {
                 customBodyRender: (_: any, rowMeta: any) =>
-                    getDataRow(rowMeta.rowIndex).delivery.to_oil_mill_code,
+                    getDataRow<PalmBunchesReaTicketDataType>(rowMeta.rowIndex)
+                        .delivery.to_oil_mill_code,
             },
         },
         {
@@ -78,8 +82,10 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
             label: 'Pengangkut',
             options: {
                 customBodyRender: (_: any, rowMeta: any) => {
-                    const courier_user = getDataRow(rowMeta.rowIndex).delivery
-                        .courier_user
+                    const courier_user =
+                        getDataRow<PalmBunchesReaTicketDataType>(
+                            rowMeta.rowIndex,
+                        ).delivery.courier_user
 
                     return `#${courier_user.id} ${courier_user.name}`
                 },
@@ -96,7 +102,9 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
                             padding: 0,
                             margin: 0,
                         }}>
-                        {getDataRow(rowMeta.rowIndex).delivery.palm_bunches.map(
+                        {getDataRow<PalmBunchesReaTicketDataType>(
+                            rowMeta.rowIndex,
+                        ).delivery.palm_bunches.map(
                             (palmBunches: any, index: number) => (
                                 <li
                                     key={index}
@@ -117,7 +125,11 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
             options: {
                 customBodyRender: (_: any, rowMeta: any) => (
                     <NumericFormat
-                        value={getDataRow(rowMeta.rowIndex).delivery.n_bunches}
+                        value={
+                            getDataRow<PalmBunchesReaTicketDataType>(
+                                rowMeta.rowIndex,
+                            ).delivery.n_bunches
+                        }
                         displayType="text"
                     />
                 ),
@@ -129,7 +141,11 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
             options: {
                 customBodyRender: (_: any, rowMeta: any) => (
                     <NumericFormat
-                        value={getDataRow(rowMeta.rowIndex).delivery.n_kg}
+                        value={
+                            getDataRow<PalmBunchesReaTicketDataType>(
+                                rowMeta.rowIndex,
+                            ).delivery.n_kg
+                        }
                         suffix=" kg"
                         displayType="text"
                     />
@@ -224,14 +240,11 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
                     onClick: handleClose,
                 }}>
                 <MainForm
-                    data={data as PalmBunchesReaTicketDataType}
+                    data={data}
                     loading={loading}
                     setSubmitting={setSubmitting}
                     onSubmitted={() => {
-                        mutate(
-                            '/palm-bunches/rea-tickets/datatable?' +
-                                (filter || ''),
-                        )
+                        mutate()
                         handleClose()
                     }}
                     actionsSlot={
@@ -242,6 +255,18 @@ const PalmBunchesReaTicketsCrudWithUseFormData: FC = () => {
                     }
                 />
             </Dialog>
+
+            <Fab
+                disabled={formOpen}
+                onClick={handleCreate}
+                color="success"
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 16,
+                }}>
+                <ReceiptIcon />
+            </Fab>
         </>
     )
 }
