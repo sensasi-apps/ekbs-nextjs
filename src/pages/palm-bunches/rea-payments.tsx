@@ -7,6 +7,7 @@ import 'moment/locale/id'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
+import Fab from '@mui/material/Fab'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
@@ -16,7 +17,6 @@ import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
 import Dialog from '@/components/Global/Dialog'
-import FabWithUseFormData from '@/components/Global/Fab/WithUseFormData'
 import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'
 
@@ -46,6 +46,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
         setSubmitting,
         handleClose,
         handleEdit,
+        handleCreate,
     } = useFormData()
 
     const { data: paymentsNotFound = [] } = useSWR(
@@ -177,9 +178,17 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                 </Box>
             ))}
 
-            <FabWithUseFormData>
+            <Fab
+                disabled={formOpen}
+                onClick={handleCreate}
+                color="success"
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 16,
+                }}>
                 <BackupTableIcon />
-            </FabWithUseFormData>
+            </Fab>
         </Box>
     )
 }

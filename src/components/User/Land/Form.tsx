@@ -14,7 +14,7 @@ import NumericMasking from '@/components/Inputs/NumericMasking'
 
 import Address from '@/types/Address'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
-import UserLandFormPropType from './Prop.type'
+import UserLandFormPropType from './Form/type'
 import DatePicker from '@/components/Global/DatePicker'
 
 const INITIAL_STATE = {

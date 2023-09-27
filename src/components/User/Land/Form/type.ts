@@ -1,6 +1,6 @@
-import Land from '@/types/Land'
+import type Land from '@/types/Land'
 
-type UserLandFormPropType = {
+interface UserLandFormPropType {
     data: Land
     userUuid: string
     onCancel: () => void

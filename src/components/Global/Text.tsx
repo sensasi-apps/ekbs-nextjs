@@ -1,9 +1,15 @@
 import React from 'react'
 
+import type { BoxProps } from '@mui/material/Box'
+
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'
 import Typography from '@mui/material/Typography'
-import TextProps from './props.type'
+
+interface TextProps extends BoxProps {
+    label?: string
+    helperText?: string
+}
 
 const Text: React.FC<TextProps> = ({
     label,
