@@ -56,5 +56,3 @@ interface DialogProps extends MuiDialogProps {
     middleHead?: ReactNode
     title: string
 }
-
-export type { DialogProps }
