@@ -9,7 +9,7 @@ import {
 
 import axios from '@/lib/axios'
 
-import type UserDataType from '@/dataTypes/User'
+import type UserType from '@/dataTypes/User'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -17,7 +17,7 @@ const AuthProvider: FC<{
     children?: ReactNode
 }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [user, setUser] = useState<UserDataType | null | undefined>(undefined)
+    const [user, setUser] = useState<UserType | null | undefined>(undefined)
 
     useEffect(() => {
         axios
@@ -32,7 +32,7 @@ const AuthProvider: FC<{
 
     const userHasPermission = (
         permissionName: string | string[],
-        userParam: UserDataType = user as UserDataType,
+        userParam: UserType = user as UserType,
     ) => {
         if (userParam?.role_names?.includes('superman')) {
             return true
@@ -51,7 +51,7 @@ const AuthProvider: FC<{
 
     const userHasRole = (
         roleName: string | string[],
-        userParam: UserDataType = user as UserDataType,
+        userParam: UserType = user as UserType,
     ) => {
         if (userParam?.role_names?.includes('superman')) {
             return true
@@ -76,7 +76,7 @@ const AuthProvider: FC<{
     const ContextValue: AuthContextType = {
         isAuthenticated,
         user,
-        onLoginSuccess: (userParam: UserDataType) => {
+        onLoginSuccess: (userParam: UserType) => {
             setIsAuthenticated(true)
             setUser(userParam)
         },
@@ -98,18 +98,15 @@ const AuthProvider: FC<{
 
 type AuthContextType = {
     isAuthenticated: boolean
-    user: UserDataType | null | undefined
+    user: UserType | null | undefined
     userHasPermission: (
         permissionName: string | string[],
-        userParam?: UserDataType,
+        userParam?: UserType,
     ) => boolean
-    userHasRole: (
-        roleName: string | string[],
-        userParam?: UserDataType,
-    ) => boolean
+    userHasRole: (roleName: string | string[], userParam?: UserType) => boolean
 
     onLogoutSuccess: () => void
-    onLoginSuccess: (user: UserDataType) => void
+    onLoginSuccess: (user: UserType) => void
     onError401: () => void
 }
 

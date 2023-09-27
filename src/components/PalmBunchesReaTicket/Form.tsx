@@ -4,7 +4,7 @@ import axios from '@/lib/axios'
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 
-import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import FormType from '@/components/Global/Form/type'
 
 import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
@@ -14,7 +14,7 @@ import PalmBuncesReaTicketRegisterAsForm from './Form/RegisterAs'
 
 import useValidationErrors from '@/hooks/useValidationErrors'
 
-const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketDataType>> = ({
+const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
     data,
     actionsSlot,
     loading,

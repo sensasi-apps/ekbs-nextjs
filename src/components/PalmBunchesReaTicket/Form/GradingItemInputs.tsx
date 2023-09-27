@@ -1,3 +1,7 @@
+import type PalmBunchesReaGradingType from '@/dataTypes/PalmBunchesReaGrading'
+import type PalmBunchesReaGradingItemType from '@/dataTypes/PalmBunchesReaGradingItem'
+import type ValidationErrorsType from '@/types/ValidationErrors'
+
 import { FC } from 'react'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
@@ -6,19 +10,16 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 import NumericFormat from '@/components/Global/NumericFormat'
-import type ValidationErrorsType from '@/types/ValidationErrors'
-import PalmBunchesReaGradingDataType from '@/dataTypes/PalmBunchesReaGrading'
-import PalmBunchesReaGradingItemDataType from '@/dataTypes/PalmBunchesReaGradingItem'
 import Skeletons from '@/components/Global/Skeletons'
 
 const GradingItemInputs: FC<{
-    data?: PalmBunchesReaGradingDataType[]
+    data?: PalmBunchesReaGradingType[]
     disabled: boolean
     clearByEvent: (event: React.ChangeEvent<HTMLInputElement>) => void
     validationErrors: ValidationErrorsType
 }> = ({ data: gradings, disabled, clearByEvent, validationErrors }) => {
     const { data: gradingItemActives, isLoading } = useSWR<
-        PalmBunchesReaGradingItemDataType[]
+        PalmBunchesReaGradingItemType[]
     >(
         !gradings ? '/data/rea-grading-item-actives' : null,
         url => axios.get(url).then(res => res.data),

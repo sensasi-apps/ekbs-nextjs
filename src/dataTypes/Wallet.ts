@@ -1,10 +1,11 @@
+import type UserType from './User'
+
 import { UUID } from 'crypto'
-import UserDataType from './User'
 
 interface WalletType {
     uuid: UUID
     balance: number
-    user: UserDataType
+    user: UserType
 }
 
 export default WalletType

@@ -17,6 +17,8 @@ export default function PalmBuncesReaTickets() {
     )
 }
 
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+
 import { FC, useState } from 'react'
 import moment from 'moment'
 import 'moment/locale/id'
@@ -35,22 +37,23 @@ import FormActions from '@/components/Global/Form/Actions'
 import MainForm from '@/components/PalmBunchesReaTicket/Form'
 import useFormData from '@/providers/useFormData'
 import NumericFormat from '@/components/Global/NumericFormat'
-import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
+import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
 
 const Crud: FC = () => {
     const [filter, setFilter] = useState<string | undefined>()
 
     const {
         data,
-        submitting,
-        loading,
-        isNew,
         formOpen,
-        setSubmitting,
+        isNew,
         handleClose,
-        handleEdit,
         handleCreate,
-    } = useFormData<PalmBunchesReaTicketDataType>()
+        handleEdit,
+        loading,
+        setData,
+        setSubmitting,
+        submitting,
+    } = useFormData<PalmBunchesReaTicketType>()
 
     const columns = [
         {
@@ -69,7 +72,7 @@ const Crud: FC = () => {
             label: 'Pabrik',
             options: {
                 customBodyRender: (_: any, rowMeta: any) =>
-                    getDataRow<PalmBunchesReaTicketDataType>(rowMeta.rowIndex)
+                    getDataRow<PalmBunchesReaTicketType>(rowMeta.rowIndex)
                         .delivery.to_oil_mill_code,
             },
         },
@@ -82,10 +85,9 @@ const Crud: FC = () => {
             label: 'Pengangkut',
             options: {
                 customBodyRender: (_: any, rowMeta: any) => {
-                    const courier_user =
-                        getDataRow<PalmBunchesReaTicketDataType>(
-                            rowMeta.rowIndex,
-                        ).delivery.courier_user
+                    const courier_user = getDataRow<PalmBunchesReaTicketType>(
+                        rowMeta.rowIndex,
+                    ).delivery.courier_user
 
                     return `#${courier_user.id} ${courier_user.name}`
                 },
@@ -102,7 +104,7 @@ const Crud: FC = () => {
                             padding: 0,
                             margin: 0,
                         }}>
-                        {getDataRow<PalmBunchesReaTicketDataType>(
+                        {getDataRow<PalmBunchesReaTicketType>(
                             rowMeta.rowIndex,
                         ).delivery.palm_bunches.map(
                             (palmBunches: any, index: number) => (
@@ -126,7 +128,7 @@ const Crud: FC = () => {
                 customBodyRender: (_: any, rowMeta: any) => (
                     <NumericFormat
                         value={
-                            getDataRow<PalmBunchesReaTicketDataType>(
+                            getDataRow<PalmBunchesReaTicketType>(
                                 rowMeta.rowIndex,
                             ).delivery.n_bunches
                         }
@@ -142,7 +144,7 @@ const Crud: FC = () => {
                 customBodyRender: (_: any, rowMeta: any) => (
                     <NumericFormat
                         value={
-                            getDataRow<PalmBunchesReaTicketDataType>(
+                            getDataRow<PalmBunchesReaTicketType>(
                                 rowMeta.rowIndex,
                             ).delivery.n_kg
                         }
@@ -238,7 +240,13 @@ const Crud: FC = () => {
                 open={formOpen}
                 closeButtonProps={{
                     onClick: handleClose,
-                }}>
+                }}
+                middleHead={
+                    <FormDataDraftsCrud
+                        modelName="PalmBuncesReaTicket"
+                        dataKeyForNameId="ticket_no"
+                    />
+                }>
                 <MainForm
                     data={data}
                     loading={loading}
@@ -253,6 +261,7 @@ const Crud: FC = () => {
                             submitting={submitting}
                         />
                     }
+                    onChange={setData}
                 />
             </Dialog>
 

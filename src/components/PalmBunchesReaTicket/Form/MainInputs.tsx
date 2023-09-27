@@ -1,3 +1,6 @@
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type ValidationErrorsType from '@/types/ValidationErrors'
+
 import { FC, useState } from 'react'
 
 import Grid from '@mui/material/Grid'
@@ -9,11 +12,9 @@ import DatePicker from '@/components/Global/DatePicker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 import NumericFormat from '@/components/Global/NumericFormat'
-import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
-import type ValidationErrorsType from '@/types/ValidationErrors'
 
 type MainInputPropTypes = {
-    data?: PalmBunchesReaTicketDataType
+    data?: PalmBunchesReaTicketType
     disabled: boolean
     validationErrors: ValidationErrorsType
     clearByName: (name: string) => void
@@ -21,7 +22,7 @@ type MainInputPropTypes = {
 }
 
 const PalmBunchesReaDeliveryMainInputs: FC<MainInputPropTypes> = ({
-    data: dataProp = {} as PalmBunchesReaTicketDataType,
+    data: dataProp = {} as PalmBunchesReaTicketType,
     disabled,
     validationErrors,
     clearByName,

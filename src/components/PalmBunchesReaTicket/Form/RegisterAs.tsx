@@ -1,15 +1,16 @@
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type ValidationErrorsType from '@/types/ValidationErrors'
+
 import { FC } from 'react'
 
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 
-import type ValidationErrorsType from '@/types/ValidationErrors'
-import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
 import NumericFormat from '@/components/Global/NumericFormat'
 
 const PalmBuncesReaTicketRegisterAsForm: FC<{
-    data?: PalmBunchesReaTicketDataType
+    data?: PalmBunchesReaTicketType
     disabled: boolean
     validationErrors: ValidationErrorsType
     clearByEvent: (event: React.ChangeEvent<HTMLInputElement>) => void

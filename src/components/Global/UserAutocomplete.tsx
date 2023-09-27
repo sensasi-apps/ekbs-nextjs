@@ -1,3 +1,5 @@
+import type UserType from '@/dataTypes/User'
+
 import { useState } from 'react'
 import useSWRMutation from 'swr/mutation'
 import axios from '@/lib/axios'
@@ -11,7 +13,6 @@ import TextField, { TextFieldProps } from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 import SearchIcon from '@mui/icons-material/Search'
-import UserDataType from '@/dataTypes/User'
 import RoleChips from '@/components/User/RoleChips'
 
 type UserAutocompleteType<
@@ -36,7 +37,7 @@ type UserAutocompleteType<
         >
     } & Omit<
         AutocompleteProps<
-            UserDataType,
+            UserType,
             Multiple,
             DisableClearable,
             FreeSolo,
@@ -52,7 +53,7 @@ const UserAutocomplete: UserAutocompleteType = ({
 }) => {
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
-    const [userOptions, setUserOptions] = useState<UserDataType[]>([])
+    const [userOptions, setUserOptions] = useState<UserType[]>([])
 
     const { trigger, isMutating } = useSWRMutation(
         `/users/search`,

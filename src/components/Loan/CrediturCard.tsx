@@ -1,3 +1,5 @@
+import type UserType from '@/dataTypes/User'
+
 import { FC, useState } from 'react'
 
 import Box from '@mui/material/Box'
@@ -13,10 +15,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
 import { ContactList } from '../User/Socials/CrudBox'
 import TbsPerformanceChart from './Creditur/TbsPerformanceChart'
-import UserDataType from '@/dataTypes/User'
 
 const CrediturCard: FC<{
-    data: UserDataType
+    data: UserType
 }> = ({ data: creditur }) => {
     const [isCollapsed, setIsCollapsed] = useState(true)
 
