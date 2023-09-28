@@ -170,7 +170,6 @@ const Crud = () => {
                     }
                 />
             </Dialog>
-            div
             <Fab
                 disabled={formOpen}
                 onClick={handleCreate}
