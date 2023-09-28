@@ -38,7 +38,7 @@ enum ReducerActions {
 
 const initialState: StateType = {
     data: {},
-    initialDataInString: JSON.stringify({}),
+    initialDataInString: '{}',
     formOpen: false,
     submitting: false,
     deleting: false,
@@ -60,8 +60,8 @@ const reducer: Reducer<StateType, ReducerActionType> = (state, action) => {
     if (action.type === ReducerActions.HandleCreate) {
         return {
             ...state,
-            data: initialState.data,
-            initialDataInString: initialState.initialDataInString,
+            data: {},
+            initialDataInString: '{}',
             formOpen: true,
         }
     }
