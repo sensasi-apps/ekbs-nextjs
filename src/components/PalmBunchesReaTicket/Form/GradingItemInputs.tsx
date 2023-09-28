@@ -1,31 +1,52 @@
+import type { NumberFormatValues } from 'react-number-format'
+import type PalmBunchesReaGradingItemType from '@/dataTypes/PalmBunchesReaGradingItem'
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type ValidationErrorsType from '@/types/ValidationErrors'
+
 import { FC } from 'react'
 import useSWR from 'swr'
-import axios from '@/lib/axios'
 
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
+// components
 import NumericFormat from '@/components/Global/NumericFormat'
-import ValidationErrorsType from '@/types/ValidationErrors.type'
-import PalmBunchesReaGradingDataType from '@/dataTypes/PalmBunchesReaGrading'
-import PalmBunchesReaGradingItemDataType from '@/dataTypes/PalmBunchesReaGradingItem'
 import Skeletons from '@/components/Global/Skeletons'
 
+// providers
+import useFormData from '@/providers/useFormData'
+
 const GradingItemInputs: FC<{
-    data?: PalmBunchesReaGradingDataType[]
     disabled: boolean
-    clearByEvent: (event: React.ChangeEvent<HTMLInputElement>) => void
+    clearByName: (name: string) => void
     validationErrors: ValidationErrorsType
-}> = ({ data: gradings, disabled, clearByEvent, validationErrors }) => {
+}> = ({ disabled, clearByName, validationErrors }) => {
+    const { data, setData } = useFormData<PalmBunchesReaTicketType>()
+
     const { data: gradingItemActives, isLoading } = useSWR<
-        PalmBunchesReaGradingItemDataType[]
-    >(
-        !gradings ? '/data/rea-grading-item-actives' : null,
-        url => axios.get(url).then(res => res.data),
-        {
-            revalidateOnFocus: false,
-        },
-    )
+        PalmBunchesReaGradingItemType[]
+    >(!data.gradings ? '/data/rea-grading-item-actives' : null, {
+        revalidateOnFocus: false,
+    })
+
+    const gradings =
+        data.gradings ??
+        gradingItemActives?.map(activeItem => ({
+            id: undefined,
+            item: activeItem,
+            value: undefined,
+        }))
+
+    const handleChange = (index: number, value?: number) => {
+        clearByName(`gradings[${index}][value]`)
+
+        if (!data.gradings) {
+            data.gradings = [...gradings]
+        }
+
+        data.gradings[index].value = value
+        setData(data)
+    }
 
     return (
         <>
@@ -35,50 +56,47 @@ const GradingItemInputs: FC<{
 
             {isLoading && <Skeletons />}
 
-            {(
-                gradings ||
-                gradingItemActives?.map(activeItem => ({
-                    id: undefined,
-                    item: activeItem,
-                    value: undefined,
-                }))
-            )?.map((grading, index) => (
-                <div key={index}>
-                    <input
-                        type="hidden"
-                        name={`gradings[${index}][id]`}
-                        defaultValue={grading.id}
-                    />
+            {!isLoading &&
+                gradings.map((grading, index) => (
+                    <div key={index}>
+                        <input
+                            type="hidden"
+                            name={`gradings[${index}][id]`}
+                            defaultValue={grading.id}
+                        />
 
-                    <input
-                        type="hidden"
-                        name={`gradings[${index}][item_id]`}
-                        defaultValue={grading.item.id}
-                    />
+                        <input
+                            type="hidden"
+                            name={`gradings[${index}][item_id]`}
+                            defaultValue={grading.item.id}
+                        />
 
-                    <TextField
-                        disabled={disabled}
-                        fullWidth
-                        required
-                        margin="dense"
-                        label={grading.item.name}
-                        size="small"
-                        name={`gradings[${index}][value]`}
-                        InputProps={{
-                            endAdornment: grading.item.unit,
-                            inputComponent: NumericFormat as any,
-                        }}
-                        onChange={clearByEvent}
-                        defaultValue={grading.value}
-                        error={Boolean(
-                            validationErrors[`gradings[${index}][value]`],
-                        )}
-                        helperText={
-                            validationErrors[`gradings[${index}][value]`]
-                        }
-                    />
-                </div>
-            ))}
+                        <TextField
+                            disabled={disabled}
+                            fullWidth
+                            required
+                            margin="dense"
+                            label={grading.item.name}
+                            size="small"
+                            name={`gradings[${index}][value]`}
+                            InputProps={{
+                                endAdornment: grading.item.unit,
+                                inputComponent: NumericFormat,
+                            }}
+                            inputProps={{
+                                onValueChange: (values: NumberFormatValues) =>
+                                    handleChange(index, values.floatValue),
+                            }}
+                            value={grading.value ?? ''}
+                            error={Boolean(
+                                validationErrors[`gradings[${index}][value]`],
+                            )}
+                            helperText={
+                                validationErrors[`gradings[${index}][value]`]
+                            }
+                        />
+                    </div>
+                ))}
         </>
     )
 }

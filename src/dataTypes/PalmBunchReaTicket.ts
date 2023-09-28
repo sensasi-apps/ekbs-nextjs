@@ -1,7 +1,7 @@
-import PalmBunchesDeliveryDataType from './PalmBunchesDelivery'
-import PalmBunchesReaGradingDataType from './PalmBunchesReaGrading'
+import type PalmBunchesDeliveryType from './PalmBunchesDelivery'
+import type PalmBunchesReaGradingType from './PalmBunchesReaGrading'
 
-type PalmBunchesReaTicketDataType = {
+interface PalmBunchesReaTicketType {
     id: number
     at: string
     spb_no: string
@@ -15,8 +15,8 @@ type PalmBunchesReaTicketDataType = {
     as_farmer_name: string
     as_farm_land_id: string
 
-    delivery: PalmBunchesDeliveryDataType
-    gradings: PalmBunchesReaGradingDataType[]
+    delivery: PalmBunchesDeliveryType
+    gradings: PalmBunchesReaGradingType[]
 }
 
-export default PalmBunchesReaTicketDataType
+export default PalmBunchesReaTicketType

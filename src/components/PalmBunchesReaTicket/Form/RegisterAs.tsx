@@ -1,24 +1,50 @@
-import { FC } from 'react'
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type ValidationErrorsType from '@/types/ValidationErrors'
+
+import { FC, useEffect, useState } from 'react'
 
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 
-import ValidationErrorsType from '@/types/ValidationErrors.type'
-import PalmBunchesReaTicketDataType from '@/dataTypes/PalmBunchReaTicket'
+// components
 import NumericFormat from '@/components/Global/NumericFormat'
 
+// providers
+import useFormData from '@/providers/useFormData'
+
 const PalmBuncesReaTicketRegisterAsForm: FC<{
-    data?: PalmBunchesReaTicketDataType
     disabled: boolean
     validationErrors: ValidationErrorsType
     clearByEvent: (event: React.ChangeEvent<HTMLInputElement>) => void
-}> = ({
-    data: palmBunchesReaTicket,
-    disabled,
-    validationErrors,
-    clearByEvent,
-}) => {
+}> = ({ disabled, validationErrors, clearByEvent }) => {
+    const { data, setData } = useFormData<PalmBunchesReaTicketType>()
+
+    const [localData, setLocalData] = useState<PalmBunchesReaTicketType>(data)
+
+    const {
+        as_farmer_id = '',
+        as_farmer_name = '',
+        as_farm_land_id = '',
+    } = localData
+
+    useEffect(() => {
+        setLocalData(data)
+    }, [data])
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        clearByEvent(event)
+        const { name, value } = event.target
+
+        setLocalData(prevState => {
+            const newData = { ...prevState, [name]: value }
+
+            setData(newData)
+
+            return newData
+        })
+    }
+
     return (
         <>
             <Typography variant="h6" component="h2" mt={3} mb={2}>
@@ -36,18 +62,19 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                         required
                         disabled={disabled}
                         InputProps={{
-                            inputComponent: NumericFormat as any,
+                            inputComponent: NumericFormat,
                         }}
                         inputProps={{
                             allowNegative: false,
                             thousandSeparator: false,
                             decimalScale: 0,
-                            maxLength: 10,
+                            minLength: 16,
+                            maxLength: 16,
                         }}
-                        defaultValue={palmBunchesReaTicket?.as_farmer_id || ''}
-                        onChange={clearByEvent}
-                        error={Boolean(validationErrors?.as_farmer_id)}
-                        helperText={validationErrors?.as_farmer_id}
+                        value={as_farmer_id}
+                        onChange={handleChange}
+                        error={Boolean(validationErrors.as_farmer_id)}
+                        helperText={validationErrors.as_farmer_id}
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -59,12 +86,10 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                         margin="none"
                         required
                         disabled={disabled}
-                        defaultValue={
-                            palmBunchesReaTicket?.as_farmer_name || ''
-                        }
-                        onChange={clearByEvent}
-                        error={Boolean(validationErrors?.as_farmer_name)}
-                        helperText={validationErrors?.as_farmer_name}
+                        value={as_farmer_name}
+                        onChange={handleChange}
+                        error={Boolean(validationErrors.as_farmer_name)}
+                        helperText={validationErrors.as_farmer_name}
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -76,11 +101,9 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                         name="as_farm_land_id"
                         required
                         disabled={disabled}
-                        defaultValue={
-                            palmBunchesReaTicket?.as_farm_land_id || ''
-                        }
+                        value={as_farm_land_id}
                         InputProps={{
-                            inputComponent: NumericFormat as any,
+                            inputComponent: NumericFormat,
                         }}
                         inputProps={{
                             allowNegative: false,
@@ -88,9 +111,9 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                             decimalScale: 0,
                             maxLength: 10,
                         }}
-                        onChange={clearByEvent}
-                        error={Boolean(validationErrors?.as_farm_land_id)}
-                        helperText={validationErrors?.as_farm_land_id}
+                        onChange={handleChange}
+                        error={Boolean(validationErrors.as_farm_land_id)}
+                        helperText={validationErrors.as_farm_land_id}
                     />
                 </Grid>
             </Grid>

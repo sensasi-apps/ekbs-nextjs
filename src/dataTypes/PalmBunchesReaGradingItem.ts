@@ -1,7 +1,7 @@
-type PalmBunchesReaGradingItemDataType = {
+interface PalmBunchesReaGradingItemType {
     id: number
     name: string
     unit: string
 }
 
-export default PalmBunchesReaGradingItemDataType
+export default PalmBunchesReaGradingItemType
