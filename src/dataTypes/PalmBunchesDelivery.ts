@@ -1,8 +1,9 @@
-import { UUID } from 'crypto'
-import UserDataType from './User'
-import PalmBunchDataType from './PalmBunch'
+import type UserType from './User'
+import type PalmBunchType from './PalmBunch'
 
-type PalmBunchesDeliveryDataType = {
+import { UUID } from 'crypto'
+
+interface PalmBunchesDeliveryType {
     uuid: number
     to_oil_mill_code: string
     courier_user_uuid: UUID
@@ -12,9 +13,9 @@ type PalmBunchesDeliveryDataType = {
     n_bunches: number
     n_kg: number
 
-    courier_user: UserDataType
-    palm_bunches: PalmBunchDataType[]
+    courier_user: UserType
+    palm_bunches: PalmBunchType[]
     transactions: []
 }
 
-export default PalmBunchesDeliveryDataType
+export default PalmBunchesDeliveryType

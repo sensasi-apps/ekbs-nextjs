@@ -1,9 +1,9 @@
-import PalmBunchesReaGradingItemDataType from './PalmBunchesReaGradingItem'
+import type PalmBunchesReaGradingItemType from './PalmBunchesReaGradingItem'
 
-type PalmBunchesReaGradingDataType = {
+interface PalmBunchesReaGradingType {
     id: number
-    value: number
-    item: PalmBunchesReaGradingItemDataType
+    value?: number
+    item: PalmBunchesReaGradingItemType
 }
 
-export default PalmBunchesReaGradingDataType
+export default PalmBunchesReaGradingType

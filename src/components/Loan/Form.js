@@ -47,7 +47,7 @@ let currentUserTermUnitPreference
 const LoanForm = ({ mode }) => {
     const { data: loanDraft = new Loan({}), handleClose, isNew } = useFormData()
 
-    const { data: currentUser, userHasRole, userHasPermission } = useAuth()
+    const { user: currentUser, userHasRole, userHasPermission } = useAuth()
 
     const [loanType, setLoanType] = useState(loanDraft.type || null)
     const [isSubmitting, setIsSubmitting] = useState(false)

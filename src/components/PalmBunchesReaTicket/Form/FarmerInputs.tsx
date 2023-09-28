@@ -1,4 +1,9 @@
-import { FC, useState } from 'react'
+import type { NumberFormatValues } from 'react-number-format'
+import type PalmBunchDataType from '@/dataTypes/PalmBunch'
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type ValidationErrorsType from '@/types/ValidationErrors'
+
+import { FC, useEffect, useState } from 'react'
 
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
@@ -8,29 +13,41 @@ import TextField from '@mui/material/TextField'
 
 import AddIcon from '@mui/icons-material/Add'
 
+// components
 import NumericFormat from '@/components/Global/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 
-import PalmBunchDataType from '@/dataTypes/PalmBunch'
-import ValidationErrorsType from '@/types/ValidationErrors.type'
+// providers
+import useFormData from '@/providers/useFormData'
 
 const PalmBunchesReaDeliveryFarmerInputs: FC<{
-    data?: PalmBunchDataType[]
     disabled: boolean
     validationErrors: ValidationErrorsType
-    clearByEvent: (event: React.ChangeEvent<HTMLInputElement>) => void
     clearByName: (name: string) => void
-}> = ({
-    data: palmBunchesProp,
-    disabled,
-    validationErrors,
-    clearByEvent,
-    clearByName,
-}) => {
+}> = ({ disabled, validationErrors, clearByName }) => {
+    const { data, setData } = useFormData<PalmBunchesReaTicketType>()
+
     const [palmBunches, setPalmBunches] = useState<PalmBunchDataType[]>(
-        palmBunchesProp || [{} as PalmBunchDataType],
+        data.delivery?.palm_bunches ?? [{}],
     )
+
+    useEffect(() => {
+        setPalmBunches(data.delivery?.palm_bunches ?? [{}])
+    }, [data])
+
+    const handleChange = (index: number, newPalmBunch: PalmBunchDataType) => {
+        palmBunches[index] = newPalmBunch
+
+        setData({
+            ...data,
+            delivery: {
+                ...data.delivery,
+                palm_bunches: palmBunches,
+            },
+        })
+        setPalmBunches([...palmBunches])
+    }
 
     return (
         <>
@@ -63,24 +80,19 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                             <UserAutocomplete
                                 disabled={disabled}
                                 fullWidth
-                                onChange={(_: any, user: any) => {
-                                    setPalmBunches(
-                                        palmBunches.map((palmBunch, i) => {
-                                            if (i === index) {
-                                                return {
-                                                    ...palmBunch,
-                                                    owner_user_uuid: user?.uuid,
-                                                }
-                                            }
-                                            return palmBunch
-                                        }),
-                                    )
-
+                                onChange={(_, user) => {
                                     clearByName(
                                         `palm_bunches.${index}.owner_user_uuid`,
                                     )
+
+                                    handleChange(index, {
+                                        ...palmBunch,
+                                        owner_user: user || undefined,
+                                        owner_user_uuid:
+                                            user?.uuid || undefined,
+                                    })
                                 }}
-                                defaultValue={palmBunch.owner_user || null}
+                                value={palmBunch.owner_user || null}
                                 size="small"
                                 textFieldProps={{
                                     required: true,
@@ -104,12 +116,16 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                 label="Kebun"
                                 size="small"
                                 name={`palm_bunches[${index}][land_desc]`}
-                                onChange={() =>
+                                onChange={event => {
                                     clearByName(
                                         `palm_bunches.${index}.land_desc`,
                                     )
-                                }
-                                defaultValue={palmBunch.land_desc}
+                                    handleChange(index, {
+                                        ...palmBunch,
+                                        land_desc: event.target.value,
+                                    })
+                                }}
+                                value={palmBunch.land_desc ?? ''}
                                 error={Boolean(
                                     validationErrors[
                                         `palm_bunches.${index}.land_desc`
@@ -128,15 +144,27 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                 label="Kelompok Tani"
                                 size="small"
                                 disabled={disabled}
-                                defaultValue={palmBunch.farmer_group_uuid || ''}
                                 selectProps={{
                                     name: `palm_bunches[${index}][farmer_group_uuid]`,
+                                    value: palmBunch.farmer_group_uuid || '',
                                 }}
-                                onChange={clearByEvent}
+                                onValueChange={value => {
+                                    clearByName(`palm_bunches.${index}.uuid`)
+                                    handleChange(index, {
+                                        ...palmBunch,
+                                        farmer_group_uuid: value.uuid,
+                                    })
+                                }}
                                 error={Boolean(
-                                    validationErrors.farmer_group_uuid,
+                                    validationErrors[
+                                        `palm_bunches.${index}.farmer_group_uuid`
+                                    ],
                                 )}
-                                helperText={validationErrors.farmer_group_uuid}
+                                helperText={
+                                    validationErrors[
+                                        `palm_bunches.${index}.farmer_group_uuid`
+                                    ]
+                                }
                             />
                         </Grid>
                         <Grid item xs={12} sm>
@@ -158,34 +186,24 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                             kg
                                         </InputAdornment>
                                     ),
-                                    inputComponent: NumericFormat as any,
+                                    inputComponent: NumericFormat,
                                 }}
                                 inputProps={{
                                     allowNegative: false,
-                                    onValueChange: (values: any) => {
-                                        document
-                                            .querySelector(
-                                                `input[name="palm_bunches[${index}][n_kg]"]`,
-                                            )
-                                            ?.setAttribute(
-                                                'value',
-                                                values.floatValue,
-                                            )
-
-                                        setPalmBunches(
-                                            palmBunches.map((palmBunch, i) => {
-                                                if (i === index) {
-                                                    return {
-                                                        ...palmBunch,
-                                                        n_kg: values.floatValue,
-                                                    }
-                                                }
-                                                return palmBunch
-                                            }),
+                                    onValueChange: (
+                                        values: NumberFormatValues,
+                                    ) => {
+                                        clearByName(
+                                            `palm_bunches.${index}.n_kg`,
                                         )
+
+                                        handleChange(index, {
+                                            ...palmBunch,
+                                            n_kg: values.floatValue,
+                                        })
                                     },
                                 }}
-                                defaultValue={palmBunch.n_kg}
+                                value={palmBunch.n_kg ?? ''}
                                 error={Boolean(validationErrors.n_kg)}
                                 helperText={validationErrors.n_kg}
                             />

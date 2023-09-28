@@ -23,8 +23,10 @@ import GradingIcon from '@mui/icons-material/Grading'
 import useAuth from '@/providers/Auth'
 import { DRAWER_WIDTH } from './MenuList'
 
+// TODO: fix topbar js
+// optimize theme provider
 const TopBar = ({ title, toggleDrawer }) => {
-    const { data: user } = useAuth()
+    const { user } = useAuth()
 
     const router = useRouter()
     const theme = useTheme()
@@ -120,4 +122,3 @@ const TopBar = ({ title, toggleDrawer }) => {
 }
 
 export default TopBar
-export { DRAWER_WIDTH }

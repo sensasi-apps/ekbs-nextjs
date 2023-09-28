@@ -9,7 +9,8 @@
     "plugins": [
         "react",
         "@typescript-eslint",
-        "prettier"
+        "prettier",
+        "import"
     ],
     "root": true,
     "rules": {
@@ -19,6 +20,15 @@
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/ban-ts-comment": "off",
         "react-hooks/exhaustive-deps": "off",
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "import/no-unused-modules": [
+            1,
+            {
+                "unusedExports": true,
+                "ignoreExports": [
+                    "src/pages/**/*"
+                ]
+            }
+        ]
     }
 }

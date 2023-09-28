@@ -1,6 +1,6 @@
 import { UUID } from 'crypto'
 
-type UserDataType = {
+interface UserType {
     id: number
     is_active: boolean
     is_agreed_tncp: boolean
@@ -16,4 +16,4 @@ type UserDataType = {
     last_six_months_tbs_performance?: []
 }
 
-export default UserDataType
+export default UserType

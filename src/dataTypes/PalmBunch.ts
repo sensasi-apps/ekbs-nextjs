@@ -1,14 +1,15 @@
-import { UUID } from 'crypto'
-import UserDataType from './User'
+import type UserType from './User'
 
-type PalmBunchDataType = {
+import { UUID } from 'crypto'
+
+interface PalmBunchType {
     uuid: UUID
-    owner_user_uuid: UUID
     land_desc: string
     farmer_group_uuid: UUID
-    n_kg: number
 
-    owner_user: UserDataType
+    n_kg?: number
+    owner_user_uuid?: UUID
+    owner_user?: UserType
 }
 
-export default PalmBunchDataType
+export default PalmBunchType
