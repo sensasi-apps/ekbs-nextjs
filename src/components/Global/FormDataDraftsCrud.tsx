@@ -41,8 +41,7 @@ const FormDataDraftsCrud: FC<{
     const [drafts, setDrafts] = useState<DraftType[]>([])
     const [draft, setDraft] = useState<DraftType | undefined>()
 
-    const currDataNameId =
-        nameIdFormatter(data?.[dataKeyForNameId]) ?? undefined
+    const currDataNameId = nameIdFormatter(data?.[dataKeyForNameId])
 
     const handleClick = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget)
@@ -61,7 +60,10 @@ const FormDataDraftsCrud: FC<{
     }, [])
 
     const handleSaveAsDraft = () => {
-        if (!currDataNameId) return
+        if (!currDataNameId)
+            return enqueueSnackbar(`${dataKeyForNameId} tidak boleh kosong`, {
+                variant: 'error',
+            })
 
         return dbPromise.then(db => {
             const newDraft: DraftType = {
