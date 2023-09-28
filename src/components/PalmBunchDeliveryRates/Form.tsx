@@ -1,11 +1,11 @@
+import type { ChangeEvent } from 'react'
 import type FormType from '@/components/Global/Form/type'
+import type { Moment } from 'moment'
 import type PalmBunchDeliveryRateType from '@/dataTypes/PalmBunchDeliveryRate'
 import type PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
 
-import { FC, useEffect, useState, ChangeEvent } from 'react'
-import moment, { Moment } from 'moment'
-import axios from '@/lib/axios'
-import { debounce } from 'debounce'
+import { FC, useEffect, useState } from 'react'
+import moment from 'moment'
 
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
@@ -17,10 +17,13 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
-
+// components
 import DatePicker from '@/components/Global/DatePicker'
 import NumericFormat from '@/components/Global/NumericFormat'
+// hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
+// libs
+import axios from '@/lib/axios'
 import weekOfMonths from '@/lib/weekOfMonth'
 
 const oilMillCodes: readonly string[] = ['COM', 'POM', 'SOM']
@@ -117,10 +120,6 @@ const PalmBunchDeliveryRatesForm: FC<
 
     const handleValuesChange = (event: ChangeEvent<HTMLInputElement>) => {
         clearByEvent(event)
-        return handleOnChange()
-    }
-
-    const handleOnChange = debounce(() => {
         if (!onChange || !validFrom) return
 
         return onChange({
@@ -129,7 +128,7 @@ const PalmBunchDeliveryRatesForm: FC<
             valid_from: validFrom.format(),
             valid_until: validFrom.clone().add(6, 'days').format(),
         })
-    }, 500)
+    }
 
     return (
         <form onSubmit={handleSubmit} autoComplete="off">

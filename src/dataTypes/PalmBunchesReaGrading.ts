@@ -2,7 +2,7 @@ import type PalmBunchesReaGradingItemType from './PalmBunchesReaGradingItem'
 
 interface PalmBunchesReaGradingType {
     id: number
-    value: number
+    value?: number
     item: PalmBunchesReaGradingItemType
 }
 

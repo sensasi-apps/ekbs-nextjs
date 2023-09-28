@@ -24,6 +24,8 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
     const disabled = Boolean(
         loading || (data?.delivery?.transactions?.length || 0) > 0,
     )
+    const { validationErrors, setValidationErrors, clearByName, clearByEvent } =
+        useValidationErrors()
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -53,9 +55,6 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         }
     }
 
-    const { validationErrors, setValidationErrors, clearByName, clearByEvent } =
-        useValidationErrors()
-
     return (
         <form
             id="palm-bunches-rea-deliveries-form"
@@ -64,11 +63,10 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
             <Grid container rowSpacing={4}>
                 <Grid item xs={12} sm>
                     <PalmBunchesReaDeliveryMainInputs
-                        data={data}
-                        disabled={disabled}
                         validationErrors={validationErrors}
                         clearByEvent={clearByEvent}
                         clearByName={clearByName}
+                        disabled={disabled}
                     />
                 </Grid>
 
@@ -82,26 +80,22 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
 
                 <Grid item xs={12} sm>
                     <GradingItemInputs
-                        data={data?.gradings}
                         disabled={disabled}
-                        clearByEvent={clearByEvent}
+                        clearByName={clearByName}
                         validationErrors={validationErrors}
                     />
                 </Grid>
             </Grid>
 
             <PalmBuncesReaTicketRegisterAsForm
-                data={data}
                 disabled={disabled}
                 clearByEvent={clearByEvent}
                 validationErrors={validationErrors}
             />
 
             <PalmBunchesReaDeliveryFarmerInputs
-                data={data?.delivery?.palm_bunches}
                 disabled={disabled}
                 validationErrors={validationErrors}
-                clearByEvent={clearByEvent}
                 clearByName={clearByName}
             />
 

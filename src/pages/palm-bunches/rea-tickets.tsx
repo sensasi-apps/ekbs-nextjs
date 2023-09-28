@@ -45,12 +45,12 @@ const Crud: FC = () => {
     const {
         data,
         formOpen,
-        isNew,
         handleClose,
         handleCreate,
         handleEdit,
+        isDirty,
+        isNew,
         loading,
-        setData,
         setSubmitting,
         submitting,
     } = useFormData<PalmBunchesReaTicketType>()
@@ -239,13 +239,26 @@ const Crud: FC = () => {
                 maxWidth="lg"
                 open={formOpen}
                 closeButtonProps={{
-                    onClick: handleClose,
+                    onClick: () => {
+                        if (
+                            isDirty &&
+                            !window.confirm(
+                                'Perubahan belum tersimpan, yakin ingin membatalkan?',
+                            )
+                        ) {
+                            return
+                        }
+
+                        return handleClose()
+                    },
                 }}
                 middleHead={
-                    <FormDataDraftsCrud
-                        modelName="PalmBuncesReaTicket"
-                        dataKeyForNameId="ticket_no"
-                    />
+                    isNew ? (
+                        <FormDataDraftsCrud
+                            modelName="PalmBuncesReaTicket"
+                            dataKeyForNameId="ticket_no"
+                        />
+                    ) : undefined
                 }>
                 <MainForm
                     data={data}
@@ -257,11 +270,21 @@ const Crud: FC = () => {
                     }}
                     actionsSlot={
                         <FormActions
-                            onCancel={handleClose}
+                            onCancel={() => {
+                                if (
+                                    isDirty &&
+                                    !window.confirm(
+                                        'Perubahan belum tersimpan, yakin ingin membatalkan?',
+                                    )
+                                ) {
+                                    return
+                                }
+
+                                return handleClose()
+                            }}
                             submitting={submitting}
                         />
                     }
-                    onChange={setData}
                 />
             </Dialog>
 
