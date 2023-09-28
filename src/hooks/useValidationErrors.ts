@@ -1,12 +1,15 @@
-import { useState } from 'react'
-
 import type ValidationErrorsType from '@/types/ValidationErrors'
+import type { ChangeEvent } from 'react'
+
+import { useState } from 'react'
 
 const useValidationErrors = () => {
     const [validationErrors, setValidationErrors] =
         useState<ValidationErrorsType>({})
 
-    const clearByEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const clearByEvent = (
+        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
         const name = event.target.name
 
         if (validationErrors[name]) {
