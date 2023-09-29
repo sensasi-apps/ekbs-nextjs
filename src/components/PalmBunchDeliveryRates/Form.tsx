@@ -24,6 +24,7 @@ import NumericFormat from '@/components/Global/NumericFormat'
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs
 import axios from '@/lib/axios'
+import debounce from '@/lib/debounce'
 import weekOfMonths from '@/lib/weekOfMonth'
 
 const oilMillCodes: readonly string[] = ['COM', 'POM', 'SOM']
@@ -122,12 +123,16 @@ const PalmBunchDeliveryRatesForm: FC<
         clearByEvent(event)
         if (!onChange || !validFrom) return
 
-        return onChange({
-            ...data,
-            delivery_rates: deliveryRates,
-            valid_from: validFrom.format(),
-            valid_until: validFrom.clone().add(6, 'days').format(),
-        })
+        debounce(
+            () =>
+                onChange({
+                    ...data,
+                    delivery_rates: deliveryRates,
+                    valid_from: validFrom.format(),
+                    valid_until: validFrom.clone().add(6, 'days').format(),
+                }),
+            200,
+        )
     }
 
     return (

@@ -1,7 +1,7 @@
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, memo } from 'react'
 
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -9,9 +9,12 @@ import TextField from '@mui/material/TextField'
 
 // components
 import NumericFormat from '@/components/Global/NumericFormat'
-
+// libs
+import debounce from '@/lib/debounce'
 // providers
 import useFormData from '@/providers/useFormData'
+
+let tempData: any
 
 const PalmBuncesReaTicketRegisterAsForm: FC<{
     disabled: boolean
@@ -20,29 +23,52 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
 }> = ({ disabled, validationErrors, clearByEvent }) => {
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
 
-    const [localData, setLocalData] = useState<PalmBunchesReaTicketType>(data)
-
-    const {
-        as_farmer_id = '',
-        as_farmer_name = '',
-        as_farm_land_id = '',
-    } = localData
+    const [asFarmerId, setAsFarmerId] = useState<string>(data.as_farmer_id)
+    const [asFarmerName, setAsFarmerName] = useState<string>(
+        data.as_farmer_name,
+    )
+    const [asFarmLandId, setAsFarmLandId] = useState<string>(
+        data.as_farm_land_id,
+    )
 
     useEffect(() => {
-        setLocalData(data)
+        tempData = {}
+
+        return () => {
+            tempData = undefined
+        }
     }, [data])
+
+    useEffect(() => {
+        setAsFarmerId(data.as_farmer_id)
+    }, [data.as_farmer_id])
+
+    useEffect(() => {
+        setAsFarmerName(data.as_farmer_name)
+    }, [data.as_farmer_name])
+
+    useEffect(() => {
+        setAsFarmLandId(data.as_farm_land_id)
+    }, [data.as_farm_land_id])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         clearByEvent(event)
+
         const { name, value } = event.target
 
-        setLocalData(prevState => {
-            const newData = { ...prevState, [name]: value }
+        if (name === 'as_farmer_id') setAsFarmerId(value)
+        if (name === 'as_farmer_name') setAsFarmerName(value)
+        if (name === 'as_farm_land_id') setAsFarmLandId(value)
 
-            setData(newData)
-
-            return newData
-        })
+        tempData[name] = value
+        debounce(
+            () =>
+                setData({
+                    ...data,
+                    ...tempData,
+                }),
+            200,
+        )
     }
 
     return (
@@ -71,7 +97,7 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                             minLength: 16,
                             maxLength: 16,
                         }}
-                        value={as_farmer_id}
+                        value={asFarmerId ?? ''}
                         onChange={handleChange}
                         error={Boolean(validationErrors.as_farmer_id)}
                         helperText={validationErrors.as_farmer_id}
@@ -86,7 +112,7 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                         margin="none"
                         required
                         disabled={disabled}
-                        value={as_farmer_name}
+                        value={asFarmerName ?? ''}
                         onChange={handleChange}
                         error={Boolean(validationErrors.as_farmer_name)}
                         helperText={validationErrors.as_farmer_name}
@@ -101,7 +127,7 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
                         name="as_farm_land_id"
                         required
                         disabled={disabled}
-                        value={as_farm_land_id}
+                        value={asFarmLandId ?? ''}
                         InputProps={{
                             inputComponent: NumericFormat,
                         }}
@@ -121,4 +147,4 @@ const PalmBuncesReaTicketRegisterAsForm: FC<{
     )
 }
 
-export default PalmBuncesReaTicketRegisterAsForm
+export default memo(PalmBuncesReaTicketRegisterAsForm)

@@ -89,6 +89,8 @@ const Crud: FC = () => {
                         rowMeta.rowIndex,
                     ).delivery.courier_user
 
+                    if (!courier_user) return ''
+
                     return `#${courier_user.id} ${courier_user.name}`
                 },
             },
