@@ -1,130 +1,130 @@
-import type { ChangeEvent } from 'react'
 import type { NumberFormatValues } from 'react-number-format'
+import type { Moment } from 'moment'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, memo, useState } from 'react'
+import moment from 'moment'
 
 import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
 // components
 import DatePicker from '@/components/Global/DatePicker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 import NumericFormat from '@/components/Global/NumericFormat'
-
 // providers
 import useFormData from '@/providers/useFormData'
+import UserType from '@/dataTypes/User'
+import debounce from '@/lib/debounce'
+import SpbNoInput from './MainInputs/SpbNoInput'
 
 interface MainInputProps {
-    clearByEvent: (event: ChangeEvent<HTMLInputElement>) => void
     clearByName: (name: string) => void
     validationErrors: ValidationErrorsType
     disabled: boolean
 }
 
-const DELIVERY_KEYS = [
-    'to_oil_mill_code',
-    'from_position',
-    'n_bunches',
-    'vehicle_no',
-    'courier_user_uuid',
-]
+let tempData: any
 
+// TODO: prevent rerender make input atomic
 const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
-    clearByEvent,
     clearByName,
     validationErrors,
     disabled,
 }) => {
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
-    const [localData, setLocalData] = useState(data)
+
+    // ticket props
+    const [at, setAt] = useState<Moment | undefined>(
+        data.at ? moment(data.at) : undefined,
+    )
+    const [ticketNo, setTicketNo] = useState(data.ticket_no)
+    const [gradisNo, setGradisNo] = useState(data.gradis_no)
+    const [vebeweNo, setVebeweNo] = useState(data.vebewe_no)
+    const [rpPerKg, setRpPerKg] = useState<number | undefined>(data.rp_per_kg)
+
+    // delivery props
+    const [nBunches, setNBunches] = useState<number | undefined>(
+        data.delivery?.n_bunches,
+    )
+    const [toOilMillCode, setToOilMillCode] = useState(
+        data.delivery?.to_oil_mill_code,
+    )
+    const [fromPosition, setFromPosition] = useState(
+        data.delivery?.from_position,
+    )
+    const [courierUser, setCourierUser] = useState<UserType | undefined>(
+        data.delivery?.courier_user,
+    )
+    const [vehicleNo, setVehicleNo] = useState(data.delivery?.vehicle_no)
 
     useEffect(() => {
-        setLocalData(data)
+        tempData = {}
+
+        return () => {
+            tempData = undefined
+        }
     }, [data])
 
-    const {
-        id,
-        at = null,
-        spb_no = '',
-        ticket_no = '',
-        gradis_no = '',
-        vebewe_no = '',
-        rp_per_kg = '',
+    useEffect(() => {
+        setAt(data.at ? moment(data.at) : undefined)
+    }, [data.at])
 
-        delivery: {
-            to_oil_mill_code = '',
-            from_position = '',
-            n_bunches = '',
-            vehicle_no = '',
-            courier_user = null,
-        } = {},
-    } = localData
+    useEffect(() => {
+        setTicketNo(data.ticket_no)
+    }, [data.ticket_no])
+
+    useEffect(() => {
+        setGradisNo(data.gradis_no)
+    }, [data.gradis_no])
+
+    useEffect(() => {
+        setVebeweNo(data.vebewe_no)
+    }, [data.vebewe_no])
+
+    useEffect(() => {
+        setRpPerKg(data.rp_per_kg)
+    }, [data.rp_per_kg])
+
+    useEffect(() => {
+        setNBunches(data.delivery?.n_bunches)
+    }, [data.delivery?.n_bunches])
+
+    useEffect(() => {
+        setToOilMillCode(data.delivery?.to_oil_mill_code)
+    }, [data.delivery?.to_oil_mill_code])
+
+    useEffect(() => {
+        setFromPosition(data.delivery?.from_position)
+    }, [data.delivery?.from_position])
+
+    useEffect(() => {
+        setCourierUser(data.delivery?.courier_user)
+    }, [data.delivery?.courier_user])
+
+    useEffect(() => {
+        setVehicleNo(data.delivery?.vehicle_no)
+    }, [data.delivery?.vehicle_no])
 
     const handleChange = (
-        param:
-            | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-            | {
-                  key: string
-                  value: string | number | null | undefined
-              },
+        key: string,
+        value: string | Moment | number | undefined | UserType,
     ) => {
-        let key: string
-        let value: string | number
+        clearByName(key)
+        tempData[key] = value ?? undefined
 
-        if ('target' in param) {
-            clearByEvent(param as ChangeEvent<HTMLInputElement>)
-            key = param.target.name
-            value = param.target.value
-        } else {
-            clearByName(param.key)
-            if (!param.value) return
-            value = param.value
-            key = param.key
-        }
-
-        let newDataTemp = {} as PalmBunchesReaTicketType
-
-        if (DELIVERY_KEYS.includes(key)) {
-            setLocalData(prev => {
-                const delivery = {
-                    ...prev.delivery,
-                    [key]: value,
-                }
-
-                const newData = {
-                    ...prev,
-                    delivery,
-                }
-
-                newDataTemp = newData
-
-                return newData
+        debounce(() => {
+            setData({
+                ...data,
+                ...tempData,
             })
-        } else {
-            setLocalData(prev => {
-                const newData = {
-                    ...prev,
-                    [key]: value,
-                }
-
-                newDataTemp = newData
-
-                return newData
-            })
-        }
-
-        if (!newDataTemp) return
-
-        setData({
-            ...data,
-            ...newDataTemp,
-        })
+        }, 250)
     }
+
+    const { id } = data
 
     return (
         <>
@@ -150,7 +150,6 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
 
             <DatePicker
                 disabled={disabled}
-                value={at}
                 slotProps={{
                     textField: {
                         required: true,
@@ -163,42 +162,17 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                         helperText: validationErrors.at,
                     },
                 }}
-                onChange={value =>
-                    handleChange({
-                        key: 'at',
-                        value: value?.format() || null,
-                    })
-                }
+                value={at ?? null}
+                onChange={value => {
+                    setAt(value ?? undefined)
+                    handleChange('at', value?.format('YYYY-MM-DD'))
+                }}
             />
 
-            <TextField
+            <SpbNoInput
                 disabled={disabled}
-                fullWidth
-                required
-                margin="dense"
-                label="No. SPB"
-                size="small"
-                name="spb_no"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">BS-MI</InputAdornment>
-                    ),
-                    inputComponent: NumericFormat,
-                }}
-                inputProps={{
-                    decimalScale: 0,
-                    minLength: 7,
-                    maxLength: 7,
-                    thousandSeparator: false,
-                    onValueChange: (values: NumberFormatValues) =>
-                        handleChange({
-                            key: 'spb_no',
-                            value: values.floatValue,
-                        }),
-                }}
-                value={spb_no}
-                error={Boolean(validationErrors.spb_no)}
-                helperText={validationErrors.spb_no}
+                clearByName={clearByName}
+                validationErrors={validationErrors}
             />
 
             <TextField
@@ -217,13 +191,14 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     minLength: 10,
                     maxLength: 10,
                     thousandSeparator: false,
-                    onValueChange: (values: NumberFormatValues) =>
-                        handleChange({
-                            key: 'ticket_no',
-                            value: values.floatValue,
-                        }),
                 }}
-                value={ticket_no}
+                onChange={event => {
+                    const { name, value } = event.target
+
+                    setTicketNo(value)
+                    handleChange(name, value)
+                }}
+                value={ticketNo ?? ''}
                 error={Boolean(validationErrors.ticket_no)}
                 helperText={validationErrors.ticket_no}
             />
@@ -244,13 +219,14 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     thousandSeparator: false,
                     minLength: 12,
                     maxLength: 12,
-                    onValueChange: (values: NumberFormatValues) =>
-                        handleChange({
-                            key: 'gradis_no',
-                            value: values.floatValue,
-                        }),
                 }}
-                value={gradis_no}
+                onChange={event => {
+                    const { name, value } = event.target
+
+                    setGradisNo(value)
+                    handleChange(name, value)
+                }}
+                value={gradisNo ?? ''}
                 error={Boolean(validationErrors.gradis_no)}
                 helperText={validationErrors.gradis_no}
             />
@@ -271,13 +247,14 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     minLength: 12,
                     maxLength: 12,
                     thousandSeparator: false,
-                    onValueChange: (values: NumberFormatValues) =>
-                        handleChange({
-                            key: 'vebewe_no',
-                            value: values.floatValue,
-                        }),
                 }}
-                value={vebewe_no}
+                onChange={event => {
+                    const { name, value } = event.target
+
+                    setVebeweNo(value)
+                    handleChange(name, value)
+                }}
+                value={vebeweNo ?? ''}
                 error={Boolean(validationErrors.vebewe_no)}
                 helperText={validationErrors.vebewe_no}
             />
@@ -291,10 +268,16 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                         label="Pabrik tujuan"
                         size="small"
                         margin="dense"
-                        onChange={event => handleChange(event as any)}
                         selectProps={{
                             name: 'to_oil_mill_code',
-                            value: to_oil_mill_code,
+                            value: toOilMillCode ?? '',
+                        }}
+                        onChange={event => {
+                            const { name, value } =
+                                event.target as HTMLInputElement
+
+                            setToOilMillCode(value)
+                            handleChange(name, value)
                         }}
                         error={Boolean(validationErrors.to_oil_mill_code)}
                         helperText={validationErrors.to_oil_mill_code}
@@ -311,16 +294,22 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                         margin="dense"
                         selectProps={{
                             name: 'from_position',
-                            value: from_position,
+                            value: fromPosition ?? '',
                         }}
-                        onChange={event => handleChange(event as any)}
+                        onChange={event => {
+                            const { name, value } =
+                                event.target as HTMLInputElement
+
+                            setFromPosition(value as string)
+                            handleChange(name, value)
+                        }}
                         error={Boolean(validationErrors.from_position)}
                         helperText={validationErrors.from_position}
                     />
                 </Grid>
             </Grid>
 
-            <input type="hidden" name="rp_per_kg" value={rp_per_kg} />
+            <input type="hidden" name="rp_per_kg" value={rpPerKg ?? ''} />
 
             <TextField
                 disabled={disabled}
@@ -342,18 +331,17 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     decimalScale: 0,
                     minLength: 2,
                     maxLength: 6,
-                    onValueChange: (values: NumberFormatValues) =>
-                        handleChange({
-                            key: 'rp_per_kg',
-                            value: values.floatValue,
-                        }),
+                    onValueChange: (values: NumberFormatValues) => {
+                        setRpPerKg(values.floatValue)
+                        handleChange('rp_per_kg', values.floatValue)
+                    },
                 }}
-                value={rp_per_kg}
+                value={rpPerKg ?? ''}
                 error={Boolean(validationErrors.rp_per_kg)}
                 helperText={validationErrors.rp_per_kg}
             />
 
-            <input type="hidden" name="n_bunches" value={n_bunches} />
+            <input type="hidden" name="n_bunches" value={nBunches ?? ''} />
 
             <TextField
                 disabled={disabled}
@@ -371,13 +359,12 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 inputProps={{
                     decimalScale: 0,
                     maxLength: 10,
-                    onValueChange: (values: NumberFormatValues) =>
-                        handleChange({
-                            key: 'n_bunches',
-                            value: values.floatValue,
-                        }),
+                    onValueChange: (values: NumberFormatValues) => {
+                        setNBunches(values.floatValue)
+                        handleChange('n_bunches', values.floatValue)
+                    },
                 }}
-                value={n_bunches}
+                value={nBunches ?? ''}
                 error={Boolean(validationErrors.n_bunches)}
                 helperText={validationErrors.n_bunches}
             />
@@ -385,24 +372,17 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
             <input
                 type="hidden"
                 name="courier_user_uuid"
-                value={courier_user?.uuid || ''}
+                value={courierUser?.uuid || ''}
             />
 
             <UserAutocomplete
                 disabled={disabled}
                 fullWidth
                 onChange={(_, user) => {
-                    setData({
-                        ...data,
-                        delivery: {
-                            ...data.delivery,
-                            courier_user_uuid: user?.uuid as any,
-                            courier_user: user as any,
-                        },
-                    })
-                    clearByName('courier_user_uuid')
+                    setCourierUser(user ?? undefined)
+                    handleChange('courier_user', user ?? undefined)
                 }}
-                value={courier_user}
+                value={courierUser ?? null}
                 size="small"
                 textFieldProps={{
                     required: true,
@@ -425,8 +405,13 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     minLength: 3,
                     maxLength: 11,
                 }}
-                onChange={handleChange}
-                value={vehicle_no ?? ''}
+                onChange={event => {
+                    const { name, value } = event.target
+
+                    setVehicleNo(event.target.value)
+                    handleChange(name, value)
+                }}
+                value={vehicleNo ?? ''}
                 error={Boolean(validationErrors.vehicle_no)}
                 helperText={validationErrors.vehicle_no}
             />
@@ -434,4 +419,4 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
     )
 }
 
-export default PalmBunchesReaDeliveryMainInputs
+export default memo(PalmBunchesReaDeliveryMainInputs)

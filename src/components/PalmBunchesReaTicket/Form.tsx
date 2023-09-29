@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC, FormEvent } from 'react'
 import axios from '@/lib/axios'
 
 import Divider from '@mui/material/Divider'
@@ -24,13 +24,14 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
     const disabled = Boolean(
         loading || (data?.delivery?.transactions?.length || 0) > 0,
     )
+
     const { validationErrors, setValidationErrors, clearByName, clearByEvent } =
         useValidationErrors()
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        const formEl = event.target as HTMLFormElement
+        const formEl = event.currentTarget
 
         if (!formEl.reportValidity()) return
 
@@ -64,7 +65,6 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
                 <Grid item xs={12} sm>
                     <PalmBunchesReaDeliveryMainInputs
                         validationErrors={validationErrors}
-                        clearByEvent={clearByEvent}
                         clearByName={clearByName}
                         disabled={disabled}
                     />
