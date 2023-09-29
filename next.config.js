@@ -1,4 +1,14 @@
-const nextConfig = {
+// eslint-disable-next-line
+const withPWA = require('next-pwa')({
+    dest: 'public',
+    skipWaiting: true,
+    disable: process.env.NODE_ENV === 'development',
+})
+
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = withPWA({
     rewrites() {
         return [
             {
@@ -10,10 +20,11 @@ const nextConfig = {
     },
 
     sentry: {
-        hideSourceMaps: true
+        hideSourceMaps: true,
     },
-}
+})
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line
 const { withSentryConfig } = require('@sentry/nextjs')
+
 module.exports = withSentryConfig(nextConfig)

@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography'
 import ThemeProvider from '@/providers/useTheme'
 import { AuthProvider } from '@/providers/Auth'
 import axios from '@/lib/axios'
+import Head from 'next/head'
 
 export default function App({ Component, pageProps }: AppProps) {
     useEffect(() => {
@@ -60,6 +61,12 @@ export default function App({ Component, pageProps }: AppProps) {
                         revalidateOnFocus: false,
                         revalidateIfStale: false,
                     }}>
+                    <Head>
+                        <meta
+                            name="viewport"
+                            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                        />
+                    </Head>
                     <Component {...pageProps} />
                 </SWRConfig>
 
