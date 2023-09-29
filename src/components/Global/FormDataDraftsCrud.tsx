@@ -19,7 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 import useFormData from '@/providers/useFormData'
 import { dbPromise } from '@/lib/idb'
-import { Tooltip } from '@mui/material'
+import { Divider, Tooltip } from '@mui/material'
 
 interface DraftType {
     id?: IDBValidKey
@@ -189,15 +189,28 @@ const FormDataDraftsCrud: FC<{
                     horizontal: 'center',
                 }}
                 onClose={handleClose}>
-                {drafts.map((draft, i) => (
+                <MenuItem
+                    disabled={loading || (!isDirty && !draft)}
+                    onClick={() => {
+                        handleCreate()
+                        handleClose()
+                        setDraft(undefined)
+                    }}>
+                    <ListItemText>Buat Data Baru</ListItemText>
+                </MenuItem>
+                <Divider />
+                {drafts.map((draftOnIdb, i) => (
                     <MenuItem
                         key={i}
-                        selected={draft.nameId === currDataNameId}
-                        onClick={() => handleSelect(draft)}>
+                        selected={draftOnIdb.nameId === draft?.nameId}
+                        disabled={
+                            loading || draftOnIdb.nameId === draft?.nameId
+                        }
+                        onClick={() => handleSelect(draftOnIdb)}>
                         <ListItemIcon>
                             <EditNoteIcon fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>{draft.nameId}</ListItemText>
+                        <ListItemText>{draftOnIdb.nameId}</ListItemText>
                     </MenuItem>
                 ))}
             </Menu>
