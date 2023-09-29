@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react'
+import moment from 'moment'
 
 import Head from 'next/head'
 import { useEffect } from 'react'
@@ -13,6 +14,8 @@ import Typography from '@mui/material/Typography'
 
 import ErrorCenter from '../Statuses/ErrorCenter'
 import LoadingCenter from '../Statuses/LoadingCenter'
+
+import packageJson from '@/../package.json'
 
 const GuestFormLayout: FC<{
     children: ReactNode
@@ -83,21 +86,28 @@ const GuestFormLayout: FC<{
                         {children}
                     </Box>
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        align="center"
-                        sx={{ mt: 6 }}>
-                        {'Copyright © '}
-                        <Link
-                            color="inherit"
-                            href="https://github.com/sensasi-apps"
-                            target="_blank">
-                            Sensasi Apps
-                        </Link>{' '}
-                        {new Date().getFullYear()}
-                        {'.'}
-                    </Typography>
+                    <Box mt={5} mb={1} textAlign="center" color="GrayText">
+                        <Typography variant="caption" component="div">
+                            Koperasi Belayan Sejahtera Elektronik
+                        </Typography>
+                        <Typography variant="caption" component="div">
+                            v{packageJson.version} &mdash;
+                            {moment(packageJson.versionDate).format(
+                                ' DD-MM-YYYY',
+                            )}
+                        </Typography>
+                        <Typography variant="caption" component="div">
+                            <Link
+                                color="inherit"
+                                href="https://github.com/sensasi-apps"
+                                target="_blank">
+                                Sensasi Apps
+                            </Link>
+                            {' © '}
+                            {new Date().getFullYear()}
+                            {'.'}
+                        </Typography>
+                    </Box>
                 </Box>
             </Container>
         </div>
