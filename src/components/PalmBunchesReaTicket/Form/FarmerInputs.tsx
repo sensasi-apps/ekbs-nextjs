@@ -3,7 +3,7 @@ import type PalmBunchDataType from '@/dataTypes/PalmBunch'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, memo } from 'react'
 
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
@@ -17,7 +17,8 @@ import AddIcon from '@mui/icons-material/Add'
 import NumericFormat from '@/components/Global/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
-
+// libs
+import debounce from '@/lib/debounce'
 // providers
 import useFormData from '@/providers/useFormData'
 
@@ -39,13 +40,18 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
     const handleChange = (index: number, newPalmBunch: PalmBunchDataType) => {
         palmBunches[index] = newPalmBunch
 
-        setData({
-            ...data,
-            delivery: {
-                ...data.delivery,
-                palm_bunches: palmBunches,
-            },
-        })
+        debounce(
+            () =>
+                setData({
+                    ...data,
+                    delivery: {
+                        ...data.delivery,
+                        palm_bunches: palmBunches,
+                    },
+                }),
+            200,
+        )
+
         setPalmBunches([...palmBunches])
     }
 
@@ -275,4 +281,4 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
     )
 }
 
-export default PalmBunchesReaDeliveryFarmerInputs
+export default memo(PalmBunchesReaDeliveryFarmerInputs)

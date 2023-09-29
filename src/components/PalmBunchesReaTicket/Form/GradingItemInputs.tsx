@@ -3,7 +3,7 @@ import type PalmBunchesReaGradingItemType from '@/dataTypes/PalmBunchesReaGradin
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import useSWR from 'swr'
 
 import TextField from '@mui/material/TextField'
@@ -15,6 +15,7 @@ import Skeletons from '@/components/Global/Skeletons'
 
 // providers
 import useFormData from '@/providers/useFormData'
+import debounce from '@/lib/debounce'
 
 const GradingItemInputs: FC<{
     disabled: boolean
@@ -45,7 +46,7 @@ const GradingItemInputs: FC<{
         }
 
         data.gradings[index].value = value
-        setData(data)
+        debounce(() => setData({ ...data, gradings: [...gradings] }), 200)
     }
 
     return (
@@ -101,4 +102,4 @@ const GradingItemInputs: FC<{
     )
 }
 
-export default GradingItemInputs
+export default memo(GradingItemInputs)

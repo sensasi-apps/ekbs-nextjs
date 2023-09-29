@@ -10,10 +10,11 @@ interface PalmBunchesDeliveryType {
     vehicle_no: string
     from_position: string
     palm_bunch_delivery_rate_id: number
-    n_bunches: number
-    n_kg: number
 
-    courier_user: UserType
+    n_kg?: number
+    n_bunches?: number
+    courier_user?: UserType
+
     palm_bunches: PalmBunchType[]
     transactions: []
 }

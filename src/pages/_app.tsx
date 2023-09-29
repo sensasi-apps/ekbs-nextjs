@@ -8,7 +8,7 @@ import { closeSnackbar, enqueueSnackbar, SnackbarProvider } from 'notistack'
 
 import Typography from '@mui/material/Typography'
 
-import ThemeProvider from '@/providers/Theme'
+import ThemeProvider from '@/providers/useTheme'
 import { AuthProvider } from '@/providers/Auth'
 import axios from '@/lib/axios'
 
