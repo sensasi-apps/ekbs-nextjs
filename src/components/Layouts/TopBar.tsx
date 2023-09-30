@@ -2,7 +2,7 @@ import { FC, useState } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 
-import { useTheme } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
