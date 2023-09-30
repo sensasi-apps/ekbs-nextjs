@@ -130,6 +130,7 @@ export default function ImageInput({
                         }}>
                         <Button
                             type="button"
+                            disabled={disabled}
                             onClick={() => setSelectedImage(null)}>
                             Batal
                         </Button>
