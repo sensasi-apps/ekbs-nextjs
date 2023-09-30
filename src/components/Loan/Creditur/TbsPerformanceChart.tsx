@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { useTheme } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 
 import {
     LineChart,
