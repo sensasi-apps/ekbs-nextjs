@@ -58,7 +58,7 @@ const UserDetailForm = () => {
             })
     }
 
-    const handleSubmit = async event => {
+    const handleSubmit = event => {
         event.preventDefault()
 
         const formEl = event.target.closest('form')
@@ -66,25 +66,24 @@ const UserDetailForm = () => {
 
         setIsLoading(true)
 
-        try {
-            const formData = new FormData(formEl)
+        const formData = new FormData(formEl)
 
-            await axios.post(
+        axios
+            .post(
                 `/users/${user_uuid || userWithDetails.uuid}/detail`,
                 formData,
             )
-            await mutate(`/users/${user_uuid || userWithDetails.uuid}`)
+            .then(() => {
+                mutate(`/users/${user_uuid || userWithDetails.uuid}`)
+                handleClose()
+            })
+            .catch(error => {
+                if (error?.response?.status === 422)
+                    return setValidationErrors(error.response.data.errors)
 
-            handleClose()
-        } catch (error) {
-            if (error?.response?.status === 422) {
-                setValidationErrors(error.response.data.errors)
-            } else {
                 throw error
-            }
-        }
-
-        setIsLoading(false)
+            })
+            .finally(() => setIsLoading(false))
     }
 
     return (
