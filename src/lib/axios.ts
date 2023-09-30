@@ -9,19 +9,26 @@ const axios = Axios.create({
     withCredentials: true,
 })
 
+let timoutId: NodeJS.Timeout | undefined
+
 axios.interceptors.request.use(config => {
-    if (
-        !navigator.onLine &&
-        (config.method === 'post' ||
-            config.method === 'put' ||
-            config.method === 'delete')
-    ) {
-        enqueueSnackbar(
-            'Tidak dapat mengirimkan data karena Anda sedang offline, mohon periksa koneksi internet anda',
-            {
-                variant: 'error',
-            },
-        )
+    if (!navigator.onLine) {
+        if (!timoutId) {
+            const type = config.method === 'get' ? 'mengambil' : 'mengirim'
+
+            enqueueSnackbar(
+                `Tidak dapat ${type} data karena Anda sedang offline`,
+                {
+                    variant: 'error',
+                },
+            )
+
+            timoutId = setTimeout(() => {
+                clearTimeout(timoutId)
+                timoutId = undefined
+            }, 1000)
+        }
+
         return Promise.reject('offline')
     }
 
