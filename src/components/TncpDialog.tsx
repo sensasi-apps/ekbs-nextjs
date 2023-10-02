@@ -24,26 +24,31 @@ const TncpDialog: FC<{
     const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
-        if (user?.is_agreed_tncp === false && router.pathname !== '/logout') {
+        if (
+            user &&
+            user.is_agreed_tncp === false &&
+            router.pathname !== '/logout'
+        ) {
             setIsOpen(true)
         }
-    }, [user?.is_agreed_tncp])
+    }, [user])
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         setIsLoading(true)
 
-        await axios
+        axios
             .post(`/users/agree-tcnp`)
             .then(() =>
                 dbPromise.then(db =>
                     db.put('user', { ...user, is_agreed_tncp: true }, 0),
                 ),
             )
-
-        setIsOpen(false)
-        setIsLoading(false)
+            .finally(() => {
+                setIsOpen(false)
+                setIsLoading(false)
+            })
     }
 
     return (
