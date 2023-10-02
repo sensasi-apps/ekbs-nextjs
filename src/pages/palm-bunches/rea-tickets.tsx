@@ -96,7 +96,7 @@ const Crud: FC = () => {
             },
         },
         {
-            name: 'delivery.palm_bunches.owner_user.name',
+            name: 'delivery.palmBunches.ownerUser.name',
             label: 'Pemilik TBS',
             options: {
                 sort: false,
@@ -159,7 +159,9 @@ const Crud: FC = () => {
         {
             name: 'net_rp',
             label: 'Pembayaran REA',
+            searchable: false,
             options: {
+                searchable: false,
                 sort: false,
                 customBodyRender: (value: null | number) => {
                     if (value === null) return '-'
@@ -177,7 +179,9 @@ const Crud: FC = () => {
         {
             name: 'status',
             label: 'Status',
+            searchable: false,
             options: {
+                searchable: false,
                 sort: false,
                 customBodyRender: (value: string) => (
                     <Typography
