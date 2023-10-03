@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 import useAuth from '@/providers/Auth'
-import { dbPromise } from '@/lib/idb'
 
 const TncpDialog: FC<{
     open: boolean
@@ -38,17 +37,10 @@ const TncpDialog: FC<{
 
         setIsLoading(true)
 
-        axios
-            .post(`/users/agree-tcnp`)
-            .then(() =>
-                dbPromise.then(db =>
-                    db.put('user', { ...user, is_agreed_tncp: true }, 0),
-                ),
-            )
-            .finally(() => {
-                setIsOpen(false)
-                setIsLoading(false)
-            })
+        axios.post(`/users/agree-tcnp`).then(() => {
+            setIsOpen(false)
+            setIsLoading(false)
+        })
     }
 
     return (
