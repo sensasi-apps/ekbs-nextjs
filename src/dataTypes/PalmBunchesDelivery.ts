@@ -9,7 +9,9 @@ interface PalmBunchesDeliveryType {
     courier_user_uuid: UUID
     vehicle_no: string
     from_position: string
+
     palm_bunch_delivery_rate_id: number
+    determined_rate_rp_per_kg: number
 
     n_kg?: number
     n_bunches?: number

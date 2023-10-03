@@ -27,7 +27,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
     const { validationErrors, setValidationErrors, clearByName } =
         useValidationErrors()
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         const formEl = event.currentTarget
@@ -35,24 +35,22 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         if (!formEl.reportValidity()) return
 
         setSubmitting(true)
+        const formData = new FormData(formEl)
 
-        try {
-            const formData = new FormData(formEl)
-
-            await axios.post(
+        axios
+            .post(
                 `/palm-bunches/rea-tickets${data?.id ? '/' + data?.id : ''}`,
                 formData,
             )
-            onSubmitted()
-        } catch (error: any) {
-            if (error?.response.status === 422) {
-                setValidationErrors(error?.response.data.errors)
-            } else {
-                throw error
-            }
-        } finally {
-            setSubmitting(false)
-        }
+            .then(() => {
+                onSubmitted()
+                setSubmitting(false)
+            })
+            .catch(error => {
+                if (error?.response?.status === 422) {
+                    return setValidationErrors(error?.response.data.errors)
+                }
+            })
     }
 
     return (
