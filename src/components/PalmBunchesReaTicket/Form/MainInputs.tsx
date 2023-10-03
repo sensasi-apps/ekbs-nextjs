@@ -20,6 +20,7 @@ import useFormData from '@/providers/useFormData'
 import UserType from '@/dataTypes/User'
 import debounce from '@/lib/debounce'
 import SpbNoInput from './MainInputs/SpbNoInput'
+import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
 
 interface MainInputProps {
     clearByName: (name: string) => void
@@ -414,6 +415,12 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 value={vehicleNo ?? ''}
                 error={Boolean(validationErrors.vehicle_no)}
                 helperText={validationErrors.vehicle_no}
+            />
+
+            <AsFarmLandIdInput
+                disabled={disabled}
+                validationErrors={validationErrors}
+                clearByName={clearByName}
             />
         </>
     )

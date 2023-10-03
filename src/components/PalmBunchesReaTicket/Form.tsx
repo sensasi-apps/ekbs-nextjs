@@ -10,7 +10,6 @@ import FormType from '@/components/Global/Form/type'
 import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
 import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
 import GradingItemInputs from './Form/GradingItemInputs'
-import PalmBuncesReaTicketRegisterAsForm from './Form/RegisterAs'
 
 import useValidationErrors from '@/hooks/useValidationErrors'
 
@@ -25,7 +24,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         loading || (data?.delivery?.transactions?.length || 0) > 0,
     )
 
-    const { validationErrors, setValidationErrors, clearByName, clearByEvent } =
+    const { validationErrors, setValidationErrors, clearByName } =
         useValidationErrors()
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -86,12 +85,6 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
                     />
                 </Grid>
             </Grid>
-
-            <PalmBuncesReaTicketRegisterAsForm
-                disabled={disabled}
-                clearByEvent={clearByEvent}
-                validationErrors={validationErrors}
-            />
 
             <PalmBunchesReaDeliveryFarmerInputs
                 disabled={disabled}
