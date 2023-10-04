@@ -38,7 +38,7 @@ const LoginPage = () => {
             setStatus(undefined)
         }
 
-        const error = params.get('reset')
+        const error = params.get('error')
         if (error) {
             setErrors([[atob(error)]])
         }
