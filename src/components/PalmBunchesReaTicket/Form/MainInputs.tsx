@@ -46,7 +46,6 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
     const [ticketNo, setTicketNo] = useState(data.ticket_no)
     const [gradisNo, setGradisNo] = useState(data.gradis_no)
     const [vebeweNo, setVebeweNo] = useState(data.vebewe_no)
-    const [rpPerKg, setRpPerKg] = useState<number | undefined>(data.rp_per_kg)
 
     // delivery props
     const [nBunches, setNBunches] = useState<number | undefined>(
@@ -87,10 +86,6 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
     useEffect(() => {
         setVebeweNo(data.vebewe_no)
     }, [data.vebewe_no])
-
-    useEffect(() => {
-        setRpPerKg(data.rp_per_kg)
-    }, [data.rp_per_kg])
 
     useEffect(() => {
         setNBunches(data.delivery?.n_bunches)
@@ -361,38 +356,6 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     helperText={validationErrors.determined_rate_rp_per_kg}
                 />
             )}
-
-            <input type="hidden" name="rp_per_kg" value={rpPerKg ?? ''} />
-
-            <TextField
-                disabled={disabled}
-                fullWidth
-                required
-                margin="dense"
-                label="Harga Sawit"
-                size="small"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">Rp.</InputAdornment>
-                    ),
-                    endAdornment: (
-                        <InputAdornment position="end">/kg</InputAdornment>
-                    ),
-                    inputComponent: NumericFormat,
-                }}
-                inputProps={{
-                    decimalScale: 0,
-                    minLength: 2,
-                    maxLength: 6,
-                    onValueChange: (values: NumberFormatValues) => {
-                        setRpPerKg(values.floatValue)
-                        handleChange('rp_per_kg', values.floatValue)
-                    },
-                }}
-                value={rpPerKg ?? ''}
-                error={Boolean(validationErrors.rp_per_kg)}
-                helperText={validationErrors.rp_per_kg}
-            />
 
             <input type="hidden" name="n_bunches" value={nBunches ?? ''} />
 

@@ -44,13 +44,13 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
             )
             .then(() => {
                 onSubmitted()
-                setSubmitting(false)
             })
             .catch(error => {
                 if (error?.response?.status === 422) {
                     return setValidationErrors(error?.response.data.errors)
                 }
             })
+            .finally(() => setSubmitting(false))
     }
 
     return (

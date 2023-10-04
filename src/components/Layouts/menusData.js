@@ -10,6 +10,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
 import ForestIcon from '@mui/icons-material/Forest'
+import GrassIcon from '@mui/icons-material/Grass'
 import GroupIcon from '@mui/icons-material/Group'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
@@ -60,6 +61,13 @@ const menusData = [
     },
     {
         component: <SubTitle>Tandan Buah Segar</SubTitle>,
+        forRoles: ['palm bunches admin'],
+    },
+    {
+        href: '/palm-bunches/rates',
+        label: 'Harga TBS',
+        pathname: '/palm-bunches/rates',
+        icon: <GrassIcon />,
         forRoles: ['palm bunches admin'],
     },
     {
