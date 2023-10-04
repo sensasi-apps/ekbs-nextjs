@@ -77,6 +77,9 @@ const UserAutocomplete: UserAutocompleteType = ({
 
         if (!isSearched) return 'Tekan Enter/Klik Ikon untuk mencari'
 
+        if (!navigator.onLine)
+            return 'Anda sedang offline, data pengguna tidak dapat dijangkau'
+
         return 'Pengguna tidak ditemukan'
     }
 
