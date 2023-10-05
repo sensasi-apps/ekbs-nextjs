@@ -1,3 +1,5 @@
+import { FC } from 'react'
+
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 
@@ -17,7 +19,9 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import SettingsIcon from '@mui/icons-material/Settings'
 
-const SubTitle = ({ children }) => (
+const SubTitle: FC<{
+    children: string
+}> = ({ children }) => (
     <Typography ml={2} mt={2} variant="overline" color="grey" fontWeight="bold">
         {children}
     </Typography>
@@ -61,21 +65,21 @@ const menusData = [
     },
     {
         component: <SubTitle>Tandan Buah Segar</SubTitle>,
-        forRoles: ['palm bunches admin'],
+        forRoles: ['palm bunches admin', 'palm bunch head'],
     },
     {
         href: '/palm-bunches/rates',
         label: 'Harga TBS',
         pathname: '/palm-bunches/rates',
         icon: <GrassIcon />,
-        forRoles: ['palm bunches admin'],
+        forRoles: ['palm bunch head'],
     },
     {
         href: '/palm-bunches/delivery-rates',
         label: 'Tarif Angkut',
         pathname: '/palm-bunches/delivery-rates',
         icon: <FireTruckIcon />,
-        forRoles: ['palm bunches admin'],
+        forRoles: ['palm bunch head'],
     },
     {
         href: '/palm-bunches/rea-tickets',
@@ -89,7 +93,7 @@ const menusData = [
         label: 'Pembayaran REA',
         pathname: '/palm-bunches/rea-payments',
         icon: <PointOfSaleIcon />,
-        forRoles: ['palm bunches admin'],
+        forRoles: ['palm bunch head'],
     },
     {
         component: <SubTitle>Simpan Pinjam</SubTitle>,
