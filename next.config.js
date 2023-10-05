@@ -11,7 +11,19 @@ const withPWA = require('next-pwa')({
             urlPattern: new RegExp(
                 `^${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
             ),
-            handler: 'Fastest',
+            handler: 'StaleWhileRevalidate',
+            options: {
+                cacheName: 'auth-user-cache',
+            },
+        },
+        {
+            urlPattern: new RegExp(
+                `^${process.env.NEXT_PUBLIC_BACKEND_URL}/users/search?query=`,
+            ),
+            handler: 'StaleWhileRevalidate',
+            options: {
+                cacheName: 'users-search-cache',
+            },
         },
         ...runtimeCaching,
     ],
