@@ -22,12 +22,14 @@ axios.interceptors.response.use(undefined, error => {
         if (status === 403) {
             enqueueSnackbar('Anda tidak memiliki akses untuk halaman ini', {
                 variant: 'error',
+                autoHideDuration: 10000,
             })
         }
 
         if (status === 500) {
             enqueueSnackbar('Server eror, permintaan tidak dapat diproses', {
                 variant: 'error',
+                autoHideDuration: 10000,
             })
         }
     } else if (error.request) {
@@ -40,6 +42,7 @@ axios.interceptors.response.use(undefined, error => {
                     `Tidak dapat ${type} data karena Anda sedang offline`,
                     {
                         variant: 'error',
+                        autoHideDuration: 10000,
                     },
                 )
             } else {
@@ -47,6 +50,7 @@ axios.interceptors.response.use(undefined, error => {
                     'Server EKBS tidak dapat dijangkau saat ini, mohon coba lagi nanti.',
                     {
                         variant: 'error',
+                        autoHideDuration: 10000,
                     },
                 )
             }

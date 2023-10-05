@@ -100,12 +100,13 @@ const onlineNotification = () => {
 
     enqueueSnackbar('Anda kembali online', {
         variant: 'success',
+        autoHideDuration: 10000,
     })
 }
 
 const offlineNotification = () => {
     persistedSnacbarKey = enqueueSnackbar(
-        'Jaringan terputus, mohon periksa jaringan anda',
+        'Jaringan terputus, mohon periksa periksa jaringan anda',
         {
             variant: 'warning',
             persist: true,

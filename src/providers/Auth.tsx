@@ -17,7 +17,7 @@ const AuthProvider: FC<{
     children?: ReactNode
 }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [user, setUser] = useState<UserType | null | undefined>(undefined)
+    const [user, setUser] = useState<UserType | null | undefined>()
 
     useEffect(() => {
         axios
@@ -76,6 +76,11 @@ const AuthProvider: FC<{
     const ContextValue: AuthContextType = {
         isAuthenticated,
         user,
+        onAgreeTncp: () => {
+            if (user) {
+                setUser({ ...user, is_agreed_tncp: true })
+            }
+        },
         onLoginSuccess: (userParam: UserType) => {
             setIsAuthenticated(true)
             setUser(userParam)
@@ -99,6 +104,7 @@ const AuthProvider: FC<{
 type AuthContextType = {
     isAuthenticated: boolean
     user: UserType | null | undefined
+    onAgreeTncp: () => void
     userHasPermission: (
         permissionName: string | string[],
         userParam?: UserType,
