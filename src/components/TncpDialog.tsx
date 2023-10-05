@@ -15,7 +15,7 @@ const TncpDialog: FC<{
     open: boolean
     handleClose: () => void
 }> = ({ open, handleClose }) => {
-    const { user } = useAuth()
+    const { user, onAgreeTncp } = useAuth()
 
     const router = useRouter()
 
@@ -40,6 +40,7 @@ const TncpDialog: FC<{
         axios.post(`/users/agree-tcnp`).then(() => {
             setIsOpen(false)
             setIsLoading(false)
+            onAgreeTncp()
         })
     }
 
