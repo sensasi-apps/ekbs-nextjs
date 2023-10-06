@@ -23,6 +23,7 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import GradingIcon from '@mui/icons-material/Grading'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
+import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuth from '@/providers/Auth'
 import { toggleColorMode } from '@/providers/useTheme'
@@ -109,7 +110,6 @@ const TopBar: FC<{
                             />
                         </MenuItem>
 
-                        <Divider />
                         <MenuItem onClick={toggleFullscreen}>
                             <ListItemIcon>
                                 {isFullscreen ? (
@@ -126,6 +126,17 @@ const TopBar: FC<{
                                 F11
                             </Typography>
                         </MenuItem>
+                        <MenuItem onClick={() => router.reload()}>
+                            <ListItemIcon>
+                                <SyncIcon />
+                            </ListItemIcon>
+                            <ListItemText>Muat Ulang Halaman</ListItemText>
+
+                            <Typography variant="body2" color="text.secondary">
+                                F5
+                            </Typography>
+                        </MenuItem>
+                        <Divider />
 
                         <MenuItem onClick={() => setIsOpenTncp(true)}>
                             <ListItemIcon>
