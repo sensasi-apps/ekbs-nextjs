@@ -8,7 +8,6 @@ interface PalmBunchesReaTicketType {
     ticket_no: string
     gradis_no: string
     vebewe_no: string
-    rp_per_kg?: number
     wb_ticket_no: string
 
     as_farmer_id: string

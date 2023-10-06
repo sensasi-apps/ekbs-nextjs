@@ -19,6 +19,8 @@ export default function PalmBuncesDeliveryRates() {
     )
 }
 
+import { NumericFormat } from 'react-number-format'
+
 import Fab from '@mui/material/Fab'
 
 import SellIcon from '@mui/icons-material/Sell'
@@ -33,6 +35,7 @@ import PalmBunchDeliveryRatesForm from '@/components/PalmBunchDeliveryRates/Form
 import weekOfMonths from '@/lib/weekOfMonth'
 import PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
 import { dbPromise } from '@/lib/idb'
+import PalmBunchDeliveryRateType from '@/dataTypes/PalmBunchDeliveryRate'
 
 const nameIdFormatter = (validFrom: string) => {
     const momentValue = moment(validFrom)
@@ -78,6 +81,34 @@ const Crud = () => {
             options: {
                 customBodyRender: (value: Date) =>
                     moment(value).format('DD MMMM YYYY'),
+            },
+        },
+        {
+            name: 'delivery_rates',
+            label: 'Harga',
+            searchable: false,
+            options: {
+                searchable: false,
+                sort: false,
+                customBodyRender: (rates: PalmBunchDeliveryRateType[]) => (
+                    <ul
+                        style={{
+                            margin: 0,
+                        }}>
+                        {rates.map(rate => (
+                            <li key={rate.id}>
+                                {rate.to_oil_mill_code} {rate.from_position}:
+                                <NumericFormat
+                                    value={rate.rp_per_kg}
+                                    prefix=" Rp "
+                                    thousandSeparator="."
+                                    decimalSeparator=","
+                                    displayType="text"
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                ),
             },
         },
     ]

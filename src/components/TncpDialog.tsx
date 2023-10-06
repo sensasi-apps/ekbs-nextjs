@@ -10,13 +10,12 @@ import Typography from '@mui/material/Typography'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 import useAuth from '@/providers/Auth'
-import { dbPromise } from '@/lib/idb'
 
 const TncpDialog: FC<{
     open: boolean
     handleClose: () => void
 }> = ({ open, handleClose }) => {
-    const { user } = useAuth()
+    const { user, onAgreeTncp } = useAuth()
 
     const router = useRouter()
 
@@ -24,26 +23,25 @@ const TncpDialog: FC<{
     const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
-        if (user?.is_agreed_tncp === false && router.pathname !== '/logout') {
+        if (
+            user &&
+            user.is_agreed_tncp === false &&
+            router.pathname !== '/logout'
+        ) {
             setIsOpen(true)
         }
-    }, [user?.is_agreed_tncp])
+    }, [user])
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         setIsLoading(true)
 
-        await axios
-            .post(`/users/agree-tcnp`)
-            .then(() =>
-                dbPromise.then(db =>
-                    db.put('user', { ...user, is_agreed_tncp: true }, 0),
-                ),
-            )
-
-        setIsOpen(false)
-        setIsLoading(false)
+        axios.post(`/users/agree-tcnp`).then(() => {
+            setIsOpen(false)
+            setIsLoading(false)
+            onAgreeTncp()
+        })
     }
 
     return (

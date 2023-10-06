@@ -36,7 +36,7 @@ const GuestFormLayout: FC<{
     const { user } = useAuth()
 
     useEffect(() => {
-        if (user) {
+        if (user && router.pathname !== '/maintenance') {
             const redirectTo = router.query.redirectTo
 
             if (redirectTo) {

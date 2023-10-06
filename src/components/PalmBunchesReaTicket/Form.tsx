@@ -10,7 +10,6 @@ import FormType from '@/components/Global/Form/type'
 import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
 import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
 import GradingItemInputs from './Form/GradingItemInputs'
-import PalmBuncesReaTicketRegisterAsForm from './Form/RegisterAs'
 
 import useValidationErrors from '@/hooks/useValidationErrors'
 
@@ -25,10 +24,10 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         loading || (data?.delivery?.transactions?.length || 0) > 0,
     )
 
-    const { validationErrors, setValidationErrors, clearByName, clearByEvent } =
+    const { validationErrors, setValidationErrors, clearByName } =
         useValidationErrors()
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         const formEl = event.currentTarget
@@ -36,24 +35,22 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         if (!formEl.reportValidity()) return
 
         setSubmitting(true)
+        const formData = new FormData(formEl)
 
-        try {
-            const formData = new FormData(formEl)
-
-            await axios.post(
+        axios
+            .post(
                 `/palm-bunches/rea-tickets${data?.id ? '/' + data?.id : ''}`,
                 formData,
             )
-            onSubmitted()
-        } catch (error: any) {
-            if (error?.response.status === 422) {
-                setValidationErrors(error?.response.data.errors)
-            } else {
-                throw error
-            }
-        } finally {
-            setSubmitting(false)
-        }
+            .then(() => {
+                onSubmitted()
+            })
+            .catch(error => {
+                if (error?.response?.status === 422) {
+                    return setValidationErrors(error?.response.data.errors)
+                }
+            })
+            .finally(() => setSubmitting(false))
     }
 
     return (
@@ -86,12 +83,6 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
                     />
                 </Grid>
             </Grid>
-
-            <PalmBuncesReaTicketRegisterAsForm
-                disabled={disabled}
-                clearByEvent={clearByEvent}
-                validationErrors={validationErrors}
-            />
 
             <PalmBunchesReaDeliveryFarmerInputs
                 disabled={disabled}
