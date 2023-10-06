@@ -81,6 +81,22 @@ const Crud: FC = () => {
             label: 'NO. Tiket',
         },
         {
+            name: 'land',
+            label: 'Info Land ID',
+            searchable: false,
+            options: {
+                searchable: false,
+                sort: false,
+                customBodyRender: (value: any) => {
+                    if (!value) return ''
+
+                    return `${value.rea_land_id}
+
+                    ${value.note}`
+                },
+            },
+        },
+        {
             name: 'delivery.courierUser.name',
             label: 'Pengangkut',
             options: {
