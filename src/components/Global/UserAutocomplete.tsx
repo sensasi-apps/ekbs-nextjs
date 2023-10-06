@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography'
 
 import SearchIcon from '@mui/icons-material/Search'
 import RoleChips from '@/components/User/RoleChips'
+import ValidationErrorsType from '@/types/ValidationErrors'
 
 type UserAutocompleteType<
     Multiple extends boolean | undefined = false,
@@ -54,11 +55,22 @@ const UserAutocomplete: UserAutocompleteType = ({
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
     const [userOptions, setUserOptions] = useState<UserType[]>([])
+    const [validationErrors, setValidationErrors] =
+        useState<ValidationErrorsType>()
 
     const { trigger, isMutating } = useSWRMutation(
         `/users/search`,
         (url, { arg: searchText }: { arg: string }) =>
-            axios.get(`${url}?query=${searchText}`).then(res => res.data),
+            axios
+                .get(`${url}?query=${searchText}`)
+                .then(res => res.data)
+                .catch(error => {
+                    if (error?.response?.status === 422) {
+                        return setValidationErrors(error.response.data.errors)
+                    }
+
+                    throw error
+                }),
         {
             revalidate: false,
         },
@@ -76,6 +88,9 @@ const UserAutocomplete: UserAutocompleteType = ({
         if (searchText.length < 3) return 'Ketik minimal 3 karakter'
 
         if (!isSearched) return 'Tekan Enter/Klik Ikon untuk mencari'
+
+        if (!navigator.onLine)
+            return 'Anda sedang offline, data pengguna tidak dapat dijangkau'
 
         return 'Pengguna tidak ditemukan'
     }
@@ -105,6 +120,8 @@ const UserAutocomplete: UserAutocompleteType = ({
                         }
                     }}
                     onBlur={() => setSearchText('')}
+                    error={Boolean(validationErrors?.query)}
+                    helperText={validationErrors?.query}
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

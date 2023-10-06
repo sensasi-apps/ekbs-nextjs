@@ -5,14 +5,15 @@ import type ValidationErrorsType from '@/types/ValidationErrors'
 
 import { FC, useEffect, memo, useState } from 'react'
 import moment from 'moment'
+import { NumericFormat as ReactNumericFormat } from 'react-number-format'
 
+import Autocomplete from '@mui/material/Autocomplete'
 import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 // components
 import DatePicker from '@/components/Global/DatePicker'
-import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 import NumericFormat from '@/components/Global/NumericFormat'
 // providers
@@ -20,6 +21,7 @@ import useFormData from '@/providers/useFormData'
 import UserType from '@/dataTypes/User'
 import debounce from '@/lib/debounce'
 import SpbNoInput from './MainInputs/SpbNoInput'
+import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
 
 interface MainInputProps {
     clearByName: (name: string) => void
@@ -44,7 +46,6 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
     const [ticketNo, setTicketNo] = useState(data.ticket_no)
     const [gradisNo, setGradisNo] = useState(data.gradis_no)
     const [vebeweNo, setVebeweNo] = useState(data.vebewe_no)
-    const [rpPerKg, setRpPerKg] = useState<number | undefined>(data.rp_per_kg)
 
     // delivery props
     const [nBunches, setNBunches] = useState<number | undefined>(
@@ -53,13 +54,14 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
     const [toOilMillCode, setToOilMillCode] = useState(
         data.delivery?.to_oil_mill_code,
     )
-    const [fromPosition, setFromPosition] = useState(
+    const [fromPosition, setFromPosition] = useState<string | undefined>(
         data.delivery?.from_position,
     )
     const [courierUser, setCourierUser] = useState<UserType | undefined>(
         data.delivery?.courier_user,
     )
     const [vehicleNo, setVehicleNo] = useState(data.delivery?.vehicle_no)
+    const [determinedRateRpPerKg, setDeterminedRateRpPerKg] = useState<number>()
 
     useEffect(() => {
         tempData = {}
@@ -86,10 +88,6 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
     }, [data.vebewe_no])
 
     useEffect(() => {
-        setRpPerKg(data.rp_per_kg)
-    }, [data.rp_per_kg])
-
-    useEffect(() => {
         setNBunches(data.delivery?.n_bunches)
     }, [data.delivery?.n_bunches])
 
@@ -108,6 +106,10 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
     useEffect(() => {
         setVehicleNo(data.delivery?.vehicle_no)
     }, [data.delivery?.vehicle_no])
+
+    useEffect(() => {
+        setDeterminedRateRpPerKg(data.delivery?.determined_rate_rp_per_kg)
+    }, [data.delivery?.determined_rate_rp_per_kg])
 
     const handleChange = (
         key: string,
@@ -261,85 +263,99 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
 
             <Grid container columnSpacing={2}>
                 <Grid item xs={12} sm={6}>
-                    <SelectFromApi
-                        required
-                        endpoint="/data/oil-mills"
+                    <Autocomplete
+                        fullWidth
+                        disablePortal
+                        options={['COM', 'SOM', 'POM']}
                         disabled={disabled}
-                        label="Pabrik tujuan"
-                        size="small"
-                        margin="dense"
-                        selectProps={{
-                            name: 'to_oil_mill_code',
-                            value: toOilMillCode ?? '',
-                        }}
-                        onChange={event => {
-                            const { name, value } =
-                                event.target as HTMLInputElement
+                        value={toOilMillCode ?? null}
+                        renderInput={params => (
+                            <TextField
+                                {...params}
+                                required
+                                margin="dense"
+                                size="small"
+                                name="to_oil_mill_code"
+                                label="Pabrik Tujuan"
+                                error={Boolean(
+                                    validationErrors.to_oil_mill_code,
+                                )}
+                                onChange={event => {
+                                    const { name, value } = event.target
 
-                            setToOilMillCode(value)
-                            handleChange(name, value)
-                        }}
-                        error={Boolean(validationErrors.to_oil_mill_code)}
-                        helperText={validationErrors.to_oil_mill_code}
+                                    setToOilMillCode(value)
+                                    handleChange(name, value)
+                                }}
+                                helperText={validationErrors.to_oil_mill_code}
+                            />
+                        )}
                     />
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                    <SelectFromApi
-                        required
-                        endpoint="/data/rea-delivery-from-positions"
+                    <Autocomplete
+                        fullWidth
+                        disablePortal
+                        options={['Atas', 'Tengah', 'Bawah', 'Lainnya']}
                         disabled={disabled}
-                        label="Dari Posisi"
-                        size="small"
-                        margin="dense"
-                        selectProps={{
-                            name: 'from_position',
-                            value: fromPosition ?? '',
+                        value={fromPosition ?? null}
+                        onChange={(_, value) => {
+                            setFromPosition(value ?? undefined)
+                            handleChange('from_position', value ?? undefined)
                         }}
-                        onChange={event => {
-                            const { name, value } =
-                                event.target as HTMLInputElement
-
-                            setFromPosition(value as string)
-                            handleChange(name, value)
-                        }}
-                        error={Boolean(validationErrors.from_position)}
-                        helperText={validationErrors.from_position}
+                        renderInput={params => (
+                            <TextField
+                                {...params}
+                                required
+                                margin="dense"
+                                size="small"
+                                name="from_position"
+                                label="Dari Posisi"
+                                error={Boolean(validationErrors.from_position)}
+                                helperText={validationErrors.from_position}
+                            />
+                        )}
                     />
                 </Grid>
             </Grid>
 
-            <input type="hidden" name="rp_per_kg" value={rpPerKg ?? ''} />
-
-            <TextField
-                disabled={disabled}
-                fullWidth
-                required
-                margin="dense"
-                label="Harga Sawit"
-                size="small"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">Rp.</InputAdornment>
-                    ),
-                    endAdornment: (
-                        <InputAdornment position="end">/kg</InputAdornment>
-                    ),
-                    inputComponent: NumericFormat,
-                }}
-                inputProps={{
-                    decimalScale: 0,
-                    minLength: 2,
-                    maxLength: 6,
-                    onValueChange: (values: NumberFormatValues) => {
-                        setRpPerKg(values.floatValue)
-                        handleChange('rp_per_kg', values.floatValue)
-                    },
-                }}
-                value={rpPerKg ?? ''}
-                error={Boolean(validationErrors.rp_per_kg)}
-                helperText={validationErrors.rp_per_kg}
-            />
+            {fromPosition === 'Lainnya' && (
+                <ReactNumericFormat
+                    customInput={TextField}
+                    disabled={disabled}
+                    fullWidth
+                    required
+                    margin="dense"
+                    label="Tarif angkut permintaan"
+                    size="small"
+                    decimalScale={0}
+                    allowNegative={false}
+                    inputProps={{
+                        maxLength: 3,
+                        minLength: 1,
+                    }}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">Rp</InputAdornment>
+                        ),
+                        endAdornment: (
+                            <InputAdornment position="end">/kg</InputAdornment>
+                        ),
+                        inputComponent: NumericFormat,
+                    }}
+                    onChange={event => {
+                        const { name, value } = event.target
+                        setDeterminedRateRpPerKg(
+                            parseInt(value.replace('.', '')),
+                        )
+                        handleChange(name, value)
+                    }}
+                    name="determined_rate_rp_per_kg"
+                    value={determinedRateRpPerKg ?? ''}
+                    error={Boolean(validationErrors.determined_rate_rp_per_kg)}
+                    helperText={validationErrors.determined_rate_rp_per_kg}
+                />
+            )}
 
             <input type="hidden" name="n_bunches" value={nBunches ?? ''} />
 
@@ -414,6 +430,12 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 value={vehicleNo ?? ''}
                 error={Boolean(validationErrors.vehicle_no)}
                 helperText={validationErrors.vehicle_no}
+            />
+
+            <AsFarmLandIdInput
+                disabled={disabled}
+                validationErrors={validationErrors}
+                clearByName={clearByName}
             />
         </>
     )

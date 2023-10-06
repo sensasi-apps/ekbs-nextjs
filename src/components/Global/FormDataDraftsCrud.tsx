@@ -63,6 +63,7 @@ const FormDataDraftsCrud: FC<{
         if (!currDataNameId)
             return enqueueSnackbar(`${dataKeyForNameId} tidak boleh kosong`, {
                 variant: 'error',
+                autoHideDuration: 10000,
             })
 
         return dbPromise.then(db => {
@@ -96,6 +97,7 @@ const FormDataDraftsCrud: FC<{
                             `Operasi gagal, data ${currDataNameId} sudah ada pada draft`,
                             {
                                 variant: 'warning',
+                                autoHideDuration: 10000,
                             },
                         )
                     }

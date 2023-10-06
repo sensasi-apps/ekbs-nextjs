@@ -56,13 +56,13 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
     const [file, setFile] = useState<File>()
     const [isPaid, setIsPaid] = useState(hasTransactions)
     const [transactions, setTransactions] = useState(
-        data.transactions.length > 0
+        (data.transactions?.length > 0
             ? data.transactions.filter((_, i) => i > 0)
-            : data.transaction_drafts.map(tx => {
+            : data.transaction_drafts?.map(tx => {
                   tx.amount = parseInt(tx.amount + '')
 
                   return tx
-              }) || [],
+              })) || [],
     )
     const [validationErrors, setValidationErrors] =
         useState<ValidationErrorsType>({})
