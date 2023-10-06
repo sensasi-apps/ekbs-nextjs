@@ -71,6 +71,8 @@ const UserDetailForm = () => {
 
         const formData = new FormData(formEl)
 
+        formData.set('citizen_id', formData.get('citizen_id').replace(' ', ''))
+
         axios
             .post(
                 `/users/${user_uuid || userWithDetails.uuid}/detail`,
