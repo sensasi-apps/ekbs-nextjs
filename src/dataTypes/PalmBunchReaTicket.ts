@@ -12,7 +12,7 @@ interface PalmBunchesReaTicketType {
 
     as_farmer_id: string
     as_farmer_name: string
-    as_farm_land_id: string
+    as_farm_land_id?: string
 
     delivery: PalmBunchesDeliveryType
     gradings: PalmBunchesReaGradingType[]

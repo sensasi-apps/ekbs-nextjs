@@ -43,15 +43,16 @@ const AsFarmLandIdInput: FC<{
             label="Land ID"
             size="small"
             name="as_farm_land_id"
-            onChange={event => {
-                const { name, value } = event.target
+            onValueChange={values => {
+                clearByName('as_farm_land_id')
+                setAsFarmLandId(values.value)
 
-                clearByName(name)
-                setAsFarmLandId(value)
+                tempValue = values.value
+
                 debounce(() => {
                     setData({
                         ...data,
-                        [name]: tempValue,
+                        as_farm_land_id: tempValue,
                     })
                 }, 2000)
             }}

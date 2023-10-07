@@ -37,6 +37,11 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         setSubmitting(true)
         const formData = new FormData(formEl)
 
+        formData.set(
+            'as_farm_land_id',
+            (formData.get('as_farm_land_id') as string).replaceAll(' ', ''),
+        )
+
         axios
             .post(
                 `/palm-bunches/rea-tickets${data?.id ? '/' + data?.id : ''}`,
