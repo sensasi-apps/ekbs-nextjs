@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { mutate } from 'swr'
+import { PatternFormat } from 'react-number-format'
+// libs
 import axios from '@/lib/axios'
-
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
@@ -13,14 +15,15 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import TextField from '@mui/material/TextField'
 
+import LoadingButton from '@mui/lab/LoadingButton'
+// components
 import DatePicker from '@/components/Global/DatePicker'
 import ImageInput from '@/components/ImageInput'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import NumericMasking from '@/components/Inputs/NumericMasking'
-
+// providers
 import useFormData from '@/providers/FormData'
-import { LoadingButton } from '@mui/lab'
 import useUserWithDetails from '@/providers/UserWithDetails'
 
 const getBirthRegion = userDetail => {
@@ -68,6 +71,11 @@ const UserDetailForm = () => {
 
         const formData = new FormData(formEl)
 
+        formData.set(
+            'citizen_id',
+            formData.get('citizen_id').replaceAll(' ', ''),
+        )
+
         axios
             .post(
                 `/users/${user_uuid || userWithDetails.uuid}/detail`,
@@ -108,9 +116,13 @@ const UserDetailForm = () => {
                 }
             />
 
-            <TextField
+            <PatternFormat
+                format="#### #### #### ####"
+                customInput={TextField}
                 fullWidth
                 margin="normal"
+                minLength="15"
+                maxLength="16"
                 onChange={clearValidationError}
                 disabled={isLoading}
                 label="Nomor Induk Kependudukan"

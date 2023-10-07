@@ -51,7 +51,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
     const [nBunches, setNBunches] = useState<number | undefined>(
         data.delivery?.n_bunches,
     )
-    const [toOilMillCode, setToOilMillCode] = useState(
+    const [toOilMillCode, setToOilMillCode] = useState<string | undefined>(
         data.delivery?.to_oil_mill_code,
     )
     const [fromPosition, setFromPosition] = useState<string | undefined>(
@@ -61,10 +61,11 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
         data.delivery?.courier_user,
     )
     const [vehicleNo, setVehicleNo] = useState(data.delivery?.vehicle_no)
+
     const [determinedRateRpPerKg, setDeterminedRateRpPerKg] = useState<number>()
 
     useEffect(() => {
-        tempData = {}
+        tempData = structuredClone(data)
 
         return () => {
             tempData = undefined
@@ -122,6 +123,28 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
             setData({
                 ...data,
                 ...tempData,
+            })
+        }, 250)
+    }
+
+    const handleDeliveryChange = (
+        key: string,
+        value: string | Moment | number | undefined | UserType,
+    ) => {
+        clearByName(key)
+
+        if (tempData.delivery === undefined) {
+            tempData.delivery = {}
+        }
+
+        tempData.delivery[key] = value ?? undefined
+
+        debounce(() => {
+            setData({
+                ...data,
+                delivery: {
+                    ...tempData.delivery,
+                },
             })
         }, 250)
     }
@@ -269,6 +292,13 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                         options={['COM', 'SOM', 'POM']}
                         disabled={disabled}
                         value={toOilMillCode ?? null}
+                        onChange={(_, value) => {
+                            setToOilMillCode(value ?? undefined)
+                            handleDeliveryChange(
+                                'to_oil_mill_code',
+                                value ?? undefined,
+                            )
+                        }}
                         renderInput={params => (
                             <TextField
                                 {...params}
@@ -280,12 +310,6 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                                 error={Boolean(
                                     validationErrors.to_oil_mill_code,
                                 )}
-                                onChange={event => {
-                                    const { name, value } = event.target
-
-                                    setToOilMillCode(value)
-                                    handleChange(name, value)
-                                }}
                                 helperText={validationErrors.to_oil_mill_code}
                             />
                         )}
@@ -301,7 +325,10 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                         value={fromPosition ?? null}
                         onChange={(_, value) => {
                             setFromPosition(value ?? undefined)
-                            handleChange('from_position', value ?? undefined)
+                            handleDeliveryChange(
+                                'from_position',
+                                value ?? undefined,
+                            )
                         }}
                         renderInput={params => (
                             <TextField
@@ -341,14 +368,13 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                         endAdornment: (
                             <InputAdornment position="end">/kg</InputAdornment>
                         ),
-                        inputComponent: NumericFormat,
                     }}
-                    onChange={event => {
-                        const { name, value } = event.target
-                        setDeterminedRateRpPerKg(
-                            parseInt(value.replace('.', '')),
+                    onValueChange={values => {
+                        setDeterminedRateRpPerKg(values.floatValue)
+                        handleDeliveryChange(
+                            'determined_rate_rp_per_kg',
+                            values.floatValue,
                         )
-                        handleChange(name, value)
                     }}
                     name="determined_rate_rp_per_kg"
                     value={determinedRateRpPerKg ?? ''}
@@ -377,7 +403,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     maxLength: 10,
                     onValueChange: (values: NumberFormatValues) => {
                         setNBunches(values.floatValue)
-                        handleChange('n_bunches', values.floatValue)
+                        handleDeliveryChange('n_bunches', values.floatValue)
                     },
                 }}
                 value={nBunches ?? ''}
@@ -396,7 +422,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 fullWidth
                 onChange={(_, user) => {
                     setCourierUser(user ?? undefined)
-                    handleChange('courier_user', user ?? undefined)
+                    handleDeliveryChange('courier_user', user ?? undefined)
                 }}
                 value={courierUser ?? null}
                 size="small"
@@ -425,7 +451,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     const { name, value } = event.target
 
                     setVehicleNo(event.target.value)
-                    handleChange(name, value)
+                    handleDeliveryChange(name, value)
                 }}
                 value={vehicleNo ?? ''}
                 error={Boolean(validationErrors.vehicle_no)}
