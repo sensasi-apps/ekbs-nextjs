@@ -71,7 +71,10 @@ const UserDetailForm = () => {
 
         const formData = new FormData(formEl)
 
-        formData.set('citizen_id', formData.get('citizen_id').replace(' ', ''))
+        formData.set(
+            'citizen_id',
+            formData.get('citizen_id').replaceAll(' ', ''),
+        )
 
         axios
             .post(
