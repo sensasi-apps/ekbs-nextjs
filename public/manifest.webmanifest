@@ -1,0 +1,21 @@
+{
+    "name": "Koperasi Belayan Sejahtera Elektronik",
+    "short_name": "EKBS",
+    "display": "standalone",
+    "start_url": "/",
+    "background_color": "#000000",
+    "icons": [
+        {
+            "src": "/assets/pwa-icons/white-green.svg",
+            "sizes": "48x48 72x72 96x96 128x128 192x192 256x256 512x512",
+            "type": "image/svg+xml",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/assets/pwa-icons/green-transparent.svg",
+            "sizes": "48x48 72x72 96x96 128x128 192x192 256x256 512x512",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ]
+}
