@@ -92,7 +92,7 @@ const Crud: FC = () => {
 
                     return `${value.rea_land_id}
 
-                    ${value.note}`
+                    ${value.note ?? ''}`
                 },
             },
         },
