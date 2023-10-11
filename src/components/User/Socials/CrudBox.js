@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { mutate } from 'swr'
+import { PatternFormat } from 'react-number-format'
 
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
@@ -78,7 +79,22 @@ const ContactListItem = ({
                     {GET_ICON_NODE(social.name)}
                 </IconButton>
             </ListItemIcon>
-            <ListItemText primary={username} secondary={social.name} />
+            <ListItemText
+                primary={
+                    ['phone', 'whatsapp'].includes(
+                        social.name.toLowerCase(),
+                    ) ? (
+                        <PatternFormat
+                            value={username}
+                            format="#####-####-####"
+                            displayType="text"
+                        />
+                    ) : (
+                        username
+                    )
+                }
+                secondary={social.name}
+            />
         </ListItem>
     )
 }
