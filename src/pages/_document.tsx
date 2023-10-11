@@ -15,11 +15,12 @@ export default function Document() {
                 <meta name="mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
 
+                <link rel="icon" type="image/png" href="/favicon192.png" />
+
                 <link
-                    rel="icon"
+                    rel="apple-touch-icon"
                     type="image/png"
-                    sizes="192x192"
-                    href="/favicon192.png"
+                    href="/assets/pwa-icons/white-green.png"
                 />
 
                 <link rel="manifest" href="/manifest.webmanifest" />
