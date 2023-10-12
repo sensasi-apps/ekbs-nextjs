@@ -10,6 +10,7 @@ import { FC, useState } from 'react'
 import useSWR from 'swr'
 import MUIDataTable, { debounceSearchRender } from 'mui-datatables'
 
+import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
 
 import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
@@ -91,7 +92,15 @@ const Datatable: FC<{
     }
 
     return (
-        <div>
+        <Box
+            sx={{
+                '& tbody tr:hover': {
+                    cursor: 'pointer',
+                    ripple: {
+                        color: 'transparent',
+                    },
+                },
+            }}>
             {(isApiLoading || isValidating) && (
                 <LinearProgress
                     sx={{
@@ -109,7 +118,7 @@ const Datatable: FC<{
                 columns={columns}
                 options={options}
             />
-        </div>
+        </Box>
     )
 }
 
