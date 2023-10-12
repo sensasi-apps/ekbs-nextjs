@@ -450,7 +450,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 onChange={event => {
                     const { name, value } = event.target
 
-                    setVehicleNo(event.target.value)
+                    setVehicleNo(event.target.value.toUpperCase())
                     handleDeliveryChange(name, value)
                 }}
                 value={vehicleNo ?? ''}
