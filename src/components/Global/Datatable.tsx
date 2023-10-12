@@ -29,6 +29,7 @@ const Datatable: FC<{
             dataIndex: number
             rowIndex: number
         },
+        event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
     ) => void
 }> = ({ title, tableId, apiUrl, columns, onRowClick, defaultSortOrder }) => {
     const [params, setParams] = useState<any>()
@@ -75,7 +76,7 @@ const Datatable: FC<{
         print: false,
         count: recordsTotal || 0,
         customSearchRender: debounceSearchRender(750),
-        onRowClick: onRowClick,
+        onRowClick: onRowClick as any,
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
         textLabels: {
