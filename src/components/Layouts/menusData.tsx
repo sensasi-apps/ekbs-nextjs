@@ -11,9 +11,10 @@ import BalanceIcon from '@mui/icons-material/Balance'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
-import ForestIcon from '@mui/icons-material/Forest'
+// import ForestIcon from '@mui/icons-material/Forest'
 import GrassIcon from '@mui/icons-material/Grass'
 import GroupIcon from '@mui/icons-material/Group'
+import HandymanIcon from '@mui/icons-material/Handyman'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
 import RateReviewIcon from '@mui/icons-material/RateReview'
@@ -37,13 +38,6 @@ const menusData = [
     },
     {
         component: <SubTitle>Unit</SubTitle>,
-        forRoles: [],
-    },
-    {
-        href: '/saprodi',
-        label: 'SAPRODI',
-        pathname: '/saprodi',
-        icon: <ForestIcon />,
         forRoles: [],
     },
     {
@@ -113,7 +107,6 @@ const menusData = [
         icon: <CurrencyExchangeIcon />,
         forRoles: ['member', 'employee'],
     },
-
     {
         href: '/user-loans/reviews',
         label: 'Tinjau Pinjaman',
@@ -141,6 +134,21 @@ const menusData = [
         pathname: '/user-loans',
         icon: <BackupTableIcon />,
         forRoles: ['user loans manager'],
+    },
+    {
+        component: <Divider sx={{ mt: 2 }} />,
+        forRoles: ['farm inputs manager'],
+    },
+    {
+        component: <SubTitle>Saprodi</SubTitle>,
+        forRoles: ['farm inputs manager'],
+    },
+    {
+        href: '/farm-inputs/products',
+        label: 'Produk',
+        pathname: '/farm-inputs/products',
+        icon: <HandymanIcon />,
+        forRoles: ['farm inputs manager'],
     },
     {
         component: (
