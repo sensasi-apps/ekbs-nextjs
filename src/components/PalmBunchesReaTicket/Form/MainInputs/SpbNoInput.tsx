@@ -6,7 +6,6 @@ import { FC, useState, useEffect } from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 
-import NumericFormat from '@/components/Global/NumericFormat'
 import useFormData from '@/providers/useFormData'
 import debounce from '@/lib/debounce'
 
@@ -45,7 +44,6 @@ const SpbNoInput: FC<{
                 startAdornment: (
                     <InputAdornment position="start">BS-MI</InputAdornment>
                 ),
-                inputComponent: NumericFormat,
             }}
             inputProps={{
                 decimalScale: 0,
@@ -57,7 +55,7 @@ const SpbNoInput: FC<{
                 const { name, value } = event.target
 
                 clearByName(name)
-                setSpbNo(value)
+                setSpbNo(value.replaceAll(/[^a-z0-9]/gi, '').toUpperCase())
 
                 debounce(() => {
                     setData({
