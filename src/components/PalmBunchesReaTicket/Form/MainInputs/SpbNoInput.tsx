@@ -46,10 +46,8 @@ const SpbNoInput: FC<{
                 ),
             }}
             inputProps={{
-                decimalScale: 0,
-                minLength: 7,
-                maxLength: 7,
-                thousandSeparator: false,
+                minLength: 8,
+                maxLength: 8,
             }}
             onChange={event => {
                 const { name, value } = event.target
