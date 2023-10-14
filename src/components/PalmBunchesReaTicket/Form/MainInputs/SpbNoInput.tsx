@@ -46,7 +46,7 @@ const SpbNoInput: FC<{
                 ),
             }}
             inputProps={{
-                minLength: 8,
+                minLength: 7,
                 maxLength: 8,
             }}
             onChange={event => {
