@@ -13,6 +13,30 @@ import GradingItemInputs from './Form/GradingItemInputs'
 
 import useValidationErrors from '@/hooks/useValidationErrors'
 
+const remapData = (data: PalmBunchesReaTicketType) => {
+    const remappedData: any = { ...data }
+
+    remappedData.to_oil_mill_code = data.delivery.to_oil_mill_code
+    remappedData.courier_user_uuid = data.delivery.courier_user?.uuid
+    remappedData.vehicle_no = data.delivery.vehicle_no
+    remappedData.from_position = data.delivery.from_position
+
+    if (data.delivery.from_position === 'Lainnya') {
+        remappedData.determined_rate_rp_per_kg =
+            data.delivery.determined_rate_rp_per_kg || undefined
+    }
+    remappedData.n_bunches = data.delivery.n_bunches
+
+    remappedData.palm_bunches = data.delivery.palm_bunches
+    remappedData.gradings = data.gradings.map(grading => ({
+        id: grading.id,
+        item_id: grading.item.id,
+        value: grading.value,
+    }))
+
+    return remappedData
+}
+
 const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
     data,
     actionsSlot,
@@ -35,12 +59,8 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         if (!formEl.reportValidity()) return
 
         setSubmitting(true)
-        const formData = new FormData(formEl)
 
-        formData.set(
-            'as_farm_land_id',
-            (formData.get('as_farm_land_id') as string).replaceAll(' ', ''),
-        )
+        const formData = remapData(data)
 
         axios
             .post(

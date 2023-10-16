@@ -1,18 +1,15 @@
-import type { NumberFormatValues } from 'react-number-format'
 import type PalmBunchesReaGradingItemType from '@/dataTypes/PalmBunchesReaGradingItem'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 
 import { FC, memo } from 'react'
 import useSWR from 'swr'
+import { NumericFormat } from 'react-number-format'
 
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
 // components
-import NumericFormat from '@/components/Global/NumericFormat'
 import Skeletons from '@/components/Global/Skeletons'
-
 // providers
 import useFormData from '@/providers/useFormData'
 import debounce from '@/lib/debounce'
@@ -39,7 +36,7 @@ const GradingItemInputs: FC<{
         }))
 
     const handleChange = (index: number, value?: number) => {
-        clearByName(`gradings[${index}][value]`)
+        clearByName(`gradings.${index}.value`)
 
         if (!data.gradings) {
             data.gradings = [...gradings]
@@ -72,7 +69,8 @@ const GradingItemInputs: FC<{
                             defaultValue={grading.item.id}
                         />
 
-                        <TextField
+                        <NumericFormat
+                            customInput={TextField}
                             disabled={disabled}
                             fullWidth
                             required
@@ -80,20 +78,21 @@ const GradingItemInputs: FC<{
                             label={grading.item.name}
                             size="small"
                             name={`gradings[${index}][value]`}
+                            thousandSeparator="."
+                            decimalSeparator=","
+                            allowNegative={false}
                             InputProps={{
                                 endAdornment: grading.item.unit,
-                                inputComponent: NumericFormat,
                             }}
-                            inputProps={{
-                                onValueChange: (values: NumberFormatValues) =>
-                                    handleChange(index, values.floatValue),
-                            }}
+                            onValueChange={({ floatValue }) =>
+                                handleChange(index, floatValue)
+                            }
                             value={grading.value ?? ''}
                             error={Boolean(
-                                validationErrors[`gradings[${index}][value]`],
+                                validationErrors[`gradings.${index}.value`],
                             )}
                             helperText={
-                                validationErrors[`gradings[${index}][value]`]
+                                validationErrors[`gradings.${index}.value`]
                             }
                         />
                     </div>

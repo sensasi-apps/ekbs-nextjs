@@ -50,15 +50,16 @@ const SpbNoInput: FC<{
                 maxLength: 8,
             }}
             onChange={event => {
-                const { name, value } = event.target
+                const { value } = event.target
+                tempValue = value.replaceAll(/[^a-z0-9]/gi, '').toUpperCase()
 
-                clearByName(name)
-                setSpbNo(value.replaceAll(/[^a-z0-9]/gi, '').toUpperCase())
+                clearByName('spb_no')
+                setSpbNo(tempValue)
 
                 debounce(() => {
                     setData({
                         ...data,
-                        [name]: tempValue,
+                        spb_no: tempValue,
                     })
                 }, 2000)
             }}
