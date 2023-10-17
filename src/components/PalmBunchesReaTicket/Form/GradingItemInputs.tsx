@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography'
 import Skeletons from '@/components/Global/Skeletons'
 // providers
 import useFormData from '@/providers/useFormData'
-import debounce from '@/lib/debounce'
 
 const GradingItemInputs: FC<{
     disabled: boolean
@@ -43,8 +42,15 @@ const GradingItemInputs: FC<{
         }
 
         data.gradings[index].value = value
-        debounce(() => setData({ ...data, gradings: [...gradings] }), 200)
     }
+
+    const handleBlur = () =>
+        data.id
+            ? null
+            : setData({
+                  ...data,
+                  gradings: [...gradings],
+              })
 
     return (
         <>
@@ -60,13 +66,19 @@ const GradingItemInputs: FC<{
                         <input
                             type="hidden"
                             name={`gradings[${index}][id]`}
-                            defaultValue={grading.id}
+                            value={grading.id ?? ''}
                         />
 
                         <input
                             type="hidden"
                             name={`gradings[${index}][item_id]`}
-                            defaultValue={grading.item.id}
+                            value={grading.item.id}
+                        />
+
+                        <input
+                            type="hidden"
+                            name={`gradings[${index}][value]`}
+                            value={grading.value ?? ''}
                         />
 
                         <NumericFormat
@@ -77,7 +89,6 @@ const GradingItemInputs: FC<{
                             margin="dense"
                             label={grading.item.name}
                             size="small"
-                            name={`gradings[${index}][value]`}
                             thousandSeparator="."
                             decimalSeparator=","
                             allowNegative={false}
@@ -87,6 +98,7 @@ const GradingItemInputs: FC<{
                             onValueChange={({ floatValue }) =>
                                 handleChange(index, floatValue)
                             }
+                            onBlur={handleBlur}
                             value={grading.value ?? ''}
                             error={Boolean(
                                 validationErrors[`gradings.${index}.value`],

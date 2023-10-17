@@ -1,9 +1,9 @@
-import type { NumberFormatValues } from 'react-number-format'
 import type PalmBunchDataType from '@/dataTypes/PalmBunch'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 
 import { FC, useEffect, useState, memo } from 'react'
+import { NumericFormat } from 'react-number-format'
 
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
@@ -14,11 +14,8 @@ import TextField from '@mui/material/TextField'
 import AddIcon from '@mui/icons-material/Add'
 
 // components
-import NumericFormat from '@/components/Global/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
-// libs
-import debounce from '@/lib/debounce'
 // providers
 import useFormData from '@/providers/useFormData'
 
@@ -39,21 +36,19 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
 
     const handleChange = (index: number, newPalmBunch: PalmBunchDataType) => {
         palmBunches[index] = newPalmBunch
-
-        debounce(
-            () =>
-                setData({
-                    ...data,
-                    delivery: {
-                        ...data.delivery,
-                        palm_bunches: palmBunches,
-                    },
-                }),
-            200,
-        )
-
         setPalmBunches([...palmBunches])
     }
+
+    const handleBlur = () =>
+        data.id
+            ? null
+            : setData({
+                  ...data,
+                  delivery: {
+                      ...data.delivery,
+                      palm_bunches: palmBunches,
+                  },
+              })
 
     return (
         <>
@@ -100,6 +95,7 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                 }}
                                 value={palmBunch.owner_user || null}
                                 size="small"
+                                onBlur={handleBlur}
                                 textFieldProps={{
                                     required: true,
                                     label: 'Nama',
@@ -131,6 +127,7 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                         land_desc: event.target.value,
                                     })
                                 }}
+                                onBlur={handleBlur}
                                 value={palmBunch.land_desc ?? ''}
                                 error={Boolean(
                                     validationErrors[
@@ -161,6 +158,7 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                         farmer_group_uuid: value.uuid,
                                     })
                                 }}
+                                onBlur={handleBlur}
                                 error={Boolean(
                                     validationErrors[
                                         `palm_bunches.${index}.farmer_group_uuid`
@@ -180,7 +178,11 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                 value={palmBunch.n_kg || ''}
                             />
 
-                            <TextField
+                            <NumericFormat
+                                allowNegative={false}
+                                thousandSeparator="."
+                                decimalSeparator=","
+                                customInput={TextField}
                                 disabled={disabled}
                                 fullWidth
                                 required
@@ -192,23 +194,20 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                             kg
                                         </InputAdornment>
                                     ),
-                                    inputComponent: NumericFormat,
                                 }}
                                 inputProps={{
-                                    allowNegative: false,
-                                    onValueChange: (
-                                        values: NumberFormatValues,
-                                    ) => {
-                                        clearByName(
-                                            `palm_bunches.${index}.n_kg`,
-                                        )
-
-                                        handleChange(index, {
-                                            ...palmBunch,
-                                            n_kg: values.floatValue,
-                                        })
-                                    },
+                                    minLength: 1,
+                                    maxLength: 6,
                                 }}
+                                onValueChange={({ floatValue }) => {
+                                    clearByName(`palm_bunches.${index}.n_kg`)
+
+                                    handleChange(index, {
+                                        ...palmBunch,
+                                        n_kg: floatValue,
+                                    })
+                                }}
+                                onBlur={handleBlur}
                                 value={palmBunch.n_kg ?? ''}
                                 error={Boolean(validationErrors.n_kg)}
                                 helperText={validationErrors.n_kg}
