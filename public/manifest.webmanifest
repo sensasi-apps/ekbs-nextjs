@@ -3,7 +3,7 @@
     "short_name": "EKBS",
     "display": "standalone",
     "start_url": "/",
-    "background_color": "#000000",
+    "background_color": "#121212",
     "icons": [
         {
             "src": "/assets/pwa-icons/white-green.svg",
