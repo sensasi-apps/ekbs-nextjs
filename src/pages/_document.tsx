@@ -1,8 +1,9 @@
+import { getInitColorSchemeScript } from '@mui/material'
 import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
     return (
-        <Html lang="id">
+        <Html lang="id" data-mui-color-scheme="light">
             <Head>
                 <meta
                     name="application-name"
@@ -29,6 +30,7 @@ export default function Document() {
             </Head>
 
             <body>
+                {getInitColorSchemeScript()}
                 <Main />
                 <NextScript />
             </body>

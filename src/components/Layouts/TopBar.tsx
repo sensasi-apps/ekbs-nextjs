@@ -2,18 +2,15 @@ import { FC, useState } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 
-import { useTheme } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import IconButton from '@mui/material/IconButton'
 import Link from '@mui/material/Link'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import Switch from '@mui/material/Switch'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 // icons
@@ -26,12 +23,12 @@ import MenuIcon from '@mui/icons-material/Menu'
 import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuth from '@/providers/Auth'
-import { toggleColorMode } from '@/providers/useTheme'
 // components
 import TncpDialog from '@/components/TncpDialog'
 import { DRAWER_WIDTH } from './MenuList'
 
 import packageJson from '@/../package.json'
+import DarkModeSwitch from './TopBar/DarkModeSwitch'
 
 const TopBar: FC<{
     title: string
@@ -40,7 +37,6 @@ const TopBar: FC<{
     const { user } = useAuth()
 
     const router = useRouter()
-    const theme = useTheme()
 
     const [isOpenTncp, setIsOpenTncp] = useState(false)
     const [anchorEl, setAnchorEl] = useState<Element>()
@@ -99,16 +95,7 @@ const TopBar: FC<{
                             </Typography>
                         </Box>
 
-                        <MenuItem onClick={toggleColorMode}>
-                            <FormControlLabel
-                                label="Mode Gelap"
-                                control={
-                                    <Switch
-                                        checked={theme.palette.mode === 'dark'}
-                                    />
-                                }
-                            />
-                        </MenuItem>
+                        <DarkModeSwitch />
 
                         <MenuItem onClick={toggleFullscreen}>
                             <ListItemIcon>

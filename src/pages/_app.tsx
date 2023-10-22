@@ -6,17 +6,22 @@ import '@fontsource/roboto/700.css'
 import type { AppProps } from 'next/app'
 import type { SnackbarKey } from 'notistack'
 
-import { useEffect } from 'react'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
 import QueryString from 'qs'
+import CssBaseline from '@mui/material/CssBaseline'
+import { useEffect } from 'react'
 import { SWRConfig } from 'swr'
 import { closeSnackbar, enqueueSnackbar, SnackbarProvider } from 'notistack'
+import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 
-import Typography from '@mui/material/Typography'
+// import Typography from '@mui/material/Typography'
+const Typography = dynamic(() => import('@mui/material/Typography'))
 
-import ThemeProvider from '@/providers/useTheme'
 import { AuthProvider } from '@/providers/Auth'
 import axios from '@/lib/axios'
-import Head from 'next/head'
+
+import getTheme from '@/lib/getTheme'
 
 export default function App({ Component, pageProps }: AppProps) {
     useEffect(() => {
@@ -30,15 +35,24 @@ export default function App({ Component, pageProps }: AppProps) {
     }, [])
 
     return (
-        <ThemeProvider>
-            <AuthProvider>
-                <SnackbarProvider
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                    }}
-                />
+        <CssVarsProvider theme={getTheme()}>
+            <CssBaseline />
 
+            <Head>
+                <meta
+                    name="viewport"
+                    content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                />
+            </Head>
+
+            <SnackbarProvider
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+            />
+
+            <AuthProvider>
                 <SWRConfig
                     value={{
                         fetcher: (endpointPassed: any[] | string) => {
@@ -66,35 +80,28 @@ export default function App({ Component, pageProps }: AppProps) {
                         revalidateOnFocus: false,
                         revalidateIfStale: false,
                     }}>
-                    <Head>
-                        <meta
-                            name="viewport"
-                            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-                        />
-                    </Head>
                     <Component {...pageProps} />
                 </SWRConfig>
-
-                {process.env.VERCEL_ENV === 'preview' && (
-                    <Typography
-                        position="fixed"
-                        bottom="0"
-                        variant="overline"
-                        fontSize="1rem"
-                        component="div"
-                        align="center"
-                        width="100%"
-                        bgcolor="warning.dark"
-                        zIndex="tooltip"
-                        sx={{
-                            pointerEvents: 'none',
-                            opacity: 0.5,
-                        }}>
-                        <div>Halaman ini hanya untuk tujuan demonstrasi</div>
-                    </Typography>
-                )}
             </AuthProvider>
-        </ThemeProvider>
+
+            {process.env.VERCEL_ENV === 'preview' && (
+                <Typography
+                    position="fixed"
+                    bottom="0"
+                    variant="overline"
+                    fontSize="1rem"
+                    align="center"
+                    width="100%"
+                    bgcolor="warning.dark"
+                    zIndex="tooltip"
+                    sx={{
+                        pointerEvents: 'none',
+                        opacity: 0.5,
+                    }}>
+                    <div>Halaman ini hanya untuk tujuan demonstrasi</div>
+                </Typography>
+            )}
+        </CssVarsProvider>
     )
 }
 

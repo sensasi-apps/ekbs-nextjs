@@ -8,7 +8,13 @@ import type { KeyedMutator } from 'swr'
 
 import { FC, useState } from 'react'
 import useSWR from 'swr'
-import MUIDataTable, { debounceSearchRender } from 'mui-datatables'
+import { debounceSearchRender } from 'mui-datatables'
+
+import dynamic from 'next/dynamic'
+
+const MUIDataTable = dynamic(() => import('mui-datatables'), {
+    ssr: false,
+})
 
 import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
