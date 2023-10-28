@@ -19,6 +19,7 @@
         "@mui/x-date-pickers": "^6.16.0",
         "@sentry/nextjs": "^7.72.0",
         "axios": "^1.5.1",
+        "dayjs": "^1.11.10",
         "idb": "^7.1.1",
         "moment": "^2.29.4",
         "mui-datatables": "^4.3.0",
