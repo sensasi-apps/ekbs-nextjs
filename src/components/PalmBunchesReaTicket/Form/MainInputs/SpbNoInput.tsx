@@ -6,9 +6,8 @@ import { FC, useState, useEffect } from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 
-import NumericFormat from '@/components/Global/NumericFormat'
 import useFormData from '@/providers/useFormData'
-import debounce from '@/lib/debounce'
+import { alpaNumeric } from '@/lib/RegExps'
 
 let tempValue: string | undefined
 
@@ -29,6 +28,8 @@ const SpbNoInput: FC<{
     }, [])
 
     useEffect(() => {
+        if (data.spb_no === spbNo) return
+
         setSpbNo(data.spb_no)
     }, [data.spb_no])
 
@@ -45,27 +46,27 @@ const SpbNoInput: FC<{
                 startAdornment: (
                     <InputAdornment position="start">BS-MI</InputAdornment>
                 ),
-                inputComponent: NumericFormat,
             }}
             inputProps={{
-                decimalScale: 0,
                 minLength: 7,
-                maxLength: 7,
-                thousandSeparator: false,
+                maxLength: 8,
             }}
             onChange={event => {
-                const { name, value } = event.target
+                const { value } = event.target
+                if (value !== '' && !alpaNumeric.test(value)) return
+                tempValue = value.toUpperCase()
 
-                clearByName(name)
-                setSpbNo(value)
-
-                debounce(() => {
-                    setData({
-                        ...data,
-                        [name]: tempValue,
-                    })
-                }, 2000)
+                clearByName('spb_no')
+                setSpbNo(tempValue)
             }}
+            onBlur={() =>
+                data.id
+                    ? null
+                    : setData({
+                          ...data,
+                          spb_no: tempValue,
+                      })
+            }
             value={spbNo ?? ''}
             error={Boolean(validationErrors.spb_no)}
             helperText={validationErrors.spb_no}

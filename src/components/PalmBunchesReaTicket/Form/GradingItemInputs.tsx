@@ -1,21 +1,17 @@
-import type { NumberFormatValues } from 'react-number-format'
 import type PalmBunchesReaGradingItemType from '@/dataTypes/PalmBunchesReaGradingItem'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 
 import { FC, memo } from 'react'
 import useSWR from 'swr'
+import { NumericFormat } from 'react-number-format'
 
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
 // components
-import NumericFormat from '@/components/Global/NumericFormat'
 import Skeletons from '@/components/Global/Skeletons'
-
 // providers
 import useFormData from '@/providers/useFormData'
-import debounce from '@/lib/debounce'
 
 const GradingItemInputs: FC<{
     disabled: boolean
@@ -39,15 +35,22 @@ const GradingItemInputs: FC<{
         }))
 
     const handleChange = (index: number, value?: number) => {
-        clearByName(`gradings[${index}][value]`)
+        clearByName(`gradings.${index}.value`)
 
         if (!data.gradings) {
             data.gradings = [...gradings]
         }
 
         data.gradings[index].value = value
-        debounce(() => setData({ ...data, gradings: [...gradings] }), 200)
     }
+
+    const handleBlur = () =>
+        data.id
+            ? null
+            : setData({
+                  ...data,
+                  gradings: [...gradings],
+              })
 
     return (
         <>
@@ -63,37 +66,45 @@ const GradingItemInputs: FC<{
                         <input
                             type="hidden"
                             name={`gradings[${index}][id]`}
-                            defaultValue={grading.id}
+                            value={grading.id ?? ''}
                         />
 
                         <input
                             type="hidden"
                             name={`gradings[${index}][item_id]`}
-                            defaultValue={grading.item.id}
+                            value={grading.item.id}
                         />
 
-                        <TextField
+                        <input
+                            type="hidden"
+                            name={`gradings[${index}][value]`}
+                            value={grading.value ?? ''}
+                        />
+
+                        <NumericFormat
+                            customInput={TextField}
                             disabled={disabled}
                             fullWidth
                             required
                             margin="dense"
                             label={grading.item.name}
                             size="small"
-                            name={`gradings[${index}][value]`}
+                            thousandSeparator="."
+                            decimalSeparator=","
+                            allowNegative={false}
                             InputProps={{
                                 endAdornment: grading.item.unit,
-                                inputComponent: NumericFormat,
                             }}
-                            inputProps={{
-                                onValueChange: (values: NumberFormatValues) =>
-                                    handleChange(index, values.floatValue),
-                            }}
+                            onValueChange={({ floatValue }) =>
+                                handleChange(index, floatValue)
+                            }
+                            onBlur={handleBlur}
                             value={grading.value ?? ''}
                             error={Boolean(
-                                validationErrors[`gradings[${index}][value]`],
+                                validationErrors[`gradings.${index}.value`],
                             )}
                             helperText={
-                                validationErrors[`gradings[${index}][value]`]
+                                validationErrors[`gradings.${index}.value`]
                             }
                         />
                     </div>

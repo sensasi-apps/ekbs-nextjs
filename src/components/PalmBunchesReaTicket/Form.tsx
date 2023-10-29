@@ -35,12 +35,8 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         if (!formEl.reportValidity()) return
 
         setSubmitting(true)
-        const formData = new FormData(formEl)
 
-        formData.set(
-            'as_farm_land_id',
-            (formData.get('as_farm_land_id') as string).replaceAll(' ', ''),
-        )
+        const formData = new FormData(formEl)
 
         axios
             .post(

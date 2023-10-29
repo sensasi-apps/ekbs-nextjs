@@ -9,7 +9,13 @@ import type { IconButtonProps } from '@mui/material/IconButton'
 
 import { FC, useState } from 'react'
 import useSWR from 'swr'
-import MUIDataTable, { debounceSearchRender } from 'mui-datatables'
+import { debounceSearchRender } from 'mui-datatables'
+
+import dynamic from 'next/dynamic'
+
+const MUIDataTable = dynamic(() => import('mui-datatables'), {
+    ssr: false,
+})
 
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
