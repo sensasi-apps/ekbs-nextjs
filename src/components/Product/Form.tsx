@@ -2,15 +2,17 @@ import type { KeyedMutator } from 'swr'
 import type ProductType from '@/dataTypes/Product'
 
 import { FC, FormEvent } from 'react'
-
+import { NumericFormat } from 'react-number-format'
+// materials
 import Grid from '@mui/material/Grid'
+import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 
 import useFormData from '@/providers/useFormData'
 import FormActions from '../Global/Form/Actions'
 import axios from '@/lib/axios'
 import useValidationErrors from '@/hooks/useValidationErrors'
-import { NumericFormat } from 'react-number-format'
+import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
 
 const ProductForm: FC<{
     parentDatatableMutator: KeyedMutator<any>
@@ -29,9 +31,18 @@ const ProductForm: FC<{
         }
 
         const formData = new FormData(formEl)
+
         formData.set(
             'low_number',
             (formData.get('low_number') as string).replaceAll('.', '') || '',
+        )
+
+        formData.set(
+            'default_sell_price',
+            (formData.get('default_sell_price') as string).replaceAll(
+                '.',
+                '',
+            ) || '',
         )
 
         setSubmitting(true)
@@ -57,8 +68,8 @@ const ProductForm: FC<{
 
     return (
         <form onSubmit={handleSubmit} autoComplete="off">
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+            <Grid container columnSpacing={2}>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
                         disabled={loading}
@@ -72,7 +83,7 @@ const ProductForm: FC<{
                     />
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
                         disabled={loading}
@@ -115,8 +126,8 @@ const ProductForm: FC<{
                 helperText={validationErrors.description}
             />
 
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={8}>
+            <Grid container columnSpacing={2}>
+                <Grid item xs={12} sm={8}>
                     <NumericFormat
                         customInput={TextField}
                         fullWidth
@@ -132,7 +143,7 @@ const ProductForm: FC<{
                         decimalSeparator=","
                     />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} sm={4}>
                     <TextField
                         fullWidth
                         disabled={loading}
@@ -160,6 +171,64 @@ const ProductForm: FC<{
                 error={Boolean(validationErrors.note)}
                 helperText={validationErrors.note}
             />
+
+            <Grid container columnSpacing={2} mt={2}>
+                <Grid item xs={12} sm={6}>
+                    <NumericFormat
+                        {...numericFormatDefaultProps}
+                        customInput={TextField}
+                        disabled={true}
+                        fullWidth
+                        label="Biaya Dasar"
+                        size="small"
+                        margin="dense"
+                        defaultValue={data.base_cost_rp_per_unit || ''}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    /{data.unit}
+                                </InputAdornment>
+                            ),
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    Rp
+                                </InputAdornment>
+                            ),
+                        }}
+                        error={Boolean(validationErrors.base_cost_rp_per_unit)}
+                        helperText={validationErrors.base_cost_rp_per_unit}
+                    />
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                    <NumericFormat
+                        {...numericFormatDefaultProps}
+                        customInput={TextField}
+                        disabled={loading}
+                        fullWidth
+                        label="Harga Jual Dasar"
+                        name="default_sell_price"
+                        size="small"
+                        margin="dense"
+                        defaultValue={data.default_sell_price || ''}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    /{data.unit}
+                                </InputAdornment>
+                            ),
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    Rp
+                                </InputAdornment>
+                            ),
+                        }}
+                        error={Boolean(validationErrors.default_sell_price)}
+                        helperText={validationErrors.default_sell_price}
+                    />
+                </Grid>
+            </Grid>
+
             <FormActions
                 disabled={loading}
                 onCancel={() => {

@@ -17,10 +17,12 @@ export default function FarmInputsProducts() {
 }
 
 import type ProductType from '@/dataTypes/Product'
+import type { MUIDataTableColumn } from 'mui-datatables'
+
 import { NumericFormat } from 'react-number-format'
 import Fab from '@mui/material/Fab'
 // icons
-import HandymanIcon from '@mui/icons-material/Handyman'
+import InventoryIcon from '@mui/icons-material/Inventory'
 // providers
 import useFormData from '@/providers/useFormData'
 // components
@@ -29,6 +31,8 @@ import Dialog from '@/components/Global/Dialog'
 import ProductForm from '@/components/Product/Form'
 // libs
 import useAuth from '@/providers/Auth'
+import { Box, Tooltip } from '@mui/material'
+import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
 
 const Crud = () => {
     const { userHasPermission } = useAuth()
@@ -42,67 +46,14 @@ const Crud = () => {
         loading,
     } = useFormData<ProductType>()
 
-    // 'unit', 'note', 'low_number'
-
-    const columns = [
-        {
-            name: 'code',
-            label: 'Kode',
-        },
-        {
-            name: 'name',
-            label: 'Nama',
-        },
-        {
-            name: 'category_name',
-            label: 'Kategori',
-        },
-        {
-            name: 'description',
-            label: 'Deskripsi',
-        },
-        {
-            name: 'qty',
-            label: 'Jumlah',
-            options: {
-                customBodyRender: (value: number, rowMeta: any) => (
-                    <NumericFormat
-                        value={value}
-                        suffix={
-                            ' ' + getDataRow<ProductType>(rowMeta.rowIndex).unit
-                        }
-                        decimalSeparator=","
-                        thousandSeparator="."
-                        decimalScale={2}
-                        displayType="text"
-                    />
-                ),
-            },
-        },
-        {
-            name: 'base_cost_rp_per_unit',
-            label: 'Harga Dasar',
-            options: {
-                customBodyRender: (value: number) => (
-                    <NumericFormat
-                        prefix="Rp "
-                        value={value}
-                        decimalSeparator=","
-                        thousandSeparator="."
-                        displayType="text"
-                    />
-                ),
-            },
-        },
-    ]
-
     return (
         <>
             <Datatable
                 apiUrl="/farm-inputs/products/datatable"
                 columns={columns}
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
-                onRowClick={(_, rowMeta) =>
+                onRowClick={(_, rowMeta, event) =>
+                    event.detail === 2 &&
                     handleEdit(getDataRow(rowMeta.rowIndex))
                 }
                 tableId="products-table"
@@ -141,9 +92,109 @@ const Crud = () => {
                         bottom: 16,
                         right: 16,
                     }}>
-                    <HandymanIcon />
+                    <InventoryIcon />
                 </Fab>
             )}
         </>
     )
 }
+
+import { keyframes } from '@mui/system'
+
+const blink = keyframes`
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+`
+
+const columns: MUIDataTableColumn[] = [
+    {
+        name: 'code',
+        label: 'Kode',
+    },
+    {
+        name: 'name',
+        label: 'Nama',
+    },
+    {
+        name: 'category_name',
+        label: 'Kategori',
+    },
+    {
+        name: 'description',
+        label: 'Deskripsi',
+    },
+    {
+        name: 'qty',
+        label: 'Jumlah',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const data = getDataRow<ProductType>(dataIndex)
+
+                const mainContent = (
+                    <NumericFormat
+                        {...numericFormatDefaultProps}
+                        allowNegative={true}
+                        value={data.qty}
+                        suffix={' ' + data.unit}
+                        displayType="text"
+                    />
+                )
+
+                return data.qty > data.low_number ? (
+                    mainContent
+                ) : (
+                    <Tooltip title="Persediaan menipis" placement="top" arrow>
+                        <Box
+                            fontWeight="bold"
+                            whiteSpace="nowrap"
+                            color="warning.main"
+                            sx={{
+                                animation: `${blink} 1s linear infinite`,
+                            }}
+                            component="span">
+                            {mainContent}
+                        </Box>
+                    </Tooltip>
+                )
+            },
+        },
+    },
+    {
+        name: 'base_cost_rp_per_unit',
+        label: 'Biaya Dasar',
+        options: {
+            customBodyRender: (value: number) => (
+                <NumericFormat
+                    style={{
+                        whiteSpace: 'nowrap',
+                    }}
+                    prefix="Rp "
+                    value={value}
+                    decimalSeparator=","
+                    thousandSeparator="."
+                    displayType="text"
+                />
+            ),
+        },
+    },
+
+    {
+        name: 'default_sell_price',
+        label: 'Harga Dasar',
+        options: {
+            customBodyRender: (value: number) => (
+                <NumericFormat
+                    style={{
+                        whiteSpace: 'nowrap',
+                    }}
+                    prefix="Rp "
+                    value={value}
+                    decimalSeparator=","
+                    thousandSeparator="."
+                    displayType="text"
+                />
+            ),
+        },
+    },
+]

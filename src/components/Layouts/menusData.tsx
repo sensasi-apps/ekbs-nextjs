@@ -11,14 +11,16 @@ import BalanceIcon from '@mui/icons-material/Balance'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
-// import ForestIcon from '@mui/icons-material/Forest'
 import GrassIcon from '@mui/icons-material/Grass'
 import GroupIcon from '@mui/icons-material/Group'
-import HandymanIcon from '@mui/icons-material/Handyman'
+import InventoryIcon from '@mui/icons-material/Inventory'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
 import RateReviewIcon from '@mui/icons-material/RateReview'
+import SellIcon from '@mui/icons-material/Sell'
 import SettingsIcon from '@mui/icons-material/Settings'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import WarehouseIcon from '@mui/icons-material/Warehouse'
 
 const SubTitle: FC<{
     children: string
@@ -147,8 +149,29 @@ const menusData = [
         href: '/farm-inputs/products',
         label: 'Produk',
         pathname: '/farm-inputs/products',
-        icon: <HandymanIcon />,
+        icon: <InventoryIcon />,
         forRoles: ['farm inputs manager'],
+    },
+    {
+        href: '/farm-inputs/product-purchases',
+        label: 'Pembelian',
+        pathname: '/farm-inputs/product-purchases',
+        icon: <ShoppingCartIcon />,
+        forRoles: ['farm inputs purchaser'],
+    },
+    {
+        href: '/farm-inputs/product-sales',
+        label: 'Penjualan',
+        pathname: '/farm-inputs/product-sales',
+        icon: <SellIcon />,
+        forRoles: ['farm inputs sales'],
+    },
+    {
+        href: '/farm-inputs/product-ins-outs',
+        label: 'Barang Keluar-Masuk',
+        pathname: '/farm-inputs/product-ins-outs',
+        icon: <WarehouseIcon />,
+        forRoles: ['farm inputs warehouse manager'],
     },
     {
         component: (
