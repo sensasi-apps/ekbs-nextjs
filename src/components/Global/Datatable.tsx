@@ -5,6 +5,7 @@ import type {
     MUISortOptions,
 } from 'mui-datatables'
 import type { KeyedMutator } from 'swr'
+import type { IconButtonProps } from '@mui/material/IconButton'
 
 import { FC, useState } from 'react'
 import useSWR from 'swr'
@@ -17,9 +18,11 @@ const MUIDataTable = dynamic(() => import('mui-datatables'), {
 })
 
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 import LinearProgress from '@mui/material/LinearProgress'
+import Tooltip from '@mui/material/Tooltip'
 
-import { ACTIONS_ALLOW_FETCH, formatToDatatableParams } from '@/lib/datatable'
+import RefreshIcon from '@mui/icons-material/Refresh'
 
 let getDataRow: <T = object>(index: number) => T
 let mutatorForExport: KeyedMutator<any>
@@ -83,6 +86,14 @@ const Datatable: FC<{
         print: false,
         count: recordsTotal || 0,
         customSearchRender: debounceSearchRender(750),
+        customToolbar: () => (
+            <CustomHeadButton
+                aria-label="Refresh"
+                disabled={isApiLoading || isValidating}
+                onClick={() => mutate()}>
+                <RefreshIcon />
+            </CustomHeadButton>
+        ),
         onRowClick: onRowClick as any,
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
@@ -92,7 +103,7 @@ const Datatable: FC<{
                     isApiLoading || isValidating
                         ? 'Memuat data...'
                         : 'Tidak ada data yang tersedia',
-                toolTip: 'Sort',
+                toolTip: 'Urutkan',
             },
         },
     }
@@ -130,3 +141,52 @@ const Datatable: FC<{
 
 export default Datatable
 export { getDataRow, mutatorForExport as mutate }
+
+const ACTIONS_ALLOW_FETCH = [
+    'sort',
+    'changePage',
+    'changeRowsPerPage',
+    'search',
+    'tableInitialized',
+]
+
+const formatToDatatableParams = (
+    tableState: MUIDataTableState,
+    columns: MUIDataTableColumn[],
+) => {
+    const orderIndex = columns.findIndex(
+        column => column.name === tableState.sortOrder.name,
+    )
+
+    columns.forEach(column => {
+        // @ts-ignore
+        column.searchable = column?.options?.searchable
+    })
+
+    const params = {
+        draw: tableState.page + 1,
+        columns: columns,
+        order: [
+            {
+                column: orderIndex,
+                dir: tableState.sortOrder.direction || 'desc',
+            },
+        ],
+        start: tableState.page * tableState.rowsPerPage,
+        length: tableState.rowsPerPage,
+        search: {
+            value: tableState.searchText,
+            regex: false,
+        },
+    }
+
+    return params
+}
+
+function CustomHeadButton(props: IconButtonProps) {
+    return (
+        <Tooltip arrow title={props['aria-label']}>
+            <IconButton {...props} />
+        </Tooltip>
+    )
+}

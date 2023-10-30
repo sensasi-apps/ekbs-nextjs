@@ -8,7 +8,12 @@ export default function DarkModeSwitch() {
     const { mode, setMode } = useColorScheme()
 
     return (
-        <MenuItem onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}>
+        <MenuItem
+            onClick={event => {
+                event.preventDefault()
+
+                return setMode(mode === 'dark' ? 'light' : 'dark')
+            }}>
             <FormControlLabel
                 label="Mode Gelap"
                 control={<Switch checked={mode === 'dark'} />}
