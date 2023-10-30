@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import moment from 'moment'
+import { PatternFormat } from 'react-number-format'
 import 'moment/locale/id'
 
 import Box from '@mui/material/Box'
@@ -79,7 +80,15 @@ const UserDetailBox = ({ data: userDetail }) => {
                 </div>
             </Row>
 
-            <Row title="NIK">{citizen_id || '='}</Row>
+            <Row title="NIK">
+                <div>
+                    <PatternFormat
+                        format="#### #### #### ####"
+                        displayType="text"
+                        value={citizen_id}
+                    />
+                </div>
+            </Row>
 
             <Row title="Foto KTP">
                 <div>

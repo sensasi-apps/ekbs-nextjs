@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
+import getCookie from '@/utils/getCookie'
 
 const axios = Axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
@@ -7,6 +8,18 @@ const axios = Axios.create({
         'X-Requested-With': 'XMLHttpRequest',
     },
     withCredentials: true,
+})
+
+axios.interceptors.request.use(request => {
+    if (request.method !== 'get') {
+        const csrf = getCookie(request.xsrfCookieName || 'XSRF-TOKEN')
+
+        if (csrf) {
+            request.headers[request.xsrfHeaderName || 'X-XSRF-TOKEN'] = csrf
+        }
+    }
+
+    return request
 })
 
 let timoutId: NodeJS.Timeout | undefined

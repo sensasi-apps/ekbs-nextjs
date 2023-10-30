@@ -31,6 +31,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
     const {
         handleEdit,
         data,
+        formOpen,
         handleClose,
         submitting,
         setSubmitting,
@@ -65,7 +66,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
             />
 
             <Dialog
-                open={data !== undefined}
+                open={formOpen}
                 title={'Perbaharui Data Peran'}
                 maxWidth="sm"
                 closeButtonProps={{
