@@ -85,7 +85,12 @@ const AuthProvider: FC<{
             setIsAuthenticated(true)
             setUser(userParam)
         },
-        onLogoutSuccess: () => {
+        onLogoutSuccess: async () => {
+            const cache = await caches.open('auth-user-cache')
+            await cache.delete(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
+            )
+
             setUser(null)
             setIsAuthenticated(false)
         },
