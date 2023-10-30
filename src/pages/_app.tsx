@@ -15,7 +15,6 @@ import { SWRConfig } from 'swr'
 import { closeSnackbar, enqueueSnackbar, SnackbarProvider } from 'notistack'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 
-// import Typography from '@mui/material/Typography'
 const Typography = dynamic(() => import('@mui/material/Typography'))
 
 import { AuthProvider } from '@/providers/Auth'
@@ -93,8 +92,10 @@ export default function App({ Component, pageProps }: AppProps) {
                     align="center"
                     width="100%"
                     bgcolor="warning.dark"
+                    color="warning.contrastText"
+                    fontWeight="bold"
                     zIndex="tooltip"
-                    sx={{
+                    style={{
                         pointerEvents: 'none',
                         opacity: 0.5,
                     }}>
