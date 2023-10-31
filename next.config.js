@@ -42,26 +42,6 @@ const nextConfig = withPWA({
             },
         ]
     },
-    redirects() {
-        const redirects = []
-
-        redirects.push(
-            process.env.NEXT_PUBLIC_IS_IN_MAINTENANCE_MODE === 'true'
-                ? {
-                      source: '/((?!maintenance).*)',
-                      destination: '/maintenance',
-                      permanent: false,
-                  }
-                : {
-                      source: '/maintenance',
-                      destination: '/',
-                      permanent: true,
-                  },
-        )
-
-        return redirects
-    },
-
     sentry: {
         hideSourceMaps: true,
     },
