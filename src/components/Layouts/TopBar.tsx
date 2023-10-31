@@ -15,8 +15,6 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 // icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import FullscreenIcon from '@mui/icons-material/Fullscreen'
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import GradingIcon from '@mui/icons-material/Grading'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -29,6 +27,7 @@ import { DRAWER_WIDTH } from './MenuList'
 
 import packageJson from '@/../package.json'
 import DarkModeSwitch from './TopBar/DarkModeSwitch'
+import FullscreenMenuItem from './TopBar/FullscreenMenuItem'
 
 const TopBar: FC<{
     title: string
@@ -40,18 +39,7 @@ const TopBar: FC<{
 
     const [isOpenTncp, setIsOpenTncp] = useState(false)
     const [anchorEl, setAnchorEl] = useState<Element>()
-    const [isFullscreen, setIsFullscreen] = useState(false)
     const open = Boolean(anchorEl)
-
-    const toggleFullscreen = () => {
-        if (!isFullscreen) {
-            document.documentElement.requestFullscreen()
-        } else {
-            document.exitFullscreen()
-        }
-
-        setIsFullscreen(prev => !prev)
-    }
 
     return (
         <AppBar
@@ -97,22 +85,8 @@ const TopBar: FC<{
 
                         <DarkModeSwitch />
 
-                        <MenuItem onClick={toggleFullscreen}>
-                            <ListItemIcon>
-                                {isFullscreen ? (
-                                    <FullscreenExitIcon fontSize="small" />
-                                ) : (
-                                    <FullscreenIcon fontSize="small" />
-                                )}
-                            </ListItemIcon>
-                            <ListItemText>
-                                {isFullscreen && 'Tutup '}Layar Penuh
-                            </ListItemText>
+                        <FullscreenMenuItem />
 
-                            <Typography variant="body2" color="text.secondary">
-                                F11
-                            </Typography>
-                        </MenuItem>
                         <MenuItem onClick={() => router.reload()}>
                             <ListItemIcon>
                                 <SyncIcon />
@@ -123,6 +97,7 @@ const TopBar: FC<{
                                 F5
                             </Typography>
                         </MenuItem>
+
                         <Divider />
 
                         <MenuItem onClick={() => setIsOpenTncp(true)}>
