@@ -95,6 +95,8 @@ export default function App({ Component, pageProps }: AppProps) {
                     color="warning.contrastText"
                     fontWeight="bold"
                     zIndex="tooltip"
+                    lineHeight="unset"
+                    p={2}
                     style={{
                         pointerEvents: 'none',
                         opacity: 0.5,
