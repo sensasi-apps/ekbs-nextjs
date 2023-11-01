@@ -6,6 +6,10 @@ import '@fontsource/roboto/700.css'
 import type { AppProps } from 'next/app'
 import type { SnackbarKey } from 'notistack'
 
+import dayjs from 'dayjs'
+import 'dayjs/locale/id'
+dayjs.locale('id')
+
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import QueryString from 'qs'
