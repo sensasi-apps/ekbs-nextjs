@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
 import Fab from '@mui/material/Fab'
@@ -15,10 +14,6 @@ const Component = () => {
 
     return (
         <AuthLayout title="Kelola Pinjaman">
-            <Head>
-                <title>{`Kelola Pinjaman — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <LoansDatatable
                 apiUrl="/user-loans/datatable"
                 title="Riwayat Pinjaman"

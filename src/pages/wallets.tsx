@@ -1,6 +1,6 @@
-import { FC, useState, useRef } from 'react'
-import Head from 'next/head'
 import type { Moment } from 'moment'
+
+import { FC, useState, useRef } from 'react'
 import moment from 'moment'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -24,10 +24,6 @@ import WalletType from '@/dataTypes/Wallet'
 const WalletsPage: FC = () => {
     return (
         <AuthLayout title="Wallet EKBS">
-            <Head>
-                <title>{`Wallet EKBS — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <WithdrawButtonAndForm />
             </FormDataProvider>

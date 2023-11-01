@@ -1,6 +1,3 @@
-import moment from 'moment'
-import Head from 'next/head'
-
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
 import { FormDataProvider } from '@/providers/useFormData'
@@ -8,10 +5,6 @@ import { FormDataProvider } from '@/providers/useFormData'
 export default function PalmBuncesRates() {
     return (
         <AuthLayout title="Harga Sawit">
-            <Head>
-                <title>{`Harga Sawit — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <Crud />
             </FormDataProvider>
@@ -21,6 +14,7 @@ export default function PalmBuncesRates() {
 
 import type PalmBunchRateValidDateType from '@/dataTypes/PalmBunchRateValidDate'
 
+import moment from 'moment'
 import { NumericFormat } from 'react-number-format'
 
 import Fab from '@mui/material/Fab'

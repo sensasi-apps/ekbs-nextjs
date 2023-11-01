@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -55,7 +56,7 @@ const MenuList: FC<{
                 {...drawerProps}
                 open={isDrawerOpen}
                 ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
+                    keepMounted: true,
                 }}
                 sx={{
                     '& .MuiDrawer-paper': {
@@ -65,16 +66,24 @@ const MenuList: FC<{
                 }}>
                 <Toolbar />
 
-                {!currentUser && <MenuListSkeleton />}
-
-                {currentUser &&
-                    MENUS_DATA.map((data, index) => (
-                        <CustomListItem
-                            key={index}
-                            data={data}
-                            onClick={toggleDrawer}
-                        />
-                    ))}
+                {currentUser ? (
+                    <List
+                        sx={{
+                            '& .MuiListItemIcon-root': {
+                                justifyContent: 'center',
+                            },
+                        }}>
+                        {MENUS_DATA.map((data, index) => (
+                            <CustomListItem
+                                key={index}
+                                data={data}
+                                onClick={toggleDrawer}
+                            />
+                        ))}
+                    </List>
+                ) : (
+                    <MenuListSkeleton />
+                )}
             </Drawer>
         </Box>
     )

@@ -1,15 +1,9 @@
-import Head from 'next/head'
-
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import { FormDataProvider } from '@/providers/useFormData'
 
 export default function PalmBuncesReaTickets() {
     return (
         <AuthLayout title="Daftar Tiket REA">
-            <Head>
-                <title>{`Daftar Tiket REA — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <Crud />
             </FormDataProvider>

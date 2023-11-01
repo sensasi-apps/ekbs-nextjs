@@ -1,7 +1,6 @@
 import type Role from '@/dataTypes/Role'
 
 import { FC } from 'react'
-import Head from 'next/head'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
@@ -16,10 +15,6 @@ import RoleForm from '@/components/Role/Form'
 const RolesPage: FC = () => {
     return (
         <AuthLayout title="Peran">
-            <Head>
-                <title>{`Peran — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <PalmBunchDeliveryRatesCrudWithUseFormData />
             </FormDataProvider>

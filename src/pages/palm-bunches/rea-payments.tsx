@@ -1,41 +1,37 @@
 import { FC } from 'react'
-import Head from 'next/head'
-import moment from 'moment'
-import useSWR from 'swr'
-import 'moment/locale/id'
-
-import Alert from '@mui/material/Alert'
-import Box from '@mui/material/Box'
-import BackupTableIcon from '@mui/icons-material/BackupTable'
-import Fab from '@mui/material/Fab'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
-
-import useFormData, { FormDataProvider } from '@/providers/useFormData'
-
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
-import Dialog from '@/components/Global/Dialog'
-import FormActions from '@/components/Global/Form/Actions'
-import NumericFormat from '@/components/Global/NumericFormat'
-
-import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form'
-import PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
+import { FormDataProvider } from '@/providers/useFormData'
 
 const PalmBuncesReaPaymentsPage: FC = () => {
     return (
         <AuthLayout title="Pembayaran dari REA">
-            <Head>
-                <title>{`Pembayaran dari REA — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <PalmBunchDeliveryRatesCrudWithUseFormData />
             </FormDataProvider>
         </AuthLayout>
     )
 }
+
+import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
+
+import moment from 'moment'
+import 'moment/locale/id'
+import useSWR from 'swr'
+// materials
+import Alert from '@mui/material/Alert'
+import BackupTableIcon from '@mui/icons-material/BackupTable'
+import Fab from '@mui/material/Fab'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+// components
+import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Dialog from '@/components/Global/Dialog'
+import FormActions from '@/components/Global/Form/Actions'
+import NumericFormat from '@/components/Global/NumericFormat'
+import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form'
+// providers
+import useFormData from '@/providers/useFormData'
 
 const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
     const {
@@ -117,7 +113,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
     ]
 
     return (
-        <Box display="flex" flexDirection="column" gap={3}>
+        <>
             <Datatable
                 title="Riwayat"
                 tableId="PalmBunchDeliveryRateDatatable"
@@ -128,6 +124,36 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                 columns={columns}
                 defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
             />
+
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1rem',
+                    marginTop: '2rem',
+                }}>
+                {paymentsNotFound.map((payment: any, index: number) => (
+                    <Alert key={index} severity="warning">
+                        <Tooltip
+                            title={payment.details.map((detail: any) => (
+                                <div key={detail.wb_ticket_no}>
+                                    {detail.wb_ticket_no}
+                                </div>
+                            ))}>
+                            <span
+                                style={{
+                                    textDecoration: 'underline',
+                                    textDecorationStyle: 'dotted',
+                                    cursor: 'pointer',
+                                }}>
+                                <b>{payment.details.length} tiket</b> tidak
+                                memiliki data tiket
+                            </span>
+                        </Tooltip>{' '}
+                        pada pembayaran dengan UUID: <b>{payment.uuid}</b>
+                    </Alert>
+                ))}
+            </div>
 
             <Dialog
                 open={formOpen}
@@ -154,30 +180,6 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                 />
             </Dialog>
 
-            {paymentsNotFound.map((payment: any, index: number) => (
-                <Box mb={3} key={index}>
-                    <Alert severity="warning">
-                        <Tooltip
-                            title={payment.details.map((detail: any) => (
-                                <div key={detail.wb_ticket_no}>
-                                    {detail.wb_ticket_no}
-                                </div>
-                            ))}>
-                            <span
-                                style={{
-                                    textDecoration: 'underline',
-                                    textDecorationStyle: 'dotted',
-                                    cursor: 'pointer',
-                                }}>
-                                <b>{payment.details.length} tiket</b> tidak
-                                memiliki data tiket
-                            </span>
-                        </Tooltip>{' '}
-                        pada pembayaran dengan UUID: <b>{payment.uuid}</b>
-                    </Alert>
-                </Box>
-            ))}
-
             <Fab
                 disabled={formOpen}
                 onClick={handleCreate}
@@ -189,7 +191,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                 }}>
                 <BackupTableIcon />
             </Fab>
-        </Box>
+        </>
     )
 }
 
