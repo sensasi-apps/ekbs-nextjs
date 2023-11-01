@@ -1,14 +1,9 @@
-import Head from 'next/head'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import { FormDataProvider } from '@/providers/useFormData'
 
 export default function FarmInputsProducts() {
     return (
         <AuthLayout title="Pembelian Produk">
-            <Head>
-                <title>{`Pembelian Produk — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <Crud />
             </FormDataProvider>

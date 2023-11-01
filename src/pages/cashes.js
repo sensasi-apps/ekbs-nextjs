@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-import Head from 'next/head'
-
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -29,10 +27,6 @@ const Cashses = () => {
 
     return (
         <AuthLayout title="Kas">
-            <Head>
-                <title>{`Kas — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <Grid
                 container
                 spacing={3}

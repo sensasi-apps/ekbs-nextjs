@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
 import Fab from '@mui/material/Fab'
@@ -15,10 +14,6 @@ const Component = () => {
 
     return (
         <AuthLayout title="Pinjaman Anda">
-            <Head>
-                <title>Pinjaman Anda</title>
-            </Head>
-
             <LoansDatatable apiUrl="/loans/datatable" />
 
             <UserLoanDialogForm mode="applier" />

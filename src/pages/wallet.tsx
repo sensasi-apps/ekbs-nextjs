@@ -1,5 +1,4 @@
 import { FC, useState } from 'react'
-import Head from 'next/head'
 import moment, { Moment } from 'moment'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -19,10 +18,6 @@ const WalletPage: FC = () => {
 
     return (
         <AuthLayout title="Wallet EKBS Anda">
-            <Head>
-                <title>{`Wallet EKBS Anda— ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             {isLoading ? (
                 <Skeletons />
             ) : (
