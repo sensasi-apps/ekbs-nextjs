@@ -1,21 +1,17 @@
-import { FC, ReactNode } from 'react'
-import moment from 'moment'
-
 import Head from 'next/head'
+import { FC, ReactNode } from 'react'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import useAuth from '@/providers/Auth'
-
+// materials
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
-
+// etc
 import ErrorCenter from '../Statuses/ErrorCenter'
+import Footer from './Footer'
 import LoadingCenter from '../Statuses/LoadingCenter'
-
-import packageJson from '@/../package.json'
+import useAuth from '@/providers/Auth'
 
 const GuestFormLayout: FC<{
     children: ReactNode
@@ -86,28 +82,7 @@ const GuestFormLayout: FC<{
                         {children}
                     </Box>
 
-                    <Box mt={5} mb={1} textAlign="center" color="GrayText">
-                        <Typography variant="caption" component="div">
-                            Koperasi Belayan Sejahtera Elektronik
-                        </Typography>
-                        <Typography variant="caption" component="div">
-                            v{packageJson.version} &mdash;
-                            {moment(packageJson.versionDate).format(
-                                ' DD-MM-YYYY',
-                            )}
-                        </Typography>
-                        <Typography variant="caption" component="div">
-                            <Link
-                                color="inherit"
-                                href="https://github.com/sensasi-apps"
-                                target="_blank">
-                                Sensasi Apps
-                            </Link>
-                            {' © '}
-                            {new Date().getFullYear()}
-                            {'.'}
-                        </Typography>
-                    </Box>
+                    <Footer />
                 </Box>
             </Container>
         </div>
