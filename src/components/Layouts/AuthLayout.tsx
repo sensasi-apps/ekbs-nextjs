@@ -42,7 +42,9 @@ const AuthLayout: FC<{
                 display: 'flex',
             }}>
             <Head>
-                <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
+                {title && (
+                    <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
+                )}
             </Head>
 
             <TopBarAndMenuList title={title} />
