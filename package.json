@@ -21,6 +21,7 @@
         "@sentry/nextjs": "^7.77.0",
         "axios": "^1.6.0",
         "dayjs": "^1.11.10",
+        "formik": "^2.4.5",
         "idb": "^7.1.1",
         "moment": "^2.29.4",
         "mui-datatables": "^4.3.0",
