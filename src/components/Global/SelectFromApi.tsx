@@ -1,45 +1,40 @@
-import { FC } from 'react'
-import axios from '@/lib/axios'
+// types
+import type { ReactNode } from 'react'
+import type { SelectChangeEvent, SelectProps } from '@mui/material/Select'
+import type { FormControlProps } from '@mui/material/FormControl'
+// vendors
 import useSWR from 'swr'
-
-import FormControl, { FormControlProps } from '@mui/material/FormControl'
+// materials
+import Fade from '@mui/material/Fade'
+import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select'
+import Select from '@mui/material/Select'
 import Skeleton from '@mui/material/Skeleton'
 
-const fetcher = (url: string) => axios.get(url).then(response => response.data)
-
-const SWR_CONFIG = {
-    revalidateOnFocus: false,
-}
-
-interface SelectFromApiProps extends FormControlProps {
-    endpoint: string
-    label?: string
-    selectProps?: SelectProps
-    helperText?: React.ReactNode
-    onValueChange?: (value: any) => any
-}
-
-const SelectFromApi: FC<SelectFromApiProps> = ({
+export default function SelectFromApi({
     endpoint,
     helperText,
     label,
     selectProps,
     onChange,
     onValueChange = () => {},
-    ...props
-}) => {
-    const { data, isLoading } = useSWR(endpoint, fetcher, SWR_CONFIG)
-
-    if (isLoading) return <Skeleton height="100%" />
+    ...rest
+}: {
+    endpoint: string
+    label?: string
+    selectProps?: Omit<SelectProps, 'onChange' | 'label'>
+    helperText?: ReactNode
+    onChange?: (event: SelectChangeEvent<unknown>) => void
+    onValueChange?: (value: any) => any
+} & FormControlProps) {
+    const { data, isLoading } = useSWR(endpoint)
 
     const handleChange = (event: SelectChangeEvent<unknown>) => {
         const value = event.target.value
 
-        onChange?.(event as React.ChangeEvent<HTMLInputElement>)
+        onChange?.(event)
 
         onValueChange(
             data.find((item: any) => (item.uuid || item.id) === value),
@@ -47,29 +42,38 @@ const SelectFromApi: FC<SelectFromApiProps> = ({
     }
 
     return (
-        <FormControl fullWidth {...props}>
+        <FormControl fullWidth {...rest}>
             {label && (
                 <InputLabel shrink={selectProps?.displayEmpty}>
                     {label}
                 </InputLabel>
             )}
 
-            <Select
-                {...(props as SelectProps)}
-                {...selectProps}
-                onChange={handleChange}
-                label={label}>
-                {data?.map((item: any) => (
-                    <MenuItem
-                        key={item.uuid || item.id}
-                        value={item.uuid || item.id}>
-                        {item.name}
-                    </MenuItem>
-                ))}
-            </Select>
+            <Fade
+                in={isLoading}
+                unmountOnExit
+                timeout={{
+                    exit: 0,
+                }}>
+                <Skeleton height="3em" />
+            </Fade>
+
+            <Fade in={!isLoading} unmountOnExit>
+                <Select
+                    {...(rest as SelectProps)}
+                    {...selectProps}
+                    onChange={handleChange}
+                    label={label}>
+                    {data?.map((item: any) => (
+                        <MenuItem
+                            key={item.uuid || item.id}
+                            value={item.uuid || item.id}>
+                            {item.name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </Fade>
             {helperText && <FormHelperText>{helperText}</FormHelperText>}
         </FormControl>
     )
 }
-
-export default SelectFromApi
