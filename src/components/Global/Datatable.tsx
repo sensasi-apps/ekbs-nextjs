@@ -4,13 +4,13 @@ import type {
     MUIDataTableState,
     MUISortOptions,
 } from 'mui-datatables'
+// types
 import type { KeyedMutator } from 'swr'
 import type { IconButtonProps } from '@mui/material/IconButton'
-
-import { FC, useState } from 'react'
+// vendors
+import { useState, memo } from 'react'
 import useSWR from 'swr'
 import { debounceSearchRender } from 'mui-datatables'
-
 import dynamic from 'next/dynamic'
 
 const MUIDataTable = dynamic(() => import('mui-datatables'), {
@@ -27,23 +27,23 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 let getDataRow: <T = object>(index: number) => T
 let mutatorForExport: KeyedMutator<any>
 
-const Datatable: FC<{
+const Datatable = memo(function Datatable({
+    apiUrl,
+    columns,
+    defaultSortOrder,
+    tableId,
+    title,
+    onRowClick,
+}: {
     apiUrl: string
     columns: MUIDataTableColumn[]
     defaultSortOrder: MUISortOptions
     tableId: string
     title?: string
-    onRowClick?: (
-        rowData: string[],
-        rowMeta: {
-            dataIndex: number
-            rowIndex: number
-        },
-        event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
-    ) => void
-}> = ({ title, tableId, apiUrl, columns, onRowClick, defaultSortOrder }) => {
+    onRowClick?: OnRowClickType
+}) {
     const [params, setParams] = useState<any>()
-    const [sortOrder, setSortOrder] = useState<MUISortOptions>(defaultSortOrder)
+    const [sortOrder, setSortOrder] = useState(defaultSortOrder)
 
     const {
         isLoading: isApiLoading,
@@ -55,10 +55,7 @@ const Datatable: FC<{
     getDataRow = index => data[index]
     mutatorForExport = mutate
 
-    const handleFetchData = async (
-        action: string,
-        tableState: MUIDataTableState,
-    ) => {
+    const handleFetchData = (action: string, tableState: MUIDataTableState) => {
         if (!ACTIONS_ALLOW_FETCH.includes(action)) {
             return false
         }
@@ -72,7 +69,7 @@ const Datatable: FC<{
             })
         }
 
-        setParams(formatToDatatableParams(tableState, columns))
+        setParams(formatToDatatableParams({ ...tableState }, columns))
     }
 
     const options: MUIDataTableOptions = {
@@ -94,7 +91,7 @@ const Datatable: FC<{
                 <RefreshIcon />
             </CustomHeadButton>
         ),
-        onRowClick: onRowClick as any,
+        onRowClick: onRowClick as MUIDataTableOptions['onRowClick'],
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
         textLabels: {
@@ -137,7 +134,7 @@ const Datatable: FC<{
             />
         </Box>
     )
-}
+})
 
 export default Datatable
 export { getDataRow, mutatorForExport as mutate }
@@ -190,3 +187,12 @@ function CustomHeadButton(props: IconButtonProps) {
         </Tooltip>
     )
 }
+
+export type OnRowClickType = (
+    rowData: string[],
+    rowMeta: {
+        dataIndex: number
+        rowIndex: number
+    },
+    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
+) => void
