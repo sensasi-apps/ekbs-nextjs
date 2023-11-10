@@ -13,7 +13,6 @@ import {
 } from 'formik'
 import { useState, memo } from 'react'
 // materials
-import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
@@ -27,7 +26,6 @@ import TextField from '@mui/material/TextField'
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
 // components
-import ConfirmationDialog from '@/components/Global/ConfirmationDialog'
 import DatePicker from '@/components/Global/DatePickerDayJs'
 import NumericFormat from '@/components/Global/Input/NumericFormat'
 import RpInputAdornment from '@/components/Global/InputAdornment/Rp'
@@ -39,6 +37,7 @@ import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import toYmd from '@/utils/toYmd'
+import UnsavedChangesConfirmationButtonAndDialog from '../Global/ConfirmationDialog/UnsavedChanges'
 
 export default function TransactionForm({
     dirty,
@@ -48,10 +47,6 @@ export default function TransactionForm({
     isSubmitting,
     values: transaction,
 }: FormikProps<TransactionInitialType | TransactionType>) {
-    const { userHasPermission } = useAuth()
-
-    const [openConfirmation, setOpenConfirmation] = useState(false)
-
     const { handleSubmit: handleDelete, isSubmitting: isDeleting } = useFormik({
         initialValues: {},
         onSubmit: (_, { setErrors }) =>
@@ -61,8 +56,11 @@ export default function TransactionForm({
                 .catch(error => errorCatcher(error, setErrors)),
     })
 
+    const { userHasPermission } = useAuth()
     const isUserCanDelete = userHasPermission('transactions delete')
+
     const isProcessing = isSubmitting || isDeleting
+
     const isDisabled =
         isProcessing ||
         transaction.is_transaction_destination ||
@@ -84,7 +82,7 @@ export default function TransactionForm({
                                         marginBottom: 16,
                                         textAlign: 'end',
                                     }}>
-                                    <LogDialog
+                                    <LogButtonAndDialog
                                         disabled={isProcessing}
                                         data={transaction.user_activity_logs}
                                     />
@@ -177,7 +175,11 @@ export default function TransactionForm({
                         },
                     }: FastFieldProps) => {
                         return (
-                            <Box display="flex" gap={1}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    gap: '0.5em',
+                                }}>
                                 <SelectFromApi
                                     required
                                     endpoint="/data/cashes"
@@ -226,7 +228,7 @@ export default function TransactionForm({
                                             }
                                         />
                                     )}
-                            </Box>
+                            </div>
                         )
                     }}
                 </Field>
@@ -269,8 +271,13 @@ export default function TransactionForm({
                     label="Deskripsi"
                 />
 
-                <Box display="flex" gap={1} mt={2}>
-                    <div
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: '0.5em',
+                        marginTop: '2em',
+                    }}>
+                    <span
                         style={{
                             flexGrow: 1,
                         }}>
@@ -283,17 +290,15 @@ export default function TransactionForm({
                                 <DeleteIcon />
                             </LoadingButton>
                         )}
-                    </div>
+                    </span>
 
-                    <Button
-                        type="reset"
-                        color="info"
-                        disabled={isProcessing}
-                        onClick={() =>
-                            dirty ? setOpenConfirmation(true) : handleReset()
-                        }>
-                        Batal
-                    </Button>
+                    <UnsavedChangesConfirmationButtonAndDialog
+                        shouldConfirm={dirty}
+                        onConfirm={handleReset}
+                        buttonProps={{
+                            disabled: isProcessing,
+                        }}
+                    />
 
                     <LoadingButton
                         type="submit"
@@ -303,26 +308,13 @@ export default function TransactionForm({
                         disabled={isDisabled}>
                         Simpan
                     </LoadingButton>
-                </Box>
-
-                {dirty && (
-                    <ConfirmationDialog
-                        title="Anda yakin ingin membatalkan perubahan?"
-                        content="Perubahan yang belum disimpan akan hilang."
-                        open={openConfirmation}
-                        onConfirm={() => {
-                            setOpenConfirmation(false)
-                            handleReset()
-                        }}
-                        onCancel={() => setOpenConfirmation(false)}
-                    />
-                )}
+                </div>
             </form>
         </>
     )
 }
 
-const LogDialog = memo(function LogDialog({
+const LogButtonAndDialog = memo(function LogButtonAndDialog({
     disabled,
     data,
 }: {

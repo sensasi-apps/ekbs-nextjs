@@ -2,6 +2,7 @@
 import type TransactionType from '@/dataTypes/Transaction'
 import type { OnRowClickType } from '@/components/Global/Datatable'
 import type { MUISortOptions } from 'mui-datatables'
+import type { FormikConfig } from 'formik'
 // vendors
 import { useCallback, useState } from 'react'
 import { Formik } from 'formik'
@@ -54,6 +55,21 @@ export default function TransactionCrud() {
         }
     }, [])
 
+    const handleFormSubmit: FormikConfig<
+        TransactionType | TransactionInitialType
+    >['onSubmit'] = useCallback(
+        (values, { setErrors }) =>
+            axios
+                .post(`transactions/${values.uuid}`, values)
+                .then(() => {
+                    mutateDatatable()
+                    mutateCashlist()
+                    handleClose()
+                })
+                .catch(error => errorCatcher(error, setErrors)),
+        [],
+    )
+
     return (
         <>
             <Datatable
@@ -69,21 +85,11 @@ export default function TransactionCrud() {
                 <DialogTitle>{dialogProps.title}</DialogTitle>
                 <DialogContent>
                     <Formik
-                        enableReinitialize
                         initialValues={values}
-                        onSubmit={(values, { setErrors }) =>
-                            axios
-                                .post(`transactions/${values.uuid}`, values)
-                                .then(() => {
-                                    mutateDatatable()
-                                    mutateCashlist()
-                                    handleClose()
-                                })
-                                .catch(error => errorCatcher(error, setErrors))
-                        }
-                        onReset={() => handleClose()}>
-                        {props => <TransactionForm {...props} />}
-                    </Formik>
+                        onSubmit={handleFormSubmit}
+                        onReset={handleClose}
+                        component={TransactionForm}
+                    />
                 </DialogContent>
             </Dialog>
 
