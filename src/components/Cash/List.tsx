@@ -3,7 +3,6 @@ import type CashType from '@/dataTypes/Cash'
 import type { KeyedMutator } from 'swr'
 // vendors
 import useSWR from 'swr'
-import { useFormikContext } from 'formik'
 // materials
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -23,9 +22,14 @@ import numberToCurrency from '@/utils/numberToCurrency'
 
 export let mutate: KeyedMutator<CashType[]>
 
-export default function CashList() {
+export default function CashList({
+    onNew,
+    onEdit,
+}: {
+    onNew: () => void
+    onEdit: (values: CashType) => void
+}) {
     const { userHasPermission } = useAuth()
-    const { setStatus } = useFormikContext()
 
     const {
         data: cashes = [],
@@ -54,7 +58,7 @@ export default function CashList() {
             }}>
             {cashes.map(cash => (
                 <div key={cash.uuid}>
-                    <ThisCard data={cash} />
+                    <ThisCard data={cash} onEdit={onEdit} />
                 </div>
             ))}
 
@@ -66,7 +70,7 @@ export default function CashList() {
                     }}
                     size="large"
                     variant="outlined"
-                    onClick={() => setStatus({ dialogOpen: true })}
+                    onClick={onNew}
                     startIcon={<AddIcon />}>
                     Tambah Kas
                 </Button>
@@ -75,13 +79,18 @@ export default function CashList() {
     )
 }
 
-const ThisCard = ({ data: cash }: { data: CashType }) => {
+const ThisCard = ({
+    data,
+    onEdit,
+}: {
+    data: CashType
+    onEdit: (values: CashType) => void
+}) => {
     const { userHasPermission } = useAuth()
-    const { setValues, setStatus } = useFormikContext()
 
     const isUserCanUpdate = userHasPermission('cashes update')
 
-    const { code, name, balance } = cash
+    const { code, name, balance } = data
 
     return (
         <Card>
@@ -98,10 +107,7 @@ const ThisCard = ({ data: cash }: { data: CashType }) => {
                         {isUserCanUpdate && (
                             <IconButton
                                 size="small"
-                                onClick={() => {
-                                    setValues(cash)
-                                    setStatus({ dialogOpen: true })
-                                }}>
+                                onClick={() => onEdit(data)}>
                                 <EditIcon fontSize="small" />
                             </IconButton>
                         )}

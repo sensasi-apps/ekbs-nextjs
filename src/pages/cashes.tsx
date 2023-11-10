@@ -29,7 +29,9 @@ export default function Cashses() {
                     <TransactionsCrud />
                 </Grid>
 
-                <CashCrud wrapper={Grid} item xs={12} sm={12} md={4} />
+                <Grid item xs={12} sm={12} md={4}>
+                    <CashCrud />
+                </Grid>
             </Grid>
         </AuthLayout>
     )

@@ -1,45 +1,45 @@
 // types
-import type { ReactNode } from 'react'
+import type { FormikProps } from 'formik'
 import type CashType from '@/dataTypes/Cash'
 // vendors
 import axios from '@/lib/axios'
-import { useFormik, useFormikContext } from 'formik'
+import { FastField, useFormik } from 'formik'
 // materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 import LoadingButton from '@mui/lab/LoadingButton'
-import TextField from '@mui/material/TextField'
+import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
 // providers
 import useAuth from '@/providers/Auth'
+// components
+import TextFieldFastableComponent from '../Global/Input/TextField/FastableComponent'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import numberToCurrency from '@/utils/numberToCurrency'
 import { mutate } from './List'
+import UnsavedChangesConfirmationButtonAndDialog from '../Global/ConfirmationDialog/UnsavedChanges'
 
-export const initialValues: CashType = {
+export const INITIAL_VALUES: CashType = {
     uuid: '',
     code: '',
     name: '',
 } as any
 
-export default function CashForm() {
+export default function CashForm({
+    dirty,
+    errors,
+    values,
+    isSubmitting,
+    handleSubmit,
+    handleReset,
+    setErrors,
+}: FormikProps<CashType>) {
     const { userHasPermission } = useAuth()
-    const {
-        values,
-        errors,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        handleReset,
-        setErrors,
-    } = useFormikContext<CashType>()
 
     const isNew = !values.uuid
     const isUserCanDelete = userHasPermission('cashes delete')
@@ -59,104 +59,90 @@ export default function CashForm() {
     })
 
     return (
-        <>
-            <form onSubmit={handleSubmit} autoComplete="off">
-                <input type="hidden" name="uuid" value={values.uuid} />
+        <form onSubmit={handleSubmit} autoComplete="off">
+            <Fade in={isSubmitting || isDeleting}>
+                <LinearProgress />
+            </Fade>
 
-                {errors.uuid && (
-                    <FormControl
-                        style={{
-                            marginTop: 0,
-                            marginBottom: '1em',
-                        }}>
-                        <FormHelperText error={true}>
-                            *{errors.uuid}
-                        </FormHelperText>
-                    </FormControl>
-                )}
+            <input type="hidden" name="uuid" value={values.uuid} />
 
-                {!isNew && (
-                    <Typography my={2}>
-                        Saldo saat ini:{' '}
-                        <b>{numberToCurrency(values?.balance ?? 0)}</b>
-                    </Typography>
-                )}
+            {errors.uuid && (
+                <FormControl
+                    style={{
+                        marginTop: 0,
+                        marginBottom: '1em',
+                    }}>
+                    <FormHelperText error={true}>*{errors.uuid}</FormHelperText>
+                </FormControl>
+            )}
 
-                <Grid container columnSpacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            disabled={isSubmitting || isDeleting}
-                            fullWidth
-                            required
-                            margin="dense"
-                            size="small"
-                            name="code"
-                            label="Kode"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.code}
-                            error={Boolean(errors.code)}
-                            helperText={errors.code as ReactNode}
-                        />
-                    </Grid>
+            {!isNew && (
+                <Typography my={2}>
+                    Saldo saat ini:{' '}
+                    <b>{numberToCurrency(values?.balance ?? 0)}</b>
+                </Typography>
+            )}
 
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            size="small"
-                            disabled={isSubmitting || isDeleting}
-                            required
-                            margin="dense"
-                            name="name"
-                            label="Nama"
-                            onChange={handleChange}
-                            value={values.name}
-                            error={Boolean(errors.name)}
-                            helperText={errors.name as ReactNode}
-                        />
-                    </Grid>
+            <Grid container columnSpacing={2}>
+                <Grid item xs={12} sm={6}>
+                    <FastField
+                        name="code"
+                        label="Kode"
+                        disabled={isSubmitting || isDeleting}
+                        component={TextFieldFastableComponent}
+                    />
                 </Grid>
 
-                <Box
-                    mt={4}
-                    display="flex"
-                    justifyContent={isDeletable ? 'space-between' : 'end'}>
+                <Grid item xs={12} sm={6}>
+                    <FastField
+                        name="name"
+                        label="Nama"
+                        disabled={isSubmitting || isDeleting}
+                        component={TextFieldFastableComponent}
+                    />
+                </Grid>
+            </Grid>
+
+            <div
+                style={{
+                    display: 'flex',
+                    gap: '0.5em',
+                    marginTop: '2em',
+                }}>
+                <span
+                    style={{
+                        flexGrow: 1,
+                    }}>
                     {isDeletable && (
                         <LoadingButton
                             size="small"
-                            type="submit"
-                            form="delete-form"
+                            onClick={() => handleDelete()}
                             color="error"
                             loading={isDeleting}
-                            disabled={isSubmitting}
-                            startIcon={<DeleteIcon />}
-                        />
-                    )}
-
-                    <Box display="flex" gap={1}>
-                        <Button
-                            size="small"
-                            type="reset"
-                            color="info"
-                            disabled={isSubmitting || isDeleting}
-                            onClick={handleReset}>
-                            Batal
-                        </Button>
-
-                        <LoadingButton
-                            size="small"
-                            type="submit"
-                            color="info"
-                            variant="contained"
-                            loading={isSubmitting}
-                            disabled={isSubmitting || isDeleting}>
-                            Simpan
+                            disabled={isSubmitting}>
+                            <DeleteIcon />
                         </LoadingButton>
-                    </Box>
-                </Box>
-            </form>
+                    )}
+                </span>
 
-            {isDeletable && <form onSubmit={handleDelete} id="delete-form" />}
-        </>
+                <UnsavedChangesConfirmationButtonAndDialog
+                    shouldConfirm={dirty}
+                    onConfirm={handleReset}
+                    buttonProps={{
+                        disabled: isSubmitting || isDeleting,
+                    }}
+                />
+
+                <LoadingButton
+                    size="small"
+                    type="submit"
+                    color="info"
+                    variant="contained"
+                    loading={isSubmitting}
+                    disabled={isSubmitting || isDeleting}>
+                    Simpan
+                </LoadingButton>
+            </div>
+        </form>
     )
 }
