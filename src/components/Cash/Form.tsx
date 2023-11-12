@@ -3,14 +3,12 @@ import type { FormikProps } from 'formik'
 import type CashType from '@/dataTypes/Cash'
 // vendors
 import axios from '@/lib/axios'
-import { FastField, useFormik } from 'formik'
+import { FastField, Form, useFormik } from 'formik'
 // materials
-import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 import LoadingButton from '@mui/lab/LoadingButton'
-import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -22,7 +20,9 @@ import TextFieldFastableComponent from '../Global/Input/TextField/FastableCompon
 import errorCatcher from '@/utils/errorCatcher'
 import numberToCurrency from '@/utils/numberToCurrency'
 import { mutate } from './List'
-import UnsavedChangesConfirmationButtonAndDialog from '../Global/ConfirmationDialog/UnsavedChanges'
+import FormResetButton from '../form/ResetButton'
+import FormSubmitButton from '../form/SubmitButton'
+import FormLoadingBar from '../form/LoadingBar'
 
 export const INITIAL_VALUES: CashType = {
     uuid: '',
@@ -35,7 +35,6 @@ export default function CashForm({
     errors,
     values,
     isSubmitting,
-    handleSubmit,
     handleReset,
     setErrors,
 }: FormikProps<CashType>) {
@@ -58,11 +57,12 @@ export default function CashForm({
                 .catch(error => errorCatcher(error, setErrors)),
     })
 
+    const isProcessing = isSubmitting || isDeleting
+    const isOldDirty = dirty && !isNew
+
     return (
-        <form onSubmit={handleSubmit} autoComplete="off">
-            <Fade in={isSubmitting || isDeleting}>
-                <LinearProgress />
-            </Fade>
+        <Form autoComplete="off" id="cash-form">
+            <FormLoadingBar in={isProcessing} />
 
             <input type="hidden" name="uuid" value={values.uuid} />
 
@@ -88,7 +88,7 @@ export default function CashForm({
                     <FastField
                         name="code"
                         label="Kode"
-                        disabled={isSubmitting || isDeleting}
+                        disabled={isProcessing}
                         component={TextFieldFastableComponent}
                     />
                 </Grid>
@@ -97,7 +97,7 @@ export default function CashForm({
                     <FastField
                         name="name"
                         label="Nama"
-                        disabled={isSubmitting || isDeleting}
+                        disabled={isProcessing}
                         component={TextFieldFastableComponent}
                     />
                 </Grid>
@@ -125,24 +125,19 @@ export default function CashForm({
                     )}
                 </span>
 
-                <UnsavedChangesConfirmationButtonAndDialog
-                    shouldConfirm={dirty}
-                    onConfirm={handleReset}
-                    buttonProps={{
-                        disabled: isSubmitting || isDeleting,
-                    }}
+                <FormResetButton
+                    dirty={dirty}
+                    disabled={isProcessing}
+                    form="cash-form"
                 />
 
-                <LoadingButton
-                    size="small"
-                    type="submit"
-                    color="info"
-                    variant="contained"
+                <FormSubmitButton
+                    oldDirty={isOldDirty}
+                    disabled={isProcessing}
                     loading={isSubmitting}
-                    disabled={isSubmitting || isDeleting}>
-                    Simpan
-                </LoadingButton>
+                    form="cash-form"
+                />
             </div>
-        </form>
+        </Form>
     )
 }
