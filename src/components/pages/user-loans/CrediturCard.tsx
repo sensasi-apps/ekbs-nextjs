@@ -1,7 +1,8 @@
+// types
 import type UserType from '@/dataTypes/User'
-
-import { FC, useState } from 'react'
-
+// vendors
+import { useState } from 'react'
+// materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
@@ -9,16 +10,14 @@ import CardContent from '@mui/material/CardContent'
 import CardHeader from '@mui/material/CardHeader'
 import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
-
+// icons
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+// components
+import { ContactList } from '@/components/User/Socials/CrudBox'
+import TbsPerformanceChartWithAutoFetch from './CrediturCard/TbsPerformanceChart/WithAutoFetch'
 
-import { ContactList } from '../User/Socials/CrudBox'
-import TbsPerformanceChart from './Creditur/TbsPerformanceChart'
-
-const CrediturCard: FC<{
-    data: UserType
-}> = ({ data: creditur }) => {
+export default function CrediturCard({ data: creditur }: { data: UserType }) {
     const [isCollapsed, setIsCollapsed] = useState(true)
 
     return (
@@ -59,6 +58,7 @@ const CrediturCard: FC<{
                     <Typography color="GrayText" mt={1}>
                         Kontak:
                     </Typography>
+
                     <ContactList
                         data={creditur?.socials}
                         readMode
@@ -69,17 +69,14 @@ const CrediturCard: FC<{
                         Performa:
                     </Typography>
 
-                    <Box height="200px" mt={1}>
-                        <TbsPerformanceChart
-                            data={
-                                creditur?.last_six_months_tbs_performance || []
-                            }
-                        />
-                    </Box>
+                    <TbsPerformanceChartWithAutoFetch
+                        data={creditur.last_six_months_tbs_performance}
+                        userUuid={creditur.uuid}
+                    />
                 </CardContent>
             </Collapse>
         </Card>
     )
 }
 
-export default CrediturCard
+CrediturCard
