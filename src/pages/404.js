@@ -9,7 +9,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 // etc
 import useAuth from '@/providers/Auth'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Footer from '@/components/Layouts/Footer'
+import FooterBox from '@/components/Layouts/FooterBox'
 
 export default function NotFoundPage() {
     const { isAuthenticated } = useAuth()
@@ -53,7 +53,7 @@ export default function NotFoundPage() {
                 )}
             </div>
 
-            <Footer />
+            <FooterBox />
         </Container>
     )
 

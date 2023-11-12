@@ -1,3 +1,6 @@
+// types
+import type { BoxProps } from '@mui/material/Box'
+// vendors
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
@@ -6,14 +9,26 @@ import Typography from '@mui/material/Typography'
 // etc
 import packageJson from '@/../package.json'
 
-export default function Footer() {
+/**
+ * Renders the footer component for the application.
+ * @param {BoxProps} props - The props object for the Box component.
+ * @returns {JSX.Element} - The JSX footer component.
+ * @default
+ * - mt: 8
+ * - mb: 4
+ * - textAlign: center
+ * - color: GrayText
+ * - component: footer
+ */
+export default function FooterBox(props: BoxProps) {
     return (
         <Box
             mt={8}
             mb={4}
             textAlign="center"
             color="GrayText"
-            component="footer">
+            component="footer"
+            {...props}>
             <Typography variant="caption" component="div">
                 Koperasi Belayan Sejahtera Elektronik
             </Typography>
@@ -29,7 +44,7 @@ export default function Footer() {
                     Sensasi Apps
                 </Link>
                 {' © '}
-                {new Date().getFullYear()}
+                {dayjs().format('YYYY')}
                 {'.'}
             </Typography>
         </Box>

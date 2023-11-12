@@ -9,7 +9,7 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 // etc
 import ErrorCenter from '../Statuses/ErrorCenter'
-import Footer from './Footer'
+import FooterBox from './FooterBox'
 import LoadingCenter from '../Statuses/LoadingCenter'
 import useAuth from '@/providers/Auth'
 
@@ -82,7 +82,7 @@ const GuestFormLayout: FC<{
                         {children}
                     </Box>
 
-                    <Footer />
+                    <FooterBox />
                 </Box>
             </Container>
         </div>

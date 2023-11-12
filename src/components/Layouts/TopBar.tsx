@@ -1,12 +1,11 @@
-import { FC, useState } from 'react'
+// vendor
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import moment from 'moment'
-
+// materials
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import Link from '@mui/material/Link'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
@@ -25,14 +24,17 @@ import useAuth from '@/providers/Auth'
 import TncpDialog from '@/components/TncpDialog'
 import { DRAWER_WIDTH } from './MenuList'
 
-import packageJson from '@/../package.json'
 import DarkModeSwitch from './TopBar/DarkModeSwitch'
 import FullscreenMenuItem from './TopBar/FullscreenMenuItem'
+import FooterBox from './FooterBox'
 
-const TopBar: FC<{
+export default function TopBar({
+    title,
+    toggleDrawer,
+}: {
     title: string
     toggleDrawer: () => void
-}> = ({ title, toggleDrawer }) => {
+}) {
     const { user } = useAuth()
 
     const router = useRouter()
@@ -115,28 +117,8 @@ const TopBar: FC<{
                             </ListItemIcon>
                             Logout
                         </MenuItem>
-                        <Box mt={2} mb={1} textAlign="center" color="GrayText">
-                            <Typography variant="caption" component="div">
-                                Koperasi Belayan Sejahtera Elektronik
-                            </Typography>
-                            <Typography variant="caption" component="div">
-                                v{packageJson.version} &mdash;
-                                {moment(packageJson.versionDate).format(
-                                    ' DD-MM-YYYY',
-                                )}
-                            </Typography>
-                            <Typography variant="caption" component="div">
-                                <Link
-                                    color="inherit"
-                                    href="https://github.com/sensasi-apps"
-                                    target="_blank">
-                                    Sensasi Apps
-                                </Link>
-                                {' © '}
-                                {new Date().getFullYear()}
-                                {'.'}
-                            </Typography>
-                        </Box>
+
+                        <FooterBox mt={2} mb={1} component="div" />
                     </Menu>
                 </Box>
             </Toolbar>
@@ -148,5 +130,3 @@ const TopBar: FC<{
         </AppBar>
     )
 }
-
-export default TopBar
