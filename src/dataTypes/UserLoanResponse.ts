@@ -8,10 +8,10 @@ type UserLoanDBTableType = {
     is_approved: boolean
 }
 
-export type UserLoanRecordWithResponser = UserLoanDBTableType & {
-    by_user: UserType
+type InstallmentWithRelationType = UserLoanDBTableType & {
+    by_user?: UserType
 }
 
-type UserLoanResponseType = UserLoanDBTableType | UserLoanRecordWithResponser
+type UserLoanResponseType = UserLoanDBTableType | InstallmentWithRelationType
 
 export default UserLoanResponseType
