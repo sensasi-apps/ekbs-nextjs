@@ -1,0 +1,152 @@
+// types
+import type {
+    MUIDataTableColumn,
+    MUIDataTableOptions,
+    MUIDataTableState,
+    MUISortOptions,
+} from 'mui-datatables'
+import type { KeyedMutator } from 'swr'
+// vendors
+import { useCallback, useState, memo } from 'react'
+import useSWR from 'swr'
+import { debounceSearchRender } from 'mui-datatables'
+import dynamic from 'next/dynamic'
+// materials
+import Box from '@mui/material/Box'
+import LinearProgress from '@mui/material/LinearProgress'
+// icons
+import RefreshIcon from '@mui/icons-material/Refresh'
+// locals
+import type { OnRowClickType } from './types'
+import CustomHeadButton from './components/CustomHeadButton'
+import formatToDatatableParams from './utils/formatToDatatableParams'
+
+const MUIDataTable = dynamic(() => import('mui-datatables'), {
+    ssr: false,
+})
+
+let getDataRow: <T = object>(index: number) => T
+let mutatorForExport: KeyedMutator<any>
+
+const Datatable = memo(function Datatable({
+    apiUrl,
+    columns,
+    defaultSortOrder,
+    tableId,
+    title,
+    onRowClick,
+}: {
+    apiUrl: string
+    columns: MUIDataTableColumn[]
+    defaultSortOrder: MUISortOptions
+    tableId: string
+    title?: string
+    onRowClick?: OnRowClickType
+}) {
+    const [params, setParams] = useState<any>()
+    const [sortOrder, setSortOrder] = useState(defaultSortOrder)
+
+    const {
+        isLoading: isApiLoading,
+        isValidating,
+        data: { data = [], recordsTotal } = {},
+        mutate,
+    } = useSWR(params ? [apiUrl, params] : null)
+
+    getDataRow = index => data[index]
+    mutatorForExport = mutate
+
+    const handleFetchData = useCallback(
+        (action: string, tableState: MUIDataTableState) => {
+            if (
+                ![
+                    'sort',
+                    'changePage',
+                    'changeRowsPerPage',
+                    'search',
+                    'tableInitialized',
+                ].includes(action)
+            ) {
+                return false
+            }
+
+            if (action === 'sort') {
+                setSortOrder(prev => {
+                    prev.name = tableState.sortOrder.name
+                    prev.direction = tableState.sortOrder.direction
+
+                    return prev
+                })
+            }
+
+            setParams(formatToDatatableParams({ ...tableState }, columns))
+        },
+        [],
+    )
+
+    const options: MUIDataTableOptions = {
+        tableId: tableId,
+        filter: false,
+        sortOrder: sortOrder,
+        serverSide: true,
+        responsive: 'standard',
+        selectableRows: 'none',
+        download: false,
+        print: false,
+        count: recordsTotal || 0,
+        customSearchRender: debounceSearchRender(750),
+        customToolbar: () => (
+            <CustomHeadButton
+                aria-label="Refresh"
+                disabled={isApiLoading || isValidating}
+                onClick={() => mutate()}>
+                <RefreshIcon />
+            </CustomHeadButton>
+        ),
+        onRowClick: onRowClick as MUIDataTableOptions['onRowClick'],
+        onTableInit: handleFetchData,
+        onTableChange: handleFetchData,
+        textLabels: {
+            body: {
+                noMatch:
+                    isApiLoading || isValidating
+                        ? 'Memuat data...'
+                        : 'Tidak ada data yang tersedia',
+                toolTip: 'Urutkan',
+            },
+        },
+    }
+
+    return (
+        <Box
+            sx={{
+                '& tbody tr:hover': {
+                    cursor: 'pointer',
+                    ripple: {
+                        color: 'transparent',
+                    },
+                },
+            }}>
+            {(isApiLoading || isValidating) && (
+                <LinearProgress
+                    sx={{
+                        borderTopLeftRadius: 11,
+                        borderTopRightRadius: 11,
+                        translate: '0 4px',
+                        zIndex: 1,
+                    }}
+                />
+            )}
+
+            <MUIDataTable
+                title={title}
+                data={data || []}
+                columns={columns}
+                options={options}
+            />
+        </Box>
+    )
+})
+
+export default Datatable
+export { getDataRow, mutatorForExport as mutate }
