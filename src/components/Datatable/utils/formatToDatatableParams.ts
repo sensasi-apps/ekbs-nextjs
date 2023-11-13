@@ -1,15 +1,18 @@
-const ACTIONS_ALLOW_FETCH = [
-    'sort',
-    'changePage',
-    'changeRowsPerPage',
-    'search',
-    'tableInitialized',
-]
+import type { MUIDataTableColumn, MUIDataTableState } from 'mui-datatables'
 
-const formatToDatatableParams = (tableState, columns) => {
+export default function formatToDatatableParams(
+    tableState: MUIDataTableState,
+    columns: MUIDataTableColumn[],
+) {
     const orderIndex = columns.findIndex(
         column => column.name === tableState.sortOrder.name,
     )
+
+    columns.forEach(column => {
+        // @ts-ignore
+        column.searchable = column?.options?.searchable
+    })
+
     const params = {
         draw: tableState.page + 1,
         columns: columns,
@@ -29,5 +32,3 @@ const formatToDatatableParams = (tableState, columns) => {
 
     return params
 }
-
-export { formatToDatatableParams, ACTIONS_ALLOW_FETCH }
