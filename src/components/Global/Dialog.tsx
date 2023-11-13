@@ -1,22 +1,33 @@
-import { FC } from 'react'
-
+// types
+import type { DialogProps } from '@mui/material/Dialog'
+import type { ReactNode } from 'react'
+import type { DialogTitleProps } from '@mui/material/DialogTitle'
+// materials
 import MuiDialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
-
+// icons
 import CloseIcon from '@mui/icons-material/Close'
 
-const Dialog: FC<DialogProps> = ({
+export default function Dialog({
     children,
     closeButtonProps,
     dialogTitleProps,
     middleHead,
     title,
     ...props
-}) => {
+}: {
+    closeButtonProps?: {
+        onClick?: () => void
+        disabled?: boolean
+    }
+    dialogTitleProps?: DialogTitleProps
+    middleHead?: ReactNode
+    title: string
+} & DialogProps) {
     return (
-        <MuiDialog maxWidth="xs" {...props}>
+        <MuiDialog fullWidth maxWidth="xs" disableRestoreFocus {...props}>
             <DialogTitle
                 display="flex"
                 justifyContent="space-between"
@@ -39,20 +50,4 @@ const Dialog: FC<DialogProps> = ({
             <DialogContent>{children}</DialogContent>
         </MuiDialog>
     )
-}
-
-export default Dialog
-
-import type { ReactNode } from 'react'
-import type { DialogProps as MuiDialogProps } from '@mui/material/Dialog'
-import type { DialogTitleProps } from '@mui/material/DialogTitle'
-
-interface DialogProps extends MuiDialogProps {
-    closeButtonProps?: {
-        onClick?: () => void
-        disabled?: boolean
-    }
-    dialogTitleProps?: DialogTitleProps
-    middleHead?: ReactNode
-    title: string
 }
