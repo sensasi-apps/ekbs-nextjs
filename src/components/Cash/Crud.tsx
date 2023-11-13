@@ -4,13 +4,10 @@ import type CashType from '@/dataTypes/Cash'
 import axios from '@/lib/axios'
 import { useCallback, useState } from 'react'
 import { Formik, FormikConfig } from 'formik'
-// materials
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 // components
 import CashForm, { INITIAL_VALUES } from '@/components/Cash/Form'
 import CashList, { mutate } from '@/components/Cash/List'
+import DialogWithTitle from '@/components/DialogWithTitle'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import useAuth from '@/providers/Auth'
@@ -50,21 +47,20 @@ export default function CashCrud() {
         <>
             <CashList onNew={handleNew} onEdit={handleEdit} />
 
-            <Dialog open={dialogOpen} fullWidth maxWidth="xs">
-                <DialogTitle>
-                    {values.uuid
+            <DialogWithTitle
+                title={
+                    values.uuid
                         ? `Ubah data Kas: ${values.code ?? values.name}`
-                        : 'Tambah Kas baru'}
-                </DialogTitle>
-                <DialogContent>
-                    <Formik
-                        initialValues={values}
-                        onSubmit={handleSubmit}
-                        onReset={closeDialog}
-                        component={CashForm}
-                    />
-                </DialogContent>
-            </Dialog>
+                        : 'Tambah Kas baru'
+                }
+                open={dialogOpen}>
+                <Formik
+                    initialValues={values}
+                    onSubmit={handleSubmit}
+                    onReset={closeDialog}
+                    component={CashForm}
+                />
+            </DialogWithTitle>
         </>
     )
 }
