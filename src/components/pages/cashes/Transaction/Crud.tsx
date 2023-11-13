@@ -1,8 +1,8 @@
 // types
 import type TransactionType from '@/dataTypes/Transaction'
-import type { OnRowClickType } from '@/components/Global/Datatable'
 import type { MUISortOptions } from 'mui-datatables'
 import type { FormikConfig } from 'formik'
+import type { OnRowClickType } from '@/components/Datatable'
 // vendors
 import { useCallback, useState } from 'react'
 import { Formik } from 'formik'
@@ -10,18 +10,15 @@ import axios from '@/lib/axios'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
-import Datatable, {
-    getDataRow,
-    mutate as mutateDatatable,
-} from '@/components/Global/Datatable'
-import Fab from '@/components/Global/Fab'
-import { mutate as mutateCashlist } from '@/components/Cash/List'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
-// utils
-import errorCatcher from '@/utils/errorCatcher'
+import Fab from '@/components/Fab'
 // local components
 import DATATABLE_COLUMNS from './DATATABLE_COLUMNS'
 import TransactionForm, { INITIAL_VALUES, TransactionInitialType } from './Form'
+import { mutate as mutateCashlist } from '../Cash/List'
+// utils
+import errorCatcher from '@/utils/errorCatcher'
 
 const DEFAULT_SORT_ORDER: MUISortOptions = { name: 'uuid', direction: 'desc' }
 
@@ -59,7 +56,7 @@ export default function TransactionCrud() {
             axios
                 .post(`transactions/${values.uuid}`, values)
                 .then(() => {
-                    mutateDatatable()
+                    mutate()
                     mutateCashlist()
                     handleClose()
                 })

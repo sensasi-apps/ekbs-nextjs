@@ -15,14 +15,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 // providers
 import useAuth from '@/providers/Auth'
 // components
-import TextFieldFastableComponent from '../Global/Input/TextField/FastableComponent'
+import FormResetButton from '@/components/form/ResetButton'
+import FormSubmitButton from '@/components/form/SubmitButton'
+import FormLoadingBar from '@/components/form/LoadingBar'
+import TextFieldFastableComponent from '@/components/Global/Input/TextField/FastableComponent'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import numberToCurrency from '@/utils/numberToCurrency'
 import { mutate } from './List'
-import FormResetButton from '../form/ResetButton'
-import FormSubmitButton from '../form/SubmitButton'
-import FormLoadingBar from '../form/LoadingBar'
 
 export const INITIAL_VALUES: CashType = {
     uuid: '',
