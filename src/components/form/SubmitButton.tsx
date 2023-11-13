@@ -20,6 +20,7 @@ const FormSubmitButton = memo(function FormSubmitButton({
             color="info"
             buttonProps={{
                 type: oldDirty ? 'button' : 'submit',
+                form: form,
                 variant: 'contained',
                 loading: loading,
                 disabled: disabled,
