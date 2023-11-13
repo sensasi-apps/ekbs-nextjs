@@ -1,13 +1,24 @@
-import type LoanType from '@/dataTypes/Loan'
+import UserLoanStatusEnum from '@/dataTypes/UserLoan/StatusEnum'
 
-export default function getLoanStatusColor(status: LoanType['status']) {
-    if (status === 'angsuran aktif') {
-        return 'info.main'
+type userLoanStatusColorType = 'warning' | 'success' | 'error' | undefined
+
+const userLoanStatusColor: {
+    [key in UserLoanStatusEnum]: userLoanStatusColorType
+} = {
+    [UserLoanStatusEnum.WaitingForApproval]: 'warning',
+    [UserLoanStatusEnum.Rejected]: 'error',
+    [UserLoanStatusEnum.WaitingForDisbursement]: 'warning',
+    [UserLoanStatusEnum.Active]: 'success',
+    [UserLoanStatusEnum.Finished]: undefined,
+}
+
+export default function getLoanStatusColor(
+    status: UserLoanStatusEnum,
+    suffix?: string,
+): userLoanStatusColorType | string {
+    if (userLoanStatusColor[status] === undefined) {
+        return undefined
     }
 
-    if (status === 'menunggu pencairan' || status === 'menunggu persetujuan') {
-        return 'warning.main'
-    }
-
-    return ''
+    return `${userLoanStatusColor[status]}${suffix}`
 }
