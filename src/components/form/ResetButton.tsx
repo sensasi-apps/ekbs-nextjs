@@ -18,6 +18,7 @@ const FormResetButton = memo(function FormResetButton({
             color="warning"
             buttonProps={{
                 type: dirty ? 'button' : 'reset',
+                form: form,
                 disabled: disabled,
                 color: 'info',
                 children: dirty ? 'Batal' : 'Tutup',
