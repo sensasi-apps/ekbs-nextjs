@@ -7,10 +7,6 @@ import type { FormikConfig } from 'formik'
 import { useCallback, useState } from 'react'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
-// materials
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
@@ -20,6 +16,7 @@ import Datatable, {
 } from '@/components/Global/Datatable'
 import Fab from '@/components/Global/Fab'
 import { mutate as mutateCashlist } from '@/components/Cash/List'
+import DialogWithTitle from '@/components/DialogWithTitle'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 // local components
@@ -81,17 +78,14 @@ export default function TransactionCrud() {
                 defaultSortOrder={DEFAULT_SORT_ORDER}
             />
 
-            <Dialog open={dialogProps.open} fullWidth maxWidth="xs">
-                <DialogTitle>{dialogProps.title}</DialogTitle>
-                <DialogContent>
-                    <Formik
-                        initialValues={values}
-                        onSubmit={handleFormSubmit}
-                        onReset={handleClose}
-                        component={TransactionForm}
-                    />
-                </DialogContent>
-            </Dialog>
+            <DialogWithTitle title={dialogProps.title} open={dialogProps.open}>
+                <Formik
+                    initialValues={values}
+                    onSubmit={handleFormSubmit}
+                    onReset={handleClose}
+                    component={TransactionForm}
+                />
+            </DialogWithTitle>
 
             <Fab
                 disabled={dialogProps.open}

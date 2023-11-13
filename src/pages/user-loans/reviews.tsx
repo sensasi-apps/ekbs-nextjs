@@ -8,10 +8,11 @@ import axios from '@/lib/axios'
 // components
 import { mutate } from '@/components/Global/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Dialog from '@/components/Global/Dialog'
-import errorCatcher from '@/utils/errorCatcher'
 import LoanReviewForm from '@/components/pages/user-loans/reviews/Form'
 import ReviewDatatable from '@/components/pages/user-loans/reviews/Datatable'
+import DialogWithTitle from '@/components/DialogWithTitle'
+// utils
+import errorCatcher from '@/utils/errorCatcher'
 
 export default function UserLoansReviews() {
     const [state, setState] = useState<FormOpenStateType | FormCloseStateType>(
@@ -24,7 +25,9 @@ export default function UserLoansReviews() {
         <AuthLayout title="Persetujuan Pinjaman">
             <ReviewDatatable onSetReviewState={setState} />
 
-            <Dialog title="Persetujuan Pinjaman" open={state.isDialogOpen}>
+            <DialogWithTitle
+                title="Persetujuan Pinjaman"
+                open={state.isDialogOpen}>
                 <Formik
                     initialValues={state.formData}
                     initialStatus={{
@@ -45,7 +48,7 @@ export default function UserLoansReviews() {
                     onReset={handleClose}
                     component={LoanReviewForm}
                 />
-            </Dialog>
+            </DialogWithTitle>
         </AuthLayout>
     )
 }
