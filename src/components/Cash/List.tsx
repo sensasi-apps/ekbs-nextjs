@@ -3,6 +3,7 @@ import type CashType from '@/dataTypes/Cash'
 import type { KeyedMutator } from 'swr'
 // vendors
 import useSWR from 'swr'
+import { memo } from 'react'
 // materials
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -22,7 +23,7 @@ import numberToCurrency from '@/utils/numberToCurrency'
 
 export let mutate: KeyedMutator<CashType[]>
 
-export default function CashList({
+const CashList = memo(function CashList({
     onNew,
     onEdit,
 }: {
@@ -77,7 +78,9 @@ export default function CashList({
             )}
         </Box>
     )
-}
+})
+
+export default CashList
 
 const ThisCard = ({
     data,
