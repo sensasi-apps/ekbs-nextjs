@@ -31,9 +31,8 @@ export default function UserLoanReviewForm({
 
     return (
         <>
+            <FormLoadingBar in={isProcessing} />
             <Form autoComplete="off" id="user-loan-review-form">
-                <FormLoadingBar in={isProcessing} />
-
                 <CrediturCard data={userLoan.user} />
 
                 <UserLoanSummaryBox data={userLoan} />

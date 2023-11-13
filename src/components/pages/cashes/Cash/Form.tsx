@@ -61,83 +61,86 @@ export default function CashForm({
     const isOldDirty = dirty && !isNew
 
     return (
-        <Form autoComplete="off" id="cash-form">
+        <>
             <FormLoadingBar in={isProcessing} />
+            <Form autoComplete="off" id="cash-form">
+                <input type="hidden" name="uuid" value={values.uuid} />
 
-            <input type="hidden" name="uuid" value={values.uuid} />
+                {errors.uuid && (
+                    <FormControl
+                        style={{
+                            marginTop: 0,
+                            marginBottom: '1em',
+                        }}>
+                        <FormHelperText error={true}>
+                            *{errors.uuid}
+                        </FormHelperText>
+                    </FormControl>
+                )}
 
-            {errors.uuid && (
-                <FormControl
-                    style={{
-                        marginTop: 0,
-                        marginBottom: '1em',
-                    }}>
-                    <FormHelperText error={true}>*{errors.uuid}</FormHelperText>
-                </FormControl>
-            )}
+                {!isNew && (
+                    <Typography my={2}>
+                        Saldo saat ini:{' '}
+                        <b>{numberToCurrency(values?.balance ?? 0)}</b>
+                    </Typography>
+                )}
 
-            {!isNew && (
-                <Typography my={2}>
-                    Saldo saat ini:{' '}
-                    <b>{numberToCurrency(values?.balance ?? 0)}</b>
-                </Typography>
-            )}
+                <Grid container columnSpacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <FastField
+                            name="code"
+                            label="Kode"
+                            disabled={isProcessing}
+                            component={TextFieldFastableComponent}
+                        />
+                    </Grid>
 
-            <Grid container columnSpacing={2}>
-                <Grid item xs={12} sm={6}>
-                    <FastField
-                        name="code"
-                        label="Kode"
-                        disabled={isProcessing}
-                        component={TextFieldFastableComponent}
-                    />
+                    <Grid item xs={12} sm={6}>
+                        <FastField
+                            name="name"
+                            label="Nama"
+                            disabled={isProcessing}
+                            component={TextFieldFastableComponent}
+                        />
+                    </Grid>
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
-                    <FastField
-                        name="name"
-                        label="Nama"
-                        disabled={isProcessing}
-                        component={TextFieldFastableComponent}
-                    />
-                </Grid>
-            </Grid>
-
-            <div
-                style={{
-                    display: 'flex',
-                    gap: '0.5em',
-                    marginTop: '2em',
-                }}>
-                <span
+                <div
                     style={{
-                        flexGrow: 1,
+                        display: 'flex',
+                        gap: '0.5em',
+                        marginTop: '2em',
                     }}>
-                    {isDeletable && (
-                        <LoadingButton
-                            size="small"
-                            onClick={() => handleDelete()}
-                            color="error"
-                            loading={isDeleting}
-                            disabled={isSubmitting}>
-                            <DeleteIcon />
-                        </LoadingButton>
-                    )}
-                </span>
+                    <span
+                        style={{
+                            flexGrow: 1,
+                        }}>
+                        {isDeletable && (
+                            <LoadingButton
+                                size="small"
+                                onClick={() => handleDelete()}
+                                color="error"
+                                loading={isDeleting}
+                                disabled={isSubmitting}>
+                                <DeleteIcon />
+                            </LoadingButton>
+                        )}
+                    </span>
 
-                <FormResetButton
-                    dirty={dirty}
-                    disabled={isProcessing}
-                    form="cash-form"
-                />
+                    <FormResetButton
+                        dirty={dirty}
+                        disabled={isProcessing}
+                        form="cash-form"
+                    />
 
-                <FormSubmitButton
-                    oldDirty={isOldDirty}
-                    disabled={isProcessing}
-                    loading={isSubmitting}
-                    form="cash-form"
-                />
-            </div>
-        </Form>
+                    <FormSubmitButton
+                        oldDirty={isOldDirty}
+                        disabled={isProcessing || !dirty}
+                        loading={isSubmitting}
+                        form="cash-form"
+                    />
+                </div>
+            </Form>
+        </>
     )
 }
