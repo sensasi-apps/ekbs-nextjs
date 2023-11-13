@@ -4,7 +4,7 @@ import TransactionType from '@/dataTypes/Transaction'
 // materials
 import { green } from '@mui/material/colors'
 // components
-import { getDataRow } from '@/components/Global/Datatable'
+import { getDataRow } from '@/components/Datatable'
 // utils
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'

@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
 // components
-import CardListSkeletons from '../Ui/CardListSkeletons'
+import CardListSkeletons from '@/components/Ui/CardListSkeletons'
 // providers
 import useAuth from '@/providers/Auth'
 // utils

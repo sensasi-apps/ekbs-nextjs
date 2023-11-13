@@ -5,9 +5,10 @@ import axios from '@/lib/axios'
 import { useCallback, useState } from 'react'
 import { Formik, FormikConfig } from 'formik'
 // components
-import CashForm, { INITIAL_VALUES } from '@/components/Cash/Form'
-import CashList, { mutate } from '@/components/Cash/List'
 import DialogWithTitle from '@/components/DialogWithTitle'
+// local components
+import CashForm, { INITIAL_VALUES } from './Form'
+import CashList, { mutate } from './List'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import useAuth from '@/providers/Auth'

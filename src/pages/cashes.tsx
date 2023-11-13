@@ -2,8 +2,8 @@
 import Grid from '@mui/material/Grid'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import CashCrud from '@/components/Cash/Crud'
-import TransactionsCrud from '@/components/Transaction/Crud'
+import CashCrud from '@/components/pages/cashes/Cash/Crud'
+import TransactionsCrud from '@/components/pages/cashes/Transaction/Crud'
 
 export default function Cashses() {
     return (
