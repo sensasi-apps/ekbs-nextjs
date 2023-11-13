@@ -1,15 +1,15 @@
 // types
 import type LoanType from '@/dataTypes/Loan'
-import type { FormOpenStateType } from '../../../../pages/user-loans/reviews'
+import type { FormOpenStateType } from '@/pages/user-loans/reviews'
 // vendors
 import { useState } from 'react'
 import Chip from '@mui/material/Chip'
 import Box from '@mui/material/Box'
 // components
 import useAuth from '@/providers/Auth'
-import Datatable, { getDataRow } from '@/components/Global/Datatable'
-import DATATABLE_COLUMNS from '@/components/Loan/DATATABLE_COLUMNS'
-import { DEFAULT_SORT_ORDER } from '@/components/Loan/Datatable'
+import Datatable, { getDataRow } from '@/components/Datatable'
+import DATATABLE_COLUMNS from '@/components/pages/user-loans/DATATABLE_COLUMNS'
+import { DEFAULT_SORT_ORDER } from '@/components/pages/user-loans/Datatable'
 
 enum ApiUrlEnum {
     All = '/user-loans/datatable',
