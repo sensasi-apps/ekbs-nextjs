@@ -67,237 +67,243 @@ export default function TransactionForm({
     const isOldDirty = dirty && !transaction.uuid
 
     return (
-        <Form autoComplete="off" id="transaction-form">
+        <>
             <FormLoadingBar in={isProcessing} />
+            <Form autoComplete="off" id="transaction-form">
+                <FastField name="uuid">
+                    {({ field }: FastFieldProps) => {
+                        if (field.value) {
+                            return (
+                                <div
+                                    style={{
+                                        marginBottom: 16,
+                                        textAlign: 'end',
+                                    }}>
+                                    <LogButtonAndDialog
+                                        disabled={isProcessing}
+                                        data={transaction.user_activity_logs}
+                                    />
 
-            <FastField name="uuid">
-                {({ field }: FastFieldProps) => {
-                    if (field.value) {
+                                    <TextField
+                                        size="small"
+                                        disabled
+                                        fullWidth
+                                        id="uuid"
+                                        margin="none"
+                                        variant="filled"
+                                        label="Kode Transaksi"
+                                        value={transaction.uuid}
+                                        error={Boolean(validationErrors.uuid)}
+                                        helperText={validationErrors.uuid}
+                                    />
+                                </div>
+                            )
+                        }
+                    }}
+                </FastField>
+
+                <FastField name="type">
+                    {({ field }: FastFieldProps) => (
+                        <FormControl
+                            margin="dense"
+                            required
+                            disabled={isDisabled}>
+                            <FormLabel id="type">Jenis Transaksi</FormLabel>
+                            <RadioGroup row aria-labelledby="type" {...field}>
+                                <FormControlLabel
+                                    value="income"
+                                    control={<Radio required />}
+                                    label="Masuk"
+                                />
+                                <FormControlLabel
+                                    value="expense"
+                                    control={<Radio />}
+                                    label="Keluar"
+                                />
+                                <FormControlLabel
+                                    value="transfer"
+                                    control={<Radio />}
+                                    label="Transfer"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                    )}
+                </FastField>
+
+                <FastField name="at">
+                    {({ field, meta, form }: FastFieldProps) => (
+                        <DatePicker
+                            slotProps={{
+                                textField: {
+                                    fullWidth: true,
+                                    required: true,
+                                    margin: 'dense',
+                                    size: 'small',
+                                    error: Boolean(meta.error),
+                                    helperText: meta.error,
+                                    name: field.name,
+                                },
+                            }}
+                            label="Tanggal"
+                            disabled={isDisabled}
+                            onChange={value =>
+                                form.setFieldValue(
+                                    field.name,
+                                    value?.format('YYYY-MM-DD') ?? '',
+                                )
+                            }
+                            value={dayjs(field.value)}
+                        />
+                    )}
+                </FastField>
+
+                <Field name="cashable_uuid" label>
+                    {({
+                        field: { name, value, onBlur, onChange },
+                        meta: { error },
+                        form: {
+                            values: {
+                                type,
+                                to_cash_uuid,
+                                is_transaction_destination,
+                            },
+                            errors,
+                            setFieldValue,
+                        },
+                    }: FastFieldProps) => {
                         return (
                             <div
                                 style={{
-                                    marginBottom: 16,
-                                    textAlign: 'end',
+                                    display: 'flex',
+                                    gap: '0.5em',
                                 }}>
-                                <LogButtonAndDialog
-                                    disabled={isProcessing}
-                                    data={transaction.user_activity_logs}
+                                <SelectFromApi
+                                    required
+                                    endpoint="/data/cashes"
+                                    label={
+                                        type === 'income'
+                                            ? 'Ke Kas'
+                                            : 'Dari Kas'
+                                    }
+                                    size="small"
+                                    margin="dense"
+                                    disabled={isDisabled}
+                                    selectProps={{
+                                        value: value,
+                                        name: name,
+                                        onBlur: onBlur,
+                                    }}
+                                    error={Boolean(error)}
+                                    helperText={error}
+                                    onChange={onChange}
                                 />
 
-                                <TextField
-                                    size="small"
-                                    disabled
-                                    fullWidth
-                                    id="uuid"
-                                    margin="none"
-                                    variant="filled"
-                                    label="Kode Transaksi"
-                                    value={transaction.uuid}
-                                    error={Boolean(validationErrors.uuid)}
-                                    helperText={validationErrors.uuid}
-                                />
+                                {type === 'transfer' &&
+                                    !is_transaction_destination && (
+                                        <SelectFromApi
+                                            required
+                                            endpoint="/data/cashes"
+                                            label="Ke Kas"
+                                            size="small"
+                                            margin="dense"
+                                            disabled={isDisabled}
+                                            selectProps={{
+                                                value: to_cash_uuid,
+                                                name: 'to_cash_uuid',
+                                            }}
+                                            error={Boolean(errors.to_cash_uuid)}
+                                            helperText={
+                                                errors.to_cash_uuid as string
+                                            }
+                                            onChange={event =>
+                                                setFieldValue(
+                                                    'to_cash_uuid',
+                                                    'value' in event.target
+                                                        ? event.target.value
+                                                        : '',
+                                                )
+                                            }
+                                        />
+                                    )}
                             </div>
                         )
-                    }
-                }}
-            </FastField>
+                    }}
+                </Field>
 
-            <FastField name="type">
-                {({ field }: FastFieldProps) => (
-                    <FormControl margin="dense" required disabled={isDisabled}>
-                        <FormLabel id="type">Jenis Transaksi</FormLabel>
-                        <RadioGroup row aria-labelledby="type" {...field}>
-                            <FormControlLabel
-                                value="income"
-                                control={<Radio required />}
-                                label="Masuk"
-                            />
-                            <FormControlLabel
-                                value="expense"
-                                control={<Radio />}
-                                label="Keluar"
-                            />
-                            <FormControlLabel
-                                value="transfer"
-                                control={<Radio />}
-                                label="Transfer"
-                            />
-                        </RadioGroup>
-                    </FormControl>
-                )}
-            </FastField>
-
-            <FastField name="at">
-                {({ field, meta, form }: FastFieldProps) => (
-                    <DatePicker
-                        slotProps={{
-                            textField: {
-                                fullWidth: true,
-                                required: true,
-                                margin: 'dense',
-                                size: 'small',
-                                error: Boolean(meta.error),
-                                helperText: meta.error,
-                                name: field.name,
-                            },
-                        }}
-                        label="Tanggal"
-                        disabled={isDisabled}
-                        onChange={value =>
-                            form.setFieldValue(
-                                field.name,
-                                value?.format('YYYY-MM-DD') ?? '',
-                            )
-                        }
-                        value={dayjs(field.value)}
-                    />
-                )}
-            </FastField>
-
-            <Field name="cashable_uuid" label>
-                {({
-                    field: { name, value, onBlur, onChange },
-                    meta: { error },
-                    form: {
-                        values: {
-                            type,
-                            to_cash_uuid,
-                            is_transaction_destination,
-                        },
-                        errors,
-                        setFieldValue,
-                    },
-                }: FastFieldProps) => {
-                    return (
-                        <div
-                            style={{
-                                display: 'flex',
-                                gap: '0.5em',
-                            }}>
-                            <SelectFromApi
-                                required
-                                endpoint="/data/cashes"
-                                label={
-                                    type === 'income' ? 'Ke Kas' : 'Dari Kas'
-                                }
-                                size="small"
-                                margin="dense"
+                <FastField name="amount">
+                    {({
+                        field: { value, name },
+                        form: { setFieldValue },
+                        meta: { error },
+                    }: FastFieldProps) => {
+                        return (
+                            <NumericFormat
                                 disabled={isDisabled}
-                                selectProps={{
-                                    value: value,
-                                    name: name,
-                                    onBlur: onBlur,
+                                label="Jumlah"
+                                value={value}
+                                name={name}
+                                onValueChange={({ value }) =>
+                                    setFieldValue(name, value)
+                                }
+                                InputProps={{
+                                    startAdornment: <RpInputAdornment />,
                                 }}
                                 error={Boolean(error)}
                                 helperText={error}
-                                onChange={onChange}
+                                inputProps={{
+                                    minLength: 1,
+                                    maxLength: 19,
+                                }}
                             />
+                        )
+                    }}
+                </FastField>
 
-                            {type === 'transfer' &&
-                                !is_transaction_destination && (
-                                    <SelectFromApi
-                                        required
-                                        endpoint="/data/cashes"
-                                        label="Ke Kas"
-                                        size="small"
-                                        margin="dense"
-                                        disabled={isDisabled}
-                                        selectProps={{
-                                            value: to_cash_uuid,
-                                            name: 'to_cash_uuid',
-                                        }}
-                                        error={Boolean(errors.to_cash_uuid)}
-                                        helperText={
-                                            errors.to_cash_uuid as string
-                                        }
-                                        onChange={event =>
-                                            setFieldValue(
-                                                'to_cash_uuid',
-                                                'value' in event.target
-                                                    ? event.target.value
-                                                    : '',
-                                            )
-                                        }
-                                    />
-                                )}
-                        </div>
-                    )
-                }}
-            </Field>
+                <FastField
+                    name="desc"
+                    component={TextFieldFastableComponent}
+                    multiline
+                    disabled={isDisabled}
+                    rows={2}
+                    label="Deskripsi"
+                />
 
-            <FastField name="amount">
-                {({
-                    field: { value, name },
-                    form: { setFieldValue },
-                    meta: { error },
-                }: FastFieldProps) => {
-                    return (
-                        <NumericFormat
-                            disabled={isDisabled}
-                            label="Jumlah"
-                            value={value}
-                            name={name}
-                            onValueChange={({ value }) =>
-                                setFieldValue(name, value)
-                            }
-                            InputProps={{
-                                startAdornment: <RpInputAdornment />,
-                            }}
-                            error={Boolean(error)}
-                            helperText={error}
-                            inputProps={{
-                                minLength: 1,
-                                maxLength: 19,
-                            }}
-                        />
-                    )
-                }}
-            </FastField>
-
-            <FastField
-                name="desc"
-                component={TextFieldFastableComponent}
-                multiline
-                disabled={isDisabled}
-                rows={2}
-                label="Deskripsi"
-            />
-
-            <div
-                style={{
-                    display: 'flex',
-                    gap: '0.5em',
-                    marginTop: '2em',
-                }}>
-                <span
+                <div
                     style={{
-                        flexGrow: 1,
+                        display: 'flex',
+                        gap: '0.5em',
+                        marginTop: '2em',
                     }}>
-                    {transaction.uuid && isUserCanDelete && (
-                        <LoadingButton
-                            color="error"
-                            onClick={() => handleDelete()}
-                            loading={isDeleting}
-                            disabled={isDisabled}>
-                            <DeleteIcon />
-                        </LoadingButton>
-                    )}
-                </span>
+                    <span
+                        style={{
+                            flexGrow: 1,
+                        }}>
+                        {transaction.uuid && isUserCanDelete && (
+                            <LoadingButton
+                                color="error"
+                                onClick={() => handleDelete()}
+                                loading={isDeleting}
+                                disabled={isDisabled}>
+                                <DeleteIcon />
+                            </LoadingButton>
+                        )}
+                    </span>
 
-                <FormResetButton
-                    dirty={dirty}
-                    disabled={isProcessing}
-                    form="transaction-form"
-                />
+                    <FormResetButton
+                        dirty={dirty}
+                        disabled={isProcessing}
+                        form="transaction-form"
+                    />
 
-                <FormSubmitButton
-                    oldDirty={isOldDirty}
-                    disabled={isDisabled || !dirty}
-                    loading={isSubmitting}
-                    form="transaction-form"
-                />
-            </div>
-        </Form>
+                    <FormSubmitButton
+                        oldDirty={isOldDirty}
+                        disabled={isDisabled || !dirty}
+                        loading={isSubmitting}
+                        form="transaction-form"
+                    />
+                </div>
+            </Form>
+        </>
     )
 }
 
