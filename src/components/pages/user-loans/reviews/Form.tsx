@@ -14,7 +14,7 @@ import CrediturCard from '../CrediturCard'
 import UserLoanSummaryBox from '../SummaryBox'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
-import FormLoadingBar from '@/components/form/LoadingBar'
+import FormLoadingBar from '@/components/Dialog/LoadingBar'
 
 export default function UserLoanReviewForm({
     values,

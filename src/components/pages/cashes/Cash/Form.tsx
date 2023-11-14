@@ -17,7 +17,7 @@ import useAuth from '@/providers/Auth'
 // components
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
-import FormLoadingBar from '@/components/form/LoadingBar'
+import FormLoadingBar from '@/components/Dialog/LoadingBar'
 import TextFieldFastableComponent from '@/components/Global/Input/TextField/FastableComponent'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
