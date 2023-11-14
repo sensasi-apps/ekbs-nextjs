@@ -1,5 +1,6 @@
 // types
-import type LoanType from '@/dataTypes/Loan'
+import type UserLoanFormDataType from './Form/types'
+import type UserLoanType from '@/dataTypes/Loan'
 // vendors
 import Typography from '@mui/material/Typography'
 // components
@@ -13,15 +14,23 @@ export default function UserLoanInstallmentDialog({
     data: loanValues,
     isProcessing,
 }: {
-    data: LoanType
+    data: UserLoanType | UserLoanFormDataType
     isProcessing: boolean
 }) {
     const { proposed_rp, interest_percent, n_term, term_unit } = loanValues
 
-    const hasInstallments = loanValues.installments.length > 0
-    const installment_amount = Math.ceil(
-        proposed_rp / n_term + (proposed_rp * interest_percent) / 100,
-    )
+    const isRequiredDataNotFilled =
+        !proposed_rp || interest_percent === '' || !n_term
+
+    // if (isRequiredDataNotFilled) return null
+
+    const hasInstallments =
+        'installments' in loanValues && loanValues.installments.length > 0
+    const installment_amount = isRequiredDataNotFilled
+        ? 0
+        : Math.ceil(
+              proposed_rp / n_term + (proposed_rp * interest_percent) / 100,
+          )
 
     return (
         <SimpleDialog
@@ -31,7 +40,7 @@ export default function UserLoanInstallmentDialog({
             maxWidth="md"
             slotProps={{
                 buttonProps: {
-                    disabled: isProcessing,
+                    disabled: isProcessing || isRequiredDataNotFilled,
                     children: hasInstallments
                         ? 'Tabel Angsuran'
                         : 'Tabel Simulasi Angsuran',
@@ -51,11 +60,12 @@ export default function UserLoanInstallmentDialog({
                 <Typography variant="caption">Ringkasan:</Typography>
 
                 <Typography variant="body1" mb={2}>
-                    Pinjaman <strong>{numberToCurrency(proposed_rp)}</strong>{' '}
-                    dengan biaya jasa <strong>{interest_percent}%</strong> per{' '}
-                    {term_unit} selama <strong>{n_term}</strong> {term_unit}{' '}
-                    memiliki angsuran per {term_unit}:{' '}
-                    <strong>{numberToCurrency(installment_amount)}</strong>
+                    Pinjaman{' '}
+                    <strong>{numberToCurrency(proposed_rp || 0)}</strong> dengan
+                    biaya jasa <strong>{interest_percent}%</strong> selama{' '}
+                    <strong>{n_term}</strong> {term_unit} memiliki angsuran:{' '}
+                    <strong>{numberToCurrency(installment_amount)}</strong>/
+                    {term_unit}
                 </Typography>
 
                 <Typography variant="caption">
