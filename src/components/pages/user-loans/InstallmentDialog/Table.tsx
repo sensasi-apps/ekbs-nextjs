@@ -2,6 +2,7 @@
 import type InstallmentType from '@/dataTypes/Installment'
 import type { InstallmentWithRelationType } from '@/dataTypes/Installment'
 import type LoanType from '@/dataTypes/Loan'
+import type UserLoanFormDataType from '../Form/types'
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -16,24 +17,19 @@ import toDmy from '@/utils/toDmy'
 export default function UserLoanInstallmentDialogTable({
     data: loan,
 }: {
-    data: LoanType
+    data: UserLoanFormDataType | LoanType
 }) {
-    const { proposed_rp, interest_percent, n_term, term_unit, transaction } =
-        loan
+    const { proposed_rp, interest_percent, n_term, term_unit } = loan
 
-    if (
-        !proposed_rp ||
-        (!interest_percent && interest_percent !== 0) ||
-        !n_term
-    )
-        return <i>Silahkan melengkapi data terlebih dahulu</i>
+    if (!proposed_rp || interest_percent === '' || !n_term) return null
 
-    const isActiveLoan = loan.installments.length > 0
-
+    const transaction = 'transaction' in loan ? loan.transaction : null
     const base_rp = Math.ceil(proposed_rp / n_term)
     const interest_rp = Math.ceil((proposed_rp * interest_percent) / 100)
 
-    const installments = isActiveLoan
+    const hasInstallments =
+        'installments' in loan && loan.installments.length > 0
+    const installments = hasInstallments
         ? loan.installments
         : (() => {
               const installments: InstallmentType[] = []
@@ -48,34 +44,34 @@ export default function UserLoanInstallmentDialogTable({
               return installments
           })()
 
+    const isDisbursed = Boolean(transaction)
     const installment_amount = installments[0].amount_rp
+    let remaining_rp = proposed_rp
 
     return (
         <Table>
             <TableHead>
                 <TableRow>
                     <TableCell>{term_unit} ke-</TableCell>
-                    {isActiveLoan && <TableCell>Tanggal</TableCell>}
+                    {isDisbursed && <TableCell>Tanggal</TableCell>}
                     <TableCell>Sisa</TableCell>
                     <TableCell>Pokok</TableCell>
                     <TableCell>Jasa ({loan.interest_percent}%)</TableCell>
                     <TableCell>Angsuran</TableCell>
-                    {isActiveLoan && <TableCell>Lunas Tanggal</TableCell>}
+                    {isDisbursed && <TableCell>Lunas Tanggal</TableCell>}
                 </TableRow>
             </TableHead>
             <TableBody>
                 <TableRow>
                     <TableCell>0</TableCell>
-                    {isActiveLoan && (
-                        <TableCell>
-                            {transaction?.at ? toDmy(transaction.at) : ''}
-                        </TableCell>
+                    {isDisbursed && transaction && (
+                        <TableCell>{toDmy(transaction.at)}</TableCell>
                     )}
                     <TableCell>{numberToCurrency(proposed_rp)}</TableCell>
                     <TableCell />
                     <TableCell />
                     <TableCell />
-                    {isActiveLoan && <TableCell />}
+                    {isDisbursed && <TableCell />}
                 </TableRow>
 
                 {installments.map(installment => {
@@ -83,10 +79,12 @@ export default function UserLoanInstallmentDialogTable({
                         <InstallmentTableRow
                             key={installment.n_th}
                             data={installment}
-                            remaining_rp={0}
+                            remaining_rp={
+                                (remaining_rp = remaining_rp - base_rp)
+                            }
                             base_rp={base_rp}
                             interest_rp={interest_rp}
-                            isActiveLoan={isActiveLoan}
+                            isDisbursed={isDisbursed}
                         />
                     )
                 })}
@@ -94,7 +92,7 @@ export default function UserLoanInstallmentDialogTable({
             <TableFooter>
                 <TableRow>
                     <TableCell
-                        colSpan={isActiveLoan ? 3 : 2}
+                        colSpan={isDisbursed ? 3 : 2}
                         align="center"
                         component="th">
                         TOTAL
@@ -108,7 +106,7 @@ export default function UserLoanInstallmentDialogTable({
                     <TableCell component="th">
                         {numberToCurrency(installment_amount * n_term)}
                     </TableCell>
-                    {isActiveLoan && <TableCell />}
+                    {isDisbursed && <TableCell />}
                 </TableRow>
             </TableFooter>
         </Table>
@@ -120,27 +118,27 @@ function InstallmentTableRow({
     remaining_rp,
     base_rp,
     interest_rp,
-    isActiveLoan = false,
+    isDisbursed = false,
 }: {
     data: InstallmentWithRelationType
     remaining_rp: number
     base_rp: number
     interest_rp: number
-    isActiveLoan: boolean
+    isDisbursed: boolean
 }) {
     const { n_th, should_be_paid_at, transaction, amount_rp } = data
 
     return (
         <TableRow>
             <TableCell>{n_th}</TableCell>
-            {isActiveLoan && <TableCell>{toDmy(should_be_paid_at)}</TableCell>}
+            {isDisbursed && <TableCell>{toDmy(should_be_paid_at)}</TableCell>}
             <TableCell>
                 {numberToCurrency(remaining_rp < 0 ? 0 : remaining_rp)}
             </TableCell>
             <TableCell>{numberToCurrency(base_rp)}</TableCell>
             <TableCell>{numberToCurrency(interest_rp)}</TableCell>
             <TableCell>{numberToCurrency(amount_rp)}</TableCell>
-            {isActiveLoan && (
+            {isDisbursed && (
                 <TableCell
                     sx={{
                         color: transaction?.at ? 'success.main' : 'error.main',
