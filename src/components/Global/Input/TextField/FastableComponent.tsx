@@ -1,49 +1,51 @@
 // types
-import type { FastFieldProps } from 'formik'
+import type { FieldProps } from 'formik'
 import type { TextFieldProps } from '@mui/material/TextField'
 // vendors
 import { useCallback, useEffect, useState } from 'react'
-import TextField from '@/components/Global/Input/TextField'
+// components
+import TextField from '@/components/TextField'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+// utils
+import debounce from '@/utils/debounce'
 
-let timeout: NodeJS.Timeout
-const debounce = (fn: () => void, ms = 300) => {
-    clearTimeout(timeout)
-    timeout = setTimeout(fn, ms)
-}
-
+/**
+ * A component that renders a text input field with fastable functionality.
+ * @param field - The field object containing the input field's name, value, and onChange function.
+ * @param form - The form object containing the form's errors.
+ * @param props - Additional props to be passed to the TextField component.
+ * @returns A TextField component with fastable functionality.
+ */
 export default function TextFieldFastableComponent({
-    field,
+    field: { onChange, name, value },
     form: { errors },
     ...props
-}: FastFieldProps & TextFieldProps) {
+}: FieldProps & TextFieldProps) {
     const [innerValue, setInnerValue] = useState('')
 
     useEffect(() => {
-        if (field.value && field.value !== innerValue) {
-            setInnerValue(field.value as string)
+        if (value && value !== innerValue) {
+            setInnerValue(value as string)
         }
-    }, [field.value])
+    }, [value])
 
     const handleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist()
 
             setInnerValue(e.target.value)
-            debounce(() => {
-                field.onChange(e)
-            })
+            debounce(() => onChange(e))
         },
         [],
     )
 
     return (
         <TextField
-            error={Boolean(errors[field.name])}
-            helperText={errors[field.name] as string}
-            {...field}
-            {...props}
+            name={name}
             onChange={handleChange}
             value={innerValue}
+            {...errorsToHelperTextObj(errors[name])}
+            {...props}
         />
     )
 }
