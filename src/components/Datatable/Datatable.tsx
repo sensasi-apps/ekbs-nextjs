@@ -13,6 +13,7 @@ import { debounceSearchRender } from 'mui-datatables'
 import dynamic from 'next/dynamic'
 // materials
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import LinearProgress from '@mui/material/LinearProgress'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
@@ -122,9 +123,6 @@ const Datatable = memo(function Datatable({
             sx={{
                 '& tbody tr:hover': {
                     cursor: 'pointer',
-                    ripple: {
-                        color: 'transparent',
-                    },
                 },
             }}>
             {(isApiLoading || isValidating) && (
@@ -144,6 +142,12 @@ const Datatable = memo(function Datatable({
                 columns={columns}
                 options={options}
             />
+
+            {Boolean(onRowClick) && (
+                <Typography variant="caption" mt={1} component="div">
+                    Klik 2x pada baris untuk membuka formulir.
+                </Typography>
+            )}
         </Box>
     )
 })

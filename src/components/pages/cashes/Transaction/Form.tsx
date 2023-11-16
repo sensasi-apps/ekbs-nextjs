@@ -157,7 +157,7 @@ export default function TransactionForm({
                     )}
                 </FastField>
 
-                <Field name="cashable_uuid" label>
+                <Field name="cashable_uuid">
                     {({
                         field: { name, value, onBlur, onChange },
                         meta: { error },

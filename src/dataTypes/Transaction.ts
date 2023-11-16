@@ -27,6 +27,7 @@ type TransactionType = {
     at: Ymd
     desc: null | string
     cashable_uuid: UUID
+    cashable_classname: CashableClassname
 
     // appends
     cash: CashType
@@ -35,3 +36,8 @@ type TransactionType = {
 } & (TransferType | NonTransferType)
 
 export default TransactionType
+
+export enum CashableClassname {
+    Cash = 'App\\Models\\Cash',
+    UserCash = 'App\\Models\\UserCash',
+}
