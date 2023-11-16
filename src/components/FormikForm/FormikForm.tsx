@@ -14,6 +14,7 @@ import FormSubmitButton from '@/components/form/SubmitButton'
 /**
  * A memoized component that renders a Formik form with additional buttons and features.
  * @param id - The unique identifier for the form.
+ * @param autoComplete - 'off'.
  * @param isNew - A boolean indicating whether the form is new or not.
  * @param dirty - A boolean indicating whether the form has been modified.
  * @param submitting - A boolean indicating whether the form is currently submitting.
@@ -24,6 +25,7 @@ import FormSubmitButton from '@/components/form/SubmitButton'
  */
 const FormikForm = memo(function FormikForm({
     id: formId,
+    autoComplete = 'off',
     isNew,
     children,
     processing,
@@ -36,6 +38,7 @@ const FormikForm = memo(function FormikForm({
     ...props
 }: {
     id: string
+    autoComplete?: 'on' | 'off'
     isNew: boolean
     dirty: boolean
     submitting: boolean
@@ -50,7 +53,7 @@ const FormikForm = memo(function FormikForm({
     return (
         <>
             <DialogLoadingBar in={processing} />
-            <Form id={formId} {...props}>
+            <Form id={formId} autoComplete={autoComplete} {...props}>
                 {children}
 
                 <div
