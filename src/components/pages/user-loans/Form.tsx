@@ -175,22 +175,24 @@ export default function LoanForm({
                 )}
             </Field>
 
-            <UserAutocomplete
-                disabled={isDisabled || isApplierMode}
-                fullWidth
-                onChange={(_, user) => {
-                    setUserAutocompleteValue(user)
-                    setFieldValue('user_uuid', user?.uuid)
-                }}
-                value={userAutocompleteValue}
-                size="small"
-                textFieldProps={{
-                    required: true,
-                    label: 'Pemohon',
-                    margin: 'dense',
-                    ...errorsToHelperTextObj(errors.user_uuid),
-                }}
-            />
+            {isManager && (
+                <UserAutocomplete
+                    disabled={isDisabled}
+                    fullWidth
+                    onChange={(_, user) => {
+                        setUserAutocompleteValue(user)
+                        setFieldValue('user_uuid', user?.uuid)
+                    }}
+                    value={userAutocompleteValue}
+                    size="small"
+                    textFieldProps={{
+                        required: true,
+                        label: 'Pemohon',
+                        margin: 'dense',
+                        ...errorsToHelperTextObj(errors.user_uuid),
+                    }}
+                />
+            )}
 
             <NumericFormat
                 label="Jumlah"
