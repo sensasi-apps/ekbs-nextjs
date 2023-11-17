@@ -12,6 +12,7 @@ import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
 import GradingItemInputs from './Form/GradingItemInputs'
 
 import useValidationErrors from '@/hooks/useValidationErrors'
+import dmyToYmd from '@/utils/dmyToYmd'
 
 const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
     data,
@@ -37,6 +38,7 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         setSubmitting(true)
 
         const formData = new FormData(formEl)
+        formData.set('at', dmyToYmd(formData.get('at') as string) as string)
 
         axios
             .post(
