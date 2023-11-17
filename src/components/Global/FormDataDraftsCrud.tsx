@@ -159,8 +159,8 @@ const FormDataDraftsCrud: FC<{
                         {draft
                             ? draft.nameId
                             : drafts.length === 0
-                            ? 'Tidak ada draf tersimpan'
-                            : 'Pilih draf'}
+                              ? 'Tidak ada draf tersimpan'
+                              : 'Pilih draf'}
                     </Button>
                 </Badge>
 
