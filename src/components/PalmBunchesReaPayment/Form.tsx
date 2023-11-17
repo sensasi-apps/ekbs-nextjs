@@ -152,9 +152,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
         setSubmitting(false)
     }
 
-    const clearValidationError = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
+    const clearValidationError = (event: any) => {
         const { name } = event.target
 
         if (validationErrors[name]) {

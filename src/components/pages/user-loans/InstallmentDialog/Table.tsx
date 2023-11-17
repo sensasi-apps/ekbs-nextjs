@@ -1,8 +1,8 @@
 // types
 import type InstallmentType from '@/dataTypes/Installment'
-import type { InstallmentWithRelationType } from '@/dataTypes/Installment'
+import type { InstallmentWithTransactionType } from '@/dataTypes/Installment'
 import type LoanType from '@/dataTypes/Loan'
-import type UserLoanFormDataType from '../Form/types'
+import type { UserLoanFormDataType } from '../Form/types'
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -120,7 +120,7 @@ function InstallmentTableRow({
     interest_rp,
     isDisbursed = false,
 }: {
-    data: InstallmentWithRelationType
+    data: InstallmentWithTransactionType
     remaining_rp: number
     base_rp: number
     interest_rp: number
