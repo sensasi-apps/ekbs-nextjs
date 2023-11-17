@@ -71,8 +71,8 @@ export default function UserLoans() {
     const title = !userLoanFromDb
         ? 'Ajukan Pinjaman Baru'
         : userLoanFromDb.responses?.length > 0
-        ? 'Rincian Pinjaman'
-        : 'Perbarui Pinjaman'
+          ? 'Rincian Pinjaman'
+          : 'Perbarui Pinjaman'
 
     return (
         <AuthLayout title="Kelola Pinjaman">

@@ -139,8 +139,8 @@ const DueInfo = memo(function DueInfo({
     const unpaidFromNowColor = isOverdue
         ? 'error.main'
         : isInAWeek
-        ? 'warning.main'
-        : undefined
+          ? 'warning.main'
+          : undefined
 
     return (
         <TypographyWithLabel label="Jatuh Tempo:">
