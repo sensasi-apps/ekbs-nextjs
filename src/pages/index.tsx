@@ -8,7 +8,7 @@ import Fade from '@mui/material/Fade'
 import CircularProgress from '@mui/material/CircularProgress'
 
 import useAuth from '@/providers/Auth'
-import debounce from '@/lib/debounce'
+import debounce from '@/utils/debounce'
 
 export default function Index() {
     const router = useRouter()

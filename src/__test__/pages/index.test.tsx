@@ -7,7 +7,7 @@ import Index from '@/pages/index'
 
 const replaceFnMock = jest.fn()
 
-jest.mock('@/lib/debounce', () => jest.fn(fn => fn()))
+jest.mock('@/utils/debounce', () => jest.fn(fn => fn()))
 
 jest.mock('next/navigation', () => ({
     useRouter() {

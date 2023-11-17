@@ -18,8 +18,8 @@ import DatePicker from '@/components/Global/DatePicker'
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs
 import axios from '@/lib/axios'
-import debounce from '@/lib/debounce'
-import errorThrower from '@/lib/errorThrower'
+import debounce from '@/utils/debounce'
+import errorCatcher from '@/utils/errorCatcher'
 import useFormData from '@/providers/useFormData'
 import weekOfMonths from '@/lib/weekOfMonth'
 import FormActions from '../Global/Form/Actions'
@@ -107,10 +107,7 @@ const PalmBunchRatesForm: FC<{
                     )
                 })
             })
-            .catch(errorThrower)
-            .catch(error => {
-                setValidationErrors(error.response.data.errors)
-            })
+            .catch(error => errorCatcher(error, setValidationErrors))
             .finally(() => setSubmitting(false))
     }
 
