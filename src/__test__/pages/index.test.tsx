@@ -5,13 +5,14 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import Index from '@/pages/index'
 
-const mock = jest.fn()
+const replaceFnMock = jest.fn()
+
+jest.mock('@/lib/debounce', () => jest.fn(fn => fn()))
 
 jest.mock('next/navigation', () => ({
     useRouter() {
         return {
-            pathname: '/',
-            replace: mock,
+            replace: replaceFnMock,
         }
     },
 }))
@@ -33,5 +34,8 @@ describe('Index', () => {
 
         expect(screen.getByRole('img')).toHaveAttribute('alt', 'logo')
         expect(screen.getByRole('progressbar')).toBeInTheDocument()
+
+        expect(replaceFnMock).toHaveBeenCalledTimes(1)
+        expect(replaceFnMock).toHaveBeenCalledWith('/login')
     })
 })
