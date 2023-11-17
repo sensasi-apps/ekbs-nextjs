@@ -32,7 +32,7 @@ import FormLoadingBar from '@/components/Dialog/LoadingBar'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import TextFieldFastableComponent from '@/components/Global/Input/TextField/FastableComponent'
+import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserActivityLogsDialogTable from '@/components/UserActivityLogs/DialogTable'
 // providers
 import useAuth from '@/providers/Auth'

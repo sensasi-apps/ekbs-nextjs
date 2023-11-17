@@ -30,7 +30,7 @@ import NumericFormat from '@/components/NumericFormat'
 import FormikForm from '@/components/FormikForm'
 import LoadingAddorment from '@/components/LoadingAddorment'
 
-import TextFieldFastableComponent from '@/components/Global/Input/TextField/FastableComponent'
+import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 // utils
 import getLoanStatusColor from '@/utils/getLoanStatusColor'
