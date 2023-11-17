@@ -1,14 +1,9 @@
-import Head from 'next/head'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import { FormDataProvider } from '@/providers/useFormData'
 
 export default function FarmInputsProducts() {
     return (
         <AuthLayout title="Pembelian Produk">
-            <Head>
-                <title>{`Pembelian Produk — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <Crud />
             </FormDataProvider>
@@ -23,7 +18,7 @@ import type { MUIDataTableColumn } from 'mui-datatables'
 import { NumericFormat } from 'react-number-format'
 import Fab from '@mui/material/Fab'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import ProductPurchaseForm from '@/components/ProductPurchase/Form'
 // icons

@@ -25,10 +25,26 @@ import WarehouseIcon from '@mui/icons-material/Warehouse'
 const SubTitle: FC<{
     children: string
 }> = ({ children }) => (
-    <Typography ml={2} mt={2} variant="overline" color="grey" fontWeight="bold">
+    <Typography
+        ml={2}
+        mt={2}
+        variant="overline"
+        color="grey"
+        fontWeight="bold"
+        component="div">
         {children}
     </Typography>
 )
+
+function MenuDivider() {
+    return (
+        <Divider
+            style={{
+                marginTop: '1rem',
+            }}
+        />
+    )
+}
 
 const menusData = [
     {
@@ -50,7 +66,7 @@ const menusData = [
         forRoles: [],
     },
     {
-        component: <Divider sx={{ mt: 2 }} />,
+        component: <MenuDivider />,
         forRoles: [
             'member',
             'employee',
@@ -138,7 +154,7 @@ const menusData = [
         forRoles: ['user loans manager'],
     },
     {
-        component: <Divider sx={{ mt: 2 }} />,
+        component: <MenuDivider />,
         forRoles: ['farm inputs manager'],
     },
     {
@@ -176,7 +192,7 @@ const menusData = [
     {
         component: (
             <>
-                <Divider sx={{ mt: 2 }} />
+                <MenuDivider />
                 <SubTitle>Keuangan</SubTitle>
             </>
         ),
@@ -206,7 +222,7 @@ const menusData = [
     {
         component: (
             <>
-                <Divider sx={{ mt: 2 }} />
+                <MenuDivider />
                 <SubTitle>Sistem</SubTitle>
             </>
         ),

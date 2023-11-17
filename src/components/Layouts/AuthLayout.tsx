@@ -1,25 +1,30 @@
-import { FC, useEffect, ReactNode } from 'react'
+// types
+import type { ReactNode } from 'react'
+// vendors
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-
+import Head from 'next/head'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
+// providers
 import useAuth from '@/providers/Auth'
-
+// components
 import { DRAWER_WIDTH } from './MenuList'
 import TopBarAndMenuList from './TopBarAndMenuList'
 import LoginFormDialog from './Auth/LoginFormDialog'
+import FooterBox from './FooterBox'
 
-const AuthLayout: FC<{
+export default function AuthLayout({
+    title,
+    children,
+}: {
     title: string
-    children?: ReactNode
-}> = ({ title, children }) => {
+    children: ReactNode
+}) {
     const router = useRouter()
     const { onError401, user } = useAuth()
 
     useEffect(() => {
-        // TODO: pending handler
-        // window.addEventListener('online', onlineNotification, false)
-
         window.addEventListener('401Error', onError401, false)
         return () => {
             window.removeEventListener('401Error', onError401, false)
@@ -39,28 +44,33 @@ const AuthLayout: FC<{
     }, [user])
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <div
+            style={{
+                display: 'flex',
+            }}>
+            <Head>
+                {title && (
+                    <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
+                )}
+            </Head>
+
             <TopBarAndMenuList title={title} />
 
             <Box
+                flexGrow="1"
+                p={3}
                 component="main"
-                sx={{
-                    flexGrow: 1,
-                    p: 3,
-                    mb: 10,
-                    width: {
-                        xs: '100%',
-                        sm: `calc(100% - ${DRAWER_WIDTH}px)`,
-                    },
+                width={{
+                    xs: '100%',
+                    sm: `calc(100% - ${DRAWER_WIDTH}px)`,
                 }}>
                 <Toolbar />
-
                 {children}
+
+                <FooterBox mt={10} mb={0} />
             </Box>
 
             <LoginFormDialog />
-        </Box>
+        </div>
     )
 }
-
-export default AuthLayout

@@ -1,14 +1,9 @@
-import Head from 'next/head'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import { FormDataProvider } from '@/providers/useFormData'
 
 export default function FarmInputsProducts() {
     return (
         <AuthLayout title="Produk">
-            <Head>
-                <title>{`Produk — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <Crud />
             </FormDataProvider>
@@ -26,7 +21,7 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 // providers
 import useFormData from '@/providers/useFormData'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import ProductForm from '@/components/Product/Form'
 // libs

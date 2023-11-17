@@ -1,3 +1,6 @@
+// types
+import type UserType from '@/dataTypes/User'
+// vendors
 import {
     FC,
     createContext,
@@ -6,10 +9,7 @@ import {
     ReactNode,
     useEffect,
 } from 'react'
-
 import axios from '@/lib/axios'
-
-import type UserType from '@/dataTypes/User'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -34,42 +34,46 @@ const AuthProvider: FC<{
         permissionName: string | string[],
         userParam: UserType = user as UserType,
     ) => {
-        if (userParam?.role_names?.includes('superman')) {
+        if (!userParam) return
+
+        if (userParam.role_names?.includes('superman')) {
             return true
         }
 
         if (permissionName instanceof Array) {
             return (
                 permissionName.findIndex(
-                    p => userParam?.permission_names?.includes(p),
+                    p => userParam.permission_names?.includes(p),
                 ) !== -1
             )
         }
 
-        return userParam?.permission_names?.includes(permissionName)
+        return userParam.permission_names?.includes(permissionName)
     }
 
     const userHasRole = (
         roleName: string | string[],
         userParam: UserType = user as UserType,
     ) => {
-        if (userParam?.role_names?.includes('superman')) {
+        if (!userParam) return
+
+        if (userParam.role_names?.includes('superman')) {
             return true
         }
 
         if (roleName instanceof Array) {
             return Boolean(
-                roleName.findIndex(r => userParam?.role_names?.includes(r)) !==
+                roleName.findIndex(r => userParam.role_names?.includes(r)) !==
                     -1 ||
                     roleName.findIndex(
-                        r => userParam?.role_names_id?.includes(r),
+                        r => userParam.role_names_id?.includes(r),
                     ) !== -1,
             )
         }
 
         return Boolean(
-            userParam?.role_names?.includes(roleName) ||
-                userParam?.role_names_id?.includes(roleName),
+            userParam.role_names?.includes(roleName) ||
+                userParam.role_names_id?.includes(roleName),
         )
     }
 
@@ -87,9 +91,8 @@ const AuthProvider: FC<{
         },
         onLogoutSuccess: async () => {
             const cache = await caches.open('auth-user-cache')
-            await cache.delete(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
-            )
+            const keys = await cache.keys()
+            keys.forEach(async req => await cache.delete(req))
 
             setUser(null)
             setIsAuthenticated(false)
@@ -113,8 +116,11 @@ type AuthContextType = {
     userHasPermission: (
         permissionName: string | string[],
         userParam?: UserType,
-    ) => boolean
-    userHasRole: (roleName: string | string[], userParam?: UserType) => boolean
+    ) => boolean | undefined
+    userHasRole: (
+        roleName: string | string[],
+        userParam?: UserType,
+    ) => boolean | undefined
 
     onLogoutSuccess: () => void
     onLoginSuccess: (user: UserType) => void

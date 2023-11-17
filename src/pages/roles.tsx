@@ -1,13 +1,12 @@
 import type Role from '@/dataTypes/Role'
 
 import { FC } from 'react'
-import Head from 'next/head'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import FormActions from '@/components/Global/Form/Actions'
 import Dialog from '@/components/Global/Dialog'
 
@@ -16,10 +15,6 @@ import RoleForm from '@/components/Role/Form'
 const RolesPage: FC = () => {
     return (
         <AuthLayout title="Peran">
-            <Head>
-                <title>{`Peran — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <PalmBunchDeliveryRatesCrudWithUseFormData />
             </FormDataProvider>

@@ -1,6 +1,6 @@
-import { FC, useState, useRef } from 'react'
-import Head from 'next/head'
 import type { Moment } from 'moment'
+
+import { FC, useState, useRef } from 'react'
 import moment from 'moment'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -14,7 +14,7 @@ import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Dialog from '@/components/Global/Dialog'
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'
 import TxHistory from '@/components/Wallet/TxHistory'
@@ -24,10 +24,6 @@ import WalletType from '@/dataTypes/Wallet'
 const WalletsPage: FC = () => {
     return (
         <AuthLayout title="Wallet EKBS">
-            <Head>
-                <title>{`Wallet EKBS — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <FormDataProvider>
                 <WithdrawButtonAndForm />
             </FormDataProvider>

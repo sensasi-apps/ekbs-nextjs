@@ -6,6 +6,10 @@ import '@fontsource/roboto/700.css'
 import type { AppProps } from 'next/app'
 import type { SnackbarKey } from 'notistack'
 
+import dayjs from 'dayjs'
+import 'dayjs/locale/id'
+dayjs.locale('id')
+
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import QueryString from 'qs'
@@ -42,6 +46,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     name="viewport"
                     content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
                 />
+                <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
             </Head>
 
             <SnackbarProvider
@@ -95,6 +100,8 @@ export default function App({ Component, pageProps }: AppProps) {
                     color="warning.contrastText"
                     fontWeight="bold"
                     zIndex="tooltip"
+                    lineHeight="unset"
+                    p={2}
                     style={{
                         pointerEvents: 'none',
                         opacity: 0.5,

@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { useEffect } from 'react'
 import axios from '@/lib/axios'
 
@@ -20,10 +19,6 @@ const LogoutPage = () => {
 
     return (
         <AuthLayout title="Logout">
-            <Head>
-                <title>{`Logout — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-            </Head>
-
             <LoadingCenter>
                 Sedang melakukan <i>logout</i>, harap tunggu.
             </LoadingCenter>

@@ -6,6 +6,7 @@ const withPWA = require('next-pwa')({
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
     reloadOnOnline: false,
+    maximumFileSizeToCacheInBytes: 2.5 * 1024 * 1024,
     runtimeCaching: [
         {
             urlPattern: new RegExp(
@@ -33,6 +34,10 @@ const withPWA = require('next-pwa')({
  * @type {import('next').NextConfig}
  */
 const nextConfig = withPWA({
+    experimental: {
+        webpackBuildWorker: true,
+    },
+
     rewrites() {
         return [
             {
@@ -42,26 +47,6 @@ const nextConfig = withPWA({
             },
         ]
     },
-    redirects() {
-        const redirects = []
-
-        redirects.push(
-            process.env.NEXT_PUBLIC_IS_IN_MAINTENANCE_MODE === 'true'
-                ? {
-                      source: '/((?!maintenance).*)',
-                      destination: '/maintenance',
-                      permanent: false,
-                  }
-                : {
-                      source: '/maintenance',
-                      destination: '/',
-                      permanent: true,
-                  },
-        )
-
-        return redirects
-    },
-
     sentry: {
         hideSourceMaps: true,
     },
