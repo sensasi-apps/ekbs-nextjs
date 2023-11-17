@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
 // components
-import { mutate } from '@/components/Global/Datatable'
+import { mutate } from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import UserLoanDisburseForm, {
     UserLoanDisburseFormInitialValues,

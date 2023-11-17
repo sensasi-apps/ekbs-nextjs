@@ -21,7 +21,7 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 // providers
 import useFormData from '@/providers/useFormData'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import ProductForm from '@/components/Product/Form'
 // libs

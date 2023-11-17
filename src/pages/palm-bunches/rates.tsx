@@ -23,7 +23,7 @@ import SellIcon from '@mui/icons-material/Sell'
 // providers
 import useFormData from '@/providers/useFormData'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
 import PalmBunchRatesForm from '@/components/PalmBunchRates/Form'

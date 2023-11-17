@@ -21,7 +21,7 @@ import Fab from '@mui/material/Fab'
 
 import ReceiptIcon from '@mui/icons-material/Receipt'
 
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 
