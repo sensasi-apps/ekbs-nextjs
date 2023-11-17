@@ -1,0 +1,13 @@
+{
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "@sentry/nextjs",
+    "next",
+    "next-pwa",
+    "react",
+    "react-dom"
+  ],
+  "ignoreUnimported": [
+    "src/utils/formikOnSubmitConsole.ts"
+  ]
+}
