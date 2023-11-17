@@ -1,6 +1,6 @@
 // types
 import type LoanType from '@/dataTypes/Loan'
-import type { OnRowClickType } from '@/components/Global/Datatable'
+import type { OnRowClickType } from '@/components/Datatable'
 import type { MUISortOptions } from 'mui-datatables'
 // vendors
 import { useCallback } from 'react'

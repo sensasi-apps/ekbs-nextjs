@@ -25,7 +25,7 @@ import Fab from '@mui/material/Fab'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'

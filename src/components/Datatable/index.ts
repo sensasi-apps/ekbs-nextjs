@@ -1,3 +1,4 @@
 export type { OnRowClickType } from './types'
 
-export { default, getDataRow, mutate } from './Datatable'
+export { default } from './Datatable'
+export * from './Datatable'

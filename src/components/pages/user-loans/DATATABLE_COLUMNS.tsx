@@ -4,7 +4,7 @@ import type LoanType from '@/dataTypes/Loan'
 // materials
 import Typography from '@mui/material/Typography'
 // utils
-import { getDataRow } from '@/components/Global/Datatable'
+import { getDataRow } from '@/components/Datatable'
 import numberToCurrency from '@/utils/numberToCurrency'
 import toDmy from '@/utils/toDmy'
 import getLoanStatusColor from '@/utils/getLoanStatusColor'

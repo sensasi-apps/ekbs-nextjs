@@ -14,7 +14,7 @@ import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Dialog from '@/components/Global/Dialog'
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'
 import TxHistory from '@/components/Wallet/TxHistory'

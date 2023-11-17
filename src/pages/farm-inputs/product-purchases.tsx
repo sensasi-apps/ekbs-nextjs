@@ -18,7 +18,7 @@ import type { MUIDataTableColumn } from 'mui-datatables'
 import { NumericFormat } from 'react-number-format'
 import Fab from '@mui/material/Fab'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Global/Datatable'
+import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import ProductPurchaseForm from '@/components/ProductPurchase/Form'
 // icons
