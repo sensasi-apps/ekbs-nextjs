@@ -5,7 +5,7 @@ import type ValidationErrorsType from '@/types/ValidationErrors'
 import type { Dayjs } from 'dayjs'
 // vendors
 import dayjs from 'dayjs'
-import { FC, useEffect, memo, useState } from 'react'
+import { useEffect, memo, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography'
 import DatePicker from '@/components/DatePickerDayJs/DatePicker'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 import TextField from '@/components/TextField'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 // providers
 import useFormData from '@/providers/useFormData'
 import UserType from '@/dataTypes/User'
@@ -23,6 +24,7 @@ import SpbNoInput from './MainInputs/SpbNoInput'
 import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
 //libs
 import { wholeNumber } from '@/utils/RegExps'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
 interface MainInputProps {
     clearByName: (name: string) => void
@@ -33,11 +35,11 @@ interface MainInputProps {
 let tempData: any
 
 // TODO: prevent rerender make input atomic
-const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
+function PalmBunchesReaDeliveryMainInputs({
     clearByName,
     validationErrors,
     disabled,
-}) => {
+}: MainInputProps) {
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
 
     // ticket props
@@ -156,13 +158,16 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     }}
                     label="ID"
                     value={data.id}
-                    error={Boolean(validationErrors.id)}
-                    helperText={validationErrors.id}
+                    {...errorsToHelperTextObj(validationErrors.id)}
                 />
             )}
 
             <DatePicker
+                maxDate={dayjs().add(1, 'day')}
+                minDate={dayjs().subtract(3, 'month')}
+                showDaysOutsideCurrentMonth
                 disabled={disabled}
+                label="Tanggal"
                 slotProps={{
                     textField: {
                         name: 'at',
@@ -203,8 +208,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 }}
                 onBlur={handleBlur}
                 value={ticketNo ?? ''}
-                error={Boolean(validationErrors.ticket_no)}
-                helperText={validationErrors.ticket_no}
+                {...errorsToHelperTextObj(validationErrors.ticket_no)}
             />
 
             <TextField
@@ -225,8 +229,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 }}
                 onBlur={handleBlur}
                 value={gradisNo ?? ''}
-                error={Boolean(validationErrors.gradis_no)}
-                helperText={validationErrors.gradis_no}
+                {...errorsToHelperTextObj(validationErrors.gradis_no)}
             />
 
             <TextField
@@ -247,8 +250,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 }}
                 onBlur={handleBlur}
                 value={vebeweNo ?? ''}
-                error={Boolean(validationErrors.vebewe_no)}
-                helperText={validationErrors.vebewe_no}
+                {...errorsToHelperTextObj(validationErrors.vebewe_no)}
             />
 
             <Grid container columnSpacing={2}>
@@ -272,10 +274,9 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                                 {...params}
                                 name="to_oil_mill_code"
                                 label="Pabrik Tujuan"
-                                error={Boolean(
+                                {...errorsToHelperTextObj(
                                     validationErrors.to_oil_mill_code,
                                 )}
-                                helperText={validationErrors.to_oil_mill_code}
                             />
                         )}
                     />
@@ -301,8 +302,9 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                                 {...params}
                                 name="from_position"
                                 label="Dari Posisi"
-                                error={Boolean(validationErrors.from_position)}
-                                helperText={validationErrors.from_position}
+                                {...errorsToHelperTextObj(
+                                    validationErrors.from_position,
+                                )}
                             />
                         )}
                     />
@@ -321,9 +323,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                         minLength: 1,
                     }}
                     InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">Rp</InputAdornment>
-                        ),
+                        startAdornment: <RpInputAdornment />,
                         endAdornment: (
                             <InputAdornment position="end">/kg</InputAdornment>
                         ),
@@ -338,8 +338,9 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     onBlur={handleBlur}
                     name="determined_rate_rp_per_kg"
                     value={determinedRateRpPerKg ?? ''}
-                    error={Boolean(validationErrors.determined_rate_rp_per_kg)}
-                    helperText={validationErrors.determined_rate_rp_per_kg}
+                    {...errorsToHelperTextObj(
+                        validationErrors.determined_rate_rp_per_kg,
+                    )}
                 />
             )}
 
@@ -368,8 +369,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 }}
                 onBlur={handleBlur}
                 value={nBunches ?? ''}
-                error={Boolean(validationErrors.n_bunches)}
-                helperText={validationErrors.n_bunches}
+                {...errorsToHelperTextObj(validationErrors.n_bunches)}
             />
 
             <input
@@ -392,8 +392,9 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                     required: true,
                     margin: 'dense',
                     label: 'Pengangkut',
-                    error: Boolean(validationErrors.courier_user_uuid),
-                    helperText: validationErrors.courier_user_uuid,
+                    ...errorsToHelperTextObj(
+                        validationErrors.courier_user_uuid,
+                    ),
                 }}
             />
 
@@ -415,8 +416,7 @@ const PalmBunchesReaDeliveryMainInputs: FC<MainInputProps> = ({
                 }}
                 onBlur={handleBlur}
                 value={vehicleNo ?? ''}
-                error={Boolean(validationErrors.vehicle_no)}
-                helperText={validationErrors.vehicle_no}
+                {...errorsToHelperTextObj(validationErrors.vehicle_no)}
             />
 
             <AsFarmLandIdInput
