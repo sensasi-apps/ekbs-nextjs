@@ -1,103 +1,131 @@
-import AuthLayout from '@/components/Layouts/AuthLayout'
-import { FormDataProvider } from '@/providers/useFormData'
-
-export default function FarmInputsProducts() {
-    return (
-        <AuthLayout title="Pembelian Produk">
-            <FormDataProvider>
-                <Crud />
-            </FormDataProvider>
-        </AuthLayout>
-    )
-}
-
-import type ProductType from '@/dataTypes/Product'
-import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+// types
 import type { MUIDataTableColumn } from 'mui-datatables'
-
-import { NumericFormat } from 'react-number-format'
-import Fab from '@mui/material/Fab'
+import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
+import type { ProductPurchaseRelationsType } from '@/dataTypes/ProductPurchase'
+import type { Ymd } from '@/types/DateString'
+// vendors
+import { useState } from 'react'
+import axios from '@/lib/axios'
+import { Formik } from 'formik'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
-import Dialog from '@/components/Global/Dialog'
-import ProductPurchaseForm from '@/components/ProductPurchase/Form'
+import AuthLayout from '@/components/Layouts/AuthLayout'
+import Datatable, {
+    OnRowClickType,
+    getDataRow,
+    mutate,
+} from '@/components/Datatable'
+import DialogWithTitle from '@/components/DialogWithTitle'
+import Fab from '@/components/Fab'
+import ProductPurchaseForm, {
+    EMPTY_FORM_DATA,
+    EMPTY_FORM_STATUS,
+} from '@/components/pages/farm-inputs/product-purchases/Form'
 // icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-// libs
-import ymdToDmy from '@/utils/ymdToDmy'
 // providers
 import useAuth from '@/providers/Auth'
-import useFormData from '@/providers/useFormData'
+// utils
+import toDmy from '@/utils/toDmy'
+import formatNumber from '@/utils/formatNumber'
+import numberToCurrency from '@/utils/numberToCurrency'
+import errorCatcher from '@/utils/errorCatcher'
 
-const Crud = () => {
+export default function FarmInputsProducts() {
     const { userHasPermission } = useAuth()
-    const {
-        formOpen,
-        handleClose,
-        handleCreate,
-        handleEdit,
-        isNew,
-        isDirty,
-        loading,
-    } = useFormData<ProductType>()
+
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+    const [initialFormikValues, setInitialFormikValues] =
+        useState(EMPTY_FORM_DATA)
+    const [initialFormikStatus, setInitialFormikStatus] =
+        useState(EMPTY_FORM_STATUS)
+
+    const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
+        if (event.detail === 2) {
+            const productPurchase = getDataRow<
+                ProductPurchaseType & ProductPurchaseRelationsType
+            >(dataIndex)
+
+            setInitialFormikValues({
+                due: productPurchase.due,
+                note: productPurchase.note,
+                order: productPurchase.order,
+                paid: productPurchase.paid,
+                received: productPurchase.received,
+                cashable_uuid: productPurchase.transaction?.cashable_uuid,
+                product_movement_details:
+                    productPurchase.product_movement_details,
+            })
+
+            setInitialFormikStatus({
+                uuid: productPurchase.uuid,
+                hasTransaction: Boolean(productPurchase.transaction),
+            })
+            setIsDialogOpen(true)
+        }
+    }
+
+    const handleNew = () => {
+        setInitialFormikValues(EMPTY_FORM_DATA)
+        setInitialFormikStatus(EMPTY_FORM_STATUS)
+        setIsDialogOpen(true)
+    }
+
+    const handleClose = () => setIsDialogOpen(false)
+
+    const isNew = !initialFormikStatus.uuid
 
     return (
-        <>
+        <AuthLayout title="Pembelian Produk">
             <Datatable
-                apiUrl="/farm-inputs/product-purchases/datatable"
-                columns={columns}
-                defaultSortOrder={{ name: 'order', direction: 'desc' }}
-                onRowClick={(_, rowMeta, event) =>
-                    event.detail === 2 &&
-                    handleEdit(getDataRow(rowMeta.rowIndex))
-                }
-                tableId="product-purchases-table"
                 title="Riwayat Pembelian"
+                apiUrl="/farm-inputs/product-purchases/datatable"
+                tableId="product-purchases-table"
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={{ name: 'order', direction: 'desc' }}
+                onRowClick={handleRowClick}
             />
 
-            <Dialog
+            <DialogWithTitle
                 title={(isNew ? 'Tambah ' : 'Perbaharui ') + 'Data Pembelian'}
-                maxWidth="md"
-                open={formOpen}
-                closeButtonProps={{
-                    onClick: () => {
-                        if (
-                            isDirty &&
-                            !window.confirm(
-                                'Perubahan belum tersimpan, yakin ingin menutup?',
+                open={isDialogOpen}
+                maxWidth="md">
+                <Formik
+                    initialValues={initialFormikValues}
+                    initialStatus={initialFormikStatus}
+                    onSubmit={(values, { setErrors }) =>
+                        axios
+                            .post(
+                                `farm-inputs/product-purchases${
+                                    isNew ? '' : `/${initialFormikStatus.uuid}`
+                                }`,
+                                values,
                             )
-                        ) {
-                            return
-                        }
-
-                        return handleClose()
-                    },
-                    disabled: loading,
-                }}>
-                <ProductPurchaseForm parentDatatableMutator={mutate} />
-            </Dialog>
+                            .then(() => {
+                                mutate()
+                                handleClose()
+                            })
+                            .catch(error => errorCatcher(error, setErrors))
+                    }
+                    onReset={handleClose}
+                    component={ProductPurchaseForm}
+                />
+            </DialogWithTitle>
 
             {userHasPermission([
                 'create product purchase',
                 'update product purchase',
             ]) && (
-                <Fab
-                    disabled={formOpen}
-                    onClick={handleCreate}
-                    color="success"
-                    sx={{
-                        position: 'fixed',
-                        bottom: 16,
-                        right: 16,
-                    }}>
+                <Fab onClick={handleNew}>
                     <ShoppingCartIcon />
                 </Fab>
             )}
-        </>
+        </AuthLayout>
     )
 }
 
-const columns: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
         label: 'UUID',
@@ -109,28 +137,28 @@ const columns: MUIDataTableColumn[] = [
         name: 'order',
         label: 'Dipesan Tanggal',
         options: {
-            customBodyRender: (value: string) => ymdToDmy(value),
+            customBodyRender: toDmy,
         },
     },
     {
         name: 'due',
         label: 'Jatuh Tempo Tanggal',
         options: {
-            customBodyRender: (value: string) => ymdToDmy(value),
+            customBodyRender: (value: Ymd) => (value ? toDmy(value) : ''),
         },
     },
     {
         name: 'paid',
         label: 'Dibayar Tanggal',
         options: {
-            customBodyRender: (value: string) => ymdToDmy(value),
+            customBodyRender: (value: Ymd) => (value ? toDmy(value) : ''),
         },
     },
     {
         name: 'received',
         label: 'Diterima Tanggal',
         options: {
-            customBodyRender: (value: string) => ymdToDmy(value),
+            customBodyRender: (value: Ymd) => (value ? toDmy(value) : ''),
         },
     },
     {
@@ -144,18 +172,14 @@ const columns: MUIDataTableColumn[] = [
         name: 'productIn.details.product.name',
         options: {
             display: 'excluded',
-            customBodyRenderLite: (dataIndex: number) => {
-                return dataIndex
-            },
+            customBodyRenderLite: () => '',
         },
     },
     {
         name: 'product_movement_details_temp',
         options: {
             display: 'excluded',
-            customBodyRenderLite: (dataIndex: number) => {
-                return dataIndex
-            },
+            customBodyRenderLite: () => '',
         },
     },
     {
@@ -173,24 +197,11 @@ const columns: MUIDataTableColumn[] = [
                     }}>
                     {pids?.map(pid => (
                         <li key={pid.product_id}>
-                            {
-                                <NumericFormat
-                                    thousandSeparator="."
-                                    decimalSeparator=","
-                                    suffix={` ${pid.product?.unit} x `}
-                                    value={pid.qty}
-                                    displayType="text"
-                                />
-                            }
-                            {
-                                <NumericFormat
-                                    thousandSeparator="."
-                                    decimalSeparator=","
-                                    prefix={`${pid.product?.name} @ Rp `}
-                                    value={pid.rp_per_unit}
-                                    displayType="text"
-                                />
-                            }{' '}
+                            {`${formatNumber(pid.qty ?? 0)} ${pid.product
+                                ?.unit} x ${pid.product
+                                ?.name} @ ${numberToCurrency(
+                                pid.rp_per_unit ?? 0,
+                            )}`}
                         </li>
                     ))}
                 </ul>
@@ -203,17 +214,13 @@ const columns: MUIDataTableColumn[] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (value: string) => (
-                <NumericFormat
-                    prefix="Rp "
+            customBodyRender: value => (
+                <span
                     style={{
                         whiteSpace: 'nowrap',
-                    }}
-                    thousandSeparator="."
-                    decimalSeparator=","
-                    value={value}
-                    displayType="text"
-                />
+                    }}>
+                    {numberToCurrency(Number(value))}
+                </span>
             ),
         },
     },

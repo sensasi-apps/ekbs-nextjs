@@ -1,12 +1,12 @@
-import { UUID } from 'crypto'
-import { Moment } from 'moment'
-import TransactionDataType from './Transaction'
+import type { UUID } from 'crypto'
+import type TransactionDataType from './Transaction'
 import type FileType from './File'
+import type { Ymd } from '@/types/DateString'
 
 type PalmBunchesReaPaymentDataType = {
     uuid: UUID
-    from_at: Moment
-    to_at: Moment
+    from_at: Ymd
+    to_at: Ymd
     n_tickets: number
     gross_rp: number
     deduction_rp: number

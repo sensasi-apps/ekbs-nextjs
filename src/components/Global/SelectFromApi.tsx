@@ -5,7 +5,6 @@ import type { FormControlProps } from '@mui/material/FormControl'
 // vendors
 import useSWR from 'swr'
 // materials
-import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import InputLabel from '@mui/material/InputLabel'
@@ -27,7 +26,7 @@ export default function SelectFromApi({
     selectProps?: Omit<SelectProps, 'onChange' | 'label'>
     helperText?: ReactNode
     onChange?: (event: SelectChangeEvent<unknown>) => void
-    onValueChange?: (value: any) => any
+    onValueChange?: (value: any) => any // TODO: remove any
 } & FormControlProps) {
     const { data, isLoading } = useSWR(endpoint)
 
@@ -43,37 +42,34 @@ export default function SelectFromApi({
 
     return (
         <FormControl fullWidth {...rest}>
-            {label && (
-                <InputLabel shrink={selectProps?.displayEmpty}>
-                    {label}
-                </InputLabel>
+            {isLoading ? (
+                <Skeleton height="2.5em" />
+            ) : (
+                <>
+                    {label && (
+                        <InputLabel shrink={selectProps?.displayEmpty}>
+                            {label}
+                        </InputLabel>
+                    )}
+                    <Select
+                        {...(rest as SelectProps)}
+                        {...selectProps}
+                        onChange={handleChange}
+                        label={label}>
+                        {data?.map((item: any) => (
+                            <MenuItem
+                                key={item.uuid || item.id}
+                                value={item.uuid || item.id}>
+                                {item.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+
+                    {helperText && (
+                        <FormHelperText>{helperText}</FormHelperText>
+                    )}
+                </>
             )}
-
-            <Fade
-                in={isLoading}
-                unmountOnExit
-                timeout={{
-                    exit: 0,
-                }}>
-                <Skeleton height="3em" />
-            </Fade>
-
-            <Fade in={!isLoading} unmountOnExit>
-                <Select
-                    {...(rest as SelectProps)}
-                    {...selectProps}
-                    onChange={handleChange}
-                    label={label}>
-                    {data?.map((item: any) => (
-                        <MenuItem
-                            key={item.uuid || item.id}
-                            value={item.uuid || item.id}>
-                            {item.name}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </Fade>
-            {helperText && <FormHelperText>{helperText}</FormHelperText>}
         </FormControl>
     )
 }

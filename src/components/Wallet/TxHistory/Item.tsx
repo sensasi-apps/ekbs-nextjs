@@ -1,17 +1,22 @@
-import { FC } from 'react'
-
+// types
+import type { BoxProps } from '@mui/material/Box'
+import type { TypographyProps } from '@mui/material/Typography'
+// materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
+// utils
+import numberToCurrency from '@/utils/numberToCurrency'
 
-import NumericFormat from '@/components/Global/NumericFormat'
-
-const TxHistoryItem: FC<any> = ({
+const TxHistoryItem = ({
     desc,
     amount,
     variant = 'body2',
-    color = undefined,
     ...props
+}: BoxProps & {
+    desc?: string | null
+    amount: number
+    variant?: TypographyProps['variant']
 }) => (
     <Box
         display="flex"
@@ -21,16 +26,10 @@ const TxHistoryItem: FC<any> = ({
         <Typography variant={variant} color="text.primary">
             {desc}
         </Typography>
+
         <Chip
-            label={
-                <NumericFormat
-                    value={amount}
-                    prefix="Rp. "
-                    decimalScale={0}
-                    displayType="text"
-                />
-            }
-            color={color}
+            label={numberToCurrency(amount)}
+            color={(amount ?? 0) > 0 ? 'success' : undefined}
             size="small"
             variant="outlined"
         />

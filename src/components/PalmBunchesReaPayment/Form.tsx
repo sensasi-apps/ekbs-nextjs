@@ -1,7 +1,13 @@
-import React, { FC, useState } from 'react'
-import moment from 'moment'
+// types
+import type ValidationErrorsType from '@/types/ValidationErrors'
+import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
+import type FormType from '@/components/Global/Form/type'
+import type TransactionDataType from '@/dataTypes/Transaction'
+// vendors
+import React, { useState } from 'react'
 import axios from '@/lib/axios'
-
+import dayjs from 'dayjs'
+// materials
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
@@ -21,35 +27,23 @@ import TableFooter from '@mui/material/TableFooter'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import LoadingButton from '@mui/lab/LoadingButton'
-
+// icons
 import AddIcon from '@mui/icons-material/Add'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
-
-import type ValidationErrorsType from '@/types/ValidationErrors'
-import PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
-import FormType from '@/components/Global/Form/type'
+// components
 import NumericFormat from '@/components/Global/NumericFormat'
-import TransactionDataType from '@/dataTypes/Transaction'
-
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import Text from '@/components/Global/Text'
-import DatePicker from '@/components/Global/DatePicker'
+import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import toDmy from '@/utils/toDmy'
 
-const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
+export default function PalmBuncesReaPaymentForm({
     data: dataProp = {} as PalmBunchesReaPaymentDataType,
     actionsSlot,
     loading,
     setSubmitting,
     onSubmitted,
-}) => {
-    if (dataProp?.from_at && !moment.isMoment(dataProp.from_at)) {
-        dataProp.from_at = moment(dataProp.from_at)
-    }
-
-    if (dataProp?.to_at && !moment.isMoment(dataProp.to_at)) {
-        dataProp.to_at = moment(dataProp.to_at)
-    }
-
+}: FormType<PalmBunchesReaPaymentDataType>) {
     const hasTransactions = (dataProp?.transactions?.length || 0) > 0
 
     const [data, setData] = useState<PalmBunchesReaPaymentDataType>(dataProp)
@@ -87,32 +81,39 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
 
         setSubmitting(true)
 
-        try {
-            const formData = new FormData(formEl)
+        const formData = new FormData(formEl)
 
-            transactions.forEach((transaction, index) => {
-                formData.set(
-                    `transactions[${index}][amount]`,
-                    parseFloat(transaction.amount + '') as any,
-                )
-            })
+        const paid_at = formData.get('paid_at') as string
 
-            await axios.post(
+        if (paid_at) {
+            formData.set(
+                'paid_at',
+                dayjs(paid_at, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+            )
+        }
+
+        transactions.forEach((transaction, index) => {
+            formData.set(
+                `transactions[${index}][amount]`,
+                parseFloat(transaction.amount + '') as any,
+            )
+        })
+
+        return axios
+            .post(
                 `/palm-bunches/rea-payments${uuid ? '/' + uuid : ''}`,
                 formData,
             )
-
-            onSubmitted()
-        } catch (error: any) {
-            setSubmitting(false)
-            if (error.response?.status === 422) {
-                setValidationErrors(error.response.data.errors)
-            } else {
-                throw error
-            }
-        }
-
-        setSubmitting(false)
+            .then(() => onSubmitted())
+            .catch(error => {
+                setSubmitting(false)
+                if (error.response?.status === 422) {
+                    setValidationErrors(error.response.data.errors)
+                } else {
+                    throw error
+                }
+            })
+            .finally(() => setSubmitting(false))
     }
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,8 +135,8 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
                 )
                 .then(res => res.data)
 
-            data.from_at = moment(data.from_at)
-            data.to_at = moment(data.to_at)
+            data.from_at = dayjs(data.from_at)
+            data.to_at = dayjs(data.to_at)
 
             setFile(e.target.files?.[0])
             setData(data as PalmBunchesReaPaymentDataType)
@@ -221,10 +222,11 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
 
             <Fade in={Boolean(file || excel_file)} unmountOnExit>
                 <Box>
-                    <Text label="Rentang tanggal tiket:">
-                        {from_at?.format('DD MMMM YYYY')} -{' '}
-                        {to_at?.format('DD MMMM YYYY')}
-                    </Text>
+                    {from_at && to_at && (
+                        <Text label="Rentang tanggal tiket:">
+                            {toDmy(from_at)} - {toDmy(to_at)}
+                        </Text>
+                    )}
 
                     <Text label="Jumlah Tiket:" mb={2}>
                         <NumericFormat
@@ -462,6 +464,7 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
                                     selectProps={{
                                         name: 'cash_uuid',
                                     }}
+                                    margin="dense"
                                     onChange={clearValidationError}
                                     error={Boolean(validationErrors.cash_uuid)}
                                     helperText={validationErrors.cash_uuid}
@@ -473,18 +476,14 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
                                 <DatePicker
                                     slotProps={{
                                         textField: {
-                                            fullWidth: true,
-                                            size: 'small',
                                             name: 'paid_at',
                                             label: 'Tanggal Bayar',
-                                            required: true,
                                         },
                                     }}
                                     disabled={loading || hasTransactions}
-                                    defaultValue={
-                                        dataProp.transactions?.[0]?.at ||
-                                        moment()
-                                    }
+                                    defaultValue={dayjs(
+                                        dataProp.transactions?.[0]?.at,
+                                    )}
                                 />
                             </Grid>
                         </Grid>
@@ -498,5 +497,3 @@ const PalmBuncesReaPaymentForm: FC<FormType<PalmBunchesReaPaymentDataType>> = ({
         </form>
     )
 }
-
-export default PalmBuncesReaPaymentForm

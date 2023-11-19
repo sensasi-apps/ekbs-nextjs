@@ -1,5 +1,4 @@
 import AuthLayout from '@/components/Layouts/AuthLayout'
-
 import { FormDataProvider } from '@/providers/useFormData'
 
 export default function PalmBuncesRates() {
@@ -12,31 +11,22 @@ export default function PalmBuncesRates() {
     )
 }
 
+// types
 import type PalmBunchRateValidDateType from '@/dataTypes/PalmBunchRateValidDate'
-
-import moment from 'moment'
-import { NumericFormat } from 'react-number-format'
-
+// vendors
 import Fab from '@mui/material/Fab'
-
 import SellIcon from '@mui/icons-material/Sell'
 // providers
 import useFormData from '@/providers/useFormData'
 // components
 import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
-import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
 import PalmBunchRatesForm from '@/components/PalmBunchRates/Form'
-// libs
-import weekOfMonths from '@/lib/weekOfMonth'
+// utils
+import toDmy from '@/utils/toDmy'
+import numberToCurrency from '@/utils/numberToCurrency'
 
-const nameIdFormatter = (validFrom: string) => {
-    const momentValue = moment(validFrom)
-
-    return `${momentValue.format('MMMM ')}#${weekOfMonths(momentValue)}`
-}
-
-const Crud = () => {
+function Crud() {
     const {
         formOpen,
         handleClose,
@@ -60,16 +50,14 @@ const Crud = () => {
             name: 'valid_from',
             label: 'Tanggal Berlaku',
             options: {
-                customBodyRender: (value: Date) =>
-                    moment(value).format('DD MMMM YYYY'),
+                customBodyRender: toDmy,
             },
         },
         {
             name: 'valid_until',
             label: 'Tanggal Berakhir',
             options: {
-                customBodyRender: (value: Date) =>
-                    moment(value).format('DD MMMM YYYY'),
+                customBodyRender: toDmy,
             },
         },
         {
@@ -79,15 +67,8 @@ const Crud = () => {
             options: {
                 searchable: false,
                 sort: false,
-                customBodyRender: (value: any) => (
-                    <NumericFormat
-                        value={value[0].rp_per_kg}
-                        prefix="Rp "
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        displayType="text"
-                    />
-                ),
+                customBodyRender: (value: any) =>
+                    numberToCurrency(value[0].rp_per_kg),
             },
         },
     ]
@@ -122,14 +103,7 @@ const Crud = () => {
                         return handleClose()
                     },
                     disabled: loading,
-                }}
-                middleHead={
-                    <FormDataDraftsCrud
-                        modelName="PalmBunchRateValidDate"
-                        dataKeyForNameId="valid_from"
-                        nameIdFormatter={nameIdFormatter}
-                    />
-                }>
+                }}>
                 <PalmBunchRatesForm parentDatatableMutator={mutate} />
             </Dialog>
             <Fab

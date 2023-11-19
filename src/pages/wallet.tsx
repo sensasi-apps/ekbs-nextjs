@@ -1,20 +1,17 @@
-import { FC, useState } from 'react'
-import moment, { Moment } from 'moment'
-
-import AuthLayout from '@/components/Layouts/AuthLayout'
-
-import TxHistory from '@/components/Wallet/TxHistory'
+// vendors
+import { useState } from 'react'
+import dayjs from 'dayjs'
 import useSWR from 'swr'
-import axios from '@/lib/axios'
+// components
+import AuthLayout from '@/components/Layouts/AuthLayout'
+import TxHistory from '@/components/Wallet/TxHistory'
 import Skeletons from '@/components/Global/Skeletons'
 
-const WalletPage: FC = () => {
-    const [fromDate, setFromDate] = useState<Moment>(moment().startOf('month'))
-    const [toDate, setToDate] = useState<Moment>(moment().endOf('month'))
+export default function WalletPage() {
+    const [fromDate, setFromDate] = useState(dayjs().startOf('month'))
+    const [toDate, setToDate] = useState(dayjs().endOf('month'))
 
-    const { data: walletData, isLoading } = useSWR('/wallet', url =>
-        axios.get(url).then(res => res.data),
-    )
+    const { data: walletData, isLoading } = useSWR('/wallet')
 
     return (
         <AuthLayout title="Wallet EKBS Anda">
@@ -32,5 +29,3 @@ const WalletPage: FC = () => {
         </AuthLayout>
     )
 }
-
-export default WalletPage

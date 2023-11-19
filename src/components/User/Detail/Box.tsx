@@ -1,41 +1,21 @@
+// types
+import type { BoxProps } from '@mui/material/Box'
+import type File from '@/dataTypes/File'
+// vendors
 import Image from 'next/image'
-import moment from 'moment'
 import { PatternFormat } from 'react-number-format'
-import 'moment/locale/id'
-
+// materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
+// utils
+import toDmy from '@/utils/toDmy'
 
-const getBirthRegion = userDetail => {
-    return (
-        userDetail?.birth_village ||
-        userDetail?.birth_district ||
-        userDetail?.birth_regency ||
-        null
-    )
-}
-
-const Row = ({ title, children, helperText, ...props }) => {
-    return (
-        <Box {...props} mb={1}>
-            <Typography variant="caption" color="text.secondary">
-                {title}
-            </Typography>
-            {typeof children === 'string' && (
-                <Typography>{children}</Typography>
-            )}
-
-            {typeof children !== 'string' && children}
-
-            {helperText && (
-                <Typography variant="body2">{helperText}</Typography>
-            )}
-        </Box>
-    )
-}
-
-const UserDetailBox = ({ data: userDetail }) => {
+export default function UserDetailBox({
+    data: userDetail,
+}: {
+    data: any // TODO: remove this any, make the UserDetailType
+}) {
     if (!userDetail) return null
 
     const {
@@ -44,7 +24,6 @@ const UserDetailBox = ({ data: userDetail }) => {
         birth_district,
         bpjs_kesehatan_no,
         citizen_id,
-        files = [],
         gender,
         job_desc,
         job_title,
@@ -52,6 +31,8 @@ const UserDetailBox = ({ data: userDetail }) => {
         marital_status,
         n_children,
     } = userDetail
+
+    const files: File[] = userDetail?.files || []
 
     const pasFoto = files.find(file => file.alias === 'Pas Foto')
     const fotoKtp = files.find(file => file.alias === 'Foto KTP')
@@ -136,9 +117,7 @@ const UserDetailBox = ({ data: userDetail }) => {
 
                     <i>{getBirthRegion(userDetail) ? '' : 'belum diisi'}</i>
 
-                    {birth_at
-                        ? ', ' + moment(birth_at).format('DD MMMM YYYY')
-                        : '-'}
+                    {birth_at ? ', ' + toDmy(birth_at) : '-'}
                 </Typography>
             </Row>
 
@@ -159,4 +138,31 @@ const UserDetailBox = ({ data: userDetail }) => {
     )
 }
 
-export default UserDetailBox
+// TODO: remove this any, make the UserDetailType
+const getBirthRegion = (userDetail: any) =>
+    userDetail?.birth_village ||
+    userDetail?.birth_district ||
+    userDetail?.birth_regency ||
+    null
+
+const Row = ({
+    title,
+    children,
+    helperText,
+    ...props
+}: {
+    title: string
+    children: React.ReactNode
+    helperText?: string
+} & BoxProps) => (
+    <Box {...props} mb={1}>
+        <Typography variant="caption" color="text.secondary">
+            {title}
+        </Typography>
+        {typeof children === 'string' && <Typography>{children}</Typography>}
+
+        {typeof children !== 'string' && children}
+
+        {helperText && <Typography variant="body2">{helperText}</Typography>}
+    </Box>
+)
