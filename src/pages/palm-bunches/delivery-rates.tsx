@@ -1,7 +1,4 @@
-import moment from 'moment'
-
 import AuthLayout from '@/components/Layouts/AuthLayout'
-
 import { FormDataProvider } from '@/providers/useFormData'
 
 export default function PalmBuncesDeliveryRates() {
@@ -14,31 +11,24 @@ export default function PalmBuncesDeliveryRates() {
     )
 }
 
-import { NumericFormat } from 'react-number-format'
-
+// types
+import type PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
+import type PalmBunchDeliveryRateType from '@/dataTypes/PalmBunchDeliveryRate'
+// vendors
 import Fab from '@mui/material/Fab'
-
 import SellIcon from '@mui/icons-material/Sell'
-
+// providers
 import useFormData from '@/providers/useFormData'
-
+// components
 import Datatable, { getDataRow, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
-import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
 import PalmBunchDeliveryRatesForm from '@/components/PalmBunchDeliveryRates/Form'
-import weekOfMonths from '@/lib/weekOfMonth'
-import PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
-import { dbPromise } from '@/lib/idb'
-import PalmBunchDeliveryRateType from '@/dataTypes/PalmBunchDeliveryRate'
+// utils
+import toDmy from '@/utils/toDmy'
+import numberToCurrency from '@/utils/numberToCurrency'
 
-const nameIdFormatter = (validFrom: string) => {
-    const momentValue = moment(validFrom)
-
-    return `${momentValue.format('MMMM ')}#${weekOfMonths(momentValue)}`
-}
-
-const Crud = () => {
+function Crud() {
     const {
         data,
         formOpen,
@@ -66,16 +56,14 @@ const Crud = () => {
             name: 'valid_from',
             label: 'Tanggal Berlaku',
             options: {
-                customBodyRender: (value: Date) =>
-                    moment(value).format('DD MMMM YYYY'),
+                customBodyRender: toDmy,
             },
         },
         {
             name: 'valid_until',
             label: 'Tanggal Berakhir',
             options: {
-                customBodyRender: (value: Date) =>
-                    moment(value).format('DD MMMM YYYY'),
+                customBodyRender: toDmy,
             },
         },
         {
@@ -92,14 +80,8 @@ const Crud = () => {
                         }}>
                         {rates.map(rate => (
                             <li key={rate.id}>
-                                {rate.to_oil_mill_code} {rate.from_position}:
-                                <NumericFormat
-                                    value={rate.rp_per_kg}
-                                    prefix=" Rp "
-                                    thousandSeparator="."
-                                    decimalSeparator=","
-                                    displayType="text"
-                                />
+                                {rate.to_oil_mill_code} {rate.from_position}:{' '}
+                                {numberToCurrency(rate.rp_per_kg)}
                             </li>
                         ))}
                     </ul>
@@ -114,8 +96,10 @@ const Crud = () => {
                 apiUrl="/palm-bunches/delivery-rates/datatable"
                 columns={columns}
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
-                onRowClick={(_, rowMeta) =>
-                    handleEdit(getDataRow(rowMeta.rowIndex))
+                onRowClick={(_, rowMeta, event) =>
+                    event.detail === 2
+                        ? handleEdit(getDataRow(rowMeta.rowIndex))
+                        : undefined
                 }
                 tableId="PalmBunchDeliveryRateDatatable"
                 title="Daftar Tarif Angkut"
@@ -138,44 +122,16 @@ const Crud = () => {
                         return handleClose()
                     },
                     disabled: loading,
-                }}
-                middleHead={
-                    <FormDataDraftsCrud
-                        modelName="PalmBundleDeliveryRateValidDate"
-                        dataKeyForNameId="valid_from"
-                        nameIdFormatter={nameIdFormatter}
-                    />
-                }>
+                }}>
                 <PalmBunchDeliveryRatesForm
                     data={data}
                     loading={loading}
                     setSubmitting={setSubmitting}
                     onChange={setData}
-                    onSubmitted={async payload => {
+                    onSubmitted={async () => {
                         await mutate()
                         setSubmitting(false)
                         handleClose()
-
-                        if (payload?.valid_from) {
-                            dbPromise.then(db =>
-                                db
-                                    .getKeyFromIndex(
-                                        'formDataDrafts',
-                                        'nameId',
-                                        [
-                                            'PalmBundleDeliveryRateValidDate',
-                                            nameIdFormatter(
-                                                payload.valid_from as string,
-                                            ),
-                                        ],
-                                    )
-                                    .then(id =>
-                                        id
-                                            ? db.delete('formDataDrafts', id)
-                                            : null,
-                                    ),
-                            )
-                        }
                     }}
                     actionsSlot={
                         <FormActions

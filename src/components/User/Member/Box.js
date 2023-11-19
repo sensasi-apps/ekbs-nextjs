@@ -1,9 +1,7 @@
-import moment from 'moment'
-
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-
 import useUserWithDetails from '@/providers/UserWithDetails'
+import toDmy from '@/utils/toDmy'
 
 const Row = ({ title, children, helperText, ...props }) => {
     return (
@@ -47,15 +45,13 @@ const MemberBox = () => {
             </Row>
 
             <Row title="Tanggal Bergabung">
-                {joined_at ? moment(joined_at).format('DD MMMM YYYY') : '-'}
+                {joined_at ? toDmy(joined_at) : '-'}
             </Row>
 
             {unjoined_at && (
                 <>
                     <Row title="Tanggal Berhenti/Keluar">
-                        {unjoined_at
-                            ? moment(unjoined_at).format('DD MMMM YYYY')
-                            : '-'}
+                        {unjoined_at ? toDmy(unjoined_at) : '-'}
                     </Row>
 
                     <Row title="Alasan Berhenti/Keluar">

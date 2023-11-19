@@ -1,40 +1,44 @@
-import { FC } from 'react'
-import moment, { Moment } from 'moment'
+// types
+import type { Dayjs } from 'dayjs'
+import type WalletType from '@/dataTypes/Wallet'
+import type TransactionDataType from '@/dataTypes/Transaction'
+// vendors
 import useSWR from 'swr'
 import ReactToPrint from 'react-to-print'
-import 'moment/locale/id'
 import axios from '@/lib/axios'
-
+import dayjs from 'dayjs'
+// materials
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
-
+// icons
 import PrintIcon from '@mui/icons-material/Print'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
-
-import DatePicker from '@/components/Global/DatePicker'
-import NumericFormat from '@/components/Global/NumericFormat'
+// components
+import DatePicker from '@/components/DatePickerDayJs/DatePicker'
 import Skeletons from '@/components/Global/Skeletons'
-import TransactionDataType from '@/dataTypes/Transaction'
+// components/TxHistory
 import TxHistoryItem from './TxHistory/Item'
-import WalletType from '@/dataTypes/Wallet'
+// utils
+import toDmy from '@/utils/toDmy'
+import numberToCurrency from '@/utils/numberToCurrency'
 
-const TxHistory: FC<{
-    walletData: WalletType
-    printContent?: any
-    fromDate: Moment
-    setFromDate: any
-    toDate: Moment
-    setToDate: any
-}> = ({
+function TxHistory({
     walletData,
     printContent,
     fromDate,
     setFromDate,
     toDate,
     setToDate,
-}) => {
+}: {
+    walletData: WalletType
+    printContent?: any
+    fromDate: Dayjs
+    setFromDate: any
+    toDate: Dayjs
+    setToDate: any
+}) {
     const { data: txs = [], isLoading } = useSWR(
         walletData?.uuid
             ? `/wallets/transactions/${
@@ -44,20 +48,10 @@ const TxHistory: FC<{
               )}&toDate=${toDate.format('YYYY-MM-DD')}`
             : null,
         url => axios.get(url).then(res => res.data),
+        {
+            keepPreviousData: true,
+        },
     )
-
-    let dateTemp: undefined | string = undefined
-
-    const dateHandler = (date: string | Moment) => {
-        if (dateTemp !== moment(date).format('DD MMMM YYYY')) {
-            dateTemp = moment(date).format('DD MMMM YYYY')
-            return (
-                <Box color="text.disabled" fontWeight="bold" mb={0.5} mt={1.5}>
-                    {dateTemp}
-                </Box>
-            )
-        }
-    }
 
     return (
         <div>
@@ -71,46 +65,30 @@ const TxHistory: FC<{
                     variant="h4"
                     fontWeight="bold"
                     component="div">
-                    <NumericFormat
-                        value={walletData?.balance}
-                        prefix="Rp. "
-                        decimalScale={0}
-                        displayType="text"
-                    />
+                    {numberToCurrency(walletData?.balance)}
                 </Typography>
             </Box>
 
             <Box mb={0.2} display="flex" gap={2}>
                 <DatePicker
                     disabled={isLoading}
-                    format={undefined}
+                    format={'MMMM YYYY'}
                     maxDate={toDate}
                     value={fromDate}
                     views={['month', 'year']}
                     label="Dari"
                     onChange={date => setFromDate(date)}
-                    slotProps={{
-                        textField: {
-                            fullWidth: true,
-                            size: 'small',
-                        },
-                    }}
                 />
 
                 <DatePicker
                     disabled={isLoading}
-                    format={undefined}
+                    format={'MMMM YYYY'}
                     value={toDate}
                     minDate={fromDate}
+                    maxDate={dayjs().endOf('month')}
                     onChange={date => setToDate(date)}
                     views={['month', 'year']}
                     label="Hingga"
-                    slotProps={{
-                        textField: {
-                            fullWidth: true,
-                            size: 'small',
-                        },
-                    }}
                 />
             </Box>
 
@@ -177,11 +155,7 @@ const TxHistory: FC<{
                 <div key={tx.uuid}>
                     {dateHandler(tx.at)}
 
-                    <TxHistoryItem
-                        desc={tx.desc}
-                        amount={tx.amount}
-                        color={(tx.amount || 0) > 0 ? 'success' : undefined}
-                    />
+                    <TxHistoryItem desc={tx.desc} amount={tx.amount} />
                 </div>
             ))}
 
@@ -198,3 +172,16 @@ const TxHistory: FC<{
 }
 
 export default TxHistory
+
+let dateTemp: string
+
+const dateHandler = (date: TransactionDataType['at']) => {
+    if (dateTemp !== toDmy(date)) {
+        dateTemp = toDmy(date)
+        return (
+            <Box color="text.disabled" fontWeight="bold" mb={0.5} mt={1.5}>
+                {dateTemp}
+            </Box>
+        )
+    }
+}

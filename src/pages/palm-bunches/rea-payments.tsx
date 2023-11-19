@@ -1,9 +1,7 @@
-import { FC } from 'react'
-
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import { FormDataProvider } from '@/providers/useFormData'
 
-const PalmBuncesReaPaymentsPage: FC = () => {
+export default function PalmBuncesReaPaymentsPage() {
     return (
         <AuthLayout title="Pembayaran dari REA">
             <FormDataProvider>
@@ -15,8 +13,7 @@ const PalmBuncesReaPaymentsPage: FC = () => {
 
 import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
 
-import moment from 'moment'
-import 'moment/locale/id'
+// vendors
 import useSWR from 'swr'
 // materials
 import Alert from '@mui/material/Alert'
@@ -32,8 +29,10 @@ import NumericFormat from '@/components/Global/NumericFormat'
 import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form'
 // providers
 import useFormData from '@/providers/useFormData'
+// utils
+import toDmy from '@/utils/toDmy'
 
-const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
+function PalmBunchDeliveryRatesCrudWithUseFormData() {
     const {
         data,
         submitting,
@@ -61,16 +60,14 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
             name: 'from_at',
             label: 'Tanggal Tiket Awal',
             options: {
-                customBodyRender: (value: string) =>
-                    moment(value).format('DD-MM-YYYY'),
+                customBodyRender: toDmy,
             },
         },
         {
             name: 'to_at',
             label: 'Tanggal Tiket Akhir',
             options: {
-                customBodyRender: (value: string) =>
-                    moment(value).format('DD-MM-YYYY'),
+                customBodyRender: toDmy,
             },
         },
         {
@@ -194,5 +191,3 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
         </>
     )
 }
-
-export default PalmBuncesReaPaymentsPage

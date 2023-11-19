@@ -6,6 +6,7 @@ import type {
     MUISortOptions,
 } from 'mui-datatables'
 import type { KeyedMutator } from 'swr'
+import type { OnRowClickType } from './types'
 // vendors
 import { useCallback, useState, memo } from 'react'
 import useSWR from 'swr'
@@ -18,8 +19,8 @@ import LinearProgress from '@mui/material/LinearProgress'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
 // locals
-import type { OnRowClickType } from './types'
 import CustomHeadButton from './components/CustomHeadButton'
+// utils
 import formatToDatatableParams from './utils/formatToDatatableParams'
 
 const MUIDataTable = dynamic(() => import('mui-datatables'), {
@@ -52,7 +53,9 @@ const Datatable = memo(function Datatable({
         isValidating,
         data: { data = [], recordsTotal } = {},
         mutate,
-    } = useSWR(params ? [apiUrl, params] : null)
+    } = useSWR(params ? [apiUrl, params] : null, {
+        keepPreviousData: true,
+    })
 
     getDataRow = index => data[index]
     mutatorForExport = mutate

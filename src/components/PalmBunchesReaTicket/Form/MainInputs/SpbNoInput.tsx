@@ -1,21 +1,28 @@
+// types
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
-
-import { FC, useState, useEffect } from 'react'
-
+// vendors
+import { useState, useEffect } from 'react'
+// materials
 import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-
+// components
+import TextField from '@/components/TextField'
+// providers
 import useFormData from '@/providers/useFormData'
-import { alpaNumeric } from '@/lib/RegExps'
+// utils
+import { alpaNumeric } from '@/utils/RegExps'
 
 let tempValue: string | undefined
 
-const SpbNoInput: FC<{
+export default function SpbNoInput({
+    disabled,
+    clearByName,
+    validationErrors,
+}: {
     validationErrors: ValidationErrorsType
     disabled: boolean
     clearByName: (name: string) => void
-}> = ({ disabled, clearByName, validationErrors }) => {
+}) {
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
     const [spbNo, setSpbNo] = useState(data.spb_no)
 
@@ -36,11 +43,7 @@ const SpbNoInput: FC<{
     return (
         <TextField
             disabled={disabled}
-            fullWidth
-            required
-            margin="dense"
             label="No. SPB"
-            size="small"
             name="spb_no"
             InputProps={{
                 startAdornment: (
@@ -73,5 +76,3 @@ const SpbNoInput: FC<{
         />
     )
 }
-
-export default SpbNoInput
