@@ -2,6 +2,7 @@ import type { UUID } from 'crypto'
 import type ProductMovementDetailType from './ProductMovementDetail'
 import type TransactionType from './Transaction'
 import type { Ymd } from '@/types/DateString'
+import type ProductMovementType from './ProductMovement'
 
 type ProductPurchaseType = ProductPurchaseDBType | ProductPurchaseOrderedType
 export default ProductPurchaseType
@@ -17,6 +18,7 @@ type ProductPurchaseDBType = {
 }
 
 export type ProductPurchaseRelationsType = {
+    product_movement: ProductMovementType
     product_movement_details: ProductMovementDetailType[]
     transaction: TransactionType
 }
