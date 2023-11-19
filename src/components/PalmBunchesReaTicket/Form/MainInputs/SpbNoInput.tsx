@@ -5,9 +5,11 @@ import type ValidationErrorsType from '@/types/ValidationErrors'
 import { useState, useEffect } from 'react'
 // materials
 import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-// utils
+// components
+import TextField from '@/components/TextField'
+// providers
 import useFormData from '@/providers/useFormData'
+// utils
 import { alpaNumeric } from '@/utils/RegExps'
 
 let tempValue: string | undefined
@@ -41,11 +43,7 @@ export default function SpbNoInput({
     return (
         <TextField
             disabled={disabled}
-            fullWidth
-            required
-            margin="dense"
             label="No. SPB"
-            size="small"
             name="spb_no"
             InputProps={{
                 startAdornment: (

@@ -1,12 +1,12 @@
+// types
 import type { ChangeEvent } from 'react'
 import type FormType from '@/components/Global/Form/type'
-import type { Moment } from 'moment'
 import type PalmBunchDeliveryRateType from '@/dataTypes/PalmBunchDeliveryRate'
 import type PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
-
-import { FC, useEffect, useState } from 'react'
-import moment from 'moment'
-
+import type { Ymd } from '@/types/DateString'
+// vendors
+import { useEffect, useState } from 'react'
+// materials
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
@@ -18,14 +18,15 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
 // components
-import DatePicker from '@/components/Global/DatePicker'
+import DatePicker from '@/components/DatePickerDayJs/DatePicker'
 import NumericFormat from '@/components/Global/NumericFormat'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs
 import axios from '@/lib/axios'
 import debounce from '@/utils/debounce'
-import weekOfMonths from '@/lib/weekOfMonth'
+import weekOfMonths from '@/utils/weekOfMonth'
+import dayjs from 'dayjs'
 
 const oilMillCodes: readonly string[] = ['COM', 'POM', 'SOM']
 const categories: readonly string[] = ['Atas', 'Bawah', 'Tengah']
@@ -44,22 +45,27 @@ const emptyDeliveryRates: PalmBunchDeliveryRateType[] = oilMillCodes.reduce(
     [],
 )
 
-const PalmBunchDeliveryRatesForm: FC<
-    FormType<PalmBunchDeliveryRateValidDateType>
-> = ({ data, loading, actionsSlot, onSubmitted, setSubmitting, onChange }) => {
+export default function PalmBunchDeliveryRatesForm({
+    data,
+    loading,
+    actionsSlot,
+    onSubmitted,
+    setSubmitting,
+    onChange,
+}: FormType<PalmBunchDeliveryRateValidDateType>) {
     const { id, valid_from, delivery_rates } = data
 
     const { validationErrors, setValidationErrors, clearByEvent, clearByName } =
         useValidationErrors()
-    const [validFrom, setValidFrom] = useState<Moment | null>(
-        valid_from ? moment(valid_from) : null,
+    const [validFrom, setValidFrom] = useState(
+        valid_from ? dayjs(valid_from) : null,
     )
     const [deliveryRates, setDeliveryRates] = useState<
         PalmBunchDeliveryRateType[]
     >(structuredClone(delivery_rates || emptyDeliveryRates))
 
     useEffect(() => {
-        setValidFrom(valid_from ? moment(valid_from) : null)
+        setValidFrom(valid_from ? dayjs(valid_from) : null)
         setDeliveryRates(structuredClone(delivery_rates || emptyDeliveryRates))
     }, [data])
 
@@ -77,7 +83,7 @@ const PalmBunchDeliveryRatesForm: FC<
             valid_from: validFrom.format(),
             valid_until: validFrom.clone().add(6, 'days').format(),
             delivery_rates: deliveryRates,
-        }
+        } as PalmBunchDeliveryRateValidDateType
 
         return axios
             .post(`/palm-bunches/delivery-rates${id ? '/' + id : ''}`, payload)
@@ -128,8 +134,11 @@ const PalmBunchDeliveryRatesForm: FC<
                 onChange({
                     ...data,
                     delivery_rates: deliveryRates,
-                    valid_from: validFrom.format(),
-                    valid_until: validFrom.clone().add(6, 'days').format(),
+                    valid_from: validFrom.format('YYYY-MM-DD') as Ymd,
+                    valid_until: validFrom
+                        .clone()
+                        .add(6, 'days')
+                        .format('YYYY-MM-DD') as Ymd,
                 }),
             200,
         )
@@ -140,7 +149,7 @@ const PalmBunchDeliveryRatesForm: FC<
             <Grid container spacing={2}>
                 <Grid item xs={6} sm={6}>
                     <DatePicker
-                        shouldDisableDate={date => date?.day() !== 2}
+                        shouldDisableDate={date => date?.day() !== 1}
                         disabled={loading}
                         value={validFrom}
                         slotProps={{
@@ -283,5 +292,3 @@ const PalmBunchDeliveryRatesForm: FC<
         </form>
     )
 }
-
-export default PalmBunchDeliveryRatesForm

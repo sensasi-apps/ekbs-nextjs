@@ -1,8 +1,7 @@
 import type { Ymd } from '@/types/DateString'
 import type { Dayjs } from 'dayjs'
-import type { Moment } from 'moment'
 
-export default function toDmy(date: Ymd | Moment | Dayjs): string {
+export default function toDmy(date: Ymd | Dayjs): string {
     if (typeof date === 'string') {
         const [x, y, z] = date.split('-')
 

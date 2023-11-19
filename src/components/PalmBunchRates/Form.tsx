@@ -1,35 +1,35 @@
-import type { Moment } from 'moment'
+// types
+import type { Ymd } from '@/types/DateString'
 import type PalmBunchRateType from '@/dataTypes/PalmBunchRate'
 import type PalmBunchRateValidDateType from '@/dataTypes/PalmBunchRateValidDate'
 import type { KeyedMutator } from 'swr'
-
+// vendors
 import { FC, useEffect, useState } from 'react'
-import moment from 'moment'
+import dayjs, { Dayjs } from 'dayjs'
 import { NumericFormat } from 'react-number-format'
-
+// materials
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
 // components
-import DatePicker from '@/components/Global/DatePicker'
+import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import RpInputAdornment from '../InputAdornment/Rp'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs
 import axios from '@/lib/axios'
 import debounce from '@/utils/debounce'
-import errorCatcher from '@/utils/errorCatcher'
 import useFormData from '@/providers/useFormData'
-import weekOfMonths from '@/lib/weekOfMonth'
 import FormActions from '../Global/Form/Actions'
 import { dbPromise } from '@/lib/idb'
+import errorCatcher from '@/utils/errorCatcher'
+import weekOfMonths from '@/utils/weekOfMonth'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
-const nameIdFormatter = (validFrom: string) => {
-    const momentValue = moment(validFrom)
-
-    return `${momentValue.format('MMMM ')}#${weekOfMonths(momentValue)}`
-}
+const nameIdFormatter = (validFrom: Ymd) =>
+    `${dayjs(validFrom).format('MMMM ')}#${weekOfMonths(validFrom)}`
 
 const types = ['basic']
 const getEmptyRates = () =>
@@ -48,8 +48,8 @@ const PalmBunchRatesForm: FC<{
 
     const { validationErrors, setValidationErrors, clearByName } =
         useValidationErrors()
-    const [validFrom, setValidFrom] = useState<Moment | null>(
-        valid_from ? moment(valid_from) : null,
+    const [validFrom, setValidFrom] = useState(
+        valid_from ? dayjs(valid_from) : null,
     )
     const [ratesState, setRatesState] = useState<PalmBunchRateType[]>(
         rates ??
@@ -66,7 +66,7 @@ const PalmBunchRatesForm: FC<{
     }, [])
 
     useEffect(() => {
-        setValidFrom(valid_from ? moment(valid_from) : null)
+        setValidFrom(valid_from ? dayjs(valid_from) : null)
         setRatesState(
             rates ||
                 types.map(type => ({
@@ -99,7 +99,7 @@ const PalmBunchRatesForm: FC<{
                         db
                             .getKeyFromIndex('formDataDrafts', 'nameId', [
                                 'PalmBunchRateValidDate',
-                                nameIdFormatter(temp?.valid_from as string),
+                                nameIdFormatter(temp?.valid_from as Ymd),
                             ])
                             .then(id =>
                                 id ? db.delete('formDataDrafts', id) : null,
@@ -133,13 +133,16 @@ const PalmBunchRatesForm: FC<{
         debounceSetData()
     }
 
-    const handleDateChange = (date: Moment | null) => {
+    const handleDateChange = (date: Dayjs | null) => {
         clearByName('valid_from')
 
         if (!date || temp === undefined) return
 
-        temp.valid_from = date.format()
-        temp.valid_until = date.clone().add(6, 'days').format()
+        temp.valid_from = date.format('YYYY-MM-DD') as Ymd
+        temp.valid_until = date
+            .clone()
+            .add(6, 'days')
+            .format('YYYY-MM-DD') as Ymd
 
         debounceSetData()
     }
@@ -158,19 +161,16 @@ const PalmBunchRatesForm: FC<{
             <Grid container spacing={2}>
                 <Grid item xs={6} sm={6}>
                     <DatePicker
-                        shouldDisableDate={date => date?.day() !== 2}
+                        shouldDisableDate={date => date?.day() !== 1}
                         disabled={loading}
                         value={validFrom}
                         slotProps={{
                             textField: {
-                                required: true,
-                                fullWidth: true,
                                 name: 'valid_from',
                                 label: 'Tanggal Berlaku',
-                                margin: 'dense',
-                                size: 'small',
-                                error: Boolean(validationErrors.valid_from),
-                                helperText: validationErrors.valid_from,
+                                ...errorsToHelperTextObj(
+                                    validationErrors.valid_from,
+                                ),
                             },
                         }}
                         onChange={handleDateChange}
@@ -224,11 +224,7 @@ const PalmBunchRatesForm: FC<{
                                 margin="dense"
                                 label="Harga"
                                 InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            Rp
-                                        </InputAdornment>
-                                    ),
+                                    startAdornment: <RpInputAdornment />,
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             /kg
@@ -255,12 +251,11 @@ const PalmBunchRatesForm: FC<{
                                         values.floatValue,
                                     )
                                 }
-                                error={Boolean(
-                                    validationErrors[`rates[${rate.type}]`],
+                                {...errorsToHelperTextObj(
+                                    validationErrors[
+                                        `rp_per_kgs[${rate.type}]`
+                                    ],
                                 )}
-                                helperText={
-                                    validationErrors[`rates[${rate.type}]`]
-                                }
                             />
                         ))}
 

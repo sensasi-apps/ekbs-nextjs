@@ -1,26 +1,27 @@
-import { FC, FormEvent } from 'react'
+// types
+import type { FormEvent } from 'react'
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type FormType from '@/components/Global/Form/type'
+// vendors
 import axios from '@/lib/axios'
-
+import dayjs from 'dayjs'
+// materials
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
-
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
-import FormType from '@/components/Global/Form/type'
-
+// local components
 import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
 import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
 import GradingItemInputs from './Form/GradingItemInputs'
-
+// hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
-import dmyToYmd from '@/utils/dmyToYmd'
 
-const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
+export default function PalmBuncesReaTicketForm({
     data,
     actionsSlot,
     loading,
     setSubmitting,
     onSubmitted,
-}) => {
+}: FormType<PalmBunchesReaTicketType>) {
     const disabled = Boolean(
         loading || (data?.delivery?.transactions?.length || 0) > 0,
     )
@@ -38,7 +39,9 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         setSubmitting(true)
 
         const formData = new FormData(formEl)
-        formData.set('at', dmyToYmd(formData.get('at') as string) as string)
+        const atDmy = formData.get('at')
+        const atDayJs = dayjs(atDmy as string, 'DD-MM-YYYY')
+        formData.set('at', atDayJs.format('YYYY-MM-DD'))
 
         axios
             .post(
@@ -97,5 +100,3 @@ const PalmBuncesReaTicketForm: FC<FormType<PalmBunchesReaTicketType>> = ({
         </form>
     )
 }
-
-export default PalmBuncesReaTicketForm

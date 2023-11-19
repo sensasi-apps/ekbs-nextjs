@@ -1,44 +1,14 @@
-import NumericMasking from '@/components/Inputs/NumericMasking'
+// vendors
+import dayjs from 'dayjs'
 import ListItemText from '@mui/material/ListItemText'
-import moment from 'moment'
+// utils
+import formatNumber from '@/utils/formatNumber'
 
-const toSecondaryText = ({
-    farmer_group,
-    address: { province, regency, district, village, detail, zip_code } = {},
-    rea_land_id,
-    planted_at,
-    note,
-}) =>
-    [
-        note,
-        rea_land_id,
-        farmer_group?.name,
-        planted_at ? moment(planted_at).format('YYYY') : undefined,
-        [
-            detail,
-            province?.name,
-            regency?.name,
-            district?.name,
-            village?.name,
-            zip_code,
-        ]
-            .filter(Boolean)
-            .join(', '),
-    ]
-        .filter(Boolean)
-        .join(' • ')
-
-const UserLandListItemText = ({ data: land = {} }) => {
+export default function UserLandListItemText({ data: land = {} }) {
     const { n_area_hectares } = land
     return (
         <ListItemText
-            primary={
-                <NumericMasking
-                    displayType="text"
-                    value={n_area_hectares}
-                    suffix=" Ha"
-                />
-            }
+            primary={formatNumber(n_area_hectares) + ' Ha'}
             primaryTypographyProps={{
                 variant: 'h6',
                 fontWeight: 'bold',
@@ -52,4 +22,28 @@ const UserLandListItemText = ({ data: land = {} }) => {
     )
 }
 
-export default UserLandListItemText
+const toSecondaryText = ({
+    farmer_group,
+    address: { province, regency, district, village, detail, zip_code } = {},
+    rea_land_id,
+    planted_at,
+    note,
+}) =>
+    [
+        note,
+        rea_land_id,
+        farmer_group?.name,
+        planted_at ? dayjs(planted_at).format('YYYY') : undefined,
+        [
+            detail,
+            province?.name,
+            regency?.name,
+            district?.name,
+            village?.name,
+            zip_code,
+        ]
+            .filter(Boolean)
+            .join(', '),
+    ]
+        .filter(Boolean)
+        .join(' • ')

@@ -3,8 +3,6 @@ import type { NumberFormatValues } from 'react-number-format'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 import type { Dayjs } from 'dayjs'
-import type UserType from '@/dataTypes/User'
-import type { Ymd } from '@/types/DateString'
 // vendors
 import dayjs from 'dayjs'
 import { useEffect, memo, useState } from 'react'
@@ -13,18 +11,18 @@ import { NumericFormat } from 'react-number-format'
 import Autocomplete from '@mui/material/Autocomplete'
 import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 // components
 import DatePicker from '@/components/DatePickerDayJs/DatePicker'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
-// local components
-import SpbNoInput from './MainInputs/SpbNoInput'
-import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
+import TextField from '@/components/TextField'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 // providers
 import useFormData from '@/providers/useFormData'
-// utils
+import UserType from '@/dataTypes/User'
+import SpbNoInput from './MainInputs/SpbNoInput'
+import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
+//libs
 import { wholeNumber } from '@/utils/RegExps'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
@@ -45,7 +43,7 @@ function PalmBunchesReaDeliveryMainInputs({
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
 
     // ticket props
-    const [at, setAt] = useState<Dayjs | null>(data.at ? dayjs(data.at) : null)
+    const [at, setAt] = useState(data.at ? dayjs(data.at) : null)
     const [ticketNo, setTicketNo] = useState(data.ticket_no)
     const [gradisNo, setGradisNo] = useState(data.gradis_no)
     const [vebeweNo, setVebeweNo] = useState(data.vebewe_no)
@@ -117,7 +115,7 @@ function PalmBunchesReaDeliveryMainInputs({
 
     const handleChange = (
         key: string,
-        value: Ymd | string | number | undefined | UserType,
+        value: string | Dayjs | number | undefined | UserType,
     ) => {
         tempData = { ...data }
 
@@ -152,8 +150,8 @@ function PalmBunchesReaDeliveryMainInputs({
             {data.id && (
                 <TextField
                     disabled
-                    fullWidth
-                    size="small"
+                    margin={undefined}
+                    required={false}
                     variant="filled"
                     sx={{
                         mb: 2,
@@ -173,12 +171,14 @@ function PalmBunchesReaDeliveryMainInputs({
                 slotProps={{
                     textField: {
                         name: 'at',
-                        ...errorsToHelperTextObj(validationErrors.at),
+                        label: 'Tanggal',
+                        error: Boolean(validationErrors.at),
+                        helperText: validationErrors.at,
                     },
                 }}
                 value={at ?? null}
                 onChange={value => {
-                    setAt(value ?? null)
+                    setAt(value)
                     handleChange('at', value?.format('YYYY-MM-DD'))
                 }}
                 onAccept={handleBlur}
@@ -196,11 +196,7 @@ function PalmBunchesReaDeliveryMainInputs({
                     maxLength: 10,
                 }}
                 disabled={disabled}
-                fullWidth
-                required
-                margin="dense"
                 label="No. Tiket"
-                size="small"
                 name="ticket_no"
                 onChange={event => {
                     const { name, value } = event.target
@@ -217,11 +213,7 @@ function PalmBunchesReaDeliveryMainInputs({
 
             <TextField
                 disabled={disabled}
-                fullWidth
-                required
-                margin="dense"
                 label="No. Gradis"
-                size="small"
                 name="gradis_no"
                 inputProps={{
                     minLength: 12,
@@ -242,11 +234,7 @@ function PalmBunchesReaDeliveryMainInputs({
 
             <TextField
                 disabled={disabled}
-                fullWidth
-                required
-                margin="dense"
                 label="No. VeBeWe"
-                size="small"
                 name="vebewe_no"
                 inputProps={{
                     minLength: 12,
@@ -284,9 +272,6 @@ function PalmBunchesReaDeliveryMainInputs({
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                required
-                                margin="dense"
-                                size="small"
                                 name="to_oil_mill_code"
                                 label="Pabrik Tujuan"
                                 {...errorsToHelperTextObj(
@@ -315,9 +300,6 @@ function PalmBunchesReaDeliveryMainInputs({
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                required
-                                margin="dense"
-                                size="small"
                                 name="from_position"
                                 label="Dari Posisi"
                                 {...errorsToHelperTextObj(
@@ -335,11 +317,7 @@ function PalmBunchesReaDeliveryMainInputs({
                     decimalScale={0}
                     allowNegative={false}
                     disabled={disabled}
-                    fullWidth
-                    required
-                    margin="dense"
                     label="Tarif angkut permintaan"
-                    size="small"
                     inputProps={{
                         maxLength: 3,
                         minLength: 1,
@@ -375,11 +353,7 @@ function PalmBunchesReaDeliveryMainInputs({
                 decimalScale={0}
                 allowNegative={false}
                 disabled={disabled}
-                fullWidth
-                required
-                margin="dense"
                 label="Total Janjang"
-                size="small"
                 inputProps={{
                     minLength: 1,
                     maxLength: 5,
@@ -426,11 +400,7 @@ function PalmBunchesReaDeliveryMainInputs({
 
             <TextField
                 disabled={disabled}
-                fullWidth
-                required
-                margin="dense"
                 label="NO. Kendaraan"
-                size="small"
                 name="vehicle_no"
                 inputProps={{
                     minLength: 3,

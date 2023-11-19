@@ -1,27 +1,28 @@
-import type { Moment } from 'moment'
-
-import { FC, useState, useRef } from 'react'
-import moment from 'moment'
-
+// types
+import type WalletType from '@/dataTypes/Wallet'
+// vendors
+import { useState, useRef } from 'react'
+import dayjs from 'dayjs'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-
+// icons
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
-
+// providers
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
-
+// components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Dialog from '@/components/Global/Dialog'
 import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+// global components
+import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'
+// components/Wallet
 import TxHistory from '@/components/Wallet/TxHistory'
 import WalletWithdrawForm from '@/components/Wallet/WithdrawForm'
-import WalletType from '@/dataTypes/Wallet'
 
-const WalletsPage: FC = () => {
+export default function WalletsPage() {
     return (
         <AuthLayout title="Wallet EKBS">
             <FormDataProvider>
@@ -33,14 +34,12 @@ const WalletsPage: FC = () => {
     )
 }
 
-export default WalletsPage
-
 const theme = createTheme()
 
-const MainContent: FC = () => {
+function MainContent() {
     const [walletData, setWalletData] = useState<WalletType>()
-    const [fromDate, setFromDate] = useState<Moment>(moment().startOf('month'))
-    const [toDate, setToDate] = useState<Moment>(moment().endOf('month'))
+    const [fromDate, setFromDate] = useState(dayjs().startOf('month'))
+    const [toDate, setToDate] = useState(dayjs().endOf('month'))
 
     const componentRef = useRef(null)
 
@@ -141,7 +140,7 @@ const MainContent: FC = () => {
     )
 }
 
-const WithdrawButtonAndForm: FC = () => {
+function WithdrawButtonAndForm() {
     const {
         formOpen,
         handleCreate,

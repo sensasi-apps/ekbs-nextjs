@@ -1,11 +1,11 @@
-import { Moment } from 'moment'
-import PalmBunchDeliveryRateType from './PalmBunchDeliveryRate'
+import type PalmBunchDeliveryRateType from './PalmBunchDeliveryRate'
+import type { Ymd } from '@/types/DateString'
 
 type PalmBunchDeliveryRateValidDateType = {
-    id?: number
-    valid_from?: string | Moment
-    valid_until?: string | Moment
-    delivery_rates?: PalmBunchDeliveryRateType[]
+    id: number
+    valid_from: Ymd
+    valid_until: Ymd
+    delivery_rates: PalmBunchDeliveryRateType[]
 }
 
 export default PalmBunchDeliveryRateValidDateType
