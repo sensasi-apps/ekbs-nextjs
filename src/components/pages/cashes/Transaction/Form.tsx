@@ -25,7 +25,7 @@ import TextField from '@mui/material/TextField'
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
 // components
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
 import FormLoadingBar from '@/components/Dialog/LoadingBar'

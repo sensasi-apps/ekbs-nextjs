@@ -1,47 +1,76 @@
+// types
+import { TextFieldProps } from '@mui/material/TextField'
+import { AutocompleteProps as MuiAutocompletePropsTemp } from '@mui/material/Autocomplete'
+// vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
 import useSWRMutation from 'swr/mutation'
-
-import { Autocomplete as MuiAutocomplete } from '@mui/material'
+// material-ui
+import MuiAutocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+// components
+import TextField from '@/components/TextField'
+
+type MuiAutocompleteProps = MuiAutocompletePropsTemp<any, false, false, false>
+type AutocompleteProps = Omit<MuiAutocompleteProps, 'options' | 'renderInput'>
 
 export default function Autocomplete({
     endpoint,
     noOptionsText,
     label = 'Cari',
-    required = false,
-    margin = 'none',
+    required,
+    margin = 'dense',
     ...props
-}) {
+}: {
+    endpoint: string
+    label?: TextFieldProps['label']
+    required?: TextFieldProps['required']
+    margin?: TextFieldProps['margin']
+} & AutocompleteProps) {
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
-    const [userOptions, setUserOptions] = useState([])
+    const [options, setOptions] = useState<any[]>([])
 
-    const fetchUserOptions = async (searchUrl, { arg: { searchText } }) => {
+    const fetchUserOptions = async (
+        searchUrl: string,
+        {
+            arg: { searchText },
+        }: {
+            arg: { searchText: string }
+        },
+    ) => {
         const { data } = await axios.get(`${searchUrl}?query=${searchText}`)
         return data
     }
 
     const { trigger, isMutating } = useSWRMutation(endpoint, fetchUserOptions, {
-        revalidateOnFocus: false,
+        revalidate: false,
     })
 
-    const handleKeyDown = async e => {
-        if (e.key === 'Enter' && e.target.value.length >= 3 && !isMutating) {
-            e.preventDefault()
-            setIsSearched(true)
-            const data = await trigger({ searchText: e.target.value })
-            setUserOptions(data)
+    const handleKeyDown: MuiAutocompleteProps['onKeyDown'] = async event => {
+        if (event.key === 'Enter' && !isMutating) {
+            const value = (
+                'value' in event.target ? event.target.value : ''
+            ) as string
+
+            if (value.length >= 3) {
+                event.preventDefault()
+                setIsSearched(true)
+                const data = await trigger({ searchText: value })
+                setOptions(data)
+            }
         }
     }
 
-    const handleKeyUp = e => {
+    const handleKeyUp: MuiAutocompleteProps['onKeyUp'] = event => {
         setIsSearched(false)
-        setSearchText(e.target.value)
+        const value = (
+            'value' in event.target ? event.target.value : ''
+        ) as string
+        setSearchText(value)
     }
 
     const getNoOptionsText = () => {
@@ -60,8 +89,8 @@ export default function Autocomplete({
                 },
             }}
             isOptionEqualToValue={(option, value) => option?.id === value?.id}
-            options={userOptions}
-            getOptionLabel={user => `#${user.id} - ${user.name}`}
+            options={options}
+            getOptionLabel={option => `#${option.id} - ${option.name}`}
             onChange={props.onChange}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}

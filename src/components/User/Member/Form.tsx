@@ -7,8 +7,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
 //components
-// import DatePicker from '../../DatePicker'
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import TextField from '@/components/TextField'
 // providers
 import useUserWithDetails from '@/providers/UserWithDetails'

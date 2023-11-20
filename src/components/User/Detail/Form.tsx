@@ -1,8 +1,15 @@
+// types
+import type {
+    UserDetailDBTypeWithRelations,
+    UserDetailRelationsType,
+} from '@/dataTypes/UserDetail'
+import type { FormEvent } from 'react'
+// vendors
 import { useState } from 'react'
 import { mutate } from 'swr'
 import { PatternFormat } from 'react-number-format'
-// libs
 import axios from '@/lib/axios'
+import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -13,20 +20,26 @@ import FormLabel from '@mui/material/FormLabel'
 import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import TextField from '@mui/material/TextField'
-
 import LoadingButton from '@mui/lab/LoadingButton'
 // components
-import DatePicker from '@/components/Global/DatePicker'
-import ImageInput from '@/components/ImageInput'
-import SelectInputFromApi from '@/components/SelectInputFromApi'
 import Autocomplete from '@/components/Inputs/Autocomplete'
+import DatePicker from '@/components/DatePicker'
+import DeprecatedImageInput from '@/components/DeprecatedImageInput'
 import NumericMasking from '@/components/Inputs/NumericMasking'
+import TextField from '@/components/TextField'
 // providers
 import useFormData from '@/providers/FormData'
 import useUserWithDetails from '@/providers/UserWithDetails'
+// hooks
+import useValidationErrors from '@/hooks/useValidationErrors'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import SelectFromApi from '@/components/Global/SelectFromApi'
+import MaritalStatusEnum from '@/dataTypes/enums/MaritalStatus'
+import DistrictType from '@/dataTypes/District'
+import RegencyType from '@/dataTypes/Regency'
+import VillageType from '@/dataTypes/Village'
 
-const getBirthRegion = userDetail => {
+const getBirthRegion = (userDetail?: UserDetailRelationsType) => {
     return (
         userDetail?.birth_village ||
         userDetail?.birth_district ||
@@ -35,48 +48,49 @@ const getBirthRegion = userDetail => {
     )
 }
 
-const UserDetailForm = () => {
+// eslint-disable-next-line import/no-unused-modules
+export default function UserDetailForm() {
     const { data: userWithDetails } = useUserWithDetails()
-    const { data: userDetail, handleClose } = useFormData()
+    const { data, handleClose } = useFormData()
 
-    const [gender, setGender] = useState(null)
+    const userDetail = data as UserDetailDBTypeWithRelations
+
+    const [gender, setGender] = useState<string>()
     const [birthRegion, setBirthRegion] = useState(getBirthRegion(userDetail))
-    const [lastEducationId, setLastEducationId] = useState(null)
-    const [maritalStatusId, setMaritalStatusId] = useState(null)
-    const [validationErrors, setValidationErrors] = useState({})
+    const [lastEducationId, setLastEducationId] = useState()
+    const [maritalStatusId, setMaritalStatusId] = useState<MaritalStatusEnum>()
     const [isLoading, setIsLoading] = useState(false)
+
+    const { validationErrors, setValidationErrors, clearByEvent, clearByName } =
+        useValidationErrors()
 
     const { user_uuid, files = [] } = userDetail || {}
 
     const pasFoto = files.find(file => file.alias === 'Pas Foto')
     const fotoKtp = files.find(file => file.alias === 'Foto KTP')
 
-    const clearValidationError = event => {
-        const { name } = event.target
-
-        if (validationErrors[name])
-            setValidationErrors(prev => {
-                prev[name] = undefined
-                return prev
-            })
-    }
-
-    const handleSubmit = event => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        const formEl = event.target.closest('form')
+        const formEl = event.currentTarget
         if (!formEl.reportValidity()) return
 
         setIsLoading(true)
 
         const formData = new FormData(formEl)
 
-        formData.set(
-            'citizen_id',
-            formData.get('citizen_id').replaceAll(' ', ''),
-        )
+        const citizenId = formData.get('citizen_id')
+        if (citizenId)
+            formData.set('citizen_id', citizenId.toString().replaceAll(' ', ''))
 
-        axios
+        const birthAt = formData.get('birth_at') as string
+        if (birthAt)
+            formData.set(
+                'birth_at',
+                dayjs(birthAt, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+            )
+
+        return axios
             .post(
                 `/users/${user_uuid || userWithDetails.uuid}/detail`,
                 formData,
@@ -95,16 +109,16 @@ const UserDetailForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <ImageInput
+        <form onSubmit={handleSubmit} autoComplete="off">
+            <DeprecatedImageInput
                 name="pas_foto"
                 label="Pas Foto"
                 disabled={isLoading}
-                onChange={clearValidationError}
+                onChange={clearByEvent}
                 defaultValue={
                     pasFoto?.uuid
                         ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}.${pasFoto.extension}`
-                        : null
+                        : undefined
                 }
                 error={Boolean(
                     validationErrors.pas_foto ||
@@ -119,56 +133,49 @@ const UserDetailForm = () => {
             <PatternFormat
                 format="#### #### #### ####"
                 customInput={TextField}
-                fullWidth
-                margin="normal"
-                minLength="15"
-                maxLength="16"
-                onChange={clearValidationError}
+                minLength={15}
+                maxLength={16}
+                onChange={clearByEvent}
                 disabled={isLoading}
                 label="Nomor Induk Kependudukan"
-                required
                 name="citizen_id"
                 defaultValue={userDetail?.citizen_id || ''}
                 error={Boolean(validationErrors.citizen_id)}
                 helperText={validationErrors.citizen_id}
             />
 
-            <ImageInput
+            <DeprecatedImageInput
                 my={1}
                 disabled={isLoading}
                 defaultValue={
                     fotoKtp?.uuid
                         ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}.${fotoKtp.extension}`
-                        : null
+                        : undefined
                 }
                 name="foto_ktp"
                 label="Foto KTP"
-                error={Boolean(
-                    validationErrors.foto_ktp ||
+                {...errorsToHelperTextObj(
+                    validationErrors.foto_ktp ??
                         validationErrors.foto_ktp_capture,
                 )}
-                helperText={
-                    validationErrors.foto_ktp ||
-                    validationErrors.foto_ktp_capture
-                }
             />
 
             <FormControl
                 fullWidth
                 margin="normal"
-                onChange={event => {
-                    const { value } = event.target
-
-                    clearValidationError(event)
-                    setGender(value)
-                }}
                 disabled={isLoading}
                 error={Boolean(validationErrors.gender_id)}>
                 <FormLabel>Jenis Kelamin</FormLabel>
 
                 <RadioGroup
                     name="gender_id"
-                    value={gender || userDetail?.gender_id || null}>
+                    value={gender || userDetail?.gender_id || null}
+                    onChange={event => {
+                        const { value } = event.target
+
+                        clearByEvent(event)
+                        setGender(value)
+                    }}>
                     <FormControlLabel
                         control={<Radio value={1} />}
                         label="Laki-laki"
@@ -193,9 +200,12 @@ const UserDetailForm = () => {
             />
 
             <Autocomplete
-                margin="normal"
                 disabled={isLoading}
-                onChange={(e, value) => setBirthRegion(value)}
+                required={false}
+                onChange={(
+                    _,
+                    value: DistrictType | RegencyType | VillageType,
+                ) => setBirthRegion(value)}
                 value={birthRegion}
                 endpoint={`/select2/administrative-regions`}
                 label="Tempat Lahir"
@@ -203,103 +213,103 @@ const UserDetailForm = () => {
 
             <DatePicker
                 disabled={isLoading}
-                defaultValue={userDetail?.birth_at}
+                defaultValue={
+                    userDetail?.birth_at ? dayjs(userDetail.birth_at) : null
+                }
                 slotProps={{
                     textField: {
-                        fullWidth: true,
+                        required: false,
                         name: 'birth_at',
                         label: 'Tanggal Lahir',
-                        margin: 'normal',
-                        error: Boolean(validationErrors.birth_at),
-                        helperText: validationErrors.birth_at,
+                        ...errorsToHelperTextObj(validationErrors.birth_at),
                     },
                 }}
             />
 
             <TextField
-                fullWidth
-                margin="normal"
+                required={false}
                 disabled={isLoading}
                 label="Nomor BPJS Kesehatan"
                 name="bpjs_kesehatan_no"
-                onChange={clearValidationError}
+                onChange={clearByEvent}
                 defaultValue={userDetail?.bpjs_kesehatan_no || ''}
-                error={Boolean(validationErrors.bpjs_kesehatan_no)}
-                helperText={validationErrors.bpjs_kesehatan_no}
+                {...errorsToHelperTextObj(validationErrors.bpjs_kesehatan_no)}
             />
 
             <TextField
-                fullWidth
-                margin="normal"
+                required={false}
                 disabled={isLoading}
                 label="Pekerjaan"
                 name="job_title"
-                onChange={clearValidationError}
+                onChange={clearByEvent}
                 defaultValue={userDetail?.job_title || ''}
-                error={Boolean(validationErrors.job_title)}
-                helperText={validationErrors.job_title}
+                {...errorsToHelperTextObj(validationErrors.job_title)}
             />
 
             <TextField
-                fullWidth
+                required={false}
                 multiline
+                rows={2}
                 disabled={isLoading}
-                margin="normal"
                 label="Deskripsi Pekerjaan"
                 name="job_desc"
-                onChange={clearValidationError}
+                onChange={clearByEvent}
                 defaultValue={userDetail?.job_desc || ''}
-                error={Boolean(validationErrors.job_desc)}
-                helperText={validationErrors.job_desc}
+                {...errorsToHelperTextObj(validationErrors.job_desc)}
             />
 
-            <SelectInputFromApi
+            <SelectFromApi
                 endpoint="/data/educations"
                 disabled={isLoading}
                 label="Pendidikan Terakhir"
-                name="last_education_id"
-                margin="normal"
-                onChange={e => {
-                    const { value } = e.target
-
-                    clearValidationError(e)
-                    setLastEducationId(value)
-                }}
+                margin="dense"
+                size="small"
+                fullWidth
                 selectProps={{
+                    name: 'last_education_id',
                     value:
-                        lastEducationId || userDetail?.last_education_id || '',
+                        lastEducationId ?? userDetail?.last_education_id ?? '',
                 }}
+                onValueChange={value => {
+                    clearByName('last_education_id')
+                    setLastEducationId(value.id)
+                }}
+                {...errorsToHelperTextObj(validationErrors.last_education_id)}
             />
 
-            <Grid container spacing={2} mt={0}>
-                <Grid item xs={6}>
-                    <SelectInputFromApi
+            <Grid container columnSpacing={2}>
+                <Grid item sm={6} xs={12}>
+                    <SelectFromApi
                         endpoint="/data/marital-statuses"
                         disabled={isLoading}
                         label="Status Pernikahan"
-                        name="marital_status_id"
-                        onChange={e => {
-                            const { value } = e.target
-
-                            clearValidationError(e)
-                            setMaritalStatusId(value)
-                        }}
+                        margin="dense"
+                        size="small"
+                        fullWidth
                         selectProps={{
+                            name: 'marital_status_id',
                             value:
-                                maritalStatusId ||
-                                userDetail?.marital_status_id ||
+                                maritalStatusId ??
+                                userDetail?.marital_status_id ??
                                 '',
                         }}
+                        onValueChange={value => {
+                            clearByName('marital_status_id')
+                            setMaritalStatusId(value.id)
+                        }}
+                        {...errorsToHelperTextObj(
+                            validationErrors.marital_status_id,
+                        )}
                     />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item sm={6} xs={12}>
                     <TextField
-                        fullWidth
+                        required={false}
                         label="Jumlah Anak"
                         disabled={isLoading}
                         name="n_children"
-                        onChange={clearValidationError}
+                        onChange={clearByEvent}
                         InputProps={{
                             inputComponent: NumericMasking,
                         }}
@@ -308,16 +318,19 @@ const UserDetailForm = () => {
                             maxLength: 2,
                         }}
                         defaultValue={userDetail?.n_children || ''}
-                        error={Boolean(validationErrors.n_children)}
-                        helperText={validationErrors.n_children}
+                        {...errorsToHelperTextObj(validationErrors.n_children)}
                     />
                 </Grid>
             </Grid>
 
             <Box display="flex" justifyContent="end" mt={2}>
-                <Button disabled={isLoading} onClick={handleClose} color="info">
+                <Button
+                    disabled={isLoading}
+                    onClick={() => handleClose()}
+                    color="info">
                     Batal
                 </Button>
+
                 <LoadingButton
                     loading={isLoading}
                     type="submit"
@@ -329,5 +342,3 @@ const UserDetailForm = () => {
         </form>
     )
 }
-
-export default UserDetailForm

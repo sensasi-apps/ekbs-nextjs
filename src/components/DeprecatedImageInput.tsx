@@ -1,16 +1,20 @@
+import type { BoxProps } from '@mui/material/Box'
+import type { ChangeEventHandler } from 'react'
+import type { ImageProps } from 'next/image'
+// vendors
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
-
+// icons
 import ImageIcon from '@mui/icons-material/Image'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
 
-export default function ImageInput({
+export default function DeprecatedImageInput({
     name,
     label,
     onChange,
@@ -19,18 +23,27 @@ export default function ImageInput({
     helperText,
     disabled,
     ...props
+}: Omit<BoxProps, 'onChange' | 'defaultValue'> & {
+    name: string
+    onChange?: ChangeEventHandler<HTMLInputElement>
+    defaultValue?: ImageProps['src']
+    label?: string
+    error?: boolean
+    helperText?: string | string[]
+    disabled?: boolean
 }) {
     const [isCaptureSupported, setIsCaptureSupported] = useState(true)
-    const [selectedImage, setSelectedImage] = useState(null)
-    const [selectedImagePreview, setSelectedImagePreview] = useState(null)
+    const [selectedImage, setSelectedImage] = useState<File>()
+    const [selectedImagePreview, setSelectedImagePreview] = useState<string>()
 
     useEffect(() => {
         const input = document.createElement('input')
         setIsCaptureSupported('capture' in input)
     }, [])
 
-    const handleImageChange = event => {
-        const file = event.target.files[0]
+    const handleImageChange: ChangeEventHandler<HTMLInputElement> = event => {
+        const { files } = event.target
+        const file = files ? files[0] : undefined
 
         if (file) {
             setSelectedImage(file)
@@ -45,7 +58,7 @@ export default function ImageInput({
         if (selectedImage) {
             setSelectedImagePreview(URL.createObjectURL(selectedImage))
         } else {
-            setSelectedImagePreview(null)
+            setSelectedImagePreview(undefined)
         }
     }, [selectedImage])
 
@@ -131,7 +144,7 @@ export default function ImageInput({
                         <Button
                             type="button"
                             disabled={disabled}
-                            onClick={() => setSelectedImage(null)}>
+                            onClick={() => setSelectedImage(undefined)}>
                             Batal
                         </Button>
                     </Box>

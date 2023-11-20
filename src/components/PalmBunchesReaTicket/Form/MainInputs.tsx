@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 // components
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 import TextField from '@/components/TextField'
 import RpInputAdornment from '@/components/InputAdornment/Rp'

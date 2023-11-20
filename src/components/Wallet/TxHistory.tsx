@@ -16,7 +16,7 @@ import Tooltip from '@mui/material/Tooltip'
 import PrintIcon from '@mui/icons-material/Print'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 // components
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import Skeletons from '@/components/Global/Skeletons'
 // components/TxHistory
 import TxHistoryItem from './TxHistory/Item'

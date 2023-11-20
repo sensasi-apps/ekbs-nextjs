@@ -24,7 +24,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 // components
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import NumericFormat from '@/components/NumericFormat'
 import FormikForm from '@/components/FormikForm'

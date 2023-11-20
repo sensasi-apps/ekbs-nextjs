@@ -34,7 +34,7 @@ import BackupTableIcon from '@mui/icons-material/BackupTable'
 import NumericFormat from '@/components/Global/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import Text from '@/components/Global/Text'
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import toDmy from '@/utils/toDmy'
 
 export default function PalmBuncesReaPaymentForm({

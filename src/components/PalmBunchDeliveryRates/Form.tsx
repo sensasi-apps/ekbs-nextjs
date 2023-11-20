@@ -18,7 +18,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
 // components
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import NumericFormat from '@/components/Global/NumericFormat'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
