@@ -27,7 +27,11 @@ const MUIDataTable = dynamic(() => import('mui-datatables'), {
     ssr: false,
 })
 
-let getDataRow: <T = object>(index: number) => T
+/**
+ * @todo
+ * - [ ] Don't make this global, it will cause bugs when datatable instance is more than one
+ */
+let getDataRow: <T>(index: number) => T | undefined
 let mutatorForExport: KeyedMutator<any>
 
 const Datatable = memo(function Datatable({

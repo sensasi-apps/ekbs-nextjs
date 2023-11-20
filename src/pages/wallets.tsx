@@ -43,60 +43,19 @@ function MainContent() {
 
     const componentRef = useRef(null)
 
-    const columns = [
-        {
-            name: 'uuid',
-            label: 'UUID',
-            options: {
-                display: false,
-            },
-        },
-        {
-            name: 'user.id',
-            label: 'ID Pengguna',
-            options: {
-                display: false,
-                customBodyRender: (_: any, rowMeta: any) =>
-                    getDataRow<WalletType>(rowMeta.rowIndex).user.id,
-            },
-        },
-        {
-            name: 'user.name',
-            label: 'Nama Pengguna',
-            options: {
-                customBodyRender: (_: any, rowMeta: any) => {
-                    const user = getDataRow<WalletType>(rowMeta.rowIndex).user
-
-                    return `#${user.id} ${user.name}`
-                },
-            },
-        },
-        {
-            name: 'balance',
-            label: 'Saldo',
-            options: {
-                customBodyRender: (value: number) => (
-                    <NumericFormat
-                        value={value}
-                        prefix="Rp. "
-                        decimalScale={0}
-                        displayType="text"
-                    />
-                ),
-            },
-        },
-    ]
-
     return (
         <>
             <Datatable
                 title="Daftar Wallet Pengguna"
                 tableId="wallets-datatable"
                 apiUrl="/wallets/datatable"
-                onRowClick={(_, rowMeta) =>
-                    setWalletData(getDataRow(rowMeta.rowIndex))
-                }
-                columns={columns}
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data = getDataRow<WalletType>(dataIndex)
+                        if (data) return setWalletData(data)
+                    }
+                }}
+                columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'balance', direction: 'desc' }}
             />
 
@@ -187,3 +146,48 @@ function WithdrawButtonAndForm() {
         </>
     )
 }
+
+const DATATABLE_COLUMNS = [
+    {
+        name: 'uuid',
+        label: 'UUID',
+        options: {
+            display: false,
+        },
+    },
+    {
+        name: 'user.id',
+        label: 'ID Pengguna',
+        options: {
+            display: false,
+            customBodyRender: (_: any, rowMeta: any) =>
+                getDataRow<WalletType>(rowMeta.rowIndex)?.user.id,
+        },
+    },
+    {
+        name: 'user.name',
+        label: 'Nama Pengguna',
+        options: {
+            customBodyRender: (_: any, rowMeta: any) => {
+                const user = getDataRow<WalletType>(rowMeta.rowIndex)?.user
+                if (!user) return
+
+                return `#${user.id} ${user.name}`
+            },
+        },
+    },
+    {
+        name: 'balance',
+        label: 'Saldo',
+        options: {
+            customBodyRender: (value: number) => (
+                <NumericFormat
+                    value={value}
+                    prefix="Rp. "
+                    decimalScale={0}
+                    displayType="text"
+                />
+            ),
+        },
+    },
+]

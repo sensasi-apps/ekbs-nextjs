@@ -61,9 +61,12 @@ const UserLoanInstallmentDatatable = memo(
                     apiUrl={apiUrl}
                     onRowClick={(_, { dataIndex }, event) => {
                         if (event.detail === 2) {
-                            onEdit(
-                                getDataRow<InstallmentUserLoanType>(dataIndex),
-                            )
+                            const data =
+                                getDataRow<InstallmentUserLoanType>(dataIndex)
+
+                            if (data) {
+                                onEdit(data)
+                            }
                         }
                     }}
                     columns={DATATABLE_COLUMNS}

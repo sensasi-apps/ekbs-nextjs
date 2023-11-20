@@ -96,11 +96,18 @@ function Crud() {
                 apiUrl="/palm-bunches/delivery-rates/datatable"
                 columns={columns}
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
-                onRowClick={(_, rowMeta, event) =>
-                    event.detail === 2
-                        ? handleEdit(getDataRow(rowMeta.rowIndex))
-                        : undefined
-                }
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data =
+                            getDataRow<PalmBunchDeliveryRateValidDateType>(
+                                dataIndex,
+                            )
+
+                        if (data) {
+                            handleEdit(data)
+                        }
+                    }
+                }}
                 tableId="PalmBunchDeliveryRateDatatable"
                 title="Daftar Tarif Angkut"
             />

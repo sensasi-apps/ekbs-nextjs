@@ -48,77 +48,22 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
         '/palm-bunches/rea-payments/ticket-data-not-found',
     )
 
-    const columns = [
-        {
-            name: 'uuid',
-            label: 'uuid',
-            options: {
-                display: false,
-            },
-        },
-        {
-            name: 'from_at',
-            label: 'Tanggal Tiket Awal',
-            options: {
-                customBodyRender: toDmy,
-            },
-        },
-        {
-            name: 'to_at',
-            label: 'Tanggal Tiket Akhir',
-            options: {
-                customBodyRender: toDmy,
-            },
-        },
-        {
-            name: 'final_rp',
-            label: 'Nilai Akhir',
-            options: {
-                customBodyRender: (value: number) => (
-                    <NumericFormat value={value} displayType="text" />
-                ),
-            },
-        },
-        {
-            name: 'n_details',
-            label: 'Jumlah Tiket',
-            options: {
-                sort: false,
-                customBodyRender: (value: number) => (
-                    <NumericFormat value={value} displayType="text" />
-                ),
-            },
-        },
-        {
-            name: 'n_tickets_has_paid',
-            label: 'Tiket lunas',
-            options: {
-                sort: false,
-                customBodyRender: (value: number, rowMeta: any) => (
-                    <Typography
-                        color={
-                            rowMeta.rowData.n_details === value
-                                ? 'success.main'
-                                : 'warning.main'
-                        }
-                        fontWeight="bold">
-                        <NumericFormat value={value} displayType="text" />
-                    </Typography>
-                ),
-            },
-        },
-    ]
-
     return (
         <>
             <Datatable
                 title="Riwayat"
                 tableId="PalmBunchDeliveryRateDatatable"
                 apiUrl="/palm-bunches/rea-payments/datatable"
-                onRowClick={(_, rowMeta) =>
-                    handleEdit(getDataRow(rowMeta.rowIndex))
-                }
-                columns={columns}
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data =
+                            getDataRow<PalmBunchesReaPaymentDataType>(dataIndex)
+                        if (!data) return
+
+                        return handleEdit(data)
+                    }
+                }}
+                columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
             />
 
@@ -191,3 +136,64 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
         </>
     )
 }
+
+const DATATABLE_COLUMNS = [
+    {
+        name: 'uuid',
+        label: 'uuid',
+        options: {
+            display: false,
+        },
+    },
+    {
+        name: 'from_at',
+        label: 'Tanggal Tiket Awal',
+        options: {
+            customBodyRender: toDmy,
+        },
+    },
+    {
+        name: 'to_at',
+        label: 'Tanggal Tiket Akhir',
+        options: {
+            customBodyRender: toDmy,
+        },
+    },
+    {
+        name: 'final_rp',
+        label: 'Nilai Akhir',
+        options: {
+            customBodyRender: (value: number) => (
+                <NumericFormat value={value} displayType="text" />
+            ),
+        },
+    },
+    {
+        name: 'n_details',
+        label: 'Jumlah Tiket',
+        options: {
+            sort: false,
+            customBodyRender: (value: number) => (
+                <NumericFormat value={value} displayType="text" />
+            ),
+        },
+    },
+    {
+        name: 'n_tickets_has_paid',
+        label: 'Tiket lunas',
+        options: {
+            sort: false,
+            customBodyRender: (value: number, rowMeta: any) => (
+                <Typography
+                    color={
+                        rowMeta.rowData.n_details === value
+                            ? 'success.main'
+                            : 'warning.main'
+                    }
+                    fontWeight="bold">
+                    <NumericFormat value={value} displayType="text" />
+                </Typography>
+            ),
+        },
+    },
+]

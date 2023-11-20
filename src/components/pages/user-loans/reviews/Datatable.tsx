@@ -52,6 +52,8 @@ function UserLoanReviewDatatable({
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const userLoan = getDataRow<LoanType>(dataIndex)
+                        if (!userLoan) return
+
                         const userResponse = userLoan.responses.find(
                             response => response.by_user_uuid === user?.uuid,
                         )
