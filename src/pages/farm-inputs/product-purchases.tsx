@@ -46,6 +46,7 @@ export default function FarmInputsProducts() {
             const productPurchase = getDataRow<
                 ProductPurchaseType & ProductPurchaseRelationsType
             >(dataIndex)
+            if (!productPurchase) return
 
             setInitialFormikValues({
                 due: productPurchase.due,

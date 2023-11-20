@@ -51,7 +51,11 @@ function UserLoanDisburseDatatable({
                 apiUrl={apiUrl}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        onEdit(getDataRow<UserLoanType>(dataIndex))
+                        const data = getDataRow<UserLoanType>(dataIndex)
+
+                        if (data) {
+                            onEdit(data)
+                        }
                     }
                 }}
                 columns={DATATABLE_COLUMNS}

@@ -81,11 +81,13 @@ const Crud: FC = () => {
                 title="Riwayat"
                 tableId="PalmBunchDeliveryRateDatatable"
                 apiUrl={'/palm-bunches/rea-tickets/datatable?' + (filter || '')}
-                onRowClick={(_, rowMeta, event) =>
-                    event.detail === 2
-                        ? handleEdit(getDataRow(rowMeta.dataIndex))
-                        : null
-                }
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data =
+                            getDataRow<PalmBunchesReaTicketType>(dataIndex)
+                        if (data) return handleEdit(data)
+                    }
+                }}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
             />

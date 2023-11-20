@@ -19,7 +19,10 @@ export default function LoanDatatable({
     const handleRowClick: OnRowClickType = useCallback(
         (_, { rowIndex }, event) => {
             if (event.detail === 2) {
-                return onEdit(getDataRow<LoanType>(rowIndex))
+                const data = getDataRow<LoanType>(rowIndex)
+                if (data) {
+                    return onEdit(data)
+                }
             }
         },
         [],

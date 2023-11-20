@@ -53,9 +53,14 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
             <Datatable
                 tableId="roles-datatable"
                 apiUrl="/roles/datatable"
-                onRowClick={(rowData, rowMeta) =>
-                    handleEdit(getDataRow(rowMeta.rowIndex))
-                }
+                onRowClick={(_, { rowIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data = getDataRow<Role>(rowIndex)
+                        if (!data) return
+
+                        return handleEdit(data)
+                    }
+                }}
                 columns={columns}
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
             />

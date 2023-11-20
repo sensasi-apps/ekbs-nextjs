@@ -79,9 +79,15 @@ function Crud() {
                 apiUrl="/palm-bunches/rates/datatable"
                 columns={columns}
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
-                onRowClick={(_, rowMeta) =>
-                    handleEdit(getDataRow(rowMeta.rowIndex))
-                }
+                onRowClick={(_, { rowIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data =
+                            getDataRow<PalmBunchRateValidDateType>(rowIndex)
+                        if (!data) return
+
+                        handleEdit(data)
+                    }
+                }}
                 tableId="PalmBunchRateValidDate"
                 title="Daftar Harga TBS"
             />

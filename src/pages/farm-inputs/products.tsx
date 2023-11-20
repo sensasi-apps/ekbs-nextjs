@@ -47,10 +47,14 @@ const Crud = () => {
                 apiUrl="/farm-inputs/products/datatable"
                 columns={columns}
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
-                onRowClick={(_, rowMeta, event) =>
-                    event.detail === 2 &&
-                    handleEdit(getDataRow(rowMeta.rowIndex))
-                }
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data = getDataRow<ProductType>(dataIndex)
+                        if (!data) return
+
+                        return handleEdit(data)
+                    }
+                }}
                 tableId="products-table"
                 title="Daftar Produk"
             />
@@ -125,6 +129,7 @@ const columns: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getDataRow<ProductType>(dataIndex)
+                if (!data) return
 
                 const mainContent = (
                     <NumericFormat

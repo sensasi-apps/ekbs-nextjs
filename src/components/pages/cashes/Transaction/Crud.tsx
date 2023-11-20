@@ -44,7 +44,11 @@ export default function TransactionCrud() {
 
     const handleRowClick: OnRowClickType = useCallback((_, rowMeta, event) => {
         if (event.detail === 2) {
-            setValues(getDataRow<TransactionType>(rowMeta.dataIndex))
+            const data = getDataRow<TransactionType>(rowMeta.dataIndex)
+
+            if (data) {
+                setValues(data)
+            }
             setDialogProps({ title: 'Ubah Transaksi', open: true })
         }
     }, [])
