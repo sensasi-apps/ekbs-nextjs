@@ -53,6 +53,13 @@ const nextConfig = withPWA({
 })
 
 // eslint-disable-next-line
-const { withSentryConfig } = require('@sentry/nextjs')
+const { withSentryConfig, SentryWebpackPluginOptions } = require('@sentry/nextjs')
 
-module.exports = withSentryConfig(nextConfig)
+/**
+ * @type {SentryWebpackPluginOptions}
+ */
+const sentryWebpackPluginOptions = {
+    dryRun: process.env.VERCEL_ENV !== 'production',
+}
+
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
