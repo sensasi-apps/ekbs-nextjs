@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
 // components
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import RpInputAdornment from '../InputAdornment/Rp'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'

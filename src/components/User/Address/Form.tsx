@@ -1,12 +1,18 @@
+// types
+import { ButtonProps } from '@mui/material/Button'
+// vendors
 import { useState } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
-
-import { Box, Button, TextField } from '@mui/material'
-
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+// components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import NumericMasking from '@/components/Inputs/NumericMasking'
+import useValidationErrors from '@/hooks/useValidationErrors'
 
 export default function AddressForm({
     isShow,
@@ -14,36 +20,50 @@ export default function AddressForm({
     onSubmitted,
     userUuid,
     ...props
+}: {
+    isShow: boolean
+    onClose?: () => void
+    onSubmitted?: () => void
+    userUuid: string
 }) {
-    const [errors, setErrors] = useState({})
     const [isLoading, setIsLoading] = useState(false)
+    const { validationErrors: errors, setValidationErrors: setErrors } =
+        useValidationErrors()
 
-    const handleSubmit = async e => {
-        e.preventDefault()
+    const handleSubmit: ButtonProps['onClick'] = async event => {
+        event.preventDefault()
         setIsLoading(true)
 
-        try {
-            const formData = new FormData(e.target.closest('form'))
+        const formEl = event.currentTarget.closest('form') as HTMLFormElement
 
-            await axios.post(`/users/${userUuid}/addresses`, formData)
-            await mutate(`/users/${userUuid}`)
-
-            if (onSubmitted) {
-                onSubmitted()
-            }
-
-            if (onClose) {
-                onClose()
-            }
-        } catch (err) {
-            if (err.response?.status === 422) {
-                setErrors(err.response.data.errors)
-            } else {
-                throw err
-            }
+        if (!formEl.checkValidity()) {
+            return formEl.reportValidity()
         }
 
-        setIsLoading(false)
+        const formData = new FormData(formEl)
+
+        return axios
+            .post(`/users/${userUuid}/addresses`, formData)
+            .then(async () => {
+                await mutate(`/users/${userUuid}`)
+
+                if (onSubmitted) {
+                    onSubmitted()
+                }
+
+                if (onClose) {
+                    onClose()
+                }
+            })
+            .catch(err => {
+                setIsLoading(false)
+
+                if (err.response?.status === 422) {
+                    setErrors(err.response.data.errors)
+                } else {
+                    throw err
+                }
+            })
     }
 
     if (!isShow) return null
@@ -54,7 +74,6 @@ export default function AddressForm({
             style={{
                 marginTop: '1rem',
             }}
-            onSubmit={handleSubmit}
             autoComplete="off"
             {...props}
             onKeyDown={e => e.key != 'Enter'}>
@@ -77,8 +96,10 @@ export default function AddressForm({
                 margin="normal"
                 required
                 onChange={(e, value) => {
-                    document.querySelector('input[name="region_id"]').value =
-                        value?.id
+                    const inputEl = document.querySelector(
+                        'input[name="region_id"]',
+                    ) as HTMLInputElement
+                    if (inputEl) inputEl.value = value?.id
                 }}
                 endpoint={`/select2/administrative-regions`}
                 label="Wilayah Administratif"
@@ -119,6 +140,7 @@ export default function AddressForm({
                     }}>
                     Batal
                 </Button>
+
                 <Button color="info" variant="contained" onClick={handleSubmit}>
                     Simpan
                 </Button>

@@ -1,17 +1,21 @@
+// vendors
 import { useState } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
-
+import dayjs from 'dayjs'
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-
 import LoadingButton from '@mui/lab/LoadingButton'
-
-import SelectInputFromApi from '../../SelectInputFromApi'
-import DatePicker from '../../DatePicker'
+// components
+import SelectInputFromApi from '@/components/SelectInputFromApi'
+import DatePicker from '@/components/DatePicker'
+// providers
 import useFormData from '@/providers/FormData'
 import useUserWithDetails from '@/providers/UserWithDetails'
+// utils
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
 const EmployeeForm = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -24,8 +28,6 @@ const EmployeeForm = () => {
         handleClose,
         isDataNotUndefined,
     } = useFormData()
-
-    // ############################## HOOKS END ##############################
 
     if (!isDataNotUndefined) return null
 
@@ -42,22 +44,36 @@ const EmployeeForm = () => {
         e.preventDefault()
         setIsLoading(true)
 
-        try {
-            const formData = new FormData(e.target)
+        const formData = new FormData(e.target)
 
-            await axios.post(`/users/${user.uuid}/employee`, formData)
-            mutate(`/users/${user.uuid}`)
+        const joined_at = formData.get('joined_at')
+        if (joined_at)
+            formData.set(
+                'joined_at',
+                dayjs(joined_at, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+            )
 
-            handleClose()
-        } catch (error) {
-            if (error?.response?.status === 422) {
-                setValidationErrors(error.response.data.errors)
-            } else {
-                throw error
-            }
-        }
+        const unjoined_at = formData.get('unjoined_at')
+        if (unjoined_at)
+            formData.set(
+                'unjoined_at',
+                dayjs(unjoined_at, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+            )
 
-        setIsLoading(false)
+        return axios
+            .post(`/users/${user.uuid}/employee`, formData)
+            .then(() => {
+                mutate(`/users/${user.uuid}`)
+                handleClose()
+            })
+            .catch(error => {
+                setIsLoading(false)
+                if (error?.response?.status === 422) {
+                    setValidationErrors(error.response.data.errors)
+                } else {
+                    throw error
+                }
+            })
     }
 
     const clearValidationErrors = event => {
@@ -84,8 +100,7 @@ const EmployeeForm = () => {
                     defaultValue: employee_status_id || '',
                 }}
                 onChange={clearValidationErrors}
-                error={Boolean(validationErrors.employee_status_id)}
-                helperText={validationErrors.employee_status_id}
+                {...errorsToHelperTextObj(validationErrors.employee_status_id)}
             />
 
             <TextField
@@ -97,47 +112,35 @@ const EmployeeForm = () => {
                 margin="normal"
                 onChange={clearValidationErrors}
                 defaultValue={position || ''}
-                error={Boolean(validationErrors.position)}
-                helperText={validationErrors.position}
+                {...errorsToHelperTextObj(validationErrors.position)}
             />
 
             <DatePicker
-                required
-                fullWidth
                 disabled={isLoading}
-                label="Tanggal Bergabung"
-                margin="normal"
-                name="joined_at"
-                defaultValue={joined_at}
-                onChange={() => {
-                    if ('joined_at' in validationErrors) {
-                        setValidationErrors(prev => {
-                            prev.joined_at = undefined
-                            return prev
-                        })
-                    }
+                defaultValue={joined_at ? dayjs(joined_at) : null}
+                slotProps={{
+                    textField: {
+                        required: false,
+                        name: 'joined_at',
+                        label: 'Tanggal Bergabung',
+                        onChange: clearValidationErrors,
+                        ...errorsToHelperTextObj(validationErrors.joined_at),
+                    },
                 }}
-                error={Boolean(validationErrors.joined_at)}
-                helperText={validationErrors.joined_at}
             />
 
             <DatePicker
-                fullWidth
-                label="Tanggal Berhenti/Keluar"
                 disabled={isLoading}
-                margin="normal"
-                name="unjoined_at"
-                defaultValue={unjoined_at}
-                onChange={() => {
-                    if ('unjoined_at' in validationErrors) {
-                        setValidationErrors(prev => {
-                            prev.unjoined_at = undefined
-                            return prev
-                        })
-                    }
+                defaultValue={unjoined_at ? dayjs(unjoined_at) : null}
+                slotProps={{
+                    textField: {
+                        required: false,
+                        name: 'unjoined_at',
+                        label: 'Tanggal Keluar',
+                        onChange: clearValidationErrors,
+                        ...errorsToHelperTextObj(validationErrors.unjoined_at),
+                    },
                 }}
-                error={Boolean(validationErrors.unjoined_at)}
-                helperText={validationErrors.unjoined_at}
             />
 
             <TextField
@@ -149,8 +152,7 @@ const EmployeeForm = () => {
                 margin="normal"
                 defaultValue={unjoined_reason || ''}
                 onChange={clearValidationErrors}
-                error={Boolean(validationErrors.unjoined_reason)}
-                helperText={validationErrors.unjoined_reason}
+                {...errorsToHelperTextObj(validationErrors.unjoined_reason)}
             />
 
             <TextField
@@ -162,8 +164,7 @@ const EmployeeForm = () => {
                 margin="normal"
                 defaultValue={note || ''}
                 onChange={clearValidationErrors}
-                error={Boolean(validationErrors.note)}
-                helperText={validationErrors.note}
+                {...errorsToHelperTextObj(validationErrors.note)}
             />
 
             <Box display="flex" mt={2} justifyContent="end">

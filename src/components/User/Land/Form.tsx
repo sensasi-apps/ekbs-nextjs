@@ -1,21 +1,22 @@
+// types
+import type UserLandFormPropType from './Form/type'
+import type Address from '@/types/Address'
+// vendors
 import { useState, FC } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
-
+import dayjs from 'dayjs'
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import LoadingButton from '@mui/lab/LoadingButton'
-
+// components
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import NumericMasking from '@/components/Inputs/NumericMasking'
-
-import Address from '@/types/Address'
 import SelectInputFromApi from '@/components/SelectInputFromApi'
-import UserLandFormPropType from './Form/type'
-import DatePicker from '@/components/Global/DatePicker'
+import DatePicker from '@/components/DatePicker'
 
 const INITIAL_STATE = {
     n_area_hectares: undefined,
@@ -54,6 +55,11 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
         setIsLoading(true)
         const formData = new FormData(formEl)
         const dataFormData = Object.fromEntries(formData.entries())
+
+        dataFormData.planted_at = dayjs(
+            dataFormData.planted_at as string,
+            'DD-MM-YYYY',
+        ).format('YYYY-MM-DD')
 
         try {
             if (data?.uuid) {
@@ -137,13 +143,12 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
 
             <DatePicker
                 disabled={isLoading}
-                defaultValue={planted_at}
+                defaultValue={planted_at ? dayjs(planted_at) : null}
                 slotProps={{
                     textField: {
-                        fullWidth: true,
+                        required: false,
                         name: 'planted_at',
                         label: 'Tanggal Tanam',
-                        margin: 'dense',
                         error: Boolean(validationErrors.planted_at),
                         helperText: validationErrors.planted_at,
                     },
@@ -172,7 +177,6 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
                 defaultValue={getRegion(address)?.id}
             />
 
-            {/* @ts-ignore */}
             <Autocomplete
                 required
                 disabled={isLoading}

@@ -10,7 +10,7 @@ import { FastField, FormikProps } from 'formik'
 // materials
 import Grid from '@mui/material/Grid'
 // components
-import DatePicker from '@/components/DatePickerDayJs/DatePicker'
+import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // import TextField from '@/components/TextField'
