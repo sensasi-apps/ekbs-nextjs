@@ -217,7 +217,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pabrik',
         options: {
             customBodyRenderLite: dataIndex =>
-                getDataRow<PalmBunchesReaTicketType>(dataIndex).delivery
+                getDataRow<PalmBunchesReaTicketType>(dataIndex)?.delivery
                     .to_oil_mill_code,
         },
     },
@@ -246,12 +246,12 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const courier_user =
-                    getDataRow<PalmBunchesReaTicketType>(dataIndex).delivery
+                    getDataRow<PalmBunchesReaTicketType>(dataIndex)?.delivery
                         .courier_user
 
-                if (!courier_user) return ''
-
-                return `#${courier_user.id} ${courier_user.name}`
+                return courier_user
+                    ? `#${courier_user.id} ${courier_user.name}`
+                    : ''
             },
         },
     },
@@ -268,7 +268,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     }}>
                     {getDataRow<PalmBunchesReaTicketType>(
                         dataIndex,
-                    ).delivery.palm_bunches.map(
+                    )?.delivery?.palm_bunches?.map(
                         (palmBunches: any, index: number) => (
                             <li key={index} style={{ marginBottom: `.5em` }}>
                                 #{palmBunches.owner_user.id + ' '}
@@ -291,7 +291,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                         {...numericFormatDefaultProps}
                         value={
                             getDataRow<PalmBunchesReaTicketType>(dataIndex)
-                                .delivery.n_bunches
+                                ?.delivery.n_bunches
                         }
                         displayType="text"
                     />
@@ -305,11 +305,11 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite(dataIndex) {
                 return (
-                    <NumericFormat
+                    <NumericFormat // TODO: use formatNumber instead NumericFormat
                         {...numericFormatDefaultProps}
                         value={
                             getDataRow<PalmBunchesReaTicketType>(dataIndex)
-                                .delivery.n_kg
+                                ?.delivery.n_kg
                         }
                         suffix=" kg"
                         displayType="text"
