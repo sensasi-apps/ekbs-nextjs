@@ -8,11 +8,15 @@ import useSWR from 'swr'
 import axios from '@/lib/axios'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
-import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
@@ -41,20 +45,63 @@ const ProductMovementDetailArrayField = memo(
         return (
             <FieldArray
                 name="product_movement_details"
-                render={({ replace, pop, push }) => (
+                render={({ replace, remove, push }) => (
                     <>
-                        <Typography variant="h6" component="h2" mt={2} mb={0.5}>
-                            Daftar Produk
+                        <Typography
+                            variant="h6"
+                            component="div"
+                            mt={2}
+                            mb={0.5}>
+                            Daftar Barang
+                            <Tooltip placement="top" arrow title="Tambah">
+                                <span>
+                                    <IconButton
+                                        disabled={disabled}
+                                        color="success"
+                                        size="small"
+                                        onClick={() => push({})}>
+                                        <AddCircleIcon />
+                                    </IconButton>
+                                </span>
+                            </Tooltip>
                         </Typography>
 
                         {product_movement_details.map((row, index) => (
                             <Grid
                                 key={index}
-                                mb={2}
                                 container
-                                columnSpacing={2}
-                                rowSpacing={1}>
-                                <Grid item xs={12} sm={2}>
+                                columnSpacing={1.5}
+                                alignItems="center"
+                                sx={{
+                                    mb: {
+                                        xs: 1.5,
+                                        sm: 'initial',
+                                    },
+                                }}>
+                                <Grid
+                                    item
+                                    xs={2}
+                                    sm={1}
+                                    alignSelf="center"
+                                    textAlign="center">
+                                    <Tooltip
+                                        placement="top"
+                                        arrow
+                                        title="Hapus">
+                                        <span>
+                                            <IconButton
+                                                disabled={
+                                                    index === 0 || disabled
+                                                }
+                                                color="error"
+                                                size="small"
+                                                onClick={() => remove(index)}>
+                                                <RemoveCircleIcon />
+                                            </IconButton>
+                                        </span>
+                                    </Tooltip>
+                                </Grid>
+                                <Grid item xs={10} sm={2}>
                                     <NumericFormat
                                         min="1"
                                         disabled={disabled}
@@ -83,7 +130,7 @@ const ProductMovementDetailArrayField = memo(
                                     />
                                 </Grid>
 
-                                <Grid item xs={12} sm={4}>
+                                <Grid item xs={12} sm={3}>
                                     {isLoading ? (
                                         <Skeleton height="100%" />
                                     ) : (
@@ -213,34 +260,6 @@ const ProductMovementDetailArrayField = memo(
                                 )}
                             </Grid>
                         </Grid>
-
-                        <div
-                            style={{
-                                display: 'flex',
-                                gap: '1rem',
-                                marginTop: '1rem',
-                                marginBottom: '2rem',
-                            }}>
-                            <Button
-                                disabled={disabled}
-                                color="success"
-                                variant="outlined"
-                                size="small"
-                                onClick={() => push({})}>
-                                Tambah Produk
-                            </Button>
-
-                            <Button
-                                disabled={
-                                    disabled ||
-                                    product_movement_details.length === 1
-                                }
-                                color="error"
-                                size="small"
-                                onClick={pop}>
-                                Hapus Produk
-                            </Button>
-                        </div>
                     </>
                 )}
             />

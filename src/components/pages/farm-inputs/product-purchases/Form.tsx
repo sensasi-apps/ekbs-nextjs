@@ -7,8 +7,6 @@ import type CashType from '@/dataTypes/Cash'
 import { memo } from 'react'
 import dayjs from 'dayjs'
 import { FastField, FormikProps } from 'formik'
-// materials
-import Grid from '@mui/material/Grid'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
@@ -18,6 +16,7 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayField'
+import { Container } from '@mui/material'
 
 const ProductPurchaseForm = memo(function ProductPurchaseForm({
     dirty,
@@ -52,115 +51,104 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                     disabled: false,
                 },
             }}>
-            <Grid container columnSpacing={2}>
-                <Grid item xs={12} sm={6}>
-                    <DatePicker
-                        value={order ? dayjs(order) : null}
-                        disabled={isDisabled}
-                        label="Tanggal Pesan"
-                        onChange={date =>
-                            setFieldValue('order', date?.format('YYYY-MM-DD'))
-                        }
-                        slotProps={{
-                            textField: {
-                                name: 'order',
-                                ...errorsToHelperTextObj(errors.order),
-                            },
-                        }}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <DatePicker
-                        value={due ? dayjs(due) : null}
-                        disabled={isDisabled}
-                        minDate={order ? dayjs(order) : undefined}
-                        label="Tanggal Jatuh Tempo"
-                        onChange={date =>
-                            setFieldValue('due', date?.format('YYYY-MM-DD'))
-                        }
-                        slotProps={{
-                            textField: {
-                                required: false,
-                                name: 'due',
-                                ...errorsToHelperTextObj(errors.due),
-                            },
-                        }}
-                    />
-                </Grid>
-            </Grid>
-            <Grid container columnSpacing={2}>
-                <Grid item xs={12} sm={6}>
-                    <DatePicker
-                        value={paid ? dayjs(paid) : null}
-                        minDate={order ? dayjs(order) : undefined}
-                        disabled={isDisabled}
-                        label="Tanggal Bayar"
-                        onChange={date =>
-                            setFieldValue('paid', date?.format('YYYY-MM-DD'))
-                        }
-                        slotProps={{
-                            textField: {
-                                name: 'paid',
-                                required: false,
-                                ...errorsToHelperTextObj(errors.paid),
-                            },
-                        }}
-                    />
+            <Container maxWidth="xs" disableGutters>
+                <DatePicker
+                    value={order ? dayjs(order) : null}
+                    disabled={isDisabled}
+                    label="Tanggal Pesan"
+                    onChange={date =>
+                        setFieldValue('order', date?.format('YYYY-MM-DD'))
+                    }
+                    slotProps={{
+                        textField: {
+                            name: 'order',
+                            ...errorsToHelperTextObj(errors.order),
+                        },
+                    }}
+                />
 
-                    {paid && (
-                        <SelectFromApi
-                            disabled={isDisabled}
-                            endpoint="/data/cashes"
-                            label="Dari kas"
-                            fullWidth
-                            required
-                            size="small"
-                            margin="dense"
-                            selectProps={{
-                                name: 'cashable_uuid',
-                                value: cashable_uuid ?? '',
-                            }}
-                            onValueChange={(value: CashType) =>
-                                setFieldValue('cashable_uuid', value.uuid)
-                            }
-                            {...errorsToHelperTextObj(errors.cashable_uuid)}
-                        />
-                    )}
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <DatePicker
-                        value={received ? dayjs(received) : null}
-                        minDate={order ? dayjs(order) : undefined}
-                        disabled={isDisabled}
-                        label="Tanggal Barang Diterima"
-                        onChange={date =>
-                            setFieldValue(
-                                'received',
-                                date?.format('YYYY-MM-DD'),
-                            )
-                        }
-                        slotProps={{
-                            textField: {
-                                required: false,
-                                name: 'received',
-                                ...errorsToHelperTextObj(errors.received),
-                            },
-                        }}
-                    />
-                </Grid>
-            </Grid>
+                <DatePicker
+                    value={due ? dayjs(due) : null}
+                    disabled={isDisabled}
+                    minDate={order ? dayjs(order) : undefined}
+                    label="Tanggal Jatuh Tempo"
+                    onChange={date =>
+                        setFieldValue('due', date?.format('YYYY-MM-DD'))
+                    }
+                    slotProps={{
+                        textField: {
+                            required: false,
+                            name: 'due',
+                            ...errorsToHelperTextObj(errors.due),
+                        },
+                    }}
+                />
 
-            <FastField
-                name="note"
-                component={TextFieldFastableComponent}
-                required={false}
-                multiline
-                disabled={isDisabled}
-                rows={2}
-                label="Catatan"
-                sx={{ mt: 2 }}
-                {...errorsToHelperTextObj(errors.note)}
-            />
+                <DatePicker
+                    value={paid ? dayjs(paid) : null}
+                    minDate={order ? dayjs(order) : undefined}
+                    disabled={isDisabled}
+                    label="Tanggal Bayar"
+                    onChange={date =>
+                        setFieldValue('paid', date?.format('YYYY-MM-DD'))
+                    }
+                    slotProps={{
+                        textField: {
+                            name: 'paid',
+                            required: false,
+                            ...errorsToHelperTextObj(errors.paid),
+                        },
+                    }}
+                />
+
+                {paid && (
+                    <SelectFromApi
+                        disabled={isDisabled}
+                        endpoint="/data/cashes"
+                        label="Dari kas"
+                        fullWidth
+                        required
+                        size="small"
+                        margin="dense"
+                        selectProps={{
+                            name: 'cashable_uuid',
+                            value: cashable_uuid ?? '',
+                        }}
+                        onValueChange={(value: CashType) =>
+                            setFieldValue('cashable_uuid', value.uuid)
+                        }
+                        {...errorsToHelperTextObj(errors.cashable_uuid)}
+                    />
+                )}
+
+                <DatePicker
+                    value={received ? dayjs(received) : null}
+                    minDate={order ? dayjs(order) : undefined}
+                    disabled={isDisabled}
+                    label="Tanggal Barang Diterima"
+                    onChange={date =>
+                        setFieldValue('received', date?.format('YYYY-MM-DD'))
+                    }
+                    slotProps={{
+                        textField: {
+                            required: false,
+                            name: 'received',
+                            ...errorsToHelperTextObj(errors.received),
+                        },
+                    }}
+                />
+
+                <FastField
+                    name="note"
+                    component={TextFieldFastableComponent}
+                    required={false}
+                    multiline
+                    disabled={isDisabled}
+                    rows={2}
+                    label="Catatan"
+                    {...errorsToHelperTextObj(errors.note)}
+                />
+            </Container>
 
             <ProductMovementDetailArrayField
                 errors={errors}

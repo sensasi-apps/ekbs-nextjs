@@ -80,7 +80,7 @@ export default function FarmInputsProducts() {
     return (
         <AuthLayout title="Pembelian Produk">
             <Datatable
-                title="Riwayat Pembelian"
+                title="Riwayat"
                 apiUrl="/farm-inputs/product-purchases/datatable"
                 tableId="product-purchases-table"
                 columns={DATATABLE_COLUMNS}
@@ -91,7 +91,7 @@ export default function FarmInputsProducts() {
             <DialogWithTitle
                 title={(isNew ? 'Tambah ' : 'Perbaharui ') + 'Data Pembelian'}
                 open={isDialogOpen}
-                maxWidth="md">
+                maxWidth="lg">
                 <Formik
                     initialValues={initialFormikValues}
                     initialStatus={initialFormikStatus}
