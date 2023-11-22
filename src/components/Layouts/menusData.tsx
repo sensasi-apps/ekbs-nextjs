@@ -8,6 +8,7 @@ import AgricultureIcon from '@mui/icons-material/Agriculture'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import BalanceIcon from '@mui/icons-material/Balance'
+import ChecklistIcon from '@mui/icons-material/Checklist'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
@@ -170,6 +171,20 @@ const menusData = [
         forRoles: ['farm inputs manager'],
     },
     {
+        href: '/farm-input-product-in-outs',
+        label: 'Barang Keluar-Masuk',
+        pathname: '/farm-input-product-in-outs',
+        icon: <WarehouseIcon />,
+        forRoles: ['farm inputs warehouse manager'],
+    },
+    {
+        href: '/farm-input-product-opnames',
+        label: 'Opname',
+        pathname: '/farm-input-product-opnames',
+        icon: <ChecklistIcon />,
+        forRoles: ['farm inputs warehouse manager'],
+    },
+    {
         href: '/farm-inputs/product-purchases',
         label: 'Pembelian',
         pathname: '/farm-inputs/product-purchases',
@@ -183,13 +198,7 @@ const menusData = [
         icon: <SellIcon />,
         forRoles: ['farm inputs sales'],
     },
-    {
-        href: '/farm-inputs/product-ins-outs',
-        label: 'Barang Keluar-Masuk',
-        pathname: '/farm-inputs/product-ins-outs',
-        icon: <WarehouseIcon />,
-        forRoles: ['farm inputs warehouse manager'],
-    },
+
     {
         component: (
             <>
