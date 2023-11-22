@@ -70,11 +70,7 @@ const UserLoanInstallmentDatatable = memo(
                         }
                     }}
                     columns={DATATABLE_COLUMNS}
-                    defaultSortOrder={
-                        apiUrl === UserLoanInstallmentDatatableApiUrlEnum.All
-                            ? DEFAULT_SORT_ORDER
-                            : DEFAULT_SORT_ORDER2
-                    }
+                    defaultSortOrder={DEFAULT_SORT_ORDER}
                 />
 
                 <DatatableInfoBox />
@@ -100,11 +96,6 @@ dayjs.extend(relativeTime)
 const DEFAULT_SORT_ORDER: MUISortOptions = {
     name: 'should_be_paid_at',
     direction: 'desc',
-}
-
-const DEFAULT_SORT_ORDER2: MUISortOptions = {
-    name: 'should_be_paid_at',
-    direction: 'asc',
 }
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
