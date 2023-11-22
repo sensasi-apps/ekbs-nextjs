@@ -92,6 +92,8 @@ const Datatable = memo(function Datatable({
         [],
     )
 
+    const isRowClickable = Boolean(onRowClick)
+
     const options: MUIDataTableOptions = {
         tableId: tableId,
         filter: false,
@@ -111,6 +113,7 @@ const Datatable = memo(function Datatable({
                 <RefreshIcon />
             </CustomHeadButton>
         ),
+        rowHover: isRowClickable,
         onRowClick: onRowClick as MUIDataTableOptions['onRowClick'],
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
@@ -127,11 +130,15 @@ const Datatable = memo(function Datatable({
 
     return (
         <Box
-            sx={{
-                '& tbody tr:hover': {
-                    cursor: 'pointer',
-                },
-            }}>
+            sx={
+                isRowClickable
+                    ? {
+                          '& tbody tr:hover': {
+                              cursor: 'pointer',
+                          },
+                      }
+                    : undefined
+            }>
             {(isApiLoading || isValidating) && (
                 <LinearProgress
                     sx={{
@@ -150,9 +157,15 @@ const Datatable = memo(function Datatable({
                 options={options}
             />
 
-            {Boolean(onRowClick) && (
-                <Typography variant="caption" mt={1} component="div">
-                    Klik 2x pada baris untuk membuka formulir.
+            {isRowClickable && (
+                <Typography
+                    variant="caption"
+                    mt={1.1}
+                    ml={0.5}
+                    component="div"
+                    color="gray"
+                    fontStyle="italic">
+                    *Klik 2x pada baris untuk membuka formulir.
                 </Typography>
             )}
         </Box>
