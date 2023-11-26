@@ -16,10 +16,11 @@ export default function TbsPerformanceChart({ data }: { data: [] }) {
         <div
             style={{
                 height: '200px',
+                overflow: 'hidden',
             }}>
             <ResponsiveContainer>
                 <LineChart data={data}>
-                    <XAxis dataKey="monthName" />
+                    <XAxis dataKey="label" />
                     <YAxis
                         type="number"
                         domain={['dataMin', 'dataMax']}
