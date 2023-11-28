@@ -8,6 +8,8 @@ import type { Ymd } from '@/types/DateString'
 import { useState } from 'react'
 import axios from '@/lib/axios'
 import { Formik } from 'formik'
+// materials
+import Typography from '@mui/material/Typography'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
@@ -167,6 +169,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Catatan',
         options: {
             sort: false,
+            display: false,
         },
     },
     {
@@ -193,17 +196,18 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 <ul
                     style={{
                         margin: 0,
-                        padding: 0,
+                        paddingLeft: '1em',
                         whiteSpace: 'nowrap',
                     }}>
                     {pids?.map(pid => (
-                        <li key={pid.product_id}>
-                            {`${formatNumber(pid.qty ?? 0)} ${pid.product
-                                ?.unit} x ${pid.product
-                                ?.name} @ ${numberToCurrency(
-                                pid.rp_per_unit ?? 0,
-                            )}`}
-                        </li>
+                        <Typography
+                            key={pid.product_id}
+                            component="li"
+                            variant="overline">
+                            {formatNumber(pid.qty ?? 0)} {pid.product?.unit}{' '}
+                            {pid.product?.name} &times;{' '}
+                            {numberToCurrency(pid.rp_per_unit ?? 0)}
+                        </Typography>
                     ))}
                 </ul>
             ),

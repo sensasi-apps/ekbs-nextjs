@@ -77,6 +77,7 @@ function Crud() {
                     <ul
                         style={{
                             margin: 0,
+                            paddingLeft: '1em',
                         }}>
                         {rates.map(rate => (
                             <li key={rate.id}>

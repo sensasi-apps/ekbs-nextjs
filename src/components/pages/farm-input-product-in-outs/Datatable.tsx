@@ -12,6 +12,7 @@ import { ApiUrlEnum } from './Datatable.type'
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
+import { Typography } from '@mui/material'
 
 const FarmInputProductInOutDatatable = memo(
     function FarmInputProductInOutDatatable({
@@ -120,13 +121,18 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     <ul
                         style={{
                             margin: 0,
+                            paddingLeft: '1em',
+                            whiteSpace: 'nowrap',
                         }}>
                         {data.details?.map(detail => (
-                            <li key={detail.product_id}>
-                                {detail.product?.name} &mdash;{' '}
-                                {formatNumber(detail.qty)}{' '}
-                                {detail.product?.unit}
-                            </li>
+                            <Typography
+                                key={detail.product_id}
+                                variant="overline"
+                                component="li"
+                                lineHeight="unset">
+                                {formatNumber(Math.abs(detail.qty))}{' '}
+                                {detail.product?.unit} {detail.product?.name}
+                            </Typography>
                         ))}
                     </ul>
                 )
@@ -144,7 +150,9 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
 
                 return numberToCurrency(
                     data.details
-                        ?.map(detail => detail.qty * detail.rp_per_unit)
+                        ?.map(
+                            detail => Math.abs(detail.qty) * detail.rp_per_unit,
+                        )
                         .reduce((a, b) => a + b, 0),
                 )
             },

@@ -265,8 +265,8 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             customBodyRenderLite: dataIndex => (
                 <ul
                     style={{
-                        padding: 0,
                         margin: 0,
+                        paddingLeft: '1em',
                     }}>
                     {getDataRow<PalmBunchesReaTicketType>(
                         dataIndex,
