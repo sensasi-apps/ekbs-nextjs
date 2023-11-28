@@ -1,8 +1,7 @@
-import { FC } from 'react'
-
+// vendors
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
-
+// icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import AgricultureIcon from '@mui/icons-material/Agriculture'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
@@ -18,14 +17,12 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
 import RateReviewIcon from '@mui/icons-material/RateReview'
-import SellIcon from '@mui/icons-material/Sell'
+import ReceiptIcon from '@mui/icons-material/Receipt'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 
-const SubTitle: FC<{
-    children: string
-}> = ({ children }) => (
+const SubTitle = ({ children }: { children: string }) => (
     <Typography
         ml={2}
         mt={2}
@@ -37,15 +34,13 @@ const SubTitle: FC<{
     </Typography>
 )
 
-function MenuDivider() {
-    return (
-        <Divider
-            style={{
-                marginTop: '1rem',
-            }}
-        />
-    )
-}
+const MenuDivider = () => (
+    <Divider
+        style={{
+            marginTop: '1rem',
+        }}
+    />
+)
 
 const menusData = [
     {
@@ -157,11 +152,21 @@ const menusData = [
 
     {
         component: <MenuDivider />,
-        forRoles: ['farm inputs manager'],
+        forRoles: [
+            'farm inputs manager',
+            'farm inputs purchaser',
+            'farm input warehouse manager',
+            'farm input sales',
+        ],
     },
     {
         component: <SubTitle>Saprodi</SubTitle>,
-        forRoles: ['farm inputs manager'],
+        forRoles: [
+            'farm inputs manager',
+            'farm inputs purchaser',
+            'farm input warehouse manager',
+            'farm input sales',
+        ],
     },
     {
         href: '/farm-inputs/products',
@@ -175,14 +180,14 @@ const menusData = [
         label: 'Barang Keluar-Masuk',
         pathname: '/farm-input-product-in-outs',
         icon: <WarehouseIcon />,
-        forRoles: ['farm inputs warehouse manager'],
+        forRoles: ['farm input warehouse manager'],
     },
     {
         href: '/farm-input-product-opnames',
         label: 'Opname',
         pathname: '/farm-input-product-opnames',
         icon: <ChecklistIcon />,
-        forRoles: ['farm inputs warehouse manager'],
+        forRoles: ['farm input warehouse manager'],
     },
     {
         href: '/farm-inputs/product-purchases',
@@ -192,11 +197,11 @@ const menusData = [
         forRoles: ['farm inputs purchaser'],
     },
     {
-        href: '/farm-inputs/product-sales',
+        href: '/farm-input-product-sales',
         label: 'Penjualan',
-        pathname: '/farm-inputs/product-sales',
-        icon: <SellIcon />,
-        forRoles: ['farm inputs sales'],
+        pathname: '/farm-input-product-sales',
+        icon: <ReceiptIcon />,
+        forRoles: ['farm input sales'],
     },
 
     {

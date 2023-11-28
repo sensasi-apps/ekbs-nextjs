@@ -5,12 +5,18 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 export default function TbsPerformanceChartWithAutoFetch({
     data,
     userUuid,
+    frequency = 'weekly',
+    nFrequency = 12,
 }: {
     data?: []
     userUuid: string
+    frequency?: 'weekly' | 'monthly'
+    nFrequency?: number
 }) {
     const { data: fetchData, isLoading } = useSWR(
-        !data && userUuid ? `/users/${userUuid}/tbs-performances` : null,
+        !data && userUuid
+            ? `/users/${userUuid}/performances/${frequency}/${nFrequency}`
+            : null,
     )
 
     const chartData = data || fetchData
