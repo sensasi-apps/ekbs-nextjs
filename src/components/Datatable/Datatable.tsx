@@ -8,7 +8,7 @@ import type {
 import type { KeyedMutator } from 'swr'
 import type { OnRowClickType } from './types'
 // vendors
-import { useCallback, useState, memo } from 'react'
+import { memo, useCallback, useState } from 'react'
 import useSWR from 'swr'
 import { debounceSearchRender } from 'mui-datatables'
 import dynamic from 'next/dynamic'
@@ -41,6 +41,8 @@ const Datatable = memo(function Datatable({
     tableId,
     title,
     onRowClick,
+    mutateCallback,
+    getDataByRowCallback,
 }: {
     apiUrl: string
     columns: MUIDataTableColumn[]
@@ -48,6 +50,10 @@ const Datatable = memo(function Datatable({
     tableId: string
     title?: string
     onRowClick?: OnRowClickType
+    mutateCallback?: (mutateFn: KeyedMutator<any>) => void
+    getDataByRowCallback?: (
+        getDataByRowFn: <T>(index: number) => T | undefined,
+    ) => void
 }) {
     const [params, setParams] = useState<any>()
     const [sortOrder, setSortOrder] = useState(defaultSortOrder)
@@ -63,6 +69,14 @@ const Datatable = memo(function Datatable({
 
     getDataRow = index => data[index]
     mutatorForExport = mutate
+
+    if (mutateCallback) {
+        mutateCallback(mutate)
+    }
+
+    if (getDataByRowCallback) {
+        getDataByRowCallback(index => data[index])
+    }
 
     const handleFetchData = useCallback(
         (action: string, tableState: MUIDataTableState) => {
