@@ -1,20 +1,24 @@
+// types
 import type UserType from '@/dataTypes/User'
-
+import type ValidationErrorsType from '@/types/ValidationErrors'
+import type { AutocompleteProps } from '@mui/material/Autocomplete'
+import type { ChipTypeMap } from '@mui/material/Chip'
+import type { TextFieldProps } from '@mui/material/TextField'
+// vendors
 import { useState } from 'react'
 import useSWRMutation from 'swr/mutation'
 import axios from '@/lib/axios'
-
-import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
+// materials
+import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
-import { ChipTypeMap } from '@mui/material/Chip'
 import IconButton from '@mui/material/IconButton'
-import TextField, { TextFieldProps } from '@mui/material/TextField'
+import TextField from '@mui/material/TextField' // TODO: replace with components/TextField
 import Typography from '@mui/material/Typography'
-
+// icons
 import SearchIcon from '@mui/icons-material/Search'
+// components
 import RoleChips from '@/components/User/RoleChips'
-import ValidationErrorsType from '@/types/ValidationErrors'
 
 type UserAutocompleteType<
     Multiple extends boolean | undefined = false,
@@ -120,8 +124,13 @@ const UserAutocomplete: UserAutocompleteType = ({
                         }
                     }}
                     onBlur={() => setSearchText('')}
-                    error={Boolean(validationErrors?.query)}
-                    helperText={validationErrors?.query}
+                    error={
+                        textFieldProps?.error ??
+                        Boolean(validationErrors?.query)
+                    }
+                    helperText={
+                        textFieldProps?.helperText ?? validationErrors?.query
+                    }
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (
