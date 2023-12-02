@@ -1,4 +1,5 @@
 // vendors
+import { memo } from 'react'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 // icons
@@ -10,6 +11,7 @@ import BalanceIcon from '@mui/icons-material/Balance'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
 import GrassIcon from '@mui/icons-material/Grass'
 import GroupIcon from '@mui/icons-material/Group'
@@ -22,146 +24,124 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 
-const SubTitle = ({ children }: { children: string }) => (
-    <Typography
-        ml={2}
-        mt={2}
-        variant="overline"
-        color="grey"
-        fontWeight="bold"
-        component="div">
-        {children}
-    </Typography>
-)
+const GroupTitle = memo(function GroupTitle({
+    children,
+}: {
+    children: string
+}) {
+    return (
+        <>
+            <Divider
+                style={{
+                    marginTop: '1rem',
+                }}
+            />
+            <Typography
+                ml={2}
+                mt={2}
+                variant="overline"
+                color="grey"
+                fontWeight="bold"
+                component="div">
+                {children}
+            </Typography>
+        </>
+    )
+})
 
-const MenuDivider = () => (
-    <Divider
-        style={{
-            marginTop: '1rem',
-        }}
-    />
-)
+const inventoryNavs: NavItem[] = [
+    {
+        component: <GroupTitle>Inventaris</GroupTitle>,
+    },
+    {
+        href: '/inventory-items',
+        label: 'Barang',
+        pathname: ['/inventory-items', '/inventory-items/[uuid]'],
+        icon: <FeaturedPlayListIcon />,
+    },
+]
 
-const menusData = [
+const palmBunchNavs: NavItem[] = [
     {
-        href: '/dashboard',
-        label: 'Dasbor',
-        pathname: '/dashboard',
-        icon: <DashboardIcon />,
-        forRoles: [],
-    },
-    {
-        component: <SubTitle>Unit</SubTitle>,
-        forRoles: [],
-    },
-    {
-        href: '/alat-berat',
-        label: 'Alat Berat',
-        pathname: '/alat-berat',
-        icon: <AgricultureIcon />,
-        forRoles: [],
-    },
-    {
-        component: <MenuDivider />,
-        forRoles: [
-            'member',
-            'employee',
-            'user loans manager',
-            'user loans reviewer',
-            'user loans collector',
-        ],
-    },
-    {
-        component: <SubTitle>Tandan Buah Segar</SubTitle>,
-        forRoles: ['palm bunches admin', 'palm bunch head'],
+        component: <GroupTitle>Tandan Buah Segar</GroupTitle>,
+        forRole: ['palm bunches admin', 'palm bunch head'],
     },
     {
         href: '/palm-bunches/rates',
         label: 'Harga TBS',
         pathname: '/palm-bunches/rates',
         icon: <GrassIcon />,
-        forRoles: ['palm bunch head'],
+        forRole: 'palm bunch head',
     },
     {
         href: '/palm-bunches/delivery-rates',
         label: 'Tarif Angkut',
         pathname: '/palm-bunches/delivery-rates',
         icon: <FireTruckIcon />,
-        forRoles: ['palm bunch head'],
+        forRole: 'palm bunch head',
     },
     {
         href: '/palm-bunches/rea-tickets',
         label: 'Tiket REA',
         pathname: '/palm-bunches/rea-tickets',
         icon: <BalanceIcon />,
-        forRoles: ['palm bunches admin'],
+        forRole: 'palm bunches admin',
     },
     {
         href: '/palm-bunches/rea-payments',
         label: 'Pembayaran REA',
         pathname: '/palm-bunches/rea-payments',
         icon: <PointOfSaleIcon />,
-        forRoles: ['palm bunch head'],
+        forRole: 'palm bunch head',
     },
+]
+
+const loanNavs: NavItem[] = [
     {
-        component: <SubTitle>Simpan Pinjam</SubTitle>,
-        forRoles: [
-            'member',
-            'employee',
-            'user loans manager',
-            'user loans disburser',
-            'user loans reviewer',
-            'user loans collector',
-        ],
+        component: <GroupTitle>Simpan Pinjam</GroupTitle>,
+        forRole: ['member', 'employee'],
     },
     {
         href: '/loans',
         label: 'Pinjaman Anda',
         pathname: '/loans',
         icon: <CurrencyExchangeIcon />,
-        forRoles: ['member', 'employee'],
+        forRole: ['member', 'employee'],
     },
     {
         href: '/user-loans',
         label: 'Kelola',
         pathname: '/user-loans',
         icon: <BackupTableIcon />,
-        forRoles: ['user loans manager'],
+        forRole: 'user loans manager',
     },
     {
         href: '/user-loans/reviews',
         label: 'Persetujuan',
         pathname: '/user-loans/reviews',
         icon: <RateReviewIcon />,
-        forRoles: ['user loans reviewer'],
+        forRole: 'user loans reviewer',
     },
     {
         href: '/user-loans/disburses',
         label: 'Pencairan',
         pathname: '/user-loans/disburses',
         icon: <RequestQuoteIcon />,
-        forRoles: ['user loans disburser'],
+        forRole: 'user loans disburser',
     },
     {
         href: '/user-loans/installments',
         label: 'Angsuran',
         pathname: '/user-loans/installments',
         icon: <PointOfSaleIcon />,
-        forRoles: ['user loan installments collector'],
+        forRole: 'user loan installments collector',
     },
+]
 
+const farmInputNavs: NavItem[] = [
     {
-        component: <MenuDivider />,
-        forRoles: [
-            'farm inputs manager',
-            'farm inputs purchaser',
-            'farm input warehouse manager',
-            'farm input sales',
-        ],
-    },
-    {
-        component: <SubTitle>Saprodi</SubTitle>,
-        forRoles: [
+        component: <GroupTitle>Saprodi</GroupTitle>,
+        forRole: [
             'farm inputs manager',
             'farm inputs purchaser',
             'farm input warehouse manager',
@@ -173,97 +153,141 @@ const menusData = [
         label: 'Produk',
         pathname: '/farm-inputs/products',
         icon: <InventoryIcon />,
-        forRoles: ['farm inputs manager'],
+        forRole: 'farm inputs manager',
     },
     {
         href: '/farm-input-product-in-outs',
         label: 'Barang Keluar-Masuk',
         pathname: '/farm-input-product-in-outs',
         icon: <WarehouseIcon />,
-        forRoles: ['farm input warehouse manager'],
+        forRole: 'farm input warehouse manager',
     },
     {
         href: '/farm-input-product-opnames',
         label: 'Opname',
         pathname: '/farm-input-product-opnames',
         icon: <ChecklistIcon />,
-        forRoles: ['farm input warehouse manager'],
+        forRole: 'farm input warehouse manager',
     },
     {
         href: '/farm-inputs/product-purchases',
         label: 'Pembelian',
         pathname: '/farm-inputs/product-purchases',
         icon: <ShoppingCartIcon />,
-        forRoles: ['farm inputs purchaser'],
+        forRole: 'farm inputs purchaser',
     },
     {
         href: '/farm-input-product-sales',
         label: 'Penjualan',
         pathname: '/farm-input-product-sales',
         icon: <ReceiptIcon />,
-        forRoles: ['farm input sales'],
+        forRole: 'farm input sales',
     },
+]
 
+const accountingNavs: NavItem[] = [
     {
-        component: (
-            <>
-                <MenuDivider />
-                <SubTitle>Keuangan</SubTitle>
-            </>
-        ),
-        forRoles: ['member', 'employee', 'cashes manager'],
+        component: <GroupTitle>Keuangan</GroupTitle>,
+        forRole: ['member', 'employee', 'cashes manager'],
     },
     {
         href: '/wallet',
         label: 'Wallet Anda',
         pathname: '/wallet',
         icon: <AccountBalanceWalletIcon />,
-        forRoles: ['member', 'employee'],
+        forRole: ['member', 'employee'],
     },
     {
         href: '/cashes',
         label: 'Kas',
         pathname: '/cashes',
         icon: <AutoStoriesIcon />,
-        forRoles: ['cashes manager'],
+        forRole: 'cashes manager',
     },
     {
         href: '/wallets',
         label: 'Wallet Pengguna',
         pathname: '/wallets',
         icon: <AccountBalanceWalletIcon />,
-        forRoles: ['cashes manager'],
+        forRole: 'cashes manager',
     },
+]
+
+const settingsNavs: NavItem[] = [
     {
-        component: (
-            <>
-                <MenuDivider />
-                <SubTitle>Sistem</SubTitle>
-            </>
-        ),
-        forRoles: ['users admin'],
+        component: <GroupTitle>Sistem</GroupTitle>,
+        forRole: 'users admin',
     },
     {
         href: '/users',
         label: 'Pengguna',
         pathname: '/users/[[...uuid]]',
         icon: <GroupIcon />,
-        forRoles: ['users admin'],
+        forRole: 'users admin',
     },
     {
         href: '/roles',
         label: 'Peran',
         pathname: '/roles',
         icon: <GroupIcon />,
-        forRoles: ['superman'],
+        forRole: 'superman',
     },
     {
         href: '/settings',
         label: 'Pengaturan',
         pathname: '/settings',
         icon: <SettingsIcon />,
-        forRoles: ['systems admin'],
+        forRole: 'systems admin',
     },
 ]
 
-export default menusData
+const NAV_ITEMS: NavItem[] = [
+    {
+        href: '/dashboard',
+        label: 'Dasbor',
+        pathname: '/dashboard',
+        icon: <DashboardIcon />,
+    },
+    {
+        component: <GroupTitle>Unit</GroupTitle>,
+    },
+    {
+        href: '/alat-berat',
+        label: 'Alat Berat',
+        pathname: '/alat-berat',
+        icon: <AgricultureIcon />,
+    },
+
+    ...palmBunchNavs,
+    ...loanNavs,
+    ...farmInputNavs,
+    ...inventoryNavs,
+    ...accountingNavs,
+    ...settingsNavs,
+]
+
+export default NAV_ITEMS
+
+export type NavItem = {
+    forRole?: string | string[]
+    href?: string
+    label?: string
+    pathname?: string | string[]
+    icon?: JSX.Element
+    component?: JSX.Element
+} & (
+    | {
+          href: string
+          label: string
+          pathname: string | string[]
+          icon: JSX.Element
+          component?: never
+      }
+    | {
+          href?: never
+          label?: never
+          pathname?: never
+          icon?: never
+          component: JSX.Element
+      }
+)
