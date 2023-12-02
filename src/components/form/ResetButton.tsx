@@ -1,15 +1,29 @@
+// types
+import type { LoadingButtonProps } from '@mui/lab/LoadingButton'
+// vendors
 import { memo } from 'react'
-import ConfirmationDialogWithButton from '../ConfirmationDialog/WithButton'
+// components
+import ConfirmationDialogWithButton from '@/components/ConfirmationDialog/WithButton'
 
 const FormResetButton = memo(function FormResetButton({
     dirty,
     disabled,
     form,
+    slotProps,
 }: {
     dirty: boolean
     disabled: boolean
     form: string
+    slotProps?: {
+        button?: Omit<LoadingButtonProps, 'type' | 'form' | 'disabled'>
+    }
 }) {
+    const {
+        color = 'info',
+        children = dirty ? 'Batal' : 'Tutup',
+        ...buttonProps
+    } = slotProps?.button ?? {}
+
     return (
         <ConfirmationDialogWithButton
             title="Apakah Anda yakin ingin membatalkan perubahan?"
@@ -20,8 +34,9 @@ const FormResetButton = memo(function FormResetButton({
                 type: dirty ? 'button' : 'reset',
                 form: form,
                 disabled: disabled,
-                color: 'info',
-                children: dirty ? 'Batal' : 'Tutup',
+                children: children,
+                color: color,
+                ...buttonProps,
             }}
             confirmButtonProps={{
                 type: 'reset',
