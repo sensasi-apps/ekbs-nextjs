@@ -14,6 +14,9 @@ interface UserType {
 
     socials?: []
     last_six_months_tbs_performance?: []
+
+    member?: any // TODO: define member type
+    employee?: any // TODO: define employee type
 }
 
 export default UserType
