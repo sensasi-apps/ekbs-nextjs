@@ -105,7 +105,6 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'name',
         label: 'Nama',
     },
-
     {
         name: 'owned_at',
         label: 'Dimiliki pada',
@@ -117,10 +116,11 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'tags.name',
         label: 'Penanda',
         options: {
+            sort: false,
             customBodyRenderLite: dataIndex => {
                 const tags = getDataRow(dataIndex)?.tags ?? []
 
-                return tags.map(({ name }) => name).join(', ')
+                return tags.map(({ name: { id_ID } }) => id_ID).join(', ')
             },
         },
     },
@@ -146,7 +146,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'lastestPic.picUser.name',
+        name: 'latestPic.picUser.name',
         label: 'Penanggung Jawab',
         options: {
             customBodyRenderLite: dataIndex => {
@@ -158,7 +158,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'lastestCheckup.note',
+        name: 'latestCheckup.note',
         label: 'Pemeriksaan Terakhir',
         options: {
             customBodyRenderLite: dataIndex => {

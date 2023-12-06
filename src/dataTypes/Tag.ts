@@ -1,6 +1,8 @@
 type Tag = {
     id: number
-    name: string
+    name: {
+        id_ID: string
+    }
 }
 
 export default Tag

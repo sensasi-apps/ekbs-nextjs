@@ -92,9 +92,8 @@ const InventoryItemForm = memo(function InventoryItemForm({
 
             <Autocomplete
                 multiple
-                id="tags-filled"
                 options={[]}
-                value={tags?.map(tag => tag.name ?? tag) ?? []}
+                value={tags?.map(tag => tag?.name?.id_ID ?? tag) ?? []}
                 disabled={isDisabled}
                 freeSolo
                 renderTags={(value: readonly string[], getTagProps) =>
