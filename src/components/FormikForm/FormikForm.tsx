@@ -33,7 +33,9 @@ const FormikForm = memo(function FormikForm({
     submitting,
     slotProps: {
         deleteButton: deleteButtonProps,
+        cancelButton: cancelButtonProps,
         submitButton: submitButtonProps,
+        loadingBar: loadingBarProps,
     },
     ...props
 }: {
@@ -45,14 +47,16 @@ const FormikForm = memo(function FormikForm({
     processing: boolean
     slotProps: {
         deleteButton?: LoadingButtonProps
+        cancelButton?: Omit<LoadingButtonProps, 'disabled' | 'form' | 'type'>
         submitButton: {
             disabled: boolean
         }
+        loadingBar?: Parameters<typeof DialogLoadingBar>[0]
     }
 } & Omit<FormikFormProps, 'id'>) {
     return (
         <>
-            <DialogLoadingBar in={processing} />
+            <DialogLoadingBar in={processing} {...loadingBarProps} />
             <Form id={formId} autoComplete={autoComplete} {...props}>
                 {children}
 
@@ -80,6 +84,9 @@ const FormikForm = memo(function FormikForm({
                         dirty={dirty}
                         disabled={processing}
                         form={formId}
+                        slotProps={{
+                            button: cancelButtonProps,
+                        }}
                     />
 
                     <FormSubmitButton

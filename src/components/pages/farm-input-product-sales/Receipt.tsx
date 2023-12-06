@@ -148,7 +148,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
             )}
 
             <Grid2 container rowSpacing={0.5} alignItems="center">
-                {adjustment_rp && (
+                {Boolean(adjustment_rp) && (
                     <>
                         <Grid2 xs={2} />
 
@@ -169,7 +169,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                             textAlign="end"
                             component={Typography}
                             variant="caption">
-                            {formatNumber(adjustment_rp)}
+                            {formatNumber(adjustment_rp ?? 0)}
                         </Grid2>
                     </>
                 )}

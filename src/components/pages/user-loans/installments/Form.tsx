@@ -34,7 +34,7 @@ export default function UserLoanInstallmentForm({
 }: FormikContextType<UserLoanInstallmentFormDataType>) {
     const installment = status?.userLoanInstallment as InstallmentUserLoanType &
         InstallmentWithTransactionType
-    const userLoan = installment.installmentable
+    const user = installment.user_loan.user
     const isProcessing = isSubmitting
     const isPaid = Boolean(installment?.transaction)
     const isDisabled = isProcessing || isPaid
@@ -55,7 +55,7 @@ export default function UserLoanInstallmentForm({
                     disabled: isDisabled,
                 },
             }}>
-            <CrediturCard data={userLoan.user} />
+            <CrediturCard data={user} />
 
             <Box display="flex" flexDirection="column" gap={1} my={3}>
                 <DueInfo

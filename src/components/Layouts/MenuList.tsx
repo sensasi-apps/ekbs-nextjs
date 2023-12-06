@@ -1,5 +1,5 @@
-import { useEffect, useState, memo, FC } from 'react'
-import { useRouter } from 'next/router'
+// vendors
+import { memo, useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
@@ -14,10 +14,13 @@ import Toolbar from '@mui/material/Toolbar'
 import useAuth from '@/providers/Auth'
 import MENUS_DATA from './menusData'
 
-const MenuList: FC<{
+const MenuList = memo(function MenuList({
+    isDrawerOpen,
+    toggleDrawer,
+}: {
     isDrawerOpen: boolean
     toggleDrawer: () => void
-}> = ({ isDrawerOpen, toggleDrawer }) => {
+}) {
     const { user: currentUser } = useAuth()
     const [drawerProps, setDrawerProps] = useState({})
 
@@ -82,51 +85,56 @@ const MenuList: FC<{
                         ))}
                     </List>
                 ) : (
-                    <MenuListSkeleton />
+                    <Box px={4}>
+                        <Skeleton height="4em" />
+                        <Skeleton height="4em" />
+                        <Skeleton height="4em" />
+                        <Skeleton height="4em" />
+                        <Skeleton height="4em" />
+                    </Box>
                 )}
             </Drawer>
         </Box>
     )
-}
+})
 
 export default memo(MenuList)
 
 export const DRAWER_WIDTH = 240
 
-const CustomListItem: FC<{
-    data: any
+// types
+import type { NavItem } from './menusData'
+// vendors
+import { useRouter } from 'next/router'
+
+const CustomListItem = memo(function CustomListItem({
+    data: { forRole, href, icon, label, pathname, component },
+    onClick,
+}: {
+    data: NavItem
     onClick: () => void
-}> = ({ data: menuData, onClick }) => {
-    const router = useRouter()
+}) {
+    const { pathname: currPathname } = useRouter()
     const { userHasRole } = useAuth()
 
-    if (menuData.forRoles.length === 0 || !userHasRole(menuData.forRoles)) {
-        return
-    }
+    if (typeof forRole !== 'undefined' && !userHasRole(forRole)) return
 
-    if (menuData.component) {
-        return menuData.component
-    }
+    if (component) return component
+    if (!pathname) throw new Error('pathname is required')
+    if (!href) throw new Error('href is required')
+    if (!icon) throw new Error('icon is required')
+
+    const isSelected =
+        typeof pathname === 'string'
+            ? pathname === currPathname
+            : pathname.includes(currPathname)
 
     return (
         <ListItem disablePadding>
-            <ListItemButton
-                href={menuData.href}
-                selected={router.pathname === menuData.pathname}
-                onClick={onClick}>
-                <ListItemIcon>{menuData.icon}</ListItemIcon>
-                <ListItemText primary={menuData.label} />
+            <ListItemButton href={href} selected={isSelected} onClick={onClick}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={label} />
             </ListItemButton>
         </ListItem>
     )
-}
-
-const MenuListSkeleton: FC = () => (
-    <Box px={4}>
-        <Skeleton height="4em" />
-        <Skeleton height="4em" />
-        <Skeleton height="4em" />
-        <Skeleton height="4em" />
-        <Skeleton height="4em" />
-    </Box>
-)
+})
