@@ -11,13 +11,13 @@ type InstallmentDBTableType = {
     penalty_rp: number
     n_th: number
 
-    // table_column but practically unused
+    // table columns but practically unused
     // installmentable_classname: string
     // installmentable_uuid: UUID
 }
 
 export type InstallmentUserLoanType = InstallmentDBTableType & {
-    installmentable: UserLoanType
+    user_loan: UserLoanType
 }
 
 export type InstallmentWithTransactionType = InstallmentDBTableType & {

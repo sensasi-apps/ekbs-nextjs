@@ -95,7 +95,7 @@ dayjs.extend(relativeTime)
 
 const DEFAULT_SORT_ORDER: MUISortOptions = {
     name: 'should_be_paid_at',
-    direction: 'desc',
+    direction: 'asc',
 }
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
@@ -147,12 +147,12 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'installmentable.user.name',
+        name: 'userLoan.user.name',
         label: 'Kreditur',
         options: {
             customBodyRenderLite: dataIndex =>
-                getDataRow<InstallmentUserLoanType>(dataIndex)?.installmentable
-                    .user.name,
+                getDataRow<InstallmentUserLoanType>(dataIndex)?.user_loan.user
+                    .name,
         },
     },
     {
