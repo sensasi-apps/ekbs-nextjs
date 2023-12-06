@@ -1,6 +1,7 @@
 // types
 import type { DatePickerProps } from '@mui/x-date-pickers/DatePicker'
 import type { Dayjs } from 'dayjs'
+
 // vendors
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -20,7 +21,7 @@ export default function DatePicker({
     ...props
 }: DatePickerProps<Dayjs>) {
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="id">
             <MuiDatePicker slots={slots} format={format} {...props} />
         </LocalizationProvider>
     )

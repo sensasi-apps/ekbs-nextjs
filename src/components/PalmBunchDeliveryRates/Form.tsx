@@ -149,7 +149,7 @@ export default function PalmBunchDeliveryRatesForm({
             <Grid container spacing={2}>
                 <Grid item xs={6} sm={6}>
                     <DatePicker
-                        shouldDisableDate={date => date?.day() !== 1}
+                        shouldDisableDate={date => date?.day() !== 2}
                         disabled={loading}
                         value={validFrom}
                         slotProps={{
