@@ -9,6 +9,6 @@ type d = `${0}${oneToNine}` | `${1 | 2}${zeroToNine}` | `3${0 | 1}`
 // type i = `${0 | 1 | 2 | 3 | 4 | 5}${zeroToNine}`
 // type s = `${0 | 1 | 2 | 3 | 4 | 5}${zeroToNine}`
 
-export type dmY = `${d}-${m}-${Y}`
+// export type dmY = `${d}-${m}-${Y}`
 export type Ymd = `${Y}-${m}-${d}`
 // type his = `${h}:${i}:${s}`

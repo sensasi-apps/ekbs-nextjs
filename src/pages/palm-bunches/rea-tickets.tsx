@@ -273,8 +273,8 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     )?.delivery?.palm_bunches?.map(
                         (palmBunches: any, index: number) => (
                             <li key={index} style={{ marginBottom: `.5em` }}>
-                                #{palmBunches.owner_user.id + ' '}
-                                {palmBunches.owner_user.name + ' '}(
+                                #{palmBunches.owner_user?.id + ' '}
+                                {palmBunches.owner_user?.name + ' '}(
                                 {palmBunches.n_kg} kg)
                             </li>
                         ),
