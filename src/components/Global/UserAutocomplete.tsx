@@ -170,18 +170,37 @@ const UserAutocomplete: UserAutocompleteType = ({
             loadingText="Memuat..."
             filterOptions={x => x}
             loading={isMutating}
-            renderOption={(props, user) => (
-                <li {...props} key={user.id}>
-                    <Box display="flex" alignItems="center">
-                        <Typography mr={1} variant="caption">
-                            {user.id}
-                        </Typography>
-                        <Typography mr={2}>{user.name}</Typography>
+            renderOption={(props, user) => {
+                return (
+                    <li
+                        {...props}
+                        style={{
+                            display: 'block',
+                            alignItems: 'center',
+                        }}>
+                        <Box display="flex" gap={1} alignItems="center">
+                            <Typography variant="caption">{user.id}</Typography>
 
-                        <RoleChips data={user.role_names_id} size="small" />
-                    </Box>
-                </li>
-            )}
+                            <Typography>{user.name}</Typography>
+                        </Box>
+
+                        {user.nickname && (
+                            <Typography variant="caption" component="div">
+                                {user.nickname}
+                            </Typography>
+                        )}
+
+                        {user.role_names_id.length > 0 && (
+                            <Box overflow="auto">
+                                <RoleChips
+                                    data={user.role_names_id}
+                                    size="small"
+                                />
+                            </Box>
+                        )}
+                    </li>
+                )
+            }}
             {...props}
         />
     )
