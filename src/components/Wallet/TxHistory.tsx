@@ -75,7 +75,8 @@ function TxHistory({
                     format={'MMMM YYYY'}
                     maxDate={toDate}
                     value={fromDate}
-                    views={['month', 'year']}
+                    openTo="month"
+                    views={['year', 'month']}
                     label="Dari"
                     onChange={date => setFromDate(date)}
                 />
@@ -87,7 +88,8 @@ function TxHistory({
                     minDate={fromDate}
                     maxDate={dayjs().endOf('month')}
                     onChange={date => setToDate(date)}
-                    views={['month', 'year']}
+                    openTo="month"
+                    views={['year', 'month']}
                     label="Hingga"
                 />
             </Box>
