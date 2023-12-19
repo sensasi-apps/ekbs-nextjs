@@ -15,7 +15,6 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 // page components
 import InventoryItemFormWithFormik from '@/components/pages/inventory-items/Form/WithFormik'
-import { EMPTY_FORM_DATA } from '@/components/pages/inventory-items/Form'
 // icons
 import WarningIcon from '@mui/icons-material/Warning'
 import ReceiptIcon from '@mui/icons-material/Receipt'
@@ -33,8 +32,9 @@ export default function FarmInputProductSales() {
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-    const [initialFormikValues, setInitialFormikValues] =
-        useState(EMPTY_FORM_DATA)
+    const [initialFormikValues, setInitialFormikValues] = useState<
+        Partial<InventoryItem>
+    >({})
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
@@ -46,7 +46,7 @@ export default function FarmInputProductSales() {
     }
 
     const handleNew = () => {
-        setInitialFormikValues(EMPTY_FORM_DATA)
+        setInitialFormikValues({})
         setIsDialogOpen(true)
     }
 
@@ -70,25 +70,25 @@ export default function FarmInputProductSales() {
             />
 
             {userHasPermission('create inventory item') && (
-                <>
-                    <DialogWithTitle
-                        title={`${isNew ? 'Tambah' : 'Perbaharui'} Inventaris`}
-                        open={isDialogOpen}>
-                        <InventoryItemFormWithFormik
-                            initialValues={initialFormikValues}
-                            onSubmitted={() => {
-                                mutate()
-                                handleClose()
-                            }}
-                            onReset={handleClose}
-                        />
-                    </DialogWithTitle>
-
-                    <Fab onClick={handleNew}>
-                        <ReceiptIcon />
-                    </Fab>
-                </>
+                <DialogWithTitle
+                    title={`${isNew ? 'Tambah' : 'Perbaharui'} Inventaris`}
+                    open={isDialogOpen}>
+                    <InventoryItemFormWithFormik
+                        initialValues={initialFormikValues}
+                        onSubmitted={() => {
+                            mutate()
+                            handleClose()
+                        }}
+                        onReset={handleClose}
+                    />
+                </DialogWithTitle>
             )}
+
+            <Fab
+                in={userHasPermission('create inventory item') ?? false}
+                onClick={handleNew}>
+                <ReceiptIcon />
+            </Fab>
         </AuthLayout>
     )
 }

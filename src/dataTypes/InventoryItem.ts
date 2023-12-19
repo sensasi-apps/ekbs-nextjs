@@ -2,15 +2,19 @@ import type { UUID } from 'crypto'
 import type UserType from './User'
 import type { Ymd } from '@/types/DateString'
 import type Tag from './Tag'
+import type RentItem from './RentItem'
 
 type InventoryItem = {
     uuid: UUID
+    code: string
     name: string
     desc: string
     owned_at: Ymd
     disowned_at: Ymd
     disowned_note: string
     unfunctional_note: string
+
+    rentable: RentItem
 
     tags: Tag[]
 

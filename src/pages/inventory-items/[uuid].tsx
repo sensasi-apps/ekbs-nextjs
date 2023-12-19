@@ -47,7 +47,9 @@ export default function InventoryItemDetail() {
     return (
         <AuthLayout
             title={`${
-                inventoryItem ? inventoryItem.name + ' | ' : ''
+                inventoryItem && inventoryItem.name
+                    ? inventoryItem.name + ' | '
+                    : ''
             }Inventaris`}>
             <Button
                 style={{
@@ -121,7 +123,13 @@ export default function InventoryItemDetail() {
                             }}>
                             <CardContent>
                                 <InventoryItemFormWithFormik
-                                    initialValues={inventoryItem}
+                                    initialValues={{
+                                        ...inventoryItem,
+                                        default_rate_rp_per_unit:
+                                            inventoryItem.rentable
+                                                ?.default_rate_rp_per_unit ??
+                                            undefined,
+                                    }}
                                     onSubmitted={mutate}
                                     onReset={() => null}
                                 />
