@@ -4,13 +4,13 @@ import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 // icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
-import AgricultureIcon from '@mui/icons-material/Agriculture'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import BalanceIcon from '@mui/icons-material/Balance'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import EventNoteIcon from '@mui/icons-material/EventNote'
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
 import GrassIcon from '@mui/icons-material/Grass'
@@ -248,20 +248,20 @@ const NAV_ITEMS: NavItem[] = [
         pathname: '/dashboard',
         icon: <DashboardIcon />,
     },
-    {
-        component: <GroupTitle>Unit</GroupTitle>,
-    },
-    {
-        href: '/alat-berat',
-        label: 'Alat Berat',
-        pathname: '/alat-berat',
-        icon: <AgricultureIcon />,
-    },
 
     ...palmBunchNavs,
     ...loanNavs,
     ...farmInputNavs,
     ...inventoryNavs,
+    {
+        component: <GroupTitle>Alat Berat</GroupTitle>,
+    },
+    {
+        href: '/heavy-equipment-rents',
+        label: 'Penyewaan',
+        pathname: '/heavy-equipment-rents',
+        icon: <EventNoteIcon />,
+    },
     ...accountingNavs,
     ...settingsNavs,
 ]
