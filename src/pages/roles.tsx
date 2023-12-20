@@ -6,7 +6,7 @@ import AuthLayout from '@/components/Layouts/AuthLayout'
 
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import FormActions from '@/components/Global/Form/Actions'
 import Dialog from '@/components/Global/Dialog'
 
@@ -55,7 +55,7 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
                 apiUrl="/roles/datatable"
                 onRowClick={(_, { rowIndex }, event) => {
                     if (event.detail === 2) {
-                        const data = getDataRow<Role>(rowIndex)
+                        const data = getRowData<Role>(rowIndex)
                         if (!data) return
 
                         return handleEdit(data)

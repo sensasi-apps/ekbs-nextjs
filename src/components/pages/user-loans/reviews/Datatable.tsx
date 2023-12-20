@@ -7,7 +7,7 @@ import Chip from '@mui/material/Chip'
 import Box from '@mui/material/Box'
 // components
 import useAuth from '@/providers/Auth'
-import Datatable, { getDataRow } from '@/components/Datatable'
+import Datatable, { getRowData } from '@/components/Datatable'
 import DATATABLE_COLUMNS from '@/components/pages/user-loans/DATATABLE_COLUMNS'
 import { DEFAULT_SORT_ORDER } from '@/components/pages/user-loans/Datatable'
 
@@ -51,7 +51,7 @@ function UserLoanReviewDatatable({
                 apiUrl={apiUrl}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const userLoan = getDataRow<LoanType>(dataIndex)
+                        const userLoan = getRowData<LoanType>(dataIndex)
                         if (!userLoan) return
 
                         const userResponse = userLoan.responses.find(

@@ -1,7 +1,11 @@
 // types
 import type RentItemRent from '@/dataTypes/RentItemRent'
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type { OnRowClickType } from '@/components/Datatable'
+import type {
+    GetRowDataType,
+    MutateType,
+    OnRowClickType,
+} from '@/components/Datatable'
 import type { KeyedMutator } from 'swr'
 // vendors
 import { Formik } from 'formik'
@@ -34,9 +38,9 @@ import useAuth from '@/providers/Auth'
 import toDmy from '@/utils/toDmy'
 import errorCatcher from '@/utils/errorCatcher'
 
-let mutate: KeyedMutator<RentItemRent[]>
+let mutate: MutateType<RentItemRent>
 let mutateCalendar: KeyedMutator<RentItemRent[]>
-let getDataRow: (dataIndex: number) => RentItemRent | undefined
+let getRowData: GetRowDataType<RentItemRent>
 
 export default function FarmInputProductSales() {
     const { userHasPermission } = useAuth()
@@ -49,7 +53,7 @@ export default function FarmInputProductSales() {
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const rentItemRent = getDataRow(dataIndex)
+            const rentItemRent = getRowData(dataIndex)
             if (!rentItemRent) return
 
             handleEdit(rentItemRent)
@@ -123,10 +127,8 @@ export default function FarmInputProductSales() {
                             name: 'for_at',
                             direction: 'asc',
                         }}
-                        mutateCallback={mutator => (mutate = mutator)}
-                        getDataByRowCallback={getDataRowFn =>
-                            (getDataRow = getDataRowFn)
-                        }
+                        mutateCallback={fn => (mutate = fn)}
+                        getRowDataCallback={fn => (getRowData = fn)}
                     />
                 </div>
             </Fade>
@@ -206,7 +208,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Penyewa/PJ',
         options: {
             customBodyRenderLite: dataIndex => {
-                const { id, name } = getDataRow(dataIndex)?.by_user ?? {}
+                const { id, name } = getRowData(dataIndex)?.by_user ?? {}
 
                 return id ? `#${id} ${name}` : '-'
             },
@@ -217,7 +219,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'KelompoK Tani',
         options: {
             customBodyRenderLite: dataIndex => {
-                const { name } = getDataRow(dataIndex)?.farmer_group ?? {}
+                const { name } = getRowData(dataIndex)?.farmer_group ?? {}
 
                 return name ? name : '-'
             },
@@ -236,7 +238,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const { name, code } =
-                    getDataRow(dataIndex)?.inventory_item ?? {}
+                    getRowData(dataIndex)?.inventory_item ?? {}
 
                 return (
                     <>
@@ -261,7 +263,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const { id, name } =
-                    getDataRow(dataIndex)?.heavy_equipment_rent
+                    getRowData(dataIndex)?.heavy_equipment_rent
                         ?.operated_by_user ?? {}
 
                 return id ? `#${id} ${name}` : '-'

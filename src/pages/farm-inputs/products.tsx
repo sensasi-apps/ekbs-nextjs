@@ -1,12 +1,11 @@
 // types
 import type ProductType from '@/dataTypes/Product'
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type { KeyedMutator } from 'swr'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable from '@/components/Datatable'
+import Datatable, { GetRowDataType, MutateType } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'
 import ProductForm from '@/components/Product/Form'
@@ -20,8 +19,8 @@ import useFormData from '@/providers/useFormData'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
 
-let mutate: KeyedMutator<ProductType[]>
-let getDataRow: (dataIndex: number) => ProductType | undefined
+let mutate: MutateType<ProductType>
+let getRowData: GetRowDataType<ProductType>
 
 export default function FarmInputsProducts() {
     return (
@@ -54,7 +53,7 @@ const Crud = () => {
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data = getDataRow(dataIndex)
+                        const data = getRowData(dataIndex)
                         if (!data) return
 
                         return handleEdit(data)
@@ -62,7 +61,7 @@ const Crud = () => {
                 }}
                 tableId="products-table"
                 title="Daftar Produk"
-                getDataByRowCallback={fn => (getDataRow = fn)}
+                getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
             />
 
@@ -121,7 +120,7 @@ const columns: MUIDataTableColumn[] = [
         label: 'Jumlah',
         options: {
             customBodyRenderLite: dataIndex => {
-                const data = getDataRow(dataIndex)
+                const data = getRowData(dataIndex)
                 if (!data) return
 
                 const { qty, low_number, unit } = data

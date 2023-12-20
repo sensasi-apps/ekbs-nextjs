@@ -1,8 +1,11 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type { OnRowClickType } from '@/components/Datatable'
+import type {
+    GetRowDataType,
+    MutateType,
+    OnRowClickType,
+} from '@/components/Datatable'
 import type InventoryItem from '@/dataTypes/InventoryItem'
-import type { KeyedMutator } from 'swr'
 // vendors
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -23,8 +26,8 @@ import useAuth from '@/providers/Auth'
 // utils
 import toDmy from '@/utils/toDmy'
 
-let mutate: KeyedMutator<InventoryItem[]>
-let getDataRow: (dataIndex: number) => InventoryItem | undefined
+let mutate: MutateType<InventoryItem>
+let getRowData: GetRowDataType<InventoryItem>
 
 export default function FarmInputProductSales() {
     const { userHasPermission } = useAuth()
@@ -38,7 +41,7 @@ export default function FarmInputProductSales() {
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const inventoryItem = getDataRow(dataIndex)
+            const inventoryItem = getRowData(dataIndex)
             if (!inventoryItem) return
 
             push(`/inventory-items/${inventoryItem.uuid}`)
@@ -63,10 +66,8 @@ export default function FarmInputProductSales() {
                 onRowClick={handleRowClick}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'owned_at', direction: 'desc' }}
-                mutateCallback={mutator => (mutate = mutator)}
-                getDataByRowCallback={getDataRowFn =>
-                    (getDataRow = getDataRowFn)
-                }
+                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => (getRowData = fn)}
             />
 
             {userHasPermission('create inventory item') && (
@@ -118,7 +119,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const tags = getDataRow(dataIndex)?.tags ?? []
+                const tags = getRowData(dataIndex)?.tags ?? []
 
                 return tags.map(({ name: { id_ID } }) => id_ID).join(', ')
             },
@@ -151,7 +152,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const { id, name } =
-                    getDataRow(dataIndex)?.latest_pic?.pic_user ?? {}
+                    getRowData(dataIndex)?.latest_pic?.pic_user ?? {}
 
                 return id ? `#${id} ${name}` : '-'
             },
@@ -162,7 +163,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pemeriksaan Terakhir',
         options: {
             customBodyRenderLite: dataIndex => {
-                const checkup = getDataRow(dataIndex)?.latest_checkup
+                const checkup = getRowData(dataIndex)?.latest_checkup
                 if (!checkup) return ''
 
                 return (

@@ -4,6 +4,11 @@ import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
 import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
 import type { ProductPurchaseRelationsType } from '@/dataTypes/ProductPurchase'
 import type { Ymd } from '@/types/DateString'
+import type {
+    GetRowDataType,
+    MutateType,
+    OnRowClickType,
+} from '@/components/Datatable'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -12,11 +17,7 @@ import { Formik } from 'formik'
 import Typography from '@mui/material/Typography'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, {
-    OnRowClickType,
-    getDataRow,
-    mutate,
-} from '@/components/Datatable'
+import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import ProductPurchaseForm, {
@@ -33,6 +34,11 @@ import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 import errorCatcher from '@/utils/errorCatcher'
 
+let getRowData: GetRowDataType<
+    ProductPurchaseType & ProductPurchaseRelationsType
+>
+let mutate: MutateType<ProductPurchaseType & ProductPurchaseRelationsType>
+
 export default function FarmInputsProducts() {
     const { userHasPermission } = useAuth()
 
@@ -45,9 +51,7 @@ export default function FarmInputsProducts() {
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const productPurchase = getDataRow<
-                ProductPurchaseType & ProductPurchaseRelationsType
-            >(dataIndex)
+            const productPurchase = getRowData(dataIndex)
             if (!productPurchase) return
 
             setInitialFormikValues({
@@ -88,6 +92,8 @@ export default function FarmInputsProducts() {
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'order', direction: 'desc' }}
                 onRowClick={handleRowClick}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
             />
 
             <DialogWithTitle
@@ -173,7 +179,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'productIn.details.product.name',
+        name: 'productMovement.details.product.name',
         options: {
             display: 'excluded',
             customBodyRenderLite: () => '',

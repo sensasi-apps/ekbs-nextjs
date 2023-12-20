@@ -10,7 +10,7 @@ import axios from '@/lib/axios'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 // local components
@@ -44,7 +44,7 @@ export default function TransactionCrud() {
 
     const handleRowClick: OnRowClickType = useCallback((_, rowMeta, event) => {
         if (event.detail === 2) {
-            const data = getDataRow<TransactionType>(rowMeta.dataIndex)
+            const data = getRowData<TransactionType>(rowMeta.dataIndex)
 
             if (data) {
                 setValues(data)

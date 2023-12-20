@@ -9,7 +9,7 @@ import { Formik } from 'formik'
 // materials
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
@@ -41,7 +41,7 @@ export default function FarmInputProductSales() {
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const productSale = getDataRow<ProductSaleType>(dataIndex)
+            const productSale = getRowData<ProductSaleType>(dataIndex)
             if (!productSale) return
 
             setInitialFormikValues({
@@ -198,7 +198,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pengguna',
         options: {
             customBodyRenderLite: dataIndex => {
-                const data = getDataRow<ProductSaleType>(dataIndex)
+                const data = getRowData<ProductSaleType>(dataIndex)
                 if (!data || !data.buyer_user) return ''
 
                 return `#${data.buyer_user.id} ${data.buyer_user.name}`
@@ -231,7 +231,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const data = getDataRow<ProductSaleType>(dataIndex)
+                const data = getRowData<ProductSaleType>(dataIndex)
                 if (!data) return ''
 
                 return (
@@ -275,7 +275,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
-                const data = getDataRow<ProductSaleType>(dataIndex)
+                const data = getRowData<ProductSaleType>(dataIndex)
                 if (!data) return ''
 
                 const { total_rp, adjustment_rp = 0 } = data
@@ -291,7 +291,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
-                const data = getDataRow<ProductSaleType>(dataIndex)
+                const data = getRowData<ProductSaleType>(dataIndex)
                 if (!data) return ''
 
                 return (

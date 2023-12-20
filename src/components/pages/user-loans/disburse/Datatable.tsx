@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Chip from '@mui/material/Chip'
 import Box from '@mui/material/Box'
 // components
-import Datatable, { getDataRow } from '@/components/Datatable'
+import Datatable, { getRowData } from '@/components/Datatable'
 import DATATABLE_COLUMNS from '@/components/pages/user-loans/DATATABLE_COLUMNS'
 import { DEFAULT_SORT_ORDER } from '@/components/pages/user-loans/Datatable'
 import UserLoanDatatableApiUrlEnum from '../Datatable/ApiUrlEnum'
@@ -51,7 +51,7 @@ function UserLoanDisburseDatatable({
                 apiUrl={apiUrl}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data = getDataRow<UserLoanType>(dataIndex)
+                        const data = getRowData<UserLoanType>(dataIndex)
 
                         if (data) {
                             onEdit(data)

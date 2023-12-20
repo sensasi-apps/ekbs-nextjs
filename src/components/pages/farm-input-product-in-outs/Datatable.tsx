@@ -7,7 +7,7 @@ import { memo, useState } from 'react'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 // components
-import Datatable, { OnRowClickType, getDataRow } from '@/components/Datatable'
+import Datatable, { OnRowClickType, getRowData } from '@/components/Datatable'
 import { ApiUrlEnum } from './Datatable.type'
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
@@ -114,7 +114,7 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const data = getDataRow<ProductMovementType>(dataIndex)
+                const data = getRowData<ProductMovementType>(dataIndex)
                 if (!data) return ''
 
                 return (
@@ -145,7 +145,7 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const data = getDataRow<ProductMovementType>(dataIndex)
+                const data = getRowData<ProductMovementType>(dataIndex)
                 if (!data || !data.details) return ''
 
                 return numberToCurrency(
