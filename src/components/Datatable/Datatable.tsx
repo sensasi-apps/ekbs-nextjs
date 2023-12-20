@@ -16,12 +16,15 @@ import dynamic from 'next/dynamic'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import LinearProgress from '@mui/material/LinearProgress'
+import Paper from '@mui/material/Paper'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
+import ReportIcon from '@mui/icons-material/Report'
 // locals
 import CustomHeadButton from './components/CustomHeadButton'
 // utils
 import formatToDatatableParams from './utils/formatToDatatableParams'
+import YajraDatatable from '@/types/responses/YajraDatatable'
 
 const MUIDataTable = dynamic(() => import('mui-datatables'), {
     ssr: false,
@@ -31,8 +34,9 @@ const MUIDataTable = dynamic(() => import('mui-datatables'), {
  * @todo
  * - [ ] Don't make this global, it will cause bugs when datatable instance is more than one
  */
-let getDataRow: <T>(index: number) => T | undefined
-let mutatorForExport: KeyedMutator<any>
+
+let getRowData: <T = object>(index: number) => T | undefined
+let mutatorForExport: MutateType
 
 const Datatable = memo(function Datatable({
     apiUrl,
@@ -42,7 +46,7 @@ const Datatable = memo(function Datatable({
     title,
     onRowClick,
     mutateCallback,
-    getDataByRowCallback,
+    getRowDataCallback,
 }: {
     apiUrl: string
     columns: MUIDataTableColumn[]
@@ -50,10 +54,8 @@ const Datatable = memo(function Datatable({
     tableId: string
     title?: string
     onRowClick?: OnRowClickType
-    mutateCallback?: (mutateFn: KeyedMutator<any>) => void
-    getDataByRowCallback?: (
-        getDataByRowFn: <T>(index: number) => T | undefined,
-    ) => void
+    mutateCallback?: (fn: MutateType<any>) => any
+    getRowDataCallback?: (fn: GetRowDataType<any>) => any
 }) {
     const [params, setParams] = useState<any>()
     const [sortOrder, setSortOrder] = useState(defaultSortOrder)
@@ -61,21 +63,21 @@ const Datatable = memo(function Datatable({
     const {
         isLoading: isApiLoading,
         isValidating,
-        data: { data = [], recordsTotal } = {},
+        data: { data = [], recordsTotal, error } = {},
         mutate,
-    } = useSWR(params ? [apiUrl, params] : null, {
+    } = useSWR<YajraDatatable<object>>(params ? [apiUrl, params] : null, {
         keepPreviousData: true,
     })
 
-    getDataRow = index => data[index]
+    getRowData = index => data[index] as any
     mutatorForExport = mutate
 
     if (mutateCallback) {
         mutateCallback(mutate)
     }
 
-    if (getDataByRowCallback) {
-        getDataByRowCallback(index => data[index])
+    if (getRowDataCallback) {
+        getRowDataCallback(index => data[index])
     }
 
     const handleFetchData = useCallback(
@@ -133,10 +135,7 @@ const Datatable = memo(function Datatable({
         onTableChange: handleFetchData,
         textLabels: {
             body: {
-                noMatch:
-                    isApiLoading || isValidating
-                        ? 'Memuat data...'
-                        : 'Tidak ada data yang tersedia',
+                noMatch: generateTextLabel(isApiLoading || isValidating, error),
                 toolTip: 'Urutkan',
             },
         },
@@ -187,4 +186,41 @@ const Datatable = memo(function Datatable({
 })
 
 export default Datatable
-export { getDataRow, mutatorForExport as mutate }
+export { getRowData, mutatorForExport as mutate }
+export type GetRowDataType<T = unknown> = (index: number) => T | undefined
+export type MutateType<T = object> = KeyedMutator<YajraDatatable<T>>
+
+function generateTextLabel(isLoading: boolean, error: YajraDatatable['error']) {
+    if (isLoading) {
+        return 'Memuat data...'
+    }
+
+    if (error)
+        return (
+            <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center">
+                <Typography color="error" component="div">
+                    <ReportIcon />
+                </Typography>
+                <Typography color="error" component="div" mb={1}>
+                    Terjadi kesalahan
+                </Typography>
+                <Paper
+                    sx={{
+                        p: 1,
+                        color: 'error.main',
+                        fontFamily: 'monospace',
+                        fontSize: 12,
+                        maxWidth: '400px',
+                    }}
+                    component="div">
+                    {error}
+                </Paper>
+            </Box>
+        )
+
+    return 'Tidak ada data yang tersedia'
+}
