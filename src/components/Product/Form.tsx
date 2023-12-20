@@ -13,6 +13,7 @@ import FormActions from '../Global/Form/Actions'
 import axios from '@/lib/axios'
 import useValidationErrors from '@/hooks/useValidationErrors'
 import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
+import handle422 from '@/utils/errorCatcher'
 
 const ProductForm: FC<{
     parentDatatableMutator: KeyedMutator<any>
@@ -56,19 +57,13 @@ const ProductForm: FC<{
                 parentDatatableMutator()
                 handleClose()
             })
-            .catch(error => {
-                if (error.response?.status === 422) {
-                    return setValidationErrors(error.response?.data.errors)
-                }
-
-                throw error
-            })
+            .catch(error => handle422(error, setValidationErrors))
             .finally(() => setSubmitting(false))
     }
 
     return (
         <form onSubmit={handleSubmit} autoComplete="off">
-            <Grid container columnSpacing={2}>
+            <Grid container columnSpacing={1.5}>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
@@ -126,7 +121,7 @@ const ProductForm: FC<{
                 helperText={validationErrors.description}
             />
 
-            <Grid container columnSpacing={2}>
+            <Grid container columnSpacing={1.5}>
                 <Grid item xs={12} sm={8}>
                     <NumericFormat
                         customInput={TextField}
@@ -158,6 +153,8 @@ const ProductForm: FC<{
                     />
                 </Grid>
             </Grid>
+
+            {/* hide this column for now
             <TextField
                 multiline
                 disabled={loading}
@@ -170,9 +167,9 @@ const ProductForm: FC<{
                 defaultValue={data.note || ''}
                 error={Boolean(validationErrors.note)}
                 helperText={validationErrors.note}
-            />
+            /> */}
 
-            <Grid container columnSpacing={2} mt={2}>
+            <Grid container columnSpacing={1.5} mt={2}>
                 <Grid item xs={12} sm={6}>
                     <NumericFormat
                         {...numericFormatDefaultProps}
@@ -204,6 +201,7 @@ const ProductForm: FC<{
                     <NumericFormat
                         {...numericFormatDefaultProps}
                         customInput={TextField}
+                        required
                         disabled={loading}
                         fullWidth
                         label="Harga Jual Dasar"
