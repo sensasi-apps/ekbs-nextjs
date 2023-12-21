@@ -30,7 +30,7 @@ export default function FooterBox(props: BoxProps) {
             component="footer"
             {...props}>
             <Typography variant="caption" component="div">
-                Koperasi Belayan Sejahtera Elektronik
+                {process.env.NEXT_PUBLIC_APP_NAME}
             </Typography>
             <Typography variant="caption" component="div">
                 v{packageJson.version} &mdash;
