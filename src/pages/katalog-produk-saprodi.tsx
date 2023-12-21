@@ -1,0 +1,168 @@
+// types
+import type { MUIDataTableColumn } from 'mui-datatables'
+import type { GetRowDataType } from '@/components/Datatable'
+import type ProductType from '@/dataTypes/Product'
+// vendors
+import Head from 'next/head'
+import Image from 'next/image'
+// materials
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+// components
+import Datatable from '@/components/Datatable'
+import FarmInputsProductsLowQty from './farm-inputs/products/LowQty'
+import FooterBox from '@/components/Layouts/FooterBox'
+// utils
+import numberToCurrency from '@/utils/numberToCurrency'
+import formatNumber from '@/utils/formatNumber'
+// assets
+import Logo from '/public/assets/pwa-icons/white-green.svg'
+
+let getRowData: GetRowDataType<ProductType>
+
+export default function KatalogProdukSaprodi() {
+    const pageTitle = 'Katalog Digital Produk SAPRODI'
+
+    return (
+        <>
+            <Head>
+                <title>
+                    {pageTitle} — {process.env.NEXT_PUBLIC_APP_NAME}
+                </title>
+            </Head>
+
+            <Box m={6}>
+                <Box mb={2}>
+                    <Typography variant="h4" component="h1">
+                        {pageTitle}
+                    </Typography>
+                    <Typography variant="subtitle1" component="h2">
+                        Koperasi Belayan Sejahtera
+                    </Typography>
+                </Box>
+
+                <Datatable
+                    apiUrl="/public/produk-saprodi/datatable"
+                    columns={columns}
+                    defaultSortOrder={{
+                        name: 'category_name',
+                        direction: 'asc',
+                    }}
+                    tableId="products-table"
+                    title="Daftar Produk"
+                    getRowDataCallback={fn => (getRowData = fn)}
+                />
+
+                <Box mt={1}>
+                    <Typography variant="caption">Keterangan:</Typography>
+                    <Box component="ul" m={0}>
+                        <Typography variant="caption" component="li">
+                            Stok berwarna{' '}
+                            <Typography
+                                variant="caption"
+                                color="warning.main"
+                                component="span">
+                                kuning
+                            </Typography>{' '}
+                            menandakan persediaan telah menipis.
+                        </Typography>
+
+                        <Typography variant="caption" component="li">
+                            Stok berwarna{' '}
+                            <Typography
+                                variant="caption"
+                                color="error.main"
+                                component="span">
+                                merah
+                            </Typography>{' '}
+                            menandakan persediaan telah habis.
+                        </Typography>
+                    </Box>
+                </Box>
+
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={3}
+                    mt={10}>
+                    <Image
+                        src={Logo}
+                        alt="logo"
+                        width={50}
+                        style={{
+                            borderRadius: '15%',
+                        }}
+                    />
+                    <FooterBox m={0} />
+                </Box>
+            </Box>
+        </>
+    )
+}
+
+const columns: MUIDataTableColumn[] = [
+    {
+        name: 'code',
+        label: 'Kode',
+    },
+    {
+        name: 'name',
+        label: 'Nama',
+    },
+    {
+        name: 'category_name',
+        label: 'Kategori',
+    },
+    {
+        name: 'description',
+        label: 'Deskripsi',
+        options: {
+            display: false,
+        },
+    },
+    {
+        name: 'qty',
+        label: 'Stok',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const data = getRowData(dataIndex)
+                if (!data) return
+
+                const { qty, low_number, unit } = data
+
+                const isLowQty = low_number !== null && qty <= low_number
+
+                const text = `${formatNumber(qty)} ${unit}`
+
+                if (qty === 0)
+                    return (
+                        <Box component="span" color="error.main">
+                            {qty}
+                        </Box>
+                    )
+
+                if (!isLowQty) return text
+
+                return (
+                    <FarmInputsProductsLowQty>{text}</FarmInputsProductsLowQty>
+                )
+            },
+        },
+    },
+    // {
+    //     name: 'base_cost_rp_per_unit',
+    //     label: 'Biaya Dasar',
+    //     options: {
+    //         customBodyRender: numberToCurrency,
+    //     },
+    // },
+
+    {
+        name: 'default_sell_price',
+        label: 'Harga Satuan',
+        options: {
+            customBodyRender: numberToCurrency,
+        },
+    },
+]
