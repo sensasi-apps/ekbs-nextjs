@@ -12,6 +12,10 @@ export default function handleServerError({ status, data }: AxiosResponse) {
             dispatchEvent(new CustomEvent('401Error'))
             break
 
+        case 422:
+            // validation error handled on each form
+            break
+
         case 403:
             enqueueSnackbar(
                 'Anda tidak memiliki akses untuk halaman ini',
