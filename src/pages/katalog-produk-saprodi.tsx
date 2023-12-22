@@ -10,7 +10,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
-import FarmInputsProductsLowQty from './farm-inputs/products/LowQty'
+import FarmInputsProductsLowQty from '../components/pages/farm-inputs/products/LowQty'
 import FooterBox from '@/components/Layouts/FooterBox'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'

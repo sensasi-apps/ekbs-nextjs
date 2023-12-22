@@ -10,7 +10,7 @@ import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'
 import ProductForm from '@/components/Product/Form'
 // page components
-import FarmInputsProductsLowQty from './products/LowQty'
+import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 // providers
 import { FormDataProvider } from '@/providers/useFormData'
 import useAuth from '@/providers/Auth'
