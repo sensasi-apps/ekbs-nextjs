@@ -15,8 +15,6 @@ import FooterBox from '@/components/Layouts/FooterBox'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
-// assets
-import Logo from '/public/assets/pwa-icons/white-green.svg'
 
 let getRowData: GetRowDataType<ProductType>
 
@@ -51,6 +49,9 @@ export default function KatalogProdukSaprodi() {
                     tableId="products-table"
                     title="Daftar Produk"
                     getRowDataCallback={fn => (getRowData = fn)}
+                    swrOptions={{
+                        revalidateOnMount: true,
+                    }}
                 />
 
                 <Box mt={1}>
@@ -87,7 +88,7 @@ export default function KatalogProdukSaprodi() {
                     gap={3}
                     mt={10}>
                     <Image
-                        src={Logo}
+                        src="/assets/pwa-icons/white-green.svg"
                         alt="logo"
                         width={50}
                         style={{

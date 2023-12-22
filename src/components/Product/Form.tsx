@@ -154,7 +154,9 @@ const ProductForm: FC<{
                 </Grid>
             </Grid>
 
-            {/* hide this column for now
+            {/* #########################################
+            2023-12-21 - hide this column for now
+            
             <TextField
                 multiline
                 disabled={loading}
@@ -167,7 +169,8 @@ const ProductForm: FC<{
                 defaultValue={data.note || ''}
                 error={Boolean(validationErrors.note)}
                 helperText={validationErrors.note}
-            /> */}
+            />
+            ############################################ */}
 
             <Grid container columnSpacing={1.5} mt={2}>
                 <Grid item xs={12} sm={6}>
@@ -201,7 +204,6 @@ const ProductForm: FC<{
                     <NumericFormat
                         {...numericFormatDefaultProps}
                         customInput={TextField}
-                        required
                         disabled={loading}
                         fullWidth
                         label="Harga Jual Dasar"

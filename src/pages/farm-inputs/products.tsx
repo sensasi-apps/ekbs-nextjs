@@ -18,6 +18,7 @@ import useFormData from '@/providers/useFormData'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
+import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
 
 let mutate: MutateType<ProductType>
 let getRowData: GetRowDataType<ProductType>
@@ -48,7 +49,7 @@ const Crud = () => {
     return (
         <>
             <Datatable
-                apiUrl="/farm-inputs/products/datatable"
+                apiUrl={DatatableEndpointEnum.PRODUCTS}
                 columns={columns}
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
                 onRowClick={(_, { dataIndex }, event) => {
@@ -63,6 +64,9 @@ const Crud = () => {
                 title="Daftar Produk"
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
+                swrOptions={{
+                    revalidateOnMount: true,
+                }}
             />
 
             <Dialog
