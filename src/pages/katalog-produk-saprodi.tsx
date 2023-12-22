@@ -91,6 +91,7 @@ export default function KatalogProdukSaprodi() {
                         src="/assets/pwa-icons/white-green.svg"
                         alt="logo"
                         width={50}
+                        height={50}
                         style={{
                             borderRadius: '15%',
                         }}
