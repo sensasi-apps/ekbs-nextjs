@@ -7,6 +7,7 @@ import type {
 } from 'mui-datatables'
 import type { KeyedMutator } from 'swr'
 import type { OnRowClickType } from './types'
+import type { SWRConfiguration } from 'swr'
 // vendors
 import { memo, useCallback, useState } from 'react'
 import useSWR from 'swr'
@@ -47,6 +48,7 @@ const Datatable = memo(function Datatable({
     onRowClick,
     mutateCallback,
     getRowDataCallback,
+    swrOptions,
 }: {
     apiUrl: string
     columns: MUIDataTableColumn[]
@@ -56,17 +58,21 @@ const Datatable = memo(function Datatable({
     onRowClick?: OnRowClickType
     mutateCallback?: (fn: MutateType<any>) => any
     getRowDataCallback?: (fn: GetRowDataType<any>) => any
+    swrOptions?: SWRConfiguration
 }) {
     const [params, setParams] = useState<any>()
     const [sortOrder, setSortOrder] = useState(defaultSortOrder)
+
+    const { keepPreviousData = true, ...restSwrOptions } = swrOptions || {}
 
     const {
         isLoading: isApiLoading,
         isValidating,
         data: { data = [], recordsTotal, error } = {},
         mutate,
-    } = useSWR<YajraDatatable<object>>(params ? [apiUrl, params] : null, {
-        keepPreviousData: true,
+    } = useSWR<YajraDatatable<object>>(params ? [apiUrl, params] : null, null, {
+        keepPreviousData: keepPreviousData,
+        ...restSwrOptions,
     })
 
     getRowData = index => data[index] as any
