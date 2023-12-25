@@ -109,12 +109,12 @@ const columns: MUIDataTableColumn[] = [
         label: 'Kode',
     },
     {
-        name: 'name',
-        label: 'Nama',
-    },
-    {
         name: 'category_name',
         label: 'Kategori',
+    },
+    {
+        name: 'name',
+        label: 'Nama',
     },
     {
         name: 'description',
