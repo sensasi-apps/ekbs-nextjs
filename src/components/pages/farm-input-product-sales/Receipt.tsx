@@ -39,7 +39,9 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
               ? `Potong TBS (${n_term}x)`
               : payment_method === 'wallet'
                 ? 'E-Wallet'
-                : 'Lainnya'
+                : payment_method === 'businessUnit'
+                  ? 'Kas Unit Bisnis'
+                  : '-'
 
     return (
         <Box>

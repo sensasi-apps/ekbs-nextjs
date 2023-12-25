@@ -16,6 +16,7 @@ import FireTruckIcon from '@mui/icons-material/FireTruck'
 import GrassIcon from '@mui/icons-material/Grass'
 import GroupIcon from '@mui/icons-material/Group'
 import InventoryIcon from '@mui/icons-material/Inventory'
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
 import RateReviewIcon from '@mui/icons-material/RateReview'
@@ -183,6 +184,13 @@ const farmInputNavs: NavItem[] = [
         icon: <ReceiptIcon />,
         forRole: 'farm input sales',
     },
+    {
+        href: '/farm-input-he-gas-sales',
+        label: 'Penjualan BBM ke Alat Berat',
+        pathname: '/farm-input-he-gas-sales',
+        icon: <LocalGasStationIcon />,
+        forRole: 'farm input sales',
+    },
 ]
 
 const accountingNavs: NavItem[] = [
@@ -255,12 +263,14 @@ const NAV_ITEMS: NavItem[] = [
     ...inventoryNavs,
     {
         component: <GroupTitle>Alat Berat</GroupTitle>,
+        forRole: 'heavy equipment rent admin',
     },
     {
         href: '/heavy-equipment-rents',
         label: 'Penyewaan',
         pathname: '/heavy-equipment-rents',
         icon: <EventNoteIcon />,
+        forRole: 'heavy equipment rent admin',
     },
     ...accountingNavs,
     ...settingsNavs,
