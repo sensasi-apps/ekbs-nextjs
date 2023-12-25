@@ -17,7 +17,7 @@ export default function ActingAs() {
 
                     setLoading(true)
                     return axios
-                        .post(`/acting-asx/${user.uuid}`)
+                        .post(`/acting-as/${user.uuid}`)
                         .then(() => (window.location.href = '/dashboard'))
                         .catch(() => setLoading(false))
                 }}
