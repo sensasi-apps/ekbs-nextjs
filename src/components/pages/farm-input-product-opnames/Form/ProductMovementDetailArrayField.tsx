@@ -23,6 +23,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import { EMPTY_FORM_DATA } from '../Form'
+import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
 
 const ProductMovementDetailArrayField = memo(
     function ProductMovementDetailArrayField({
@@ -35,9 +36,11 @@ const ProductMovementDetailArrayField = memo(
         errors: any // Laravel array of object validation errors is not supported by formik (?)
     }) {
         const { data: products = [], isLoading } = useSWR<ProductType[]>(
-            '/farm-inputs/products/datatable',
+            DatatableEndpointEnum.PRODUCTS,
             url => axios.get(url).then(res => res.data.data),
-            { keepPreviousData: true },
+            {
+                revalidateOnMount: true,
+            },
         )
 
         return (

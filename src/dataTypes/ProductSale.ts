@@ -6,7 +6,8 @@ import type ProductMovementType from './ProductMovement'
 import type ProductMovementDetailType from './ProductMovementDetail'
 import type TransactionType from './Transaction'
 import type InstallmentType from './Installment'
-import ActivityLogType from './ActivityLog'
+import type ActivityLogType from './ActivityLog'
+import type BusinessUnitProductSale from './BusinessUnitProductSale'
 
 type ProductSaleType =
     | ProductSaleCashType
@@ -28,6 +29,7 @@ type BaseType = {
     product_movement: ProductMovementType
     product_movement_details: ProductMovementDetailType[]
     user_activity_logs: ActivityLogType[]
+    business_unit_product_sale: BusinessUnitProductSale | null
 
     // cash
     transaction?: TransactionType

@@ -25,6 +25,7 @@ import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import { EMPTY_FORM_DATA } from '../Form'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import numberToCurrency from '@/utils/numberToCurrency'
+import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
 
 const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
     data: product_sale_details,
@@ -36,10 +37,9 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
     errors: any // Laravel array of object validation errors is not supported by formik (?)
 }) {
     const { data: products = [], isLoading } = useSWR<ProductType[]>(
-        '/farm-inputs/products/datatable',
+        DatatableEndpointEnum.PRODUCTS,
         url => axios.get(url).then(res => res.data.data),
         {
-            keepPreviousData: true,
             revalidateOnMount: true,
         },
     )

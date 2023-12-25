@@ -20,7 +20,7 @@ import SellIcon from '@mui/icons-material/Sell'
 // providers
 import useFormData from '@/providers/useFormData'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import PalmBunchDeliveryRatesForm from '@/components/PalmBunchDeliveryRates/Form'
@@ -100,7 +100,7 @@ function Crud() {
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data =
-                            getDataRow<PalmBunchDeliveryRateValidDateType>(
+                            getRowData<PalmBunchDeliveryRateValidDateType>(
                                 dataIndex,
                             )
 

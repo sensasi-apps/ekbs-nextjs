@@ -5,7 +5,7 @@ import type { MUISortOptions } from 'mui-datatables'
 // vendors
 import { useCallback } from 'react'
 // components
-import Datatable, { getDataRow } from '@/components/Datatable'
+import Datatable, { getRowData } from '@/components/Datatable'
 // locals
 import DATATABLE_COLUMNS from './DATATABLE_COLUMNS'
 
@@ -19,7 +19,7 @@ export default function LoanDatatable({
     const handleRowClick: OnRowClickType = useCallback(
         (_, { rowIndex }, event) => {
             if (event.detail === 2) {
-                const data = getDataRow<LoanType>(rowIndex)
+                const data = getRowData<LoanType>(rowIndex)
                 if (data) {
                     return onEdit(data)
                 }

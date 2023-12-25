@@ -6,7 +6,7 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import { Formik } from 'formik'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
@@ -38,7 +38,7 @@ export default function FarmInputProductOpnames() {
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
             const productMovement =
-                getDataRow<ProductOpnameMovementType>(dataIndex)
+                getRowData<ProductOpnameMovementType>(dataIndex)
             if (!productMovement) return
 
             const products = productMovement.product_movementable.products_state

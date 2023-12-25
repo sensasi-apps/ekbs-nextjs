@@ -1,8 +1,11 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type { OnRowClickType } from '@/components/Datatable'
+import type {
+    GetRowDataType,
+    MutateType,
+    OnRowClickType,
+} from '@/components/Datatable'
 import type InventoryItem from '@/dataTypes/InventoryItem'
-import type { KeyedMutator } from 'swr'
 // vendors
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -15,7 +18,6 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 // page components
 import InventoryItemFormWithFormik from '@/components/pages/inventory-items/Form/WithFormik'
-import { EMPTY_FORM_DATA } from '@/components/pages/inventory-items/Form'
 // icons
 import WarningIcon from '@mui/icons-material/Warning'
 import ReceiptIcon from '@mui/icons-material/Receipt'
@@ -24,8 +26,8 @@ import useAuth from '@/providers/Auth'
 // utils
 import toDmy from '@/utils/toDmy'
 
-let mutate: KeyedMutator<InventoryItem[]>
-let getDataRow: (dataIndex: number) => InventoryItem | undefined
+let mutate: MutateType<InventoryItem>
+let getRowData: GetRowDataType<InventoryItem>
 
 export default function FarmInputProductSales() {
     const { userHasPermission } = useAuth()
@@ -33,12 +35,13 @@ export default function FarmInputProductSales() {
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-    const [initialFormikValues, setInitialFormikValues] =
-        useState(EMPTY_FORM_DATA)
+    const [initialFormikValues, setInitialFormikValues] = useState<
+        Partial<InventoryItem>
+    >({})
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const inventoryItem = getDataRow(dataIndex)
+            const inventoryItem = getRowData(dataIndex)
             if (!inventoryItem) return
 
             push(`/inventory-items/${inventoryItem.uuid}`)
@@ -46,7 +49,7 @@ export default function FarmInputProductSales() {
     }
 
     const handleNew = () => {
-        setInitialFormikValues(EMPTY_FORM_DATA)
+        setInitialFormikValues({})
         setIsDialogOpen(true)
     }
 
@@ -63,32 +66,30 @@ export default function FarmInputProductSales() {
                 onRowClick={handleRowClick}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'owned_at', direction: 'desc' }}
-                mutateCallback={mutator => (mutate = mutator)}
-                getDataByRowCallback={getDataRowFn =>
-                    (getDataRow = getDataRowFn)
-                }
+                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => (getRowData = fn)}
             />
 
             {userHasPermission('create inventory item') && (
-                <>
-                    <DialogWithTitle
-                        title={`${isNew ? 'Tambah' : 'Perbaharui'} Inventaris`}
-                        open={isDialogOpen}>
-                        <InventoryItemFormWithFormik
-                            initialValues={initialFormikValues}
-                            onSubmitted={() => {
-                                mutate()
-                                handleClose()
-                            }}
-                            onReset={handleClose}
-                        />
-                    </DialogWithTitle>
-
-                    <Fab onClick={handleNew}>
-                        <ReceiptIcon />
-                    </Fab>
-                </>
+                <DialogWithTitle
+                    title={`${isNew ? 'Tambah' : 'Perbaharui'} Inventaris`}
+                    open={isDialogOpen}>
+                    <InventoryItemFormWithFormik
+                        initialValues={initialFormikValues}
+                        onSubmitted={() => {
+                            mutate()
+                            handleClose()
+                        }}
+                        onReset={handleClose}
+                    />
+                </DialogWithTitle>
             )}
+
+            <Fab
+                in={userHasPermission('create inventory item') ?? false}
+                onClick={handleNew}>
+                <ReceiptIcon />
+            </Fab>
         </AuthLayout>
     )
 }
@@ -118,7 +119,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const tags = getDataRow(dataIndex)?.tags ?? []
+                const tags = getRowData(dataIndex)?.tags ?? []
 
                 return tags.map(({ name: { id_ID } }) => id_ID).join(', ')
             },
@@ -151,7 +152,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const { id, name } =
-                    getDataRow(dataIndex)?.latest_pic?.pic_user ?? {}
+                    getRowData(dataIndex)?.latest_pic?.pic_user ?? {}
 
                 return id ? `#${id} ${name}` : '-'
             },
@@ -162,7 +163,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pemeriksaan Terakhir',
         options: {
             customBodyRenderLite: dataIndex => {
-                const checkup = getDataRow(dataIndex)?.latest_checkup
+                const checkup = getRowData(dataIndex)?.latest_checkup
                 if (!checkup) return ''
 
                 return (

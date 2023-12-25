@@ -13,7 +13,7 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
 // global components
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
@@ -51,7 +51,7 @@ function MainContent() {
                 apiUrl="/wallets/datatable"
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data = getDataRow<WalletType>(dataIndex)
+                        const data = getRowData<WalletType>(dataIndex)
                         if (data) return setWalletData(data)
                     }
                 }}
@@ -161,7 +161,7 @@ const DATATABLE_COLUMNS = [
         options: {
             display: false,
             customBodyRender: (_: any, rowMeta: any) =>
-                getDataRow<WalletType>(rowMeta.rowIndex)?.user.id,
+                getRowData<WalletType>(rowMeta.rowIndex)?.user.id,
         },
     },
     {
@@ -169,7 +169,7 @@ const DATATABLE_COLUMNS = [
         label: 'Nama Pengguna',
         options: {
             customBodyRender: (_: any, rowMeta: any) => {
-                const user = getDataRow<WalletType>(rowMeta.rowIndex)?.user
+                const user = getRowData<WalletType>(rowMeta.rowIndex)?.user
                 if (!user) return
 
                 return `#${user.id} ${user.name}`

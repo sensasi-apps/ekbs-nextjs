@@ -13,7 +13,11 @@ const InventoryItemFormWithFormik = ({
     onSubmitted,
     onReset,
 }: {
-    initialValues: Partial<InventoryItem>
+    initialValues: Partial<
+        InventoryItem & {
+            default_rate_rp_per_unit: number
+        }
+    >
     onSubmitted: () => void
     onReset: () => void
 }) => (
@@ -36,7 +40,14 @@ const InventoryItemFormWithFormik = ({
 
 export default InventoryItemFormWithFormik
 
-const formDataFormatter = (values: Partial<InventoryItem>) => ({
+const formDataFormatter = (
+    values: Partial<
+        InventoryItem & {
+            default_rate_rp_per_unit: number
+        }
+    >,
+) => ({
+    code: values.code ?? undefined,
     name: values.name,
     desc: values.desc ?? undefined,
     owned_at: values.owned_at,
@@ -44,4 +55,5 @@ const formDataFormatter = (values: Partial<InventoryItem>) => ({
     disowned_note: values.disowned_note ?? undefined,
     unfunctional_note: values.unfunctional_note ?? undefined,
     tags: values.tags ?? undefined,
+    default_rate_rp_per_unit: values.default_rate_rp_per_unit ?? undefined,
 })

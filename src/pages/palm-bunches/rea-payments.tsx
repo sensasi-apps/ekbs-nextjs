@@ -22,7 +22,7 @@ import Fab from '@mui/material/Fab'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import NumericFormat from '@/components/Global/NumericFormat'
@@ -57,7 +57,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data =
-                            getDataRow<PalmBunchesReaPaymentDataType>(dataIndex)
+                            getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
                         if (!data) return
 
                         return handleEdit(data)

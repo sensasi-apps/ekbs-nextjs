@@ -15,6 +15,8 @@ import dynamic from 'next/dynamic'
 import QueryString from 'qs'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 import { useEffect } from 'react'
 import { SWRConfig } from 'swr'
 import { closeSnackbar, enqueueSnackbar, SnackbarProvider } from 'notistack'
@@ -80,6 +82,12 @@ export default function App({ Component, pageProps }: AppProps) {
                     vertical: 'top',
                     horizontal: 'left',
                 }}
+                action={key => (
+                    <IconButton size="small" onClick={() => closeSnackbar(key)}>
+                        <CloseIcon />
+                    </IconButton>
+                )}
+                maxSnack={7}
             />
 
             <AuthProvider>
@@ -146,13 +154,12 @@ const onlineNotification = () => {
 
     enqueueSnackbar('Anda kembali online', {
         variant: 'success',
-        autoHideDuration: 10000,
     })
 }
 
 const offlineNotification = () => {
     persistedSnacbarKey = enqueueSnackbar(
-        'Jaringan terputus, mohon periksa periksa jaringan anda',
+        'Anda tidak terhubung ke internet, mohon periksa kembali jaringan anda',
         {
             variant: 'warning',
             persist: true,

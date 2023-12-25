@@ -7,11 +7,15 @@ type ProductMovementType = {
     uuid: UUID
     at: string
     type: ProductMovementTypeEnum
-    note: string
+    rp_cost: number
 
     // relations
     details: ProductMovementDetailType[]
     user_activity_logs: ActivityLogType[]
+    costs: {
+        name: string
+        rp: number
+    }[]
 }
 
 export default ProductMovementType

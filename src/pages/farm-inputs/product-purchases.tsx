@@ -2,8 +2,12 @@
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
 import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
-import type { ProductPurchaseRelationsType } from '@/dataTypes/ProductPurchase'
 import type { Ymd } from '@/types/DateString'
+import type {
+    GetRowDataType,
+    MutateType,
+    OnRowClickType,
+} from '@/components/Datatable'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -12,15 +16,10 @@ import { Formik } from 'formik'
 import Typography from '@mui/material/Typography'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, {
-    OnRowClickType,
-    getDataRow,
-    mutate,
-} from '@/components/Datatable'
+import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import ProductPurchaseForm, {
-    EMPTY_FORM_DATA,
     EMPTY_FORM_STATUS,
 } from '@/components/pages/farm-inputs/product-purchases/Form'
 // icons
@@ -32,34 +31,26 @@ import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 import errorCatcher from '@/utils/errorCatcher'
+import DatatableEndpointEnum from '../../types/farm-inputs/DatatableEndpointEnum'
+
+let getRowData: GetRowDataType<ProductPurchaseType>
+let mutate: MutateType<ProductPurchaseType>
 
 export default function FarmInputsProducts() {
     const { userHasPermission } = useAuth()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-    const [initialFormikValues, setInitialFormikValues] =
-        useState(EMPTY_FORM_DATA)
+    const [initialFormikValues, setInitialFormikValues] = useState({})
     const [initialFormikStatus, setInitialFormikStatus] =
         useState(EMPTY_FORM_STATUS)
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const productPurchase = getDataRow<
-                ProductPurchaseType & ProductPurchaseRelationsType
-            >(dataIndex)
+            const productPurchase = getRowData(dataIndex)
             if (!productPurchase) return
 
-            setInitialFormikValues({
-                due: productPurchase.due,
-                note: productPurchase.note,
-                order: productPurchase.order,
-                paid: productPurchase.paid,
-                received: productPurchase.received,
-                cashable_uuid: productPurchase.transaction?.cashable_uuid,
-                product_movement_details:
-                    productPurchase.product_movement_details,
-            })
+            setInitialFormikValues(productPurchase)
 
             setInitialFormikStatus({
                 uuid: productPurchase.uuid,
@@ -70,7 +61,7 @@ export default function FarmInputsProducts() {
     }
 
     const handleNew = () => {
-        setInitialFormikValues(EMPTY_FORM_DATA)
+        setInitialFormikValues({})
         setInitialFormikStatus(EMPTY_FORM_STATUS)
         setIsDialogOpen(true)
     }
@@ -83,11 +74,13 @@ export default function FarmInputsProducts() {
         <AuthLayout title="Pembelian Produk">
             <Datatable
                 title="Riwayat"
-                apiUrl="/farm-inputs/product-purchases/datatable"
+                apiUrl={DatatableEndpointEnum.PRODUCT_PURCHASES}
                 tableId="product-purchases-table"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'order', direction: 'desc' }}
                 onRowClick={handleRowClick}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
             />
 
             <DialogWithTitle
@@ -151,19 +144,27 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'paid',
-        label: 'Dibayar Tanggal',
-        options: {
-            customBodyRender: (value: Ymd) => (value ? toDmy(value) : ''),
-        },
-    },
-    {
         name: 'received',
         label: 'Diterima Tanggal',
         options: {
             customBodyRender: (value: Ymd) => (value ? toDmy(value) : ''),
         },
     },
+    {
+        name: 'paid',
+        label: 'Dibayar Tanggal',
+        options: {
+            customBodyRender: (value: Ymd) => (
+                <div
+                    style={{
+                        color: 'var(--mui-palette-success-main)',
+                    }}>
+                    {value ? toDmy(value) : ''}
+                </div>
+            ),
+        },
+    },
+
     {
         name: 'note',
         label: 'Catatan',
@@ -173,7 +174,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'productIn.details.product.name',
+        name: 'productMovement.details.product.name',
         options: {
             display: 'excluded',
             customBodyRenderLite: () => '',
@@ -183,7 +184,6 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'product_movement_details_temp',
         options: {
             display: 'excluded',
-            customBodyRenderLite: () => '',
         },
     },
     {
@@ -211,6 +211,29 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     ))}
                 </ul>
             ),
+        },
+    },
+    {
+        name: 'product_movement.rp_cost',
+        label: 'Biaya Lain',
+        options: {
+            searchable: false,
+            sort: false,
+            customBodyRenderLite: dataIndex => {
+                const { rp_cost } =
+                    getRowData(dataIndex)?.product_movement ?? {}
+
+                if (!rp_cost) return ''
+
+                return (
+                    <span
+                        style={{
+                            whiteSpace: 'nowrap',
+                        }}>
+                        {numberToCurrency(Number(rp_cost))}
+                    </span>
+                )
+            },
         },
     },
     {

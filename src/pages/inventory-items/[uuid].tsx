@@ -1,7 +1,7 @@
 // types
 import type InventoryItem from '@/dataTypes/InventoryItem'
 import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
-import type { KeyedMutator } from 'swr'
+import type { GetRowDataType, MutateType } from '@/components/Datatable'
 // vendors
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
@@ -22,11 +22,11 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import AssignPicButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/AssignPicButtonAndDialogForm'
 import ChekupButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/CheckupButtonAndDialogForm'
 
-let picMutator: KeyedMutator<InventoryItem['pics']>
-let checkupMutator: KeyedMutator<InventoryItem['checkups']>
+let picMutator: MutateType<InventoryItem['latest_pic']>
+let checkupMutator: MutateType<InventoryItem['latest_checkup']>
 
-let getPicDataByRow: (index: number) => InventoryItem['latest_pic']
-let getCheckupDataByRow: (index: number) => InventoryItem['latest_checkup']
+let getPicRowData: GetRowDataType<InventoryItem['latest_pic']>
+let getCheckupRowData: GetRowDataType<InventoryItem['latest_checkup']>
 
 export default function InventoryItemDetail() {
     const {
@@ -47,7 +47,9 @@ export default function InventoryItemDetail() {
     return (
         <AuthLayout
             title={`${
-                inventoryItem ? inventoryItem.name + ' | ' : ''
+                inventoryItem && inventoryItem.name
+                    ? inventoryItem.name + ' | '
+                    : ''
             }Inventaris`}>
             <Button
                 style={{
@@ -81,11 +83,9 @@ export default function InventoryItemDetail() {
                                     apiUrl={`inventory-items/${uuid}/checkups/datatable`}
                                     columns={CHECKUP_DATATABLE_COLUMNS}
                                     defaultSortOrder={DEFAULT_SORT_ORDER}
-                                    mutateCallback={mutate =>
-                                        (checkupMutator = mutate)
-                                    }
-                                    getDataByRowCallback={getDataByRow =>
-                                        (getCheckupDataByRow = getDataByRow)
+                                    mutateCallback={fn => (checkupMutator = fn)}
+                                    getRowDataCallback={fn =>
+                                        (getCheckupRowData = fn)
                                     }
                                 />
 
@@ -98,8 +98,8 @@ export default function InventoryItemDetail() {
                                     mutateCallback={mutate =>
                                         (picMutator = mutate)
                                     }
-                                    getDataByRowCallback={getDataByRow =>
-                                        (getPicDataByRow = getDataByRow)
+                                    getRowDataCallback={fn =>
+                                        (getPicRowData = fn)
                                     }
                                 />
                             </Box>
@@ -121,7 +121,13 @@ export default function InventoryItemDetail() {
                             }}>
                             <CardContent>
                                 <InventoryItemFormWithFormik
-                                    initialValues={inventoryItem}
+                                    initialValues={{
+                                        ...inventoryItem,
+                                        default_rate_rp_per_unit:
+                                            inventoryItem.rentable
+                                                ?.default_rate_rp_per_unit ??
+                                            undefined,
+                                    }}
                                     onSubmitted={mutate}
                                     onReset={() => null}
                                 />
@@ -151,7 +157,7 @@ const PIC_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Oleh',
         options: {
             customBodyRenderLite: dataIndex => {
-                const { pic_user } = getPicDataByRow(dataIndex) ?? {}
+                const { pic_user } = getPicRowData(dataIndex) ?? {}
                 if (!pic_user) return '-'
 
                 const { id, name } = pic_user
@@ -180,7 +186,7 @@ const CHECKUP_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Oleh',
         options: {
             customBodyRenderLite: dataIndex => {
-                const { by_user } = getCheckupDataByRow(dataIndex) ?? {}
+                const { by_user } = getCheckupRowData(dataIndex) ?? {}
                 if (!by_user) return '-'
 
                 const { id, name } = by_user

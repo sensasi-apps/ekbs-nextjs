@@ -12,6 +12,7 @@ import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
+import InputAdornment from '@mui/material/InputAdornment'
 import Switch from '@mui/material/Switch'
 // components
 import DatePicker from '@/components/DatePicker'
@@ -22,6 +23,8 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 // providers
 import useAuth from '@/providers/Auth'
+import NumericFormat from '@/components/NumericFormat'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 
 const InventoryItemForm = memo(function InventoryItemForm({
     dirty,
@@ -36,18 +39,30 @@ const InventoryItemForm = memo(function InventoryItemForm({
         // disowned_note,
         unfunctional_note,
         tags,
+
+        rentable,
+        default_rate_rp_per_unit,
     },
     setFieldValue,
-}: FormikProps<typeof EMPTY_FORM_DATA>) {
+}: FormikProps<
+    Partial<
+        InventoryItem & {
+            default_rate_rp_per_unit: number
+        }
+    >
+>) {
     const { userHasPermission } = useAuth()
     const [isDisowned, setIsDisowned] = useState(!!disowned_at)
     const [isFunctional, setIsFunctional] = useState(!unfunctional_note)
+    const [isRentable, setIsRentable] = useState<boolean>(
+        Boolean(rentable && !rentable.deleted_at),
+    )
 
     const isNew = !uuid
     const isPropcessing = isSubmitting
     const isDisabled =
         isPropcessing ||
-        !userHasPermission(['inventory item create', 'inventory item update'])
+        !userHasPermission(['create inventory item', 'update inventory item'])
 
     return (
         <FormikForm
@@ -81,6 +96,15 @@ const InventoryItemForm = memo(function InventoryItemForm({
                     {...errorsToHelperTextObj(errors.uuid)}
                 />
             )}
+
+            <FastField
+                name="code"
+                component={TextFieldFastableComponent}
+                required={false}
+                disabled={isDisabled}
+                label="Kode"
+                {...errorsToHelperTextObj(errors.code)}
+            />
 
             <FastField
                 name="name"
@@ -238,10 +262,64 @@ const InventoryItemForm = memo(function InventoryItemForm({
                     />
                 </span>
             </Fade>
+
+            <FormControl
+                fullWidth
+                margin="dense"
+                disabled={!owned_at || isDisabled}
+                style={{
+                    paddingLeft: '1em',
+                }}>
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={isRentable}
+                                onChange={({ target: { checked } }) =>
+                                    setIsRentable(checked)
+                                }
+                                name="is_rentalable"
+                            />
+                        }
+                        label="Dapat disewakan"
+                    />
+                </FormGroup>
+            </FormControl>
+
+            <Fade in={isRentable} unmountOnExit>
+                <span>
+                    <NumericFormat
+                        disabled={isDisabled}
+                        label="Biaya Sewa Default"
+                        value={default_rate_rp_per_unit}
+                        name="default_rate_rp_per_unit"
+                        onValueChange={({ floatValue }) =>
+                            setFieldValue(
+                                'default_rate_rp_per_unit',
+                                floatValue,
+                            )
+                        }
+                        InputProps={{
+                            startAdornment: <RpInputAdornment />,
+                            endAdornment: (
+                                // TODO: dynamic unit
+                                <InputAdornment position="end">
+                                    / H.M
+                                </InputAdornment>
+                            ),
+                        }}
+                        inputProps={{
+                            minLength: 1,
+                            maxLength: 19,
+                        }}
+                        {...errorsToHelperTextObj(
+                            errors.default_rate_rp_per_unit,
+                        )}
+                    />
+                </span>
+            </Fade>
         </FormikForm>
     )
 })
 
 export default InventoryItemForm
-
-export const EMPTY_FORM_DATA: Partial<InventoryItem> = {}

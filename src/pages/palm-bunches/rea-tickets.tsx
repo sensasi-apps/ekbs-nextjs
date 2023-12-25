@@ -21,7 +21,7 @@ import Fab from '@mui/material/Fab'
 
 import ReceiptIcon from '@mui/icons-material/Receipt'
 
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 
@@ -84,7 +84,7 @@ const Crud: FC = () => {
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data =
-                            getDataRow<PalmBunchesReaTicketType>(dataIndex)
+                            getRowData<PalmBunchesReaTicketType>(dataIndex)
                         if (data) return handleEdit(data)
                     }
                 }}
@@ -219,7 +219,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pabrik',
         options: {
             customBodyRenderLite: dataIndex =>
-                getDataRow<PalmBunchesReaTicketType>(dataIndex)?.delivery
+                getRowData<PalmBunchesReaTicketType>(dataIndex)?.delivery
                     .to_oil_mill_code,
         },
     },
@@ -248,7 +248,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const courier_user =
-                    getDataRow<PalmBunchesReaTicketType>(dataIndex)?.delivery
+                    getRowData<PalmBunchesReaTicketType>(dataIndex)?.delivery
                         .courier_user
 
                 return courier_user
@@ -268,7 +268,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                         margin: 0,
                         paddingLeft: '1em',
                     }}>
-                    {getDataRow<PalmBunchesReaTicketType>(
+                    {getRowData<PalmBunchesReaTicketType>(
                         dataIndex,
                     )?.delivery?.palm_bunches?.map(
                         (palmBunches: any, index: number) => (
@@ -292,7 +292,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     <NumericFormat
                         {...numericFormatDefaultProps}
                         value={
-                            getDataRow<PalmBunchesReaTicketType>(dataIndex)
+                            getRowData<PalmBunchesReaTicketType>(dataIndex)
                                 ?.delivery.n_bunches
                         }
                         displayType="text"
@@ -310,7 +310,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     <NumericFormat // TODO: use formatNumber instead NumericFormat
                         {...numericFormatDefaultProps}
                         value={
-                            getDataRow<PalmBunchesReaTicketType>(dataIndex)
+                            getRowData<PalmBunchesReaTicketType>(dataIndex)
                                 ?.delivery.n_kg
                         }
                         suffix=" kg"

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { getDataRow } from '@/components/Datatable'
+import Datatable, { getRowData } from '@/components/Datatable'
 
 enum UserLoanInstallmentDatatableApiUrlEnum {
     All = '/user-loans/installments/datatable',
@@ -62,7 +62,7 @@ const UserLoanInstallmentDatatable = memo(
                     onRowClick={(_, { dataIndex }, event) => {
                         if (event.detail === 2) {
                             const data =
-                                getDataRow<InstallmentUserLoanType>(dataIndex)
+                                getRowData<InstallmentUserLoanType>(dataIndex)
 
                             if (data) {
                                 onEdit(data)
@@ -119,7 +119,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const installment =
-                    getDataRow<InstallmentWithTransactionType>(dataIndex)
+                    getRowData<InstallmentWithTransactionType>(dataIndex)
 
                 if (!installment) return ''
 
@@ -151,7 +151,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Kreditur',
         options: {
             customBodyRenderLite: dataIndex =>
-                getDataRow<InstallmentUserLoanType>(dataIndex)?.user_loan.user
+                getRowData<InstallmentUserLoanType>(dataIndex)?.user_loan.user
                     .name,
         },
     },
@@ -172,7 +172,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex => {
                 const transactionAt =
-                    getDataRow<InstallmentWithTransactionType>(dataIndex)
+                    getRowData<InstallmentWithTransactionType>(dataIndex)
                         ?.transaction?.at
 
                 return transactionAt ? toDmy(transactionAt) : '-'

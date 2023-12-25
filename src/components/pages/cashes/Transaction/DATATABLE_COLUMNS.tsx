@@ -4,7 +4,7 @@ import TransactionType from '@/dataTypes/Transaction'
 // materials
 import { green } from '@mui/material/colors'
 // components
-import { getDataRow } from '@/components/Datatable'
+import { getRowData } from '@/components/Datatable'
 // utils
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
@@ -29,7 +29,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Kode Kas',
         options: {
             customBodyRenderLite: dataIndex =>
-                getDataRow<TransactionType>(dataIndex)?.cash.code,
+                getRowData<TransactionType>(dataIndex)?.cash.code,
         },
     },
     {
@@ -57,7 +57,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Oleh',
         options: {
             customBodyRenderLite: dataIndex =>
-                getDataRow<TransactionType>(dataIndex)?.user_activity_logs[0]
+                getRowData<TransactionType>(dataIndex)?.user_activity_logs[0]
                     ?.user.name,
         },
     },

@@ -1,15 +1,18 @@
+import type { AxiosError } from 'axios'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 
-export default function errorCatcher(
-    error: any,
-    setErrors?: (errors: any) => void,
+export default function handle422(
+    error: AxiosError,
+    callback: (errors: LaravelValidationException['errors']) => any,
 ) {
-    if (error.code !== 'ERR_NET' && error?.response?.status !== 422) {
-        throw error
-    }
+    const { response } = error
 
-    if (setErrors && error.response.status === 422) {
-        const { errors }: LaravelValidationException = error.response.data
-        setErrors(errors)
+    if (response) {
+        const { status, data } = response
+
+        if (status === 422) {
+            const { errors } = data as LaravelValidationException
+            return callback(errors)
+        }
     }
 }

@@ -19,16 +19,20 @@ export default function SelectFromApi({
     selectProps,
     onChange,
     onValueChange = () => {},
+    renderOption,
+    dataKey = 'uuid',
     ...rest
 }: {
     endpoint: string
     label?: string
     selectProps?: Omit<SelectProps, 'onChange' | 'label'>
     helperText?: ReactNode
+    renderOption?: (option: any) => JSX.Element
     onChange?: (event: SelectChangeEvent<unknown>) => void
     onValueChange?: (value: any) => any // TODO: remove any
+    dataKey?: string
 } & FormControlProps) {
-    const { data, isLoading } = useSWR(endpoint)
+    const { data = [], isLoading } = useSWR<any[]>(endpoint)
 
     const handleChange = (event: SelectChangeEvent<unknown>) => {
         const value = event.target.value
@@ -36,14 +40,17 @@ export default function SelectFromApi({
         onChange?.(event)
 
         onValueChange(
-            data.find((item: any) => (item.uuid || item.id) === value),
+            data.find((item: any) => (item[dataKey] ?? item.id) === value),
         )
     }
 
     return (
-        <FormControl fullWidth {...rest}>
+        <FormControl
+            fullWidth
+            {...rest}
+            error={rest.error || data.length === 0}>
             {isLoading ? (
-                <Skeleton height="2.5em" />
+                <Skeleton height="2.5em" variant="rounded" />
             ) : (
                 <>
                     {label && (
@@ -54,16 +61,24 @@ export default function SelectFromApi({
                     <Select
                         {...(rest as SelectProps)}
                         {...selectProps}
+                        error={rest?.error || data.length === 0}
                         onChange={handleChange}
                         label={label}>
-                        {data?.map((item: any) => (
-                            <MenuItem
-                                key={item.uuid || item.id}
-                                value={item.uuid || item.id}>
-                                {item.name}
-                            </MenuItem>
-                        ))}
+                        {data.map(
+                            renderOption ??
+                                ((item: any) => (
+                                    <MenuItem
+                                        key={item[dataKey] ?? item.id}
+                                        value={item[dataKey] ?? item.id}>
+                                        {item.name}
+                                    </MenuItem>
+                                )),
+                        )}
                     </Select>
+
+                    {!isLoading && data.length === 0 && (
+                        <FormHelperText>Tidak ada data</FormHelperText>
+                    )}
 
                     {helperText && (
                         <FormHelperText>{helperText}</FormHelperText>

@@ -4,7 +4,7 @@ import type LoanType from '@/dataTypes/Loan'
 // materials
 import Typography from '@mui/material/Typography'
 // utils
-import { getDataRow } from '@/components/Datatable'
+import { getRowData } from '@/components/Datatable'
 import numberToCurrency from '@/utils/numberToCurrency'
 import toDmy from '@/utils/toDmy'
 import getLoanStatusColor from '@/utils/getLoanStatusColor'
@@ -29,7 +29,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Nama',
         options: {
             customBodyRenderLite: dataIndex => {
-                const user = getDataRow<LoanType>(dataIndex)?.user
+                const user = getRowData<LoanType>(dataIndex)?.user
 
                 if (!user) return ''
 

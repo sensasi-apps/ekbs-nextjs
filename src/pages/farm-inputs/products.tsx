@@ -1,5 +1,27 @@
+// types
+import type ProductType from '@/dataTypes/Product'
+import type { MUIDataTableColumn } from 'mui-datatables'
+// icons
+import InventoryIcon from '@mui/icons-material/Inventory'
+// components
 import AuthLayout from '@/components/Layouts/AuthLayout'
+import Datatable, { GetRowDataType, MutateType } from '@/components/Datatable'
+import Dialog from '@/components/Global/Dialog'
+import Fab from '@/components/Fab'
+import ProductForm from '@/components/Product/Form'
+// page components
+import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
+// providers
 import { FormDataProvider } from '@/providers/useFormData'
+import useAuth from '@/providers/Auth'
+import useFormData from '@/providers/useFormData'
+// utils
+import numberToCurrency from '@/utils/numberToCurrency'
+import formatNumber from '@/utils/formatNumber'
+import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+
+let mutate: MutateType<ProductType>
+let getRowData: GetRowDataType<ProductType>
 
 export default function FarmInputsProducts() {
     return (
@@ -11,26 +33,9 @@ export default function FarmInputsProducts() {
     )
 }
 
-import type ProductType from '@/dataTypes/Product'
-import type { MUIDataTableColumn } from 'mui-datatables'
-
-import { NumericFormat } from 'react-number-format'
-import Fab from '@mui/material/Fab'
-// icons
-import InventoryIcon from '@mui/icons-material/Inventory'
-// providers
-import useFormData from '@/providers/useFormData'
-// components
-import Datatable, { getDataRow, mutate } from '@/components/Datatable'
-import Dialog from '@/components/Global/Dialog'
-import ProductForm from '@/components/Product/Form'
-// libs
-import useAuth from '@/providers/Auth'
-import { Box, Tooltip } from '@mui/material'
-import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
-
 const Crud = () => {
     const { userHasPermission } = useAuth()
+
     const {
         formOpen,
         handleClose,
@@ -44,12 +49,12 @@ const Crud = () => {
     return (
         <>
             <Datatable
-                apiUrl="/farm-inputs/products/datatable"
+                apiUrl={DatatableEndpointEnum.PRODUCTS}
                 columns={columns}
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data = getDataRow<ProductType>(dataIndex)
+                        const data = getRowData(dataIndex)
                         if (!data) return
 
                         return handleEdit(data)
@@ -57,11 +62,15 @@ const Crud = () => {
                 }}
                 tableId="products-table"
                 title="Daftar Produk"
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
+                swrOptions={{
+                    revalidateOnMount: true,
+                }}
             />
 
             <Dialog
                 title={(isNew ? 'Tambah ' : 'Perbaharui ') + 'Produk'}
-                maxWidth="md"
                 open={formOpen}
                 closeButtonProps={{
                     onClick: () => {
@@ -81,30 +90,17 @@ const Crud = () => {
                 <ProductForm parentDatatableMutator={mutate} />
             </Dialog>
 
-            {userHasPermission(['create product', 'update product']) && (
-                <Fab
-                    disabled={formOpen}
-                    onClick={handleCreate}
-                    color="success"
-                    sx={{
-                        position: 'fixed',
-                        bottom: 16,
-                        right: 16,
-                    }}>
-                    <InventoryIcon />
-                </Fab>
-            )}
+            <Fab
+                in={
+                    userHasPermission(['create product', 'update product']) ??
+                    false
+                }
+                onClick={handleCreate}>
+                <InventoryIcon />
+            </Fab>
         </>
     )
 }
-
-import { keyframes } from '@mui/system'
-
-const blink = keyframes`
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
-`
 
 const columns: MUIDataTableColumn[] = [
     {
@@ -128,34 +124,19 @@ const columns: MUIDataTableColumn[] = [
         label: 'Jumlah',
         options: {
             customBodyRenderLite: dataIndex => {
-                const data = getDataRow<ProductType>(dataIndex)
+                const data = getRowData(dataIndex)
                 if (!data) return
 
-                const mainContent = (
-                    <NumericFormat
-                        {...numericFormatDefaultProps}
-                        allowNegative={true}
-                        value={data.qty}
-                        suffix={' ' + data.unit}
-                        displayType="text"
-                    />
-                )
+                const { qty, low_number, unit } = data
 
-                return data.qty > data.low_number ? (
-                    mainContent
-                ) : (
-                    <Tooltip title="Persediaan menipis" placement="top" arrow>
-                        <Box
-                            fontWeight="bold"
-                            whiteSpace="nowrap"
-                            color="warning.main"
-                            sx={{
-                                animation: `${blink} 1s linear infinite`,
-                            }}
-                            component="span">
-                            {mainContent}
-                        </Box>
-                    </Tooltip>
+                const isLowQty = low_number !== null && qty <= low_number
+
+                const text = `${formatNumber(qty)} ${unit}`
+
+                if (!isLowQty) return text
+
+                return (
+                    <FarmInputsProductsLowQty>{text}</FarmInputsProductsLowQty>
                 )
             },
         },
@@ -164,18 +145,7 @@ const columns: MUIDataTableColumn[] = [
         name: 'base_cost_rp_per_unit',
         label: 'Biaya Dasar',
         options: {
-            customBodyRender: (value: number) => (
-                <NumericFormat
-                    style={{
-                        whiteSpace: 'nowrap',
-                    }}
-                    prefix="Rp "
-                    value={value}
-                    decimalSeparator=","
-                    thousandSeparator="."
-                    displayType="text"
-                />
-            ),
+            customBodyRender: numberToCurrency,
         },
     },
 
@@ -183,18 +153,7 @@ const columns: MUIDataTableColumn[] = [
         name: 'default_sell_price',
         label: 'Harga Dasar',
         options: {
-            customBodyRender: (value: number) => (
-                <NumericFormat
-                    style={{
-                        whiteSpace: 'nowrap',
-                    }}
-                    prefix="Rp "
-                    value={value}
-                    decimalSeparator=","
-                    thousandSeparator="."
-                    displayType="text"
-                />
-            ),
+            customBodyRender: numberToCurrency,
         },
     },
 ]

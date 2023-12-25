@@ -2,15 +2,19 @@ import type { UUID } from 'crypto'
 import type UserType from './User'
 import type { Ymd } from '@/types/DateString'
 import type Tag from './Tag'
+import type RentItem from './RentItem'
 
 type InventoryItem = {
     uuid: UUID
+    code: string
     name: string
     desc: string
     owned_at: Ymd
     disowned_at: Ymd
     disowned_note: string
     unfunctional_note: string
+
+    rentable: RentItem
 
     tags: Tag[]
 
@@ -33,9 +37,15 @@ type InventoryItemPic = {
     assigned_by_user: UserType
 }
 
-type InventoryItemCheckup = {
+export type InventoryItemCheckup = {
     uuid: UUID
     by_user: UserType
     note: string
     at: Ymd
+    he: HeCheckup | null
+    inventory_item: InventoryItem | null
+}
+
+type HeCheckup = {
+    hm: number
 }
