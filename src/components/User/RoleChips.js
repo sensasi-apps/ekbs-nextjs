@@ -50,7 +50,7 @@ const UserRoleChips = ({ data: roleNames, size, variant }) => {
     if (!roleNames) return <Skeletons />
 
     return (
-        <Box display="flex" gap={1} textTransform="capitalize" flexWrap="wrap">
+        <Box display="inline-flex" gap={0.5} textTransform="capitalize">
             {roleNames.map(roleName => (
                 <Chip
                     variant={variant}

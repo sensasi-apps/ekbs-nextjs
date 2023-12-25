@@ -14,6 +14,7 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import QueryString from 'qs'
 import CssBaseline from '@mui/material/CssBaseline'
+import GlobalStyles from '@mui/material/GlobalStyles'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { useEffect } from 'react'
@@ -41,6 +42,31 @@ export default function App({ Component, pageProps }: AppProps) {
 
     return (
         <CssVarsProvider theme={getTheme()}>
+            <GlobalStyles
+                styles={{
+                    '::-webkit-scrollbar': {
+                        width: '10px',
+                        height: '10px',
+                    },
+
+                    '::-webkit-scrollbar-thumb': {
+                        borderRadius: '10px',
+                        backgroundColor: 'rgba(128,128,128,0.5)',
+
+                        '&:hover': {
+                            backgroundColor: 'rgba(128,128,128,0.7)',
+                        },
+                    },
+
+                    '::-webkit-scrollbar-track': {
+                        backgroundColor: 'rgba(128,128,128,0.1)',
+
+                        '&:hover': {
+                            backgroundColor: 'rgba(128,128,128,0.2)',
+                        },
+                    },
+                }}
+            />
             <CssBaseline />
 
             <Head>
