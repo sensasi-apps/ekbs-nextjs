@@ -17,11 +17,11 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 // utils
-import useAuth from '@/providers/Auth'
+// import useAuth from '@/providers/Auth'
 import errorCatcher from '@/utils/errorCatcher'
 
 export default function Loans() {
-    const { userHasPermission } = useAuth()
+    // const { userHasPermission } = useAuth()
     const [values, setValues] = useState(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [userLoanFromDb, setUserLoanFromDb] = useState<LoanType | null>(null)
@@ -66,7 +66,7 @@ export default function Loans() {
             .catch(error => errorCatcher(error, setErrors))
     }
 
-    if (userHasPermission('cashes read') === false) return null
+    // if (userHasPermission('cashes read') === false) return null
 
     const title = !userLoanFromDb
         ? 'Ajukan Pinjaman Baru'
@@ -75,7 +75,7 @@ export default function Loans() {
           : 'Perbarui Pinjaman'
 
     return (
-        <AuthLayout title="Kelola Pinjaman">
+        <AuthLayout title="Pinjaman Anda">
             <LoansDatatable mode="applier" onEdit={handleEdit} />
 
             <DialogWithTitle open={dialogOpen} title={title}>

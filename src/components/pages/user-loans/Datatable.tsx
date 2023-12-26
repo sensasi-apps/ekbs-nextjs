@@ -2,12 +2,14 @@
 import type LoanType from '@/dataTypes/Loan'
 import type { OnRowClickType } from '@/components/Datatable'
 import type { MUISortOptions } from 'mui-datatables'
+import type { GetRowDataType } from '@/components/Datatable'
 // vendors
 import { useCallback } from 'react'
 // components
-import Datatable, { getRowData } from '@/components/Datatable'
-// locals
+import Datatable from '@/components/Datatable'
 import DATATABLE_COLUMNS from './DATATABLE_COLUMNS'
+
+let getRowData: GetRowDataType<LoanType>
 
 export default function LoanDatatable({
     mode,
@@ -19,7 +21,7 @@ export default function LoanDatatable({
     const handleRowClick: OnRowClickType = useCallback(
         (_, { rowIndex }, event) => {
             if (event.detail === 2) {
-                const data = getRowData<LoanType>(rowIndex)
+                const data = getRowData(rowIndex)
                 if (data) {
                     return onEdit(data)
                 }
@@ -31,19 +33,23 @@ export default function LoanDatatable({
     const API_URL =
         mode === 'manager' ? '/user-loans/datatable' : '/loans/datatable'
 
-    const TITLE =
-        mode === 'manager'
-            ? 'Daftar Pengajuan Pinjaman'
-            : 'Riwayat Pinjaman Anda'
+    const TITLE = mode === 'manager' ? 'Daftar Pengajuan Pinjaman' : 'Riwayat'
+
+    const columns = [...DATATABLE_COLUMNS]
+
+    if (mode === 'applier') {
+        columns.splice(2, 1)
+    }
 
     return (
         <Datatable
             apiUrl={API_URL}
-            columns={DATATABLE_COLUMNS}
+            columns={columns}
             defaultSortOrder={DEFAULT_SORT_ORDER}
             onRowClick={handleRowClick}
             tableId="loans-table"
             title={TITLE}
+            getRowDataCallback={fn => (getRowData = fn)}
         />
     )
 }
