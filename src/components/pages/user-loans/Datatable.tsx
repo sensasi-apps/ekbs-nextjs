@@ -1,18 +1,13 @@
 // types
 import type LoanType from '@/dataTypes/Loan'
 import type { OnRowClickType } from '@/components/Datatable'
-import type { MUISortOptions, MUIDataTableColumn } from 'mui-datatables'
+import type { MUISortOptions } from 'mui-datatables'
 import type { GetRowDataType } from '@/components/Datatable'
 // vendors
 import { useCallback } from 'react'
-// materials
-import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
-// utils
-import getLoanStatusColor from '@/utils/getLoanStatusColor'
-import numberToCurrency from '@/utils/numberToCurrency'
-import toDmy from '@/utils/toDmy'
+import DATATABLE_COLUMNS from './DATATABLE_COLUMNS'
 
 let getRowData: GetRowDataType<LoanType>
 
@@ -42,22 +37,8 @@ export default function LoanDatatable({
 
     const columns = [...DATATABLE_COLUMNS]
 
-    if (mode === 'manager') {
-        columns.splice(2, 0, {
-            name: 'user.name',
-            label: 'Nama',
-            options: {
-                customBodyRenderLite: dataIndex => {
-                    const user = getRowData(dataIndex)?.user
-
-                    if (!user) return ''
-
-                    const { id, name } = user
-
-                    return `#${id} ${name}`
-                },
-            },
-        })
+    if (mode === 'applier') {
+        columns.splice(2, 1)
     }
 
     return (
@@ -77,53 +58,3 @@ export const DEFAULT_SORT_ORDER: MUISortOptions = {
     name: 'proposed_at',
     direction: 'desc',
 }
-
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
-    {
-        name: 'uuid',
-        label: 'uuid',
-        options: {
-            display: false,
-        },
-    },
-    {
-        name: 'proposed_at',
-        label: 'Tanggal Pengajuan',
-        options: {
-            customBodyRender: toDmy,
-        },
-    },
-    {
-        name: 'proposed_rp',
-        label: 'Jumlah Pengajuan',
-        options: {
-            customBodyRender: numberToCurrency,
-        },
-    },
-    {
-        name: 'type',
-        label: 'Jenis',
-    },
-
-    {
-        name: 'purpose',
-        label: 'Keperluan',
-    },
-    {
-        name: 'status',
-        label: 'Status',
-        options: {
-            searchable: false,
-            sort: false,
-            customBodyRender: (value: LoanType['status']) => (
-                <Typography
-                    variant="body2"
-                    color={getLoanStatusColor(value, '.main')}
-                    component="span"
-                    textTransform="capitalize">
-                    {value}
-                </Typography>
-            ),
-        },
-    },
-]
