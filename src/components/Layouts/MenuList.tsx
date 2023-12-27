@@ -1,6 +1,6 @@
 // vendors
 import { memo, useEffect, useState } from 'react'
-
+// materials
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
@@ -53,8 +53,7 @@ const MenuList = memo(function MenuList({
     return (
         <Box
             component="nav"
-            sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
-            aria-label="mailbox folders">
+            sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}>
             <Drawer
                 {...drawerProps}
                 open={isDrawerOpen}
