@@ -8,6 +8,8 @@
     "react-dom"
   ],
   "ignoreUnimported": [
+    "src/components/LogoLoadingBox/LogoLoadingBox.tsx",
+    "src/components/LogoLoadingBox/index.ts",
     "src/utils/formikOnSubmitConsole.ts"
   ]
 }
