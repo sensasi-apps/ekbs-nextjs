@@ -92,7 +92,8 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                 memiliki data tiket
                             </span>
                         </Tooltip>{' '}
-                        pada pembayaran dengan UUID: <b>{payment.uuid}</b>
+                        pada pembayaran tanggal {payment.from_at} -{' '}
+                        {payment.to_at}
                     </Alert>
                 ))}
             </div>
