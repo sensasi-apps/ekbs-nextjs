@@ -34,10 +34,6 @@ export default function Stat() {
         rentIncomeRp,
     } = data ?? {}
 
-    if (!isLoading && !data) {
-        return 'Sistem mengalami gangguan, silakan coba lagi nanti'
-    }
-
     const totalMember =
         typeof memberTotal?.value === 'number' ? memberTotal?.value : ''
 

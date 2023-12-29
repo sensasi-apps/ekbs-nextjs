@@ -14,6 +14,7 @@ export default function Index() {
         <PublicLayout
             loginButton
             footerTextOnly
+            maxWidth="xs"
             title={process.env.NEXT_PUBLIC_APP_NAME ?? ''}>
             <Box display="flex" alignItems="start">
                 <Box flexGrow={1}>
@@ -25,7 +26,7 @@ export default function Index() {
                 {process.env.NEXT_PUBLIC_APP_NAME}
             </Typography>
 
-            <Typography variant="body2" component="div" gutterBottom>
+            <Typography variant="caption" component="div" gutterBottom>
                 Halaman publik
             </Typography>
 
@@ -48,16 +49,11 @@ export default function Index() {
 }
 
 const BUTTON_DEFAULT_PROPS: {
-    sx: ButtonProps['sx']
+    fullWidth: ButtonProps['fullWidth']
     size: ButtonProps['size']
     variant: ButtonProps['variant']
 } = {
-    sx: {
-        width: {
-            xs: '100%',
-            sm: 'unset',
-        },
-    },
+    fullWidth: true,
     size: 'large',
     variant: 'outlined',
 }

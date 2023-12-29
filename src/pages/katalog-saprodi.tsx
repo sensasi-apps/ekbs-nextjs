@@ -2,15 +2,12 @@
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type { GetRowDataType } from '@/components/Datatable'
 import type ProductType from '@/dataTypes/Product'
-// vendors
-import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
 import FarmInputsProductsLowQty from '../components/pages/farm-inputs/products/LowQty'
-import FooterBox from '@/components/Layouts/FooterBox'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
@@ -75,24 +72,6 @@ export default function KatalogProdukSaprodi() {
                         menandakan persediaan telah habis.
                     </Typography>
                 </Box>
-            </Box>
-
-            <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                gap={3}
-                mt={10}>
-                <Image
-                    src="/assets/pwa-icons/white-green.svg"
-                    alt="logo"
-                    width={50}
-                    height={50}
-                    style={{
-                        borderRadius: '15%',
-                    }}
-                />
-                <FooterBox m={0} />
             </Box>
         </PublicLayout>
     )

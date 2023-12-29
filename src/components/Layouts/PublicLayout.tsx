@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Container from '@mui/material/Container'
+import Container, { ContainerProps } from '@mui/material/Container'
 import FooterBox from '@/components/Layouts/FooterBox'
 // icons
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -24,20 +24,22 @@ export default function PublicLayout({
     backButton = false,
     loginButton = false,
     footerTextOnly = false,
+    maxWidth = 'md',
 }: {
     title: string
     children: ReactNode
     backButton?: boolean
     loginButton?: boolean
     footerTextOnly?: boolean
+    maxWidth?: ContainerProps['maxWidth']
 }) {
-    const { back, push } = useRouter()
+    const { push } = useRouter()
 
     return (
         <Container
-            maxWidth="md"
+            maxWidth={maxWidth}
             sx={{
-                my: 2,
+                py: 3,
             }}>
             <Head>
                 <title>{title}</title>
@@ -59,9 +61,7 @@ export default function PublicLayout({
                             sx={{
                                 alignSelf: 'flex-end',
                             }}
-                            onClick={() =>
-                                history.length === 1 ? push('/') : back()
-                            }>
+                            onClick={() => push('/')}>
                             Kembali
                         </Button>
                     )}

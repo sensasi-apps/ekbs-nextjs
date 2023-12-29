@@ -35,7 +35,7 @@ export default function LineChart({
                 variant="body1"
                 color="text.secondary"
                 textAlign="center">
-                Terjadi kesalahan, silakan coba lagi
+                Terjadi kesalahan, silakan coba lagi nanti.
             </Typography>
         )
     }
