@@ -8,7 +8,6 @@ enum Role {
     COURIER = 'courier',
     DRIVER = 'driver',
     EMPLOYEE = 'employee',
-    EXECUTIVE = 'executive',
     FARMER = 'farmer',
     MEMBER = 'member',
 
