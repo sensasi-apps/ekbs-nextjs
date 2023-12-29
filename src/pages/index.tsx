@@ -1,63 +1,71 @@
-import Head from 'next/head'
-
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-
-import Fade from '@mui/material/Fade'
-import CircularProgress from '@mui/material/CircularProgress'
-
-import useAuth from '@/providers/Auth'
-import debounce from '@/utils/debounce'
+// materials
+import Box from '@mui/material/Box'
+import Button, { ButtonProps } from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+// icons
+import AssessmentIcon from '@mui/icons-material/Assessment'
+import LogoImage from '@/components/LogoImage'
+import WarehouseIcon from '@mui/icons-material/Warehouse'
+// layouts
+import PublicLayout from '@/components/Layouts/PublicLayout'
 
 export default function Index() {
-    const router = useRouter()
-    const { user } = useAuth()
-
-    useEffect(() => {
-        if (user === null)
-            debounce(() => {
-                router.replace('/login')
-            }, 500)
-
-        if (user)
-            debounce(() => {
-                router.replace('/dashboard')
-            }, 500)
-    }, [user])
-
     return (
-        <Fade in={true}>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',
-                }}>
-                <Head>
-                    <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-                </Head>
+        <PublicLayout
+            loginButton
+            footerTextOnly
+            maxWidth="xs"
+            title={process.env.NEXT_PUBLIC_APP_NAME ?? ''}>
+            <Box display="flex" alignItems="start">
+                <Box flexGrow={1}>
+                    <LogoImage />
+                </Box>
+            </Box>
 
-                <Image
-                    src="/assets/pwa-icons/green-transparent.svg"
-                    width={150}
-                    height={150}
-                    alt="logo"
-                    priority
-                    style={{
-                        position: 'absolute',
-                    }}
-                />
-                <CircularProgress
-                    size={200}
-                    thickness={1}
-                    color="success"
-                    style={{
-                        position: 'absolute',
-                    }}
-                />
-            </div>
-        </Fade>
+            <Typography variant="h4" component="h1" mb={4}>
+                {process.env.NEXT_PUBLIC_APP_NAME}
+            </Typography>
+
+            <Typography variant="caption" component="div" gutterBottom>
+                Halaman publik
+            </Typography>
+
+            <Box display="flex" gap={1} flexWrap="wrap">
+                <Button
+                    {...BUTTON_DEFAULT_PROPS}
+                    href="katalog-saprodi"
+                    startIcon={<WarehouseIcon {...ICON_DEFAULT_PROPS} />}>
+                    Katalog Saprodi
+                </Button>
+                <Button
+                    {...BUTTON_DEFAULT_PROPS}
+                    href="laporan-performa"
+                    startIcon={<AssessmentIcon {...ICON_DEFAULT_PROPS} />}>
+                    Laporan Performa
+                </Button>
+            </Box>
+        </PublicLayout>
     )
+}
+
+const BUTTON_DEFAULT_PROPS: {
+    fullWidth: ButtonProps['fullWidth']
+    size: ButtonProps['size']
+    variant: ButtonProps['variant']
+} = {
+    fullWidth: true,
+    size: 'large',
+    variant: 'outlined',
+}
+
+const ICON_DEFAULT_PROPS: {
+    sx: {
+        width: string
+        height: string
+    }
+} = {
+    sx: {
+        width: '1.5em',
+        height: '1.5em',
+    },
 }

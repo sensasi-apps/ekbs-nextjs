@@ -10,6 +10,8 @@ import {
     useEffect,
 } from 'react'
 import axios from '@/lib/axios'
+// enums
+import Role from '@/enums/Role'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -36,7 +38,7 @@ const AuthProvider: FC<{
     ) => {
         if (!userParam) return
 
-        if (userParam.role_names?.includes('superman')) {
+        if (userParam.role_names?.includes(Role.SUPERMAN)) {
             return true
         }
 
@@ -57,7 +59,7 @@ const AuthProvider: FC<{
     ) => {
         if (!userParam) return
 
-        if (userParam.role_names?.includes('superman')) {
+        if (userParam.role_names?.includes(Role.SUPERMAN)) {
             return true
         }
 

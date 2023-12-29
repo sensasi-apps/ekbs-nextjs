@@ -2,19 +2,17 @@
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type { GetRowDataType } from '@/components/Datatable'
 import type ProductType from '@/dataTypes/Product'
-// vendors
-import Head from 'next/head'
-import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
 import FarmInputsProductsLowQty from '../components/pages/farm-inputs/products/LowQty'
-import FooterBox from '@/components/Layouts/FooterBox'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
+// layout
+import PublicLayout from '@/components/Layouts/PublicLayout'
 
 let getRowData: GetRowDataType<ProductType>
 
@@ -22,84 +20,60 @@ export default function KatalogProdukSaprodi() {
     const pageTitle = 'Katalog Digital Produk SAPRODI'
 
     return (
-        <>
-            <Head>
-                <title>
-                    {pageTitle} — {process.env.NEXT_PUBLIC_APP_NAME}
-                </title>
-            </Head>
+        <PublicLayout
+            backButton
+            title={`${pageTitle} — ${process.env.NEXT_PUBLIC_APP_NAME}`}>
+            <Box mb={2}>
+                <Typography variant="h4" component="h1">
+                    {pageTitle}
+                </Typography>
+                <Typography variant="subtitle1" component="h2">
+                    Koperasi Belayan Sejahtera
+                </Typography>
+            </Box>
 
-            <Box m={6}>
-                <Box mb={2}>
-                    <Typography variant="h4" component="h1">
-                        {pageTitle}
+            <Datatable
+                apiUrl="/public/produk-saprodi/datatable"
+                columns={columns}
+                defaultSortOrder={{
+                    name: 'category_name',
+                    direction: 'asc',
+                }}
+                tableId="products-table"
+                title="Daftar Produk"
+                getRowDataCallback={fn => (getRowData = fn)}
+                swrOptions={{
+                    revalidateOnMount: true,
+                }}
+            />
+
+            <Box mt={1}>
+                <Typography variant="caption">Keterangan:</Typography>
+                <Box component="ul" m={0}>
+                    <Typography variant="caption" component="li">
+                        Stok berwarna{' '}
+                        <Typography
+                            variant="caption"
+                            color="warning.main"
+                            component="span">
+                            kuning
+                        </Typography>{' '}
+                        menandakan persediaan telah menipis.
                     </Typography>
-                    <Typography variant="subtitle1" component="h2">
-                        Koperasi Belayan Sejahtera
+
+                    <Typography variant="caption" component="li">
+                        Stok berwarna{' '}
+                        <Typography
+                            variant="caption"
+                            color="error.main"
+                            component="span">
+                            merah
+                        </Typography>{' '}
+                        menandakan persediaan telah habis.
                     </Typography>
-                </Box>
-
-                <Datatable
-                    apiUrl="/public/produk-saprodi/datatable"
-                    columns={columns}
-                    defaultSortOrder={{
-                        name: 'category_name',
-                        direction: 'asc',
-                    }}
-                    tableId="products-table"
-                    title="Daftar Produk"
-                    getRowDataCallback={fn => (getRowData = fn)}
-                    swrOptions={{
-                        revalidateOnMount: true,
-                    }}
-                />
-
-                <Box mt={1}>
-                    <Typography variant="caption">Keterangan:</Typography>
-                    <Box component="ul" m={0}>
-                        <Typography variant="caption" component="li">
-                            Stok berwarna{' '}
-                            <Typography
-                                variant="caption"
-                                color="warning.main"
-                                component="span">
-                                kuning
-                            </Typography>{' '}
-                            menandakan persediaan telah menipis.
-                        </Typography>
-
-                        <Typography variant="caption" component="li">
-                            Stok berwarna{' '}
-                            <Typography
-                                variant="caption"
-                                color="error.main"
-                                component="span">
-                                merah
-                            </Typography>{' '}
-                            menandakan persediaan telah habis.
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    gap={3}
-                    mt={10}>
-                    <Image
-                        src="/assets/pwa-icons/white-green.svg"
-                        alt="logo"
-                        width={50}
-                        height={50}
-                        style={{
-                            borderRadius: '15%',
-                        }}
-                    />
-                    <FooterBox m={0} />
                 </Box>
             </Box>
-        </>
+        </PublicLayout>
     )
 }
 
