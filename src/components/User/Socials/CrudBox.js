@@ -1,7 +1,9 @@
+// vendors
 import { useState } from 'react'
 import { mutate } from 'swr'
 import { PatternFormat } from 'react-number-format'
-
+import axios from '@/lib/axios'
+// materials
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
@@ -10,7 +12,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-
+// icons
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EmailIcon from '@mui/icons-material/Email'
@@ -18,10 +20,9 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import PhoneIcon from '@mui/icons-material/Phone'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
-
+// components
 import SocialForm from '../Social/Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import axios from '@/lib/axios'
 
 const GET_ICON_NODE = name => {
     switch (name.toLowerCase()) {
@@ -41,8 +42,7 @@ const GET_ICON_NODE = name => {
 }
 
 const ContactListItem = ({
-    data: { uuid, username, social },
-    userUuid,
+    data: { uuid, username, social, user_uuid },
     readMode,
 }) => {
     const [isDeleting, setIsDeleting] = useState(false)
@@ -52,8 +52,8 @@ const ContactListItem = ({
     const handleDelete = async () => {
         setIsDeleting(true)
 
-        await axios.delete(`/users/${userUuid}/socials/${uuid}`)
-        await mutate(`/users/${userUuid}`)
+        await axios.delete(`/users/${user_uuid}/socials/${uuid}`)
+        await mutate(`/users/${user_uuid}`)
 
         setIsDeleting(false)
     }
@@ -86,7 +86,7 @@ const ContactListItem = ({
                     ) ? (
                         <PatternFormat
                             value={username}
-                            format="#####-####-####"
+                            format="+## ###-####-####"
                             displayType="text"
                         />
                     ) : (
@@ -99,7 +99,7 @@ const ContactListItem = ({
     )
 }
 
-const ContactList = ({ data: socials = [], userUuid, readMode = false }) => {
+const ContactList = ({ data: socials = [], readMode = false }) => {
     if (socials.length === 0)
         return (
             <Typography variant="body2" color="GrayText">
@@ -113,7 +113,6 @@ const ContactList = ({ data: socials = [], userUuid, readMode = false }) => {
                 <ContactListItem
                     key={social.uuid}
                     data={social}
-                    userUuid={userUuid}
                     readMode={readMode}
                 />
             ))}

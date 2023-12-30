@@ -59,11 +59,7 @@ export default function CrediturCard({ data: creditur }: { data: UserType }) {
                         Kontak:
                     </Typography>
 
-                    <ContactList
-                        data={creditur?.socials}
-                        readMode
-                        userUuid={undefined} //TODO: ContactList jsx to tsx
-                    />
+                    <ContactList data={creditur?.socials} readMode />
 
                     <Typography color="GrayText" mt={1}>
                         Performa:
@@ -78,5 +74,3 @@ export default function CrediturCard({ data: creditur }: { data: UserType }) {
         </Card>
     )
 }
-
-CrediturCard
