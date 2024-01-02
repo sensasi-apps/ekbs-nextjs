@@ -194,6 +194,37 @@ const farmInputNavs: NavItem[] = [
     },
 ]
 
+const heavyEquipmentNavs: NavItem[] = [
+    {
+        component: <GroupTitle>Alat Berat</GroupTitle>,
+        forRole: [
+            Role.HEAVY_EQUIPMENT_RENT_ADMIN,
+            Role.HEAVY_EQUIPMENT_RENT_MANAGER,
+            Role.HEAVY_EQUIPMENT_RENT_OPERATOR,
+        ],
+    },
+    {
+        href: '/heavy-equipment-rents',
+        label: 'Penyewaan',
+        pathname: '/heavy-equipment-rents',
+        icon: <EventNoteIcon />,
+        forRole: [
+            Role.HEAVY_EQUIPMENT_RENT_MANAGER,
+            Role.HEAVY_EQUIPMENT_RENT_ADMIN,
+        ],
+    },
+    {
+        href: '/heavy-equipment-rents/tasks',
+        label: 'Tugas',
+        pathname: '/heavy-equipment-rents/tasks',
+        icon: <EventNoteIcon />,
+        forRole: [
+            Role.HEAVY_EQUIPMENT_RENT_MANAGER,
+            Role.HEAVY_EQUIPMENT_RENT_OPERATOR,
+        ],
+    },
+]
+
 const accountingNavs: NavItem[] = [
     {
         component: <GroupTitle>Keuangan</GroupTitle>,
@@ -276,17 +307,7 @@ const NAV_ITEMS: NavItem[] = [
     ...loanNavs,
     ...farmInputNavs,
     ...inventoryNavs,
-    {
-        component: <GroupTitle>Alat Berat</GroupTitle>,
-        forRole: Role.HEAVY_EQUIPMENT_RENT_ADMIN,
-    },
-    {
-        href: '/heavy-equipment-rents',
-        label: 'Penyewaan',
-        pathname: '/heavy-equipment-rents',
-        icon: <EventNoteIcon />,
-        forRole: Role.HEAVY_EQUIPMENT_RENT_ADMIN,
-    },
+    ...heavyEquipmentNavs,
     ...accountingNavs,
     ...settingsNavs,
     ...supermanNavs,

@@ -6,7 +6,6 @@ import type WalletType from '@/dataTypes/Wallet'
 import type CashType from '@/dataTypes/Cash'
 import type RentItemType from '@/dataTypes/RentItem'
 import type UserType from '@/dataTypes/User'
-
 // vendors
 import { memo, useState } from 'react'
 import dayjs from 'dayjs'
@@ -31,20 +30,20 @@ import Typography from '@mui/material/Typography'
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import LoadingAddorment from '@/components/LoadingAddorment'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
+import TextField from '@/components/TextField'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
-import LoadingAddorment from '@/components/LoadingAddorment'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import debounce from '@/utils/debounce'
 // providers
 import useAuth from '@/providers/Auth'
-import debounce from '@/utils/debounce'
 import numberToCurrency from '@/utils/numberToCurrency'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import FarmerGroupType from '@/dataTypes/FarmerGroup'
 import TbsPerformanceChartWithAutoFetch from '../user-loans/CrediturCard/TbsPerformanceChart/WithAutoFetch'
-import { FormGroup, Switch } from '@mui/material'
 
 const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     dirty,
@@ -70,7 +69,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
         farmer_group_uuid,
         farmer_group,
 
-        adjustment_rp,
+        adjustment_rp, // its unused but sedia payung sebelum hujan
 
         interest_percent,
         n_term,
@@ -81,9 +80,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
         is_paid,
 
         operated_by_user,
-
-        start_hm,
-        end_hm,
+        heavy_equipment_rent,
     },
     setFieldValue,
 }: FormikProps<HeavyEquipmentRentFormValues>) {
@@ -91,11 +88,12 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     const [rentType, setRentType] = useState<
         'personal' | 'farmer-group' | null
     >(!uuid ? null : farmer_group ? 'farmer-group' : 'personal')
-    const [isFinished, setIsFinished] = useState(Boolean(finished_at))
+
+    const { start_hm = 0, end_hm = 0 } = heavy_equipment_rent ?? {}
 
     const baseRp: number =
-        (rate_rp_per_unit ?? 0) *
-        (for_n_units !== undefined && for_n_units > 0 ? for_n_units : 0)
+        Math.max(end_hm - start_hm, for_n_units ?? 0) * (rate_rp_per_unit ?? 0)
+
     const ifCashRp = payment_method === 'cash' ? adjustment_rp ?? 0 : 0
     const ifInstallmentRp =
         payment_method === 'installment'
@@ -128,14 +126,10 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
         ])
 
     const isCashMethodDisabled =
-        baseRp <= 0 ||
-        !isFinished ||
-        !finished_at ||
-        rentType === 'farmer-group' ||
-        isDisabled
+        baseRp <= 0 || !finished_at || rentType === 'farmer-group' || isDisabled
 
     const isWalletMethodDisabled =
-        (isFinished && baseRp <= 0) ||
+        (finished_at && baseRp <= 0) ||
         !by_user?.uuid ||
         !wallet ||
         !isBalanceEnough ||
@@ -144,13 +138,13 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
         isDisabled
 
     const isInstallmentMethodDisabled =
-        (isFinished && baseRp <= 0) ||
+        (finished_at && baseRp <= 0) ||
         !by_user?.uuid ||
         rentType === 'farmer-group' ||
         isDisabled
 
     const isFgWalletDisabled =
-        (isFinished && baseRp <= 0) ||
+        (finished_at && baseRp <= 0) ||
         !farmer_group_uuid ||
         !isFgBalanceEnough ||
         isFgWalletLoading ||
@@ -184,18 +178,15 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     children: 'Batal',
                 },
             }}>
-            {!isNew && (
-                <FastField
-                    name="uuid"
-                    component={TextFieldFastableComponent}
-                    disabled={true}
-                    variant="filled"
-                    label="UUID"
-                    margin="normal"
-                    {...errorsToHelperTextObj(errors.uuid)}
-                />
-            )}
-            <FormControl>
+            <TextField
+                label="Kode"
+                value={uuid?.substring(uuid?.length - 6).toUpperCase()}
+                variant="filled"
+                disabled
+                {...errorsToHelperTextObj(errors.uuid)}
+            />
+
+            <FormControl disabled={isDisabled || Boolean(finished_at)}>
                 <FormLabel id="rent-type" required>
                     Jenis
                 </FormLabel>
@@ -226,11 +217,12 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     />
                 </RadioGroup>
             </FormControl>
+
             <Fade in={rentType === 'farmer-group'} unmountOnExit>
                 <span>
                     <SelectFromApi
                         fullWidth
-                        disabled={isDisabled}
+                        disabled={isDisabled || Boolean(finished_at)}
                         endpoint="/data/farmer-groups"
                         label="Kelompok Tani"
                         required
@@ -250,7 +242,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
             </Fade>
 
             <UserAutocomplete
-                disabled={isDisabled}
+                disabled={isDisabled || Boolean(finished_at)}
                 fullWidth
                 onChange={(_, user) => {
                     setFieldValue('by_user', user)
@@ -271,7 +263,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
 
             <DatePicker
                 value={for_at ? dayjs(for_at) : null}
-                disabled={isDisabled}
+                disabled={isDisabled || Boolean(finished_at)}
                 label="Untuk Tanggal"
                 onChange={date =>
                     setFieldValue('for_at', date?.format('YYYY-MM-DD'))
@@ -286,7 +278,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 fullWidth
                 required
                 dataKey="inventory_item_uuid"
-                disabled={isDisabled}
+                disabled={isDisabled || Boolean(finished_at)}
                 endpoint="/data/rentable-inventory-items"
                 label="Alat Berat"
                 size="small"
@@ -327,32 +319,8 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 {...errorsToHelperTextObj(errors.inventory_item_uuid)}
             />
 
-            <NumericFormat
-                label="Biaya"
-                disabled={isDisabled}
-                decimalScale={0}
-                value={rate_rp_per_unit}
-                name="rate_rp_per_unit"
-                onValueChange={({ floatValue }) =>
-                    debounce(() =>
-                        setFieldValue('rate_rp_per_unit', floatValue),
-                    )
-                }
-                InputProps={{
-                    startAdornment: <RpInputAdornment />,
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            / {rate_unit}
-                        </InputAdornment>
-                    ),
-                }}
-                {...errorsToHelperTextObj(
-                    errors.rate_rp_per_unit || errors.rate_unit,
-                )}
-            />
-
             <UserAutocomplete
-                disabled={isDisabled}
+                disabled={isDisabled || Boolean(finished_at)}
                 fullWidth
                 onChange={(_, user) => {
                     setFieldValue('operated_by_user', user)
@@ -368,6 +336,51 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 }}
             />
 
+            <Box display="inline-flex" gap={1}>
+                <NumericFormat
+                    label="Biaya"
+                    disabled={isDisabled || Boolean(finished_at)}
+                    decimalScale={0}
+                    value={rate_rp_per_unit}
+                    name="rate_rp_per_unit"
+                    onValueChange={({ floatValue }) =>
+                        debounce(() =>
+                            setFieldValue('rate_rp_per_unit', floatValue),
+                        )
+                    }
+                    InputProps={{
+                        startAdornment: <RpInputAdornment />,
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                / {rate_unit}
+                            </InputAdornment>
+                        ),
+                    }}
+                    {...errorsToHelperTextObj(
+                        errors.rate_rp_per_unit || errors.rate_unit,
+                    )}
+                />
+
+                <NumericFormat
+                    label="Pesan Untuk"
+                    disabled={isDisabled || Boolean(finished_at)}
+                    decimalScale={0}
+                    value={for_n_units}
+                    name="for_n_units"
+                    onValueChange={({ floatValue }) =>
+                        debounce(() => setFieldValue('for_n_units', floatValue))
+                    }
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                {rate_unit}
+                            </InputAdornment>
+                        ),
+                    }}
+                    {...errorsToHelperTextObj(errors.for_n_units)}
+                />
+            </Box>
+
             <FastField
                 name="note"
                 required={false}
@@ -379,67 +392,20 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 {...errorsToHelperTextObj(errors.note)}
             />
 
-            <FormControl
-                margin="dense"
-                fullWidth
-                disabled={isDisabled}
-                sx={{
-                    pl: 2,
-                }}>
-                <FormGroup>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={isFinished}
-                                onChange={({ target: { checked } }) => {
-                                    setIsFinished(checked)
-                                    checkAndClearPaymentMethod()
-                                    setFieldValue('finished_at', undefined)
-                                    setFieldValue('start_hm', undefined)
-                                    setFieldValue('end_hm', undefined)
-                                }}
-                                name="is_finished"
-                            />
-                        }
-                        label="Selesai"
-                    />
-                </FormGroup>
-            </FormControl>
-
-            <Fade in={isFinished} unmountOnExit>
+            <Fade in={Boolean(finished_at)} unmountOnExit>
                 <div>
                     <DatePicker
-                        value={finished_at ? dayjs(finished_at) : null}
-                        disabled={isDisabled}
-                        label="Tanggal Selesai"
-                        onChange={date =>
-                            setFieldValue(
-                                'finished_at',
-                                date?.format('YYYY-MM-DD'),
-                            )
-                        }
-                        slotProps={{
-                            textField: {
-                                ...errorsToHelperTextObj(errors.finished_at),
-                            },
-                        }}
+                        value={dayjs(finished_at)}
+                        disabled={true}
+                        label="Dikerjakan operator pada"
+                        sx={{ mt: 3 }}
                     />
 
                     <Box display="inline-flex" gap={1}>
                         <NumericFormat
-                            label="Awal"
-                            disabled={isDisabled}
-                            value={start_hm}
-                            name="start_hm"
-                            onValueChange={({ floatValue }) =>
-                                debounce(() => {
-                                    setFieldValue('start_hm', floatValue)
-                                    setFieldValue(
-                                        'for_n_units',
-                                        (end_hm ?? 0) - (floatValue ?? 0),
-                                    )
-                                })
-                            }
+                            label="H.M Awal"
+                            disabled={true}
+                            value={heavy_equipment_rent?.start_hm ?? ''}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -447,24 +413,12 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                     </InputAdornment>
                                 ),
                             }}
-                            {...errorsToHelperTextObj(errors.start_hm)}
                         />
 
                         <NumericFormat
-                            label="Akhir"
-                            disabled={isDisabled}
-                            min={start_hm}
-                            value={end_hm}
-                            name="end_hm"
-                            onValueChange={({ floatValue }) =>
-                                debounce(() => {
-                                    setFieldValue('end_hm', floatValue)
-                                    setFieldValue(
-                                        'for_n_units',
-                                        (floatValue ?? 0) - (start_hm ?? 0),
-                                    )
-                                })
-                            }
+                            label="H.M Akhir"
+                            disabled={true}
+                            value={heavy_equipment_rent?.end_hm}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -472,11 +426,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                     </InputAdornment>
                                 ),
                             }}
-                            {...errorsToHelperTextObj(
-                                (start_hm && end_hm && start_hm > end_hm
-                                    ? 'H.M mulai tidak boleh lebih besar dari H.M akhir'
-                                    : undefined) ?? errors.end_hm,
-                            )}
                         />
                     </Box>
 
@@ -500,8 +449,8 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
             <FormControl
                 margin="normal"
                 size="small"
-                disabled={isDisabled}
-                required={isFinished}
+                disabled={isDisabled || is_paid}
+                required={Boolean(finished_at)}
                 error={Boolean(errors.payment_method)}>
                 <FormLabel id="payment_method">Metode Pembayaran</FormLabel>
 
@@ -515,7 +464,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     }>
                     <FormControlLabel
                         value="cash"
-                        required={isFinished}
+                        required={Boolean(finished_at)}
                         disabled={isCashMethodDisabled}
                         control={<Radio size="small" />}
                         label="Tunai"
@@ -758,8 +707,6 @@ export type HeavyEquipmentRentFormValues = Partial<
         n_term_unit: 'minggu' | 'bulan'
 
         cashable_uuid: UUID
-        start_hm: number
-        end_hm: number
 
         operated_by_user: UserType
         operated_by_user_uuid: UUID

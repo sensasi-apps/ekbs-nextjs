@@ -23,6 +23,8 @@ enum Role {
 
     // heavy equipment rent
     HEAVY_EQUIPMENT_RENT_ADMIN = 'heavy equipment rent admin',
+    HEAVY_EQUIPMENT_RENT_MANAGER = 'heavy equipment rent manager',
+    HEAVY_EQUIPMENT_RENT_OPERATOR = 'heavy equipment rent operator',
 
     // inventory
     INVENTORY_ITEM_MANAGER = 'inventory item manager',

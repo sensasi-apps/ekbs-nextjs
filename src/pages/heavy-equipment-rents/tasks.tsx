@@ -15,37 +15,29 @@ import axios from '@/lib/axios'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
-// icons
-import EventNoteIcon from '@mui/icons-material/EventNote'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import DialogWithTitle from '@/components/DialogWithTitle'
-import Fab from '@/components/Fab'
 // page components
-import HeavyEquipmentRentForm, {
-    HeavyEquipmentRentFormValues,
-} from '@/components/pages/heavy-equipments-rents/Form'
+import HeavyEquipmentRentFinishTaskForm, {
+    HerFinishTaskFormValues,
+} from '@/components/pages/heavy-equipments-rents/Form/FinishTask'
 import HerMonthlyCalender from '@/components/pages/heavy-equipments-rents/Calendar'
-import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-rents/Datatable'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
-// enums
+import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-rents/Datatable'
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
 
 let mutate: MutateType<RentItemRent>
 let mutateCalendar: KeyedMutator<YajraDatatable<RentItemRent>>
 let getRowData: GetRowDataType<RentItemRent>
 
-export default function HeavyEquipmentRent() {
-    const { userHasPermission } = useAuth()
-
+export default function HeavyEquipmentRentsTasks() {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [activeTab, setActiveTab] = useState<'unfinished' | 'all'>('all')
+    const [activeTab, setActiveTab] = useState<'all' | 'unfinished'>('all')
 
     const [initialFormikValues, setInitialFormikValues] =
-        useState<HeavyEquipmentRentFormValues>({})
+        useState<HerFinishTaskFormValues>({})
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
@@ -57,20 +49,15 @@ export default function HeavyEquipmentRent() {
     }
 
     const handleEdit = (data: RentItemRent) => {
-        const formedData: HeavyEquipmentRentFormValues = {
-            ...data,
-            operated_by_user: data.heavy_equipment_rent?.operated_by_user,
-            operated_by_user_uuid:
-                data.heavy_equipment_rent?.operated_by_user_uuid,
-            farmer_group_uuid: data.farmer_group?.uuid,
+        const formedData: HerFinishTaskFormValues = {
+            uuid: data.uuid,
+            is_paid: data?.is_paid ?? false,
+            finished_at: data?.finished_at ?? undefined,
+            start_hm: data.heavy_equipment_rent?.start_hm ?? undefined,
+            end_hm: data.heavy_equipment_rent?.end_hm ?? undefined,
         }
 
         setInitialFormikValues(formedData)
-        setIsDialogOpen(true)
-    }
-
-    const handleNew = () => {
-        setInitialFormikValues({})
         setIsDialogOpen(true)
     }
 
@@ -79,7 +66,7 @@ export default function HeavyEquipmentRent() {
     const isNew = !initialFormikValues.uuid
 
     return (
-        <AuthLayout title="Penyewaan Alat Berat">
+        <AuthLayout title="Tugas Alat Berat">
             <Box display="flex" gap={1} mb={4}>
                 <Chip
                     color={activeTab === 'all' ? 'success' : undefined}
@@ -118,7 +105,7 @@ export default function HeavyEquipmentRent() {
                         mutateCallback={fn => (mutate = fn)}
                         getRowDataCallback={fn => (getRowData = fn)}
                         apiUrlParams={{
-                            type: 'unfinished',
+                            type: 'unfinished-task',
                         }}
                     />
                 </div>
@@ -132,22 +119,16 @@ export default function HeavyEquipmentRent() {
                     initialValues={initialFormikValues}
                     onSubmit={(values, { setErrors }) => {
                         const formData = {
-                            ...values,
-                            uuid: undefined,
-                            by_user: undefined,
-                            operated_by_user: undefined,
-                            inventory_item: undefined,
-                            farmer_group: undefined,
-                            transaction: undefined,
-                            installments: undefined,
-                            heavy_equipment_rent: undefined,
+                            finished_at: values.finished_at ?? null,
+                            start_hm: values.start_hm ?? 0,
+                            end_hm: values.end_hm ?? 0,
                         }
 
                         return axios
                             .post(
-                                ApiUrlEnum.CREATE_OR_UPDATE.replace(
+                                ApiUrlEnum.FINISH_TASK.replace(
                                     '$1',
-                                    values.uuid ? '/' + values.uuid : '',
+                                    values.uuid as string,
                                 ),
                                 formData,
                             )
@@ -162,15 +143,9 @@ export default function HeavyEquipmentRent() {
                             .catch(error => errorCatcher(error, setErrors))
                     }}
                     onReset={handleClose}
-                    component={HeavyEquipmentRentForm}
+                    component={HeavyEquipmentRentFinishTaskForm}
                 />
             </DialogWithTitle>
-
-            <Fab
-                in={userHasPermission('create heavy equipment rent') ?? false}
-                onClick={handleNew}>
-                <EventNoteIcon />
-            </Fab>
         </AuthLayout>
     )
 }
