@@ -162,35 +162,66 @@ const farmInputNavs: NavItem[] = [
         label: 'Barang Keluar-Masuk',
         pathname: '/farm-input-product-in-outs',
         icon: <WarehouseIcon />,
-        forRole: Role.FARM_INPUT_WAREHOUSE_MANAGER,
+        forRole: [Role.FARM_INPUT_MANAGER, Role.FARM_INPUT_WAREHOUSE_MANAGER],
     },
     {
         href: '/farm-input-product-opnames',
         label: 'Opname',
         pathname: '/farm-input-product-opnames',
         icon: <ChecklistIcon />,
-        forRole: Role.FARM_INPUT_WAREHOUSE_MANAGER,
+        forRole: [Role.FARM_INPUT_MANAGER, Role.FARM_INPUT_WAREHOUSE_MANAGER],
     },
     {
         href: '/farm-inputs/product-purchases',
         label: 'Pembelian',
         pathname: '/farm-inputs/product-purchases',
         icon: <ShoppingCartIcon />,
-        forRole: Role.FARM_INPUT_PURCHASER,
+        forRole: [Role.FARM_INPUT_MANAGER, Role.FARM_INPUT_PURCHASER],
     },
     {
         href: '/farm-input-product-sales',
         label: 'Penjualan',
         pathname: '/farm-input-product-sales',
         icon: <ReceiptIcon />,
-        forRole: Role.FARM_INPUT_SALES,
+        forRole: [Role.FARM_INPUT_MANAGER, Role.FARM_INPUT_SALES],
     },
     {
         href: '/farm-input-he-gas-sales',
         label: 'Penjualan BBM ke Alat Berat',
         pathname: '/farm-input-he-gas-sales',
         icon: <LocalGasStationIcon />,
-        forRole: Role.FARM_INPUT_SALES,
+        forRole: [Role.FARM_INPUT_MANAGER, Role.FARM_INPUT_SALES],
+    },
+]
+
+const heavyEquipmentNavs: NavItem[] = [
+    {
+        component: <GroupTitle>Alat Berat</GroupTitle>,
+        forRole: [
+            Role.HEAVY_EQUIPMENT_RENT_ADMIN,
+            Role.HEAVY_EQUIPMENT_RENT_MANAGER,
+            Role.HEAVY_EQUIPMENT_RENT_OPERATOR,
+        ],
+    },
+    {
+        href: '/heavy-equipment-rents',
+        label: 'Penyewaan',
+        pathname: '/heavy-equipment-rents',
+        icon: <EventNoteIcon />,
+        forRole: [
+            Role.HEAVY_EQUIPMENT_RENT_MANAGER,
+            Role.HEAVY_EQUIPMENT_RENT_ADMIN,
+        ],
+    },
+    {
+        href: '/heavy-equipment-rents/tasks',
+        label: 'Tugas',
+        pathname: '/heavy-equipment-rents/tasks',
+        icon: <EventNoteIcon />,
+        forRole: [
+            Role.HEAVY_EQUIPMENT_RENT_MANAGER,
+            Role.HEAVY_EQUIPMENT_RENT_OPERATOR,
+        ],
     },
 ]
 
@@ -276,17 +307,7 @@ const NAV_ITEMS: NavItem[] = [
     ...loanNavs,
     ...farmInputNavs,
     ...inventoryNavs,
-    {
-        component: <GroupTitle>Alat Berat</GroupTitle>,
-        forRole: Role.HEAVY_EQUIPMENT_RENT_ADMIN,
-    },
-    {
-        href: '/heavy-equipment-rents',
-        label: 'Penyewaan',
-        pathname: '/heavy-equipment-rents',
-        icon: <EventNoteIcon />,
-        forRole: Role.HEAVY_EQUIPMENT_RENT_ADMIN,
-    },
+    ...heavyEquipmentNavs,
     ...accountingNavs,
     ...settingsNavs,
     ...supermanNavs,

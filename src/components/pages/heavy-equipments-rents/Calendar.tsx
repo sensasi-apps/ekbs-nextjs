@@ -2,6 +2,7 @@
 import type { CalendarTableProps } from '@/components/CalendarTable/CalendarTable'
 import type RentItemRent from '@/dataTypes/RentItemRent'
 import type { KeyedMutator } from 'swr'
+import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
 import { memo, useState } from 'react'
 import dayjs from 'dayjs'
@@ -14,27 +15,28 @@ import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 // components
 import DatePicker from '@/components/DatePicker'
 import CalendarTable from '@/components/CalendarTable'
-import { CircularProgress } from '@mui/material'
+// enums
+import ApiUrlEnum from './ApiUrlEnum'
 
 const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
     onEventClick,
     mutateCallback,
 }: {
     onEventClick: (data: RentItemRent) => void
-    mutateCallback?: (mutator: KeyedMutator<RentItemRent[]>) => void
+    mutateCallback?: (
+        mutator: KeyedMutator<YajraDatatable<RentItemRent>>,
+    ) => void
 }) {
     const [anchorDate, setAnchorDate] = useState(dayjs())
 
-    const {
-        data = [],
-        mutate,
-        isLoading,
-        isValidating,
-    } = useSWR<RentItemRent[]>([
-        'heavy-equipment-rents/monthly-data',
+    const { data, mutate, isLoading, isValidating } = useSWR<
+        YajraDatatable<RentItemRent>
+    >([
+        ApiUrlEnum.DATATABLE_DATA,
         {
             year: anchorDate.format('YYYY'),
             month: anchorDate.format('MM'),
@@ -53,7 +55,7 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
                     openTo="month"
                     format="MMMM YYYY"
                     value={anchorDate}
-                    onChange={date => (date ? setAnchorDate(date) : undefined)}
+                    onAccept={date => (date ? setAnchorDate(date) : undefined)}
                     views={['year', 'month']}
                     slotProps={{
                         textField: {
@@ -62,11 +64,7 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
                     }}
                 />
                 <IconButton disabled={isProcessing} onClick={() => mutate()}>
-                    {isProcessing ? (
-                        <CircularProgress size={24} />
-                    ) : (
-                        <RefreshIcon />
-                    )}
+                    <RefreshIcon />
                 </IconButton>
             </Box>
             <Fade in={isProcessing} unmountOnExit>
@@ -75,7 +73,10 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
             <CalendarTable
                 view="month"
                 anchorDate={anchorDate}
-                eventButtons={rentsToEventButtons(data, onEventClick)}
+                eventButtons={rentsToEventButtons(
+                    data?.data ?? [],
+                    onEventClick,
+                )}
             />
             <InfoBox />
         </>
@@ -96,9 +97,12 @@ function rentsToEventButtons(
         if (!eventButtons[date]) eventButtons[date] = []
 
         eventButtons[date].push({
-            children: `${rent.inventory_item.code} #${rent.by_user?.id ?? ''}`,
-            color: !rent.is_paid || !rent.finished_at ? 'warning' : 'success',
-            endIcon: rent.is_paid && rent.finished_at ? '✔️' : undefined,
+            children: rent.uuid.substring(rent.uuid.length - 6).toUpperCase(),
+            color: !rent.finished_at ? 'warning' : 'success',
+            endIcon:
+                rent.is_paid && rent.finished_at ? (
+                    <MonetizationOnIcon />
+                ) : undefined,
             onClick: () => onEventClick(rent),
         })
     })
@@ -119,7 +123,7 @@ const InfoBox = memo(function InfoBox() {
                         component="span">
                         hijau
                     </Typography>{' '}
-                    menandaan bahwa penyewaan telah selesai.
+                    menandakan bahwa pekerjaan telah dilaksanakan.
                 </Typography>
                 <Typography variant="caption" component="li">
                     Tombol berwarna{' '}
@@ -131,6 +135,12 @@ const InfoBox = memo(function InfoBox() {
                     </Typography>{' '}
                     menandaan bahwa pembayaran atau pekerjaan belum
                     selesai/diinputkan.
+                </Typography>
+                <Typography variant="caption" component="li">
+                    <Box display="flex" gap={0.5} alignItems="center">
+                        Ikon <MonetizationOnIcon /> menandakan bahwa pembayaran
+                        telah dilakukan.
+                    </Box>
                 </Typography>
             </Box>
         </Box>

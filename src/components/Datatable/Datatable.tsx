@@ -39,18 +39,9 @@ const MUIDataTable = dynamic(() => import('mui-datatables'), {
 let getRowData: <T = object>(index: number) => T | undefined
 let mutatorForExport: MutateType
 
-const Datatable = memo(function Datatable({
-    apiUrl,
-    columns,
-    defaultSortOrder,
-    tableId,
-    title,
-    onRowClick,
-    mutateCallback,
-    getRowDataCallback,
-    swrOptions,
-}: {
+export type DatatableProps = {
     apiUrl: string
+    apiUrlParams?: { [key: string]: string | number }
     columns: MUIDataTableColumn[]
     defaultSortOrder: MUISortOptions
     tableId: string
@@ -59,7 +50,20 @@ const Datatable = memo(function Datatable({
     mutateCallback?: (fn: MutateType<any>) => any
     getRowDataCallback?: (fn: GetRowDataType<any>) => any
     swrOptions?: SWRConfiguration
-}) {
+}
+
+const Datatable = memo(function Datatable({
+    apiUrl,
+    apiUrlParams,
+    columns,
+    defaultSortOrder,
+    tableId,
+    title,
+    onRowClick,
+    mutateCallback,
+    getRowDataCallback,
+    swrOptions,
+}: DatatableProps) {
     const [params, setParams] = useState<any>()
     const [sortOrder, setSortOrder] = useState(defaultSortOrder)
 
@@ -70,10 +74,14 @@ const Datatable = memo(function Datatable({
         isValidating,
         data: { data = [], recordsTotal, error } = {},
         mutate,
-    } = useSWR<YajraDatatable<object>>(params ? [apiUrl, params] : null, null, {
-        keepPreviousData: keepPreviousData,
-        ...restSwrOptions,
-    })
+    } = useSWR<YajraDatatable<object>>(
+        params ? [apiUrl, { ...params, ...apiUrlParams }] : null,
+        null,
+        {
+            keepPreviousData: keepPreviousData,
+            ...restSwrOptions,
+        },
+    )
 
     getRowData = index => data[index] as any
     mutatorForExport = mutate

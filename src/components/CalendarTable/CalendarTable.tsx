@@ -146,8 +146,6 @@ const EventButton = (props: ButtonProps) => (
         size="small"
         sx={{
             lineHeight: 1,
-            justifyContent: 'flex-start',
-            textAlign: 'left',
             px: 0.6,
         }}
         fullWidth
