@@ -19,12 +19,13 @@ import UserLoanSummaryBoxReviewers from '../SummaryBox/Reviewers'
 export default function UserLoanDisburseForm({
     isSubmitting,
     status,
-}: FormikContextType<UserLoanDisburseFormDataType>) {
+}: FormikContextType<FormValuesType>) {
     const userLoan = status?.userLoan as UserLoanType
     const isDisbursed = Boolean(userLoan.transaction)
     const hasResponses = userLoan.responses.length > 0
     const isProcessing = isSubmitting
-    const isDisabled = isProcessing || isDisbursed || !hasResponses
+    const isDisabled =
+        isProcessing || isDisbursed || !hasResponses || !userLoan.is_approved
 
     return (
         <FormikForm
@@ -54,7 +55,7 @@ export default function UserLoanDisburseForm({
                         size="small"
                         disabled={isDisabled}
                         selectProps={{
-                            value: value,
+                            value: value ?? '',
                             name: name,
                             margin: 'dense',
                         }}
@@ -68,13 +69,9 @@ export default function UserLoanDisburseForm({
     )
 }
 
-type UserLoanDisburseFormDataType = {
-    cashable_uuid: UUID | ''
-}
-
-export const UserLoanDisburseFormInitialValues: UserLoanDisburseFormDataType = {
-    cashable_uuid: '',
-}
+export type FormValuesType = Partial<{
+    cashable_uuid: UUID
+}>
 
 const SummaryBox = memo(function SummaryBox({
     data: { proposed_rp, proposed_at, type, responses },
