@@ -38,13 +38,7 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
     },
     status,
     setFieldValue,
-}: FormikProps<
-    Partial<
-        ProductPurchaseType & {
-            cashable_uuid?: UUID
-        }
-    >
->) {
+}: FormikProps<FormValuesType>) {
     const isNew = !status.uuid
     const isPropcessing = isSubmitting
     const isDisabled = isPropcessing || status.hasTransaction
@@ -84,6 +78,7 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                     value={order ? dayjs(order) : null}
                     disabled={isDisabled}
                     label="Tanggal Pesan"
+                    maxDate={dayjs()}
                     onChange={date =>
                         setFieldValue('order', date?.format('YYYY-MM-DD'))
                     }
@@ -115,6 +110,7 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                 <DatePicker
                     value={received ? dayjs(received) : null}
                     minDate={order ? dayjs(order) : undefined}
+                    maxDate={dayjs()}
                     disabled={isDisabled}
                     label="Tanggal Barang Diterima"
                     onChange={date =>
@@ -134,6 +130,7 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                         <DatePicker
                             value={paid ? dayjs(paid) : null}
                             minDate={order ? dayjs(order) : undefined}
+                            maxDate={dayjs()}
                             disabled={isDisabled || !received}
                             label="Tanggal Bayar"
                             onChange={date =>
@@ -247,6 +244,12 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
 })
 
 export default ProductPurchaseForm
+
+export type FormValuesType = Partial<
+    ProductPurchaseType & {
+        cashable_uuid?: UUID
+    }
+>
 
 export const EMPTY_FORM_STATUS: {
     uuid: null | ProductPurchaseType['uuid']
