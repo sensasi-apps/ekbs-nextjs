@@ -11,7 +11,7 @@ import type {
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
-import { Formik } from 'formik'
+import { Formik, FormikConfig } from 'formik'
 // materials
 import Typography from '@mui/material/Typography'
 // components
@@ -21,6 +21,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import ProductPurchaseForm, {
     EMPTY_FORM_STATUS,
+    FormValuesType,
 } from '@/components/pages/farm-inputs/product-purchases/Form'
 // icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
@@ -31,7 +32,9 @@ import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 import errorCatcher from '@/utils/errorCatcher'
-import DatatableEndpointEnum from '../../types/farm-inputs/DatatableEndpointEnum'
+// enums
+import FarmInput from '@/enums/permissions/FarmInput'
+import ApiUrlEnum from '@/components/pages/farm-inputs/ApiUrlEnum'
 
 let getRowData: GetRowDataType<ProductPurchaseType>
 let mutate: MutateType<ProductPurchaseType>
@@ -45,12 +48,17 @@ export default function FarmInputsProducts() {
     const [initialFormikStatus, setInitialFormikStatus] =
         useState(EMPTY_FORM_STATUS)
 
+    const isNew = !initialFormikStatus.uuid
+
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
             const productPurchase = getRowData(dataIndex)
             if (!productPurchase) return
 
-            setInitialFormikValues(productPurchase)
+            setInitialFormikValues({
+                ...productPurchase,
+                cashable_uuid: productPurchase.transaction?.cash.uuid,
+            })
 
             setInitialFormikStatus({
                 uuid: productPurchase.uuid,
@@ -68,14 +76,41 @@ export default function FarmInputsProducts() {
 
     const handleClose = () => setIsDialogOpen(false)
 
-    const isNew = !initialFormikStatus.uuid
+    const handleOnSubmit: FormikConfig<FormValuesType>['onSubmit'] = (
+        values,
+        { setErrors },
+    ) =>
+        axios
+            .post(
+                ApiUrlEnum.UPDATE_OR_CREATE_PRODUCT_PURCHASE.replace(
+                    '$1',
+                    isNew ? '' : '/${initialFormikStatus.uuid}',
+                ),
+                {
+                    order: values.order,
+                    due: values.due,
+                    received: values.received,
+                    paid: values.paid,
+                    note: values.note,
+                    product_movement: {
+                        costs: values.product_movement?.costs,
+                    },
+                    product_movement_details: values.product_movement_details,
+                    cashable_uuid: values.cashable_uuid,
+                },
+            )
+            .then(() => {
+                mutate()
+                handleClose()
+            })
+            .catch(error => errorCatcher(error, setErrors))
 
     return (
         <AuthLayout title="Pembelian Produk">
             <Datatable
                 title="Riwayat"
-                apiUrl={DatatableEndpointEnum.PRODUCT_PURCHASES}
                 tableId="product-purchases-table"
+                apiUrl={ApiUrlEnum.PRODUCT_PURCHASE_DATATABLE}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'order', direction: 'desc' }}
                 onRowClick={handleRowClick}
@@ -83,40 +118,31 @@ export default function FarmInputsProducts() {
                 mutateCallback={fn => (mutate = fn)}
             />
 
-            <DialogWithTitle
-                title={(isNew ? 'Tambah ' : 'Perbaharui ') + 'Data Pembelian'}
-                open={isDialogOpen}
-                maxWidth="lg">
-                <Formik
-                    initialValues={initialFormikValues}
-                    initialStatus={initialFormikStatus}
-                    onSubmit={(values, { setErrors }) =>
-                        axios
-                            .post(
-                                `farm-inputs/product-purchases${
-                                    isNew ? '' : `/${initialFormikStatus.uuid}`
-                                }`,
-                                values,
-                            )
-                            .then(() => {
-                                mutate()
-                                handleClose()
-                            })
-                            .catch(error => errorCatcher(error, setErrors))
-                    }
-                    onReset={handleClose}
-                    component={ProductPurchaseForm}
-                />
-            </DialogWithTitle>
-
             {userHasPermission([
-                'create product purchase',
-                'update product purchase',
+                FarmInput.CREATE_PRODUCT_PURCHASE,
+                FarmInput.UPDATE_PRODUCT_PURCHASE,
             ]) && (
-                <Fab onClick={handleNew}>
-                    <ShoppingCartIcon />
-                </Fab>
+                <DialogWithTitle
+                    title={
+                        (isNew ? 'Tambah ' : 'Perbaharui ') + 'Data Pembelian'
+                    }
+                    open={isDialogOpen}
+                    maxWidth="lg">
+                    <Formik
+                        initialValues={initialFormikValues}
+                        initialStatus={initialFormikStatus}
+                        onSubmit={handleOnSubmit}
+                        onReset={handleClose}
+                        component={ProductPurchaseForm}
+                    />
+                </DialogWithTitle>
             )}
+
+            <Fab
+                onClick={handleNew}
+                in={userHasPermission(FarmInput.CREATE_PRODUCT_PURCHASE)}>
+                <ShoppingCartIcon />
+            </Fab>
         </AuthLayout>
     )
 }
