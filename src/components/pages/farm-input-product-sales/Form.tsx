@@ -50,7 +50,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
     values: {
         at,
         payment_method,
-        n_term_unit,
+        term_unit,
         n_term,
         adjustment_rp,
         product_sale_details,
@@ -318,7 +318,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
                             margin="dense"
                             disabled={isDisabled}
                             fullWidth
-                            error={Boolean(errors.n_term_unit)}>
+                            error={Boolean(errors.term_unit)}>
                             <InputLabel size="small">
                                 Satuan Waktu Angsuran
                             </InputLabel>
@@ -327,17 +327,17 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                 label="Satuan Waktu Angsuran"
                                 size="small"
                                 required
-                                name="n_term_unit"
-                                value={n_term_unit}
+                                name="term_unit"
+                                value={term_unit}
                                 onChange={({ target: { value } }) =>
-                                    setFieldValue('n_term_unit', value)
+                                    setFieldValue('term_unit', value)
                                 }>
                                 <MenuItem value="minggu">Minggu</MenuItem>
                                 <MenuItem value="bulan">Bulan</MenuItem>
                             </Select>
-                            {errors.n_term_unit && (
+                            {errors.term_unit && (
                                 <FormHelperText>
-                                    {errors.n_term_unit}
+                                    {errors.term_unit}
                                 </FormHelperText>
                             )}
                         </FormControl>
@@ -489,7 +489,7 @@ export const EMPTY_FORM_DATA: {
     // payment installment
     interest_percent: ProductSaleType['interest_percent']
     n_term: ProductSaleType['n_term']
-    n_term_unit: null | ProductSaleType['n_term_unit']
+    term_unit: null | ProductSaleType['n_term_unit']
 } = {
     buyer_user_uuid: null,
     note: '',
@@ -506,7 +506,7 @@ export const EMPTY_FORM_DATA: {
 
     interest_percent: 4,
     n_term: 1,
-    n_term_unit: 'minggu',
+    term_unit: 'minggu',
 }
 
 export const EMPTY_FORM_STATUS: null | ProductSaleType = null
