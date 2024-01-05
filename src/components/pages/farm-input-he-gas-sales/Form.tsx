@@ -239,7 +239,7 @@ export default function FarmInputHeGasSaleForm({
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    {product?.unit}
+                                    /{product?.unit}
                                 </InputAdornment>
                             ),
                         }}
