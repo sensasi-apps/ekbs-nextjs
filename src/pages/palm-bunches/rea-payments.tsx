@@ -1,5 +1,28 @@
+// types
+import type { MUIDataTableColumn } from 'mui-datatables'
+import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
+// vendors
+import { useState } from 'react'
+// icons
+import BackupTableIcon from '@mui/icons-material/BackupTable'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+// components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import { FormDataProvider } from '@/providers/useFormData'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
+import Dialog from '@/components/Global/Dialog'
+import Fab from '@/components/Fab'
+import FormActions from '@/components/Global/Form/Actions'
+import NumericFormat from '@/components/Global/NumericFormat'
+import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form'
+import PalmBuncesReaPaymentDetailDatatableModal from '@/components/PalmBunchesReaPayment/DetailDatatable'
+// providers
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
+// utils
+import toDmy from '@/utils/toDmy'
+import ApiUrlEnum from '../../components/PalmBunchesReaPayment/ApiUrlEnum'
+import formatNumber from '@/utils/formatNumber'
 
 export default function PalmBuncesReaPaymentsPage() {
     return (
@@ -10,27 +33,6 @@ export default function PalmBuncesReaPaymentsPage() {
         </AuthLayout>
     )
 }
-
-import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
-
-// vendors
-import useSWR from 'swr'
-// materials
-import Alert from '@mui/material/Alert'
-import BackupTableIcon from '@mui/icons-material/BackupTable'
-import Fab from '@mui/material/Fab'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
-// components
-import Datatable, { getRowData, mutate } from '@/components/Datatable'
-import Dialog from '@/components/Global/Dialog'
-import FormActions from '@/components/Global/Form/Actions'
-import NumericFormat from '@/components/Global/NumericFormat'
-import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form'
-// providers
-import useFormData from '@/providers/useFormData'
-// utils
-import toDmy from '@/utils/toDmy'
 
 function PalmBunchDeliveryRatesCrudWithUseFormData() {
     const {
@@ -44,16 +46,12 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
         handleCreate,
     } = useFormData()
 
-    const { data: paymentsNotFound = [] } = useSWR(
-        '/palm-bunches/rea-payments/ticket-data-not-found',
-    )
-
     return (
         <>
             <Datatable
                 title="Riwayat"
                 tableId="PalmBunchDeliveryRateDatatable"
-                apiUrl="/palm-bunches/rea-payments/datatable"
+                apiUrl={ApiUrlEnum.REA_PAYMENT_DATATABLE}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data =
@@ -66,37 +64,6 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
             />
-
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1rem',
-                    marginTop: '2rem',
-                }}>
-                {paymentsNotFound.map((payment: any, index: number) => (
-                    <Alert key={index} severity="warning">
-                        <Tooltip
-                            title={payment.details.map((detail: any) => (
-                                <div key={detail.wb_ticket_no}>
-                                    {detail.wb_ticket_no}
-                                </div>
-                            ))}>
-                            <span
-                                style={{
-                                    textDecoration: 'underline',
-                                    textDecorationStyle: 'dotted',
-                                    cursor: 'pointer',
-                                }}>
-                                <b>{payment.details.length} tiket</b> tidak
-                                memiliki data tiket
-                            </span>
-                        </Tooltip>{' '}
-                        pada pembayaran tanggal {payment.from_at} -{' '}
-                        {payment.to_at}
-                    </Alert>
-                ))}
-            </div>
 
             <Dialog
                 open={formOpen}
@@ -123,22 +90,14 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                 />
             </Dialog>
 
-            <Fab
-                disabled={formOpen}
-                onClick={handleCreate}
-                color="success"
-                sx={{
-                    position: 'fixed',
-                    bottom: 16,
-                    right: 16,
-                }}>
+            <Fab in={!formOpen} onClick={handleCreate}>
                 <BackupTableIcon />
             </Fab>
         </>
     )
 }
 
-const DATATABLE_COLUMNS = [
+const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
         label: 'uuid',
@@ -170,31 +129,146 @@ const DATATABLE_COLUMNS = [
         },
     },
     {
-        name: 'n_details',
-        label: 'Jumlah Tiket',
+        name: 'n_details_not_found_on_system',
+        label: 'Tiket Tidak Ditemukan',
         options: {
             sort: false,
-            customBodyRender: (value: number) => (
-                <NumericFormat value={value} displayType="text" />
-            ),
+            customBodyRenderLite: dataIndex => {
+                const data =
+                    getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+
+                if (!data) return ''
+
+                return <DetailNotFoundCell data={data} />
+            },
+            hint: 'Data Tiket dari file Excel REA (farmer name) yang tidak/belum tercatat pada EKBS',
         },
     },
     {
-        name: 'n_tickets_has_paid',
-        label: 'Tiket lunas',
+        name: 'n_details_not_found_on_system',
+        label: 'Tiket Tidak Cocok',
         options: {
             sort: false,
-            customBodyRender: (value: number, rowMeta: any) => (
-                <Typography
-                    color={
-                        rowMeta.rowData.n_details === value
-                            ? 'success.main'
-                            : 'warning.main'
-                    }
-                    fontWeight="bold">
-                    <NumericFormat value={value} displayType="text" />
-                </Typography>
-            ),
+            customBodyRenderLite: dataIndex => {
+                const data =
+                    getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+
+                if (!data) return ''
+
+                return <DetailIncorrectCell data={data} />
+            },
+            hint: 'Data Tiket dari file Excel REA (farmer name) tidak cocok dengan tiket yang tercatat pada EKBS',
+        },
+    },
+    {
+        name: 'n_details_has_paid',
+        label: 'Tiket Lunas',
+        options: {
+            sort: false,
+            customBodyRenderLite: dataIndex => {
+                const data =
+                    getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+
+                if (!data) return ''
+
+                return <DetailDoneCell data={data} />
+            },
         },
     },
 ]
+
+function DetailNotFoundCell({ data }: { data: PalmBunchesReaPaymentDataType }) {
+    const [isOpen, setIsOpen] = useState(false)
+
+    const { uuid, n_details_not_found_on_system } = data
+
+    if (!n_details_not_found_on_system) return ''
+
+    return (
+        <>
+            <Button
+                size="small"
+                color="warning"
+                onClick={() => setIsOpen(true)}>
+                <Typography color="warning.main" fontWeight="bold">
+                    {n_details_not_found_on_system}
+                </Typography>
+            </Button>
+
+            <PalmBuncesReaPaymentDetailDatatableModal
+                uuid={uuid}
+                title="Rincian"
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
+                type="not-found"
+            />
+        </>
+    )
+}
+
+function DetailIncorrectCell({
+    data,
+}: {
+    data: PalmBunchesReaPaymentDataType
+}) {
+    const [isOpen, setIsOpen] = useState(false)
+
+    const { uuid, n_details_incorrect } = data
+
+    if (!n_details_incorrect) return ''
+
+    return (
+        <>
+            <Button
+                size="small"
+                color="warning"
+                onClick={() => setIsOpen(true)}>
+                <Typography color="warning.main" fontWeight="bold">
+                    {n_details_incorrect}
+                </Typography>
+            </Button>
+
+            <PalmBuncesReaPaymentDetailDatatableModal
+                uuid={uuid}
+                title="Rincian"
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
+                type="incorrect"
+            />
+        </>
+    )
+}
+
+function DetailDoneCell({ data }: { data: PalmBunchesReaPaymentDataType }) {
+    const [isOpen, setIsOpen] = useState(false)
+
+    const { uuid, n_details_has_paid, n_tickets } = data
+
+    return (
+        <>
+            <Tooltip
+                title={`${formatNumber(n_details_has_paid)} / ${formatNumber(
+                    n_tickets,
+                )} Tiket`}
+                arrow
+                placement="top">
+                <Button
+                    size="small"
+                    color="warning"
+                    onClick={() => setIsOpen(true)}>
+                    <Typography color="warning.main" fontWeight="bold">
+                        {((n_details_has_paid / n_tickets) * 100).toFixed(0)}%
+                    </Typography>
+                </Button>
+            </Tooltip>
+
+            <PalmBuncesReaPaymentDetailDatatableModal
+                uuid={uuid}
+                title="Rincian"
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
+                type="done"
+            />
+        </>
+    )
+}
