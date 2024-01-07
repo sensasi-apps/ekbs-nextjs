@@ -36,6 +36,9 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import Text from '@/components/Global/Text'
 import DatePicker from '@/components/DatePicker'
 import toDmy from '@/utils/toDmy'
+// utils
+import formatNumber from '@/utils/formatNumber'
+import numberToCurrency from '@/utils/numberToCurrency'
 
 export default function PalmBuncesReaPaymentForm({
     data: dataProp = {} as PalmBunchesReaPaymentDataType,
@@ -229,12 +232,7 @@ export default function PalmBuncesReaPaymentForm({
                     )}
 
                     <Text label="Jumlah Tiket:" mb={2}>
-                        <NumericFormat
-                            value={n_tickets}
-                            suffix=" Tiket"
-                            displayType="text"
-                            decimalScale={4}
-                        />
+                        {formatNumber(n_tickets)}
                     </Text>
 
                     <TableContainer>
@@ -254,33 +252,21 @@ export default function PalmBuncesReaPaymentForm({
                                 <TableRow>
                                     <TableCell>Nilai Kotor</TableCell>
                                     <TableCell align="right">
-                                        <NumericFormat
-                                            value={gross_rp}
-                                            prefix="Rp. "
-                                            displayType="text"
-                                        />
+                                        {numberToCurrency(gross_rp)}
                                     </TableCell>
                                 </TableRow>
 
                                 <TableRow>
                                     <TableCell>Deduksi</TableCell>
                                     <TableCell align="right">
-                                        <NumericFormat
-                                            value={deduction_rp}
-                                            prefix="Rp. "
-                                            displayType="text"
-                                        />
+                                        {numberToCurrency(-deduction_rp)}
                                     </TableCell>
                                 </TableRow>
 
                                 <TableRow>
                                     <TableCell>Insentif</TableCell>
                                     <TableCell align="right">
-                                        <NumericFormat
-                                            value={incentive_rp}
-                                            prefix="Rp. "
-                                            displayType="text"
-                                        />
+                                        {numberToCurrency(incentive_rp)}
                                     </TableCell>
                                 </TableRow>
 
@@ -289,11 +275,7 @@ export default function PalmBuncesReaPaymentForm({
                                         Nilai Bersih (sebelum pajak)
                                     </TableCell>
                                     <TableCell align="right">
-                                        <NumericFormat
-                                            value={net_rp}
-                                            prefix="Rp. "
-                                            displayType="text"
-                                        />
+                                        {numberToCurrency(net_rp)}
                                     </TableCell>
                                 </TableRow>
 
@@ -348,7 +330,7 @@ export default function PalmBuncesReaPaymentForm({
                                                         </InputAdornment>
                                                     ),
                                                     inputComponent:
-                                                        NumericFormat as any,
+                                                        NumericFormat as any, // TODO: remove this
                                                 }}
                                                 inputProps={{
                                                     decimalScale: 4,
@@ -401,16 +383,17 @@ export default function PalmBuncesReaPaymentForm({
                                         },
                                     }}>
                                     <TableCell>Nilai Akhir</TableCell>
-                                    <TableCell align="right">
-                                        <NumericFormat
-                                            value={transactions.reduce(
+                                    <TableCell
+                                        align="right"
+                                        sx={{
+                                            fontSize: '1.1rem',
+                                        }}>
+                                        {numberToCurrency(
+                                            transactions.reduce(
                                                 (a, b) => a + (b.amount || 0),
                                                 net_rp,
-                                            )}
-                                            prefix="Rp. "
-                                            displayType="text"
-                                            style={{ fontSize: '1.1rem' }}
-                                        />
+                                            ),
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             </TableFooter>
