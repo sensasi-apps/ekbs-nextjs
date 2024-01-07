@@ -4,6 +4,7 @@ import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 // icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
+import AssessmentIcon from '@mui/icons-material/Assessment'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import BalanceIcon from '@mui/icons-material/Balance'
@@ -192,6 +193,12 @@ const farmInputNavs: NavItem[] = [
         icon: <LocalGasStationIcon />,
         forRole: [Role.FARM_INPUT_MANAGER, Role.FARM_INPUT_SALES],
     },
+    {
+        href: '/katalog-saprodi',
+        label: 'Katalog',
+        pathname: '/katalog-saprodi',
+        icon: <WarehouseIcon />,
+    },
 ]
 
 const heavyEquipmentNavs: NavItem[] = [
@@ -301,6 +308,12 @@ const NAV_ITEMS: NavItem[] = [
         label: 'Dasbor',
         pathname: '/dashboard',
         icon: <DashboardIcon />,
+    },
+    {
+        href: '/laporan-performa',
+        label: 'Laporan Performa',
+        pathname: '/laporan-performa',
+        icon: <AssessmentIcon />,
     },
 
     ...palmBunchNavs,
