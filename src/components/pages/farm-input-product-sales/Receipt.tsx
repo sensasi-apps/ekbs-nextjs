@@ -9,7 +9,7 @@ import Box from '@mui/material/Box'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import Typography from '@mui/material/Typography'
 // components
-import ReceiptInstalmentTable from './Receipt/InstallmentTable'
+import ReceiptInstalmentTable from '@/components/pages/farm-input-product-sales/Receipt/InstallmentTable'
 // utils
 import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
@@ -121,8 +121,13 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                                 component={Typography}
                                 variant="overline"
                                 lineHeight="unset"
-                                fontSize="1em">
+                                fontSize="1em"
+                                whiteSpace="nowrap"
+                                overflow="hidden">
                                 {name}
+                                <Typography variant="caption" component="div">
+                                    @ {formatNumber(rp_per_unit)}
+                                </Typography>
                             </Grid2>
 
                             <Grid2
