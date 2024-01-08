@@ -42,7 +42,7 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
                     type: type,
                 }}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'weighting_at', direction: 'desc' }}
+                defaultSortOrder={{ name: 'wb_ticket_no', direction: 'asc' }}
             />
         </Dialog>
     )
