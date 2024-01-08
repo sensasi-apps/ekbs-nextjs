@@ -33,7 +33,7 @@ export default function PublicLayout({
     footerTextOnly?: boolean
     maxWidth?: ContainerProps['maxWidth']
 }) {
-    const { push } = useRouter()
+    const { push, back } = useRouter()
 
     return (
         <Container
@@ -61,7 +61,9 @@ export default function PublicLayout({
                             sx={{
                                 alignSelf: 'flex-end',
                             }}
-                            onClick={() => push('/')}>
+                            onClick={() =>
+                                window.history.length > 1 ? back() : push('/')
+                            }>
                             Kembali
                         </Button>
                     )}
