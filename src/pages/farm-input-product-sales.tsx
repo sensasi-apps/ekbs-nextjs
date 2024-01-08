@@ -52,7 +52,7 @@ export default function FarmInputProductSales() {
                 cashable_uuid: productSale.transaction?.cashable_uuid ?? '',
                 interest_percent: productSale.interest_percent,
                 n_term: productSale.n_term,
-                term_unit: productSale.n_term_unit,
+                n_term_unit: productSale.n_term_unit,
                 adjustment_rp: productSale.adjustment_rp,
                 product_sale_details: productSale.product_movement_details.map(
                     detail => ({
@@ -144,7 +144,7 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
         cashable_uuid,
         interest_percent,
         n_term,
-        term_unit,
+        n_term_unit,
         adjustment_rp,
     } = values
 
@@ -169,7 +169,7 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
             ...requiredValues,
             interest_percent,
             n_term,
-            term_unit,
+            n_term_unit,
         }
     }
 
