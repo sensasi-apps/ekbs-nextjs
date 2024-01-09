@@ -574,7 +574,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                         <NumericFormat
                             label="Jasa"
                             disabled={isDisabled}
-                            decimalScale={0}
                             value={interest_percent}
                             name="interest_percent"
                             onValueChange={({ floatValue }) =>
@@ -591,10 +590,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                         %
                                     </InputAdornment>
                                 ),
-                            }}
-                            inputProps={{
-                                minLength: 1,
-                                maxLength: 2,
                             }}
                             {...errorsToHelperTextObj(errors.interest_percent)}
                         />

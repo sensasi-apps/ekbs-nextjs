@@ -66,11 +66,12 @@ const ProductSaleForm = memo(function ProductSaleForm({
     const [userAutocompleteValue, setUserAutocompleteValue] =
         useState<UserType | null>(buyer_user ?? null)
 
-    const totalRp = product_sale_details.reduce(
-        (acc, { qty, rp_per_unit }) =>
-            acc + Math.abs(qty ?? 0) * (rp_per_unit ?? 0),
-        0,
-    )
+    const totalRp =
+        product_sale_details?.reduce(
+            (acc, { qty, rp_per_unit }) =>
+                acc + Math.abs(qty ?? 0) * (rp_per_unit ?? 0),
+            0,
+        ) ?? 0
 
     const { data: wallet, isLoading: isWalletLoading } = useSWR<WalletType>(
         userAutocompleteValue?.uuid
@@ -103,8 +104,9 @@ const ProductSaleForm = memo(function ProductSaleForm({
             <Grid container columnSpacing={2}>
                 <Grid item xs={12} sm={6}>
                     <DatePicker
-                        value={dayjs(at)}
+                        value={at ? dayjs(at) : undefined}
                         disabled={isDisabled}
+                        maxDate={dayjs().add(1, 'day')}
                         label="Tanggal"
                         onChange={date =>
                             setFieldValue('at', date?.format('YYYY-MM-DD'))
@@ -286,10 +288,6 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                     </InputAdornment>
                                 ),
                             }}
-                            inputProps={{
-                                minLength: 1,
-                                maxLength: 2,
-                            }}
                             {...errorsToHelperTextObj(errors.interest_percent)}
                         />
 
@@ -467,7 +465,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
 
 export default ProductSaleForm
 
-export const EMPTY_FORM_DATA: {
+export const EMPTY_FORM_DATA: Partial<{
     buyer_user_uuid: null | ProductSaleType['buyer_user_uuid']
     at: null | ProductSaleType['at']
     note: '' | ProductSaleType['note']
@@ -489,10 +487,9 @@ export const EMPTY_FORM_DATA: {
     interest_percent: ProductSaleType['interest_percent']
     n_term: ProductSaleType['n_term']
     n_term_unit: null | ProductSaleType['n_term_unit']
-} = {
+}> = {
     buyer_user_uuid: null,
     note: '',
-    at: dayjs().format('YYYY-MM-DD') as ProductSaleType['at'],
     product_sale_details: [
         {
             product_id: null,
@@ -502,10 +499,6 @@ export const EMPTY_FORM_DATA: {
 
     payment_method: null,
     cashable_uuid: '',
-
-    interest_percent: 4,
-    n_term: 1,
-    n_term_unit: 'minggu',
 }
 
 export const EMPTY_FORM_STATUS: null | ProductSaleType = null
