@@ -232,7 +232,7 @@ export default function PalmBuncesReaPaymentForm({
                     )}
 
                     <Text label="Jumlah Tiket:" mb={2}>
-                        {formatNumber(n_tickets)}
+                        {n_tickets && formatNumber(n_tickets)}
                     </Text>
 
                     <TableContainer>
@@ -252,21 +252,23 @@ export default function PalmBuncesReaPaymentForm({
                                 <TableRow>
                                     <TableCell>Nilai Kotor</TableCell>
                                     <TableCell align="right">
-                                        {numberToCurrency(gross_rp)}
+                                        {gross_rp && numberToCurrency(gross_rp)}
                                     </TableCell>
                                 </TableRow>
 
                                 <TableRow>
                                     <TableCell>Deduksi</TableCell>
                                     <TableCell align="right">
-                                        {numberToCurrency(-deduction_rp)}
+                                        {deduction_rp &&
+                                            numberToCurrency(-deduction_rp)}
                                     </TableCell>
                                 </TableRow>
 
                                 <TableRow>
                                     <TableCell>Insentif</TableCell>
                                     <TableCell align="right">
-                                        {numberToCurrency(incentive_rp)}
+                                        {incentive_rp &&
+                                            numberToCurrency(incentive_rp)}
                                     </TableCell>
                                 </TableRow>
 
@@ -275,7 +277,7 @@ export default function PalmBuncesReaPaymentForm({
                                         Nilai Bersih (sebelum pajak)
                                     </TableCell>
                                     <TableCell align="right">
-                                        {numberToCurrency(net_rp)}
+                                        {net_rp && numberToCurrency(net_rp)}
                                     </TableCell>
                                 </TableRow>
 
@@ -391,7 +393,7 @@ export default function PalmBuncesReaPaymentForm({
                                         {numberToCurrency(
                                             transactions.reduce(
                                                 (a, b) => a + (b.amount || 0),
-                                                net_rp,
+                                                net_rp ?? 0,
                                             ),
                                         )}
                                     </TableCell>
