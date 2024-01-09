@@ -15,23 +15,13 @@ function UserLoanDisburseDatatable({
 }: {
     onEdit: (userLoan: UserLoanType) => void
 }) {
-    const [apiUrl, setApiUrl] = useState(UserLoanDatatableApiUrlEnum.ForManager)
+    const [apiUrl, setApiUrl] = useState(
+        UserLoanDatatableApiUrlEnum.ForDisburser,
+    )
 
     return (
         <>
             <Box display="flex" gap={1} mb={2}>
-                <Chip
-                    color={
-                        apiUrl === UserLoanDatatableApiUrlEnum.ForManager
-                            ? 'success'
-                            : undefined
-                    }
-                    label="Semua"
-                    onClick={() =>
-                        setApiUrl(UserLoanDatatableApiUrlEnum.ForManager)
-                    }
-                />
-
                 <Chip
                     color={
                         apiUrl === UserLoanDatatableApiUrlEnum.ForDisburser
@@ -41,6 +31,18 @@ function UserLoanDisburseDatatable({
                     label="Menunggu Pencairan"
                     onClick={() =>
                         setApiUrl(UserLoanDatatableApiUrlEnum.ForDisburser)
+                    }
+                />
+
+                <Chip
+                    color={
+                        apiUrl === UserLoanDatatableApiUrlEnum.ForManager
+                            ? 'success'
+                            : undefined
+                    }
+                    label="Semua"
+                    onClick={() =>
+                        setApiUrl(UserLoanDatatableApiUrlEnum.ForManager)
                     }
                 />
             </Box>
