@@ -73,7 +73,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
 
         interest_percent,
         n_term,
-        n_term_unit,
+        term_unit,
 
         cashable_uuid,
 
@@ -623,7 +623,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                             margin="dense"
                             disabled={isDisabled}
                             fullWidth
-                            error={Boolean(errors.n_term_unit)}>
+                            error={Boolean(errors.term_unit)}>
                             <InputLabel size="small">
                                 Satuan Waktu Angsuran
                             </InputLabel>
@@ -632,17 +632,17 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                 label="Satuan Waktu Angsuran"
                                 size="small"
                                 required
-                                name="n_term_unit"
-                                value={n_term_unit ?? ''}
+                                name="term_unit"
+                                value={term_unit ?? ''}
                                 onChange={({ target: { value } }) =>
-                                    setFieldValue('n_term_unit', value)
+                                    setFieldValue('term_unit', value)
                                 }>
                                 <MenuItem value="minggu">Minggu</MenuItem>
                                 <MenuItem value="bulan">Bulan</MenuItem>
                             </Select>
-                            {errors.n_term_unit && (
+                            {errors.term_unit && (
                                 <FormHelperText>
-                                    {errors.n_term_unit}
+                                    {errors.term_unit}
                                 </FormHelperText>
                             )}
                         </FormControl>
@@ -704,7 +704,7 @@ export type HeavyEquipmentRentFormValues = Partial<
 
         interest_percent: number
         n_term: number
-        n_term_unit: 'minggu' | 'bulan'
+        term_unit: 'minggu' | 'bulan'
 
         cashable_uuid: UUID
 
