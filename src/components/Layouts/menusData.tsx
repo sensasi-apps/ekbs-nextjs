@@ -144,12 +144,6 @@ const loanNavs: NavItem[] = [
 const farmInputNavs: NavItem[] = [
     {
         component: <GroupTitle>Saprodi</GroupTitle>,
-        forRole: [
-            Role.FARM_INPUT_MANAGER,
-            Role.FARM_INPUT_PURCHASER,
-            Role.FARM_INPUT_WAREHOUSE_MANAGER,
-            Role.FARM_INPUT_SALES,
-        ],
     },
     {
         href: '/farm-inputs/products',
