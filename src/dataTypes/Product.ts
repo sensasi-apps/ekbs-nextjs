@@ -1,3 +1,5 @@
+import type { Ymd } from '@/types/DateString'
+
 type ProductType = {
     id: number
     code?: string
@@ -10,6 +12,7 @@ type ProductType = {
     base_cost_rp_per_unit: number
     default_sell_price: number
     qty: number
+    deleted_at?: Ymd
 }
 
 export default ProductType

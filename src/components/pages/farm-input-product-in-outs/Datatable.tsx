@@ -105,11 +105,12 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'type',
         label: 'Jenis',
         options: {
+            searchable: false,
             sort: false,
         },
     },
     {
-        name: 'details.product',
+        name: 'details.product.name',
         label: 'Barang',
         options: {
             sort: false,
@@ -143,6 +144,7 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'details',
         label: 'Total Nilai',
         options: {
+            searchable: false,
             sort: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData<ProductMovementType>(dataIndex)

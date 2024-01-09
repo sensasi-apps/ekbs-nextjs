@@ -23,17 +23,11 @@ function UserLoanReviewDatatable({
 }) {
     const { user } = useAuth()
 
-    const [apiUrl, setApiUrl] = useState(ApiUrlEnum.All)
+    const [apiUrl, setApiUrl] = useState(ApiUrlEnum.WaitForReview)
 
     return (
         <>
             <Box display="flex" gap={1} mb={2}>
-                <Chip
-                    color={apiUrl === ApiUrlEnum.All ? 'success' : undefined}
-                    label="Semua"
-                    onClick={() => setApiUrl(ApiUrlEnum.All)}
-                />
-
                 <Chip
                     color={
                         apiUrl === ApiUrlEnum.WaitForReview
@@ -42,6 +36,12 @@ function UserLoanReviewDatatable({
                     }
                     label="Menunggu Persetujuan"
                     onClick={() => setApiUrl(ApiUrlEnum.WaitForReview)}
+                />
+
+                <Chip
+                    color={apiUrl === ApiUrlEnum.All ? 'success' : undefined}
+                    label="Semua"
+                    onClick={() => setApiUrl(ApiUrlEnum.All)}
                 />
             </Box>
 

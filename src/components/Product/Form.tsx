@@ -1,25 +1,39 @@
+// types
 import type { KeyedMutator } from 'swr'
 import type ProductType from '@/dataTypes/Product'
-
+// vendors
+import axios from '@/lib/axios'
 import { FC, FormEvent } from 'react'
 import { NumericFormat } from 'react-number-format'
 // materials
+import Alert from '@mui/material/Alert'
 import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-
+// components
+import ApiUrlEnum from '@/components/Product/ApiUrlEnum'
+import FormActions from '@/components/Global/Form/Actions'
+// providers
 import useFormData from '@/providers/useFormData'
-import FormActions from '../Global/Form/Actions'
-import axios from '@/lib/axios'
 import useValidationErrors from '@/hooks/useValidationErrors'
+// utils
 import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
 import handle422 from '@/utils/errorCatcher'
+import toDmy from '@/utils/toDmy'
 
 const ProductForm: FC<{
     parentDatatableMutator: KeyedMutator<any>
 }> = ({ parentDatatableMutator }) => {
-    const { data, isDirty, handleClose, loading, setSubmitting } =
-        useFormData<ProductType>()
+    const {
+        data,
+        isDirty,
+        handleClose,
+        loading,
+        setSubmitting,
+        deleting,
+        setDeleting,
+    } = useFormData<ProductType>()
+
     const { validationErrors, setValidationErrors } = useValidationErrors()
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -50,7 +64,10 @@ const ProductForm: FC<{
 
         axios
             .post(
-                `/farm-inputs/products${data.id ? '/' + data.id : ''}`,
+                ApiUrlEnum.UPDATE_OR_CREATE_PRODUCT.replace(
+                    '$1',
+                    data.id ? '/' + data.id : '',
+                ),
                 formData,
             )
             .then(() => {
@@ -61,8 +78,36 @@ const ProductForm: FC<{
             .finally(() => setSubmitting(false))
     }
 
+    const handleDelete = () => {
+        setDeleting(true)
+
+        return axios
+            .delete(
+                ApiUrlEnum.DELETE_PRODUCT.replace(
+                    '$1',
+                    data.id as unknown as string,
+                ),
+            )
+            .then(() => {
+                parentDatatableMutator()
+                handleClose()
+            })
+            .finally(() => setDeleting(false))
+    }
+
     return (
         <form onSubmit={handleSubmit} autoComplete="off">
+            {data.deleted_at && (
+                <Alert
+                    severity="warning"
+                    sx={{
+                        mb: 1,
+                    }}>
+                    Produk telah dinonaaktifkan pada tanggal{' '}
+                    {toDmy(data.deleted_at)}, silahkan klik tombol
+                    &quot;simpan&quot; untuk mengaktifkan kembali
+                </Alert>
+            )}
             <Grid container columnSpacing={1.5}>
                 <Grid item xs={12} sm={6}>
                     <TextField
@@ -231,6 +276,8 @@ const ProductForm: FC<{
 
             <FormActions
                 disabled={loading}
+                deleting={deleting}
+                onDelete={data.deleted_at ? undefined : handleDelete}
                 onCancel={() => {
                     if (
                         isDirty &&
