@@ -64,7 +64,7 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                         </Tooltip>
                     </Typography>
 
-                    {product_sale_details.map((row, index) => (
+                    {product_sale_details?.map((row, index) => (
                         <Grid
                             key={index}
                             container
@@ -224,13 +224,13 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                 component="span"
                                 fontWeight="bold">
                                 {numberToCurrency(
-                                    product_sale_details.reduce(
+                                    product_sale_details?.reduce(
                                         (acc, row) =>
                                             acc +
                                             Math.abs(row.qty ?? 0) *
                                                 (row.rp_per_unit ?? 0),
                                         0,
-                                    ) ?? '',
+                                    ) ?? 0,
                                 )}
                             </Typography>
                         </Grid>
