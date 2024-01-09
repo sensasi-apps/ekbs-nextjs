@@ -63,7 +63,8 @@ const Datatable = memo(function Datatable({
     mutateCallback,
     getRowDataCallback,
     swrOptions,
-}: DatatableProps) {
+    ...props
+}: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick'>) {
     const [params, setParams] = useState<any>()
     const [sortOrder, setSortOrder] = useState(defaultSortOrder)
 
@@ -153,6 +154,7 @@ const Datatable = memo(function Datatable({
                 toolTip: 'Urutkan',
             },
         },
+        ...props,
     }
 
     return (

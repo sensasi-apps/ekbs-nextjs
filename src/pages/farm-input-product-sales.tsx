@@ -248,7 +248,10 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                                 const { name, unit } =
                                     data?.products_state?.find(
                                         p => p.id === product_id,
-                                    ) ?? { name: '', unit: '' }
+                                    ) ??
+                                        data?.product_movement.details.find(
+                                            p => p.product_id === product_id,
+                                        )?.product ?? { name: '', unit: '' }
 
                                 return (
                                     <Typography
