@@ -202,6 +202,7 @@ const RolesAndPermissionButtonAndDialogForm = memo(
                                         'palm bunch',
                                         'loan',
                                         'farm inputs',
+                                        'heavy equipment rent',
                                         'finance',
                                         'inventory',
                                         'system',
