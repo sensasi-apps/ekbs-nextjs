@@ -283,9 +283,18 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 const data = getRowData<ProductSaleType>(dataIndex)
                 if (!data) return ''
 
-                const { total_rp, adjustment_rp = 0 } = data
+                const {
+                    total_rp,
+                    adjustment_rp = 0,
+                    interest_percent = 0,
+                    n_term = 0,
+                } = data
 
-                return numberToCurrency(total_rp + adjustment_rp)
+                return numberToCurrency(
+                    total_rp +
+                        adjustment_rp +
+                        (total_rp / 100) * interest_percent * n_term,
+                )
             },
         },
     },

@@ -1,10 +1,10 @@
-// types
-import type InventoryItem from '@/dataTypes/InventoryItem'
 // vendors
 import axios from '@/lib/axios'
 import { Formik } from 'formik'
 // page components
-import InventoryItemForm from '@/components/pages/inventory-items/Form'
+import InventoryItemForm, {
+    InventoryItemFormValues,
+} from '@/components/pages/inventory-items/Form'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 
@@ -13,11 +13,7 @@ const InventoryItemFormWithFormik = ({
     onSubmitted,
     onReset,
 }: {
-    initialValues: Partial<
-        InventoryItem & {
-            default_rate_rp_per_unit: number
-        }
-    >
+    initialValues: InventoryItemFormValues
     onSubmitted: () => void
     onReset: () => void
 }) => (
@@ -40,13 +36,7 @@ const InventoryItemFormWithFormik = ({
 
 export default InventoryItemFormWithFormik
 
-const formDataFormatter = (
-    values: Partial<
-        InventoryItem & {
-            default_rate_rp_per_unit: number
-        }
-    >,
-) => ({
+const formDataFormatter = (values: InventoryItemFormValues) => ({
     code: values.code ?? undefined,
     name: values.name,
     desc: values.desc ?? undefined,

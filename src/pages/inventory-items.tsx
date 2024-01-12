@@ -1,5 +1,6 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
+import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
 import type {
     GetRowDataType,
     MutateType,
@@ -29,15 +30,14 @@ import toDmy from '@/utils/toDmy'
 let mutate: MutateType<InventoryItem>
 let getRowData: GetRowDataType<InventoryItem>
 
-export default function FarmInputProductSales() {
+export default function InventoryItems() {
     const { userHasPermission } = useAuth()
     const { push } = useRouter()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-    const [initialFormikValues, setInitialFormikValues] = useState<
-        Partial<InventoryItem>
-    >({})
+    const [initialFormikValues, setInitialFormikValues] =
+        useState<InventoryItemFormValues>({})
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {

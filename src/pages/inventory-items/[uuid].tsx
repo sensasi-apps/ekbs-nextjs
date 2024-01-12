@@ -1,8 +1,11 @@
 // types
+import type { AxiosResponse } from 'axios'
 import type InventoryItem from '@/dataTypes/InventoryItem'
 import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 import type { GetRowDataType, MutateType } from '@/components/Datatable'
+import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
 // vendors
+import axios from '@/lib/axios'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 // materials
@@ -35,8 +38,13 @@ export default function InventoryItemDetail() {
         back,
     } = useRouter()
 
-    const { data: inventoryItem, mutate } = useSWR<InventoryItem>(
+    const { data: inventoryItem, mutate } = useSWR<InventoryItemFormValues>(
         uuid ? `/inventory-items/${uuid}` : null,
+        (url: string) =>
+            axios.get(url).then((res: AxiosResponse<InventoryItem>) => ({
+                ...res.data,
+                tags: res.data.tags.map(tag => tag.name.id_ID),
+            })),
         {
             onError: err => {
                 if (err.response?.status === 404) replace('/404')
@@ -60,7 +68,7 @@ export default function InventoryItemDetail() {
                 size="small">
                 Kembali
             </Button>
-            {inventoryItem ? (
+            {inventoryItem && inventoryItem.uuid ? (
                 <Grid2
                     container
                     spacing={2}
@@ -127,6 +135,7 @@ export default function InventoryItemDetail() {
                                             inventoryItem.rentable
                                                 ?.default_rate_rp_per_unit ??
                                             undefined,
+                                        tags: inventoryItem.tags ?? [],
                                     }}
                                     onSubmitted={mutate}
                                     onReset={() => null}

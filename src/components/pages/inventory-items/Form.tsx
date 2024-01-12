@@ -44,13 +44,7 @@ const InventoryItemForm = memo(function InventoryItemForm({
         default_rate_rp_per_unit,
     },
     setFieldValue,
-}: FormikProps<
-    Partial<
-        InventoryItem & {
-            default_rate_rp_per_unit: number
-        }
-    >
->) {
+}: FormikProps<InventoryItemFormValues>) {
     const { userHasPermission } = useAuth()
     const [isDisowned, setIsDisowned] = useState(!!disowned_at)
     const [isFunctional, setIsFunctional] = useState(!unfunctional_note)
@@ -117,7 +111,7 @@ const InventoryItemForm = memo(function InventoryItemForm({
             <Autocomplete
                 multiple
                 options={[]}
-                value={tags?.map(tag => tag?.name?.id_ID ?? tag) ?? []}
+                value={tags ?? []}
                 disabled={isDisabled}
                 freeSolo
                 renderTags={(value: readonly string[], getTagProps) =>
@@ -323,3 +317,10 @@ const InventoryItemForm = memo(function InventoryItemForm({
 })
 
 export default InventoryItemForm
+
+export type InventoryItemFormValues = Partial<
+    Omit<InventoryItem, 'tags'> & {
+        default_rate_rp_per_unit: number
+        tags: string[]
+    }
+>
