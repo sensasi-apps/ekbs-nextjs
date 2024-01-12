@@ -364,7 +364,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 <NumericFormat
                     label="Pesan Untuk"
                     disabled={isDisabled || Boolean(finished_at)}
-                    decimalScale={0}
                     value={for_n_units}
                     name="for_n_units"
                     onValueChange={({ floatValue }) =>

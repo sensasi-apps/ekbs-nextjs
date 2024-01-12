@@ -23,6 +23,11 @@ type RentItemRent = {
 
     transaction?: TransactionType
     installments?: InstallmentType[]
+    installment: {
+        interest_percent: number
+        n_term: number
+        term_unit: 'minggu' | 'bulan'
+    }
     is_paid: boolean
 
     farmer_group?: FarmerGroupType
