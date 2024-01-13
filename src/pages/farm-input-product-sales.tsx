@@ -196,7 +196,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'buyer_user.name',
+        name: 'buyerUser.name',
         label: 'Pengguna',
         options: {
             customBodyRenderLite: dataIndex => {
@@ -228,7 +228,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'product_movement_details.product',
+        name: 'productMovementDetails.product',
         label: 'Barang',
         options: {
             sort: false,
