@@ -159,7 +159,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'buyer_user.name',
+        name: 'buyerUser.name',
         label: 'Pemesan',
         options: {
             customBodyRenderLite: dataIndex => {
@@ -174,6 +174,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'payment_method',
         label: 'Pembayaran',
         options: {
+            searchable: false,
             sort: false,
             customBodyRender: (value: string) => {
                 if (value === 'cash') return 'Tunai'
@@ -191,7 +192,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'product_movement_details.product',
+        name: 'productMovement.details.product.name',
         label: 'Barang',
         options: {
             sort: false,

@@ -212,6 +212,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pembayaran',
         options: {
             sort: false,
+            searchable: false,
             customBodyRender: (value: string) => {
                 if (value === 'cash') return 'Tunai'
                 if (value === 'installment') return 'Potong TBS'
@@ -228,7 +229,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'productMovementDetails.product',
+        name: 'productMovement.details.product.name',
         label: 'Barang',
         options: {
             sort: false,
