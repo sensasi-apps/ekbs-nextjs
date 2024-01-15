@@ -285,9 +285,9 @@ export default function FarmInputHeGasSaleForm({
                 <FormControlLabel
                     label="Sudah Dibayar"
                     disabled={isDisabled}
+                    checked={is_paid}
                     control={
                         <Checkbox
-                            value={is_paid}
                             onChange={({ currentTarget }) =>
                                 setFieldValue('is_paid', currentTarget.checked)
                             }
