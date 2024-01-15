@@ -65,7 +65,7 @@ export default function FarmInputHeGasSales() {
                     productSale.business_unit_product_sale
                         ?.inventory_item_checkup?.inventory_item?.uuid,
 
-                qty: productSale.product_movement_details?.[0]?.qty,
+                qty: Math.abs(productSale.product_movement_details?.[0]?.qty),
                 current_hm:
                     productSale.business_unit_product_sale
                         ?.inventory_item_checkup?.he?.hm,

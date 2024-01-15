@@ -305,7 +305,7 @@ const NAV_ITEMS: NavItem[] = [
     },
     {
         href: '/laporan-performa',
-        label: 'Laporan Performa',
+        label: 'Performa Koperasi',
         pathname: '/laporan-performa',
         icon: <AssessmentIcon />,
     },
