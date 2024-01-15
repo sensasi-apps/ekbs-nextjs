@@ -1,15 +1,26 @@
-import PropTypes from 'prop-types'
-
+// types
+import type ActivityLogType from '@/dataTypes/ActivityLog'
+// vendors
+import { Dispatch, SetStateAction, memo } from 'react'
+// materials
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
-
+// icons
 import CloseIcon from '@mui/icons-material/Close'
-
+// components
 import UserActivityLogsTable from './Table'
 
-const UserActivityLogsDialogTable = ({ open, data, setIsOpen }) => {
+const UserActivityLogsDialogTable = memo(function UserActivityLogsDialogTable({
+    open,
+    data,
+    setIsOpen,
+}: {
+    open: boolean
+    data: ActivityLogType[]
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+}) {
     return (
         <Dialog open={open}>
             <DialogTitle
@@ -17,7 +28,7 @@ const UserActivityLogsDialogTable = ({ open, data, setIsOpen }) => {
                 justifyContent="space-between"
                 alignItems="center"
                 fontWeight="bold"
-                typography={false}
+                // typography={false}
                 component="div">
                 Detail Log
                 <IconButton onClick={() => setIsOpen(false)}>
@@ -29,11 +40,6 @@ const UserActivityLogsDialogTable = ({ open, data, setIsOpen }) => {
             </DialogContent>
         </Dialog>
     )
-}
-
-UserActivityLogsDialogTable.propTypes = {
-    open: PropTypes.bool.isRequired,
-    data: PropTypes.array,
-}
+})
 
 export default UserActivityLogsDialogTable

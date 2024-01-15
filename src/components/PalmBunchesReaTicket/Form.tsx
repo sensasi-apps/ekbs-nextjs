@@ -2,10 +2,13 @@
 import type { FormEvent } from 'react'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type FormType from '@/components/Global/Form/type'
+import type ActivityLogType from '@/dataTypes/ActivityLog'
 // vendors
+import { useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
+import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 // local components
@@ -14,6 +17,9 @@ import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
 import GradingItemInputs from './Form/GradingItemInputs'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
+import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
+import useAuth from '@/providers/Auth'
+import Role from '@/enums/Role'
 
 export default function PalmBuncesReaTicketForm({
     data,
@@ -22,6 +28,8 @@ export default function PalmBuncesReaTicketForm({
     setSubmitting,
     onSubmitted,
 }: FormType<PalmBunchesReaTicketType>) {
+    const { userHasRole } = useAuth()
+
     const disabled = Boolean(
         loading || (data?.delivery?.transactions?.length || 0) > 0,
     )
@@ -97,6 +105,25 @@ export default function PalmBuncesReaTicketForm({
             />
 
             {!data?.delivery?.transactions?.length && actionsSlot}
+
+            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
+                <UserActivityLog data={data.delivery.logs} />
+            )}
         </form>
+    )
+}
+
+const UserActivityLog = ({ data }: { data: ActivityLogType[] }) => {
+    const [open, setOpen] = useState(false)
+
+    return (
+        <>
+            <Button onClick={() => setOpen(true)}>Riwayat Data</Button>
+            <UserActivityLogsDialogTable
+                open={open}
+                setIsOpen={setOpen}
+                data={data}
+            />
+        </>
     )
 }

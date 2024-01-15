@@ -1,7 +1,7 @@
+import type { UUID } from 'crypto'
 import type UserType from './User'
 import type PalmBunchType from './PalmBunch'
-
-import { UUID } from 'crypto'
+import type ActivityLogType from './ActivityLog'
 
 interface PalmBunchesDeliveryType {
     uuid: number
@@ -19,6 +19,7 @@ interface PalmBunchesDeliveryType {
 
     palm_bunches: PalmBunchType[]
     transactions: []
+    logs: ActivityLogType[]
 }
 
 export default PalmBunchesDeliveryType
