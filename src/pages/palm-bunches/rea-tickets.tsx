@@ -1,4 +1,22 @@
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+// vendors
+import { FC, useState } from 'react'
+// materials
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Fab from '@mui/material/Fab'
+// icons
+import ReceiptIcon from '@mui/icons-material/Receipt'
+// components
 import AuthLayout from '@/components/Layouts/AuthLayout'
+import Datatable, { getRowData, mutate } from '@/components/Datatable'
+import Dialog from '@/components/Global/Dialog'
+import FormActions from '@/components/Global/Form/Actions'
+import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
+// local components
+import MainForm from '@/components/PalmBunchesReaTicket/Form'
+// providers
+import useFormData from '@/providers/useFormData'
 import { FormDataProvider } from '@/providers/useFormData'
 
 export default function PalmBuncesReaTickets() {
@@ -11,25 +29,8 @@ export default function PalmBuncesReaTickets() {
     )
 }
 
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
-
-import { FC, useState } from 'react'
-
-import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
-import Fab from '@mui/material/Fab'
-
-import ReceiptIcon from '@mui/icons-material/Receipt'
-
-import Datatable, { getRowData, mutate } from '@/components/Datatable'
-import Dialog from '@/components/Global/Dialog'
-import FormActions from '@/components/Global/Form/Actions'
-
-import MainForm from '@/components/PalmBunchesReaTicket/Form'
-import useFormData from '@/providers/useFormData'
-import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
-
 const Crud: FC = () => {
+    const { userHasRole } = useAuth()
     const [filter, setFilter] = useState<string | undefined>()
 
     const {
@@ -52,7 +53,14 @@ const Crud: FC = () => {
                     overflowX: 'auto',
                 }}
                 mb={3}
-                display="flex"
+                display={
+                    userHasRole([
+                        Role.PALM_BUNCH_ADMIN,
+                        Role.PALM_BUNCH_MANAGER,
+                    ])
+                        ? 'flex'
+                        : 'none'
+                }
                 gap={1}>
                 <Chip
                     label="Semua"
@@ -167,6 +175,8 @@ import dayjs from 'dayjs'
 import { NumericFormat } from 'react-number-format'
 import Typography from '@mui/material/Typography'
 import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
+import useAuth from '@/providers/Auth'
+import Role from '@/enums/Role'
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
