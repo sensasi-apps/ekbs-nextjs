@@ -133,12 +133,35 @@ const columns: MUIDataTableColumn[] = [
     //         customBodyRender: numberToCurrency,
     //     },
     // },
-
     {
         name: 'default_sell_price',
         label: 'Harga Satuan',
         options: {
             customBodyRender: numberToCurrency,
+        },
+    },
+    {
+        name: 'default_sell_price',
+        label: 'Harga Satuan (Potong 1x)',
+        options: {
+            sort: false,
+            searchable: false,
+            customBodyRender: value =>
+                value
+                    ? numberToCurrency(Math.ceil(value + (value * 4) / 100))
+                    : '',
+        },
+    },
+    {
+        name: 'default_sell_price',
+        label: 'Harga Satuan (Potong 2x)',
+        options: {
+            sort: false,
+            searchable: false,
+            customBodyRender: value =>
+                value
+                    ? numberToCurrency(Math.ceil(value + (value * 8) / 100))
+                    : '',
         },
     },
 ]
