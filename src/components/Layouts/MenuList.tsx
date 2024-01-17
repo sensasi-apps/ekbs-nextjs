@@ -107,16 +107,21 @@ import type { NavItem } from './menusData'
 import { useRouter } from 'next/router'
 
 const CustomListItem = memo(function CustomListItem({
-    data: { forRole, href, icon, label, pathname, component },
+    data: { forRole, forPermission, href, icon, label, pathname, component },
     onClick,
 }: {
     data: NavItem
     onClick: () => void
 }) {
     const { pathname: currPathname } = useRouter()
-    const { userHasRole } = useAuth()
+    const { userHasRole, userHasPermission } = useAuth()
 
-    if (typeof forRole !== 'undefined' && !userHasRole(forRole)) return
+    if (
+        (typeof forRole !== 'undefined' && !userHasRole(forRole)) ||
+        (typeof forPermission !== 'undefined' &&
+            !userHasPermission(forPermission))
+    )
+        return
 
     if (component) return component
     if (!pathname) throw new Error('pathname is required')

@@ -1,3 +1,7 @@
+// types
+import type { XAxisProps, TooltipProps } from 'recharts'
+import type StatDataCache from '@/dataTypes/StatDataCache'
+// vendors
 import {
     LineChart as RechartsLineChart,
     Line,
@@ -7,12 +11,11 @@ import {
     ResponsiveContainer,
     LineProps,
 } from 'recharts'
-
+// materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-
+// utils
 import formatNumber from '@/utils/formatNumber'
-import StatDataCache from '@/dataTypes/StatDataCache'
 import numberToCurrency from '@/utils/numberToCurrency'
 
 export default function LineChart({
@@ -21,6 +24,7 @@ export default function LineChart({
     lines,
     lineProps,
     currency,
+    slotsProps,
 }: {
     data?: StatDataCache['value']
     prefix?: string
@@ -28,6 +32,10 @@ export default function LineChart({
     xAxisDataKey?: string
     lineProps?: Omit<LineProps, 'ref'>
     currency?: boolean
+    slotsProps?: {
+        xAxis?: XAxisProps
+        tooltip?: TooltipProps<any, any>
+    }
 }) {
     if (!data || typeof data === 'number') {
         return (
@@ -59,11 +67,12 @@ export default function LineChart({
         stroke = 'var(--mui-palette-success-main)',
         ...restLineProps
     } = lineProps ?? {}
+
     return (
         <Box height="200px" overflow="hidden">
             <ResponsiveContainer>
                 <RechartsLineChart data={data}>
-                    <XAxis dataKey="label" />
+                    <XAxis dataKey="label" {...(slotsProps?.xAxis ?? {})} />
 
                     <YAxis
                         type="number"
@@ -86,6 +95,7 @@ export default function LineChart({
                                 ? numberToCurrency(value)
                                 : formatNumber(value) + proccessedPrefix
                         }
+                        {...(slotsProps?.tooltip ?? {})}
                     />
 
                     {lines ? (

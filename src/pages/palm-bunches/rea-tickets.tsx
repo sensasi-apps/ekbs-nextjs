@@ -1,16 +1,20 @@
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type { MUIDataTableColumn } from 'mui-datatables'
 // vendors
 import { FC, useState } from 'react'
+import dayjs from 'dayjs'
+import { NumericFormat } from 'react-number-format'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
-import Fab from '@mui/material/Fab'
+import Typography from '@mui/material/Typography'
 // icons
 import ReceiptIcon from '@mui/icons-material/Receipt'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
+import Fab from '@/components/Fab'
 import FormActions from '@/components/Global/Form/Actions'
 import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
 // local components
@@ -18,6 +22,12 @@ import MainForm from '@/components/PalmBunchesReaTicket/Form'
 // providers
 import useFormData from '@/providers/useFormData'
 import { FormDataProvider } from '@/providers/useFormData'
+import useAuth from '@/providers/Auth'
+// enums
+import Role from '@/enums/Role'
+import PalmBunch from '@/enums/permissions/PalmBunch'
+// utils
+import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
 
 export default function PalmBuncesReaTickets() {
     return (
@@ -30,7 +40,7 @@ export default function PalmBuncesReaTickets() {
 }
 
 const Crud: FC = () => {
-    const { userHasRole } = useAuth()
+    const { userHasRole, userHasPermission } = useAuth()
     const [filter, setFilter] = useState<string | undefined>()
 
     const {
@@ -155,28 +165,14 @@ const Crud: FC = () => {
             </Dialog>
 
             <Fab
+                in={userHasPermission(PalmBunch.CREATE_TICKET)}
                 disabled={formOpen}
-                onClick={handleCreate}
-                color="success"
-                sx={{
-                    position: 'fixed',
-                    bottom: 16,
-                    right: 16,
-                }}>
+                onClick={handleCreate}>
                 <ReceiptIcon />
             </Fab>
         </>
     )
 }
-
-import type { MUIDataTableColumn } from 'mui-datatables'
-
-import dayjs from 'dayjs'
-import { NumericFormat } from 'react-number-format'
-import Typography from '@mui/material/Typography'
-import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
-import useAuth from '@/providers/Auth'
-import Role from '@/enums/Role'
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
