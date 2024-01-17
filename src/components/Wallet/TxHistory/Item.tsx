@@ -23,7 +23,10 @@ const TxHistoryItem = ({
         alignItems="center"
         justifyContent="space-between"
         {...props}>
-        <Typography variant={variant} color="text.primary">
+        <Typography
+            variant={variant}
+            maxWidth="66%"
+            color={(amount ?? 0) > 0 ? 'success.main' : undefined}>
             {desc}
         </Typography>
 

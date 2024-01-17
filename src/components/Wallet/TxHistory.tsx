@@ -134,40 +134,42 @@ function TxHistory({
 
             {isLoading && <Skeletons />}
 
-            {!isLoading && (
-                <TxHistoryItem
-                    mb={2}
-                    desc="Saldo Awal"
-                    amount={txs.balanceFrom}
-                />
+            {!isLoading && txs?.data?.length === 0 && (
+                <Typography
+                    fontStyle="italic"
+                    textAlign="center"
+                    color="text.secondary">
+                    Tidak ada data transaksi
+                </Typography>
             )}
 
-            {txs?.data?.length === 0 && (
-                <Box>
-                    <Typography
-                        fontStyle="italic"
-                        textAlign="center"
-                        color="text.secondary">
-                        Tidak ada data transaksi
-                    </Typography>
-                </Box>
-            )}
+            {!isLoading && txs?.data?.length > 0 && (
+                <>
+                    <TxHistoryItem
+                        mb={2}
+                        desc="Saldo Awal"
+                        amount={txs.balanceFrom}
+                    />
 
-            {txs?.data?.map((tx: TransactionDataType) => (
-                <div key={tx.uuid}>
-                    {dateHandler(tx.at)}
+                    <Box display="flex" flexDirection="column" gap={1}>
+                        {txs.data.map((tx: TransactionDataType) => (
+                            <div key={tx.uuid}>
+                                {dateHandler(tx.at)}
 
-                    <TxHistoryItem desc={tx.desc} amount={tx.amount} />
-                </div>
-            ))}
+                                <TxHistoryItem
+                                    desc={tx.desc}
+                                    amount={tx.amount}
+                                />
+                            </div>
+                        ))}
+                    </Box>
 
-            {!isLoading && (
-                <TxHistoryItem
-                    mt={2}
-                    desc="Saldo Akhir"
-                    amount={txs.balanceTo}
-                    variant="caption"
-                />
+                    <TxHistoryItem
+                        mt={2}
+                        desc="Saldo Akhir"
+                        amount={txs.balanceTo}
+                    />
+                </>
             )}
         </div>
     )
