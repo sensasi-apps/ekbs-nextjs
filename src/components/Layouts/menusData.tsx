@@ -189,7 +189,10 @@ const farmInputNavs: NavItem[] = [
     {
         href: '/farm-input-product-sales',
         label: 'Penjualan',
-        pathname: '/farm-input-product-sales',
+        pathname: [
+            '/farm-input-product-sales',
+            '/farm-input-product-sales/report',
+        ],
         icon: <ReceiptIcon />,
         forRole: [Role.FARM_INPUT_MANAGER, Role.FARM_INPUT_SALES],
     },
@@ -252,17 +255,17 @@ const accountingNavs: NavItem[] = [
         forRole: [Role.MEMBER, Role.EMPLOYEE],
     },
     {
-        href: '/cashes',
-        label: 'Kas',
-        pathname: '/cashes',
-        icon: <AutoStoriesIcon />,
-        forRole: Role.CASH_MANAGER,
-    },
-    {
         href: '/wallets',
         label: 'Wallet Pengguna',
         pathname: '/wallets',
         icon: <AccountBalanceWalletIcon />,
+        forRole: Role.CASH_MANAGER,
+    },
+    {
+        href: '/cashes',
+        label: 'Kas',
+        pathname: '/cashes',
+        icon: <AutoStoriesIcon />,
         forRole: Role.CASH_MANAGER,
     },
 ]
