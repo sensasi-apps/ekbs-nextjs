@@ -24,6 +24,7 @@ type BaseType = {
 
     // getter
     total_rp: number
+    total_base_rp: number
 
     // relations
     product_movement: ProductMovementType

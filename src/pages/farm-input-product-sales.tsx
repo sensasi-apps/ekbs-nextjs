@@ -7,6 +7,8 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import { Formik } from 'formik'
 // materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
@@ -19,6 +21,7 @@ import ProductSaleForm, {
 } from '@/components/pages/farm-input-product-sales/Form'
 // icons
 import ReceiptIcon from '@mui/icons-material/Receipt'
+import BackupTableIcon from '@mui/icons-material/BackupTable'
 // providers
 import useAuth from '@/providers/Auth'
 // utils
@@ -28,9 +31,10 @@ import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 import PrintHandler from '@/components/PrintHandler'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
+import Role from '@/enums/Role'
 
 export default function FarmInputProductSales() {
-    const { userHasPermission } = useAuth()
+    const { userHasPermission, userHasRole } = useAuth()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -82,6 +86,20 @@ export default function FarmInputProductSales() {
 
     return (
         <AuthLayout title="Penjualan">
+            <Box
+                mb={2}
+                display={
+                    userHasRole(Role.FARM_INPUT_MANAGER) ? 'block' : 'none'
+                }>
+                <Button
+                    href="/farm-input-product-sales/report"
+                    startIcon={<BackupTableIcon />}
+                    color="success"
+                    variant="contained">
+                    Laporan
+                </Button>
+            </Box>
+
             <Datatable
                 title="Riwayat"
                 tableId="farm-input-product-sale-table"
