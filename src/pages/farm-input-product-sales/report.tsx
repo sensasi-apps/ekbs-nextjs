@@ -288,7 +288,7 @@ export default function FarmInputProductSalesReport() {
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-                            <TableCell colSpan={4}>GRAND TOTAL</TableCell>
+                            <TableCell colSpan={5}>GRAND TOTAL</TableCell>
                             <TableCell>
                                 {numberToCurrency(
                                     totalsBaseCostRp.reduce(
@@ -297,7 +297,6 @@ export default function FarmInputProductSalesReport() {
                                     ),
                                 )}
                             </TableCell>
-                            <TableCell></TableCell>
                             <TableCell>
                                 {numberToCurrency(
                                     data.reduce(
