@@ -127,7 +127,7 @@ export default function FarmInputProductSalesReport() {
                         {data.length === 0 && (
                             <TableRow>
                                 <TableCell
-                                    colSpan={6}
+                                    colSpan={10}
                                     sx={{
                                         textAlign: 'center',
                                     }}>

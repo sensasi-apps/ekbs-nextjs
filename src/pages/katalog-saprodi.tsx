@@ -135,7 +135,7 @@ const columns: MUIDataTableColumn[] = [
     // },
     {
         name: 'default_sell_price',
-        label: 'Harga Satuan',
+        label: 'Harga Satuan (Tunai)',
         options: {
             customBodyRender: numberToCurrency,
         },
