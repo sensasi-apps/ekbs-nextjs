@@ -26,9 +26,12 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
         buyer_user,
         user_activity_logs,
         total_rp,
+        total_base_rp,
         adjustment_rp,
         product_movement_details,
         n_term,
+        n_term_unit,
+        interest_percent,
         products_state,
     } = data
 
@@ -126,7 +129,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                                 overflow="hidden">
                                 {name}
                                 <Typography variant="caption" component="div">
-                                    @ {formatNumber(rp_per_unit)}
+                                    @ RP {formatNumber(rp_per_unit)}
                                 </Typography>
                             </Grid2>
 
@@ -177,6 +180,33 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                             component={Typography}
                             variant="caption">
                             {formatNumber(adjustment_rp ?? 0)}
+                        </Grid2>
+                    </>
+                )}
+
+                {payment_method === 'installment' && (
+                    <>
+                        <Grid2 xs={2} />
+
+                        <Grid2 xs={6} component={Typography} variant="caption">
+                            Jasa ({interest_percent}% &times; {n_term}{' '}
+                            {n_term_unit})
+                        </Grid2>
+
+                        <Grid2
+                            xs={1}
+                            textAlign="end"
+                            component={Typography}
+                            variant="caption">
+                            Rp
+                        </Grid2>
+
+                        <Grid2
+                            xs={3}
+                            textAlign="end"
+                            component={Typography}
+                            variant="caption">
+                            {formatNumber(total_rp - total_base_rp)}
                         </Grid2>
                     </>
                 )}

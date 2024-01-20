@@ -289,27 +289,11 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
     {
         name: 'total_rp',
-        label: 'Total Nilai',
+        label: 'Total Penjualan',
         options: {
             sort: false,
             searchable: false,
-            customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSaleType>(dataIndex)
-                if (!data) return ''
-
-                const {
-                    total_rp,
-                    adjustment_rp = 0,
-                    interest_percent = 0,
-                    n_term = 0,
-                } = data
-
-                return numberToCurrency(
-                    total_rp +
-                        adjustment_rp +
-                        (total_rp / 100) * interest_percent * n_term,
-                )
-            },
+            customBodyRender: value => numberToCurrency(value ?? 0),
         },
     },
     {

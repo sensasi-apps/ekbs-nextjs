@@ -215,18 +215,11 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
     {
         name: 'total_rp',
-        label: 'Total Nilai',
+        label: 'Total Penjualan',
         options: {
             sort: false,
             searchable: false,
-            customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSaleType>(dataIndex)
-                if (!data) return ''
-
-                const { total_rp } = data
-
-                return numberToCurrency(total_rp)
-            },
+            customBodyRenderLite: value => numberToCurrency(value ?? 0),
         },
     },
     // {

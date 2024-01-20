@@ -15,13 +15,20 @@ import formatNumber from '@/utils/formatNumber'
 import toDmy from '@/utils/toDmy'
 
 const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
-    data: { n_term, n_term_unit, total_rp, interest_percent, at, installments },
+    data: {
+        n_term,
+        n_term_unit,
+        total_base_rp,
+        interest_percent,
+        at,
+        installments,
+    },
 }: {
     data: ProductSaleInstallmentType
 }) {
-    let remaining_rp = total_rp
-    const base_rp = Math.ceil(total_rp / n_term)
-    const interestRp = Math.ceil((total_rp * interest_percent) / 100)
+    let remaining_rp = total_base_rp
+    const base_rp = Math.ceil(total_base_rp / n_term)
+    const interestRp = Math.ceil((total_base_rp * interest_percent) / 100)
     const installmentAmount = base_rp + interestRp
 
     return (
@@ -67,7 +74,7 @@ const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
                         0
                     </TableCell>
                     <TableCell>{toDmy(at)}</TableCell>
-                    <TableCell>{formatNumber(total_rp)}</TableCell>
+                    <TableCell>{formatNumber(total_base_rp)}</TableCell>
                     <TableCell />
                     <TableCell />
                     <TableCell />
@@ -98,7 +105,7 @@ const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
                         TOTAL
                     </TableCell>
                     <TableCell component="th">
-                        {formatNumber(total_rp)}
+                        {formatNumber(total_base_rp)}
                     </TableCell>
                     <TableCell component="th">
                         {formatNumber(interestRp * n_term)}
