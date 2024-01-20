@@ -171,16 +171,11 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'payment_method',
-        label: 'Pembayaran',
+        name: 'payment_method_id',
+        label: 'Metode Pembayaran',
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (value: string) => {
-                if (value === 'cash') return 'Tunai'
-                if (value === 'installment') return 'Potong TBS'
-                if (value === 'wallet') return 'E-Wallet'
-            },
         },
     },
     {

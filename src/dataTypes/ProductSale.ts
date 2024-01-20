@@ -25,6 +25,12 @@ type BaseType = {
     // getter
     total_rp: number
     total_base_rp: number
+    payment_method_id:
+        | 'Tunai'
+        | 'Potong TBS (1x)'
+        | 'Potong TBS (2x)'
+        | 'Saldo Unit Bisnis'
+        | 'EKBS Wallet'
 
     // relations
     product_movement: ProductMovementType

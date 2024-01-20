@@ -1,9 +1,7 @@
 // types
 import type ProductSaleType from '@/dataTypes/ProductSale'
-import type { Dayjs } from 'dayjs'
 // vendors
 import dayjs from 'dayjs'
-import { useState } from 'react'
 import useSWR from 'swr'
 // materials
 import CircularProgress from '@mui/material/CircularProgress'
@@ -27,19 +25,22 @@ import DatePicker from '@/components/DatePicker'
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
+import { useRouter } from 'next/router'
 
 const apiUrl = 'farm-inputs/product-sales/report'
 
 export default function FarmInputProductSalesReport() {
-    const currDate = dayjs()
+    const router = useRouter()
 
-    const [fromDate, setFromDate] = useState<Dayjs | null>(currDate)
-    const [tillDate, setTillDate] = useState<Dayjs | null>(currDate)
+    const currDate = dayjs()
+    const fromDate = dayjs(router.query.from_date as string)
+    const tillDate = dayjs(router.query.till_date as string)
+
     const { data = [], isLoading } = useSWR<ProductSaleType[]>([
         apiUrl,
         {
-            from_date: fromDate?.format('YYYY-MM-DD'),
-            till_date: tillDate?.format('YYYY-MM-DD'),
+            from_date: router.query.from_date ?? currDate.format('YYYY-MM-DD'),
+            till_date: router.query.till_date ?? currDate.format('YYYY-MM-DD'),
         },
     ])
 
@@ -59,9 +60,18 @@ export default function FarmInputProductSalesReport() {
                     <DatePicker
                         label="Dari Tanggal"
                         minDate={dayjs('2020-01-01')}
-                        maxDate={currDate}
+                        maxDate={tillDate}
                         value={fromDate}
-                        onChange={value => setFromDate(value)}
+                        onChange={value =>
+                            router.replace({
+                                query: {
+                                    from_date: value?.format('YYYY-MM-DD'),
+                                    till_date:
+                                        router.query.till_date ??
+                                        currDate.format('YYYY-MM-DD'),
+                                },
+                            })
+                        }
                         slotProps={{
                             textField: {
                                 margin: 'none',
@@ -72,11 +82,19 @@ export default function FarmInputProductSalesReport() {
                 <Grid2>
                     <DatePicker
                         label="Hingga Tanggal"
-                        minDate={fromDate ?? dayjs('2020-01-01')}
+                        minDate={fromDate}
                         maxDate={currDate}
-                        defaultValue={currDate}
                         value={tillDate}
-                        onChange={value => setTillDate(value)}
+                        onChange={value =>
+                            router.replace({
+                                query: {
+                                    from_date:
+                                        router.query.from_date ??
+                                        currDate.format('YYYY-MM-DD'),
+                                    till_date: value?.format('YYYY-MM-DD'),
+                                },
+                            })
+                        }
                         slotProps={{
                             textField: {
                                 margin: 'none',
@@ -180,10 +198,7 @@ export default function FarmInputProductSalesReport() {
                                             : '-'}
                                     </TableCell>
                                     <TableCell>
-                                        {translatePaymentMethod(
-                                            productSale.payment_method,
-                                            productSale.n_term,
-                                        )}
+                                        {productSale.payment_method_id}
                                     </TableCell>
                                     <TableCell>
                                         <ul
@@ -338,14 +353,4 @@ export default function FarmInputProductSalesReport() {
             </TableContainer>
         </AuthLayout>
     )
-}
-
-function translatePaymentMethod(
-    og: 'cash' | 'installment' | 'wallet',
-    n_term: number | undefined,
-) {
-    if (og === 'cash') return 'Tunai'
-    if (og === 'installment') return `Potong TBS (${n_term}x)`
-
-    return 'Wallet'
 }
