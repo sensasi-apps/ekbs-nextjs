@@ -84,7 +84,7 @@ export default function FarmInputsProducts() {
             .post(
                 ApiUrlEnum.UPDATE_OR_CREATE_PRODUCT_PURCHASE.replace(
                     '$1',
-                    isNew ? '' : '/${initialFormikStatus.uuid}',
+                    isNew ? '' : `/${initialFormikStatus.uuid}`,
                 ),
                 {
                     order: values.order,
