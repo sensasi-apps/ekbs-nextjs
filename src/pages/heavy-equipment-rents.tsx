@@ -63,9 +63,10 @@ export default function HeavyEquipmentRent() {
             operated_by_user_uuid:
                 data.heavy_equipment_rent?.operated_by_user_uuid,
             farmer_group_uuid: data.farmer_group?.uuid,
-            n_term: data.installment.n_term,
-            term_unit: data.installment.term_unit,
-            interest_percent: data.installment.interest_percent,
+            n_term: data.installment?.n_term,
+            term_unit: data.installment?.term_unit,
+            interest_percent: data.installment?.interest_percent,
+            validated_by_admin_at: data.validated_by_admin_at,
         }
 
         setInitialFormikValues(formedData)

@@ -8,11 +8,13 @@ import type RentItemType from '@/dataTypes/RentItem'
 import type UserType from '@/dataTypes/User'
 // vendors
 import { memo, useState } from 'react'
+import { FastField } from 'formik'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
-import { FastField } from 'formik'
 // materials
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
@@ -44,6 +46,10 @@ import numberToCurrency from '@/utils/numberToCurrency'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import FarmerGroupType from '@/dataTypes/FarmerGroup'
 import TbsPerformanceChartWithAutoFetch from '../user-loans/CrediturCard/TbsPerformanceChart/WithAutoFetch'
+import UserActivityLogsDialogTable from '@/components/UserActivityLogs/DialogTable'
+import ActivityLogType from '@/dataTypes/ActivityLog'
+import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
+import ImageButtonAndModal from '@/components/ImageButtonAndModal'
 
 const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     dirty,
@@ -81,6 +87,9 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
 
         operated_by_user,
         heavy_equipment_rent,
+
+        validated_by_admin_at,
+        user_activity_logs,
     },
     setFieldValue,
 }: FormikProps<HeavyEquipmentRentFormValues>) {
@@ -121,8 +130,8 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
         is_paid ||
         isPropcessing ||
         !userHasPermission([
-            'create heavy equipment rent',
-            'update heavy equipment rent',
+            HeavyEquipmentRent.CREATE,
+            HeavyEquipmentRent.UPDATE,
         ])
 
     const isCashMethodDisabled =
@@ -178,6 +187,8 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     children: 'Batal',
                 },
             }}>
+            <UserActivityLog data={user_activity_logs ?? []} />
+
             <TextField
                 label="Kode"
                 value={uuid?.substring(uuid?.length - 6).toUpperCase()}
@@ -217,7 +228,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     />
                 </RadioGroup>
             </FormControl>
-
             <Fade in={rentType === 'farmer-group'} unmountOnExit>
                 <span>
                     <SelectFromApi
@@ -240,7 +250,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     />
                 </span>
             </Fade>
-
             <UserAutocomplete
                 disabled={isDisabled || Boolean(finished_at)}
                 fullWidth
@@ -260,7 +269,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     ...errorsToHelperTextObj(errors.by_user_uuid),
                 }}
             />
-
             <DatePicker
                 value={for_at ? dayjs(for_at) : null}
                 disabled={isDisabled || Boolean(finished_at)}
@@ -318,7 +326,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 }}
                 {...errorsToHelperTextObj(errors.inventory_item_uuid)}
             />
-
             <UserAutocomplete
                 disabled={isDisabled || Boolean(finished_at)}
                 fullWidth
@@ -335,7 +342,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     ...errorsToHelperTextObj(errors.operated_by_user),
                 }}
             />
-
             <Box display="inline-flex" gap={1}>
                 <NumericFormat
                     label="Biaya"
@@ -379,7 +385,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     {...errorsToHelperTextObj(errors.for_n_units)}
                 />
             </Box>
-
             <FastField
                 name="note"
                 required={false}
@@ -390,60 +395,6 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 label="Catatan Tambahan"
                 {...errorsToHelperTextObj(errors.note)}
             />
-
-            <Fade in={Boolean(finished_at)} unmountOnExit>
-                <div>
-                    <DatePicker
-                        value={dayjs(finished_at)}
-                        disabled={true}
-                        label="Dikerjakan operator pada"
-                        sx={{ mt: 3 }}
-                    />
-
-                    <Box display="inline-flex" gap={1}>
-                        <NumericFormat
-                            label="H.M Awal"
-                            disabled={true}
-                            value={heavy_equipment_rent?.start_hm ?? ''}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {rate_unit}
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-
-                        <NumericFormat
-                            label="H.M Akhir"
-                            disabled={true}
-                            value={heavy_equipment_rent?.end_hm}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {rate_unit}
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Box>
-
-                    <div
-                        style={{
-                            marginTop: '1rem',
-                        }}>
-                        <Typography
-                            component="div"
-                            color="gray"
-                            fontWeight="bold">
-                            TOTAL KESELURUHAN
-                        </Typography>
-                        <Typography component="div">
-                            {numberToCurrency(totalRp)}
-                        </Typography>
-                    </div>
-                </div>
-            </Fade>
 
             <FormControl
                 margin="normal"
@@ -487,7 +438,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                     </div>
                                 )}
 
-                                {wallet?.balance !== undefined && (
+                                {wallet?.balance !== undefined && !is_paid && (
                                     <Typography
                                         variant="caption"
                                         component="div"
@@ -529,18 +480,19 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                     </div>
                                 )}
 
-                                {fgWallet?.balance !== undefined && (
-                                    <Typography
-                                        variant="caption"
-                                        component="div"
-                                        color={
-                                            isFgBalanceEnough
-                                                ? undefined
-                                                : 'error.main'
-                                        }>
-                                        {numberToCurrency(fgWallet.balance)}
-                                    </Typography>
-                                )}
+                                {fgWallet?.balance !== undefined &&
+                                    !is_paid && (
+                                        <Typography
+                                            variant="caption"
+                                            component="div"
+                                            color={
+                                                isFgBalanceEnough
+                                                    ? undefined
+                                                    : 'error.main'
+                                            }>
+                                            {numberToCurrency(fgWallet.balance)}
+                                        </Typography>
+                                    )}
                             </>
                         }
                     />
@@ -684,9 +636,117 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     />
                 </div>
             </Fade>
+
+            <Fade in={Boolean(finished_at)} unmountOnExit>
+                <div>
+                    <DatePicker
+                        value={dayjs(finished_at)}
+                        disabled={true}
+                        label="Dikerjakan operator pada"
+                        sx={{ mt: 3 }}
+                    />
+
+                    <Box display="inline-flex" gap={1}>
+                        <NumericFormat
+                            label="H.M Awal"
+                            disabled={true}
+                            value={heavy_equipment_rent?.start_hm ?? ''}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        {rate_unit}
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+
+                        <NumericFormat
+                            label="H.M Akhir"
+                            disabled={true}
+                            value={heavy_equipment_rent?.end_hm}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        {rate_unit}
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Box>
+
+                    <div
+                        style={{
+                            marginTop: '1rem',
+                        }}>
+                        <Typography
+                            component="div"
+                            color="gray"
+                            fontWeight="bold">
+                            TOTAL KESELURUHAN
+                        </Typography>
+                        <Typography component="div">
+                            {numberToCurrency(totalRp)}
+                        </Typography>
+                    </div>
+                </div>
+            </Fade>
+
+            {heavy_equipment_rent?.file && (
+                <Box mt={2}>
+                    <Typography variant="caption">Foto H.M Akhir:</Typography>
+                    <ImageButtonAndModal file={heavy_equipment_rent.file} />
+                </Box>
+            )}
+
+            <FormControl
+                disabled={!Boolean(finished_at) || isDisabled}
+                style={{
+                    marginTop: '1rem',
+                    marginBottom: '1rem',
+                }}>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={Boolean(validated_by_admin_at)}
+                            onChange={() =>
+                                setFieldValue(
+                                    'validated_by_admin_at',
+                                    validated_by_admin_at
+                                        ? undefined
+                                        : dayjs().format('YYYY-MM-DD'),
+                                )
+                            }
+                            name="validated_by_admin_at"
+                        />
+                    }
+                    label="Sudah divalidasi dan diverifikasi"
+                />
+
+                {!dirty && Boolean(validated_by_admin_at) && (
+                    <FormHelperText>
+                        Oleh {user_activity_logs?.pop()?.user.name} pada:{' '}
+                        {validated_by_admin_at}
+                    </FormHelperText>
+                )}
+            </FormControl>
         </FormikForm>
     )
 })
+
+const UserActivityLog = ({ data }: { data: ActivityLogType[] }) => {
+    const [open, setOpen] = useState(false)
+
+    return (
+        <>
+            <Button onClick={() => setOpen(true)}>Riwayat Data</Button>
+            <UserActivityLogsDialogTable
+                open={open}
+                setIsOpen={setOpen}
+                data={data}
+            />
+        </>
+    )
+}
 
 export default HeavyEquipmentRentForm
 

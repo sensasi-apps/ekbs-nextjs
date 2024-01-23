@@ -1,10 +1,12 @@
 import type { UUID } from 'crypto'
-import type UserType from './User'
 import type { Ymd } from '@/types/DateString'
-import type TransactionType from './Transaction'
+import type ActivityLogType from './ActivityLog'
+import type FarmerGroupType from './FarmerGroup'
+import type File from './File'
 import type InstallmentType from './Installment'
 import type InventoryItem from './InventoryItem'
-import type FarmerGroupType from './FarmerGroup'
+import type TransactionType from './Transaction'
+import type UserType from './User'
 
 type RentItemRent = {
     uuid: UUID
@@ -23,12 +25,13 @@ type RentItemRent = {
 
     transaction?: TransactionType
     installments?: InstallmentType[]
-    installment: {
+    installment?: {
         interest_percent: number
         n_term: number
         term_unit: 'minggu' | 'bulan'
     }
     is_paid: boolean
+    validated_by_admin_at?: string
 
     farmer_group?: FarmerGroupType
 
@@ -38,7 +41,10 @@ type RentItemRent = {
         start_hm?: number
         end_hm?: number
         note?: string
+        file?: File
     }
+
+    user_activity_logs: ActivityLogType[]
 }
 
 export default RentItemRent
