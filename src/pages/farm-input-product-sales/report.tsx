@@ -137,7 +137,7 @@ export default function FarmInputProductSalesReport() {
                             <TableCell>Subtotal Biaya Dasar</TableCell>
                             <TableCell>Subtotal Penjualan</TableCell>
                             <TableCell>Penyesuaian/Jasa</TableCell>
-                            <TableCell>Total</TableCell>
+                            <TableCell>Total Penjualan</TableCell>
                             <TableCell>Keuntungan</TableCell>
                         </TableRow>
                     </TableHead>
