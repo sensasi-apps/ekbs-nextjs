@@ -1,10 +1,178 @@
+// vendors
+import useSWR from 'swr'
+import { useRouter } from 'next/router'
+// materials
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+// components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import FarmerPerformanceChart from '@/components/PalmBunchesReaTicket/FarmerPerformanceChart'
+import Card from '@/components/pages/laporan-performa/Card'
+import LineChart from '@/components/Chart/Line/Line'
+// etc
+import useAuth from '@/providers/Auth'
+import Role from '@/enums/Role'
 
 export default function PalmBunchesPerformances() {
+    const { userHasRole } = useAuth()
+    const router = useRouter()
+    const { dataUnit = 'weeks' } = router.query
+
+    const isDailyData = dataUnit === 'days'
+    const isWeeklyData = dataUnit === 'weeks'
+    const isMonthlyData = dataUnit === 'months'
+
     return (
         <AuthLayout title="Performa TBS">
-            <FarmerPerformanceChart />
+            <Box display="flex" flexDirection="column" gap={4}>
+                <Box
+                    display={
+                        userHasRole([Role.FARMER, Role.COURIER])
+                            ? 'flex'
+                            : 'none'
+                    }
+                    gap={1}>
+                    <Chip
+                        label="12 Hari Terakhir"
+                        color={isDailyData ? 'success' : undefined}
+                        onClick={
+                            isDailyData
+                                ? undefined
+                                : () =>
+                                      router.replace({
+                                          query: {
+                                              nData: 12,
+                                              dataUnit: 'days',
+                                          },
+                                      })
+                        }
+                    />
+                    <Chip
+                        label="12 Minggu Terakhir"
+                        color={isWeeklyData ? 'success' : undefined}
+                        onClick={
+                            isWeeklyData
+                                ? undefined
+                                : () =>
+                                      router.replace({
+                                          query: {
+                                              nData: 12,
+                                              dataUnit: 'weeks',
+                                          },
+                                      })
+                        }
+                    />
+                    <Chip
+                        label="12 Bulan Terakhir"
+                        color={isMonthlyData ? 'success' : undefined}
+                        onClick={
+                            isMonthlyData
+                                ? undefined
+                                : () =>
+                                      router.replace({
+                                          query: {
+                                              nData: 12,
+                                              dataUnit: 'months',
+                                          },
+                                      })
+                        }
+                    />
+                </Box>
+
+                {userHasRole(Role.FARMER) && <PalmBunchWeightChart />}
+                {userHasRole(Role.COURIER) && <PalmBunchDeliveryChart />}
+            </Box>
         </AuthLayout>
+    )
+}
+
+const getXAxisLabel = (dataUnit: string) => {
+    switch (dataUnit) {
+        case 'days':
+            return 'Tanggal'
+
+        case 'weeks':
+            return 'Minggu ke-'
+
+        case 'months':
+            return 'Bulan'
+
+        default:
+            throw new Error('dataUnit is undefined')
+    }
+}
+
+const PalmBunchWeightChart = () => {
+    const router = useRouter()
+    const { dataUnit = 'weeks', nData = 12 } = router.query
+
+    const { data, isLoading } = useSWR([
+        'palm-bunches/farmer/performances',
+        {
+            nData: nData,
+            dataUnit: dataUnit,
+        },
+    ])
+
+    return (
+        <Card title="Bobot TBS" isLoading={isLoading}>
+            <LineChart
+                prefix="kg"
+                data={data}
+                slotsProps={{
+                    tooltip: {
+                        labelFormatter: value =>
+                            `${getXAxisLabel(dataUnit as string)} ${value}`,
+                    },
+                }}
+                lines={[
+                    {
+                        type: 'monotone',
+                        dataKey: 'n_kg',
+                        name: 'Bobot',
+                        stroke: 'var(--mui-palette-primary-main)',
+                    },
+                    {
+                        type: 'monotone',
+                        dataKey: 'deduction_kg',
+                        name: 'Potongan',
+                        stroke: 'var(--mui-palette-error-main)',
+                    },
+                    {
+                        type: 'monotone',
+                        dataKey: 'incentive_kg',
+                        name: 'Insentif',
+                        stroke: 'var(--mui-palette-success-main)',
+                    },
+                ]}
+            />
+        </Card>
+    )
+}
+
+const PalmBunchDeliveryChart = () => {
+    const router = useRouter()
+    const { dataUnit = 'weeks', nData = 12 } = router.query
+
+    const { data, isLoading } = useSWR([
+        'palm-bunches/courier/performances',
+        {
+            nData: nData,
+            dataUnit: dataUnit,
+        },
+    ])
+
+    return (
+        <Card title="Bobot Angkut TBS" isLoading={isLoading}>
+            <LineChart
+                prefix="kg"
+                data={data}
+                slotsProps={{
+                    tooltip: {
+                        labelFormatter: value =>
+                            `${getXAxisLabel(dataUnit as string)} ${value}`,
+                    },
+                }}
+            />
+        </Card>
     )
 }
