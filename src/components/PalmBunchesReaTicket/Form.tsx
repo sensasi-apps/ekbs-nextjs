@@ -30,9 +30,9 @@ export default function PalmBuncesReaTicketForm({
 }: FormType<PalmBunchesReaTicketType>) {
     const { userHasRole } = useAuth()
 
-    const disabled = Boolean(
-        loading || (data?.delivery?.transactions?.length || 0) > 0,
-    )
+    const disabled =
+        Boolean(loading || (data?.delivery?.transactions?.length || 0) > 0) ||
+        !userHasRole([Role.PALM_BUNCH_MANAGER, Role.PALM_BUNCH_ADMIN])
 
     const { validationErrors, setValidationErrors, clearByName } =
         useValidationErrors()
