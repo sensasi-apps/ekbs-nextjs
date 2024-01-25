@@ -1,8 +1,10 @@
+// vendors
 import { useEffect } from 'react'
 import axios from '@/lib/axios'
-
+// components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
+// etc
 import useAuth from '@/providers/Auth'
 
 const logout = () =>

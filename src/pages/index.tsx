@@ -1,50 +1,103 @@
+// vendors
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 // materials
 import Box from '@mui/material/Box'
 import Button, { ButtonProps } from '@mui/material/Button'
+import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 // icons
 import AssessmentIcon from '@mui/icons-material/Assessment'
-import LogoImage from '@/components/LogoImage'
+import LoginIcon from '@mui/icons-material/Login'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
-// layouts
+// components
+import LogoImage from '@/components/LogoImage'
+import LogoLoadingBox from '@/components/LogoLoadingBox'
 import PublicLayout from '@/components/Layouts/PublicLayout'
+// etc
+import useAuth from '@/providers/Auth'
 
 export default function Index() {
+    const router = useRouter()
+    const { user } = useAuth()
+
+    useEffect(() => {
+        if (user) {
+            router.replace('/dashboard')
+        }
+    }, [user])
+
     return (
-        <PublicLayout
-            loginButton
-            footerTextOnly
-            maxWidth="xs"
-            title={process.env.NEXT_PUBLIC_APP_NAME ?? ''}>
-            <Box display="flex" alignItems="start">
-                <Box flexGrow={1}>
-                    <LogoImage />
+        <>
+            <Fade in={user !== null} unmountOnExit>
+                <Box>
+                    <LogoLoadingBox />
                 </Box>
-            </Box>
+            </Fade>
 
-            <Typography variant="h4" component="h1" mb={4}>
-                {process.env.NEXT_PUBLIC_APP_NAME}
-            </Typography>
+            <Fade in={user === null} unmountOnExit>
+                <Box>
+                    <PublicLayout
+                        footerTextOnly
+                        maxWidth="xs"
+                        title={process.env.NEXT_PUBLIC_APP_NAME ?? ''}>
+                        <Box display="flex" alignItems="start">
+                            <Box flexGrow={1}>
+                                <LogoImage />
+                            </Box>
+                        </Box>
 
-            <Typography variant="caption" component="div" gutterBottom>
-                Halaman publik
-            </Typography>
+                        <Typography variant="h4" component="h1" mb={4}>
+                            {process.env.NEXT_PUBLIC_APP_NAME}
+                        </Typography>
 
-            <Box display="flex" gap={1} flexWrap="wrap">
-                <Button
-                    {...BUTTON_DEFAULT_PROPS}
-                    href="katalog-saprodi"
-                    startIcon={<WarehouseIcon {...ICON_DEFAULT_PROPS} />}>
-                    Katalog Saprodi
-                </Button>
-                <Button
-                    {...BUTTON_DEFAULT_PROPS}
-                    href="laporan-performa"
-                    startIcon={<AssessmentIcon {...ICON_DEFAULT_PROPS} />}>
-                    Laporan Performa
-                </Button>
-            </Box>
-        </PublicLayout>
+                        <Typography
+                            variant="caption"
+                            component="div"
+                            gutterBottom>
+                            Halaman publik
+                        </Typography>
+
+                        <Box display="flex" gap={1} flexWrap="wrap">
+                            <Button
+                                {...BUTTON_DEFAULT_PROPS}
+                                href="katalog-saprodi"
+                                startIcon={
+                                    <WarehouseIcon {...ICON_DEFAULT_PROPS} />
+                                }>
+                                Katalog Saprodi
+                            </Button>
+                            <Button
+                                {...BUTTON_DEFAULT_PROPS}
+                                href="laporan-performa"
+                                startIcon={
+                                    <AssessmentIcon {...ICON_DEFAULT_PROPS} />
+                                }>
+                                Performa Koperasi
+                            </Button>
+                        </Box>
+
+                        <Typography
+                            variant="caption"
+                            component="div"
+                            gutterBottom
+                            mt={2}>
+                            Atau
+                        </Typography>
+
+                        <Box display="flex" gap={1} flexWrap="wrap">
+                            <Button
+                                {...BUTTON_DEFAULT_PROPS}
+                                href="login"
+                                color="success"
+                                endIcon={<LoginIcon {...ICON_DEFAULT_PROPS} />}>
+                                Masuk Aplikasi
+                            </Button>
+                        </Box>
+                    </PublicLayout>
+                </Box>
+            </Fade>
+        </>
     )
 }
 
@@ -65,7 +118,7 @@ const ICON_DEFAULT_PROPS: {
     }
 } = {
     sx: {
-        width: '1.5em',
-        height: '1.5em',
+        width: '1em',
+        height: '1em',
     },
 }

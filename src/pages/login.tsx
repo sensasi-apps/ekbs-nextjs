@@ -1,6 +1,8 @@
+// vendors
 import { useEffect, useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
-
+import axios from '@/lib/axios'
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
@@ -8,14 +10,14 @@ import Divider from '@mui/material/Divider'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
-
+// icons
 import GoogleIcon from '@mui/icons-material/Google'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-
-import axios from '@/lib/axios'
-
+// components
 import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
+// etc
 import useAuth from '@/providers/Auth'
 
 const LoginPage = () => {
@@ -171,6 +173,7 @@ const LoginPage = () => {
                     sx={{ mt: 3, mb: 2 }}>
                     Sign In
                 </Button>
+
                 <Link href="/forgot-password" variant="body2">
                     Lupa password?
                 </Link>
@@ -183,14 +186,24 @@ const LoginPage = () => {
                 Atau
             </Divider>
 
-            <Button
-                href="/api/oauth/google"
-                fullWidth
-                color="inherit"
-                variant="contained"
-                startIcon={<GoogleIcon />}>
-                Login dengan Google
-            </Button>
+            <Box display="flex" flexDirection="column" gap={2}>
+                <Button
+                    href="/api/oauth/google"
+                    fullWidth
+                    color="inherit"
+                    variant="contained"
+                    startIcon={<GoogleIcon />}>
+                    Login dengan Google
+                </Button>
+
+                <Button
+                    href="/"
+                    fullWidth
+                    color="inherit"
+                    startIcon={<ArrowBackIcon />}>
+                    Kembali ke halaman depan
+                </Button>
+            </Box>
         </GuestFormLayout>
     )
 }

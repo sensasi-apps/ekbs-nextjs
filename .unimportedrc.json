@@ -1,15 +1,13 @@
 {
-  "ignoreUnresolved": [],
-  "ignoreUnused": [
-    "@sentry/nextjs",
-    "next",
-    "next-pwa",
-    "react",
-    "react-dom"
-  ],
-  "ignoreUnimported": [
-    "src/components/LogoLoadingBox/LogoLoadingBox.tsx",
-    "src/components/LogoLoadingBox/index.ts",
-    "src/utils/formikOnSubmitConsole.ts"
-  ]
+    "ignoreUnresolved": [],
+    "ignoreUnused": [
+        "@sentry/nextjs",
+        "next",
+        "next-pwa",
+        "react",
+        "react-dom"
+    ],
+    "ignoreUnimported": [
+        "src/utils/formikOnSubmitConsole.ts"
+    ]
 }
