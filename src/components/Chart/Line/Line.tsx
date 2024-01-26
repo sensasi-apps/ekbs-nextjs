@@ -12,7 +12,6 @@ import {
     LineProps,
 } from 'recharts'
 // materials
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 // utils
 import formatNumber from '@/utils/formatNumber'
@@ -69,50 +68,50 @@ export default function LineChart({
     } = lineProps ?? {}
 
     return (
-        <Box height="200px" overflow="hidden">
-            <ResponsiveContainer>
-                <RechartsLineChart data={data}>
-                    <XAxis dataKey="label" {...(slotsProps?.xAxis ?? {})} />
+        <ResponsiveContainer
+            minHeight={200}
+            minWidth={600}
+            style={{
+                overflow: 'hidden',
+            }}>
+            <RechartsLineChart data={data}>
+                <XAxis dataKey="label" {...(slotsProps?.xAxis ?? {})} />
 
-                    <YAxis
-                        type="number"
-                        domain={['dataMin', 'dataMax']}
-                        tickFormatter={(value: number) =>
-                            formatNumber(value, {
-                                notation: 'compact',
-                                compactDisplay: 'short',
-                            })
-                        }
+                <YAxis
+                    type="number"
+                    domain={['dataMin', 'dataMax']}
+                    tickFormatter={(value: number) =>
+                        formatNumber(value, {
+                            notation: 'compact',
+                            compactDisplay: 'short',
+                        })
+                    }
+                />
+
+                <Tooltip
+                    contentStyle={{
+                        backgroundColor: 'var(--mui-palette-background-paper)',
+                    }}
+                    formatter={(value: number) =>
+                        currency
+                            ? numberToCurrency(value)
+                            : formatNumber(value) + proccessedPrefix
+                    }
+                    {...(slotsProps?.tooltip ?? {})}
+                />
+
+                {lines ? (
+                    lines.map((props, index) => <Line key={index} {...props} />)
+                ) : (
+                    <Line
+                        type={type}
+                        dataKey={dataKey}
+                        name={name}
+                        stroke={stroke}
+                        {...restLineProps}
                     />
-
-                    <Tooltip
-                        contentStyle={{
-                            backgroundColor:
-                                'var(--mui-palette-background-paper)',
-                        }}
-                        formatter={(value: number) =>
-                            currency
-                                ? numberToCurrency(value)
-                                : formatNumber(value) + proccessedPrefix
-                        }
-                        {...(slotsProps?.tooltip ?? {})}
-                    />
-
-                    {lines ? (
-                        lines.map((props, index) => (
-                            <Line key={index} {...props} />
-                        ))
-                    ) : (
-                        <Line
-                            type={type}
-                            dataKey={dataKey}
-                            name={name}
-                            stroke={stroke}
-                            {...restLineProps}
-                        />
-                    )}
-                </RechartsLineChart>
-            </ResponsiveContainer>
-        </Box>
+                )}
+            </RechartsLineChart>
+        </ResponsiveContainer>
     )
 }
