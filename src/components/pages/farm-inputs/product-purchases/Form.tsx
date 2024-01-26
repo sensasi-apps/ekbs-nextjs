@@ -3,10 +3,11 @@ import type { UUID } from 'crypto'
 import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
 import type CashType from '@/dataTypes/Cash'
 // vendors
+import { FastField, FieldArray, FormikProps } from 'formik'
 import { memo } from 'react'
 import dayjs from 'dayjs'
-import { FastField, FieldArray, FormikProps } from 'formik'
 // materials
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Grid2 from '@mui/material/Unstable_Grid2'
@@ -22,6 +23,8 @@ import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayFi
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
+import useAuth from '@/providers/Auth'
+import Role from '@/enums/Role'
 
 const ProductPurchaseForm = memo(function ProductPurchaseForm({
     dirty,
@@ -39,21 +42,30 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
     status,
     setFieldValue,
 }: FormikProps<FormValuesType>) {
+    const { userHasRole } = useAuth()
+
     const isNew = !status.uuid
     const isPropcessing = isSubmitting
-    const isDisabled = isPropcessing || status.hasTransaction
+    const isDisabled =
+        isPropcessing ||
+        (status.hasTransaction && !userHasRole(Role.FARM_INPUT_MANAGER))
+
+    const isDisableProductMovementDetailFields =
+        isDisabled || (received && !userHasRole(Role.FARM_INPUT_MANAGER))
+
     const { costs } = product_movement ?? {}
 
     const totalRpCost = (costs ?? []).reduce(
         (acc, cur) => acc + (cur?.rp ?? 0),
         0,
     )
-    const totalRpCostItem = (product_movement_details ?? []).reduce(
-        (acc, cur) => acc + (cur.rp_cost_per_unit ?? 0) * (cur.qty ?? 0),
+
+    const totalRpCostItem = product_movement_details.reduce(
+        (acc, cur) => acc + (cur?.rp_cost_per_unit ?? 0) * (cur?.qty ?? 0),
         0,
     )
 
-    const totalPrice = (product_movement_details ?? []).reduce(
+    const totalPrice = product_movement_details.reduce(
         (acc, cur) => acc + (cur.qty ?? 0) * (cur.rp_per_unit ?? 0),
         0,
     )
@@ -191,7 +203,7 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                         {...props}
                         errors={errors}
                         data={costs}
-                        disabled={isDisabled}
+                        disabled={isDisableProductMovementDetailFields}
                     />
                 )}
             />
@@ -214,21 +226,43 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                         {...props}
                         errors={errors}
                         totalRpCost={totalRpCost}
-                        data={product_movement_details ?? [{} as any]}
-                        disabled={isDisabled}
+                        data={product_movement_details}
+                        disabled={isDisableProductMovementDetailFields}
                     />
                 )}
             />
 
             <Grid2 container spacing={2} mt={0} mb={2}>
-                <Grid2 xs={7.5} textAlign="right">
+                <Grid2 xs={4} sm={7.5} textAlign="right">
                     TOTAL
                 </Grid2>
-                <Grid2 xs={2.5} pl={2}>
+
+                <Grid2 xs={4} sm={2.5} pl={2}>
+                    <Box
+                        sx={{
+                            display: {
+                                xs: 'block',
+                                sm: 'none',
+                            },
+                        }}>
+                        <Typography variant="caption">Nilai Barang</Typography>
+                    </Box>
                     {numberToCurrency(totalPrice)}
                 </Grid2>
-                <Grid2 xs={2} pl={2}>
+
+                <Grid2 xs={4} sm={2} pl={2}>
+                    <Box
+                        sx={{
+                            display: {
+                                xs: 'block',
+                                sm: 'none',
+                            },
+                        }}>
+                        <Typography variant="caption">Biaya Lain</Typography>
+                    </Box>
+
                     {numberToCurrency(totalRpCostItem)}
+
                     {!isCostMatch && (
                         <Typography
                             variant="caption"
@@ -245,7 +279,9 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
 
 export default ProductPurchaseForm
 
-export type FormValuesType = Partial<
+export type FormValuesType = {
+    product_movement_details: ProductPurchaseType['product_movement_details']
+} & Partial<
     ProductPurchaseType & {
         cashable_uuid?: UUID
     }

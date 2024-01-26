@@ -1,11 +1,11 @@
 // types
+import type { FieldArrayRenderProps } from 'formik'
 import type ProductType from '@/dataTypes/Product'
 import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
-import type { FieldArrayRenderProps } from 'formik'
 // vendors
 import { useState } from 'react'
-import useSWR from 'swr'
 import axios from '@/lib/axios'
+import useSWR from 'swr'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Grid2 from '@mui/material/Unstable_Grid2'
@@ -76,6 +76,7 @@ export default function ProductMovementDetailArrayField({
                             onClick={() => {
                                 push({})
                                 setSubtotals([...subtotals, undefined])
+                                setRpCosts([...rpCosts, undefined])
                             }}>
                             <AddCircleIcon />
                         </IconButton>
@@ -91,13 +92,15 @@ export default function ProductMovementDetailArrayField({
                             color="warning"
                             size="small"
                             onClick={() => {
+                                const rpCosts: number[] = []
+
                                 product_movement_details.forEach(
                                     (pmd, index) => {
                                         const rpCost =
                                             totalRpCost /
                                             product_movement_details.length
 
-                                        setRpCosts(old => old.map(() => rpCost))
+                                        rpCosts.push(rpCost)
 
                                         replace(index, {
                                             ...pmd,
@@ -105,6 +108,8 @@ export default function ProductMovementDetailArrayField({
                                         })
                                     },
                                 )
+
+                                setRpCosts(rpCosts)
                             }}>
                             <AutoFixHighIcon />
                         </IconButton>
@@ -138,6 +143,11 @@ export default function ProductMovementDetailArrayField({
                                                 (_, i) => i !== index,
                                             ),
                                         )
+                                        setRpCosts(
+                                            rpCosts.filter(
+                                                (_, i) => i !== index,
+                                            ),
+                                        )
                                     }}>
                                     <RemoveCircleIcon />
                                 </IconButton>
@@ -167,6 +177,9 @@ export default function ProductMovementDetailArrayField({
                                             floatValue,
                                             subtotals[index],
                                         ),
+                                        rp_cost_per_unit:
+                                            (rpCosts[index] ?? 1) /
+                                            (floatValue ?? 1),
                                     }),
                                 )
                             }
@@ -191,7 +204,7 @@ export default function ProductMovementDetailArrayField({
                                 getOptionLabel={({ name, code }) =>
                                     `${code ? `${code} - ` : ''}${name}`
                                 }
-                                value={row.product ?? null}
+                                value={row.product ?? row.product_state ?? null}
                                 onChange={(_, product) =>
                                     replace(index, {
                                         ...row,
@@ -257,11 +270,13 @@ export default function ProductMovementDetailArrayField({
                             value={subtotals[index] ?? ''}
                             onValueChange={({ floatValue }) =>
                                 debounce(() => {
-                                    setSubtotals(
-                                        subtotals.map((subtotal, i) =>
-                                            i === index ? floatValue : subtotal,
-                                        ),
-                                    )
+                                    setSubtotals(old => {
+                                        const subtotals = [...old]
+
+                                        subtotals[index] = floatValue
+
+                                        return subtotals
+                                    })
 
                                     replace(index, {
                                         ...row,
@@ -292,11 +307,14 @@ export default function ProductMovementDetailArrayField({
                             }}
                             value={rpCosts[index] ?? ''}
                             onValueChange={({ floatValue }) => {
-                                setRpCosts(
-                                    rpCosts.map((rpCost, i) =>
-                                        i === index ? floatValue : rpCost,
-                                    ),
-                                )
+                                setRpCosts(old => {
+                                    const rpCosts = [...old]
+
+                                    rpCosts[index] = floatValue
+
+                                    return rpCosts
+                                })
+
                                 debounce(() =>
                                     replace(index, {
                                         ...row,

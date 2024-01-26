@@ -44,7 +44,10 @@ export default function FarmInputsProducts() {
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-    const [initialFormikValues, setInitialFormikValues] = useState({})
+    const [initialFormikValues, setInitialFormikValues] =
+        useState<FormValuesType>({
+            product_movement_details: [{} as ProductMovementDetailType],
+        })
     const [initialFormikStatus, setInitialFormikStatus] =
         useState(EMPTY_FORM_STATUS)
 
@@ -69,7 +72,9 @@ export default function FarmInputsProducts() {
     }
 
     const handleNew = () => {
-        setInitialFormikValues({})
+        setInitialFormikValues({
+            product_movement_details: [{} as ProductMovementDetailType],
+        })
         setInitialFormikStatus(EMPTY_FORM_STATUS)
         setIsDialogOpen(true)
     }

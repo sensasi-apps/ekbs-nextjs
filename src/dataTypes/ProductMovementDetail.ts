@@ -8,6 +8,7 @@ type ProductMovementDetailType = {
 
     // relations
     product?: ProductType
+    product_state: ProductType
 }
 
 export default ProductMovementDetailType
