@@ -9,7 +9,7 @@ import Skeletons from '@/components/Global/Skeletons'
 
 export default function WalletPage() {
     const [fromDate, setFromDate] = useState(dayjs().startOf('month'))
-    const [toDate, setToDate] = useState(dayjs().endOf('month'))
+    const [toDate, setToDate] = useState(dayjs())
 
     const { data: walletData, isLoading } = useSWR('/wallet')
 

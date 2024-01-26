@@ -23,6 +23,7 @@ import TxHistoryItem from './TxHistory/Item'
 // utils
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
+import debounce from '@/utils/debounce'
 
 function TxHistory({
     walletData,
@@ -72,24 +73,19 @@ function TxHistory({
             <Box mb={0.2} display="flex" gap={2}>
                 <DatePicker
                     disabled={isLoading}
-                    format={'MMMM YYYY'}
+                    minDate={dayjs('2023-01-01')}
                     maxDate={toDate}
                     value={fromDate}
-                    openTo="month"
-                    views={['year', 'month']}
                     label="Dari"
-                    onChange={date => setFromDate(date)}
+                    onChange={date => debounce(() => setFromDate(date))}
                 />
 
                 <DatePicker
                     disabled={isLoading}
-                    format={'MMMM YYYY'}
                     value={toDate}
                     minDate={fromDate}
-                    maxDate={dayjs().endOf('month')}
-                    onChange={date => setToDate(date)}
-                    openTo="month"
-                    views={['year', 'month']}
+                    maxDate={dayjs()}
+                    onChange={date => debounce(() => setToDate(date))}
                     label="Hingga"
                 />
             </Box>
@@ -134,7 +130,25 @@ function TxHistory({
 
             {isLoading && <Skeletons />}
 
-            {!isLoading && txs?.data?.length === 0 && (
+            {!isLoading && (
+                <TxHistoryItem
+                    mb={2}
+                    desc="Saldo Awal"
+                    amount={txs.balanceFrom}
+                />
+            )}
+
+            {!isLoading && txs?.data && txs?.data?.length > 0 ? (
+                <Box display="flex" flexDirection="column" gap={1}>
+                    {txs.data.map((tx: TransactionDataType) => (
+                        <div key={tx.uuid}>
+                            {dateHandler(tx.at)}
+
+                            <TxHistoryItem desc={tx.desc} amount={tx.amount} />
+                        </div>
+                    ))}
+                </Box>
+            ) : (
                 <Typography
                     fontStyle="italic"
                     textAlign="center"
@@ -143,33 +157,12 @@ function TxHistory({
                 </Typography>
             )}
 
-            {!isLoading && txs?.data?.length > 0 && (
-                <>
-                    <TxHistoryItem
-                        mb={2}
-                        desc="Saldo Awal"
-                        amount={txs.balanceFrom}
-                    />
-
-                    <Box display="flex" flexDirection="column" gap={1}>
-                        {txs.data.map((tx: TransactionDataType) => (
-                            <div key={tx.uuid}>
-                                {dateHandler(tx.at)}
-
-                                <TxHistoryItem
-                                    desc={tx.desc}
-                                    amount={tx.amount}
-                                />
-                            </div>
-                        ))}
-                    </Box>
-
-                    <TxHistoryItem
-                        mt={2}
-                        desc="Saldo Akhir"
-                        amount={txs.balanceTo}
-                    />
-                </>
+            {!isLoading && (
+                <TxHistoryItem
+                    mt={2}
+                    desc="Saldo Akhir"
+                    amount={txs.balanceTo}
+                />
             )}
         </div>
     )

@@ -39,7 +39,7 @@ const theme = createTheme()
 function MainContent() {
     const [walletData, setWalletData] = useState<WalletType>()
     const [fromDate, setFromDate] = useState(dayjs().startOf('month'))
-    const [toDate, setToDate] = useState(dayjs().endOf('month'))
+    const [toDate, setToDate] = useState(dayjs())
 
     const componentRef = useRef(null)
 
