@@ -1,13 +1,12 @@
 import type { Ymd } from '@/types/DateString'
 import type { UUID } from 'crypto'
-import type ProductType from './Product'
-import type UserType from './User'
+import type ActivityLogType from './ActivityLog'
+import type BusinessUnitProductSale from './BusinessUnitProductSale'
+import type InstallmentType from './Installment'
 import type ProductMovementType from './ProductMovement'
 import type ProductMovementDetailType from './ProductMovementDetail'
 import type TransactionType from './Transaction'
-import type InstallmentType from './Installment'
-import type ActivityLogType from './ActivityLog'
-import type BusinessUnitProductSale from './BusinessUnitProductSale'
+import type UserType from './User'
 
 type ProductSaleType =
     | ProductSaleCashType
@@ -20,7 +19,6 @@ type BaseType = {
     uuid: UUID
     at: Ymd
     note: string
-    products_state: ProductType[]
 
     // getter
     total_rp: number

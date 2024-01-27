@@ -58,6 +58,7 @@ export default function FarmInputProductSalesReport() {
             <Grid2 container spacing={2} mb={4}>
                 <Grid2>
                     <DatePicker
+                        disabled={isLoading}
                         label="Dari Tanggal"
                         minDate={dayjs('2020-01-01')}
                         maxDate={tillDate}
@@ -81,6 +82,7 @@ export default function FarmInputProductSalesReport() {
                 </Grid2>
                 <Grid2>
                     <DatePicker
+                        disabled={isLoading}
                         label="Hingga Tanggal"
                         minDate={fromDate}
                         maxDate={currDate}
@@ -161,20 +163,12 @@ export default function FarmInputProductSalesReport() {
                         {data.map(productSale => {
                             const totalBaseCostRp =
                                 productSale.product_movement_details.reduce(
-                                    (acc, pmd) => {
-                                        const product =
-                                            productSale.products_state.find(
-                                                p => pmd.product_id === p.id,
-                                            )
-
-                                        return (
-                                            acc +
-                                            pmd.qty *
-                                                -1 *
-                                                (product?.base_cost_rp_per_unit ??
-                                                    0)
-                                        )
-                                    },
+                                    (acc, pmd) =>
+                                        acc +
+                                        pmd.qty *
+                                            -1 *
+                                            pmd.product_state
+                                                .base_cost_rp_per_unit,
                                     0,
                                 )
 
@@ -208,34 +202,24 @@ export default function FarmInputProductSalesReport() {
                                                 whiteSpace: 'nowrap',
                                             }}>
                                             {productSale.product_movement_details.map(
-                                                pmd => {
-                                                    const product =
-                                                        productSale.products_state.find(
-                                                            p =>
-                                                                pmd.product_id ===
-                                                                p.id,
-                                                        )
-
-                                                    return (
-                                                        <li
-                                                            key={
-                                                                pmd.product_id
-                                                            }>
-                                                            {formatNumber(
-                                                                Math.abs(
-                                                                    pmd.qty,
-                                                                ) ?? 0,
-                                                            )}{' '}
-                                                            {product?.unit}{' '}
-                                                            {product?.name}{' '}
-                                                            &times;{' '}
-                                                            {numberToCurrency(
-                                                                product?.base_cost_rp_per_unit ??
-                                                                    0,
-                                                            )}
-                                                        </li>
-                                                    )
-                                                },
+                                                ({
+                                                    id,
+                                                    qty = 0,
+                                                    product_state,
+                                                }) => (
+                                                    <li key={id}>
+                                                        {formatNumber(
+                                                            Math.abs(qty),
+                                                        )}{' '}
+                                                        {product_state.unit}{' '}
+                                                        {product_state.name}{' '}
+                                                        &times;{' '}
+                                                        {numberToCurrency(
+                                                            product_state.base_cost_rp_per_unit ??
+                                                                0,
+                                                        )}
+                                                    </li>
+                                                ),
                                             )}
                                         </ul>
                                     </TableCell>
@@ -247,34 +231,24 @@ export default function FarmInputProductSalesReport() {
                                                 whiteSpace: 'nowrap',
                                             }}>
                                             {productSale.product_movement_details.map(
-                                                pmd => {
-                                                    const product =
-                                                        productSale.products_state.find(
-                                                            p =>
-                                                                pmd.product_id ===
-                                                                p.id,
-                                                        )
-
-                                                    return (
-                                                        <li
-                                                            key={
-                                                                pmd.product_id
-                                                            }>
-                                                            {formatNumber(
-                                                                Math.abs(
-                                                                    pmd.qty,
-                                                                ) ?? 0,
-                                                            )}{' '}
-                                                            {product?.unit}{' '}
-                                                            {product?.name}{' '}
-                                                            &times;{' '}
-                                                            {numberToCurrency(
-                                                                pmd.rp_per_unit ??
-                                                                    0,
-                                                            )}
-                                                        </li>
-                                                    )
-                                                },
+                                                ({
+                                                    id,
+                                                    qty,
+                                                    product_state,
+                                                    rp_per_unit,
+                                                }) => (
+                                                    <li key={id}>
+                                                        {formatNumber(
+                                                            Math.abs(qty) ?? 0,
+                                                        )}{' '}
+                                                        {product_state?.unit}{' '}
+                                                        {product_state?.name}{' '}
+                                                        &times;{' '}
+                                                        {numberToCurrency(
+                                                            rp_per_unit ?? 0,
+                                                        )}
+                                                    </li>
+                                                ),
                                             )}
                                         </ul>
                                     </TableCell>

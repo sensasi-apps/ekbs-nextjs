@@ -205,10 +205,9 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'productMovement.details.product.name',
+        name: 'productMovement.details.product_state',
         options: {
             display: 'excluded',
-            customBodyRenderLite: () => '',
         },
     },
     {
@@ -230,16 +229,22 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                         paddingLeft: '1em',
                         whiteSpace: 'nowrap',
                     }}>
-                    {pids?.map(pid => (
-                        <Typography
-                            key={pid.product_id}
-                            component="li"
-                            variant="overline">
-                            {formatNumber(pid.qty ?? 0)} {pid.product?.unit}{' '}
-                            {pid.product?.name} &times;{' '}
-                            {numberToCurrency(pid.rp_per_unit ?? 0)}
-                        </Typography>
-                    ))}
+                    {pids?.map(
+                        ({
+                            id,
+                            qty,
+                            rp_per_unit,
+                            product_state: { name, unit },
+                        }) => (
+                            <Typography
+                                key={id}
+                                component="li"
+                                variant="overline">
+                                {formatNumber(qty)} {unit} {name} &times;{' '}
+                                {numberToCurrency(rp_per_unit)}
+                            </Typography>
+                        ),
+                    )}
                 </ul>
             ),
         },

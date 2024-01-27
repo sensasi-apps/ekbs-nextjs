@@ -32,7 +32,6 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
         n_term,
         n_term_unit,
         interest_percent,
-        products_state,
     } = data
 
     const paymentMethodId =
@@ -98,63 +97,63 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
             </Typography>
 
             {product_movement_details.map(
-                ({ qty, product_id, rp_per_unit }) => {
-                    const { name, unit } =
-                        products_state?.find(p => p.id === product_id) ?? {}
-
-                    return (
+                ({
+                    qty,
+                    product_id,
+                    rp_per_unit,
+                    product_state: { name, unit },
+                }) => (
+                    <Grid2
+                        key={product_id}
+                        container
+                        mb={0.5}
+                        alignItems="center">
                         <Grid2
-                            key={product_id}
-                            container
-                            mb={0.5}
-                            alignItems="center">
-                            <Grid2
-                                xs={2}
-                                textAlign="center"
-                                textTransform="uppercase"
-                                component={Typography}
-                                variant="overline"
-                                lineHeight="unset"
-                                fontSize="1em">
-                                {formatNumber(Math.abs(qty))} {unit}
-                            </Grid2>
-
-                            <Grid2
-                                xs={6}
-                                component={Typography}
-                                variant="overline"
-                                lineHeight="unset"
-                                fontSize="1em"
-                                whiteSpace="nowrap"
-                                overflow="hidden">
-                                {name}
-                                <Typography variant="caption" component="div">
-                                    @ RP {formatNumber(rp_per_unit)}
-                                </Typography>
-                            </Grid2>
-
-                            <Grid2
-                                xs={1}
-                                textAlign="end"
-                                component={Typography}
-                                variant="overline"
-                                lineHeight="unset"
-                                fontSize="1em">
-                                Rp
-                            </Grid2>
-
-                            <Grid2
-                                xs={3}
-                                textAlign="end"
-                                component={Typography}
-                                variant="overline"
-                                lineHeight="unset"
-                                fontSize="1em">
-                                {formatNumber(Math.abs(qty) * rp_per_unit)}
-                            </Grid2>
+                            xs={2}
+                            textAlign="center"
+                            textTransform="uppercase"
+                            component={Typography}
+                            variant="overline"
+                            lineHeight="unset"
+                            fontSize="1em">
+                            {formatNumber(Math.abs(qty))} {unit}
                         </Grid2>
-                    )
-                },
+
+                        <Grid2
+                            xs={6}
+                            component={Typography}
+                            variant="overline"
+                            lineHeight="unset"
+                            fontSize="1em"
+                            whiteSpace="nowrap"
+                            overflow="hidden">
+                            {name}
+                            <Typography variant="caption" component="div">
+                                @ RP {formatNumber(rp_per_unit)}
+                            </Typography>
+                        </Grid2>
+
+                        <Grid2
+                            xs={1}
+                            textAlign="end"
+                            component={Typography}
+                            variant="overline"
+                            lineHeight="unset"
+                            fontSize="1em">
+                            Rp
+                        </Grid2>
+
+                        <Grid2
+                            xs={3}
+                            textAlign="end"
+                            component={Typography}
+                            variant="overline"
+                            lineHeight="unset"
+                            fontSize="1em">
+                            {formatNumber(Math.abs(qty) * rp_per_unit)}
+                        </Grid2>
+                    </Grid2>
+                ),
             )}
 
             <Grid2 container rowSpacing={0.5} alignItems="center">

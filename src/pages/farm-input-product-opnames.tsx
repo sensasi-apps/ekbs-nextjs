@@ -22,8 +22,6 @@ import useAuth from '@/providers/Auth'
 import errorCatcher from '@/utils/errorCatcher'
 import { ApiUrlEnum } from '@/components/pages/farm-input-product-in-outs/Datatable.type'
 import { DATATABLE_COLUMNS } from '@/components/pages/farm-input-product-in-outs/Datatable'
-import ProductType from '@/dataTypes/Product'
-// import formikOnSubmitConsole from '@/utils/formikOnSubmitConsole'
 
 export default function FarmInputProductOpnames() {
     const { userHasPermission } = useAuth()
@@ -41,19 +39,11 @@ export default function FarmInputProductOpnames() {
                 getRowData<ProductOpnameMovementType>(dataIndex)
             if (!productMovement) return
 
-            const products = productMovement.product_movementable.products_state
-
-            const opnameMovementDetails = productMovement.details.map(pmd => {
-                const product = products.find(
-                    product => product.id === pmd.product_id,
-                )
-
-                return {
-                    ...pmd,
-                    product: { ...product } as ProductType,
-                    physical_qty: (product?.qty ?? 0) + pmd.qty,
-                }
-            })
+            const opnameMovementDetails = productMovement.details.map(pmd => ({
+                ...pmd,
+                product: pmd.product_state,
+                physical_qty: (pmd.product_state.qty ?? 0) + pmd.qty,
+            }))
 
             setInitialFormikValues({
                 at: productMovement.product_movementable.at,

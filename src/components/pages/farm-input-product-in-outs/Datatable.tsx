@@ -6,13 +6,16 @@ import { memo, useState } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 // components
 import Datatable, { OnRowClickType, getRowData } from '@/components/Datatable'
-import { ApiUrlEnum } from './Datatable.type'
+// utils
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
-import { Typography } from '@mui/material'
+// enums
+import { ApiUrlEnum } from './Datatable.type'
+import { ProductMovementTypeEnum } from '@/dataTypes/ProductMovement'
 
 const FarmInputProductInOutDatatable = memo(
     function FarmInputProductInOutDatatable({
@@ -77,11 +80,11 @@ function FilterBox({
                 onClick={() => setApiUrl(ApiUrlEnum.SELL)}
             />
 
-            <Chip
+            {/* <Chip
                 color={getActiveColor(ApiUrlEnum.RETURN)}
                 label="Retur"
                 onClick={() => setApiUrl(ApiUrlEnum.RETURN)}
-            />
+            /> */}
         </Box>
     )
 }
@@ -110,7 +113,7 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'details.product.name',
+        name: 'details.product_state',
         label: 'Barang',
         options: {
             sort: false,
@@ -131,8 +134,15 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                                 variant="overline"
                                 component="li"
                                 lineHeight="unset">
-                                {formatNumber(Math.abs(detail.qty))}{' '}
-                                {detail.product?.unit} {detail.product?.name}
+                                {formatNumber(
+                                    detail.qty *
+                                        (data.type ===
+                                        ProductMovementTypeEnum.OPNAME
+                                            ? 1
+                                            : -1),
+                                )}{' '}
+                                {detail.product_state?.unit}{' '}
+                                {detail.product_state?.name}
                             </Typography>
                         ))}
                     </ul>
@@ -151,11 +161,18 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 if (!data || !data.details) return ''
 
                 return numberToCurrency(
-                    data.details
-                        ?.map(
-                            detail => Math.abs(detail.qty) * detail.rp_per_unit,
-                        )
-                        .reduce((a, b) => a + b, 0),
+                    data.details.reduce((acc, curr) => {
+                        let qty = Math.abs(curr.qty)
+                        let rp_per_unit = curr.rp_per_unit
+
+                        if (data.type === ProductMovementTypeEnum.OPNAME) {
+                            qty = curr.qty
+                            rp_per_unit =
+                                curr.product_state.base_cost_rp_per_unit
+                        }
+
+                        return acc + qty * rp_per_unit
+                    }, 0),
                 )
             },
         },

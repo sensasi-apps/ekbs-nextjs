@@ -242,7 +242,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'productMovement.details.product.name',
+        name: 'productMovement.details.product_state',
         label: 'Barang',
         options: {
             sort: false,
@@ -258,29 +258,22 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                             whiteSpace: 'nowrap',
                         }}>
                         {data.product_movement_details?.map(
-                            ({ qty, product_id, rp_per_unit }) => {
-                                const { name, unit } =
-                                    data?.products_state?.find(
-                                        p => p.id === product_id,
-                                    ) ??
-                                        data?.product_movement.details.find(
-                                            p => p.product_id === product_id,
-                                        )?.product ?? { name: '', unit: '' }
-
-                                return (
-                                    <Typography
-                                        key={product_id}
-                                        variant="overline"
-                                        component="li"
-                                        lineHeight="unset">
-                                        {formatNumber(Math.abs(qty))} {unit}{' '}
-                                        {name} &times;{' '}
-                                        {numberToCurrency(
-                                            Math.abs(rp_per_unit),
-                                        )}
-                                    </Typography>
-                                )
-                            },
+                            ({
+                                qty,
+                                product_id,
+                                rp_per_unit,
+                                product_state: { name, unit } = {},
+                            }) => (
+                                <Typography
+                                    key={product_id}
+                                    variant="overline"
+                                    component="li"
+                                    lineHeight="unset">
+                                    {formatNumber(Math.abs(qty))} {unit} {name}{' '}
+                                    &times;{' '}
+                                    {numberToCurrency(Math.abs(rp_per_unit))}
+                                </Typography>
+                            ),
                         )}
                     </ul>
                 )

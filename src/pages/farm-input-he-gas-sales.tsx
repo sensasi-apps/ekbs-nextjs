@@ -50,7 +50,8 @@ export default function FarmInputHeGasSales() {
                 uuid: productSale.uuid,
                 at: productSale.at,
 
-                product: productSale.product_movement_details?.[0]?.product,
+                product:
+                    productSale.product_movement_details?.[0]?.product_state,
                 product_id:
                     productSale.product_movement_details?.[0]?.product_id,
 
@@ -187,7 +188,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'productMovement.details.product.name',
+        name: 'productMovement.details.product_state',
         label: 'Barang',
         options: {
             sort: false,
@@ -195,20 +196,32 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 const data = getRowData<ProductSaleType>(dataIndex)
                 if (!data) return ''
 
-                const { qty, rp_per_unit } = data.product_movement_details[0]
-                const { name, unit } = data.product_movement_details[0]
-                    .product ?? {
-                    name: '',
-                    unit: '',
-                }
-
-                if (!name) return ''
-
                 return (
-                    <Typography variant="overline" lineHeight="unset">
-                        {formatNumber(Math.abs(qty))} {unit} {name} &times;{' '}
-                        {numberToCurrency(Math.abs(rp_per_unit))}
-                    </Typography>
+                    <ul
+                        style={{
+                            margin: 0,
+                            paddingLeft: '1em',
+                            whiteSpace: 'nowrap',
+                        }}>
+                        {data.product_movement_details?.map(
+                            ({
+                                qty,
+                                product_id,
+                                rp_per_unit,
+                                product_state: { name, unit } = {},
+                            }) => (
+                                <Typography
+                                    key={product_id}
+                                    variant="overline"
+                                    component="li"
+                                    lineHeight="unset">
+                                    {formatNumber(Math.abs(qty))} {unit} {name}{' '}
+                                    &times;{' '}
+                                    {numberToCurrency(Math.abs(rp_per_unit))}
+                                </Typography>
+                            ),
+                        )}
+                    </ul>
                 )
             },
         },
@@ -219,7 +232,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             searchable: false,
-            customBodyRenderLite: value => numberToCurrency(value ?? 0),
+            customBodyRender: value => numberToCurrency(value ?? 0),
         },
     },
     // {

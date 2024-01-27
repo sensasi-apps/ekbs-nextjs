@@ -1,7 +1,7 @@
 import type { UUID } from 'crypto'
 import type ProductMovementDetailType from './ProductMovementDetail'
 import type ActivityLogType from './ActivityLog'
-import type ProductOpanameType from './ProductOpname'
+import type ProductOpnameType from './ProductOpname'
 
 type ProductMovementType = {
     uuid: UUID
@@ -22,13 +22,13 @@ export default ProductMovementType
 
 export type ProductOpnameMovementType = ProductMovementType & {
     type: ProductMovementTypeEnum.OPNAME
-    product_movementable: ProductOpanameType
+    product_movementable: ProductOpnameType
 }
 
-enum ProductMovementTypeEnum {
+export enum ProductMovementTypeEnum {
     PURCHASE = 'pembelian',
     OPNAME = 'opname',
-    GRANT = 'hibah',
+    // GRANT = 'hibah',
     SELL = 'penjualan',
-    RETURN = 'retur',
+    // RETURN = 'retur',
 }
