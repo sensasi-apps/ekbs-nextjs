@@ -4,6 +4,7 @@ import type { GetRowDataType } from '@/components/Datatable'
 import type ProductType from '@/dataTypes/Product'
 // materials
 import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
@@ -79,12 +80,44 @@ export default function KatalogProdukSaprodi() {
 
 const columns: MUIDataTableColumn[] = [
     {
-        name: 'code',
-        label: 'Kode',
-    },
-    {
         name: 'category_name',
         label: 'Kategori',
+        options: {
+            customBodyRender: text =>
+                text ? (
+                    <Chip label={text} size="small" variant="outlined" />
+                ) : (
+                    ''
+                ),
+        },
+    },
+    {
+        name: 'id',
+        label: 'ID',
+        options: {
+            display: 'excluded',
+        },
+    },
+    {
+        name: 'code',
+        label: 'Kode',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const data = getRowData(dataIndex)
+                if (!data) return
+
+                const { id, code } = data
+
+                return (
+                    <Typography
+                        variant="overline"
+                        fontFamily="monospace"
+                        lineHeight="inherit">
+                        {code ?? id}
+                    </Typography>
+                )
+            },
+        },
     },
     {
         name: 'name',
@@ -109,20 +142,30 @@ const columns: MUIDataTableColumn[] = [
 
                 const isLowQty = low_number !== null && qty <= low_number
 
-                const text = `${formatNumber(qty)} ${unit}`
+                const base = (
+                    <Box
+                        component="span"
+                        lineHeight="inherit"
+                        whiteSpace="nowrap"
+                        color={qty === 0 ? 'error.main' : undefined}>
+                        {formatNumber(qty)}{' '}
+                        <Typography
+                            variant="overline"
+                            fontFamily="monospace"
+                            lineHeight="inherit">
+                            {unit}
+                        </Typography>
+                    </Box>
+                )
 
-                if (qty === 0)
+                if (isLowQty)
                     return (
-                        <Box component="span" color="error.main">
-                            {qty}
-                        </Box>
+                        <FarmInputsProductsLowQty>
+                            {base}
+                        </FarmInputsProductsLowQty>
                     )
 
-                if (!isLowQty) return text
-
-                return (
-                    <FarmInputsProductsLowQty>{text}</FarmInputsProductsLowQty>
-                )
+                return base
             },
         },
     },

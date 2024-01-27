@@ -1,6 +1,10 @@
 // types
-import type ProductType from '@/dataTypes/Product'
 import type { MUIDataTableColumn } from 'mui-datatables'
+import type ProductType from '@/dataTypes/Product'
+// materials
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
@@ -120,8 +124,32 @@ const Crud = () => {
 
 const columns: MUIDataTableColumn[] = [
     {
+        name: 'id',
+        label: 'ID',
+        options: {
+            display: 'excluded',
+        },
+    },
+    {
         name: 'code',
         label: 'Kode',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const data = getRowData(dataIndex)
+                if (!data) return
+
+                const { id, code } = data
+
+                return (
+                    <Typography
+                        variant="overline"
+                        fontFamily="monospace"
+                        lineHeight="inherit">
+                        {code ?? id}
+                    </Typography>
+                )
+            },
+        },
     },
     {
         name: 'name',
@@ -130,6 +158,14 @@ const columns: MUIDataTableColumn[] = [
     {
         name: 'category_name',
         label: 'Kategori',
+        options: {
+            customBodyRender: text =>
+                text ? (
+                    <Chip label={text} size="small" variant="outlined" />
+                ) : (
+                    ''
+                ),
+        },
     },
     {
         name: 'description',
@@ -137,7 +173,7 @@ const columns: MUIDataTableColumn[] = [
     },
     {
         name: 'qty',
-        label: 'Jumlah',
+        label: 'Stok',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
@@ -147,13 +183,30 @@ const columns: MUIDataTableColumn[] = [
 
                 const isLowQty = low_number !== null && qty <= low_number
 
-                const text = `${formatNumber(qty)} ${unit}`
-
-                if (!isLowQty) return text
-
-                return (
-                    <FarmInputsProductsLowQty>{text}</FarmInputsProductsLowQty>
+                const base = (
+                    <Box
+                        component="span"
+                        lineHeight="inherit"
+                        whiteSpace="nowrap"
+                        color={qty === 0 ? 'error.main' : undefined}>
+                        {formatNumber(qty)}{' '}
+                        <Typography
+                            variant="overline"
+                            fontFamily="monospace"
+                            lineHeight="inherit">
+                            {unit}
+                        </Typography>
+                    </Box>
                 )
+
+                if (isLowQty)
+                    return (
+                        <FarmInputsProductsLowQty>
+                            {base}
+                        </FarmInputsProductsLowQty>
+                    )
+
+                return base
             },
         },
     },
