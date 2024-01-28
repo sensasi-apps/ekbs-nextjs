@@ -240,8 +240,13 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                                 key={id}
                                 component="li"
                                 variant="overline">
-                                {formatNumber(qty)} {unit} {name} &times;{' '}
-                                {numberToCurrency(rp_per_unit)}
+                                {formatNumber(qty)} {unit}{' '}
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html: name,
+                                    }}
+                                />{' '}
+                                &times; {numberToCurrency(rp_per_unit)}
                             </Typography>
                         ),
                     )}

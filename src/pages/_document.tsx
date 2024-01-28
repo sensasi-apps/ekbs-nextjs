@@ -5,6 +5,8 @@ export default function Document() {
     return (
         <Html lang="id" data-mui-color-scheme="light">
             <Head>
+                <meta charSet="utf8" />
+
                 <meta
                     name="application-name"
                     content="Koperasi Belayan Sejahtera Elektronik"

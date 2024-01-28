@@ -128,23 +128,29 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                             paddingLeft: '1em',
                             whiteSpace: 'nowrap',
                         }}>
-                        {data.details?.map(detail => (
-                            <Typography
-                                key={detail.product_id}
-                                variant="overline"
-                                component="li"
-                                lineHeight="unset">
-                                {formatNumber(
-                                    detail.qty *
-                                        (data.type ===
-                                        ProductMovementTypeEnum.OPNAME
-                                            ? 1
-                                            : -1),
-                                )}{' '}
-                                {detail.product_state?.unit}{' '}
-                                {detail.product_state?.name}
-                            </Typography>
-                        ))}
+                        {data.details?.map(
+                            ({ id, qty, product_state: { name, unit } }) => (
+                                <Typography
+                                    key={id}
+                                    variant="overline"
+                                    component="li"
+                                    lineHeight="unset">
+                                    {formatNumber(
+                                        qty *
+                                            (data.type ===
+                                            ProductMovementTypeEnum.OPNAME
+                                                ? 1
+                                                : -1),
+                                    )}{' '}
+                                    {unit}{' '}
+                                    <span
+                                        dangerouslySetInnerHTML={{
+                                            __html: name,
+                                        }}
+                                    />
+                                </Typography>
+                            ),
+                        )}
                     </ul>
                 )
             },

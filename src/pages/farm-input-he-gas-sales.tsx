@@ -208,14 +208,19 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                                 qty,
                                 product_id,
                                 rp_per_unit,
-                                product_state: { name, unit } = {},
+                                product_state: { name, unit },
                             }) => (
                                 <Typography
                                     key={product_id}
                                     variant="overline"
                                     component="li"
                                     lineHeight="unset">
-                                    {formatNumber(Math.abs(qty))} {unit} {name}{' '}
+                                    {formatNumber(Math.abs(qty))} {unit}{' '}
+                                    <span
+                                        dangerouslySetInnerHTML={{
+                                            __html: name,
+                                        }}
+                                    />{' '}
                                     &times;{' '}
                                     {numberToCurrency(Math.abs(rp_per_unit))}
                                 </Typography>
