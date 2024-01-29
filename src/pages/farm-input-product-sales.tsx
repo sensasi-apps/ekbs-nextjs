@@ -1,7 +1,8 @@
 // types
-import type ProductSaleType from '@/dataTypes/ProductSale'
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type { OnRowClickType } from '@/components/Datatable'
+import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+import type ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -198,6 +199,34 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
     }
 }
 
+const pmdsCustomBodyRender = (pids: ProductMovementDetailType[]) => (
+    <ul
+        style={{
+            margin: 0,
+            paddingLeft: '1em',
+            whiteSpace: 'nowrap',
+        }}>
+        {pids?.map(
+            ({ id, qty, rp_per_unit, product_state: { name, unit } }) => (
+                <Typography
+                    key={id}
+                    variant="overline"
+                    component="li"
+                    lineHeight="unset">
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: name,
+                        }}
+                    />{' '}
+                    &mdash; {formatNumber(Math.abs(qty))} {unit} &times;{' '}
+                    {numberToCurrency(rp_per_unit)} ={' '}
+                    {numberToCurrency(Math.abs(qty) * rp_per_unit)}
+                </Typography>
+            ),
+        )}
+    </ul>
+)
+
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
@@ -250,38 +279,23 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 const data = getRowData<ProductSaleType>(dataIndex)
                 if (!data) return ''
 
-                return (
-                    <ul
-                        style={{
-                            margin: 0,
-                            paddingLeft: '1em',
-                            whiteSpace: 'nowrap',
-                        }}>
-                        {data.product_movement_details?.map(
-                            ({
-                                qty,
-                                product_id,
-                                rp_per_unit,
-                                product_state: { name, unit },
-                            }) => (
-                                <Typography
-                                    key={product_id}
-                                    variant="overline"
-                                    component="li"
-                                    lineHeight="unset">
-                                    {formatNumber(Math.abs(qty))} {unit}{' '}
-                                    <span
-                                        dangerouslySetInnerHTML={{
-                                            __html: name,
-                                        }}
-                                    />{' '}
-                                    &times;{' '}
-                                    {numberToCurrency(Math.abs(rp_per_unit))}
-                                </Typography>
-                            ),
-                        )}
-                    </ul>
-                )
+                return pmdsCustomBodyRender(data.product_movement_details)
+            },
+        },
+    },
+    {
+        name: 'total_base_rp',
+        label: 'Penyesuaian/Jasa',
+        options: {
+            sort: false,
+            searchable: false,
+            customBodyRenderLite: dataIndex => {
+                const data = getRowData<ProductSaleType>(dataIndex)
+                if (!data) return ''
+
+                return data.total_rp - data.total_base_rp
+                    ? numberToCurrency(data.total_rp - data.total_base_rp)
+                    : ''
             },
         },
     },

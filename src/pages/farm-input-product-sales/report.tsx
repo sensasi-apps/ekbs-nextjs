@@ -1,6 +1,8 @@
 // types
+import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
 import type ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
+import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
@@ -15,6 +17,7 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 // components
@@ -25,7 +28,6 @@ import DatePicker from '@/components/DatePicker'
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
-import { useRouter } from 'next/router'
 
 const apiUrl = 'farm-inputs/product-sales/report'
 
@@ -135,8 +137,8 @@ export default function FarmInputProductSalesReport() {
                             <TableCell>Pengguna</TableCell>
                             <TableCell>Metode Pembayaran</TableCell>
                             <TableCell>Biaya Dasar</TableCell>
+                            <TableCell>Total Biaya Dasar</TableCell>
                             <TableCell>Penjualan</TableCell>
-                            <TableCell>Subtotal Biaya Dasar</TableCell>
                             <TableCell>Subtotal Penjualan</TableCell>
                             <TableCell>Penyesuaian/Jasa</TableCell>
                             <TableCell>Total Penjualan</TableCell>
@@ -195,65 +197,17 @@ export default function FarmInputProductSalesReport() {
                                         {productSale.payment_method_id}
                                     </TableCell>
                                     <TableCell>
-                                        <ul
-                                            style={{
-                                                margin: 0,
-                                                paddingLeft: '1em',
-                                                whiteSpace: 'nowrap',
-                                            }}>
-                                            {productSale.product_movement_details.map(
-                                                ({
-                                                    id,
-                                                    qty = 0,
-                                                    product_state,
-                                                }) => (
-                                                    <li key={id}>
-                                                        {formatNumber(
-                                                            Math.abs(qty),
-                                                        )}{' '}
-                                                        {product_state.unit}{' '}
-                                                        {product_state.name}{' '}
-                                                        &times;{' '}
-                                                        {numberToCurrency(
-                                                            product_state.base_cost_rp_per_unit ??
-                                                                0,
-                                                        )}
-                                                    </li>
-                                                ),
-                                            )}
-                                        </ul>
-                                    </TableCell>
-                                    <TableCell>
-                                        <ul
-                                            style={{
-                                                margin: 0,
-                                                paddingLeft: '1em',
-                                                whiteSpace: 'nowrap',
-                                            }}>
-                                            {productSale.product_movement_details.map(
-                                                ({
-                                                    id,
-                                                    qty,
-                                                    product_state,
-                                                    rp_per_unit,
-                                                }) => (
-                                                    <li key={id}>
-                                                        {formatNumber(
-                                                            Math.abs(qty) ?? 0,
-                                                        )}{' '}
-                                                        {product_state?.unit}{' '}
-                                                        {product_state?.name}{' '}
-                                                        &times;{' '}
-                                                        {numberToCurrency(
-                                                            rp_per_unit ?? 0,
-                                                        )}
-                                                    </li>
-                                                ),
-                                            )}
-                                        </ul>
+                                        {pmdsCostCustomBodyRender(
+                                            productSale.product_movement_details,
+                                        )}
                                     </TableCell>
                                     <TableCell>
                                         {numberToCurrency(totalBaseCostRp)}
+                                    </TableCell>
+                                    <TableCell>
+                                        {pmdsSaleCustomBodyRender(
+                                            productSale.product_movement_details,
+                                        )}
                                     </TableCell>
                                     <TableCell>
                                         {numberToCurrency(
@@ -277,7 +231,7 @@ export default function FarmInputProductSalesReport() {
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-                            <TableCell colSpan={5}>GRAND TOTAL</TableCell>
+                            <TableCell colSpan={4}>GRAND TOTAL</TableCell>
                             <TableCell>
                                 {numberToCurrency(
                                     totalsBaseCostRp.reduce(
@@ -286,6 +240,8 @@ export default function FarmInputProductSalesReport() {
                                     ),
                                 )}
                             </TableCell>
+                            <TableCell />
+
                             <TableCell>
                                 {numberToCurrency(
                                     data.reduce(
@@ -328,3 +284,63 @@ export default function FarmInputProductSalesReport() {
         </AuthLayout>
     )
 }
+
+const pmdsSaleCustomBodyRender = (pids: ProductMovementDetailType[]) => (
+    <ul
+        style={{
+            margin: 0,
+            paddingLeft: '1em',
+            whiteSpace: 'nowrap',
+        }}>
+        {pids?.map(
+            ({ id, qty, rp_per_unit, product_state: { name, unit } }) => (
+                <Typography
+                    key={id}
+                    variant="overline"
+                    component="li"
+                    lineHeight="unset">
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: name,
+                        }}
+                    />{' '}
+                    &mdash; {formatNumber(Math.abs(qty))} {unit} &times;{' '}
+                    {numberToCurrency(rp_per_unit)} ={' '}
+                    {numberToCurrency(Math.abs(qty) * rp_per_unit)}
+                </Typography>
+            ),
+        )}
+    </ul>
+)
+
+const pmdsCostCustomBodyRender = (pids: ProductMovementDetailType[]) => (
+    <ul
+        style={{
+            margin: 0,
+            paddingLeft: '1em',
+            whiteSpace: 'nowrap',
+        }}>
+        {pids?.map(
+            ({
+                id,
+                qty,
+                product_state: { name, unit, base_cost_rp_per_unit },
+            }) => (
+                <Typography
+                    key={id}
+                    variant="overline"
+                    component="li"
+                    lineHeight="unset">
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: name,
+                        }}
+                    />{' '}
+                    &mdash; {formatNumber(Math.abs(qty))} {unit} &times;{' '}
+                    {numberToCurrency(base_cost_rp_per_unit)} ={' '}
+                    {numberToCurrency(Math.abs(qty) * base_cost_rp_per_unit)}
+                </Typography>
+            ),
+        )}
+    </ul>
+)

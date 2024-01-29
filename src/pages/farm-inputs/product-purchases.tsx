@@ -13,6 +13,7 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import { Formik, FormikConfig } from 'formik'
 // materials
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -152,6 +153,57 @@ export default function FarmInputsProducts() {
     )
 }
 
+const pmdsCustomBodyRender = (pids: ProductMovementDetailType[]) => (
+    <ul
+        style={{
+            margin: 0,
+            paddingLeft: '1em',
+            whiteSpace: 'nowrap',
+        }}>
+        {pids?.map(
+            ({
+                id,
+                qty,
+                rp_per_unit,
+                rp_cost_per_unit,
+                product_state: { name, unit },
+            }) => (
+                <Typography
+                    key={id}
+                    variant="overline"
+                    component="li"
+                    lineHeight="unset">
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: name,
+                        }}
+                    />{' '}
+                    &mdash; {formatNumber(qty)} {unit} &times;{' ('}
+                    <Tooltip title="harga beli" placement="top" arrow>
+                        <u
+                            style={{
+                                textDecorationStyle: 'dotted',
+                            }}>
+                            {numberToCurrency(rp_per_unit)}
+                        </u>
+                    </Tooltip>{' '}
+                    +{' '}
+                    <Tooltip title="biaya lain" placement="top" arrow>
+                        <u
+                            style={{
+                                textDecorationStyle: 'dotted',
+                            }}>
+                            {numberToCurrency(rp_cost_per_unit)}
+                        </u>
+                    </Tooltip>
+                    {') '}={' '}
+                    {numberToCurrency(qty * (rp_cost_per_unit + rp_per_unit))}
+                </Typography>
+            ),
+        )}
+    </ul>
+)
+
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
@@ -222,59 +274,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (pids: ProductMovementDetailType[]) => (
-                <ul
-                    style={{
-                        margin: 0,
-                        paddingLeft: '1em',
-                        whiteSpace: 'nowrap',
-                    }}>
-                    {pids?.map(
-                        ({
-                            id,
-                            qty,
-                            rp_per_unit,
-                            product_state: { name, unit },
-                        }) => (
-                            <Typography
-                                key={id}
-                                component="li"
-                                variant="overline">
-                                {formatNumber(qty)} {unit}{' '}
-                                <span
-                                    dangerouslySetInnerHTML={{
-                                        __html: name,
-                                    }}
-                                />{' '}
-                                &times; {numberToCurrency(rp_per_unit)}
-                            </Typography>
-                        ),
-                    )}
-                </ul>
-            ),
-        },
-    },
-    {
-        name: 'product_movement.rp_cost',
-        label: 'Biaya Lain',
-        options: {
-            searchable: false,
-            sort: false,
-            customBodyRenderLite: dataIndex => {
-                const { rp_cost } =
-                    getRowData(dataIndex)?.product_movement ?? {}
-
-                if (!rp_cost) return ''
-
-                return (
-                    <span
-                        style={{
-                            whiteSpace: 'nowrap',
-                        }}>
-                        {numberToCurrency(Number(rp_cost))}
-                    </span>
-                )
-            },
+            customBodyRender: pmdsCustomBodyRender,
         },
     },
     {

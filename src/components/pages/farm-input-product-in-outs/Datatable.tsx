@@ -89,6 +89,53 @@ function FilterBox({
     )
 }
 
+const detailsProductStateCustomBodyRenderLite = (dataIndex: number) => {
+    const data = getRowData<ProductMovementType>(dataIndex)
+    if (!data) return ''
+
+    return (
+        <ul
+            style={{
+                margin: 0,
+                paddingLeft: '1em',
+                whiteSpace: 'nowrap',
+            }}>
+            {data.details?.map(
+                ({
+                    id,
+                    qty,
+                    rp_per_unit,
+                    rp_cost_per_unit,
+                    product_state: { name, unit, base_cost_rp_per_unit },
+                }) => {
+                    let rpPerUnit = rp_per_unit + rp_cost_per_unit
+
+                    if (data.type === ProductMovementTypeEnum.OPNAME) {
+                        rpPerUnit = base_cost_rp_per_unit
+                    }
+
+                    return (
+                        <Typography
+                            key={id}
+                            variant="overline"
+                            component="li"
+                            lineHeight="unset">
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: name,
+                                }}
+                            />{' '}
+                            &mdash; {formatNumber(qty)} {unit} &times;{' '}
+                            {numberToCurrency(rpPerUnit)} ={' '}
+                            {numberToCurrency(qty * rpPerUnit)}
+                        </Typography>
+                    )
+                },
+            )}
+        </ul>
+    )
+}
+
 export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
@@ -110,6 +157,22 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             searchable: false,
             sort: false,
+            customBodyRender: type => (
+                <Chip
+                    label={type}
+                    size="small"
+                    variant="outlined"
+                    color={
+                        type === ProductMovementTypeEnum.PURCHASE
+                            ? 'success'
+                            : type === ProductMovementTypeEnum.SELL
+                              ? 'warning'
+                              : type === ProductMovementTypeEnum.OPNAME
+                                ? 'info'
+                                : undefined
+                    }
+                />
+            ),
         },
     },
     {
@@ -117,43 +180,7 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Barang',
         options: {
             sort: false,
-            customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductMovementType>(dataIndex)
-                if (!data) return ''
-
-                return (
-                    <ul
-                        style={{
-                            margin: 0,
-                            paddingLeft: '1em',
-                            whiteSpace: 'nowrap',
-                        }}>
-                        {data.details?.map(
-                            ({ id, qty, product_state: { name, unit } }) => (
-                                <Typography
-                                    key={id}
-                                    variant="overline"
-                                    component="li"
-                                    lineHeight="unset">
-                                    {formatNumber(
-                                        qty *
-                                            (data.type ===
-                                            ProductMovementTypeEnum.OPNAME
-                                                ? 1
-                                                : -1),
-                                    )}{' '}
-                                    {unit}{' '}
-                                    <span
-                                        dangerouslySetInnerHTML={{
-                                            __html: name,
-                                        }}
-                                    />
-                                </Typography>
-                            ),
-                        )}
-                    </ul>
-                )
-            },
+            customBodyRenderLite: detailsProductStateCustomBodyRenderLite,
         },
     },
     {
@@ -167,18 +194,26 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 if (!data || !data.details) return ''
 
                 return numberToCurrency(
-                    data.details.reduce((acc, curr) => {
-                        let qty = Math.abs(curr.qty)
-                        let rp_per_unit = curr.rp_per_unit
+                    data.details.reduce(
+                        (
+                            acc,
+                            {
+                                qty,
+                                rp_per_unit,
+                                rp_cost_per_unit,
+                                product_state: { base_cost_rp_per_unit },
+                            },
+                        ) => {
+                            let rpPerUnit = rp_per_unit + rp_cost_per_unit
 
-                        if (data.type === ProductMovementTypeEnum.OPNAME) {
-                            qty = curr.qty
-                            rp_per_unit =
-                                curr.product_state.base_cost_rp_per_unit
-                        }
+                            if (data.type === ProductMovementTypeEnum.OPNAME) {
+                                rpPerUnit = base_cost_rp_per_unit
+                            }
 
-                        return acc + qty * rp_per_unit
-                    }, 0),
+                            return acc + rpPerUnit * qty
+                        },
+                        0,
+                    ),
                 )
             },
         },
