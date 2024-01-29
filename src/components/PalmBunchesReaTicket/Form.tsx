@@ -106,7 +106,7 @@ export default function PalmBuncesReaTicketForm({
 
             {!data?.delivery?.transactions?.length && actionsSlot}
 
-            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
+            {userHasRole(Role.PALM_BUNCH_MANAGER) && data?.delivery?.logs && (
                 <UserActivityLog data={data.delivery.logs} />
             )}
         </form>
