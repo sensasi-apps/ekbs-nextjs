@@ -443,8 +443,8 @@ export default function PalmBuncesReaPaymentForm({
                                     size="small"
                                     required
                                     defaultValue={
-                                        dataProp.transactions?.[0]?.cash.uuid ||
-                                        ''
+                                        dataProp.transactions?.[0]
+                                            ?.cashable_uuid || ''
                                     }
                                     selectProps={{
                                         name: 'cash_uuid',
