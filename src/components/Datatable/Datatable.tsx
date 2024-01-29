@@ -73,7 +73,7 @@ const Datatable = memo(function Datatable({
     const {
         isLoading: isApiLoading,
         isValidating,
-        data: { data = [], recordsTotal, error } = {},
+        data: { data = [], recordsTotal, recordsFiltered, error } = {},
         mutate,
     } = useSWR<YajraDatatable<object>>(
         params ? [apiUrl, { ...params, ...apiUrlParams }] : null,
@@ -134,7 +134,7 @@ const Datatable = memo(function Datatable({
         selectableRows: 'none',
         download: false,
         print: false,
-        count: recordsTotal || 0,
+        count: recordsFiltered ?? recordsTotal ?? 0,
         customSearchRender: debounceSearchRender(750),
         customToolbar: () => (
             <CustomHeadButton
