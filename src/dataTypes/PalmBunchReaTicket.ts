@@ -1,9 +1,12 @@
-import type PalmBunchesDeliveryType from './PalmBunchesDelivery'
-import type PalmBunchesReaGradingType from './PalmBunchesReaGrading'
+import type PalmBunchRate from './PalmBunchRate'
+import type PalmBunchesReaPaymentDetail from './PalmBunchReaPaymentDetail'
+import type PalmBunchesDelivery from './PalmBunchesDelivery'
+import type PalmBunchesReaGrading from './PalmBunchesReaGrading'
+import type User from './User'
 
-interface PalmBunchesReaTicketType {
+interface PalmBunchesReaTicket {
     id: number
-    at?: string
+    at: string
     spb_no?: string
     ticket_no: string
     gradis_no: string
@@ -14,8 +17,13 @@ interface PalmBunchesReaTicketType {
     as_farmer_name: string
     as_farm_land_id?: string
 
-    delivery: PalmBunchesDeliveryType
-    gradings: PalmBunchesReaGradingType[]
+    delivery: PalmBunchesDelivery
+    gradings: PalmBunchesReaGrading[]
+    payment_detail?: PalmBunchesReaPaymentDetail
+    rate?: PalmBunchRate
+
+    validated_at?: string
+    validated_by_user: User
 }
 
-export default PalmBunchesReaTicketType
+export default PalmBunchesReaTicket

@@ -8,18 +8,24 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
+import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
+import FormControlLabel from '@mui/material/FormControlLabel'
 import Grid from '@mui/material/Grid'
+// icons
+import InfoIcon from '@mui/icons-material/Info'
 // local components
+import GradingItemInputs from './Form/GradingItemInputs'
+import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
 import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
-import GradingItemInputs from './Form/GradingItemInputs'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
 import useAuth from '@/providers/Auth'
+// enums
 import Role from '@/enums/Role'
+import ReaTiketPaymentDetailView from './Form/ReaTiketPaymentDetailView'
 
 export default function PalmBuncesReaTicketForm({
     data,
@@ -53,7 +59,10 @@ export default function PalmBuncesReaTicketForm({
 
         axios
             .post(
-                `/palm-bunches/rea-tickets${data?.id ? '/' + data?.id : ''}`,
+                PalmBunchApiUrlEnum.UPDATE_OR_CREATE_TICKET.replace(
+                    '$1',
+                    data?.id ? `/${data?.id}` : '',
+                ),
                 formData,
             )
             .then(() => {
@@ -72,8 +81,8 @@ export default function PalmBuncesReaTicketForm({
             id="palm-bunches-rea-deliveries-form"
             autoComplete="off"
             onSubmit={handleSubmit}>
-            <Grid container rowSpacing={4}>
-                <Grid item xs={12} sm>
+            <Grid container columnSpacing={2} rowSpacing={4}>
+                <Grid item xs={12} sm={7}>
                     <PalmBunchesReaDeliveryMainInputs
                         validationErrors={validationErrors}
                         clearByName={clearByName}
@@ -81,15 +90,7 @@ export default function PalmBuncesReaTicketForm({
                     />
                 </Grid>
 
-                <Divider
-                    sx={{
-                        mx: 4,
-                    }}
-                    orientation="vertical"
-                    flexItem
-                />
-
-                <Grid item xs={12} sm>
+                <Grid item xs={12} sm={5}>
                     <GradingItemInputs
                         disabled={disabled}
                         clearByName={clearByName}
@@ -103,6 +104,25 @@ export default function PalmBuncesReaTicketForm({
                 validationErrors={validationErrors}
                 clearByName={clearByName}
             />
+
+            {userHasRole(Role.PALM_BUNCH_MANAGER) && data.payment_detail && (
+                <>
+                    <ReaTiketPaymentDetailView data={data} />
+
+                    <FormControlLabel
+                        sx={{ mt: 2 }}
+                        name="validate_now"
+                        disabled={disabled}
+                        control={
+                            <Checkbox
+                                value="true"
+                                defaultChecked={Boolean(data.validated_at)}
+                            />
+                        }
+                        label="Data yang di-input sudah sesuai dengan yang diinginkan"
+                    />
+                </>
+            )}
 
             {!data?.delivery?.transactions?.length && actionsSlot}
 
@@ -118,7 +138,9 @@ const UserActivityLog = ({ data }: { data: ActivityLogType[] }) => {
 
     return (
         <>
-            <Button onClick={() => setOpen(true)}>Riwayat Data</Button>
+            <Button onClick={() => setOpen(true)} startIcon={<InfoIcon />}>
+                Riwayat Data
+            </Button>
             <UserActivityLogsDialogTable
                 open={open}
                 setIsOpen={setOpen}

@@ -1,9 +1,9 @@
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type { MUIDataTableColumn } from 'mui-datatables'
+import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchType from '@/dataTypes/PalmBunch'
 // vendors
 import { FC, useState } from 'react'
 import dayjs from 'dayjs'
-import { NumericFormat } from 'react-number-format'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -20,14 +20,15 @@ import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
 // local components
 import MainForm from '@/components/PalmBunchesReaTicket/Form'
 // providers
-import useFormData from '@/providers/useFormData'
 import { FormDataProvider } from '@/providers/useFormData'
+import useFormData from '@/providers/useFormData'
 import useAuth from '@/providers/Auth'
 // enums
-import Role from '@/enums/Role'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // utils
-import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
+import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
+import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
+import formatNumber from '@/utils/formatNumber'
 
 export default function PalmBuncesReaTickets() {
     return (
@@ -40,8 +41,10 @@ export default function PalmBuncesReaTickets() {
 }
 
 const Crud: FC = () => {
-    const { userHasRole, userHasPermission } = useAuth()
-    const [filter, setFilter] = useState<string | undefined>()
+    const { userHasPermission } = useAuth()
+    const [filter, setFilter] = useState<
+        '' | 'not-found' | 'unmatched' | 'unvalidated'
+    >('')
 
     const {
         data,
@@ -63,42 +66,40 @@ const Crud: FC = () => {
                     overflowX: 'auto',
                 }}
                 mb={3}
-                display={
-                    userHasRole([
-                        Role.PALM_BUNCH_ADMIN,
-                        Role.PALM_BUNCH_MANAGER,
-                    ])
-                        ? 'flex'
-                        : 'none'
-                }
+                display="flex"
                 gap={1}>
                 <Chip
                     label="Semua"
-                    color={filter === undefined ? 'success' : undefined}
-                    onClick={() => setFilter(undefined)}
+                    color={filter === '' ? 'success' : undefined}
+                    onClick={() => setFilter('')}
+                />
+
+                <Chip
+                    label="Menunggu Validasi"
+                    color={filter === 'unvalidated' ? 'success' : undefined}
+                    onClick={() => setFilter('unvalidated')}
                 />
 
                 <Chip
                     label="Data pembayaran tidak cocok"
-                    color={
-                        filter === 'filter=unmatched' ? 'success' : undefined
-                    }
-                    onClick={() => setFilter('filter=unmatched')}
+                    color={filter === 'unmatched' ? 'success' : undefined}
+                    onClick={() => setFilter('unmatched')}
                 />
 
                 <Chip
                     label="Data pembayaran tidak ditemukan"
-                    color={
-                        filter === 'filter=not-found' ? 'success' : undefined
-                    }
-                    onClick={() => setFilter('filter=not-found')}
+                    color={filter === 'not-found' ? 'success' : undefined}
+                    onClick={() => setFilter('not-found')}
                 />
             </Box>
 
             <Datatable
                 title="Riwayat"
                 tableId="PalmBunchDeliveryRateDatatable"
-                apiUrl={'/palm-bunches/rea-tickets/datatable?' + (filter || '')}
+                apiUrl={PalmBunchApiUrlEnum.TICKET_DATATABLE_DATA}
+                apiUrlParams={{
+                    filter,
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data =
@@ -112,7 +113,7 @@ const Crud: FC = () => {
 
             <Dialog
                 title={`${isNew ? 'Masukkan' : 'Perbarui'} Data Pengangkutan`}
-                maxWidth="lg"
+                maxWidth="sm"
                 open={formOpen}
                 closeButtonProps={{
                     onClick: () => {
@@ -252,6 +253,12 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'delivery.courierUser.name',
         label: 'Pengangkut',
         options: {
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'nowrap',
+                },
+            }),
+
             customBodyRenderLite: dataIndex => {
                 const courier_user =
                     getRowData<PalmBunchesReaTicketType>(dataIndex)?.delivery
@@ -269,23 +276,19 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => (
-                <ul
-                    style={{
-                        margin: 0,
-                        paddingLeft: '1em',
-                    }}>
-                    {getRowData<PalmBunchesReaTicketType>(
-                        dataIndex,
-                    )?.delivery?.palm_bunches?.map(
-                        (palmBunches: any, index: number) => (
-                            <li key={index} style={{ marginBottom: `.5em` }}>
-                                #{palmBunches.owner_user?.id + ' '}
-                                {palmBunches.owner_user?.name + ' '}(
-                                {palmBunches.n_kg} kg)
-                            </li>
-                        ),
+                <ListInsideMuiDatatableCell
+                    listItems={
+                        getRowData<PalmBunchesReaTicketType>(dataIndex)
+                            ?.delivery?.palm_bunches
+                    }
+                    renderItem={(palmBunch: PalmBunchType) => (
+                        <>
+                            #{palmBunch.owner_user?.id + ' '}
+                            {palmBunch.owner_user?.name + ' '}({palmBunch.n_kg}{' '}
+                            kg)
+                        </>
                     )}
-                </ul>
+                />
             ),
         },
     },
@@ -293,17 +296,14 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'delivery.n_bunches',
         label: 'Janjang',
         options: {
-            customBodyRenderLite(dataIndex) {
-                return (
-                    <NumericFormat
-                        {...numericFormatDefaultProps}
-                        value={
-                            getRowData<PalmBunchesReaTicketType>(dataIndex)
-                                ?.delivery.n_bunches
-                        }
-                        displayType="text"
-                    />
-                )
+            customBodyRenderLite: dataIndex => {
+                const data = getRowData<PalmBunchesReaTicketType>(dataIndex)
+
+                if (!data) return ''
+
+                return data.delivery?.n_bunches
+                    ? formatNumber(data.delivery.n_bunches)
+                    : ''
             },
         },
     },
@@ -311,43 +311,14 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'delivery.n_kg',
         label: 'Bobot',
         options: {
-            customBodyRenderLite(dataIndex) {
-                return (
-                    <NumericFormat // TODO: use formatNumber instead NumericFormat
-                        {...numericFormatDefaultProps}
-                        value={
-                            getRowData<PalmBunchesReaTicketType>(dataIndex)
-                                ?.delivery.n_kg
-                        }
-                        suffix=" kg"
-                        displayType="text"
-                    />
-                )
-            },
-        },
-    },
-    {
-        name: 'net_rp',
-        label: 'Pembayaran REA',
-        options: {
-            searchable: false,
-            sort: false,
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'nowrap',
-                },
-            }),
-            customBodyRender: (value: null | number) => {
-                if (value === null) return '-'
+            customBodyRenderLite: dataIndex => {
+                const data = getRowData<PalmBunchesReaTicketType>(dataIndex)
 
-                return (
-                    <NumericFormat
-                        {...numericFormatDefaultProps}
-                        value={value}
-                        prefix="Rp "
-                        displayType="text"
-                    />
-                )
+                if (!data) return ''
+
+                return data.delivery.n_kg
+                    ? `${formatNumber(data.delivery.n_kg)} kg`
+                    : ''
             },
         },
     },
