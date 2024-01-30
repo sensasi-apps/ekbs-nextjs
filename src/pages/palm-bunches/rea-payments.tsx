@@ -120,6 +120,22 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
+        name: 'transactions.at',
+        label: 'Tanggal Pelunasan oleh REA',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const data =
+                    getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+
+                if (!data) return ''
+
+                return data.transactions[0]
+                    ? toDmy(data.transactions[0].at)
+                    : ''
+            },
+        },
+    },
+    {
         name: 'final_rp',
         label: 'Nilai Akhir',
         options: {
@@ -133,6 +149,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Tiket Tidak Ditemukan',
         options: {
             sort: false,
+            searchable: false,
             customBodyRenderLite: dataIndex => {
                 const data =
                     getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
@@ -149,6 +166,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Tiket Tidak Cocok',
         options: {
             sort: false,
+            searchable: false,
             customBodyRenderLite: dataIndex => {
                 const data =
                     getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
@@ -165,6 +183,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Tiket Lunas',
         options: {
             sort: false,
+            searchable: false,
             customBodyRenderLite: dataIndex => {
                 const data =
                     getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
