@@ -32,6 +32,7 @@ import WarehouseIcon from '@mui/icons-material/Warehouse'
 //enums
 import Role from '@/enums/Role'
 import PalmBunch from '@/enums/permissions/PalmBunch'
+import Cash from '@/enums/permissions/Cash'
 
 const GroupTitle = memo(function GroupTitle({
     children,
@@ -264,6 +265,7 @@ const accountingNavs: NavItem[] = [
         label: 'Tagihan',
         pathname: '/bills',
         icon: <ReceiptLongIcon />,
+        forPermission: Cash.READ_OWN_INSTALLMENT,
     },
     {
         href: '/cashes',
@@ -284,7 +286,7 @@ const accountingNavs: NavItem[] = [
         label: 'Piutang',
         pathname: '/receivables',
         icon: <CreditScoreIcon />,
-        forRole: Role.CASH_MANAGER,
+        forPermission: Cash.READ_ALL_INSTALLMENT,
     },
 ]
 
