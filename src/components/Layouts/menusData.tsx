@@ -1,22 +1,13 @@
-// vendors
-import { memo } from 'react'
-import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
 // icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import AssessmentIcon from '@mui/icons-material/Assessment'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
-import BalanceIcon from '@mui/icons-material/Balance'
-import BiotechIcon from '@mui/icons-material/Biotech'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import CreditScoreIcon from '@mui/icons-material/CreditScore'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import EventNoteIcon from '@mui/icons-material/EventNote'
-import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList'
-import FireTruckIcon from '@mui/icons-material/FireTruck'
-import GrassIcon from '@mui/icons-material/Grass'
 import GroupIcon from '@mui/icons-material/Group'
 import InventoryIcon from '@mui/icons-material/Inventory'
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation'
@@ -27,96 +18,17 @@ import ReceiptIcon from '@mui/icons-material/Receipt'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 //enums
 import Role from '@/enums/Role'
-import PalmBunch from '@/enums/permissions/PalmBunch'
 import Cash from '@/enums/permissions/Cash'
-
-const GroupTitle = memo(function GroupTitle({
-    children,
-}: {
-    children: string
-}) {
-    return (
-        <>
-            <Divider
-                style={{
-                    marginTop: '1rem',
-                }}
-            />
-            <Typography
-                ml={2}
-                mt={2}
-                variant="overline"
-                color="grey"
-                fontWeight="bold"
-                component="div">
-                {children}
-            </Typography>
-        </>
-    )
-})
-
-const inventoryNavs: NavItem[] = [
-    {
-        children: <GroupTitle>Inventaris</GroupTitle>,
-    },
-    {
-        href: '/inventory-items',
-        label: 'Barang',
-        pathname: ['/inventory-items', '/inventory-items/[uuid]'],
-        icon: <FeaturedPlayListIcon />,
-    },
-]
-
-const palmBunchNavs: NavItem[] = [
-    {
-        children: <GroupTitle>Tandan Buah Segar</GroupTitle>,
-        forRole: [
-            Role.PALM_BUNCH_ADMIN,
-            Role.PALM_BUNCH_MANAGER,
-            Role.FARMER,
-            Role.COURIER,
-        ],
-    },
-    {
-        href: '/palm-bunches/performances',
-        label: 'Performa Anda',
-        pathname: '/palm-bunches/performances',
-        icon: <AssessmentIcon />,
-        forRole: [Role.FARMER, Role.COURIER],
-    },
-    {
-        href: '/palm-bunches/rates',
-        label: 'Harga TBS',
-        pathname: '/palm-bunches/rates',
-        icon: <GrassIcon />,
-        forRole: Role.PALM_BUNCH_MANAGER,
-    },
-    {
-        href: '/palm-bunches/delivery-rates',
-        label: 'Tarif Angkut',
-        pathname: '/palm-bunches/delivery-rates',
-        icon: <FireTruckIcon />,
-        forRole: Role.PALM_BUNCH_MANAGER,
-    },
-    {
-        href: '/palm-bunches/rea-tickets',
-        label: 'Tiket REA',
-        pathname: '/palm-bunches/rea-tickets',
-        icon: <BalanceIcon />,
-        forPermission: PalmBunch.READ_TICKET,
-    },
-    {
-        href: '/palm-bunches/rea-payments',
-        label: 'Pembayaran REA',
-        pathname: '/palm-bunches/rea-payments',
-        icon: <PointOfSaleIcon />,
-        forRole: Role.PALM_BUNCH_MANAGER,
-    },
-]
+// nav items
+import supermanNavItems from './MenuData/supermanNavItems'
+import inventoryNavItems from './MenuData/inventoryNavItems'
+import palmBunchNavItems from './MenuData/palmBunchNavItems'
+import NavItem from './MenuData/NavItem.type'
+import GroupTitle from './MenuData/GroupTitle'
+import executiveNavItems from './MenuData/executiveNavItems'
 
 const loanNavs: NavItem[] = [
     {
@@ -311,34 +223,6 @@ const settingsNavs: NavItem[] = [
     },
 ]
 
-const supermanNavs: NavItem[] = [
-    {
-        children: <GroupTitle>Superman</GroupTitle>,
-        forRole: Role.SUPERMAN,
-    },
-    {
-        href: `${process.env.NEXT_PUBLIC_BACKEND_URL}/_/telescope`,
-        label: 'Telescope',
-        pathname: '/_/telescope',
-        icon: <BiotechIcon />,
-        forRole: Role.SUPERMAN,
-    },
-    {
-        href: '/roles',
-        label: 'Peran',
-        pathname: '/roles',
-        icon: <SupervisedUserCircleIcon />,
-        forRole: Role.SUPERMAN,
-    },
-    {
-        href: '/acting-as',
-        label: 'Acting As',
-        pathname: '/acting-as',
-        icon: <GroupIcon />,
-        forRole: Role.SUPERMAN,
-    },
-]
-
 const NAV_ITEMS: NavItem[] = [
     {
         href: '/dashboard',
@@ -353,38 +237,15 @@ const NAV_ITEMS: NavItem[] = [
         icon: <AssessmentIcon />,
     },
 
-    ...palmBunchNavs,
+    ...executiveNavItems,
+    ...palmBunchNavItems,
     ...loanNavs,
     ...farmInputNavs,
-    ...inventoryNavs,
+    ...inventoryNavItems,
     ...heavyEquipmentNavs,
     ...accountingNavs,
     ...settingsNavs,
-    ...supermanNavs,
+    ...supermanNavItems,
 ]
 
 export default NAV_ITEMS
-
-export type NavItem = NavItemComponent | NavItemLink
-
-type NavItemComponent = {
-    href?: never
-    label?: never
-    pathname?: never
-    icon?: never
-
-    children: JSX.Element
-    forRole?: Role | Role[]
-    forPermission?: string | string[]
-}
-
-type NavItemLink = {
-    children?: never
-
-    href: string
-    label: string
-    pathname: string | string[]
-    icon: JSX.Element
-    forRole?: Role | Role[]
-    forPermission?: string | string[]
-}

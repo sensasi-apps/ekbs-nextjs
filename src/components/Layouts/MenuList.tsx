@@ -1,5 +1,5 @@
 // types
-import type { NavItem } from './menusData'
+import type NavItem from './MenuData/NavItem.type'
 // vendors
 import { memo, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
