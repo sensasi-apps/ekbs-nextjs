@@ -41,7 +41,7 @@ let mutatorForExport: MutateType
 
 export type DatatableProps = {
     apiUrl: string
-    apiUrlParams?: { [key: string]: string | number }
+    apiUrlParams?: { [key: string]: string | number | undefined }
     columns: MUIDataTableColumn[]
     defaultSortOrder: MUISortOptions
     tableId: string
