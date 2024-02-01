@@ -15,7 +15,7 @@ const UserLoanInstallmentDatatable = memo(
     function UserLoanInstallmentDatatable({
         onEdit,
     }: {
-        onEdit: (userLoan: InstallmentUserLoanType) => void
+        onEdit: (userLoan: InstallmentUserLoan) => void
     }) {
         const [apiUrl, setApiUrl] = useState(
             UserLoanInstallmentDatatableApiUrlEnum.Unpaid,
@@ -62,7 +62,7 @@ const UserLoanInstallmentDatatable = memo(
                     onRowClick={(_, { dataIndex }, event) => {
                         if (event.detail === 2) {
                             const data =
-                                getRowData<InstallmentUserLoanType>(dataIndex)
+                                getRowData<InstallmentUserLoan>(dataIndex)
 
                             if (data) {
                                 onEdit(data)
@@ -84,7 +84,7 @@ export default UserLoanInstallmentDatatable
 import toDmy from '@/utils/toDmy'
 import { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 import {
-    InstallmentUserLoanType,
+    InstallmentUserLoan,
     InstallmentWithTransactionType,
 } from '@/dataTypes/Installment'
 import numberToCurrency from '@/utils/numberToCurrency'
@@ -151,8 +151,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Kreditur',
         options: {
             customBodyRenderLite: dataIndex =>
-                getRowData<InstallmentUserLoanType>(dataIndex)?.user_loan.user
-                    .name,
+                getRowData<InstallmentUserLoan>(dataIndex)?.user_loan.user.name,
         },
     },
     {

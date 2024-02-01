@@ -3,7 +3,7 @@ import { CashableClassname } from '@/dataTypes/Transaction'
 import type { UUID } from 'crypto'
 import type { FormikContextType } from 'formik'
 import type {
-    InstallmentUserLoanType,
+    InstallmentUserLoan,
     InstallmentWithTransactionType,
 } from '@/dataTypes/Installment'
 import type { Ymd } from '@/types/DateString'
@@ -32,7 +32,7 @@ export default function UserLoanInstallmentForm({
     setFieldValue,
     errors,
 }: FormikContextType<UserLoanInstallmentFormDataType>) {
-    const installment = status?.userLoanInstallment as InstallmentUserLoanType &
+    const installment = status?.userLoanInstallment as InstallmentUserLoan &
         InstallmentWithTransactionType
     const user = installment.user_loan.user
     const isProcessing = isSubmitting

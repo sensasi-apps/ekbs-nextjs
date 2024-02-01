@@ -1,5 +1,8 @@
+// types
+import type { NavItem } from './menusData'
 // vendors
 import { memo, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 // materials
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
@@ -10,7 +13,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Skeleton from '@mui/material/Skeleton'
 import Toolbar from '@mui/material/Toolbar'
-
+// etc
 import useAuth from '@/providers/Auth'
 import MENUS_DATA from './menusData'
 
@@ -101,13 +104,8 @@ export default memo(MenuList)
 
 export const DRAWER_WIDTH = 240
 
-// types
-import type { NavItem } from './menusData'
-// vendors
-import { useRouter } from 'next/router'
-
 const CustomListItem = memo(function CustomListItem({
-    data: { forRole, forPermission, href, icon, label, pathname, component },
+    data,
     onClick,
 }: {
     data: NavItem
@@ -115,18 +113,17 @@ const CustomListItem = memo(function CustomListItem({
 }) {
     const { pathname: currPathname } = useRouter()
     const { userHasRole, userHasPermission } = useAuth()
+    const { forRole, forPermission } = data
 
     if (
-        (typeof forRole !== 'undefined' && !userHasRole(forRole)) ||
-        (typeof forPermission !== 'undefined' &&
-            !userHasPermission(forPermission))
+        (forRole && !userHasRole(forRole)) ||
+        (forPermission && !userHasPermission(forPermission))
     )
         return
 
-    if (component) return component
-    if (!pathname) throw new Error('pathname is required')
-    if (!href) throw new Error('href is required')
-    if (!icon) throw new Error('icon is required')
+    if (data.children) return data.children
+
+    const { href, icon, label, pathname } = data
 
     const isSelected =
         typeof pathname === 'string'

@@ -1,8 +1,10 @@
-import type { UUID } from 'crypto'
-import type TransactionType from './Transaction'
-import type { Ymd } from '@/types/DateString'
-import type UserLoanType from './Loan'
 import type { CashableClassname } from './Transaction'
+import type { UUID } from 'crypto'
+import type { Ymd } from '@/types/DateString'
+import type ProductSale from './ProductSale'
+import type RentItemRent from './RentItemRent'
+import type TransactionType from './Transaction'
+import type UserLoan from './Loan'
 
 type InstallmentDBTableType = {
     uuid: UUID
@@ -12,12 +14,27 @@ type InstallmentDBTableType = {
     n_th: number
 
     // table columns but practically unused
-    // installmentable_classname: string
     // installmentable_uuid: UUID
-}
+} & (
+    | {
+          installmentable_classname: 'App\\Models\\UserLoan'
+          installmentable?: UserLoan
+          user_loan?: UserLoan
+      }
+    | {
+          installmentable_classname: 'App\\Models\\ProductSale'
+          installmentable?: ProductSale
+          product_sale?: ProductSale
+      }
+    | {
+          installmentable_classname: 'App\\Models\\RentItemRent'
+          installmentable?: RentItemRent
+          rent_item_rent?: RentItemRent
+      }
+)
 
-export type InstallmentUserLoanType = InstallmentDBTableType & {
-    user_loan: UserLoanType
+export type InstallmentUserLoan = InstallmentDBTableType & {
+    user_loan: UserLoan
 }
 
 export type InstallmentWithTransactionType = InstallmentDBTableType & {
@@ -25,6 +42,6 @@ export type InstallmentWithTransactionType = InstallmentDBTableType & {
     transaction_cashable_classname?: CashableClassname
 }
 
-type InstallmentType = InstallmentDBTableType | InstallmentUserLoanType
+type Installment = InstallmentDBTableType | InstallmentUserLoan
 
-export default InstallmentType
+export default Installment

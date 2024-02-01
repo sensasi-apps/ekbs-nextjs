@@ -1,6 +1,6 @@
 // types
 import type {
-    InstallmentUserLoanType,
+    InstallmentUserLoan,
     InstallmentWithTransactionType,
 } from '@/dataTypes/Installment'
 // vendors
@@ -24,14 +24,14 @@ export default function UserLoansInstallments() {
         UserLoanInstallmentFormInitialValues,
     )
     const [userLoanInstallment, setUserLoanInstallment] = useState<
-        (InstallmentUserLoanType & InstallmentWithTransactionType) | null
+        (InstallmentUserLoan & InstallmentWithTransactionType) | null
     >(null)
     const [isOpenDialog, setIsOpenDialog] = useState(false)
 
     const handleClose = () => setIsOpenDialog(false)
 
     const handleEdit = (
-        data: InstallmentUserLoanType & InstallmentWithTransactionType,
+        data: InstallmentUserLoan & InstallmentWithTransactionType,
     ) => {
         setFormData({
             cashable_cash_uuid: data?.transaction?.cashable_uuid ?? '',

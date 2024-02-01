@@ -8,8 +8,10 @@ import AssessmentIcon from '@mui/icons-material/Assessment'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import BalanceIcon from '@mui/icons-material/Balance'
+import BiotechIcon from '@mui/icons-material/Biotech'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
+import CreditScoreIcon from '@mui/icons-material/CreditScore'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import EventNoteIcon from '@mui/icons-material/EventNote'
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList'
@@ -22,9 +24,12 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import ReceiptIcon from '@mui/icons-material/Receipt'
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
+//enums
 import Role from '@/enums/Role'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 
@@ -55,7 +60,7 @@ const GroupTitle = memo(function GroupTitle({
 
 const inventoryNavs: NavItem[] = [
     {
-        component: <GroupTitle>Inventaris</GroupTitle>,
+        children: <GroupTitle>Inventaris</GroupTitle>,
     },
     {
         href: '/inventory-items',
@@ -67,7 +72,7 @@ const inventoryNavs: NavItem[] = [
 
 const palmBunchNavs: NavItem[] = [
     {
-        component: <GroupTitle>Tandan Buah Segar</GroupTitle>,
+        children: <GroupTitle>Tandan Buah Segar</GroupTitle>,
         forRole: [
             Role.PALM_BUNCH_ADMIN,
             Role.PALM_BUNCH_MANAGER,
@@ -114,7 +119,7 @@ const palmBunchNavs: NavItem[] = [
 
 const loanNavs: NavItem[] = [
     {
-        component: <GroupTitle>Simpan Pinjam</GroupTitle>,
+        children: <GroupTitle>Simpan Pinjam</GroupTitle>,
         forRole: [Role.MEMBER, Role.EMPLOYEE],
     },
     {
@@ -156,7 +161,7 @@ const loanNavs: NavItem[] = [
 
 const farmInputNavs: NavItem[] = [
     {
-        component: <GroupTitle>Saprodi</GroupTitle>,
+        children: <GroupTitle>Saprodi</GroupTitle>,
     },
     {
         href: '/farm-inputs/products',
@@ -213,7 +218,7 @@ const farmInputNavs: NavItem[] = [
 
 const heavyEquipmentNavs: NavItem[] = [
     {
-        component: <GroupTitle>Alat Berat</GroupTitle>,
+        children: <GroupTitle>Alat Berat</GroupTitle>,
         forRole: [
             Role.HEAVY_EQUIPMENT_RENT_ADMIN,
             Role.HEAVY_EQUIPMENT_RENT_MANAGER,
@@ -244,15 +249,28 @@ const heavyEquipmentNavs: NavItem[] = [
 
 const accountingNavs: NavItem[] = [
     {
-        component: <GroupTitle>Keuangan</GroupTitle>,
+        children: <GroupTitle>Keuangan</GroupTitle>,
         forRole: [Role.MEMBER, Role.EMPLOYEE, Role.CASH_MANAGER],
     },
     {
         href: '/wallet',
-        label: 'Wallet Anda',
+        label: 'Wallet',
         pathname: '/wallet',
         icon: <AccountBalanceWalletIcon />,
         forRole: [Role.MEMBER, Role.EMPLOYEE],
+    },
+    {
+        href: '/bills',
+        label: 'Tagihan',
+        pathname: '/bills',
+        icon: <ReceiptLongIcon />,
+    },
+    {
+        href: '/cashes',
+        label: 'Kas',
+        pathname: '/cashes',
+        icon: <AutoStoriesIcon />,
+        forRole: Role.CASH_MANAGER,
     },
     {
         href: '/wallets',
@@ -262,17 +280,17 @@ const accountingNavs: NavItem[] = [
         forRole: Role.CASH_MANAGER,
     },
     {
-        href: '/cashes',
-        label: 'Kas',
-        pathname: '/cashes',
-        icon: <AutoStoriesIcon />,
+        href: '/receivables',
+        label: 'Piutang',
+        pathname: '/receivables',
+        icon: <CreditScoreIcon />,
         forRole: Role.CASH_MANAGER,
     },
 ]
 
 const settingsNavs: NavItem[] = [
     {
-        component: <GroupTitle>Sistem</GroupTitle>,
+        children: <GroupTitle>Sistem</GroupTitle>,
         forRole: [Role.USER_ADMIN, Role.SYSTEM_CONFIGURATOR],
     },
     {
@@ -293,14 +311,21 @@ const settingsNavs: NavItem[] = [
 
 const supermanNavs: NavItem[] = [
     {
-        component: <GroupTitle>Superman</GroupTitle>,
+        children: <GroupTitle>Superman</GroupTitle>,
+        forRole: Role.SUPERMAN,
+    },
+    {
+        href: `${process.env.NEXT_PUBLIC_BACKEND_URL}/_/telescope`,
+        label: 'Telescope',
+        pathname: '/_/telescope',
+        icon: <BiotechIcon />,
         forRole: Role.SUPERMAN,
     },
     {
         href: '/roles',
         label: 'Peran',
         pathname: '/roles',
-        icon: <GroupIcon />,
+        icon: <SupervisedUserCircleIcon />,
         forRole: Role.SUPERMAN,
     },
     {
@@ -338,27 +363,26 @@ const NAV_ITEMS: NavItem[] = [
 
 export default NAV_ITEMS
 
-export type NavItem = {
-    forRole?: string | string[]
+export type NavItem = NavItemComponent | NavItemLink
+
+type NavItemComponent = {
+    href?: never
+    label?: never
+    pathname?: never
+    icon?: never
+
+    children: JSX.Element
+    forRole?: Role | Role[]
     forPermission?: string | string[]
-    href?: string
-    label?: string
-    pathname?: string | string[]
-    icon?: JSX.Element
-    component?: JSX.Element
-} & (
-    | {
-          href: string
-          label: string
-          pathname: string | string[]
-          icon: JSX.Element
-          component?: never
-      }
-    | {
-          href?: never
-          label?: never
-          pathname?: never
-          icon?: never
-          component: JSX.Element
-      }
-)
+}
+
+type NavItemLink = {
+    children?: never
+
+    href: string
+    label: string
+    pathname: string | string[]
+    icon: JSX.Element
+    forRole?: Role | Role[]
+    forPermission?: string | string[]
+}
