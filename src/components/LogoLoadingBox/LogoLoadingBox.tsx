@@ -6,7 +6,7 @@ const LogoLoadingBox = ({
     display = 'flex',
     justifyContent = 'center',
     alignItems = 'center',
-    height = '100vh',
+    height = '100dvh',
     ...restProps
 }: BoxProps) => (
     <Box
