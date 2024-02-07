@@ -131,7 +131,7 @@ const FormDataDraftsCrud: FC<{
 
     return (
         <div>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box display="flex" alignItems="center">
                 <Tooltip title="Hapus draf" placement="top">
                     <span>
                         <IconButton

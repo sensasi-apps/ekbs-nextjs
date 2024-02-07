@@ -33,18 +33,21 @@ export default function Dialog({
                 justifyContent="space-between"
                 alignItems="center"
                 component="div"
+                flexWrap="wrap"
                 {...dialogTitleProps}>
                 {title}
 
                 {middleHead}
 
                 {closeButtonProps?.onClick && (
-                    <IconButton
-                        size="small"
-                        disabled={closeButtonProps.disabled}
-                        onClick={closeButtonProps.onClick}>
-                        <CloseIcon />
-                    </IconButton>
+                    <div>
+                        <IconButton
+                            size="small"
+                            disabled={closeButtonProps.disabled}
+                            onClick={closeButtonProps.onClick}>
+                            <CloseIcon />
+                        </IconButton>
+                    </div>
                 )}
             </DialogTitle>
             <DialogContent>{children}</DialogContent>
