@@ -350,7 +350,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'refund_from_product_sale.at',
+        name: 'refundProductSale.at',
         label: 'Refund',
         options: {
             display: false,
