@@ -14,9 +14,9 @@ const executiveNavItems: NavItem[] = [
         forRole: [Role.EXECUTIVE],
     },
     {
-        label: 'Grafik',
-        href: '/executive/graphs',
-        pathname: '/executive/graphs',
+        label: 'Statistik',
+        href: '/executive/statistics',
+        pathname: '/executive/statistics',
         icon: <AlignHorizontalLeftIcon />,
         forRole: Role.EXECUTIVE,
     },

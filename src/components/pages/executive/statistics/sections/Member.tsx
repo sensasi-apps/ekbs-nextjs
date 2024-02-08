@@ -1,0 +1,76 @@
+// vendors
+import useSWR from 'swr'
+// materials
+import Grid2 from '@mui/material/Unstable_Grid2'
+// icons
+import Diversity3Icon from '@mui/icons-material/Diversity3'
+// components
+import FlexColumnBox from '@/components/FlexColumnBox'
+import Heading2 from '../Heading2'
+// pages
+import TotalActiveMemberBigNumber from '@/components/pages/executive/statistics/charts/TotalActiveMemberBigNumber'
+import MonthlyTotalMemberInOutChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberInOutChartCard'
+import TotalMemberParticipationBigNumber from '@/components/pages/executive/statistics/charts/TotalMemberParticipationBigNumber'
+import MonthlyTotalMemberParticipationChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberParticipationChartCard'
+
+export default function MemberSection() {
+    const { data, isLoading } = useSWR<{
+        member_total: number
+        monthly_member_in_outs: any[]
+        monthly_member_participations: any[]
+    }>('executive/member-section-data')
+
+    return (
+        <FlexColumnBox>
+            <Heading2 id="anggota" startIcon={<Diversity3Icon />}>
+                Anggota
+            </Heading2>
+
+            <Grid2 container spacing={2}>
+                <Grid2
+                    id="total-anggota"
+                    xs={12}
+                    sm={4}
+                    display="flex"
+                    flexDirection="column"
+                    gap={2}>
+                    <TotalActiveMemberBigNumber
+                        data={data?.member_total}
+                        isLoading={isLoading}
+                    />
+
+                    <TotalMemberParticipationBigNumber
+                        memberTotal={data?.member_total}
+                        currentParticipationTotal={
+                            data?.monthly_member_participations.pop().value
+                        }
+                        isLoading={isLoading}
+                    />
+                </Grid2>
+
+                <Grid2
+                    id="total-partisipasi"
+                    xs={12}
+                    sm={8}
+                    display="flex"
+                    flexDirection="column"
+                    gap={2}>
+                    <MonthlyTotalMemberInOutChartCard
+                        data={data?.monthly_member_in_outs}
+                        isLoading={isLoading}
+                    />
+                    <MonthlyTotalMemberParticipationChartCard
+                        data={data?.monthly_member_participations}
+                        isLoading={isLoading}
+                    />
+                </Grid2>
+            </Grid2>
+
+            <Grid2 container spacing={2}>
+                <Grid2 xs={12} sm={4}></Grid2>
+
+                <Grid2 xs={12} sm={8}></Grid2>
+            </Grid2>
+        </FlexColumnBox>
+    )
+}
