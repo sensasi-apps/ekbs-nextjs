@@ -368,7 +368,9 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 }
 
                 if (data.refund_product_sale) {
-                    return `Telah di-refund tgl: ${toDmy(data.refund_product_sale.at)}`
+                    return `Telah di-refund tgl: ${toDmy(
+                        data.refund_product_sale.at,
+                    )}`
                 }
 
                 return <RefundForm data={data} mutate={mutate} />
