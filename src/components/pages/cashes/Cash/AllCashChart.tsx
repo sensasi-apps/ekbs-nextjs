@@ -1,19 +1,30 @@
-// components
+// types
+import type { StatCardProps } from '@/components/StatCard/StatCard'
+import type CashType from '@/dataTypes/Cash'
+// vendors
+import useSWR from 'swr'
+// materials
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
-import Card from '@/components/pages/laporan-performa/Card'
-import numberToCurrency from '@/utils/numberToCurrency'
 import Divider from '@mui/material/Divider'
-import useSWR from 'swr'
-import CashType from '@/dataTypes/Cash'
-import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+// components
+import StatCard from '@/components/StatCard'
+// utils
+import numberToCurrency from '@/utils/numberToCurrency'
 
 const MIN_WIDTH = 600
 
-export default function AllCashChart() {
+export default function AllCashChart({
+    title = 'Alokasi/Distribusi Saldo',
+    ...props
+}: Omit<StatCardProps, 'title'> & {
+    title?: string
+}) {
     const { data: cashData, isLoading: cashLoading } =
         useSWR<CashType[]>('data/cashes')
+
     const { data: walletData, isLoading: walletLoading } = useSWR<
         {
             label: string
@@ -28,10 +39,10 @@ export default function AllCashChart() {
     const max = Math.max(totalCash, totalWallet)
 
     return (
-        <Card
-            title="Alokasi/Distribusi Saldo"
+        <StatCard
+            title={title}
             isLoading={cashLoading || walletLoading}
-            collapsible>
+            {...props}>
             <Box minWidth={MIN_WIDTH}>
                 <Box width={`${(totalCash / max) * 100}%`}>
                     <Box display="flex" flexDirection="row" gap={0.5}>
@@ -72,7 +83,7 @@ export default function AllCashChart() {
 
             <Box minWidth={MIN_WIDTH}>
                 <Box width={`${(totalWallet / max) * 100}%`}>
-                    <Box display="flex" flexDirection="row" gap={0.5}>
+                    <Box display="flex" gap={0.5}>
                         {walletData?.map(({ value, label }, index) => (
                             <Tooltip
                                 key={index}
@@ -109,6 +120,6 @@ export default function AllCashChart() {
                     </Divider>
                 </Box>
             </Box>
-        </Card>
+        </StatCard>
     )
 }

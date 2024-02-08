@@ -1,8 +1,8 @@
 // vendors
-import { ReactNode, memo, useState } from 'react'
+import { memo, useState } from 'react'
 // materials
 import Box from '@mui/material/Box'
-import MuiCard from '@mui/material/Card'
+import MuiCard, { CardProps } from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Collapse from '@mui/material/Collapse'
@@ -12,22 +12,20 @@ import Typography from '@mui/material/Typography'
 // icons
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+// components
+import FlexColumnBox from '@/components/FlexColumnBox'
 
-const Card = memo(function Card({
+const StatCard = memo(function StatCard({
     children,
     title,
     isLoading,
     collapsible = false,
-}: {
-    children: ReactNode
-    title: string
-    isLoading?: boolean
-    collapsible?: boolean
-}) {
+    ...rest
+}: StatCardProps) {
     const [isCollapse, setIsCollapse] = useState(collapsible)
 
     return (
-        <MuiCard>
+        <MuiCard {...rest}>
             <LinearProgress variant="determinate" value={100} color="success" />
 
             <CardActionArea
@@ -65,14 +63,20 @@ const Card = memo(function Card({
     )
 })
 
-export default Card
+export default StatCard
+
+export type StatCardProps = CardProps & {
+    title: string
+    isLoading?: boolean
+    collapsible?: boolean
+}
 
 function Skeletons() {
     return (
-        <Box display="flex" flexDirection="column" gap={1}>
+        <FlexColumnBox gap={1}>
             <Skeleton variant="rounded" />
             <Skeleton variant="rounded" />
             <Skeleton variant="rounded" />
-        </Box>
+        </FlexColumnBox>
     )
 }

@@ -1,17 +1,21 @@
+// types
+import type { StatCardProps } from '@/components/StatCard'
 // vendors
 import useSWR from 'swr'
 // components
-import Card from '@/components/pages/laporan-performa/Card'
+import StatCard from '@/components/StatCard'
 import LineChart from '@/components/Chart/Line'
 
-export default function InOutCashChart() {
+export default function InOutCashChart({
+    title = 'Saldo Masuk-Keluar — Bulanan',
+    ...props
+}: Omit<StatCardProps, 'title'> & {
+    title?: string
+}) {
     const { data, isLoading } = useSWR('cashes/in-out-chart-data')
 
     return (
-        <Card
-            title="Pendapatan-Pengeluaran Bulanan"
-            isLoading={isLoading}
-            collapsible>
+        <StatCard title={title} isLoading={isLoading} {...props}>
             <LineChart
                 currency
                 data={data}
@@ -35,6 +39,6 @@ export default function InOutCashChart() {
                     },
                 ]}
             />
-        </Card>
+        </StatCard>
     )
 }
