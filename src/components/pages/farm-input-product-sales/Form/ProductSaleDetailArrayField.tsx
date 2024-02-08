@@ -159,7 +159,8 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                             replace(index, {
                                                                 ...row,
                                                                 qty: Math.abs(
-                                                                    floatValue,
+                                                                    floatValue ??
+                                                                        0,
                                                                 ),
                                                             }),
                                                         )
