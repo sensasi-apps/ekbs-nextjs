@@ -17,6 +17,7 @@ interface UserType {
 
     member?: any // TODO: define member type
     employee?: any // TODO: define employee type
+    phone_no?: string
 }
 
 export default UserType

@@ -1,6 +1,5 @@
 // types
-import type { Ymd } from '@/types/DateString'
-import type { UUID } from 'crypto'
+import type RentItemRent from '@/dataTypes/RentItemRent'
 import type { FastFieldProps, FormikProps } from 'formik'
 // vendors
 import dayjs from 'dayjs'
@@ -13,14 +12,18 @@ import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
+// page components
+import HerTaskDetail from '@/components/pages/heavy-equipments-rents/HerTaskDetail'
 // uitls
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
 export default function HeavyEquipmentRentFinishTaskForm({
     dirty,
     isSubmitting,
-    values: { uuid, rate_unit = 'H.M', is_paid = false },
+    values,
 }: FormikProps<HerFinishTaskFormValues>) {
+    const { short_uuid, rate_unit, is_paid = false } = values
+
     const isPropcessing = isSubmitting
     const isDisabled = isPropcessing || is_paid
 
@@ -42,10 +45,14 @@ export default function HeavyEquipmentRentFinishTaskForm({
             }}>
             <TextField
                 label="Kode"
-                value={uuid?.substr(uuid.length - 6).toUpperCase()}
+                value={short_uuid}
                 variant="filled"
                 disabled={true}
             />
+
+            <Box my={2}>
+                <HerTaskDetail data={values as RentItemRent} />
+            </Box>
 
             <FastField name="finished_at" disabled={isDisabled}>
                 {({
@@ -130,11 +137,9 @@ export default function HeavyEquipmentRentFinishTaskForm({
     )
 }
 
-export type HerFinishTaskFormValues = Partial<{
-    uuid: UUID
-    finished_at: Ymd
-    start_hm: number
-    end_hm: number
-    rate_unit: 'H.M'
-    is_paid: boolean
-}>
+export type HerFinishTaskFormValues = Partial<
+    RentItemRent & {
+        start_hm: number
+        end_hm: number
+    }
+>

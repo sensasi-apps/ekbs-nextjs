@@ -117,12 +117,9 @@ function rentsToEventButtons(
         if (!eventButtons[date]) eventButtons[date] = []
 
         eventButtons[date].push({
-            children: rent.uuid.substring(rent.uuid.length - 6).toUpperCase(),
+            children: rent.short_uuid,
             color: !rent.finished_at ? 'warning' : 'success',
-            endIcon:
-                rent.is_paid && rent.finished_at ? (
-                    <MonetizationOnIcon />
-                ) : undefined,
+            endIcon: rent.is_paid ? <MonetizationOnIcon /> : undefined,
             onClick: () => onEventClick(rent),
         })
     })
