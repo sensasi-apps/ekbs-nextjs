@@ -19,6 +19,7 @@ const StatCard = memo(function StatCard({
     children,
     title,
     isLoading,
+    disableAutoScrollLeft,
     collapsible = false,
     ...rest
 }: StatCardProps) {
@@ -26,7 +27,7 @@ const StatCard = memo(function StatCard({
     const contentRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (!isLoading && contentRef.current) {
+        if (!disableAutoScrollLeft && !isLoading && contentRef.current) {
             contentRef.current.scrollLeft = contentRef.current.scrollWidth
         }
     }, [isLoading])
@@ -77,6 +78,7 @@ export type StatCardProps = CardProps & {
     title: string
     isLoading?: boolean
     collapsible?: boolean
+    disableAutoScrollLeft?: boolean
 }
 
 function Skeletons() {
