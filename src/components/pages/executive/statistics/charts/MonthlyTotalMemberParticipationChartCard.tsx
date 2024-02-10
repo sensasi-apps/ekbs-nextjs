@@ -12,7 +12,15 @@ const MonthlyTotalMemberParticipationChartCard = memo(
     }) {
         return (
             <StatCard title="Partisipasi — Bulanan" isLoading={isLoading}>
-                <LineChart prefix="org" data={data} />
+                <LineChart
+                    slotsProps={{
+                        tooltip: {
+                            labelFormatter: value => `Bulan ${value}`,
+                        },
+                    }}
+                    prefix="org"
+                    data={data}
+                />
             </StatCard>
         )
     },

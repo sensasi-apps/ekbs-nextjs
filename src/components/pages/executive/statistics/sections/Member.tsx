@@ -22,7 +22,12 @@ export default function MemberSection() {
 
     return (
         <FlexColumnBox>
-            <Heading2 id="anggota" startIcon={<Diversity3Icon />}>
+            <Heading2
+                id="anggota"
+                startIcon={<Diversity3Icon />}
+                sx={{
+                    scrollMarginTop: '6rem',
+                }}>
                 Anggota
             </Heading2>
 
@@ -33,7 +38,10 @@ export default function MemberSection() {
                     sm={4}
                     display="flex"
                     flexDirection="column"
-                    gap={2}>
+                    gap={2}
+                    sx={{
+                        scrollMarginTop: '6rem',
+                    }}>
                     <TotalActiveMemberBigNumber
                         data={data?.member_total}
                         isLoading={isLoading}
@@ -42,7 +50,9 @@ export default function MemberSection() {
                     <TotalMemberParticipationBigNumber
                         memberTotal={data?.member_total}
                         currentParticipationTotal={
-                            data?.monthly_member_participations.pop().value
+                            data?.monthly_member_participations[
+                                data?.monthly_member_participations.length - 1
+                            ].value
                         }
                         isLoading={isLoading}
                     />
@@ -54,22 +64,20 @@ export default function MemberSection() {
                     sm={8}
                     display="flex"
                     flexDirection="column"
-                    gap={2}>
+                    gap={2}
+                    sx={{
+                        scrollMarginTop: '6rem',
+                    }}>
                     <MonthlyTotalMemberInOutChartCard
                         data={data?.monthly_member_in_outs}
                         isLoading={isLoading}
                     />
+
                     <MonthlyTotalMemberParticipationChartCard
                         data={data?.monthly_member_participations}
                         isLoading={isLoading}
                     />
                 </Grid2>
-            </Grid2>
-
-            <Grid2 container spacing={2}>
-                <Grid2 xs={12} sm={4}></Grid2>
-
-                <Grid2 xs={12} sm={8}></Grid2>
             </Grid2>
         </FlexColumnBox>
     )
