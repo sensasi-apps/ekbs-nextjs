@@ -8,17 +8,36 @@ import LineChart from '@/components/Chart/Line'
 
 export default function InOutCashChart({
     title = 'Saldo Masuk-Keluar — Bulanan',
+    data: dataProp,
+    isLoading: isLoadingProp,
+    disableAutoFetch,
     ...props
 }: Omit<StatCardProps, 'title'> & {
     title?: string
-}) {
-    const { data, isLoading } = useSWR('cashes/in-out-chart-data')
+} & (
+        | {
+              disableAutoFetch: true
+              data: InOutCashChartDataType | undefined
+              isLoading: boolean
+          }
+        | {
+              disableAutoFetch?: false
+              data?: never
+              isLoading?: never
+          }
+    )) {
+    const { data, isLoading } = useSWR<InOutCashChartDataType>(
+        disableAutoFetch ? null : 'cashes/in-out-chart-data',
+    )
 
     return (
-        <StatCard title={title} isLoading={isLoading} {...props}>
+        <StatCard
+            title={title}
+            isLoading={isLoading || isLoadingProp}
+            {...props}>
             <LineChart
                 currency
-                data={data}
+                data={disableAutoFetch ? dataProp : data}
                 slotsProps={{
                     tooltip: {
                         labelFormatter: value => `Bulan ${value}`,
@@ -28,13 +47,13 @@ export default function InOutCashChart({
                     {
                         type: 'monotone',
                         dataKey: 'inbound',
-                        name: 'Pendapatan',
+                        name: 'Masuk',
                         stroke: 'var(--mui-palette-success-main)',
                     },
                     {
                         type: 'monotone',
                         dataKey: 'outbound',
-                        name: 'Pengeluaran',
+                        name: 'Keluar',
                         stroke: 'var(--mui-palette-error-main)',
                     },
                 ]}
@@ -42,3 +61,9 @@ export default function InOutCashChart({
         </StatCard>
     )
 }
+
+export type InOutCashChartDataType = {
+    label: string
+    inbound: number
+    outbound: number
+}[]
