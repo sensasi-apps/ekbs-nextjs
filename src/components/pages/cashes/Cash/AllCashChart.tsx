@@ -60,6 +60,7 @@ export default function AllCashChart({
                                     color="success"
                                     sx={{
                                         minWidth: 'unset',
+                                        px: 0.3,
                                         width: `${
                                             (balance / totalCash) * 100
                                         }%`,
@@ -98,11 +99,11 @@ export default function AllCashChart({
                                     color="success"
                                     sx={{
                                         minWidth: 'unset',
+                                        px: 0.3,
                                         width: `${
                                             (value / totalWallet) * 100
                                         }%`,
                                         overflow: 'hidden',
-                                        px: 0.2,
                                     }}>
                                     <Box display="block" lineHeight={1.5}>
                                         <Box>{label}</Box>
