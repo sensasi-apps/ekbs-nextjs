@@ -11,7 +11,7 @@ export default function Heading2({
 } & TypographyProps) {
     return (
         <Typography
-            variant="h6"
+            variant="h5"
             component="h2"
             display="flex"
             alignItems="center"

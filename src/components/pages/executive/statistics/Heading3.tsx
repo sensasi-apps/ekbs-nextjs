@@ -11,6 +11,7 @@ export default function Heading3({
 } & TypographyProps) {
     return (
         <Typography
+            variant="body1"
             component="h3"
             display="flex"
             alignItems="center"
