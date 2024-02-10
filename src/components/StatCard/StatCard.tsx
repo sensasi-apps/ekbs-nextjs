@@ -1,5 +1,5 @@
 // vendors
-import { memo, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import MuiCard, { CardProps } from '@mui/material/Card'
@@ -23,6 +23,13 @@ const StatCard = memo(function StatCard({
     ...rest
 }: StatCardProps) {
     const [isCollapse, setIsCollapse] = useState(collapsible)
+    const contentRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (!isLoading && contentRef.current) {
+            contentRef.current.scrollLeft = contentRef.current.scrollWidth
+        }
+    }, [isLoading])
 
     return (
         <MuiCard {...rest}>
@@ -52,6 +59,7 @@ const StatCard = memo(function StatCard({
 
             <Collapse in={!isCollapse} unmountOnExit>
                 <CardContent
+                    ref={contentRef}
                     sx={{
                         pt: 0,
                         overflowX: 'auto',
