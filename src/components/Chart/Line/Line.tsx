@@ -1,6 +1,5 @@
 // types
 import type { XAxisProps, TooltipProps } from 'recharts'
-import type StatDataCache from '@/dataTypes/StatDataCache'
 // vendors
 import {
     LineChart as RechartsLineChart,
@@ -25,7 +24,7 @@ export default function LineChart({
     currency,
     slotsProps,
 }: {
-    data?: StatDataCache['value']
+    data?: any[]
     prefix?: string
     lines?: Omit<LineProps, 'ref'>[]
     xAxisDataKey?: string
@@ -74,7 +73,11 @@ export default function LineChart({
             style={{
                 overflow: 'hidden',
             }}>
-            <RechartsLineChart data={data}>
+            <RechartsLineChart
+                data={data}
+                margin={{
+                    left: -20,
+                }}>
                 <XAxis dataKey="label" {...(slotsProps?.xAxis ?? {})} />
 
                 <YAxis
