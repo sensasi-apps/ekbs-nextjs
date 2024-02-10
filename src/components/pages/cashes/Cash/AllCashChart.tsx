@@ -4,7 +4,7 @@ import type CashType from '@/dataTypes/Cash'
 // vendors
 import useSWR from 'swr'
 // materials
-import Button from '@mui/material/Button'
+import Button, { ButtonProps } from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Tooltip from '@mui/material/Tooltip'
@@ -33,9 +33,9 @@ export default function AllCashChart({
     >('cashes/all-wallet-balances-summary-data')
 
     const totalCash =
-        cashData?.reduce((acc, curr) => acc + curr.balance, 0) ?? 1
+        cashData?.reduce((acc, curr) => acc + curr.balance, 0) ?? 0.001
     const totalWallet =
-        walletData?.reduce((acc, curr) => acc + curr.value, 0) ?? 1
+        walletData?.reduce((acc, curr) => acc + curr.value, 0) ?? 0.001
     const max = Math.max(totalCash, totalWallet)
 
     return (
@@ -47,31 +47,20 @@ export default function AllCashChart({
                 <Box width={`${(totalCash / max) * 100}%`}>
                     <Box display="flex" flexDirection="row" gap={0.5}>
                         {cashData?.map(({ uuid, name, balance }) => (
-                            <Tooltip
+                            <ItemBar
                                 key={uuid}
                                 title={`${name}: ${numberToCurrency(balance)}`}
-                                arrow
-                                placement="top">
-                                <Button
-                                    disableRipple
-                                    disableElevation
-                                    size="small"
-                                    variant="contained"
-                                    color="success"
-                                    sx={{
-                                        minWidth: 'unset',
-                                        px: 0.3,
-                                        width: `${
-                                            (balance / totalCash) * 100
-                                        }%`,
-                                        overflow: 'hidden',
-                                    }}>
-                                    <Box display="block" lineHeight={1.5}>
-                                        <Box>{name}</Box>
-                                        <Box>{numberToCurrency(balance)}</Box>
-                                    </Box>
-                                </Button>
-                            </Tooltip>
+                                color={balance >= 0 ? 'success' : 'error'}
+                                sx={{
+                                    width: `${(balance / totalWallet) * 100}%`,
+                                }}>
+                                <Box>{name}</Box>
+                                <Box>
+                                    {numberToCurrency(balance, {
+                                        notation: 'compact',
+                                    })}
+                                </Box>
+                            </ItemBar>
                         ))}
                     </Box>
                     <Divider>
@@ -86,31 +75,22 @@ export default function AllCashChart({
                 <Box width={`${(totalWallet / max) * 100}%`}>
                     <Box display="flex" gap={0.5}>
                         {walletData?.map(({ value, label }, index) => (
-                            <Tooltip
+                            <ItemBar
                                 key={index}
                                 title={`${label}: ${numberToCurrency(value)}`}
-                                arrow
-                                placement="top">
-                                <Button
-                                    disableRipple
-                                    disableElevation
-                                    size="small"
-                                    variant="contained"
-                                    color="success"
-                                    sx={{
-                                        minWidth: 'unset',
-                                        px: 0.3,
-                                        width: `${
-                                            (value / totalWallet) * 100
-                                        }%`,
-                                        overflow: 'hidden',
-                                    }}>
-                                    <Box display="block" lineHeight={1.5}>
-                                        <Box>{label}</Box>
-                                        <Box>{numberToCurrency(value)}</Box>
-                                    </Box>
-                                </Button>
-                            </Tooltip>
+                                color={value >= 0 ? 'success' : 'error'}
+                                sx={{
+                                    width: `${
+                                        (Math.abs(value) / totalWallet) * 100
+                                    }%`,
+                                }}>
+                                <Box>{label}</Box>
+                                <Box>
+                                    {numberToCurrency(value, {
+                                        notation: 'compact',
+                                    })}
+                                </Box>
+                            </ItemBar>
                         ))}
                     </Box>
 
@@ -122,5 +102,30 @@ export default function AllCashChart({
                 </Box>
             </Box>
         </StatCard>
+    )
+}
+
+function ItemBar({ title, children, sx, ...props }: ButtonProps) {
+    return (
+        <Tooltip title={title} arrow placement="top">
+            <Button
+                disableRipple
+                disableElevation
+                size="small"
+                variant="contained"
+                component="div"
+                sx={{
+                    minWidth: 'unset',
+                    px: 0.3,
+                    overflow: 'hidden',
+                    textAlign: 'center',
+                    ...sx,
+                }}
+                {...props}>
+                <Box display="block" lineHeight={1.5} whiteSpace="nowrap">
+                    {children}
+                </Box>
+            </Button>
+        </Tooltip>
     )
 }
