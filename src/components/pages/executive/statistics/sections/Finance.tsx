@@ -9,6 +9,7 @@ import FlexColumnBox from '@/components/FlexColumnBox'
 // page components
 import AllCashChart from '@/components/pages/cashes/Cash/AllCashChart'
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
+import Heading3 from '@/components/pages/executive/statistics/Heading3'
 import InOutCashChart, {
     InOutCashChartDataType,
 } from '@/components/pages/cashes/Cash/InOutChart'
@@ -37,27 +38,33 @@ const FinanceSection = memo(function FinanceSection() {
             <AllCashChart
                 id="alokasi-distribusi-saldo"
                 sx={{
+                    overflow: 'unset',
                     scrollMarginTop: '6rem',
                 }}
+                disableAutoScrollLeft
             />
 
+            <Heading3
+                id="saldo-masuk-keluar"
+                startIcon={<AccountBalanceWalletIcon />}
+                sx={{
+                    scrollMarginTop: '6rem',
+                }}>
+                Saldo Masuk-Keluar
+            </Heading3>
             <Grid2 container spacing={2}>
                 <Grid2 xs={12}>
                     <InOutCashChart
-                        title="Saldo Masuk-Keluar KOPERASI — Bulanan"
-                        id="saldo-masuk-keluar"
+                        title="KOPERASI — Bulanan"
                         data={data?.all}
                         isLoading={isLoading}
                         disableAutoFetch
-                        sx={{
-                            scrollMarginTop: '6rem',
-                        }}
                     />
                 </Grid2>
 
                 <Grid2 xs={12} sm={6}>
                     <InOutCashChart
-                        title="ALAT BERAT"
+                        title="ALAT BERAT — Bulanan"
                         data={data?.alat_berat}
                         isLoading={isLoading}
                         disableAutoFetch
@@ -66,7 +73,7 @@ const FinanceSection = memo(function FinanceSection() {
 
                 <Grid2 xs={12} sm={6}>
                     <InOutCashChart
-                        title="SAPRODI"
+                        title="SAPRODI — Bulanan"
                         data={data?.saprodi}
                         isLoading={isLoading}
                         disableAutoFetch
@@ -75,7 +82,7 @@ const FinanceSection = memo(function FinanceSection() {
 
                 <Grid2 xs={12} sm={6}>
                     <InOutCashChart
-                        title="SPP"
+                        title="SPP — Bulanan"
                         data={data?.spp}
                         isLoading={isLoading}
                         disableAutoFetch
@@ -84,7 +91,7 @@ const FinanceSection = memo(function FinanceSection() {
 
                 <Grid2 xs={12} sm={6}>
                     <InOutCashChart
-                        title="TBS"
+                        title="TBS — Bulanan"
                         data={data?.tbs}
                         isLoading={isLoading}
                         disableAutoFetch
