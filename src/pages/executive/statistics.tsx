@@ -11,13 +11,12 @@ import WorkIcon from '@mui/icons-material/Work'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 // pages components
-import InOutCashChart from '@/components/pages/cashes/Cash/InOutChart'
 import TableOfContents from '@/components/pages/executive/statistics/charts/TableOfContents'
-import ScrollableXBox from '@/components/ScrollableXBox'
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
 import Heading3 from '@/components/pages/executive/statistics/Heading3'
 import MemberSection from '@/components/pages/executive/statistics/sections/Member'
 import FinanceSection from '@/components/pages/executive/statistics/sections/Finance'
+import ReceivableSection from '@/components/pages/executive/statistics/sections/Receivable'
 
 export default function Statistics() {
     return (
@@ -43,34 +42,10 @@ export default function Statistics() {
 
                 <MemberSection />
                 <FinanceSection />
-                {/* <ReceivableSection /> */}
+                <ReceivableSection />
                 {/* <BusinessUnitSection /> */}
             </FlexColumnBox>
         </AuthLayout>
-    )
-}
-
-function ReceivableSection() {
-    return (
-        <FlexColumnBox>
-            <Heading2 id="piutang" startIcon={<WorkIcon />}>
-                Piutang
-            </Heading2>
-
-            <InOutCashChart />
-
-            <ScrollableXBox
-                sx={{
-                    '& > *': {
-                        minWidth: 300,
-                    },
-                }}>
-                <InOutCashChart />
-                <InOutCashChart />
-                <InOutCashChart />
-                <InOutCashChart />
-            </ScrollableXBox>
-        </FlexColumnBox>
     )
 }
 
