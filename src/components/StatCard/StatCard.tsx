@@ -6,7 +6,9 @@ import MuiCard, { CardProps } from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Collapse from '@mui/material/Collapse'
-import LinearProgress from '@mui/material/LinearProgress'
+import LinearProgress, {
+    LinearProgressProps,
+} from '@mui/material/LinearProgress'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 // icons
@@ -21,6 +23,7 @@ const StatCard = memo(function StatCard({
     isLoading,
     disableAutoScrollLeft,
     collapsible = false,
+    color,
     ...rest
 }: StatCardProps) {
     const [isCollapse, setIsCollapse] = useState(collapsible)
@@ -34,7 +37,11 @@ const StatCard = memo(function StatCard({
 
     return (
         <MuiCard {...rest}>
-            <LinearProgress variant="determinate" value={100} color="success" />
+            <LinearProgress
+                variant="determinate"
+                value={100}
+                color={color ?? 'success'}
+            />
 
             <CardActionArea
                 disabled={!collapsible}
@@ -79,6 +86,7 @@ export type StatCardProps = CardProps & {
     isLoading?: boolean
     collapsible?: boolean
     disableAutoScrollLeft?: boolean
+    color?: LinearProgressProps['color']
 }
 
 function Skeletons() {
