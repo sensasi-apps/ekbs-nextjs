@@ -52,7 +52,7 @@ const FinanceSection = memo(function FinanceSection() {
                 }}>
                 Saldo Masuk-Keluar
             </Heading3>
-            <Grid2 container spacing={2}>
+            <Grid2 container spacing={1.5}>
                 <Grid2 xs={12}>
                     <InOutCashChart
                         title="KOPERASI — Bulanan"
