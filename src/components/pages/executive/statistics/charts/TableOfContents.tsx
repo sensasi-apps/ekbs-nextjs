@@ -25,20 +25,25 @@ const TableOfContents = memo(function TableOfContents() {
             label: 'Unit Bisnis',
             lis: [
                 {
-                    label: 'TBS',
-                    lis: ['Bobot', 'Penjualan-Pencairan'],
+                    label: 'Alat Berat',
+                    lis: [
+                        'HM Unit',
+                        'Total HM Kerja',
+                        'Omzet',
+                        'Pembelian BBM',
+                    ],
                 },
                 {
                     label: 'SAPRODI',
                     lis: ['Pembelian-Penjualan'],
                 },
                 {
-                    label: 'Penyewaan Alat Berat',
-                    lis: ['HM Unit', 'Omzet'],
-                },
-                {
                     label: 'SPP',
                     lis: ['Pencairan-Pengembalian'],
+                },
+                {
+                    label: 'TBS',
+                    lis: ['Bobot', 'Penjualan-Pencairan'],
                 },
             ],
         },
