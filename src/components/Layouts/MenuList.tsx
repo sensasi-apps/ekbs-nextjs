@@ -132,8 +132,24 @@ const CustomListItem = memo(function CustomListItem({
 
     return (
         <ListItem disablePadding>
-            <ListItemButton href={href} selected={isSelected} onClick={onClick}>
-                <ListItemIcon>{icon}</ListItemIcon>
+            <ListItemButton
+                disabled={isSelected}
+                href={href}
+                selected={isSelected}
+                onClick={onClick}
+                sx={{
+                    backgroundColor: isSelected
+                        ? 'rgba(var(--mui-palette-success-mainChannel) / var(--mui-palette-action-selectedOpacity)) !important'
+                        : undefined,
+                    color: isSelected ? 'success.main' : undefined,
+                    opacity: 'unset !important',
+                }}>
+                <ListItemIcon
+                    sx={{
+                        color: isSelected ? 'success.main' : undefined,
+                    }}>
+                    {icon}
+                </ListItemIcon>
                 <ListItemText primary={label} />
             </ListItemButton>
         </ListItem>
