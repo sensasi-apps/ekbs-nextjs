@@ -13,6 +13,7 @@ import Heading3 from '@/components/pages/executive/statistics/Heading3'
 import AlatBeratSubsection from '@/components/pages/executive/statistics/sections/BussinesUnit/AlatBerat'
 import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
 import SaprodiSubsection from './BussinesUnit/Saprodi'
+import SppSubsection from './BussinesUnit/Spp'
 
 const BusinessUnitSection = memo(function BusinessUnitSection() {
     return (
@@ -48,6 +49,8 @@ const BusinessUnitSection = memo(function BusinessUnitSection() {
                 sx={SX_SCROLL_MARGIN_TOP}>
                 SPP
             </Heading3>
+
+            <SppSubsection />
 
             <Heading3
                 startIcon={<ForestIcon />}
