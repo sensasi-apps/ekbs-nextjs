@@ -14,6 +14,7 @@ import InOutCashChart, {
     InOutCashChartDataType,
 } from '@/components/pages/cashes/Cash/InOutChart'
 import useSWR from 'swr'
+import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
 
 const FinanceSection = memo(function FinanceSection() {
     const { data, isLoading } = useSWR<{
@@ -29,17 +30,15 @@ const FinanceSection = memo(function FinanceSection() {
             <Heading2
                 id="keuangan"
                 startIcon={<AccountBalanceWalletIcon />}
-                sx={{
-                    scrollMarginTop: '6rem',
-                }}>
+                sx={SX_SCROLL_MARGIN_TOP}>
                 Keuangan
             </Heading2>
 
             <AllCashChart
                 id="alokasi-distribusi-saldo"
                 sx={{
+                    ...SX_SCROLL_MARGIN_TOP,
                     overflow: 'unset',
-                    scrollMarginTop: '6rem',
                 }}
                 disableAutoScrollLeft
             />
@@ -47,9 +46,7 @@ const FinanceSection = memo(function FinanceSection() {
             <Heading3
                 id="saldo-masuk-keluar"
                 startIcon={<AccountBalanceWalletIcon />}
-                sx={{
-                    scrollMarginTop: '6rem',
-                }}>
+                sx={SX_SCROLL_MARGIN_TOP}>
                 Saldo Masuk-Keluar
             </Heading3>
             <Grid2 container spacing={1.5}>

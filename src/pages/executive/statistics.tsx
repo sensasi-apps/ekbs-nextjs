@@ -41,3 +41,7 @@ export default function Statistics() {
         </AuthLayout>
     )
 }
+
+export const SX_SCROLL_MARGIN_TOP = {
+    scrollMarginTop: '6rem',
+}

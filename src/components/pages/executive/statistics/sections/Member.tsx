@@ -12,6 +12,7 @@ import TotalActiveMemberBigNumber from '@/components/pages/executive/statistics/
 import MonthlyTotalMemberInOutChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberInOutChartCard'
 import TotalMemberParticipationBigNumber from '@/components/pages/executive/statistics/charts/TotalMemberParticipationBigNumber'
 import MonthlyTotalMemberParticipationChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberParticipationChartCard'
+import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
 
 export default function MemberSection() {
     const { data, isLoading } = useSWR<{
@@ -25,9 +26,7 @@ export default function MemberSection() {
             <Heading2
                 id="anggota"
                 startIcon={<Diversity3Icon />}
-                sx={{
-                    scrollMarginTop: '6rem',
-                }}>
+                sx={SX_SCROLL_MARGIN_TOP}>
                 Anggota
             </Heading2>
 
@@ -39,9 +38,7 @@ export default function MemberSection() {
                     display="flex"
                     flexDirection="column"
                     gap={2}
-                    sx={{
-                        scrollMarginTop: '6rem',
-                    }}>
+                    sx={SX_SCROLL_MARGIN_TOP}>
                     <TotalActiveMemberBigNumber
                         data={data?.member_total}
                         isLoading={isLoading}
@@ -65,9 +62,7 @@ export default function MemberSection() {
                     display="flex"
                     flexDirection="column"
                     gap={2}
-                    sx={{
-                        scrollMarginTop: '6rem',
-                    }}>
+                    sx={SX_SCROLL_MARGIN_TOP}>
                     <MonthlyTotalMemberInOutChartCard
                         data={data?.monthly_member_in_outs}
                         isLoading={isLoading}

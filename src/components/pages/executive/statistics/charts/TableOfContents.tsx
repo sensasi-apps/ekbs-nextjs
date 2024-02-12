@@ -35,7 +35,7 @@ const TableOfContents = memo(function TableOfContents() {
                 },
                 {
                     label: 'SAPRODI',
-                    lis: ['Pembelian-Penjualan'],
+                    lis: ['Penjualan-Pembelian'],
                 },
                 {
                     label: 'SPP',
