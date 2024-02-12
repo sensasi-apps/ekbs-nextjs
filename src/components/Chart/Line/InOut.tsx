@@ -4,6 +4,8 @@ import LineChart from './Line'
 const InOutLineChart = memo(function InOutLineChart({
     data,
     currency,
+    inboundAlias = 'Masuk',
+    outboundAlias = 'Keluar',
 }: InOutLineChartProps) {
     return (
         <LineChart
@@ -13,13 +15,13 @@ const InOutLineChart = memo(function InOutLineChart({
                 {
                     type: 'monotone',
                     dataKey: 'inbound',
-                    name: 'Masuk',
+                    name: inboundAlias,
                     stroke: 'var(--mui-palette-success-main)',
                 },
                 {
                     type: 'monotone',
                     dataKey: 'outbound',
-                    name: 'Keluar',
+                    name: outboundAlias,
                     stroke: 'var(--mui-palette-error-main)',
                 },
             ]}
@@ -39,4 +41,6 @@ export type InOutLineChartProps = {
           }[]
         | undefined
     currency?: boolean
+    inboundAlias?: string
+    outboundAlias?: string
 }

@@ -23,7 +23,11 @@ const SaprodiSubsection = memo(function SaprodiSubsection() {
                 <StatCard
                     title="Penjualan-Pembelian — Bulanan"
                     isLoading={isLoading}>
-                    <InOutLineChart data={data?.sale_purchase_monthly_total} />
+                    <InOutLineChart
+                        data={data?.sale_purchase_monthly_total}
+                        inboundAlias="Penjualan"
+                        outboundAlias="Pengembalian"
+                    />
                 </StatCard>
             </Grid2>
         </Grid2>
