@@ -5,6 +5,7 @@ import LineChart from '@/components/Chart/Line/Line'
 import StatCard from '@/components/StatCard'
 // utils
 import formatNumber from '@/utils/formatNumber'
+import getMuiColors from '@/utils/getMuiColors'
 
 export default function GasPurchaseChartCard({
     data,
@@ -24,14 +25,16 @@ export default function GasPurchaseChartCard({
             )
             .sort() ?? []
 
+    const colors = getMuiColors(inventoryNames.length, 400)
+
     return (
         <StatCard title="Total Pembelian BBM — Bulanan" isLoading={isLoading}>
             <LineChart
                 data={data}
-                lines={inventoryNames.map(name => ({
+                lines={inventoryNames.map((name, i) => ({
                     type: 'monotone',
                     dataKey: name,
-                    stroke: 'var(--mui-palette-success-main)',
+                    stroke: colors[i],
                 }))}
                 slotsProps={{
                     tooltip: {
