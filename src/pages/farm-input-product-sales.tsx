@@ -1,18 +1,22 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type { OnRowClickType } from '@/components/Datatable'
+import type {
+    GetRowDataType,
+    MutateType,
+    OnRowClickType,
+} from '@/components/Datatable'
 import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
 import type ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
+import { Formik } from 'formik'
 import { useState } from 'react'
 import axios from '@/lib/axios'
-import { Formik } from 'formik'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { getRowData, mutate } from '@/components/Datatable'
+import Datatable from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
@@ -32,7 +36,12 @@ import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 import PrintHandler from '@/components/PrintHandler'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
+// enums
 import Role from '@/enums/Role'
+import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
+
+let getRowData: GetRowDataType<ProductSaleType>
+let mutate: MutateType<ProductSaleType>
 
 export default function FarmInputProductSales() {
     const { userHasPermission, userHasRole } = useAuth()
@@ -46,7 +55,7 @@ export default function FarmInputProductSales() {
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const productSale = getRowData<ProductSaleType>(dataIndex)
+            const productSale = getRowData(dataIndex)
             if (!productSale) return
 
             setInitialFormikValues({
@@ -108,17 +117,16 @@ export default function FarmInputProductSales() {
                 onRowClick={handleRowClick}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
             />
 
             {userHasPermission('create product sale') && (
                 <>
                     <DialogWithTitle
-                        title={
-                            (isNew ? 'Tambah' : 'Perbaharui') +
-                            ' Data Penjualan'
-                        }
+                        title={(isNew ? 'Tambah ' : '') + 'Data Penjualan'}
                         open={isDialogOpen}
-                        maxWidth="md">
+                        maxWidth="sm">
                         <Formik
                             initialValues={initialFormikValues}
                             initialStatus={initialFormikStatus}
@@ -218,9 +226,9 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetailType[]) => (
                             __html: name,
                         }}
                     />{' '}
-                    &mdash; {formatNumber(Math.abs(qty))} {unit} &times;{' '}
+                    &mdash; {formatNumber(qty * -1)} {unit} &times;{' '}
                     {numberToCurrency(rp_per_unit)} ={' '}
-                    {numberToCurrency(Math.abs(qty) * rp_per_unit)}
+                    {numberToCurrency(qty * -1 * rp_per_unit)}
                 </Typography>
             ),
         )}
@@ -247,7 +255,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pengguna',
         options: {
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSaleType>(dataIndex)
+                const data = getRowData(dataIndex)
                 if (!data || !data.buyer_user) return ''
 
                 return `#${data.buyer_user.id} ${data.buyer_user.name}`
@@ -276,7 +284,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSaleType>(dataIndex)
+                const data = getRowData(dataIndex)
                 if (!data) return ''
 
                 return pmdsCustomBodyRender(data.product_movement_details)
@@ -287,10 +295,15 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'total_base_rp',
         label: 'Penyesuaian/Jasa',
         options: {
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'nowrap',
+                },
+            }),
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSaleType>(dataIndex)
+                const data = getRowData(dataIndex)
                 if (!data) return ''
 
                 return data.total_rp - data.total_base_rp
@@ -303,6 +316,11 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'total_rp',
         label: 'Total Penjualan',
         options: {
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'nowrap',
+                },
+            }),
             sort: false,
             searchable: false,
             customBodyRender: value => numberToCurrency(value ?? 0),
@@ -315,7 +333,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSaleType>(dataIndex)
+                const data = getRowData(dataIndex)
                 if (!data) return ''
 
                 return (
@@ -328,6 +346,34 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                         <ProductSaleReceipt data={data} />
                     </PrintHandler>
                 )
+            },
+        },
+    },
+    {
+        name: 'refundProductSale.at',
+        label: 'Refund',
+        options: {
+            display: false,
+            customBodyRenderLite: dataIndex => {
+                const data = getRowData(dataIndex)
+                if (
+                    !data ||
+                    !data.is_paid ||
+                    (data.installments?.length ?? 0) > 0
+                )
+                    return ''
+
+                if (data.refund_from_product_sale) {
+                    return `Refund untuk penjualan dengan kode: ${data.refund_from_product_sale.short_uuid}`
+                }
+
+                if (data.refund_product_sale) {
+                    return `Telah di-refund tgl: ${toDmy(
+                        data.refund_product_sale.at,
+                    )}`
+                }
+
+                return <RefundForm data={data} mutate={mutate} />
             },
         },
     },

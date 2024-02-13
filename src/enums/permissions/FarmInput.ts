@@ -16,7 +16,7 @@ enum FarmInput {
     CREATE_PRODUCT_SALE = 'create product sale',
     // UPDATE_PRODUCT_SALE='update product sales',
     READ_PRODUCT_SALE = 'read product sales', // TODO: sync this
-    // DELETE_PRODUCT_SALE='delete product sale',
+    REFUND_PRODUCT_SALE = 'refund product sale',
 }
 
 export default FarmInput

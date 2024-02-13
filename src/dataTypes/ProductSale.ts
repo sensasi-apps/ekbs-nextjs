@@ -17,10 +17,12 @@ export default ProductSaleType
 
 type BaseType = {
     uuid: UUID
+    short_uuid: string
     at: Ymd
     note: string
 
     // getter
+    is_paid: boolean
     total_rp: number
     total_base_rp: number
     payment_method_id:
@@ -35,6 +37,8 @@ type BaseType = {
     product_movement_details: ProductMovementDetailType[]
     user_activity_logs: ActivityLogType[]
     business_unit_product_sale: BusinessUnitProductSale | null
+    refund_from_product_sale: ProductSaleType | null
+    refund_product_sale: ProductSaleType | null
 
     // cash
     transaction?: TransactionType

@@ -67,7 +67,7 @@ export default function FarmInputHeGasSales() {
                     productSale.business_unit_product_sale
                         ?.inventory_item_checkup?.inventory_item?.uuid,
 
-                qty: Math.abs(productSale.product_movement_details?.[0]?.qty),
+                qty: (productSale.product_movement_details?.[0]?.qty ?? 0) * -1,
                 current_hm:
                     productSale.business_unit_product_sale
                         ?.inventory_item_checkup?.he?.hm,
@@ -170,10 +170,10 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetailType[]) => (
                             __html: name,
                         }}
                     />{' '}
-                    &mdash; {formatNumber(Math.abs(qty))} {unit} &times;{' '}
+                    &mdash; {formatNumber(qty * -1)} {unit} &times;{' '}
                     {numberToCurrency(rp_per_unit)} ={' '}
                     {numberToCurrency(
-                        Math.abs(qty) * (rp_cost_per_unit + rp_per_unit),
+                        qty * -1 * (rp_cost_per_unit + rp_per_unit),
                     )}
                 </Typography>
             ),

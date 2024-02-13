@@ -9,20 +9,27 @@ import type TransactionType from './Transaction'
 import type UserType from './User'
 
 type RentItemRent = {
+    // columns
     uuid: UUID
     inventory_item_uuid: UUID
-    inventory_item: InventoryItem
-
     by_user_uuid?: UUID
-    by_user?: UserType
-
+    payment_method: 'cash' | 'wallet' | 'installment' | 'fgwallet'
     rate_rp_per_unit: number
     rate_unit: 'jam'
     for_n_units: number
     for_at: Ymd
     finished_at?: Ymd
     note?: string
+    validated_by_admin_at?: Ymd
+    type: 'personal' | 'farmer-group' | 'public-service'
 
+    // getter
+    short_uuid: string
+    is_paid: boolean
+
+    // relations
+    inventory_item: InventoryItem
+    by_user?: UserType
     transaction?: TransactionType
     installments?: InstallmentType[]
     installment?: {
@@ -30,11 +37,7 @@ type RentItemRent = {
         n_term: number
         term_unit: 'minggu' | 'bulan'
     }
-    is_paid: boolean
-    validated_by_admin_at?: string
-
     farmer_group?: FarmerGroupType
-
     heavy_equipment_rent?: {
         operated_by_user_uuid: UUID
         operated_by_user: UserType
@@ -43,8 +46,8 @@ type RentItemRent = {
         note?: string
         file?: File
     }
-
     user_activity_logs: ActivityLogType[]
+    validated_by_admin_user?: UserType
 }
 
 export default RentItemRent

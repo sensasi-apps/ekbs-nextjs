@@ -304,9 +304,9 @@ const pmdsSaleCustomBodyRender = (pids: ProductMovementDetailType[]) => (
                             __html: name,
                         }}
                     />{' '}
-                    &mdash; {formatNumber(Math.abs(qty))} {unit} &times;{' '}
+                    &mdash; {formatNumber(qty * -1)} {unit} &times;{' '}
                     {numberToCurrency(rp_per_unit)} ={' '}
-                    {numberToCurrency(Math.abs(qty) * rp_per_unit)}
+                    {numberToCurrency(qty * -1 * rp_per_unit)}
                 </Typography>
             ),
         )}
@@ -336,9 +336,9 @@ const pmdsCostCustomBodyRender = (pids: ProductMovementDetailType[]) => (
                             __html: name,
                         }}
                     />{' '}
-                    &mdash; {formatNumber(Math.abs(qty))} {unit} &times;{' '}
+                    &mdash; {formatNumber(qty * -1)} {unit} &times;{' '}
                     {numberToCurrency(base_cost_rp_per_unit)} ={' '}
-                    {numberToCurrency(Math.abs(qty) * base_cost_rp_per_unit)}
+                    {numberToCurrency(qty * -1 * base_cost_rp_per_unit)}
                 </Typography>
             ),
         )}

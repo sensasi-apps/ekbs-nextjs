@@ -4,7 +4,8 @@ import type RentItemRent from '@/dataTypes/RentItemRent'
 import type { KeyedMutator } from 'swr'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
-import { memo, useState } from 'react'
+import { memo } from 'react'
+import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
@@ -22,6 +23,8 @@ import CalendarTable from '@/components/CalendarTable'
 // enums
 import ApiUrlEnum from './ApiUrlEnum'
 
+const CURRENT_DATE = dayjs()
+
 const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
     onEventClick,
     mutateCallback,
@@ -31,15 +34,21 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
         mutator: KeyedMutator<YajraDatatable<RentItemRent>>,
     ) => void
 }) {
-    const [anchorDate, setAnchorDate] = useState(dayjs())
+    const { query, replace } = useRouter()
+
+    const selectedDate = dayjs(
+        `${query.year ?? CURRENT_DATE.format('YYYY')}-${
+            query.month ?? CURRENT_DATE.format('MM')
+        }-01`,
+    )
 
     const { data, mutate, isLoading, isValidating } = useSWR<
         YajraDatatable<RentItemRent>
     >([
         ApiUrlEnum.DATATABLE_DATA,
         {
-            year: anchorDate.format('YYYY'),
-            month: anchorDate.format('MM'),
+            year: selectedDate.format('YYYY'),
+            month: selectedDate.format('MM'),
         },
     ])
 
@@ -54,8 +63,17 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
                     label="Bulan"
                     openTo="month"
                     format="MMMM YYYY"
-                    value={anchorDate}
-                    onAccept={date => (date ? setAnchorDate(date) : undefined)}
+                    value={selectedDate}
+                    onAccept={date =>
+                        date
+                            ? replace({
+                                  query: {
+                                      year: date?.format('YYYY'),
+                                      month: date?.format('MM'),
+                                  },
+                              })
+                            : undefined
+                    }
                     views={['year', 'month']}
                     slotProps={{
                         textField: {
@@ -67,12 +85,14 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
                     <RefreshIcon />
                 </IconButton>
             </Box>
+
             <Fade in={isProcessing} unmountOnExit>
                 <LinearProgress />
             </Fade>
+
             <CalendarTable
                 view="month"
-                anchorDate={anchorDate}
+                anchorDate={selectedDate}
                 eventButtons={rentsToEventButtons(
                     data?.data ?? [],
                     onEventClick,
@@ -97,12 +117,9 @@ function rentsToEventButtons(
         if (!eventButtons[date]) eventButtons[date] = []
 
         eventButtons[date].push({
-            children: rent.uuid.substring(rent.uuid.length - 6).toUpperCase(),
+            children: rent.short_uuid,
             color: !rent.finished_at ? 'warning' : 'success',
-            endIcon:
-                rent.is_paid && rent.finished_at ? (
-                    <MonetizationOnIcon />
-                ) : undefined,
+            endIcon: rent.is_paid ? <MonetizationOnIcon /> : undefined,
             onClick: () => onEventClick(rent),
         })
     })

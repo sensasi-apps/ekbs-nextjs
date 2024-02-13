@@ -112,7 +112,7 @@ const Crud: FC = () => {
             />
 
             <Dialog
-                title={`${isNew ? 'Masukkan' : 'Perbarui'} Data Pengangkutan`}
+                title={`${isNew ? 'Masukkan' : 'Perbarui'} Data Tiket`}
                 maxWidth="sm"
                 open={formOpen}
                 closeButtonProps={{

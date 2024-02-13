@@ -42,6 +42,11 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
+import useAuth from '@/providers/Auth'
+import UserActivityLogs from '@/components/UserActivityLogs'
+import TextField from '@/components/TextField'
+// enums
+import Role from '@/enums/Role'
 
 const ProductSaleForm = memo(function ProductSaleForm({
     dirty,
@@ -61,20 +66,22 @@ const ProductSaleForm = memo(function ProductSaleForm({
     setFieldValue,
 }: FormikProps<typeof EMPTY_FORM_DATA>) {
     const typedStatus: null | ProductSaleType = status
-    const { uuid, buyer_user } = typedStatus ?? {}
+    const { uuid, buyer_user, short_uuid, is_paid } = typedStatus ?? {}
 
     const [userAutocompleteValue, setUserAutocompleteValue] =
         useState<UserType | null>(buyer_user ?? null)
 
+    const { userHasRole } = useAuth()
+
     const totalRp =
         product_sale_details?.reduce(
             (acc, { qty, rp_per_unit }) =>
-                acc + Math.abs(qty ?? 0) * (rp_per_unit ?? 0),
+                acc + (qty ?? 0) * -1 * (rp_per_unit ?? 0),
             0,
         ) ?? 0
 
     const { data: wallet, isLoading: isWalletLoading } = useSWR<WalletType>(
-        userAutocompleteValue?.uuid
+        userAutocompleteValue?.uuid && !is_paid
             ? `/wallets/user/${userAutocompleteValue?.uuid}`
             : null,
     )
@@ -101,7 +108,29 @@ const ProductSaleForm = memo(function ProductSaleForm({
                     disabled: isDisabled,
                 },
             }}>
-            <Grid container columnSpacing={2}>
+            {!isNew && (
+                <Grid container spacing={1}>
+                    <Grid item xs={6} sm={9}>
+                        <TextField
+                            disabled
+                            label="UUID"
+                            variant="filled"
+                            value={uuid}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6} sm={3}>
+                        <TextField
+                            disabled
+                            label="Kode"
+                            variant="filled"
+                            value={short_uuid}
+                        />
+                    </Grid>
+                </Grid>
+            )}
+
+            <Grid container columnSpacing={1.5}>
                 <Grid item xs={12} sm={6}>
                     <DatePicker
                         value={at ? dayjs(at) : undefined}
@@ -208,22 +237,23 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                         </div>
                                     )}
 
-                                    {userAutocompleteValue?.uuid && (
-                                        <Typography
-                                            variant="caption"
-                                            component="div"
-                                            color={
-                                                isBalanceEnough
-                                                    ? undefined
-                                                    : 'error.main'
-                                            }>
-                                            {wallet?.balance
-                                                ? numberToCurrency(
-                                                      wallet.balance,
-                                                  )
-                                                : ''}
-                                        </Typography>
-                                    )}
+                                    {userAutocompleteValue?.uuid &&
+                                        !is_paid && (
+                                            <Typography
+                                                variant="caption"
+                                                component="div"
+                                                color={
+                                                    isBalanceEnough
+                                                        ? undefined
+                                                        : 'error.main'
+                                                }>
+                                                {wallet?.balance
+                                                    ? numberToCurrency(
+                                                          wallet.balance,
+                                                      )
+                                                    : ''}
+                                            </Typography>
+                                        )}
                                 </>
                             }
                         />
@@ -340,30 +370,30 @@ const ProductSaleForm = memo(function ProductSaleForm({
                         </FormControl>
                     </Box>
 
-                    <Grid container mt={1} spacing={1.5}>
-                        <Grid item xs={9} textAlign="end">
-                            <Typography
-                                variant="h6"
-                                component="div"
-                                color="gray"
-                                fontWeight="bold">
-                                TOTAL KESELURUHAN
-                            </Typography>
-                        </Grid>
+                    <Box
+                        display="flex"
+                        gap={1.5}
+                        alignItems="flex-end"
+                        justifyContent="end">
+                        <Typography
+                            variant="h6"
+                            component="span"
+                            color="gray"
+                            fontWeight="bold">
+                            TOTAL KESELURUHAN
+                        </Typography>
 
-                        <Grid item xs={3}>
-                            <Typography variant="h6" component="div">
-                                {numberToCurrency(
-                                    totalRp +
-                                        Math.ceil(
-                                            totalRp *
-                                                ((interest_percent ?? 0) / 100),
-                                        ) *
-                                            (n_term ?? 0),
-                                )}
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                        <Typography variant="h6" component="span">
+                            {numberToCurrency(
+                                totalRp +
+                                    Math.ceil(
+                                        totalRp *
+                                            ((interest_percent ?? 0) / 100),
+                                    ) *
+                                        (n_term ?? 0),
+                            )}
+                        </Typography>
+                    </Box>
                 </>
             )}
 
@@ -383,6 +413,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
                         <Grid item xs={3}>
                             <NumericFormat
                                 label="Penyesuaian"
+                                allowNegative
                                 disabled={isDisabled}
                                 decimalScale={0}
                                 value={adjustment_rp}
@@ -402,6 +433,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                             <IconButton
                                                 size="small"
                                                 color="warning"
+                                                disabled={isDisabled}
                                                 onClick={() =>
                                                     setFieldValue(
                                                         'adjustment_rp',
@@ -458,6 +490,12 @@ const ProductSaleForm = memo(function ProductSaleForm({
                         />
                     </div>
                 </>
+            )}
+
+            {userHasRole(Role.FARM_INPUT_MANAGER) && !isNew && (
+                <UserActivityLogs
+                    data={typedStatus?.user_activity_logs ?? []}
+                />
             )}
         </FormikForm>
     )

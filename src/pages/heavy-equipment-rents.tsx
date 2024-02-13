@@ -66,7 +66,7 @@ export default function HeavyEquipmentRent() {
             n_term: data.installment?.n_term,
             term_unit: data.installment?.term_unit,
             interest_percent: data.installment?.interest_percent,
-            validated_by_admin_at: data.validated_by_admin_at,
+            is_validated_by_admin: Boolean(data.validated_by_admin_at),
         }
 
         setInitialFormikValues(formedData)
@@ -136,15 +136,26 @@ export default function HeavyEquipmentRent() {
                     initialValues={initialFormikValues}
                     onSubmit={(values, { setErrors }) => {
                         const formData = {
-                            ...values,
-                            uuid: undefined,
-                            by_user: undefined,
-                            operated_by_user: undefined,
-                            inventory_item: undefined,
-                            farmer_group: undefined,
-                            transaction: undefined,
-                            installments: undefined,
-                            heavy_equipment_rent: undefined,
+                            by_user_uuid: values.by_user_uuid,
+                            for_at: values.for_at,
+                            for_n_units: values.for_n_units,
+                            inventory_item_uuid: values.inventory_item_uuid,
+                            is_validated_by_admin: values.is_validated_by_admin,
+                            note: values.note,
+                            operated_by_user_uuid: values.operated_by_user_uuid,
+                            payment_method: values.payment_method,
+                            rate_rp_per_unit: values.rate_rp_per_unit,
+                            rate_unit: values.rate_unit,
+                            type: values.type,
+                            farmer_group_uuid: values.farmer_group_uuid,
+
+                            // if payment_method is installment
+                            n_term: values.n_term,
+                            term_unit: values.term_unit,
+                            interest_percent: values.interest_percent,
+
+                            // if payment_method is cash
+                            cashable_uuid: values.cashable_uuid,
                         }
 
                         return axios

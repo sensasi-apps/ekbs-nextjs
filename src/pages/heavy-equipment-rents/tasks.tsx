@@ -50,9 +50,7 @@ export default function HeavyEquipmentRentsTasks() {
 
     const handleEdit = (data: RentItemRent) => {
         const formedData: HerFinishTaskFormValues = {
-            uuid: data.uuid,
-            is_paid: data?.is_paid ?? false,
-            finished_at: data?.finished_at ?? undefined,
+            ...data,
             start_hm: data.heavy_equipment_rent?.start_hm ?? undefined,
             end_hm: data.heavy_equipment_rent?.end_hm ?? undefined,
         }
