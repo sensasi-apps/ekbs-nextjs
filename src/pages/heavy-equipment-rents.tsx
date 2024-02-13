@@ -80,6 +80,14 @@ export default function HeavyEquipmentRent() {
 
     const handleClose = () => setIsDialogOpen(false)
 
+    const handleMutate = () => {
+        if (mutate) {
+            mutate()
+        }
+
+        mutateCalendar()
+    }
+
     const isNew = !initialFormikValues.uuid
 
     return (
@@ -167,18 +175,19 @@ export default function HeavyEquipmentRent() {
                                 formData,
                             )
                             .then(() => {
-                                if (mutate) {
-                                    mutate()
-                                }
-
-                                mutateCalendar()
+                                handleMutate()
                                 handleClose()
                             })
                             .catch(error => errorCatcher(error, setErrors))
                     }}
-                    onReset={handleClose}
-                    component={HeavyEquipmentRentForm}
-                />
+                    onReset={handleClose}>
+                    {props => (
+                        <HeavyEquipmentRentForm
+                            {...props}
+                            mutate={handleMutate}
+                        />
+                    )}
+                </Formik>
             </DialogWithTitle>
 
             <Fab

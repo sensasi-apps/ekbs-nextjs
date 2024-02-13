@@ -1,10 +1,11 @@
 // types
 import type { UUID } from 'crypto'
-import { FastField, type FormikProps } from 'formik'
 import type RentItemRent from '@/dataTypes/RentItemRent'
 import type UserType from '@/dataTypes/User'
 // vendors
+import { FastField, useFormik, type FormikProps } from 'formik'
 import { memo } from 'react'
+import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
@@ -32,6 +33,8 @@ import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
 import HerPaymentFields from './Form/PaymentFields'
 import HerTaskDetail from './HerTaskDetail'
 import BaseTaskFields from './Form/BaseTaskFields'
+import ApiUrlEnum from './ApiUrlEnum'
+import handle422 from '@/utils/errorCatcher'
 
 const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     dirty,
@@ -39,7 +42,12 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     isSubmitting,
     values,
     setFieldValue,
-}: FormikProps<HeavyEquipmentRentFormValues>) {
+    handleReset,
+    setErrors,
+    mutate,
+}: FormikProps<HeavyEquipmentRentFormValues> & {
+    mutate: () => void
+}) {
     const { userHasPermission } = useAuth()
 
     const {
@@ -56,6 +64,20 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
         is_validated_by_admin,
     } = values
 
+    const { handleSubmit: handleDelete, isSubmitting: isDeleting } = useFormik({
+        initialValues: {},
+        onSubmit: () =>
+            isRentCanBeDeleted
+                ? axios
+                      .delete(ApiUrlEnum.DELETE.replace('$1', uuid ?? ''))
+                      .then(() => {
+                          mutate()
+                          handleReset()
+                      })
+                      .catch(error => handle422(error, setErrors))
+                : undefined,
+    })
+
     const totalRp = calculateTotalRp(values)
 
     const isHerTaskFinished = Boolean(finished_at)
@@ -68,7 +90,11 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
         !userHasPermission([
             HeavyEquipmentRent.CREATE,
             HeavyEquipmentRent.UPDATE,
-        ])
+        ]) ||
+        isDeleting
+
+    const isRentCanBeDeleted =
+        userHasPermission(HeavyEquipmentRent.DELETE) && !isHerTaskFinished
 
     return (
         <FormikForm
@@ -82,9 +108,13 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 submitButton: {
                     disabled: isDisabled,
                 },
-                cancelButton: {
-                    children: 'Batal',
-                },
+                deleteButton: isRentCanBeDeleted
+                    ? {
+                          onClick: () => handleDelete(),
+                          loading: isDeleting,
+                          disabled: isDisabled,
+                      }
+                    : undefined,
             }}>
             {short_uuid && (
                 <>
