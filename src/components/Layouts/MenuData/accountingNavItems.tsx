@@ -1,7 +1,7 @@
 import type NavItem from './NavItem.type'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
-import CreditScoreIcon from '@mui/icons-material/CreditScore'
+import CreditCardIcon from '@mui/icons-material/CreditCard'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import Role from '@/enums/Role'
 import GroupTitle from './GroupTitle'
@@ -44,7 +44,7 @@ const accountingNavItems: NavItem[] = [
         href: '/receivables',
         label: 'Piutang',
         pathname: '/receivables',
-        icon: <CreditScoreIcon />,
+        icon: <CreditCardIcon />,
         forPermission: Cash.READ_ALL_INSTALLMENT,
     },
 ]
