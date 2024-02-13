@@ -26,7 +26,7 @@ const SaprodiSubsection = memo(function SaprodiSubsection() {
                     <InOutLineChart
                         data={data?.sale_purchase_monthly_total}
                         inboundAlias="Penjualan"
-                        outboundAlias="Pengembalian"
+                        outboundAlias="Pembelian"
                     />
                 </StatCard>
             </Grid2>
