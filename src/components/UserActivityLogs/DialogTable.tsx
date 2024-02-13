@@ -21,17 +21,18 @@ const UserActivityLogsDialogTable = memo(function UserActivityLogsDialogTable({
     data: ActivityLogType[]
     setIsOpen: Dispatch<SetStateAction<boolean>>
 }) {
+    const handleClose = () => setIsOpen(false)
+
     return (
-        <Dialog open={open}>
+        <Dialog open={open} onClose={handleClose}>
             <DialogTitle
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
                 fontWeight="bold"
-                // typography={false}
                 component="div">
                 Detail Log
-                <IconButton onClick={() => setIsOpen(false)}>
+                <IconButton onClick={handleClose}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
