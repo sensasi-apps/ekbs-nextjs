@@ -162,7 +162,12 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'amount_rp',
         label: 'Tagihan',
         options: {
-            customBodyRender: numberToCurrency,
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'nowrap',
+                },
+            }),
+            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
     {

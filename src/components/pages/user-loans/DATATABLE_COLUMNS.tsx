@@ -43,7 +43,12 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'proposed_rp',
         label: 'Jumlah Pengajuan',
         options: {
-            customBodyRender: numberToCurrency,
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'nowrap',
+                },
+            }),
+            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
     {

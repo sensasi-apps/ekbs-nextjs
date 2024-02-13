@@ -1,6 +1,7 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
 // vendors
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 // materials
 import Box from '@mui/material/Box'
@@ -10,11 +11,14 @@ import Datatable, { GetRowDataType } from '@/components/Datatable'
 import InstallmentType from '@/dataTypes/Installment'
 import ScrollableXBox from '../ScrollableXBox'
 import numberToCurrency from '@/utils/numberToCurrency'
-import { useEffect } from 'react'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
-export default function ReceivablesDatatable() {
+export default function ReceivablesDatatable({
+    asManager,
+}: {
+    asManager?: boolean
+}) {
     const {
         query: { type, state },
     } = useRouter()
@@ -29,8 +33,15 @@ export default function ReceivablesDatatable() {
                 apiUrlParams={{
                     type: type as string | undefined,
                     state: state as string | undefined,
+                    asManager: asManager as string | undefined,
                 }}
-                columns={DATATABLE_COLUMNS}
+                columns={
+                    asManager
+                        ? DATATABLE_COLUMNS
+                        : DATATABLE_COLUMNS.filter(
+                              c => c.label !== 'Nama Pengguna',
+                          )
+                }
                 defaultSortOrder={{
                     name: 'should_be_paid_at',
                     direction: 'desc',
@@ -44,7 +55,7 @@ export default function ReceivablesDatatable() {
                 //     }
                 // }}
                 tableId="receiveables-table"
-                title="Daftar Piutang"
+                title={asManager ? 'Daftar Piutang' : 'Daftar Tagihan'}
                 getRowDataCallback={fn => (getRowData = fn)}
                 // mutateCallback={fn => (mutate = fn)}
             />
@@ -107,7 +118,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     whiteSpace: 'nowrap',
                 },
             }),
-            customBodyRender: numberToCurrency,
+            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
 
@@ -117,6 +128,28 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             searchable: false,
             sort: false,
+            customBodyRender: value => {
+                let color = 'text.primary'
+
+                switch (value) {
+                    case 'Jatuh Tempo':
+                        color = 'error'
+                        break
+
+                    case 'Jatuh Tempo Dalam 7 Hari':
+                        color = 'warning'
+                        break
+
+                    case 'Lunas':
+                        color = 'success'
+                        break
+
+                    default:
+                        break
+                }
+
+                return <Box color={`${color}.main`}>{value}</Box>
+            },
         },
     },
 
@@ -245,7 +278,7 @@ function StateFilterChips() {
 
             <Chip
                 {...CHIP_DEFAULT_PROPS}
-                label="Lewat Jatuh Tempo"
+                label="Jatuh Tempo"
                 onClick={() => handleStateChange('due')}
                 color={query.state === 'due' ? 'success' : undefined}
             />

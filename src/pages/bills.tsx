@@ -2,10 +2,10 @@
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import ReceivablesDatatable from '@/components/ReceivablesDatatable'
 
-export default function Receivables() {
+export default function Bills() {
     return (
-        <AuthLayout title="Piutang">
-            <ReceivablesDatatable asManager />
+        <AuthLayout title="Tagihan Anda">
+            <ReceivablesDatatable />
         </AuthLayout>
     )
 }

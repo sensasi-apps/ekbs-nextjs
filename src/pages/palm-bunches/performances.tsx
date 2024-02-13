@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Card from '@/components/pages/laporan-performa/Card'
+import StatCard from '@/components/StatCard'
 import LineChart from '@/components/Chart/Line/Line'
 // etc
 import useAuth from '@/providers/Auth'
@@ -114,7 +114,7 @@ const PalmBunchWeightChart = () => {
     ])
 
     return (
-        <Card title="Bobot TBS" isLoading={isLoading}>
+        <StatCard title="Bobot TBS" isLoading={isLoading}>
             <LineChart
                 prefix="kg"
                 data={data}
@@ -145,7 +145,7 @@ const PalmBunchWeightChart = () => {
                     },
                 ]}
             />
-        </Card>
+        </StatCard>
     )
 }
 
@@ -162,7 +162,7 @@ const PalmBunchDeliveryChart = () => {
     ])
 
     return (
-        <Card title="Bobot Angkut TBS" isLoading={isLoading}>
+        <StatCard title="Bobot Angkut TBS" isLoading={isLoading}>
             <LineChart
                 prefix="kg"
                 data={data}
@@ -173,6 +173,6 @@ const PalmBunchDeliveryChart = () => {
                     },
                 }}
             />
-        </Card>
+        </StatCard>
     )
 }

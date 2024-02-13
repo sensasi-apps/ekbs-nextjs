@@ -214,7 +214,7 @@ const columns: MUIDataTableColumn[] = [
         name: 'base_cost_rp_per_unit',
         label: 'Biaya Dasar',
         options: {
-            customBodyRender: numberToCurrency,
+            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
 
@@ -222,7 +222,7 @@ const columns: MUIDataTableColumn[] = [
         name: 'default_sell_price',
         label: 'Harga Dasar',
         options: {
-            customBodyRender: numberToCurrency,
+            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
 ]

@@ -1,20 +1,43 @@
+// types
+import type { StatCardProps } from '@/components/StatCard'
 // vendors
 import useSWR from 'swr'
 // components
-import Card from '@/components/pages/laporan-performa/Card'
+import StatCard from '@/components/StatCard'
 import LineChart from '@/components/Chart/Line'
 
-export default function InOutCashChart() {
-    const { data, isLoading } = useSWR('cashes/in-out-chart-data')
+export default function InOutCashChart({
+    title = 'Saldo Masuk-Keluar — Bulanan',
+    data: dataProp,
+    isLoading: isLoadingProp,
+    disableAutoFetch,
+    ...props
+}: Omit<StatCardProps, 'title'> & {
+    title?: string
+} & (
+        | {
+              disableAutoFetch: true
+              data: InOutCashChartDataType | undefined
+              isLoading: boolean
+          }
+        | {
+              disableAutoFetch?: false
+              data?: never
+              isLoading?: never
+          }
+    )) {
+    const { data, isLoading } = useSWR<InOutCashChartDataType>(
+        disableAutoFetch ? null : 'cashes/in-out-chart-data',
+    )
 
     return (
-        <Card
-            title="Pendapatan-Pengeluaran Bulanan"
-            isLoading={isLoading}
-            collapsible>
+        <StatCard
+            title={title}
+            isLoading={isLoading || isLoadingProp}
+            {...props}>
             <LineChart
                 currency
-                data={data}
+                data={disableAutoFetch ? dataProp : data}
                 slotsProps={{
                     tooltip: {
                         labelFormatter: value => `Bulan ${value}`,
@@ -24,17 +47,23 @@ export default function InOutCashChart() {
                     {
                         type: 'monotone',
                         dataKey: 'inbound',
-                        name: 'Pendapatan',
+                        name: 'Masuk',
                         stroke: 'var(--mui-palette-success-main)',
                     },
                     {
                         type: 'monotone',
                         dataKey: 'outbound',
-                        name: 'Pengeluaran',
+                        name: 'Keluar',
                         stroke: 'var(--mui-palette-error-main)',
                     },
                 ]}
             />
-        </Card>
+        </StatCard>
     )
 }
+
+export type InOutCashChartDataType = {
+    label: string
+    inbound: number
+    outbound: number
+}[]

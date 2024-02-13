@@ -46,6 +46,7 @@ export default function TopBar({
     return (
         <AppBar
             position="fixed"
+            color="success"
             sx={{
                 width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
                 ml: { sm: `${DRAWER_WIDTH}px` },

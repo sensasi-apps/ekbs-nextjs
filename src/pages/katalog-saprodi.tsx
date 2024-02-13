@@ -173,14 +173,14 @@ const columns: MUIDataTableColumn[] = [
     //     name: 'base_cost_rp_per_unit',
     //     label: 'Biaya Dasar',
     //     options: {
-    //         customBodyRender: numberToCurrency,
+    //         customBodyRender: (value: number) => numberToCurrency(value),
     //     },
     // },
     {
         name: 'default_sell_price',
         label: 'Harga Satuan (Tunai)',
         options: {
-            customBodyRender: numberToCurrency,
+            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
     {

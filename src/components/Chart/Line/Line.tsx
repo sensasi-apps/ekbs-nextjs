@@ -25,7 +25,7 @@ export default function LineChart({
     currency,
     slotsProps,
 }: {
-    data?: StatDataCache['value']
+    data: any[] | StatDataCache['value'] | undefined
     prefix?: string
     lines?: Omit<LineProps, 'ref'>[]
     xAxisDataKey?: string
@@ -74,7 +74,11 @@ export default function LineChart({
             style={{
                 overflow: 'hidden',
             }}>
-            <RechartsLineChart data={data}>
+            <RechartsLineChart
+                data={data}
+                margin={{
+                    left: -10,
+                }}>
                 <XAxis dataKey="label" {...(slotsProps?.xAxis ?? {})} />
 
                 <YAxis

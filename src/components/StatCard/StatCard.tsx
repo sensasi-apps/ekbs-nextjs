@@ -1,34 +1,47 @@
 // vendors
-import { ReactNode, memo, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 // materials
 import Box from '@mui/material/Box'
-import MuiCard from '@mui/material/Card'
+import MuiCard, { CardProps } from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Collapse from '@mui/material/Collapse'
-import LinearProgress from '@mui/material/LinearProgress'
+import LinearProgress, {
+    LinearProgressProps,
+} from '@mui/material/LinearProgress'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 // icons
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+// components
+import FlexColumnBox from '@/components/FlexColumnBox'
 
-const Card = memo(function Card({
+const StatCard = memo(function StatCard({
     children,
     title,
     isLoading,
+    disableAutoScrollLeft,
     collapsible = false,
-}: {
-    children: ReactNode
-    title: string
-    isLoading?: boolean
-    collapsible?: boolean
-}) {
+    color,
+    ...rest
+}: StatCardProps) {
     const [isCollapse, setIsCollapse] = useState(collapsible)
+    const contentRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (!disableAutoScrollLeft && !isLoading && contentRef.current) {
+            contentRef.current.scrollLeft = contentRef.current.scrollWidth
+        }
+    }, [isLoading])
 
     return (
-        <MuiCard>
-            <LinearProgress variant="determinate" value={100} color="success" />
+        <MuiCard {...rest}>
+            <LinearProgress
+                variant="determinate"
+                value={100}
+                color={color ?? 'success'}
+            />
 
             <CardActionArea
                 disabled={!collapsible}
@@ -54,6 +67,7 @@ const Card = memo(function Card({
 
             <Collapse in={!isCollapse} unmountOnExit>
                 <CardContent
+                    ref={contentRef}
                     sx={{
                         pt: 0,
                         overflowX: 'auto',
@@ -65,14 +79,22 @@ const Card = memo(function Card({
     )
 })
 
-export default Card
+export default StatCard
+
+export type StatCardProps = CardProps & {
+    title: string
+    isLoading?: boolean
+    collapsible?: boolean
+    disableAutoScrollLeft?: boolean
+    color?: LinearProgressProps['color']
+}
 
 function Skeletons() {
     return (
-        <Box display="flex" flexDirection="column" gap={1}>
+        <FlexColumnBox gap={1}>
             <Skeleton variant="rounded" />
             <Skeleton variant="rounded" />
             <Skeleton variant="rounded" />
-        </Box>
+        </FlexColumnBox>
     )
 }

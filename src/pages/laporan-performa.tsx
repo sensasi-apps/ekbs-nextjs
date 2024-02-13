@@ -15,12 +15,14 @@ import Diversity3Icon from '@mui/icons-material/Diversity3'
 import ForestIcon from '@mui/icons-material/Forest'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WorkIcon from '@mui/icons-material/Work'
+// components
 import LineChart from '@/components/Chart/Line'
 // page components
-import Card from '@/components/pages/laporan-performa/Card'
+import StatCard from '@/components/StatCard'
 // layout
 import PublicLayout from '@/components/Layouts/PublicLayout'
 import toDmy from '@/utils/toDmy'
+import BigNumber from '@/components/StatCard/BigNumber'
 
 export default function Stat() {
     const { data, isLoading } = useSWR<PerformanceDataType>('/performance-data')
@@ -80,49 +82,39 @@ export default function Stat() {
                     <Heading2 startIcon={<Diversity3Icon />}>Anggota</Heading2>
                     <Grid2 container spacing={2}>
                         <Grid2 xs={12} sm={4}>
-                            <Card
+                            <BigNumber
                                 title="Partisipasi — Bulan Ini"
-                                isLoading={isLoading}>
-                                {!isLoading &&
+                                isLoading={isLoading}
+                                primary={
+                                    !isLoading &&
                                     totalMember &&
-                                    memberParticipationTotal && (
-                                        <>
-                                            <Typography
-                                                variant="h2"
-                                                component="div">
-                                                {(
-                                                    (currentTotalParticipation /
-                                                        totalMember) *
-                                                    100
-                                                ).toFixed(0)}{' '}
-                                                %
-                                            </Typography>
-
-                                            <Typography
-                                                variant="subtitle2"
-                                                component="div">
-                                                {currentTotalParticipation}
-                                                <Typography
-                                                    variant="subtitle2"
-                                                    color="GrayText"
-                                                    component="span">
-                                                    /{totalMember} org
-                                                </Typography>
-                                            </Typography>
-                                        </>
-                                    )}
-                            </Card>
+                                    memberParticipationTotal
+                                        ? (
+                                              (currentTotalParticipation /
+                                                  totalMember) *
+                                              100
+                                          ).toFixed(0) + ' %'
+                                        : ''
+                                }
+                                secondary={
+                                    !isLoading &&
+                                    totalMember &&
+                                    memberParticipationTotal
+                                        ? `${currentTotalParticipation}/${totalMember} org`
+                                        : ''
+                                }
+                            />
                         </Grid2>
 
                         <Grid2 xs={12} sm={8}>
-                            <Card
+                            <StatCard
                                 title="Partisipasi — Bulanan"
                                 isLoading={isLoading}>
                                 <LineChart
                                     prefix="org"
                                     data={memberParticipationTotal?.value}
                                 />
-                            </Card>
+                            </StatCard>
                         </Grid2>
                     </Grid2>
                 </Box>
@@ -131,36 +123,40 @@ export default function Stat() {
                     <Heading2 startIcon={<WorkIcon />}>Unit Bisnis</Heading2>
                     <Box>
                         <Heading3 startIcon={<ForestIcon />}>TBS</Heading3>
-                        <Card title="Bobot — Bulanan" isLoading={isLoading}>
+                        <StatCard title="Bobot — Bulanan" isLoading={isLoading}>
                             <LineChart prefix="kg" data={palmBunchKg?.value} />
-                        </Card>
+                        </StatCard>
                     </Box>
 
                     <Box>
                         <Heading3 startIcon={<WarehouseIcon />}>
                             SAPRODI
                         </Heading3>
-                        <Card title="Penjualan — Bulanan" isLoading={isLoading}>
+                        <StatCard
+                            title="Penjualan — Bulanan"
+                            isLoading={isLoading}>
                             <LineChart currency data={farmInputSaleRp?.value} />
-                        </Card>
+                        </StatCard>
                     </Box>
 
                     <Box>
                         <Heading3 startIcon={<AgricultureIcon />}>
                             Penyewaan Alat Berat
                         </Heading3>
-                        <Card title="Omzet — Bulanan" isLoading={isLoading}>
+                        <StatCard title="Omzet — Bulanan" isLoading={isLoading}>
                             <LineChart currency data={rentIncomeRp?.value} />
-                        </Card>
+                        </StatCard>
                     </Box>
 
                     <Box>
                         <Heading3 startIcon={<CurrencyExchangeIcon />}>
                             Simpan Pinjam
                         </Heading3>
-                        <Card title="Pencairan — Bulanan" isLoading={isLoading}>
+                        <StatCard
+                            title="Pencairan — Bulanan"
+                            isLoading={isLoading}>
                             <LineChart currency data={loanDisburseRp?.value} />
-                        </Card>
+                        </StatCard>
                     </Box>
                 </Box>
             </Box>
