@@ -1,4 +1,3 @@
-// types
 import type { ApiResponseType } from '../AlatBerat'
 // components
 import LineChart from '@/components/Chart/Line/Line'

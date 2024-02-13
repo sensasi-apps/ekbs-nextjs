@@ -9,7 +9,7 @@ import TableOfContents from '@/components/pages/executive/statistics/charts/Tabl
 import MemberSection from '@/components/pages/executive/statistics/sections/Member'
 import FinanceSection from '@/components/pages/executive/statistics/sections/Finance'
 import ReceivableSection from '@/components/pages/executive/statistics/sections/Receivable'
-import BusinessUnitSection from '@/components/pages/executive/statistics/sections/BussinesUnit'
+import BusinessUnitSection from '@/components/pages/executive/statistics/sections/BusinessUnit'
 
 export default function Statistics() {
     return (
