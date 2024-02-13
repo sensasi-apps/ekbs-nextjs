@@ -4,12 +4,12 @@ import type { LoadingButtonProps } from '@mui/lab/LoadingButton'
 // vendors
 import { memo } from 'react'
 import { Form } from 'formik'
-import LoadingButton from '@mui/lab/LoadingButton'
-import DeleteIcon from '@mui/icons-material/Delete'
+import Box from '@mui/material/Box'
 // components
 import DialogLoadingBar from '@/components/Dialog/LoadingBar'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
+import FormDeleteButton from '../form/FormDeleteButton'
 
 /**
  * A memoized component that renders a Formik form with additional buttons and features.
@@ -60,42 +60,31 @@ const FormikForm = memo(function FormikForm({
             <Form id={formId} autoComplete={autoComplete} {...props}>
                 {children}
 
-                <div
-                    style={{
-                        display: 'flex',
-                        gap: '.5em',
-                        marginTop: '1em',
-                    }}>
-                    <span
-                        style={{
-                            flexGrow: 1,
-                        }}>
+                <Box display="flex" mt="1em" justifyContent="space-between">
+                    <Box>
                         {deleteButtonProps?.onClick && (
-                            <LoadingButton
-                                color="error"
-                                size="small"
-                                {...deleteButtonProps}>
-                                <DeleteIcon />
-                            </LoadingButton>
+                            <FormDeleteButton {...deleteButtonProps} />
                         )}
-                    </span>
+                    </Box>
 
-                    <FormResetButton
-                        dirty={dirty}
-                        disabled={processing}
-                        form={formId}
-                        slotProps={{
-                            button: cancelButtonProps,
-                        }}
-                    />
+                    <Box display="flex" gap={1}>
+                        <FormResetButton
+                            dirty={dirty}
+                            disabled={processing}
+                            form={formId}
+                            slotProps={{
+                                button: cancelButtonProps,
+                            }}
+                        />
 
-                    <FormSubmitButton
-                        loading={submitting}
-                        form={formId}
-                        disabled={!dirty || submitButtonProps.disabled}
-                        oldDirty={dirty && !isNew}
-                    />
-                </div>
+                        <FormSubmitButton
+                            loading={submitting}
+                            form={formId}
+                            disabled={!dirty || submitButtonProps.disabled}
+                            oldDirty={dirty && !isNew}
+                        />
+                    </Box>
+                </Box>
             </Form>
         </>
     )
