@@ -44,8 +44,8 @@ const AuthProvider: FC<{
 
         if (permissionName instanceof Array) {
             return (
-                permissionName.findIndex(
-                    p => userParam.permission_names?.includes(p),
+                permissionName.findIndex(p =>
+                    userParam.permission_names?.includes(p),
                 ) !== -1
             )
         }
@@ -67,8 +67,8 @@ const AuthProvider: FC<{
             return Boolean(
                 roleName.findIndex(r => userParam.role_names?.includes(r)) !==
                     -1 ||
-                    roleName.findIndex(
-                        r => userParam.role_names_id?.includes(r),
+                    roleName.findIndex(r =>
+                        userParam.role_names_id?.includes(r),
                     ) !== -1,
             )
         }

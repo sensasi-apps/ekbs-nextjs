@@ -118,7 +118,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     whiteSpace: 'nowrap',
                 },
             }),
-            customBodyRender: numberToCurrency,
+            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
 
