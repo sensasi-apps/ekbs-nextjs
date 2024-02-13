@@ -121,10 +121,7 @@ export default function BaseTaskFields({
                 value={by_user ?? null}
                 size="small"
                 textFieldProps={{
-                    label:
-                        type === 'farmer-group'
-                            ? 'Penanggung Jawab'
-                            : 'Penyewa',
+                    label: type === 'personal' ? 'Penyewa' : 'Penanggung Jawab',
                     required: type === 'farmer-group',
                     margin: 'dense',
                     ...errorsToHelperTextObj(errors.by_user_uuid),
