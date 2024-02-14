@@ -8,12 +8,12 @@ export default function BigNumber({
     ...props
 }: Omit<StatCardProps, 'children'> & {
     children?: never
-    primary: number | string
+    primary: number | string | ReactNode
     secondary?: number | string | ReactNode
 }) {
     return (
         <StatCard {...props}>
-            <Typography variant="h2" component="div">
+            <Typography variant="h2" component="div" whiteSpace="nowrap">
                 {primary}
             </Typography>
 
