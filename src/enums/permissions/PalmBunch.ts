@@ -4,6 +4,8 @@ enum PalmBunch {
     UPDATE_TICKET = 'update ticket',
 
     VALIDATE_TICKET = 'validate palm bunch ticket',
+
+    READ_STATISTIC = 'read palm bunch statistic',
 }
 
 export default PalmBunch

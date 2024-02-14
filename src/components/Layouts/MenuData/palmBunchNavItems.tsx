@@ -1,11 +1,15 @@
+// types
+import type NavItem from './NavItem.type'
+// icons
+import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
 import AssessmentIcon from '@mui/icons-material/Assessment'
 import BalanceIcon from '@mui/icons-material/Balance'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
 import GrassIcon from '@mui/icons-material/Grass'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
+// enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'
-import NavItem from './NavItem.type'
 import GroupTitle from './GroupTitle'
 
 const palmBunchNavItems: NavItem[] = [
@@ -17,6 +21,13 @@ const palmBunchNavItems: NavItem[] = [
             Role.FARMER,
             Role.COURIER,
         ],
+    },
+    {
+        label: 'Statistik',
+        href: '/palm-bunches/statistics',
+        pathname: '/palm-bunches/statistics',
+        icon: <AlignHorizontalLeftIcon />,
+        forPermission: PalmBunch.READ_STATISTIC,
     },
     {
         href: '/palm-bunches/performances',
