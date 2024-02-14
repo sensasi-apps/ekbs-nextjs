@@ -16,22 +16,24 @@ const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
 export default function ReceivablesDatatable({
     asManager,
+    type: typeProp,
 }: {
     asManager?: boolean
+    type?: 'rent-item-rent' | 'product-sale' | 'user-loan'
 }) {
     const {
         query: { type, state },
     } = useRouter()
     return (
         <Box display="flex" flexDirection="column" gap={2}>
-            <TypeFilterChips />
+            {!typeProp && <TypeFilterChips />}
 
             <StateFilterChips />
 
             <Datatable
                 apiUrl={DATATABLE_ENDPOINT_URL}
                 apiUrlParams={{
-                    type: type as string | undefined,
+                    type: typeProp ?? (type as string | undefined),
                     state: state as string | undefined,
                     asManager: asManager as string | undefined,
                 }}
@@ -44,7 +46,7 @@ export default function ReceivablesDatatable({
                 }
                 defaultSortOrder={{
                     name: 'should_be_paid_at',
-                    direction: 'desc',
+                    direction: 'asc',
                 }}
                 // onRowClick={(_, { dataIndex }, event) => {
                 //     if (event.detail === 2) {

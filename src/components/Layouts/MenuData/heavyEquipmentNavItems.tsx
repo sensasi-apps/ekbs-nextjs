@@ -1,8 +1,13 @@
+// type
 import type NavItem from './NavItem.type'
-import EventNoteIcon from '@mui/icons-material/EventNote'
+// page components
 import GroupTitle from './GroupTitle'
-import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
+// icons
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
+import CreditCardIcon from '@mui/icons-material/CreditCard'
+import EventNoteIcon from '@mui/icons-material/EventNote'
+// enums
+import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
 
 const heavyEquipmentNavItems: NavItem[] = [
     {
@@ -12,6 +17,7 @@ const heavyEquipmentNavItems: NavItem[] = [
             HeavyEquipmentRent.UPDATE,
             HeavyEquipmentRent.FINISH_TASK,
             HeavyEquipmentRent.READ_STATISTIC,
+            HeavyEquipmentRent.READ_RECEIVABLE,
         ],
     },
     {
@@ -20,6 +26,13 @@ const heavyEquipmentNavItems: NavItem[] = [
         pathname: '/heavy-equipment-rents/statistics',
         icon: <AlignHorizontalLeftIcon />,
         forPermission: [HeavyEquipmentRent.READ_STATISTIC],
+    },
+    {
+        label: 'Piutang',
+        href: '/heavy-equipment-rents/receivables',
+        pathname: '/heavy-equipment-rents/receivables',
+        icon: <CreditCardIcon />,
+        forPermission: [HeavyEquipmentRent.READ_RECEIVABLE],
     },
     {
         href: '/heavy-equipment-rents',

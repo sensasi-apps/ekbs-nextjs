@@ -17,6 +17,8 @@ enum FarmInput {
     // UPDATE_PRODUCT_SALE='update product sales',
     READ_PRODUCT_SALE = 'read product sales', // TODO: sync this
     REFUND_PRODUCT_SALE = 'refund product sale',
+    READ_STATISTIC = 'read farm input statistic',
+    READ_RECEIVABLE = 'read farm input receivable',
 }
 
 export default FarmInput
