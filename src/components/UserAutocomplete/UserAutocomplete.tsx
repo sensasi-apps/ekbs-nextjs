@@ -92,27 +92,31 @@ export default function UserAutocomplete<
                     style={{
                         display: 'block',
                     }}>
-                    <Box display="flex" alignItems="center" gap={1}>
-                        <Typography variant="caption" component="span">
-                            {option.id}
-                        </Typography>
-                        <Typography component="span">{option.name}</Typography>
+                    <Box>
+                        <Box display="flex" alignItems="center" gap={1}>
+                            <Typography variant="caption" component="span">
+                                {option.id}
+                            </Typography>
+                            <Typography component="span">
+                                {option.name}
+                            </Typography>
+                        </Box>
+
+                        {showNickname && option.nickname && (
+                            <Typography variant="caption" component="div">
+                                {option.nickname}
+                            </Typography>
+                        )}
+
+                        {showRole && option.role_names_id.length > 0 && (
+                            <ScrollableXBox>
+                                <RoleChips
+                                    data={option.role_names_id}
+                                    size="small"
+                                />
+                            </ScrollableXBox>
+                        )}
                     </Box>
-
-                    {showNickname && option.nickname && (
-                        <Typography variant="caption" component="div">
-                            {option.nickname}
-                        </Typography>
-                    )}
-
-                    {showRole && option.role_names_id.length > 0 && (
-                        <ScrollableXBox>
-                            <RoleChips
-                                data={option.role_names_id}
-                                size="small"
-                            />
-                        </ScrollableXBox>
-                    )}
                 </li>
             )}
             renderInput={params => (
