@@ -26,6 +26,7 @@ import useAuth from '@/providers/Auth'
 // enums
 import Role from '@/enums/Role'
 import ReaTiketPaymentDetailView from './Form/ReaTiketPaymentDetailView'
+import PalmBunch from '@/enums/permissions/PalmBunch'
 
 export default function PalmBuncesReaTicketForm({
     data,
@@ -34,7 +35,7 @@ export default function PalmBuncesReaTicketForm({
     setSubmitting,
     onSubmitted,
 }: FormType<PalmBunchesReaTicketType>) {
-    const { userHasRole } = useAuth()
+    const { userHasRole, userHasPermission } = useAuth()
 
     const disabled =
         Boolean(loading || (data?.delivery?.transactions?.length || 0) > 0) ||
@@ -124,8 +125,14 @@ export default function PalmBuncesReaTicketForm({
                 </>
             )}
 
-            {!data?.delivery?.transactions?.length && actionsSlot}
+            {!data?.delivery?.transactions?.length &&
+                userHasPermission([
+                    PalmBunch.CREATE_TICKET,
+                    PalmBunch.UPDATE_TICKET,
+                ]) &&
+                actionsSlot}
 
+            {/* TODO: refactor to permission based */}
             {userHasRole(Role.PALM_BUNCH_MANAGER) && data?.delivery?.logs && (
                 <UserActivityLog data={data.delivery.logs} />
             )}

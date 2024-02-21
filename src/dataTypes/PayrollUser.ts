@@ -1,0 +1,25 @@
+import type { UUID } from 'crypto'
+import type UserType from './User'
+
+type PayrollUser = {
+    uuid: string
+    payroll_uuid: string
+    user_uuid: string
+    user_state: UserType
+    note?: string
+    final_rp_cache: number
+
+    // relations
+    // user?: UserType
+    details?: PayrollUserDetail[]
+}
+
+export default PayrollUser
+
+type PayrollUserDetail = {
+    uuid: UUID
+    seq_no: number
+    name: string
+    amount_rp: number
+    payroll_user_detailable_id: UUID | null
+}

@@ -1,0 +1,112 @@
+// types
+import type { UUID } from 'crypto'
+// vendors
+import { useState } from 'react'
+import axios from '@/lib/axios'
+// materials
+import UserAutocomplete from '@/components/UserAutocomplete'
+import UserType from '@/dataTypes/User'
+import Box from '@mui/material/Box'
+import LoadingButton from '@mui/lab/LoadingButton'
+import handle422 from '@/utils/errorCatcher'
+import FinanceApiUrlEnum from '../ApiUrlEnum'
+
+export default function PayrollUsersForm({
+    payrollUuid,
+    onClose,
+}: {
+    payrollUuid: UUID
+    onClose: () => void
+}) {
+    const [users, setUsers] = useState<UserType[]>([])
+    const [addEmployeeLoading, setAddEmployeeLoading] = useState(false)
+    const [submitLoading, setSubmitLoading] = useState(false)
+    const [errors, setErrors] = useState<Record<string, string[]>>({})
+    const disabled = submitLoading || addEmployeeLoading
+
+    const handleAddAllEmployees = () => {
+        setAddEmployeeLoading(true)
+
+        return axios
+            .get<UserType[]>('/users/employees')
+            .then(res => {
+                setUsers(res.data)
+            })
+            .finally(() => {
+                setAddEmployeeLoading(false)
+            })
+    }
+
+    const handleSubmit = () => {
+        setSubmitLoading(true)
+
+        return axios
+            .post(
+                FinanceApiUrlEnum.CREATE_PAYROLL_USERS.replace(
+                    '$uuid',
+                    payrollUuid,
+                ),
+                {
+                    user_uuids: users.map(user => user.uuid),
+                },
+            )
+            .then(() => {
+                onClose()
+            })
+            .catch(err => handle422(err, setErrors))
+            .finally(() => {
+                setSubmitLoading(false)
+            })
+    }
+
+    return (
+        <>
+            <LoadingButton
+                size="small"
+                onClick={handleAddAllEmployees}
+                disabled={disabled}
+                loading={addEmployeeLoading}>
+                Masukkan Semua Karyawan
+            </LoadingButton>
+
+            <Box mt={1}>
+                <UserAutocomplete
+                    multiple
+                    showRole
+                    showNickname
+                    label="Daftar Pengguna"
+                    disabled={disabled}
+                    value={users}
+                    onChange={(_, value) => setUsers(value)}
+                />
+            </Box>
+
+            {errors?.users?.map((error, index) => (
+                <Box key={index} color="error.main">
+                    {error}
+                </Box>
+            ))}
+
+            <Box mt={2} display="flex" justifyContent="end" gap={1}>
+                <LoadingButton
+                    size="small"
+                    color="info"
+                    onClick={onClose}
+                    disabled={disabled}>
+                    Batal
+                </LoadingButton>
+
+                <LoadingButton
+                    size="small"
+                    type="submit"
+                    color="info"
+                    variant="contained"
+                    disabled={disabled}
+                    loading={submitLoading}
+                    onClick={handleSubmit}>
+                    Tambahkan
+                </LoadingButton>
+            </Box>
+        </>
+    )
+}

@@ -1,0 +1,332 @@
+import type { Ymd } from '@/types/DateString'
+import type CashType from '@/dataTypes/Cash'
+import type LaravelValidationException from '@/types/LaravelValidationException'
+import type Payroll from '@/dataTypes/Payroll'
+// vendors
+import { useState } from 'react'
+import axios from '@/lib/axios'
+import dayjs from 'dayjs'
+// materials
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormGroup from '@mui/material/FormGroup'
+import FormHelperText from '@mui/material/FormHelperText'
+import LoadingButton from '@mui/lab/LoadingButton'
+import MenuItem from '@mui/material/MenuItem'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableFooter from '@mui/material/TableFooter'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Typography from '@mui/material/Typography'
+// icons
+import LockIcon from '@mui/icons-material/Lock'
+// components
+import DatePicker from '@/components/DatePicker'
+import InfoBox from '@/components/InfoBox'
+import NumericFormat from '@/components/NumericFormat'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
+import SelectFromApi from '@/components/Global/SelectFromApi'
+import TextField from '@/components/TextField'
+// utils
+import debounce from '@/utils/debounce'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import numberToCurrency from '@/utils/numberToCurrency'
+import handle422 from '@/utils/errorCatcher'
+import FinanceApiUrlEnum from '../ApiUrlEnum'
+
+const SX_NOWRAP = { whiteSpace: 'nowrap' }
+
+export default function ProcessPayrollForm({
+    data,
+    handleClose,
+    mutate,
+}: {
+    data: Payroll
+    handleClose: () => void
+    mutate: () => void
+}) {
+    const [loading, setLoading] = useState(false)
+    const [at, setAt] = useState(data.at)
+    const [note, setNote] = useState(data.note)
+    const [cashUuid, setCashUuid] = useState<string>(data.cash_uuid as string)
+    const [isFinal, setIsFinal] = useState(Boolean(data.processed_at))
+    const [costShares, setCostShares] = useState(data.cost_shares)
+
+    const [errors, setErrors] = useState<LaravelValidationException['errors']>()
+
+    const handleSubmit = () => {
+        setLoading(true)
+
+        return axios
+            .post(
+                FinanceApiUrlEnum.PROCESS_PAYROLL.replace('$uuid', data.uuid),
+                {
+                    at,
+                    note,
+                    cash_uuid: cashUuid,
+                    is_final: isFinal,
+                    cost_shares: costShares?.map(costShare => ({
+                        uuid: costShare.uuid,
+                        deduction_rp: costShare.deduction_rp,
+                    })),
+                },
+            )
+            .then(() => {
+                mutate()
+                handleClose()
+            })
+            .catch(err => handle422(err, setErrors))
+            .finally(() => setLoading(false))
+    }
+
+    const disabled = loading
+
+    return (
+        <>
+            <Typography>Rincian Penggajian:</Typography>
+
+            <Box
+                my={1}
+                sx={{
+                    maxWidth: {
+                        xs: '100%',
+                        sm: '50%',
+                    },
+                }}>
+                <DatePicker
+                    value={at ? dayjs(at) : null}
+                    disabled={disabled}
+                    label="Tanggal"
+                    onChange={date =>
+                        debounce(() => setAt(date?.format('YYYY-MM-DD') as Ymd))
+                    }
+                    slotProps={{
+                        textField: {
+                            ...errorsToHelperTextObj(errors?.at),
+                        },
+                    }}
+                />
+
+                <TextField
+                    multiline
+                    name="note"
+                    label="Catatan"
+                    disabled={disabled}
+                    rows={2}
+                    defaultValue={note}
+                    onChange={({ target: { value } }) =>
+                        debounce(() => setNote(value))
+                    }
+                    {...errorsToHelperTextObj(errors?.note)}
+                />
+
+                <SelectFromApi
+                    required={isFinal}
+                    endpoint="/data/cashes"
+                    label="Telah Dibayar Dari Kas"
+                    size="small"
+                    margin="dense"
+                    disabled={disabled}
+                    selectProps={{
+                        value: cashUuid ?? '',
+                        name: 'cash_uuid',
+                    }}
+                    onValueChange={({ uuid }: CashType) => setCashUuid(uuid)}
+                    renderOption={(cash: CashType) => (
+                        <MenuItem key={cash.uuid} value={cash.uuid}>
+                            {cash.code && (
+                                <Chip
+                                    label={cash.code}
+                                    size="small"
+                                    variant="outlined"
+                                    sx={{
+                                        mr: 1,
+                                    }}
+                                />
+                            )}
+
+                            {cash.name}
+                        </MenuItem>
+                    )}
+                    {...errorsToHelperTextObj(errors?.cash_uuid)}
+                />
+            </Box>
+
+            <Box mb={2}>
+                <InfoBox
+                    data={[
+                        {
+                            label: 'Penerimaan Kotor',
+                            value: numberToCurrency(
+                                data?.earning_rp_cache ?? 0,
+                            ),
+                        },
+                        {
+                            label: 'Potongan',
+                            value: numberToCurrency(
+                                data?.deduction_rp_cache ?? 0,
+                            ),
+                        },
+                        {
+                            label: 'Total Bersih',
+                            value: numberToCurrency(data?.final_rp_cache ?? 0),
+                        },
+                    ]}
+                />
+            </Box>
+
+            <Typography>Beban Unit Bisnis:</Typography>
+
+            <Box>
+                <TableContainer>
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Unit Bisnis</TableCell>
+                                <TableCell>Beban Kotor</TableCell>
+                                <TableCell>Penerimaan</TableCell>
+                                <TableCell>Beban Bersih</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {costShares?.map((costShare, i) => (
+                                <TableRow key={i}>
+                                    <TableCell>
+                                        {costShare.business_unit?.name}
+                                    </TableCell>
+                                    <TableCell>
+                                        <NumericFormat
+                                            disabled={disabled}
+                                            value={costShare.deduction_rp}
+                                            onValueChange={({ floatValue }) =>
+                                                setCostShares(prev =>
+                                                    prev?.map(
+                                                        (prevCostShare, j) =>
+                                                            i === j
+                                                                ? {
+                                                                      ...prevCostShare,
+                                                                      deduction_rp:
+                                                                          floatValue ??
+                                                                          0,
+                                                                  }
+                                                                : prevCostShare,
+                                                    ),
+                                                )
+                                            }
+                                            margin="none"
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <RpInputAdornment />
+                                                ),
+                                            }}
+                                            {...errorsToHelperTextObj(
+                                                errors?.[
+                                                    `cost_shares.${i}.deduction_rp`
+                                                ],
+                                            )}
+                                        />
+                                    </TableCell>
+                                    <TableCell sx={SX_NOWRAP}>
+                                        {numberToCurrency(costShare.earning_rp)}
+                                    </TableCell>
+                                    <TableCell sx={SX_NOWRAP}>
+                                        {numberToCurrency(
+                                            costShare.deduction_rp -
+                                                costShare.earning_rp,
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TableCell>Total</TableCell>
+                                <TableCell sx={SX_NOWRAP}>
+                                    {numberToCurrency(
+                                        costShares?.reduce(
+                                            (acc, costShare) =>
+                                                acc + costShare.deduction_rp,
+                                            0,
+                                        ) ?? 0,
+                                    )}
+                                </TableCell>
+                                <TableCell sx={SX_NOWRAP}>
+                                    {numberToCurrency(
+                                        costShares?.reduce(
+                                            (acc, costShare) =>
+                                                acc + costShare.earning_rp,
+                                            0,
+                                        ) ?? 0,
+                                    )}
+                                </TableCell>
+                                <TableCell>
+                                    {numberToCurrency(
+                                        costShares?.reduce(
+                                            (acc, costShare) =>
+                                                acc +
+                                                costShare.deduction_rp -
+                                                costShare.earning_rp,
+                                            0,
+                                        ) ?? 0,
+                                    )}
+                                </TableCell>
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+                </TableContainer>
+            </Box>
+
+            {errors && (
+                <FormHelperText error component="div">
+                    {Object.values(errors).map((error, i) => (
+                        <Box key={i}>{error}</Box>
+                    ))}
+                </FormHelperText>
+            )}
+
+            <FormGroup
+                sx={{
+                    mt: 2,
+                }}>
+                <FormControlLabel
+                    disabled={disabled}
+                    control={
+                        <Checkbox
+                            value={isFinal}
+                            onChange={({ target: { checked } }) =>
+                                setIsFinal(checked)
+                            }
+                        />
+                    }
+                    label="Simpan Permanen"
+                />
+            </FormGroup>
+
+            <Box display="flex" justifyContent="end" gap={1.5}>
+                <LoadingButton
+                    size="small"
+                    color={isFinal ? 'warning' : 'info'}
+                    disabled={disabled}
+                    onClick={handleClose}>
+                    Batal
+                </LoadingButton>
+
+                <LoadingButton
+                    size="small"
+                    color={isFinal ? 'warning' : 'info'}
+                    variant="contained"
+                    startIcon={isFinal ? <LockIcon /> : undefined}
+                    disabled={disabled}
+                    loading={loading}
+                    onClick={handleSubmit}>
+                    {isFinal ? 'Proses Penggajian' : 'Simpan'}
+                </LoadingButton>
+            </Box>
+        </>
+    )
+}
