@@ -30,7 +30,7 @@ export default function HeavyEquipmentRentsDatatable({
     mutateCallback: DatatableProps['mutateCallback']
     getRowDataCallback: DatatableProps['getRowDataCallback']
     apiUrlParams: {
-        type: 'unfinished' | ''
+        type: 'unfinished' | '' | 'unfinished-task'
     }
 }) {
     const { userHasPermission, userHasRole } = useAuth()
