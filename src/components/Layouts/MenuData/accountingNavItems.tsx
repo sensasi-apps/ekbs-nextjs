@@ -1,16 +1,29 @@
+// types
 import type NavItem from './NavItem.type'
+// icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
+import PaymentsIcon from '@mui/icons-material/Payments'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
-import Role from '@/enums/Role'
+// components
 import GroupTitle from './GroupTitle'
+// enums
+import Role from '@/enums/Role'
 import Cash from '@/enums/permissions/Cash'
+import Finance from '@/enums/permissions/Finance'
 
 const accountingNavItems: NavItem[] = [
     {
         children: <GroupTitle>Keuangan</GroupTitle>,
         forRole: [Role.MEMBER, Role.EMPLOYEE, Role.CASH_MANAGER],
+    },
+    {
+        href: '/finances/payrolls/employees',
+        label: 'Penggajian Karyawan',
+        pathname: '/finances/payrolls/employees',
+        icon: <PaymentsIcon />,
+        forPermission: Finance.PAYROLL_EMPLOYEE,
     },
     {
         href: '/wallet',
