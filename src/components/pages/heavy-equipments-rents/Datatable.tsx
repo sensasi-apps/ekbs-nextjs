@@ -29,7 +29,9 @@ export default function HeavyEquipmentRentsDatatable({
     handleRowClick: OnRowClickType
     mutateCallback: DatatableProps['mutateCallback']
     getRowDataCallback: DatatableProps['getRowDataCallback']
-    apiUrlParams: DatatableProps['apiUrlParams']
+    apiUrlParams: {
+        type: 'unfinished' | ''
+    }
 }) {
     const { userHasPermission, userHasRole } = useAuth()
 
@@ -165,12 +167,21 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (uuid: string) => (
-                <WhatsAppButton
-                    endpoint={ApiUrlEnum.NOTIFY_OPERATOR.replace('$1', uuid)}
-                    title="Notifikasi Operator"
-                />
-            ),
+            customBodyRenderLite: dataIndex => {
+                const { uuid = '', is_paid = false } =
+                    getRowData(dataIndex) ?? {}
+
+                return (
+                    <WhatsAppButton
+                        endpoint={ApiUrlEnum.NOTIFY_OPERATOR.replace(
+                            '$rentItemRentUuid',
+                            uuid,
+                        )}
+                        title="Notifikasi Operator"
+                        disabled={is_paid}
+                    />
+                )
+            },
         },
     },
     // {

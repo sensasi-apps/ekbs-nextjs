@@ -42,7 +42,9 @@ export default function HeavyEquipmentRent() {
     const { userHasPermission } = useAuth()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [activeTab, setActiveTab] = useState<'unfinished' | 'all'>('all')
+    const [activeTab, setActiveTab] = useState<'unfinished' | 'calendar' | ''>(
+        'calendar',
+    )
 
     const [initialFormikValues, setInitialFormikValues] =
         useState<HeavyEquipmentRentFormValues>({})
@@ -67,6 +69,7 @@ export default function HeavyEquipmentRent() {
             term_unit: data.installment?.term_unit,
             interest_percent: data.installment?.interest_percent,
             is_validated_by_admin: Boolean(data.validated_by_admin_at),
+            cashable_uuid: data.transaction?.cashable_uuid,
         }
 
         setInitialFormikValues(formedData)
@@ -94,12 +97,12 @@ export default function HeavyEquipmentRent() {
         <AuthLayout title="Penyewaan Alat Berat">
             <Box display="flex" gap={1} mb={4}>
                 <Chip
-                    color={activeTab === 'all' ? 'success' : undefined}
-                    label="Semua"
+                    color={activeTab === 'calendar' ? 'success' : undefined}
+                    label="Kalender"
                     onClick={
-                        activeTab === 'all'
+                        activeTab === 'calendar'
                             ? undefined
-                            : () => setActiveTab('all')
+                            : () => setActiveTab('calendar')
                     }
                 />
 
@@ -112,9 +115,17 @@ export default function HeavyEquipmentRent() {
                             : () => setActiveTab('unfinished')
                     }
                 />
+
+                <Chip
+                    color={activeTab === '' ? 'success' : undefined}
+                    label="Semua"
+                    onClick={
+                        activeTab === '' ? undefined : () => setActiveTab('')
+                    }
+                />
             </Box>
 
-            <Fade in={activeTab === 'all'} unmountOnExit>
+            <Fade in={activeTab === 'calendar'} unmountOnExit>
                 <div>
                     <HerMonthlyCalender
                         mutateCallback={mutator => (mutateCalendar = mutator)}
@@ -123,14 +134,14 @@ export default function HeavyEquipmentRent() {
                 </div>
             </Fade>
 
-            <Fade in={activeTab === 'unfinished'} unmountOnExit>
+            <Fade in={activeTab !== 'calendar'} unmountOnExit>
                 <div>
                     <HeavyEquipmentRentsDatatable
                         handleRowClick={handleRowClick}
                         mutateCallback={fn => (mutate = fn)}
                         getRowDataCallback={fn => (getRowData = fn)}
                         apiUrlParams={{
-                            type: 'unfinished',
+                            type: activeTab !== 'calendar' ? activeTab : '',
                         }}
                     />
                 </div>

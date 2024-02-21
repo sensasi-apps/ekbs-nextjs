@@ -1,5 +1,4 @@
 // types
-import type { TooltipProps } from '@mui/material/Tooltip'
 import type { IconButtonProps } from '@mui/material/IconButton'
 // vendort
 import { memo, useState } from 'react'
@@ -16,14 +15,12 @@ const COOLDOWN_MS = 60000
 const WhatsAppButton = memo(function WhatsAppButton({
     endpoint,
     title,
+    disabled: _disabled,
+    ...props
 }: {
     endpoint: string
     title: string
-    slotProps?: {
-        tooltip?: TooltipProps
-        iconButton?: IconButtonProps
-    }
-}) {
+} & IconButtonProps) {
     const [disabled, setDisabled] = useState(false)
 
     return (
@@ -35,7 +32,7 @@ const WhatsAppButton = memo(function WhatsAppButton({
             <span>
                 <IconButton
                     size="small"
-                    disabled={disabled}
+                    disabled={disabled || _disabled}
                     color="success"
                     onClick={() => {
                         const key = enqueueSnackbar('Mengirim notifikasi...', {
@@ -70,7 +67,8 @@ const WhatsAppButton = memo(function WhatsAppButton({
                                 ),
                             )
                             .finally(() => closeSnackbar(key))
-                    }}>
+                    }}
+                    {...props}>
                     <WhatsAppIcon />
                 </IconButton>
             </span>
