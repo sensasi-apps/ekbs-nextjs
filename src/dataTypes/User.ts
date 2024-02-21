@@ -1,4 +1,5 @@
-import { UUID } from 'crypto'
+import type { Ymd } from '@/types/DateString'
+import type { UUID } from 'crypto'
 
 interface UserType {
     id: number
@@ -12,12 +13,32 @@ interface UserType {
     email: string
     uuid: UUID
 
+    // relations
+    member?: any // TODO: define member type
     socials?: []
     last_six_months_tbs_performance?: []
-
-    member?: any // TODO: define member type
-    employee?: any // TODO: define employee type
+    employee?: Employee | null
     phone_no?: string
 }
 
 export default UserType
+
+enum EmployeeStatusId {
+    MAGANG = 1,
+    KONTRAK = 2,
+    TETAP = 3,
+    PENGURUS = 4,
+}
+
+type Employee = {
+    employee_status_id: EmployeeStatusId
+    employeeStatus: {
+        id: EmployeeStatusId
+        name: string
+    }
+    joined_at: Ymd
+    unjoined_at: Ymd | null
+    unjoined_reason: string | null
+    position: string
+    note: string | null
+}
