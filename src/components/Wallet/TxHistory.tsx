@@ -1,11 +1,9 @@
 // types
-import type { Dayjs } from 'dayjs'
+import type Transaction from '@/dataTypes/Transaction'
 import type WalletType from '@/dataTypes/Wallet'
-import type TransactionDataType from '@/dataTypes/Transaction'
 // vendors
+import { useState } from 'react'
 import useSWR from 'swr'
-import ReactToPrint from 'react-to-print'
-import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
@@ -13,7 +11,6 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 // icons
-import PrintIcon from '@mui/icons-material/Print'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 // components
 import DatePicker from '@/components/DatePicker'
@@ -24,23 +21,30 @@ import TxHistoryItem from './TxHistory/Item'
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
 import debounce from '@/utils/debounce'
+import PrintHandler from '../PrintHandler'
 
-function TxHistory({
+const DEFAULT_START_DATE = dayjs().startOf('month')
+const DEFAULT_END_DATE = dayjs()
+
+type ApiResponseType = {
+    balanceFrom: number
+    data: Transaction[]
+    balanceTo: number
+}
+
+export default function TxHistory({
     walletData,
-    printContent,
-    fromDate,
-    setFromDate,
-    toDate,
-    setToDate,
+    canPrint,
+    canExportExcel,
 }: {
     walletData: WalletType
-    printContent?: any
-    fromDate: Dayjs
-    setFromDate: any
-    toDate: Dayjs
-    setToDate: any
+    canPrint?: boolean
+    canExportExcel?: boolean
 }) {
-    const { data: txs = [], isLoading } = useSWR(
+    const [fromDate, setFromDate] = useState(DEFAULT_START_DATE)
+    const [toDate, setToDate] = useState(DEFAULT_END_DATE)
+
+    const { data: txs, isLoading } = useSWR<ApiResponseType>(
         walletData?.uuid
             ? `/wallets/transactions/${
                   walletData.uuid
@@ -48,27 +52,14 @@ function TxHistory({
                   'YYYY-MM-DD',
               )}&toDate=${toDate.format('YYYY-MM-DD')}`
             : null,
-        url => axios.get(url).then(res => res.data),
         {
             keepPreviousData: true,
         },
     )
 
     return (
-        <div>
-            <Box textAlign="center" mb={3}>
-                <Typography color="text.disabled">Saldo</Typography>
-                <Typography color="text.secondary">
-                    {walletData?.user?.name}
-                </Typography>
-                <Typography
-                    color="text.primary"
-                    variant="h4"
-                    fontWeight="bold"
-                    component="div">
-                    {numberToCurrency(walletData?.balance)}
-                </Typography>
-            </Box>
+        <Box>
+            <Header data={walletData} />
 
             <Box mb={0.2} display="flex" gap={2}>
                 <DatePicker
@@ -77,7 +68,9 @@ function TxHistory({
                     maxDate={toDate}
                     value={fromDate}
                     label="Dari"
-                    onChange={date => debounce(() => setFromDate(date))}
+                    onChange={date =>
+                        debounce(() => setFromDate(date ?? DEFAULT_START_DATE))
+                    }
                 />
 
                 <DatePicker
@@ -85,62 +78,81 @@ function TxHistory({
                     value={toDate}
                     minDate={fromDate}
                     maxDate={dayjs()}
-                    onChange={date => debounce(() => setToDate(date))}
+                    onChange={date =>
+                        debounce(() => setToDate(date ?? DEFAULT_END_DATE))
+                    }
                     label="Hingga"
                 />
             </Box>
 
-            <Box textAlign="end" mb={2}>
-                {printContent && (
-                    <ReactToPrint
-                        pageStyle="@page { margin: auto; }"
-                        content={printContent}
-                        trigger={() => (
-                            <Tooltip title="Cetak">
-                                <span>
-                                    <IconButton
-                                        disabled={isLoading}
-                                        color="primary">
-                                        <PrintIcon />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        )}
-                    />
-                )}
+            {(canPrint || canExportExcel) && (
+                <Box textAlign="end" mb={2}>
+                    {canPrint && (
+                        <PrintHandler
+                            slotProps={{
+                                printButton: {
+                                    disabled: isLoading,
+                                },
+                            }}>
+                            <Header data={walletData} />
+                            {!isLoading && txs && <TxsList data={txs} />}
+                        </PrintHandler>
+                    )}
 
-                <Tooltip title="Ekspor Excel">
-                    <span>
-                        <IconButton
-                            disabled={isLoading}
-                            color="primary"
-                            href={`${
-                                process.env.NEXT_PUBLIC_BACKEND_URL
-                            }/wallets/transactions/${walletData?.uuid}?fromDate=${fromDate?.format(
-                                'YYYY-MM-DD',
-                            )}&toDate=${toDate?.format(
-                                'YYYY-MM-DD',
-                            )}&download=true`}
-                            download>
-                            <BackupTableIcon />
-                        </IconButton>
-                    </span>
-                </Tooltip>
-            </Box>
-
-            {isLoading && <Skeletons />}
-
-            {!isLoading && (
-                <TxHistoryItem
-                    mb={2}
-                    desc="Saldo Awal"
-                    amount={txs.balanceFrom}
-                />
+                    {canExportExcel && (
+                        <Tooltip title="Ekspor Excel">
+                            <span>
+                                <IconButton
+                                    disabled={isLoading}
+                                    color="primary"
+                                    href={`${
+                                        process.env.NEXT_PUBLIC_BACKEND_URL
+                                    }/wallets/transactions/${walletData?.uuid}?fromDate=${fromDate?.format(
+                                        'YYYY-MM-DD',
+                                    )}&toDate=${toDate?.format(
+                                        'YYYY-MM-DD',
+                                    )}&download=true`}
+                                    download>
+                                    <BackupTableIcon />
+                                </IconButton>
+                            </span>
+                        </Tooltip>
+                    )}
+                </Box>
             )}
 
-            {!isLoading && txs?.data && txs?.data?.length > 0 ? (
+            {isLoading && <Skeletons />}
+            {!isLoading && txs && <TxsList data={txs} />}
+        </Box>
+    )
+}
+
+let dateTemp: string
+
+function Header({ data }: { data: WalletType | undefined }) {
+    return (
+        <Box textAlign="center" mb={3}>
+            <Typography color="text.disabled">Saldo</Typography>
+            <Typography color="text.secondary">{data?.user?.name}</Typography>
+            <Typography
+                color="text.primary"
+                variant="h4"
+                fontWeight="bold"
+                component="div">
+                {numberToCurrency(data?.balance ?? 0)}
+            </Typography>
+        </Box>
+    )
+}
+
+function TxsList({ data: txs }: { data: ApiResponseType }) {
+    return (
+        <>
+            <TxHistoryItem mb={2} desc="Saldo Awal" amount={txs.balanceFrom} />
+
+            {txs?.data && txs.data.length > 0 ? (
                 <Box display="flex" flexDirection="column" gap={1}>
-                    {txs.data.map((tx: TransactionDataType) => (
+                    {txs.data.map(tx => (
                         <div key={tx.uuid}>
                             {dateHandler(tx.at)}
 
@@ -157,22 +169,12 @@ function TxHistory({
                 </Typography>
             )}
 
-            {!isLoading && (
-                <TxHistoryItem
-                    mt={2}
-                    desc="Saldo Akhir"
-                    amount={txs.balanceTo}
-                />
-            )}
-        </div>
+            <TxHistoryItem mt={2} desc="Saldo Akhir" amount={txs.balanceTo} />
+        </>
     )
 }
 
-export default TxHistory
-
-let dateTemp: string
-
-const dateHandler = (date: TransactionDataType['at']) => {
+function dateHandler(date: Transaction['at']) {
     if (dateTemp !== toDmy(date)) {
         dateTemp = toDmy(date)
         return (

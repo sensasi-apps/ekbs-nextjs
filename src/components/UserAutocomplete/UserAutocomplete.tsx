@@ -2,10 +2,9 @@
 import type { AutocompleteProps } from '@mui/material/Autocomplete'
 import type { ChipTypeMap } from '@mui/material/Chip'
 import type UserType from '@/dataTypes/User'
+import type { ReactNode } from 'react'
 // vendors
 import { useState } from 'react'
-// import { useState } from 'react'
-// import axios from '@/lib/axios'
 // materials
 import MuiAutocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
@@ -27,6 +26,8 @@ export default function UserAutocomplete<
     showRole,
     noOptionsText = 'Pengguna tidak ditemukan',
     showNickname,
+    error,
+    helperText,
     ...props
 }: Omit<
     AutocompleteProps<
@@ -35,7 +36,10 @@ export default function UserAutocomplete<
         DisableClearable,
         false,
         ChipComponent
-    >,
+    > & {
+        error?: boolean
+        helperText?: ReactNode
+    },
     'options' | 'renderInput' | 'freeSolo'
 > & {
     label: string
@@ -125,6 +129,8 @@ export default function UserAutocomplete<
                     autoComplete="off"
                     label={label}
                     name="user_uuid"
+                    error={error}
+                    helperText={helperText}
                 />
             )}
             {...props}

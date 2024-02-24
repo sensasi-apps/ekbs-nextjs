@@ -1,6 +1,6 @@
+// types
+import Wallet from '@/dataTypes/Wallet'
 // vendors
-import { useState } from 'react'
-import dayjs from 'dayjs'
 import useSWR from 'swr'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -8,23 +8,16 @@ import TxHistory from '@/components/Wallet/TxHistory'
 import Skeletons from '@/components/Global/Skeletons'
 
 export default function WalletPage() {
-    const [fromDate, setFromDate] = useState(dayjs().startOf('month'))
-    const [toDate, setToDate] = useState(dayjs())
-
-    const { data: walletData, isLoading } = useSWR('/wallet')
+    const { data: walletData, isLoading } = useSWR<Wallet>('/wallet')
 
     return (
         <AuthLayout title="Wallet EKBS Anda">
             {isLoading ? (
                 <Skeletons />
+            ) : walletData ? (
+                <TxHistory walletData={walletData} />
             ) : (
-                <TxHistory
-                    walletData={walletData}
-                    fromDate={fromDate}
-                    setFromDate={setFromDate}
-                    toDate={toDate}
-                    setToDate={setToDate}
-                />
+                'terjadi kesalahan'
             )}
         </AuthLayout>
     )

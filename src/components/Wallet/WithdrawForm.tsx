@@ -1,145 +1,131 @@
-import { FC, useState, FormEvent } from 'react'
+// types
+import type { FormikProps } from 'formik'
+import type { UUID } from 'crypto'
+import type UserType from '@/dataTypes/User'
+import type CashType from '@/dataTypes/Cash'
+// vendors
+import { useState } from 'react'
 import useSWR from 'swr'
-
-import InputAdornment from '@mui/material/InputAdornment'
-import Skeleton from '@mui/material/Skeleton'
-import TextField from '@mui/material/TextField'
-
-import FormType from '@/components/Global/Form/type'
+// materials
+import Chip from '@mui/material/Chip'
+import MenuItem from '@mui/material/MenuItem'
+// componentns
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import useValidationErrors from '@/hooks/useValidationErrors'
-import NumericFormat from '@/components/Global/NumericFormat'
-import axios from '@/lib/axios'
-import UserAutocomplete from '@/components/Global/UserAutocomplete'
+import NumericFormat from '@/components/NumericFormat'
+import FormikForm from '@/components/FormikForm'
+import UserAutocomplete from '../UserAutocomplete'
+import RpInputAdornment from '../InputAdornment/Rp'
+// utils
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import numberToCurrency from '@/utils/numberToCurrency'
 
-const WalletWithdrawForm: FC<FormType<any>> = ({
-    loading,
-    actionsSlot,
-    setSubmitting,
-    onSubmitted,
-}) => {
-    const [userUuid, setUserUuid] = useState<string | undefined>(undefined)
-    const [fromCash, setFromCash] = useState<any>(undefined)
-    const { validationErrors, setValidationErrors, clearByName } =
-        useValidationErrors()
+export default function WalletWithdrawForm({
+    dirty,
+    errors,
+    isSubmitting,
+    values: {
+        // user_uuid,
+        from_cash_uuid,
+        amount,
+    },
+    setFieldValue,
+}: FormikProps<FormValuesType>) {
+    const [user, setUser] = useState<UserType | null>(null)
+    const [fromCash, setFromCash] = useState<CashType>()
 
     const { data: userCash, isLoading } = useSWR(
-        userUuid ? `/wallets/user/${userUuid}` : null,
-        url => axios.get(url).then(response => response.data),
+        user?.uuid ? `/wallets/user/${user.uuid}` : null,
     )
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-
-        const formData = new FormData(event.target as HTMLFormElement)
-
-        setSubmitting(true)
-
-        try {
-            await axios.post('/wallets/withdraw', formData)
-
-            onSubmitted()
-        } catch (error: any) {
-            if (!(error.response?.status === 422)) {
-                throw error
-            }
-
-            setValidationErrors(error.response.data.errors)
-        } finally {
-            setSubmitting(false)
-        }
-    }
+    const isPropcessing = isSubmitting || isLoading
+    const disabled = isPropcessing
 
     return (
-        <form autoComplete="off" onSubmit={handleSubmit}>
-            <input type="hidden" name="user_uuid" value={userUuid || ''} />
-
+        <FormikForm
+            id="user-wallet-withdraw-form"
+            autoComplete="off"
+            isNew={false}
+            dirty={dirty}
+            processing={isPropcessing}
+            submitting={isSubmitting}
+            slotProps={{
+                submitButton: {
+                    disabled: disabled,
+                },
+            }}>
             <UserAutocomplete
-                fullWidth
-                disabled={loading}
-                onChange={(_, user) => {
-                    clearByName('user_uuid')
-                    setUserUuid(user?.uuid)
+                showRole
+                showNickname
+                label="Pengguna"
+                disabled={disabled}
+                value={user}
+                onChange={(_, value) => {
+                    setFieldValue('user_uuid', value?.uuid)
+                    setUser(value)
                 }}
-                textFieldProps={{
-                    required: true,
-                    label: 'Pengguna',
-                    margin: 'normal',
-                    error: Boolean(validationErrors.user_uuid),
-                    helperText:
-                        validationErrors.user_uuid ||
-                        (isLoading ? (
-                            <Skeleton />
-                        ) : (
-                            <NumericFormat
-                                value={userCash?.balance}
-                                prefix="Saldo: Rp. "
-                                displayType="text"
-                                decimalScale={0}
-                            />
-                        )),
-                }}
-            />
-
-            <SelectFromApi
-                disabled={loading}
-                fullWidth
-                endpoint="/data/cashes"
-                label="Dari kas"
-                required
-                margin="dense"
-                selectProps={{
-                    name: 'from_cash_uuid',
-                }}
-                defaultValue=""
-                onValueChange={value => {
-                    clearByName('from_cash_uuid')
-                    setFromCash(value)
-                }}
-                error={Boolean(validationErrors.from_cash_uuid)}
+                error={Boolean(errors.user_uuid)}
                 helperText={
-                    validationErrors.from_cash_uuid || (
-                        <NumericFormat
-                            value={fromCash?.balance}
-                            displayType="text"
-                            prefix="Saldo: Rp. "
-                            decimalScale={0}
-                        />
-                    )
+                    errors.user_uuid ??
+                    'Saldo: ' + numberToCurrency(userCash?.balance ?? 0)
                 }
             />
 
-            <input type="hidden" name="amount" />
-
-            <TextField
-                disabled={loading}
-                fullWidth
+            <SelectFromApi
                 required
-                margin="normal"
-                label="Jumlah"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">Rp</InputAdornment>
-                    ),
-                    inputComponent: NumericFormat as any,
+                endpoint="/data/cashes"
+                label="Telah Dibayar Dari Kas"
+                size="small"
+                margin="dense"
+                disabled={disabled}
+                selectProps={{
+                    value: from_cash_uuid ?? '',
                 }}
-                inputProps={{
-                    allowNegative: false,
-                    onValueChange: ({ floatValue }: any) => {
-                        clearByName('amount')
+                onValueChange={(cash: CashType) => {
+                    setFromCash(cash)
+                    setFieldValue('from_cash_uuid', cash.uuid)
+                }}
+                renderOption={(cash: CashType) => (
+                    <MenuItem key={cash.uuid} value={cash.uuid}>
+                        {cash.code && (
+                            <Chip
+                                label={cash.code}
+                                size="small"
+                                variant="outlined"
+                                sx={{
+                                    mr: 1,
+                                }}
+                            />
+                        )}
 
-                        document
-                            .querySelector('input[name="amount"]')
-                            ?.setAttribute('value', floatValue)
-                    },
-                }}
-                error={Boolean(validationErrors.amount)}
-                helperText={validationErrors.amount}
+                        {cash.name}
+                    </MenuItem>
+                )}
+                error={Boolean(errors?.from_cash_uuid)}
+                helperText={
+                    errors.user_uuid ??
+                    'Saldo: ' + numberToCurrency(fromCash?.balance ?? 0)
+                }
             />
 
-            {actionsSlot}
-        </form>
+            <NumericFormat
+                min="10000"
+                disabled={disabled}
+                label="Jumlah Penarikan"
+                InputProps={{
+                    startAdornment: <RpInputAdornment />,
+                }}
+                onValueChange={({ floatValue }) =>
+                    setFieldValue('amount', floatValue)
+                }
+                value={amount || ''}
+                {...errorsToHelperTextObj(errors.amount)}
+            />
+        </FormikForm>
     )
 }
 
-export default WalletWithdrawForm
+export type FormValuesType = Partial<{
+    user_uuid: UUID
+    from_cash_uuid: UUID
+    amount: number
+}>

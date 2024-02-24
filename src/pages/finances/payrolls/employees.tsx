@@ -44,6 +44,9 @@ export default function FinancesPayrollsEmployees() {
                 title="Riwayat"
                 tableId="product-purchases-table"
                 apiUrl={FinanceApiUrlEnum.PAYROLL_DATATABLE_DATA}
+                apiUrlParams={{
+                    type: 'employee',
+                }}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 // onRowClick={handleRowClick}
@@ -79,12 +82,9 @@ export default function FinancesPayrollsEmployees() {
     )
 }
 
-function DetailButton({ uuid }: { uuid: UUID }) {
-    const { push } = useRouter()
-
+function DetailButton({ uuid: payrollUuid }: { uuid: UUID }) {
     return (
-        <IconButton
-            onClick={() => push(`/finances/payrolls/employees/${uuid}`)}>
+        <IconButton href={`/finances/payrolls/employees/${payrollUuid}`}>
             <VisibilityIcon />
         </IconButton>
     )
