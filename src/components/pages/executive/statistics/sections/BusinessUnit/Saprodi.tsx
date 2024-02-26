@@ -11,10 +11,14 @@ import InOutLineChart, {
 import StatCard from '@/components/StatCard'
 // page components
 import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
+import ProductMovementTable, {
+    ProductMovementTableProp,
+} from '@/pages/farm-inputs/statitistics/ProductMovementTable'
 
 const SaprodiSubsection = memo(function SaprodiSubsection() {
     const { data, isLoading } = useSWR<{
         sale_purchase_monthly_total: InOutLineChartProps['data']
+        product_movements: ProductMovementTableProp['data']
     }>('executive/business-unit-section-data/farm-input')
 
     return (
@@ -28,6 +32,14 @@ const SaprodiSubsection = memo(function SaprodiSubsection() {
                         inboundAlias="Penjualan"
                         outboundAlias="Pembelian"
                     />
+                </StatCard>
+            </Grid2>
+
+            <Grid2 xs={12} id="barang-keluar-masuk" sx={SX_SCROLL_MARGIN_TOP}>
+                <StatCard
+                    title="Barang Keluar-Masuk — Bulanan"
+                    isLoading={isLoading}>
+                    <ProductMovementTable data={data?.product_movements} />
                 </StatCard>
             </Grid2>
         </Grid2>
