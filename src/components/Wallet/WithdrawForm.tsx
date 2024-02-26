@@ -124,7 +124,7 @@ export default function WalletWithdrawForm({
     )
 }
 
-export type FormValuesType = Partial<{
+type FormValuesType = Partial<{
     user_uuid: UUID
     from_cash_uuid: UUID
     amount: number

@@ -6,8 +6,5 @@
         "next-pwa",
         "react",
         "react-dom"
-    ],
-    "ignoreUnimported": [
-        "src/utils/formikOnSubmitConsole.ts"
     ]
 }
