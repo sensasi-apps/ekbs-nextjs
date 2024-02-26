@@ -35,7 +35,7 @@ const TableOfContents = memo(function TableOfContents() {
                 },
                 {
                     label: 'SAPRODI',
-                    lis: ['Penjualan-Pembelian'],
+                    lis: ['Penjualan-Pembelian', 'Barang Keluar-Masuk'],
                 },
                 {
                     label: 'SPP',

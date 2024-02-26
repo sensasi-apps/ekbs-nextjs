@@ -39,6 +39,7 @@ import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Rece
 // enums
 import Role from '@/enums/Role'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
+import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
 
 let getRowData: GetRowDataType<ProductSaleType>
 let mutate: MutateType<ProductSaleType>
@@ -295,11 +296,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'total_base_rp',
         label: 'Penyesuaian/Jasa',
         options: {
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'nowrap',
-                },
-            }),
+            setCellProps: nowrapMuiDatatableCellPropsFn,
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
@@ -316,11 +313,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'total_rp',
         label: 'Total Penjualan',
         options: {
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'nowrap',
-                },
-            }),
+            setCellProps: nowrapMuiDatatableCellPropsFn,
             sort: false,
             searchable: false,
             customBodyRender: value => numberToCurrency(value ?? 0),
@@ -334,7 +327,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             searchable: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
-                if (!data) return ''
+                if (!data || data.refund_from_product_sale) return ''
 
                 return (
                     <PrintHandler
@@ -356,16 +349,21 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             display: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
+
+                if (data?.refund_from_product_sale) {
+                    return `Refund untuk penjualan dengan kode: ${data.refund_from_product_sale.short_uuid}`
+                }
+
                 if (
                     !data ||
                     !data.is_paid ||
-                    (data.installments?.length ?? 0) > 0
+                    Boolean(
+                        data.installments?.find(installment =>
+                            Boolean(installment.transaction),
+                        ),
+                    )
                 )
                     return ''
-
-                if (data.refund_from_product_sale) {
-                    return `Refund untuk penjualan dengan kode: ${data.refund_from_product_sale.short_uuid}`
-                }
 
                 if (data.refund_product_sale) {
                     return `Telah di-refund tgl: ${toDmy(
