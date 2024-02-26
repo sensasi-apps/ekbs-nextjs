@@ -1,21 +1,13 @@
-import type { MUIDataTableColumn, MUIDataTableState } from 'mui-datatables'
+import type { MUIDataTableState } from 'mui-datatables'
 
-export default function formatToDatatableParams(
-    tableState: MUIDataTableState,
-    columns: MUIDataTableColumn[],
-) {
-    const orderIndex = columns.findIndex(
+export default function formatToDatatableParams(tableState: MUIDataTableState) {
+    const orderIndex = tableState.columns.findIndex(
         column => column.name === tableState.sortOrder.name,
     )
 
-    columns.forEach(column => {
-        // @ts-ignore
-        column.searchable = column?.options?.searchable
-    })
-
     const params = {
         draw: tableState.page + 1,
-        columns: columns,
+        columns: tableState.columns,
         order: [
             {
                 column: orderIndex,

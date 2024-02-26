@@ -1,4 +1,5 @@
 // types
+import type YajraDatatable from '@/types/responses/YajraDatatable'
 import type {
     MUIDataTableColumn,
     MUIDataTableOptions,
@@ -11,7 +12,6 @@ import type { SWRConfiguration } from 'swr'
 // vendors
 import { memo, useCallback, useState } from 'react'
 import useSWR from 'swr'
-import { debounceSearchRender } from 'mui-datatables'
 import dynamic from 'next/dynamic'
 // materials
 import Box from '@mui/material/Box'
@@ -24,8 +24,8 @@ import ReportIcon from '@mui/icons-material/Report'
 // locals
 import CustomHeadButton from './components/CustomHeadButton'
 // utils
+import debounce from '@/utils/debounce'
 import formatToDatatableParams from './utils/formatToDatatableParams'
-import YajraDatatable from '@/types/responses/YajraDatatable'
 
 const MUIDataTable = dynamic(() => import('mui-datatables'), {
     ssr: false,
@@ -34,6 +34,7 @@ const MUIDataTable = dynamic(() => import('mui-datatables'), {
 /**
  * @todo
  * - [ ] Don't make this global, it will cause bugs when datatable instance is more than one
+ * - [ ] table state always restart when data changed
  */
 
 let getRowData: <T = object>(index: number) => T | undefined
@@ -118,12 +119,13 @@ const Datatable = memo(function Datatable({
                 })
             }
 
-            setParams(formatToDatatableParams({ ...tableState }, columns))
+            debounce(() => setParams(formatToDatatableParams(tableState)), 350)
         },
         [],
     )
 
     const isRowClickable = Boolean(onRowClick)
+    const isHover = !isApiLoading && data.length > 0 && isRowClickable
 
     const options: MUIDataTableOptions = {
         tableId: tableId,
@@ -134,8 +136,8 @@ const Datatable = memo(function Datatable({
         selectableRows: 'none',
         download: false,
         print: false,
+        jumpToPage: true,
         count: recordsFiltered ?? recordsTotal ?? 0,
-        customSearchRender: debounceSearchRender(750),
         customToolbar: () => (
             <CustomHeadButton
                 aria-label="Refresh"
@@ -144,7 +146,7 @@ const Datatable = memo(function Datatable({
                 <RefreshIcon />
             </CustomHeadButton>
         ),
-        rowHover: isRowClickable,
+        rowHover: isHover,
         onRowClick: onRowClick as MUIDataTableOptions['onRowClick'],
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
@@ -160,7 +162,7 @@ const Datatable = memo(function Datatable({
     return (
         <Box
             sx={
-                isRowClickable
+                isHover
                     ? {
                           '& tbody tr:hover': {
                               cursor: 'pointer',
@@ -181,7 +183,7 @@ const Datatable = memo(function Datatable({
 
             <MUIDataTable
                 title={title}
-                data={data || []}
+                data={data}
                 columns={columns}
                 options={options}
             />
