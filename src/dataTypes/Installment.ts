@@ -13,6 +13,8 @@ type InstallmentDBTableType = {
     penalty_rp: number
     n_th: number
 
+    transaction?: TransactionType
+
     // table columns but practically unused
     // installmentable_uuid: UUID
 } & (
