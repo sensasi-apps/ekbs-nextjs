@@ -32,13 +32,15 @@ enum EmployeeStatusId {
 
 type Employee = {
     employee_status_id: EmployeeStatusId
-    employeeStatus: {
-        id: EmployeeStatusId
-        name: string
-    }
     joined_at: Ymd
     unjoined_at: Ymd | null
     unjoined_reason: string | null
     position: string
     note: string | null
+
+    // relations
+    employee_status?: {
+        id: EmployeeStatusId
+        name: string
+    }
 }
