@@ -28,9 +28,6 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
 }) {
     return (
         <Dialog open={open} onClose={onClose} maxWidth="lg">
-            <Button size="small" fullWidth onClick={onClose}>
-                Tutup
-            </Button>
             <Datatable
                 title={title}
                 tableId="PalmBunchReaPaymentDetailDatatable"
@@ -44,6 +41,9 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'wb_ticket_no', direction: 'asc' }}
             />
+            <Button size="small" fullWidth onClick={onClose}>
+                Tutup
+            </Button>
         </Dialog>
     )
 }
