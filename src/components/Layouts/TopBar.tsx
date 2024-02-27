@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 // materials
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -23,10 +24,13 @@ import useAuth from '@/providers/Auth'
 // components
 import TncpDialog from '@/components/TncpDialog'
 import { DRAWER_WIDTH } from './MenuList'
-
 import DarkModeSwitch from './TopBar/DarkModeSwitch'
 import FullscreenMenuItem from './TopBar/FullscreenMenuItem'
 import FooterBox from './FooterBox'
+import FlexColumnBox from '../FlexColumnBox'
+// utils
+import blink from '@/utils/cssAnimations/blink'
+import { useOnlineStatus } from '@/hooks/useOnlineStatus'
 
 export default function TopBar({
     title,
@@ -36,7 +40,7 @@ export default function TopBar({
     toggleDrawer: () => void
 }) {
     const { user } = useAuth()
-
+    const isOnline = useOnlineStatus()
     const router = useRouter()
 
     const [isOpenTncp, setIsOpenTncp] = useState(false)
@@ -64,15 +68,32 @@ export default function TopBar({
                     sx={{ mr: 2, display: { sm: 'none' } }}>
                     <MenuIcon />
                 </IconButton>
+
                 <Typography variant="h6" noWrap component="div">
                     {title}
                 </Typography>
+
                 <Box>
                     <IconButton
                         color="inherit"
+                        size="small"
+                        sx={{ position: 'relative' }}
                         onClick={event => setAnchorEl(event.currentTarget)}>
                         <AccountCircleIcon />
+                        {!isOnline && router.isReady && (
+                            <CircularProgress
+                                color="error"
+                                size={30}
+                                variant="determinate"
+                                value={100}
+                                sx={{
+                                    animation: `${blink} 1s linear infinite`,
+                                    position: 'absolute',
+                                }}
+                            />
+                        )}
                     </IconButton>
+
                     <Menu
                         anchorEl={anchorEl}
                         open={open}
@@ -80,11 +101,33 @@ export default function TopBar({
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}>
-                        <Box textAlign="center">
-                            <Typography variant="overline">
+                        <FlexColumnBox
+                            alignItems="center"
+                            textAlign="center"
+                            gap={0}
+                            my={1}>
+                            {!isOnline && router.isReady && (
+                                <Typography
+                                    variant="overline"
+                                    lineHeight="1rem"
+                                    width="20rem"
+                                    p={1}
+                                    sx={{
+                                        backgroundColor: 'error.main',
+                                    }}
+                                    mb={2}>
+                                    Perangkat anda sedang tidak terhubung ke
+                                    internet, data yang anda lihat mungkin tidak
+                                    ter-<i>update</i>.
+                                </Typography>
+                            )}
+                            <Typography variant="overline" lineHeight="1rem">
+                                #<strong>{user?.id}</strong> &mdash;{' '}
                                 {user?.name}
                             </Typography>
-                        </Box>
+                        </FlexColumnBox>
+
+                        <Divider sx={{ pt: 1 }} />
 
                         <DarkModeSwitch />
 
@@ -94,6 +137,7 @@ export default function TopBar({
                             <ListItemIcon>
                                 <SyncIcon />
                             </ListItemIcon>
+
                             <ListItemText>Muat Ulang Halaman</ListItemText>
 
                             <Typography variant="body2" color="text.secondary">
@@ -111,7 +155,14 @@ export default function TopBar({
                                 Syarat, Ketentuan, dan Kebijakan Privasi
                             </ListItemText>
                         </MenuItem>
+
+                        <TncpDialog
+                            open={isOpenTncp}
+                            handleClose={() => setIsOpenTncp(false)}
+                        />
+
                         <Divider />
+
                         <MenuItem onClick={() => router.push('/logout')}>
                             <ListItemIcon>
                                 <LogoutIcon fontSize="small" />
@@ -123,11 +174,6 @@ export default function TopBar({
                     </Menu>
                 </Box>
             </Toolbar>
-
-            <TncpDialog
-                open={isOpenTncp}
-                handleClose={() => setIsOpenTncp(false)}
-            />
         </AppBar>
     )
 }
