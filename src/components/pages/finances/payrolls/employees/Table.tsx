@@ -15,6 +15,8 @@ import TableContainer from '@mui/material/TableContainer'
 const TableFooter = dynamic(() => import('@mui/material/TableFooter'))
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import PrintHandler from '@/components/PrintHandler'
+import PayrollSlip from './Table/PayrollSlip'
 // icons
 import SettingsIcon from '@mui/icons-material/Settings'
 // utils
@@ -144,6 +146,10 @@ export default function PayrollsEmployeesTable({
                             {!data?.processed_by_user_uuid && (
                                 <TableCell>Atur</TableCell>
                             )}
+
+                            {!data?.processed_by_user_uuid && (
+                                <TableCell>Slip Gaji</TableCell>
+                            )}
                         </TableRow>
                     </TableHead>
 
@@ -223,6 +229,7 @@ export default function PayrollsEmployeesTable({
                                                 payrollUser.final_rp_cache,
                                             )}
                                         </TableCell>
+
                                         {!data?.processed_by_user_uuid && (
                                             <TableCell>
                                                 <IconButton
@@ -232,6 +239,17 @@ export default function PayrollsEmployeesTable({
                                                     }>
                                                     <SettingsIcon />
                                                 </IconButton>
+                                            </TableCell>
+                                        )}
+
+                                        {!data?.processed_by_user_uuid && (
+                                            <TableCell>
+                                                <PrintHandler>
+                                                    <PayrollSlip
+                                                        payrollData={data}
+                                                        data={payrollUser}
+                                                    />
+                                                </PrintHandler>
                                             </TableCell>
                                         )}
                                     </TableRow>

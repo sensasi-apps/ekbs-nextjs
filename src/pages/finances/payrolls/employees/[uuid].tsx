@@ -51,7 +51,7 @@ export default function Test() {
         !isReady || isSwrLoading || Boolean(data?.processed_by_user)
 
     return (
-        <AuthLayout title="">
+        <AuthLayout title="Rincian Penggajian">
             <BackButton />
 
             <Box display="flex" justifyContent="space-between" mb={2}>

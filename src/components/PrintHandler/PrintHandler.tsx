@@ -25,10 +25,17 @@ const PrintHandler = memo(function PrintHandler({
     | { content: ReactNode; children?: never }
     | { content?: never; children: ReactNode }
 )) {
-    const {
-        tooltip: { title = 'Cetak', placement = 'top', ...tooltipProps } = {},
-        printButton = {},
-    } = slotProps ?? {}
+    const tooltipProps: Omit<TooltipProps, 'children'> = {
+        title: 'Cetak',
+        placement: 'top',
+        ...(slotProps?.tooltip ?? {}),
+    }
+
+    const printButtonProps: IconButtonProps = {
+        size: 'small',
+        ...(slotProps?.printButton ?? {}),
+    }
+
     const toPrintContentRef = useRef(null)
 
     return (
@@ -37,12 +44,9 @@ const PrintHandler = memo(function PrintHandler({
                 pageStyle="@page { margin: auto; }"
                 content={() => toPrintContentRef.current}
                 trigger={() => (
-                    <Tooltip
-                        title={title}
-                        placement={placement}
-                        {...tooltipProps}>
+                    <Tooltip {...tooltipProps}>
                         <span>
-                            <IconButton {...printButton}>
+                            <IconButton {...printButtonProps}>
                                 <PrintIcon />
                             </IconButton>
                         </span>
