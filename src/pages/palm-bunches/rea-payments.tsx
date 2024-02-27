@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { getRowData, mutate } from '@/components/Datatable'
+import Datatable, { GetRowDataType, MutateType } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'
 import FormActions from '@/components/Global/Form/Actions'
@@ -23,6 +23,9 @@ import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import toDmy from '@/utils/toDmy'
 import ApiUrlEnum from '../../components/PalmBunchesReaPayment/ApiUrlEnum'
 import formatNumber from '@/utils/formatNumber'
+
+let getRowData: GetRowDataType<PalmBunchesReaPaymentDataType>
+let mutate: MutateType<PalmBunchesReaPaymentDataType>
 
 export default function PalmBuncesReaPaymentsPage() {
     return (
@@ -54,8 +57,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                 apiUrl={ApiUrlEnum.REA_PAYMENT_DATATABLE}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data =
-                            getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+                        const data = getRowData(dataIndex)
                         if (!data) return
 
                         return handleEdit(data)
@@ -63,6 +65,8 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                 }}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
             />
 
             <Dialog
@@ -124,10 +128,10 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Tanggal Pelunasan oleh REA',
         options: {
             customBodyRenderLite: dataIndex => {
-                const data =
-                    getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+                const data = getRowData(dataIndex)
 
-                if (!data) return ''
+                if (!data || !data.transactions || data.transactions.length < 0)
+                    return ''
 
                 return data.transactions[0]
                     ? toDmy(data.transactions[0].at)
@@ -151,8 +155,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
-                const data =
-                    getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+                const data = getRowData(dataIndex)
 
                 if (!data) return ''
 
@@ -168,8 +171,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
-                const data =
-                    getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+                const data = getRowData(dataIndex)
 
                 if (!data) return ''
 
@@ -185,8 +187,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
-                const data =
-                    getRowData<PalmBunchesReaPaymentDataType>(dataIndex)
+                const data = getRowData(dataIndex)
 
                 if (!data) return ''
 
