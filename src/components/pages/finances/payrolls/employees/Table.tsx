@@ -147,7 +147,7 @@ export default function PayrollsEmployeesTable({
                                 <TableCell>Atur</TableCell>
                             )}
 
-                            {!data?.processed_by_user_uuid && (
+                            {data?.processed_by_user_uuid && (
                                 <TableCell>Slip Gaji</TableCell>
                             )}
                         </TableRow>
@@ -242,7 +242,7 @@ export default function PayrollsEmployeesTable({
                                             </TableCell>
                                         )}
 
-                                        {!data?.processed_by_user_uuid && (
+                                        {data?.processed_by_user_uuid && (
                                             <TableCell>
                                                 <PrintHandler>
                                                     <PayrollSlip
@@ -259,6 +259,7 @@ export default function PayrollsEmployeesTable({
                     <TableFooter>
                         <TableRow>
                             <TableCell colSpan={5}>Total Bersih</TableCell>
+
                             <TableCell>
                                 {numberToCurrency(
                                     data?.users?.reduce(
@@ -268,7 +269,6 @@ export default function PayrollsEmployeesTable({
                                     ) ?? 0,
                                 )}
                             </TableCell>
-                            {!data?.processed_by_user_uuid && <TableCell />}
                         </TableRow>
                     </TableFooter>
                 </Table>
