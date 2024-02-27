@@ -10,9 +10,9 @@ import type { KeyedMutator } from 'swr'
 import type { OnRowClickType } from './types'
 import type { SWRConfiguration } from 'swr'
 // vendors
-import { memo, useCallback, useState } from 'react'
-import useSWR from 'swr'
+import { memo, useCallback, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
+import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -68,6 +68,7 @@ const Datatable = memo(function Datatable({
 }: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick'>) {
     const [params, setParams] = useState<any>()
     const [sortOrder, setSortOrder] = useState(defaultSortOrder)
+    const [overideLoading, setOverideLoading] = useState(false)
 
     const { keepPreviousData = true, ...restSwrOptions } = swrOptions || {}
 
@@ -85,6 +86,12 @@ const Datatable = memo(function Datatable({
         },
     )
 
+    useEffect(() => {
+        if (data) {
+            setOverideLoading(false)
+        }
+    }, [data])
+
     getRowData = index => data[index] as any
     mutatorForExport = mutate
 
@@ -95,6 +102,8 @@ const Datatable = memo(function Datatable({
     if (getRowDataCallback) {
         getRowDataCallback(index => data[index])
     }
+
+    const isLoading = isApiLoading || isValidating || overideLoading
 
     const handleFetchData = useCallback(
         (action: string, tableState: MUIDataTableState) => {
@@ -119,13 +128,14 @@ const Datatable = memo(function Datatable({
                 })
             }
 
+            setOverideLoading(true)
             debounce(() => setParams(formatToDatatableParams(tableState)), 350)
         },
         [],
     )
 
     const isRowClickable = Boolean(onRowClick)
-    const isHover = !isApiLoading && data.length > 0 && isRowClickable
+    const isHover = !isLoading && data.length > 0 && isRowClickable
 
     const options: MUIDataTableOptions = {
         tableId: tableId,
@@ -141,7 +151,7 @@ const Datatable = memo(function Datatable({
         customToolbar: () => (
             <CustomHeadButton
                 aria-label="Refresh"
-                disabled={isApiLoading || isValidating}
+                disabled={isLoading}
                 onClick={() => mutate()}>
                 <RefreshIcon />
             </CustomHeadButton>
@@ -152,7 +162,7 @@ const Datatable = memo(function Datatable({
         onTableChange: handleFetchData,
         textLabels: {
             body: {
-                noMatch: generateTextLabel(isApiLoading || isValidating, error),
+                noMatch: generateTextLabel(isLoading, error),
                 toolTip: 'Urutkan',
             },
         },
@@ -170,7 +180,7 @@ const Datatable = memo(function Datatable({
                       }
                     : undefined
             }>
-            {(isApiLoading || isValidating) && (
+            {isLoading && (
                 <LinearProgress
                     sx={{
                         borderTopLeftRadius: 11,
