@@ -3,40 +3,48 @@ import type { BoxProps } from '@mui/material/Box'
 import type { TypographyProps } from '@mui/material/Typography'
 // materials
 import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
+import Chip, { ChipProps } from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 
-const TxHistoryItem = ({
+export default function TxHistoryItem({
     desc,
     amount,
-    variant = 'body2',
+    slotProps,
     ...props
 }: BoxProps & {
     desc?: string | null
     amount: number
-    variant?: TypographyProps['variant']
-}) => (
-    <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        {...props}>
-        <Typography
-            variant={variant}
-            maxWidth="66%"
-            color={(amount ?? 0) > 0 ? 'success.main' : undefined}>
-            {desc}
-        </Typography>
+    slotProps?: {
+        typography?: TypographyProps
+        chip?: ChipProps
+    }
+}) {
+    const { typography: tProps, chip: chipProps } = slotProps ?? {}
+    const isInbound = amount > 0
 
-        <Chip
-            label={numberToCurrency(amount)}
-            color={(amount ?? 0) > 0 ? 'success' : undefined}
-            size="small"
-            variant="outlined"
-        />
-    </Box>
-)
+    return (
+        <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            {...props}>
+            <Typography
+                variant="body2"
+                maxWidth="66%"
+                color={isInbound ? 'success.main' : undefined}
+                {...tProps}>
+                {desc}
+            </Typography>
 
-export default TxHistoryItem
+            <Chip
+                label={numberToCurrency(amount)}
+                color={isInbound ? 'success' : undefined}
+                size="small"
+                variant="outlined"
+                {...chipProps}
+            />
+        </Box>
+    )
+}

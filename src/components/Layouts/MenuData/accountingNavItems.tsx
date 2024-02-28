@@ -12,6 +12,7 @@ import GroupTitle from './GroupTitle'
 import Role from '@/enums/Role'
 import Cash from '@/enums/permissions/Cash'
 import Finance from '@/enums/permissions/Finance'
+import Wallet from '@/enums/permissions/Wallet'
 
 const accountingNavItems: NavItem[] = [
     {
@@ -51,7 +52,7 @@ const accountingNavItems: NavItem[] = [
         label: 'Wallet Pengguna',
         pathname: '/wallets',
         icon: <AccountBalanceWalletIcon />,
-        forRole: Role.CASH_MANAGER,
+        forPermission: Wallet.READ_USER_WALLET,
     },
     {
         href: '/receivables',
