@@ -10,7 +10,7 @@ import type { KeyedMutator } from 'swr'
 import type { OnRowClickType } from './types'
 import type { SWRConfiguration } from 'swr'
 // vendors
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import dynamic from 'next/dynamic'
 import useSWR from 'swr'
 // materials
@@ -68,7 +68,7 @@ const Datatable = memo(function Datatable({
 }: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick'>) {
     const [params, setParams] = useState<any>()
     const [sortOrder, setSortOrder] = useState(defaultSortOrder)
-    const [overideLoading, setOverideLoading] = useState(false)
+    const [initialLoading, setInitialLoading] = useState(false)
 
     const { keepPreviousData = true, ...restSwrOptions } = swrOptions || {}
 
@@ -86,12 +86,6 @@ const Datatable = memo(function Datatable({
         },
     )
 
-    useEffect(() => {
-        if (data) {
-            setOverideLoading(false)
-        }
-    }, [data])
-
     getRowData = index => data[index] as any
     mutatorForExport = mutate
 
@@ -103,7 +97,7 @@ const Datatable = memo(function Datatable({
         getRowDataCallback(index => data[index])
     }
 
-    const isLoading = isApiLoading || isValidating || overideLoading
+    const isLoading = isApiLoading || isValidating || initialLoading
 
     const handleFetchData = useCallback(
         (action: string, tableState: MUIDataTableState) => {
@@ -128,8 +122,11 @@ const Datatable = memo(function Datatable({
                 })
             }
 
-            setOverideLoading(true)
-            debounce(() => setParams(formatToDatatableParams(tableState)), 350)
+            setInitialLoading(true)
+            debounce(() => {
+                setParams(formatToDatatableParams(tableState))
+                setInitialLoading(false)
+            }, 350)
         },
         [],
     )

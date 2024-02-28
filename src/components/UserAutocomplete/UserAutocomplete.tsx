@@ -47,13 +47,16 @@ export default function UserAutocomplete<
     showNickname?: boolean
 }) {
     const [inputValue, setInputValue] = useState('')
+    const [initialLoading, setInitialLoading] = useState(false)
+
+    const isAllowedToFetch = inputValue && inputValue.length >= 3
 
     const {
         data: options = [],
         isLoading,
         isValidating,
     } = useSWR<UserType[]>(
-        inputValue && inputValue.length >= 3
+        isAllowedToFetch
             ? [
                   '/users/search',
                   {
@@ -63,7 +66,7 @@ export default function UserAutocomplete<
             : null,
     )
 
-    const loading = isValidating || isLoading
+    const loading = isValidating || isLoading || initialLoading
 
     return (
         <MuiAutocomplete
@@ -86,9 +89,16 @@ export default function UserAutocomplete<
             }
             filterOptions={x => x}
             loading={loading}
-            onInputChange={(_, value) =>
-                debounce(() => (value ? setInputValue(value) : null), 350)
-            }
+            onInputChange={(_, value) => {
+                if (isAllowedToFetch) {
+                    setInitialLoading(true)
+                }
+
+                debounce(() => {
+                    value ? setInputValue(value) : null
+                    setInitialLoading(false)
+                }, 350)
+            }}
             renderOption={(props, option) => (
                 <li
                     {...props}
