@@ -16,6 +16,7 @@ import useSWR from 'swr'
 import debounce from '@/utils/debounce'
 import RoleChips from '../User/RoleChips'
 import ScrollableXBox from '../ScrollableXBox'
+import { TextFieldProps } from '@mui/material'
 
 export default function UserAutocomplete<
     Multiple extends boolean | undefined = false,
@@ -28,6 +29,7 @@ export default function UserAutocomplete<
     showNickname,
     error,
     helperText,
+    textFieldProps = {},
     ...props
 }: Omit<
     AutocompleteProps<
@@ -39,6 +41,7 @@ export default function UserAutocomplete<
     > & {
         error?: boolean
         helperText?: ReactNode
+        textFieldProps?: Omit<TextFieldProps, 'error' | 'helperText'>
     },
     'options' | 'renderInput' | 'freeSolo'
 > & {
@@ -141,6 +144,7 @@ export default function UserAutocomplete<
                     name="user_uuid"
                     error={error}
                     helperText={helperText}
+                    {...textFieldProps}
                 />
             )}
             {...props}
