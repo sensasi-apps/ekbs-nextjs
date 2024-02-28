@@ -1,31 +1,33 @@
-import { useRouter } from 'next/router/'
-
+// vendors
+import { useRouter } from 'next/router'
+// materials
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
+import CardHeader, { CardHeaderProps } from '@mui/material/CardHeader'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-
+// mui labs
 import Masonry from '@mui/lab/Masonry'
-
-import UserCrud from '../User/Crud'
+// components
+import UserAutocomplete from '@/components/UserAutocomplete'
+// page components
+import { getRoleIconByIdName } from '@/components/User/RoleChips'
+import UserAddressesCrudBox from '@/components/User/Address/CrudBox'
+import UserBankAccsCrudBox from '@/components/User/BankAccs/CrudBox'
+import UserCrud from '@/components/User/Crud'
+import UserDetailCrud from '@/components/User/Detail/Crud'
+import UserDriversCrudBox from '@/components/User/Drivers/CrudBox'
+import UserEmployeeCrud from '@/components/User/Employee/Crud'
+import UserLandsCrud from '@/components/User/Lands/Crud'
+import UserMemberCrudCard from '@/components/User/Member/CrudCard'
+import UserSocialsCrudBox from '@/components/User/Socials/CrudBox'
+import UserVehiclesCrudBox from '@/components/User/Vehicles/CrudBox'
 import UsersSummaryBox from '@/components/Users/SummaryBox'
-import UserSelect from '@/components/User/Select'
-import UserDetailCrud from '../User/Detail/Crud'
-import UserBankAccsCrudBox from '../User/BankAccs/CrudBox'
-import UserAddressesCrudBox from '../User/Address/CrudBox'
-import UserSocialsCrudBox from '../User/Socials/CrudBox'
-import UserEmployeeCrud from '../User/Employee/Crud'
-
+// utils
 import useUserWithDetails, {
     UserWithDetailsProvider,
 } from '@/providers/UserWithDetails'
-import UserMemberCrudCard from '../User/Member/CrudCard'
-import { getRoleIconByIdName } from '../User/RoleChips'
-import UserDriversCrudBox from '../User/Drivers/CrudBox'
-import UserVehiclesCrudBox from '../User/Vehicles/CrudBox'
-import UserLandsCrud from '../User/Lands/Crud'
 import useAuth from '@/providers/Auth'
 
 const GRID_CONTAINER_SX = {
@@ -36,7 +38,7 @@ const GRID_CONTAINER_SX = {
     },
 }
 
-const TITLE_TYPORAPHY_PROPS = {
+const TITLE_TYPORAPHY_PROPS: CardHeaderProps['titleTypographyProps'] = {
     variant: 'body1',
     fontWeight: 'bold',
 }
@@ -44,8 +46,7 @@ const TITLE_TYPORAPHY_PROPS = {
 const PT_0_SX = { pt: 0 }
 
 const Component = () => {
-    const router = useRouter()
-
+    const { push, replace } = useRouter()
     const { userHasRole } = useAuth()
 
     const {
@@ -56,7 +57,7 @@ const Component = () => {
     } = useUserWithDetails()
 
     if (error?.response?.status === 404) {
-        router.replace('/users')
+        replace('/users')
     }
 
     // ########## NON HOOKS ##########
@@ -89,12 +90,6 @@ const Component = () => {
         isReady &&
         (vehicles?.length > 0 || userHasRole('pengangkut', userWithDetails))
 
-    const userSelectOnChange = (e, value) => {
-        if (!value) return router.push('/users')
-
-        return router.push(`/users/${value.uuid}`)
-    }
-
     return (
         <Grid container spacing={3} sx={GRID_CONTAINER_SX}>
             <Grid
@@ -104,7 +99,21 @@ const Component = () => {
                 display="flex"
                 flexDirection="column"
                 gap={3}>
-                <UserSelect onChange={userSelectOnChange} />
+                <UserAutocomplete
+                    showNickname
+                    showRole
+                    label="Cari Pengguna"
+                    textFieldProps={{
+                        margin: 'none',
+                        required: false,
+                        size: 'medium',
+                    }}
+                    onChange={(_, value) => {
+                        if (!value) return push('/users')
+
+                        return push(`/users/${value.uuid}`)
+                    }}
+                />
 
                 <Fade in={isReady} exit={false}>
                     <UserCrud />

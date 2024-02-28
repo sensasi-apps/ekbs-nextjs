@@ -1,14 +1,15 @@
-import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Skeleton,
-    Typography,
-} from '@mui/material'
-
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
+// icons
 import EditIcon from '@mui/icons-material/Edit'
-
+// components
+import ScrollableXBox from '@/components/ScrollableXBox'
+// etc
 import RolesAndPermissionButtonAndDialogForm from './RolesAndPermissions/ButtonAndDialogForm'
 import SetPasswordButtonAndDialogForm from './SetPasswordButtonAndDialogForm'
 import IsActiveDisplay from './IsActiveDisplay'
@@ -16,7 +17,7 @@ import UserRoleChips from './RoleChips'
 import useFormData from '@/providers/FormData'
 import useUserWithDetails from '@/providers/UserWithDetails'
 
-const UserCard = () => {
+export default function UserCard() {
     const { handleEdit } = useFormData()
     const { data: userWithDetails, isLoading } = useUserWithDetails()
 
@@ -55,11 +56,15 @@ const UserCard = () => {
                             Peran:
                             <Box component="span" ml={1}>
                                 <RolesAndPermissionButtonAndDialogForm
+                                    isLoading={!Boolean(userWithDetails)}
                                     data={userWithDetails}
                                 />
                             </Box>
                         </Typography>
-                        <UserRoleChips data={role_names_id} size="small" />
+
+                        <ScrollableXBox>
+                            <UserRoleChips data={role_names_id} size="small" />
+                        </ScrollableXBox>
                     </Box>
 
                     <IsActiveDisplay isActive={userWithDetails?.is_active} />
@@ -80,14 +85,9 @@ const UserCard = () => {
                         Perbaharui data akun
                     </Button>
 
-                    <SetPasswordButtonAndDialogForm
-                        data={userWithDetails}
-                        isLoading={isLoading}
-                    />
+                    <SetPasswordButtonAndDialogForm data={userWithDetails} />
                 </Box>
             </CardContent>
         </Card>
     )
 }
-
-export default UserCard
