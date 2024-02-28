@@ -28,6 +28,7 @@ const PrintHandler = memo(function PrintHandler({
     const tooltipProps: Omit<TooltipProps, 'children'> = {
         title: 'Cetak',
         placement: 'top',
+        arrow: true,
         ...(slotProps?.tooltip ?? {}),
     }
 
