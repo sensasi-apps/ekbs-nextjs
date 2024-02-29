@@ -60,7 +60,7 @@ export default function ProductMovementTable({
                 <TableBody>
                     {!data && (
                         <TableRow>
-                            <TableCell colSpan={4} align="center">
+                            <TableCell colSpan={7} align="center">
                                 <i>Tidak ada data</i>
                             </TableCell>
                         </TableRow>
