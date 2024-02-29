@@ -269,6 +269,8 @@ export default function PayrollsEmployeesTable({
                                     ) ?? 0,
                                 )}
                             </TableCell>
+
+                            <TableCell />
                         </TableRow>
                     </TableFooter>
                 </Table>

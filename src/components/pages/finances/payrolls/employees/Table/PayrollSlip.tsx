@@ -200,9 +200,9 @@ const PayrollSlip = memo(function PayrollSlip({
                 <Typography>Muai, {dayjs(at).format('D MMMM YYYY')}</Typography>
                 <Typography mb={4}>
                     {processed_by_user?.employee?.employee_status?.name ??
-                        'Jabatan'}
+                        '[Jabatan]'}
                 </Typography>
-                <Typography>{processed_by_user?.name ?? 'Nama'}</Typography>
+                <Typography>{processed_by_user?.name ?? '[Nama]'}</Typography>
             </Box>
         </FlexColumnBox>
     )
