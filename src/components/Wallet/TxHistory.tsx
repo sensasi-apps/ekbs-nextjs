@@ -27,6 +27,7 @@ import FlexColumnBox from '../FlexColumnBox'
 import Wallet from '@/enums/permissions/Wallet'
 import useAuth from '@/providers/Auth'
 import WalletTxButtonAndForm from './TxButtonAndForm'
+import InfoBox from '../InfoBox'
 
 const DEFAULT_START_DATE = dayjs().startOf('month')
 const DEFAULT_END_DATE = dayjs()
@@ -135,8 +136,45 @@ export default function TxHistory({
                                     disabled: loading,
                                 },
                             }}>
-                            <Header data={walletData} />
-                            {!loading && txs && <TxsList data={txs} />}
+                            <>
+                                <FlexColumnBox gap={1}>
+                                    <Typography>Mutasi EKBS Wallet</Typography>
+                                    <Box>
+                                        <Typography
+                                            variant="caption"
+                                            color="text.disabled"
+                                            component="div">
+                                            Periode Transaksi:
+                                        </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            component="div">
+                                            {toDmy(fromDate)} s/d{' '}
+                                            {toDmy(toDate)}
+                                        </Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography
+                                            variant="caption"
+                                            color="text.disabled"
+                                            component="div">
+                                            Waktu Cetak:
+                                        </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            component="div">
+                                            {dayjs().format(
+                                                'DD-MM-YYYY HH:mm:ss',
+                                            )}
+                                        </Typography>
+                                    </Box>
+                                </FlexColumnBox>
+
+                                <FlexColumnBox gap={2}>
+                                    <Header data={walletData} />
+                                    {!loading && txs && <Body data={txs} />}
+                                </FlexColumnBox>
+                            </>
                         </PrintHandler>
                     )}
 
@@ -164,7 +202,7 @@ export default function TxHistory({
             )}
 
             {loading && <Skeletons />}
-            {!loading && txs && <TxsList data={txs} />}
+            {!loading && txs && <Body data={txs} />}
         </FlexColumnBox>
     )
 }
@@ -172,7 +210,9 @@ export default function TxHistory({
 function Header({ data }: { data: WalletType | undefined }) {
     return (
         <Box textAlign="center">
-            <Typography color="text.disabled">Saldo</Typography>
+            <Typography color="text.disabled" variant="caption">
+                Saldo Saat Ini:
+            </Typography>
             <Typography color="text.secondary">
                 #{data?.user?.id} &mdash; {data?.user?.name}
             </Typography>
@@ -184,6 +224,37 @@ function Header({ data }: { data: WalletType | undefined }) {
                 {numberToCurrency(data?.balance ?? 0)}
             </Typography>
         </Box>
+    )
+}
+
+function Body({ data: txs }: { data: ApiResponseType }) {
+    return (
+        <>
+            <Box>
+                <Typography
+                    lineHeight="1em"
+                    variant="overline"
+                    color="text.disabled"
+                    component="div"
+                    fontWeight="bold"
+                    mb={0.5}>
+                    Rangkuman
+                </Typography>
+                <SummaryTable data={txs} />
+            </Box>
+
+            <Box>
+                <Typography
+                    variant="overline"
+                    lineHeight="1em"
+                    color="text.disabled"
+                    component="div"
+                    fontWeight="bold">
+                    Rincian
+                </Typography>
+                <TxsList data={txs} />
+            </Box>
+        </>
     )
 }
 
@@ -208,7 +279,7 @@ function TxsList({ data: txs }: { data: ApiResponseType }) {
     }
 
     return (
-        <FlexColumnBox gap={1} mt={1}>
+        <FlexColumnBox gap={1}>
             <TxHistoryItem
                 desc="Saldo Awal"
                 amount={txs.balanceFrom}
@@ -227,7 +298,6 @@ function TxsList({ data: txs }: { data: ApiResponseType }) {
                     {txs.data.map(tx => (
                         <div key={tx.uuid}>
                             {dateHandler(tx.at)}
-
                             <TxHistoryItem desc={tx.desc} amount={tx.amount} />
                         </div>
                     ))}
@@ -255,5 +325,44 @@ function TxsList({ data: txs }: { data: ApiResponseType }) {
                 }}
             />
         </FlexColumnBox>
+    )
+}
+
+function SummaryTable({ data }: { data: ApiResponseType }) {
+    return (
+        <InfoBox
+            ml="-3px"
+            sx={{
+                '*': {
+                    lineHeight: '1.1em',
+                },
+            }}
+            data={[
+                {
+                    label: 'Saldo Awal',
+                    value: numberToCurrency(data.balanceFrom),
+                },
+                {
+                    label: 'Saldo Masuk',
+                    value: numberToCurrency(
+                        data.data
+                            .filter(tx => tx.amount > 0)
+                            .reduce((acc, tx) => acc + tx.amount, 0),
+                    ),
+                },
+                {
+                    label: 'Saldo Keluar',
+                    value: numberToCurrency(
+                        data.data
+                            .filter(tx => tx.amount < 0)
+                            .reduce((acc, tx) => acc + tx.amount, 0),
+                    ),
+                },
+                {
+                    label: 'Saldo Akhir',
+                    value: numberToCurrency(data.balanceTo),
+                },
+            ]}
+        />
     )
 }
