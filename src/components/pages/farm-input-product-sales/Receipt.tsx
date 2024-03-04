@@ -13,6 +13,7 @@ import ReceiptInstalmentTable from '@/components/pages/farm-input-product-sales/
 // utils
 import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
+import dayjs from 'dayjs'
 
 const ProductSaleReceipt = memo(function ProductSaleReceipt({
     data,
@@ -252,6 +253,26 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                     <ReceiptInstalmentTable data={data} />
                 </>
             )}
+
+            <Box
+                mt={2}
+                sx={{
+                    '*': {
+                        lineHeight: '1em',
+                    },
+                }}>
+                <Typography variant="body2">
+                    Desa Muai, {dayjs(at).format('D MMMM YYYY')}
+                </Typography>
+
+                <Typography variant="body2" mb={6}>
+                    Pembeli
+                </Typography>
+
+                <Typography variant="body2" textTransform="capitalize">
+                    #{buyer_user?.id} &mdash; {buyer_user?.name.toLowerCase()}
+                </Typography>
+            </Box>
         </Box>
     )
 })

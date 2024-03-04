@@ -197,7 +197,9 @@ const PayrollSlip = memo(function PayrollSlip({
             />
 
             <Box>
-                <Typography>Muai, {dayjs(at).format('D MMMM YYYY')}</Typography>
+                <Typography>
+                    Desa Muai, {dayjs(at).format('D MMMM YYYY')}
+                </Typography>
                 <Typography mb={4}>
                     {processed_by_user?.employee?.employee_status?.name ??
                         '[Jabatan]'}
