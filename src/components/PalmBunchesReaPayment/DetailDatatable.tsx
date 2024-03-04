@@ -4,6 +4,8 @@ import type { UUID } from 'crypto'
 // vendors
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
@@ -27,22 +29,35 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
     onClose: () => unknown
 }) {
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="lg">
-            <Datatable
-                title={title}
-                tableId="PalmBunchReaPaymentDetailDatatable"
-                apiUrl={ApiUrlEnum.REA_PAYMENT_DETAIL_DATATABLE.replace(
-                    '$1',
-                    uuid,
-                )}
-                apiUrlParams={{
-                    type: type,
-                }}
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'wb_ticket_no', direction: 'asc' }}
-            />
-            <Button size="small" fullWidth onClick={onClose}>
-                Tutup
+        <Dialog open={open} onClose={onClose} fullScreen>
+            <DialogContent
+                sx={{
+                    p: 0,
+                }}>
+                <Datatable
+                    title={title}
+                    tableId="PalmBunchReaPaymentDetailDatatable"
+                    apiUrl={ApiUrlEnum.REA_PAYMENT_DETAIL_DATATABLE.replace(
+                        '$1',
+                        uuid,
+                    )}
+                    apiUrlParams={{
+                        type: type,
+                    }}
+                    columns={DATATABLE_COLUMNS}
+                    defaultSortOrder={{
+                        name: 'wb_ticket_no',
+                        direction: 'asc',
+                    }}
+                />
+            </DialogContent>
+            <Button fullWidth onClick={onClose} color="warning">
+                <DialogActions
+                    sx={{
+                        p: 0,
+                    }}>
+                    Tutup
+                </DialogActions>
             </Button>
         </Dialog>
     )
