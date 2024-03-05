@@ -39,15 +39,13 @@ type ApiResponseType = {
 }
 
 export default function TxHistory({
-    walletData,
+    walletData: walletDataCache,
     canPrint,
     canExportExcel,
-    onSubmit = () => {},
 }: {
     walletData: WalletType
     canPrint?: boolean
     canExportExcel?: boolean
-    onSubmit?: () => any
 }) {
     const { userHasPermission } = useAuth()
     const [fromDate, setFromDate] = useState(DEFAULT_START_DATE)
@@ -57,23 +55,39 @@ export default function TxHistory({
         data: txs,
         isLoading,
         isValidating,
-        mutate,
+        mutate: mutateHistory,
     } = useSWR<ApiResponseType>(
-        walletData?.uuid
+        walletDataCache?.uuid
             ? [
-                  `/wallets/transactions/${walletData.uuid}`,
+                  `/wallets/transactions/${walletDataCache.uuid}`,
                   {
                       fromDate: fromDate.format('YYYY-MM-DD'),
                       toDate: toDate.format('YYYY-MM-DD'),
                   },
               ]
             : null,
-        {
-            keepPreviousData: true,
-        },
+        null,
+        { keepPreviousData: true },
     )
 
-    const loading = isLoading || isValidating
+    const {
+        data: walletData = walletDataCache,
+        isLoading: isWalletDataLoading,
+        isValidating: isWalletDataValidating,
+        mutate: mutateWalletData,
+    } = useSWR<WalletType>(
+        walletDataCache?.user_uuid
+            ? `/wallets/user/${walletDataCache.user_uuid}`
+            : null,
+        null,
+        { keepPreviousData: true },
+    )
+
+    const loading =
+        isLoading ||
+        isValidating ||
+        isWalletDataLoading ||
+        isWalletDataValidating
 
     return (
         <FlexColumnBox>
@@ -122,8 +136,8 @@ export default function TxHistory({
                             <WalletTxButtonAndForm
                                 data={walletData}
                                 onSubmit={() => {
-                                    onSubmit()
-                                    mutate()
+                                    mutateHistory()
+                                    mutateWalletData()
                                 }}
                             />
                         )}
