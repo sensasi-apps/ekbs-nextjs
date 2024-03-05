@@ -1,10 +1,16 @@
 // vendor
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 // materials
 import AppBar from '@mui/material/AppBar'
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
+// import Collapse from '@mui/material/Collapse'
+const Collapse = dynamic(() => import('@mui/material/Collapse'), {
+    ssr: false,
+})
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -30,6 +36,7 @@ import FooterBox from './FooterBox'
 import FlexColumnBox from '../FlexColumnBox'
 // utils
 import blink from '@/utils/cssAnimations/blink'
+// hooks
 import { useOnlineStatus } from '@/hooks/useOnlineStatus'
 
 export default function TopBar({
@@ -55,6 +62,16 @@ export default function TopBar({
                 width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
                 ml: { sm: `${DRAWER_WIDTH}px` },
             }}>
+            <Collapse in={!isOnline}>
+                <Alert
+                    variant="filled"
+                    severity="error"
+                    sx={{
+                        borderRadius: 0,
+                    }}>
+                    Perangkat Anda sedang tidak terhubung ke internet.
+                </Alert>
+            </Collapse>
             <Toolbar
                 sx={{
                     display: 'flex',

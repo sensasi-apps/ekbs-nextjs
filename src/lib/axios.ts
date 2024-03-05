@@ -4,7 +4,6 @@ import type { AxiosError } from 'axios'
 import Axios from 'axios'
 // utils
 import getCookie from '@/utils/getCookie'
-import handleRequestError from './axios/handleRequestError'
 import handleServerError from './axios/handleServerError'
 
 const axios = Axios.create({
@@ -27,16 +26,26 @@ axios.interceptors.request.use(request => {
     return request
 })
 
-axios.interceptors.response.use(undefined, (error: AxiosError) => {
-    const { response, request } = error
+axios.interceptors.response.use(
+    response => {
+        window.dispatchEvent(new CustomEvent('axiosRequestFulfilled'))
+        return response
+    },
+    (error: AxiosError) => {
+        const { response, request } = error
 
-    if (response) {
-        handleServerError(response)
-    } else if (request) {
-        handleRequestError(error)
-    }
+        if (response) {
+            handleServerError(response)
+        } else if (request) {
+            const { code } = request
 
-    return Promise.reject(error)
-})
+            if (code === 'ERR_NETWORK') {
+                window.dispatchEvent(new CustomEvent('ErrNetwork'))
+            }
+        }
+
+        return Promise.reject(error)
+    },
+)
 
 export default axios

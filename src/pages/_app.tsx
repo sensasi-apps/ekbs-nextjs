@@ -4,7 +4,6 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
 import type { AppProps } from 'next/app'
-import type { SnackbarKey } from 'notistack'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/id'
@@ -17,9 +16,8 @@ import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
-import { useEffect } from 'react'
 import { SWRConfig } from 'swr'
-import { closeSnackbar, enqueueSnackbar, SnackbarProvider } from 'notistack'
+import { closeSnackbar, SnackbarProvider } from 'notistack'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 
 const Typography = dynamic(() => import('@mui/material/Typography'))
@@ -30,16 +28,6 @@ import axios from '@/lib/axios'
 import getTheme from '@/lib/getTheme'
 
 export default function App({ Component, pageProps }: AppProps) {
-    useEffect(() => {
-        window.addEventListener('online', onlineNotification, false)
-        window.addEventListener('offline', offlineNotification, false)
-
-        return () => {
-            window.removeEventListener('online', onlineNotification, false)
-            window.removeEventListener('offline', offlineNotification, false)
-        }
-    }, [])
-
     return (
         <CssVarsProvider theme={getTheme()}>
             <GlobalStyles
@@ -144,25 +132,5 @@ export default function App({ Component, pageProps }: AppProps) {
                 </Typography>
             )}
         </CssVarsProvider>
-    )
-}
-
-let persistedSnacbarKey: SnackbarKey
-
-const onlineNotification = () => {
-    closeSnackbar(persistedSnacbarKey)
-
-    enqueueSnackbar('Anda kembali online', {
-        variant: 'success',
-    })
-}
-
-const offlineNotification = () => {
-    persistedSnacbarKey = enqueueSnackbar(
-        'Anda tidak terhubung ke internet, mohon periksa kembali jaringan anda',
-        {
-            variant: 'warning',
-            persist: true,
-        },
     )
 }
