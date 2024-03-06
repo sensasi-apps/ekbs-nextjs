@@ -3,11 +3,14 @@ import type ProductType from '@/dataTypes/Product'
 // materials
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
-import TableHead from '@mui/material/TableHead'
 import TableBody from '@mui/material/TableBody'
-import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
+import TableFooter from '@mui/material/TableFooter'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+// utils
 import formatNumber from '@/utils/formatNumber'
+import numberToCurrency from '@/utils/numberToCurrency'
 
 export default function ProductMovementTable({
     data,
@@ -39,7 +42,9 @@ export default function ProductMovementTable({
                         <TableCell colSpan={monthLabels.length * 2}>
                             Bulan
                         </TableCell>
-                        <TableCell rowSpan={3}>Stok Akhir</TableCell>
+                        <TableCell rowSpan={2} colSpan={3}>
+                            Stok Akhir
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         {monthLabels.map(({ label, label_value }) => (
@@ -50,11 +55,11 @@ export default function ProductMovementTable({
                     </TableRow>
                     <TableRow>
                         {monthLabels.map((_, i) => (
-                            <>
-                                <TableCell key={i}>Masuk</TableCell>
-                                <TableCell key={i}>Keluar</TableCell>
-                            </>
+                            <MasukKeluarCell key={i} in="Masuk" out="Keluar" />
                         ))}
+                        <TableCell>Jumlah</TableCell>
+                        <TableCell>Biaya Dasar</TableCell>
+                        <TableCell>Nilai</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -67,7 +72,7 @@ export default function ProductMovementTable({
                     )}
 
                     {data?.map((row, i) => (
-                        <TableRow key={row.id}>
+                        <TableRow key={i}>
                             <TableCell>{i + 1}</TableCell>
                             <TableCell>{row.category_name}</TableCell>
                             <TableCell>{row.code}</TableCell>
@@ -84,21 +89,47 @@ export default function ProductMovementTable({
                                 )
 
                                 return (
-                                    <>
-                                        <TableCell>
-                                            {movement?.in ?? 0}
-                                        </TableCell>
-                                        <TableCell>
-                                            {movement?.out ?? 0}
-                                        </TableCell>
-                                    </>
+                                    <MasukKeluarCell
+                                        key={label_value}
+                                        in={movement?.in ?? 0}
+                                        out={movement?.out ?? 0}
+                                    />
                                 )
                             })}
 
                             <TableCell>{formatNumber(row.final_qty)}</TableCell>
+                            <TableCell>
+                                {numberToCurrency(
+                                    row.base_cost_rp_per_unit ?? 0,
+                                )}
+                            </TableCell>
+                            <TableCell>
+                                {numberToCurrency(
+                                    (row.final_qty ?? 0) *
+                                        (row.base_cost_rp_per_unit ?? 0),
+                                )}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TableCell colSpan={7 + monthLabels.length * 2}>
+                            Total
+                        </TableCell>
+                        <TableCell>
+                            {numberToCurrency(
+                                data?.reduce(
+                                    (a, b) =>
+                                        a +
+                                        (b.final_qty ?? 0) *
+                                            (b.base_cost_rp_per_unit ?? 0),
+                                    0,
+                                ) ?? 0,
+                            )}
+                        </TableCell>
+                    </TableRow>
+                </TableFooter>
             </Table>
         </TableContainer>
     )
@@ -108,6 +139,7 @@ export type ProductMovementTableProp = {
     data?: {
         id: ProductType['id']
         category_name: ProductType['category_name']
+        base_cost_rp_per_unit: ProductType['base_cost_rp_per_unit']
         name: ProductType['name']
         code: ProductType['code']
         initial_qty: number
@@ -120,4 +152,19 @@ export type ProductMovementTableProp = {
         final_qty: number
         unit: string
     }[]
+}
+
+function MasukKeluarCell({
+    in: inProp,
+    out,
+}: {
+    in: number | string
+    out: number | string
+}) {
+    return (
+        <>
+            <TableCell>{inProp}</TableCell>
+            <TableCell>{out}</TableCell>
+        </>
+    )
 }
