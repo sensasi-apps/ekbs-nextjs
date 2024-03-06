@@ -19,6 +19,7 @@ import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 // utils
 import useAuth from '@/providers/Auth'
 import errorCatcher from '@/utils/errorCatcher'
+import UserLoan from '@/enums/permissions/UserLoan'
 
 export default function UserLoans() {
     const { userHasPermission } = useAuth()
@@ -66,8 +67,6 @@ export default function UserLoans() {
             .catch(error => errorCatcher(error, setErrors))
     }
 
-    if (userHasPermission('cashes read') === false) return null
-
     const title = !userLoanFromDb
         ? 'Ajukan Pinjaman Baru'
         : userLoanFromDb.responses?.length > 0
@@ -91,7 +90,10 @@ export default function UserLoans() {
                 />
             </DialogWithTitle>
 
-            <Fab onClick={handleNew} aria-label="Ajukan pinjaman baru">
+            <Fab
+                aria-label="Ajukan pinjaman baru"
+                onClick={handleNew}
+                in={userHasPermission(UserLoan.CREATE)}>
                 <PaymentsIcon />
             </Fab>
         </AuthLayout>
