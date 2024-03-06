@@ -1,35 +1,24 @@
-import { FC, useEffect, useState } from 'react'
-
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
+// hooks
+import { useOnlineStatus } from '@/hooks/useOnlineStatus'
 
-const FormActions: FC<FormActionsProps> = ({
+export default function FormActions({
     submitting,
     deleting,
     disabled,
     onCancel,
     onDelete,
-}) => {
-    const [isOffline, setIsOffline] = useState(false)
-
-    const handleOffline = () => {
-        setIsOffline(true)
-    }
-
-    const handleOnline = () => {
-        setIsOffline(false)
-    }
-
-    useEffect(() => {
-        window.addEventListener('offline', handleOffline, false)
-        window.addEventListener('online', handleOnline, false)
-
-        return () => {
-            window.removeEventListener('offline', handleOffline, false)
-            window.removeEventListener('online', handleOnline, false)
-        }
-    }, [])
+}: {
+    submitting?: boolean
+    deleting?: boolean
+    disabled?: boolean
+    onCancel: () => void
+    onDelete?: () => void
+}) {
+    const isOnline = useOnlineStatus()
 
     return (
         <Box
@@ -40,7 +29,7 @@ const FormActions: FC<FormActionsProps> = ({
             {onDelete && (
                 <LoadingButton
                     onClick={onDelete}
-                    disabled={submitting || disabled || isOffline}
+                    disabled={submitting || disabled || !isOnline}
                     loading={deleting}
                     color="error">
                     Hapus
@@ -58,23 +47,13 @@ const FormActions: FC<FormActionsProps> = ({
 
                 <LoadingButton
                     type="submit"
-                    disabled={deleting || disabled || isOffline}
+                    disabled={deleting || disabled || !isOnline}
                     loading={submitting}
-                    variant={isOffline ? 'outlined' : 'contained'}
+                    variant={!isOnline ? 'outlined' : 'contained'}
                     color="info">
                     Simpan
                 </LoadingButton>
             </Box>
         </Box>
     )
-}
-
-export default FormActions
-
-interface FormActionsProps {
-    submitting?: boolean
-    deleting?: boolean
-    disabled?: boolean
-    onCancel: () => void
-    onDelete?: () => void
 }
