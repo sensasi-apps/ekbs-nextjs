@@ -1,5 +1,7 @@
 // types
 import type ProductType from '@/dataTypes/Product'
+// vendors
+import { memo } from 'react'
 // materials
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
@@ -12,7 +14,7 @@ import TableRow from '@mui/material/TableRow'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 
-export default function ProductMovementTable({
+const ProductMovementTable = memo(function ProductMovementTable({
     data,
 }: ProductMovementTableProp) {
     const labels =
@@ -23,11 +25,10 @@ export default function ProductMovementTable({
             })),
         ) ?? []
 
-    const monthLabels = labels.filter((item, index) => {
-        return (
-            index === labels.findIndex(o => item.label_value === o.label_value)
-        )
-    })
+    const monthLabels = labels.filter(
+        (item, index) =>
+            index === labels.findIndex(o => item.label_value === o.label_value),
+    )
 
     return (
         <TableContainer>
@@ -38,6 +39,7 @@ export default function ProductMovementTable({
                         <TableCell rowSpan={3}>Kategori</TableCell>
                         <TableCell rowSpan={3}>Kode</TableCell>
                         <TableCell rowSpan={3}>Produk</TableCell>
+                        <TableCell rowSpan={3}>Satuan</TableCell>
                         <TableCell rowSpan={3}>Stok Awal</TableCell>
                         <TableCell colSpan={monthLabels.length * 2}>
                             Bulan
@@ -76,9 +78,8 @@ export default function ProductMovementTable({
                             <TableCell>{i + 1}</TableCell>
                             <TableCell>{row.category_name}</TableCell>
                             <TableCell>{row.code}</TableCell>
-                            <TableCell>
-                                {row.name} ({row.unit})
-                            </TableCell>
+                            <TableCell>{row.name}</TableCell>
+                            <TableCell>{row.unit}</TableCell>
                             <TableCell>
                                 {formatNumber(row.initial_qty)}
                             </TableCell>
@@ -114,7 +115,7 @@ export default function ProductMovementTable({
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={7 + monthLabels.length * 2}>
+                        <TableCell colSpan={8 + monthLabels.length * 2}>
                             Total
                         </TableCell>
                         <TableCell>
@@ -133,7 +134,9 @@ export default function ProductMovementTable({
             </Table>
         </TableContainer>
     )
-}
+})
+
+export default ProductMovementTable
 
 export type ProductMovementTableProp = {
     data?: {
