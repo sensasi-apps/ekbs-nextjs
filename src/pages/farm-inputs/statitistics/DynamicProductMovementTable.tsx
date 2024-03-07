@@ -33,16 +33,16 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                     </TableRow>
                     <TableRow>
                         <TableCell>Jumlah</TableCell>
-                        <TableCell>Harga</TableCell>
+                        <TableCell>Biaya Dasar</TableCell>
                         <TableCell>Nilai</TableCell>
                         <TableCell>Jumlah</TableCell>
-                        <TableCell>Harga</TableCell>
+                        <TableCell>Biaya Dasar</TableCell>
                         <TableCell>Nilai</TableCell>
                         <TableCell>Jumlah</TableCell>
-                        <TableCell>Harga</TableCell>
+                        <TableCell>Biaya Dasar</TableCell>
                         <TableCell>Nilai</TableCell>
                         <TableCell>Jumlah</TableCell>
-                        <TableCell>Harga</TableCell>
+                        <TableCell>Biaya Dasar</TableCell>
                         <TableCell>Nilai</TableCell>
                     </TableRow>
                 </TableHead>
