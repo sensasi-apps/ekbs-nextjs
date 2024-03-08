@@ -89,7 +89,11 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                 const { uuid, n_details_not_found_on_system } =
                                     getRowData(dataIndex) ?? {}
 
-                                if (!uuid || !n_details_not_found_on_system)
+                                if (
+                                    !uuid ||
+                                    !n_details_not_found_on_system ||
+                                    n_details_not_found_on_system === 0
+                                )
                                     return ''
 
                                 return (
@@ -102,7 +106,9 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                                 uuid,
                                             )
                                         }>
-                                        <Typography fontWeight="bold">
+                                        <Typography
+                                            fontWeight="bold"
+                                            component="span">
                                             {n_details_not_found_on_system}
                                         </Typography>
                                     </Button>
@@ -121,7 +127,12 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                 const data = getRowData(dataIndex)
                                 const { uuid, n_details_incorrect } = data ?? {}
 
-                                if (!uuid || !n_details_incorrect) return ''
+                                if (
+                                    !uuid ||
+                                    !n_details_incorrect ||
+                                    n_details_incorrect === 0
+                                )
+                                    return ''
 
                                 return (
                                     <Button
@@ -131,7 +142,9 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                         onClick={() =>
                                             setIncorrectDetailsPaymentUuid(uuid)
                                         }>
-                                        <Typography fontWeight="bold">
+                                        <Typography
+                                            fontWeight="bold"
+                                            component="span">
                                             {n_details_incorrect}
                                         </Typography>
                                     </Button>
@@ -175,7 +188,9 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                                     uuid,
                                                 )
                                             }>
-                                            <Typography fontWeight="bold">
+                                            <Typography
+                                                fontWeight="bold"
+                                                component="span">
                                                 {Math.floor(
                                                     (n_details_has_paid /
                                                         n_tickets) *
