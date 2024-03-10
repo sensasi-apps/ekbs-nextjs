@@ -7,7 +7,9 @@ import useSWR from 'swr'
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
+import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
@@ -28,11 +30,13 @@ import Wallet from '@/enums/permissions/Wallet'
 import useAuth from '@/providers/Auth'
 import WalletTxButtonAndForm from './TxButtonAndForm'
 import InfoBox from '../InfoBox'
+import ScrollableXBox from '../ScrollableXBox'
+import SummaryByTag from './TxHistory/SummaryByTag'
 
 const DEFAULT_START_DATE = dayjs().startOf('month')
 const DEFAULT_END_DATE = dayjs()
 
-type ApiResponseType = {
+export type ApiResponseType = {
     balanceFrom: number
     data: Transaction[]
     balanceTo: number
@@ -48,6 +52,9 @@ export default function TxHistory({
     canExportExcel?: boolean
 }) {
     const { userHasPermission } = useAuth()
+    const [activeTab, setActiveTab] = useState<'rangkuman' | 'rincian'>(
+        'rangkuman',
+    )
     const [fromDate, setFromDate] = useState(DEFAULT_START_DATE)
     const [toDate, setToDate] = useState(DEFAULT_END_DATE)
 
@@ -152,7 +159,12 @@ export default function TxHistory({
                             }}>
                             <>
                                 <FlexColumnBox gap={1}>
-                                    <Typography>Mutasi EKBS Wallet</Typography>
+                                    <Typography>
+                                        {activeTab === 'rangkuman'
+                                            ? 'Rangkuman'
+                                            : 'Mutasi'}{' '}
+                                        EKBS Wallet
+                                    </Typography>
                                     <Box>
                                         <Typography
                                             variant="caption"
@@ -185,8 +197,16 @@ export default function TxHistory({
                                 </FlexColumnBox>
 
                                 <FlexColumnBox gap={2}>
-                                    <Header data={walletData} />
-                                    {!loading && txs && <Body data={txs} />}
+                                    {activeTab === 'rincian' && (
+                                        <Header data={walletData} />
+                                    )}
+
+                                    {!loading && txs && (
+                                        <Body
+                                            data={txs}
+                                            activeTab={activeTab}
+                                        />
+                                    )}
                                 </FlexColumnBox>
                             </>
                         </PrintHandler>
@@ -216,7 +236,35 @@ export default function TxHistory({
             )}
 
             {loading && <Skeletons />}
-            {!loading && txs && <Body data={txs} />}
+            {!loading && txs && (
+                <>
+                    <ScrollableXBox>
+                        <Chip
+                            label="Rangkuman"
+                            color="success"
+                            size="small"
+                            variant={
+                                activeTab === 'rangkuman'
+                                    ? 'filled'
+                                    : 'outlined'
+                            }
+                            onClick={() => setActiveTab('rangkuman')}
+                        />
+
+                        <Chip
+                            label="Rincian"
+                            color="success"
+                            size="small"
+                            variant={
+                                activeTab === 'rincian' ? 'filled' : 'outlined'
+                            }
+                            onClick={() => setActiveTab('rincian')}
+                        />
+                    </ScrollableXBox>
+
+                    <Body data={txs} activeTab={activeTab} />
+                </>
+            )}
         </FlexColumnBox>
     )
 }
@@ -241,33 +289,49 @@ function Header({ data }: { data: WalletType | undefined }) {
     )
 }
 
-function Body({ data: txs }: { data: ApiResponseType }) {
+function Body({
+    data: txs,
+    activeTab,
+}: {
+    data: ApiResponseType
+    activeTab: 'rangkuman' | 'rincian'
+}) {
     return (
         <>
-            <Box>
-                <Typography
-                    lineHeight="1em"
-                    variant="overline"
-                    color="text.disabled"
-                    component="div"
-                    fontWeight="bold"
-                    mb={0.5}>
-                    Rangkuman
-                </Typography>
-                <SummaryTable data={txs} />
-            </Box>
+            <Fade in={activeTab === 'rangkuman'} unmountOnExit>
+                <span>
+                    <SummaryByTag data={txs} />
+                </span>
+            </Fade>
 
-            <Box>
-                <Typography
-                    variant="overline"
-                    lineHeight="1em"
-                    color="text.disabled"
-                    component="div"
-                    fontWeight="bold">
-                    Rincian
-                </Typography>
-                <TxsList data={txs} />
-            </Box>
+            <Fade in={activeTab === 'rincian'} unmountOnExit>
+                <span>
+                    <Box>
+                        <Typography
+                            lineHeight="1em"
+                            variant="overline"
+                            color="text.disabled"
+                            component="div"
+                            fontWeight="bold"
+                            mb={0.5}>
+                            Rangkuman
+                        </Typography>
+                        <SummaryTable data={txs} />
+                    </Box>
+
+                    <Box mt={1.5}>
+                        <Typography
+                            variant="overline"
+                            lineHeight="1em"
+                            color="text.disabled"
+                            component="div"
+                            fontWeight="bold">
+                            Rincian
+                        </Typography>
+                        <TxsList data={txs} />
+                    </Box>
+                </span>
+            </Fade>
         </>
     )
 }
@@ -308,7 +372,7 @@ function TxsList({ data: txs }: { data: ApiResponseType }) {
             />
 
             {txs?.data && txs.data.length > 0 ? (
-                <FlexColumnBox gap={0.7}>
+                <FlexColumnBox gap={1}>
                     {txs.data.map(tx => (
                         <div key={tx.uuid}>
                             {dateHandler(tx.at)}

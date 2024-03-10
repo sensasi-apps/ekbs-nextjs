@@ -2,6 +2,7 @@ import type ActivityLogType from './ActivityLog'
 import type CashType from './Cash'
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
+import Tag from './Tag'
 
 type TransferType =
     | {
@@ -33,6 +34,9 @@ type TransactionType = {
     cash: CashType
     user_activity_logs: ActivityLogType[]
     transactionable: null | unknown
+
+    // relations
+    tags: Tag[]
 } & (TransferType | NonTransferType)
 
 export default TransactionType

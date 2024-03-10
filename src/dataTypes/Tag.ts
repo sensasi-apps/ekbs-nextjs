@@ -1,7 +1,12 @@
+import TransactionTag from '@/enums/TransactionTag'
+
 type Tag = {
     id: number
     name: {
-        id_ID: string
+        id: string | TransactionTag
+    }
+    slug: {
+        id: string
     }
 }
 
