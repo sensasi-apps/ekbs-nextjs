@@ -43,7 +43,7 @@ export default function InventoryItemDetail() {
         (url: string) =>
             axios.get(url).then((res: AxiosResponse<InventoryItem>) => ({
                 ...res.data,
-                tags: res.data.tags.map(tag => tag.name.id_ID),
+                tags: res.data.tags.map(tag => tag.name.id),
             })),
         {
             onError: err => {

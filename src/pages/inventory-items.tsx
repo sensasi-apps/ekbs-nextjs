@@ -121,7 +121,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             customBodyRenderLite: dataIndex => {
                 const tags = getRowData(dataIndex)?.tags ?? []
 
-                return tags.map(({ name: { id_ID } }) => id_ID).join(', ')
+                return tags.map(({ name: { id } }) => id).join(', ')
             },
         },
     },
