@@ -34,6 +34,7 @@ export default function TxHistoryItem({
                 variant="body2"
                 maxWidth="66%"
                 color={isInbound ? 'success.main' : undefined}
+                sx={{ whiteSpace: 'pre-line' }}
                 {...tProps}>
                 {desc}
             </Typography>
