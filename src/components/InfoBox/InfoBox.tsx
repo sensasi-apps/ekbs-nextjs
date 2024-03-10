@@ -30,7 +30,10 @@ export default function InfoBox({
                             :
                         </td>
 
-                        <Typography fontWeight="bold" component="td">
+                        <Typography
+                            fontWeight="bold"
+                            component="td"
+                            whiteSpace="nowrap">
                             {loading ? (
                                 <Skeleton width={randomWidth()} />
                             ) : (
