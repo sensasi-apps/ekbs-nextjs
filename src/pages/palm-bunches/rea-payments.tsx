@@ -92,7 +92,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                 if (
                                     !uuid ||
                                     !n_details_not_found_on_system ||
-                                    n_details_not_found_on_system === 0
+                                    n_details_not_found_on_system == 0
                                 )
                                     return ''
 
@@ -130,7 +130,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                 if (
                                     !uuid ||
                                     !n_details_incorrect ||
-                                    n_details_incorrect === 0
+                                    n_details_incorrect == 0
                                 )
                                     return ''
 
