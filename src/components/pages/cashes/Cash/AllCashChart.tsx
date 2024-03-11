@@ -24,7 +24,7 @@ export default function AllCashChart({
     title?: string
 }) {
     const { data: cashData, isLoading: cashLoading } =
-        useSWR<CashType[]>('data/cashes')
+        useSWR<CashType[]>('data/cashes2')
 
     const { data: walletData, isLoading: walletLoading } = useSWR<
         {
