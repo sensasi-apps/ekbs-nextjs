@@ -1,6 +1,7 @@
 // types
-import type TransactionType from '@/dataTypes/Transaction'
 import type ActivityLogType from '@/dataTypes/ActivityLog'
+import type BusinessUnitCash from '@/dataTypes/BusinessUnitCash'
+import type TransactionType from '@/dataTypes/Transaction'
 // vendors
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
@@ -19,6 +20,7 @@ import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import LoadingButton from '@mui/lab/LoadingButton'
+import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import TextField from '@mui/material/TextField'
@@ -229,6 +231,43 @@ export default function TransactionForm({
                         )
                     }}
                 </Field>
+
+                {transaction.type !== 'transfer' && (
+                    <Field name="to_cash_uuid">
+                        {({
+                            field: { name, value, onBlur, onChange },
+                            meta: { error },
+                        }: FastFieldProps) => {
+                            return (
+                                <SelectFromApi
+                                    required
+                                    endpoint="/data/business-unit-cashes"
+                                    label="Unit Bisnis"
+                                    size="small"
+                                    margin="dense"
+                                    disabled={isDisabled}
+                                    selectProps={{
+                                        value: value,
+                                        name: name,
+                                        onBlur: onBlur,
+                                    }}
+                                    renderOption={(
+                                        buCash: BusinessUnitCash,
+                                    ) => (
+                                        <MenuItem
+                                            key={buCash.uuid}
+                                            value={buCash.uuid}>
+                                            {buCash.business_unit?.name}
+                                        </MenuItem>
+                                    )}
+                                    error={Boolean(error)}
+                                    helperText={error}
+                                    onChange={onChange}
+                                />
+                            )
+                        }}
+                    </Field>
+                )}
 
                 <FastField name="amount">
                     {({

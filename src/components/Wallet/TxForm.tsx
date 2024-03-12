@@ -111,7 +111,7 @@ export default function WalletTxForm({
 
             <SelectFromApi
                 required
-                endpoint="/data/cashes"
+                endpoint="/data/cashes2"
                 label="Melalui Kas"
                 size="small"
                 margin="dense"
