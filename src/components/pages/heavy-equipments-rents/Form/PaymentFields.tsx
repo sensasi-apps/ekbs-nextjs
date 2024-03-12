@@ -27,7 +27,6 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import TbsPerformanceChartWithAutoFetch from '@/components/pages/user-loans/CrediturCard/TbsPerformanceChart/WithAutoFetch'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import debounce from '@/utils/debounce'
 import numberToCurrency from '@/utils/numberToCurrency'
 import { FormikProps } from 'formik'
 
@@ -234,12 +233,7 @@ export default function HerPaymentFields({
                             value={interest_percent}
                             name="interest_percent"
                             onValueChange={({ floatValue }) =>
-                                debounce(() =>
-                                    setFieldValue(
-                                        'interest_percent',
-                                        floatValue,
-                                    ),
-                                )
+                                setFieldValue('interest_percent', floatValue)
                             }
                             InputProps={{
                                 endAdornment: (
@@ -259,9 +253,7 @@ export default function HerPaymentFields({
                             value={n_term}
                             name="n_term"
                             onValueChange={({ floatValue }) =>
-                                debounce(() =>
-                                    setFieldValue('n_term', floatValue),
-                                )
+                                setFieldValue('n_term', floatValue)
                             }
                             inputProps={{
                                 minLength: 1,
