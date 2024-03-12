@@ -24,7 +24,7 @@ export default function AllCashChart({
     title?: string
 }) {
     const { data: cashData, isLoading: cashLoading } =
-        useSWR<CashType[]>('data/cashes2')
+        useSWR<CashType[]>('data/cashes')
 
     const { data: walletData, isLoading: walletLoading } = useSWR<
         {
@@ -78,28 +78,32 @@ export default function AllCashChart({
                     <Grid2 container xs={(maxPositive / max) * 12}>
                         <Grid2 xs={(totalCash / maxPositive) * 12}>
                             <Box display="flex" gap={0.5}>
-                                {cashData?.map(({ uuid, name, balance }) => (
-                                    <ItemBar
-                                        key={uuid}
-                                        title={`${name}: ${numberToCurrency(
-                                            balance,
-                                        )}`}
-                                        color={
-                                            balance < 0 ? 'error' : 'success'
-                                        }
-                                        sx={{
-                                            width: `${
-                                                (balance / totalCash) * 100
-                                            }%`,
-                                        }}>
-                                        <Box>{name}</Box>
-                                        <Box>
-                                            {numberToCurrency(balance, {
-                                                notation: 'compact',
-                                            })}
-                                        </Box>
-                                    </ItemBar>
-                                ))}
+                                {cashData?.map(({ uuid, name, balance }) =>
+                                    balance < 0 ? null : (
+                                        <ItemBar
+                                            key={uuid}
+                                            title={`${name}: ${numberToCurrency(
+                                                balance,
+                                            )}`}
+                                            color={
+                                                balance < 0
+                                                    ? 'error'
+                                                    : 'success'
+                                            }
+                                            sx={{
+                                                width: `${
+                                                    (balance / totalCash) * 100
+                                                }%`,
+                                            }}>
+                                            <Box>{name}</Box>
+                                            <Box>
+                                                {numberToCurrency(balance, {
+                                                    notation: 'compact',
+                                                })}
+                                            </Box>
+                                        </ItemBar>
+                                    ),
+                                )}
                             </Box>
 
                             <Divider>
@@ -160,38 +164,41 @@ export default function AllCashChart({
                                         flexDirection="row"
                                         gap={0.5}>
                                         {cashData?.map(
-                                            ({ uuid, name, balance }) => (
-                                                <ItemBar
-                                                    key={uuid}
-                                                    title={`${name}: ${numberToCurrency(
-                                                        balance,
-                                                    )}`}
-                                                    color={
-                                                        balance < 0
-                                                            ? 'error'
-                                                            : 'success'
-                                                    }
-                                                    sx={{
-                                                        width: `${
-                                                            (Math.abs(balance) /
-                                                                Math.abs(
-                                                                    totalNegativeCash,
-                                                                )) *
-                                                            100
-                                                        }%`,
-                                                    }}>
-                                                    <Box>{name}</Box>
-                                                    <Box>
-                                                        {numberToCurrency(
+                                            ({ uuid, name, balance }) =>
+                                                balance >= 0 ? null : (
+                                                    <ItemBar
+                                                        key={uuid}
+                                                        title={`${name}: ${numberToCurrency(
                                                             balance,
-                                                            {
-                                                                notation:
-                                                                    'compact',
-                                                            },
-                                                        )}
-                                                    </Box>
-                                                </ItemBar>
-                                            ),
+                                                        )}`}
+                                                        color={
+                                                            balance < 0
+                                                                ? 'error'
+                                                                : 'success'
+                                                        }
+                                                        sx={{
+                                                            width: `${
+                                                                (Math.abs(
+                                                                    balance,
+                                                                ) /
+                                                                    Math.abs(
+                                                                        totalNegativeCash,
+                                                                    )) *
+                                                                100
+                                                            }%`,
+                                                        }}>
+                                                        <Box>{name}</Box>
+                                                        <Box>
+                                                            {numberToCurrency(
+                                                                balance,
+                                                                {
+                                                                    notation:
+                                                                        'compact',
+                                                                },
+                                                            )}
+                                                        </Box>
+                                                    </ItemBar>
+                                                ),
                                         )}
                                     </Box>
                                     <Divider>
