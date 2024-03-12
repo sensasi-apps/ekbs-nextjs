@@ -9,6 +9,8 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
+// components
+import InfoBox from '@/components/InfoBox'
 // enums
 import TransactionTag from '@/enums/TransactionTag'
 // utils
@@ -86,49 +88,77 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
         0,
     )
 
+    const kgSellTotal = data.data
+        .filter(tx =>
+            tx.tags.find(tag => tag.name.id === TransactionTag.PELUNASAN_TBS),
+        )
+        .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
+
+    const kgDelivTotal = data.data
+        .filter(tx =>
+            tx.tags.find(
+                tag => tag.name.id === TransactionTag.PELUNASAN_BIAYA_ANGKUT,
+            ),
+        )
+        .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
+
     return (
-        <TableContainer>
-            <Table size="small">
-                <TableBody>
-                    <HeadingRow>I. Pendapatan Kotor</HeadingRow>
+        <>
+            <InfoBox
+                data={[
+                    {
+                        label: 'Total Bobot Jual TBS',
+                        value: formatNumber(kgSellTotal) + ' kg',
+                    },
+                    {
+                        label: 'Total Bobot Angkut TBS',
+                        value: formatNumber(kgDelivTotal) + ' kg',
+                    },
+                ]}
+            />
+            <TableContainer>
+                <Table size="small">
+                    <TableBody>
+                        <HeadingRow>I. Pendapatan Kotor</HeadingRow>
 
-                    {inboundData
-                        .filter(d => d.data.length > 0)
-                        .map((data, i) => (
+                        {inboundData
+                            .filter(d => d.data.length > 0)
+                            .map((data, i) => (
+                                <ItemRow key={i} {...data} />
+                            ))}
+
+                        <TotalRow total={inboundTotalRp} />
+
+                        <HeadingRow>II. Potongan</HeadingRow>
+
+                        {outboundData
+                            .filter(d => d.data.length > 0)
+                            .map((data, i) => (
+                                <ItemRow key={i} {...data} />
+                            ))}
+
+                        <TotalRow total={outboundTotalRp} />
+
+                        <HeadingRow>III. Penerimaan Bersih</HeadingRow>
+
+                        {[
+                            {
+                                name: 'Pendapatan Kotor',
+                                data: inboundData.map(d => d.data).flat(),
+                            },
+                            {
+                                name: 'Potongan',
+                                data: outboundData.map(d => d.data).flat(),
+                            },
+                        ].map((data, i) => (
                             <ItemRow key={i} {...data} />
                         ))}
 
-                    <TotalRow total={inboundTotalRp} />
-
-                    <HeadingRow>II. Potongan</HeadingRow>
-
-                    {outboundData
-                        .filter(d => d.data.length > 0)
-                        .map((data, i) => (
-                            <ItemRow key={i} {...data} />
-                        ))}
-
-                    <TotalRow total={outboundTotalRp} />
-
-                    <HeadingRow>III. Penerimaan Bersih</HeadingRow>
-
-                    {[
-                        {
-                            name: 'Pendapatan Kotor',
-                            data: inboundData.map(d => d.data).flat(),
-                        },
-                        {
-                            name: 'Potongan',
-                            data: outboundData.map(d => d.data).flat(),
-                        },
-                    ].map((data, i) => (
-                        <ItemRow key={i} {...data} />
-                    ))}
-
-                    <TotalRow total={inboundTotalRp + outboundTotalRp} />
-                </TableBody>
-            </Table>
-        </TableContainer>
+                        <TotalRow total={inboundTotalRp + outboundTotalRp} />
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     )
 }
 

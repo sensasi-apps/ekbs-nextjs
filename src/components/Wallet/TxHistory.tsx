@@ -3,8 +3,9 @@ import type Transaction from '@/dataTypes/Transaction'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
 import { useState } from 'react'
-import useSWR from 'swr'
 import dayjs from 'dayjs'
+import Image from 'next/image'
+import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -158,47 +159,77 @@ export default function TxHistory({
                                 },
                             }}>
                             <>
-                                <FlexColumnBox gap={1}>
-                                    <Typography>
-                                        {activeTab === 'rangkuman'
-                                            ? 'Rangkuman'
-                                            : 'Mutasi'}{' '}
-                                        EKBS Wallet
-                                    </Typography>
-                                    <Box>
-                                        <Typography
-                                            variant="caption"
-                                            color="text.disabled"
-                                            component="div">
-                                            Periode Transaksi:
+                                <Box display="flex" gap={2}>
+                                    <Image
+                                        src="/assets/pwa-icons/green-transparent.svg"
+                                        width={0}
+                                        height={0}
+                                        sizes="100vw"
+                                        style={{ width: '6em', height: '6em' }}
+                                        alt="logo"
+                                        priority
+                                    />
+
+                                    <FlexColumnBox gap={1}>
+                                        <Typography>
+                                            {activeTab === 'rangkuman'
+                                                ? 'Rangkuman'
+                                                : 'Mutasi'}{' '}
+                                            EKBS Wallet
                                         </Typography>
-                                        <Typography
-                                            variant="caption"
-                                            component="div">
-                                            {toDmy(fromDate)} s/d{' '}
-                                            {toDmy(toDate)}
-                                        </Typography>
-                                    </Box>
-                                    <Box>
-                                        <Typography
-                                            variant="caption"
-                                            color="text.disabled"
-                                            component="div">
-                                            Waktu Cetak:
-                                        </Typography>
-                                        <Typography
-                                            variant="caption"
-                                            component="div">
-                                            {dayjs().format(
-                                                'DD-MM-YYYY HH:mm:ss',
-                                            )}
-                                        </Typography>
-                                    </Box>
-                                </FlexColumnBox>
+                                        <Box>
+                                            <Typography
+                                                variant="caption"
+                                                color="text.disabled"
+                                                component="div">
+                                                Periode Transaksi:
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                component="div">
+                                                {toDmy(fromDate)} s/d{' '}
+                                                {toDmy(toDate)}
+                                            </Typography>
+                                        </Box>
+                                        <Box>
+                                            <Typography
+                                                variant="caption"
+                                                color="text.disabled"
+                                                component="div">
+                                                Waktu Cetak:
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                component="div">
+                                                {dayjs().format(
+                                                    'DD-MM-YYYY HH:mm:ss',
+                                                )}
+                                            </Typography>
+                                        </Box>
+                                    </FlexColumnBox>
+                                </Box>
 
                                 <FlexColumnBox gap={2}>
                                     {activeTab === 'rincian' && (
                                         <Header data={walletData} />
+                                    )}
+
+                                    {activeTab === 'rangkuman' && (
+                                        <Box mt={1}>
+                                            <Typography
+                                                variant="caption"
+                                                color="text.disabled"
+                                                component="div">
+                                                Nama:
+                                            </Typography>
+                                            <Typography
+                                                variant="body1"
+                                                component="div"
+                                                fontWeight="bold">
+                                                #{walletData?.user.id} &mdash;{' '}
+                                                {walletData.user.name}
+                                            </Typography>
+                                        </Box>
                                     )}
 
                                     {!loading && txs && (
@@ -212,7 +243,7 @@ export default function TxHistory({
                         </PrintHandler>
                     )}
 
-                    {canExportExcel && (
+                    {canExportExcel && false && (
                         <Tooltip title="Ekspor Excel" placement="top" arrow>
                             <span>
                                 <IconButton

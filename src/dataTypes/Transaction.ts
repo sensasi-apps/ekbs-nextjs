@@ -1,8 +1,10 @@
-import type ActivityLogType from './ActivityLog'
-import type CashType from './Cash'
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
-import Tag from './Tag'
+import type ActivityLogType from './ActivityLog'
+import type CashType from './Cash'
+import type PalmBunchType from './PalmBunch'
+import type PalmBunchesDeliveryType from './PalmBunchesDelivery'
+import type Tag from './Tag'
 
 type TransferType =
     | {
@@ -33,7 +35,7 @@ type TransactionType = {
     // appends
     cash: CashType
     user_activity_logs: ActivityLogType[]
-    transactionable: null | unknown
+    transactionable: null | PalmBunchesDeliveryType | PalmBunchType
 
     // relations
     tags: Tag[]
