@@ -94,7 +94,9 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
         isDeleting
 
     const isRentCanBeDeleted =
-        userHasPermission(HeavyEquipmentRent.DELETE) && !isHerTaskFinished
+        userHasPermission(HeavyEquipmentRent.DELETE) &&
+        !isHerTaskFinished &&
+        !isNew
 
     return (
         <FormikForm
