@@ -2,35 +2,34 @@
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 // materials
-import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import StatCard from '@/components/StatCard'
+import FlexColumnBox from '@/components/FlexColumnBox'
 import LineChart from '@/components/Chart/Line/Line'
+import ScrollableXBox from '@/components/ScrollableXBox'
+import StatCard from '@/components/StatCard'
 // etc
 import useAuth from '@/providers/Auth'
 import Role from '@/enums/Role'
 
 export default function PalmBunchesPerformances() {
     const { userHasRole } = useAuth()
-    const router = useRouter()
-    const { dataUnit = 'weeks' } = router.query
+    const { replace, query } = useRouter()
+    const { dataUnit = 'weeks' } = query
 
     const isDailyData = dataUnit === 'days'
     const isWeeklyData = dataUnit === 'weeks'
     const isMonthlyData = dataUnit === 'months'
 
+    if (!userHasRole([Role.FARMER, Role.COURIER])) {
+        return ''
+    }
+
     return (
         <AuthLayout title="Performa TBS">
-            <Box display="flex" flexDirection="column" gap={4}>
-                <Box
-                    display={
-                        userHasRole([Role.FARMER, Role.COURIER])
-                            ? 'flex'
-                            : 'none'
-                    }
-                    gap={1}>
+            <FlexColumnBox>
+                <ScrollableXBox>
                     <Chip
                         label="12 Hari Terakhir"
                         color={isDailyData ? 'success' : undefined}
@@ -38,7 +37,7 @@ export default function PalmBunchesPerformances() {
                             isDailyData
                                 ? undefined
                                 : () =>
-                                      router.replace({
+                                      replace({
                                           query: {
                                               nData: 12,
                                               dataUnit: 'days',
@@ -53,7 +52,7 @@ export default function PalmBunchesPerformances() {
                             isWeeklyData
                                 ? undefined
                                 : () =>
-                                      router.replace({
+                                      replace({
                                           query: {
                                               nData: 12,
                                               dataUnit: 'weeks',
@@ -68,7 +67,7 @@ export default function PalmBunchesPerformances() {
                             isMonthlyData
                                 ? undefined
                                 : () =>
-                                      router.replace({
+                                      replace({
                                           query: {
                                               nData: 12,
                                               dataUnit: 'months',
@@ -76,11 +75,11 @@ export default function PalmBunchesPerformances() {
                                       })
                         }
                     />
-                </Box>
+                </ScrollableXBox>
 
                 {userHasRole(Role.FARMER) && <PalmBunchWeightChart />}
                 {userHasRole(Role.COURIER) && <PalmBunchDeliveryChart />}
-            </Box>
+            </FlexColumnBox>
         </AuthLayout>
     )
 }
@@ -114,7 +113,7 @@ const PalmBunchWeightChart = () => {
     ])
 
     return (
-        <StatCard title="Bobot TBS" isLoading={isLoading}>
+        <StatCard title="Bobot Jual TBS" isLoading={isLoading}>
             <LineChart
                 prefix="kg"
                 data={data}

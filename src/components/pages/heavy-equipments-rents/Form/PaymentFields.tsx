@@ -1,6 +1,7 @@
 // types
-import type CashType from '@/dataTypes/Cash'
+import type { FormikProps } from 'formik'
 import type { HeavyEquipmentRentFormValues } from '../Form'
+import type CashType from '@/dataTypes/Cash'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
 import useSWR from 'swr'
@@ -24,11 +25,10 @@ import LoadingAddorment from '@/components/LoadingAddorment'
 import NumericFormat from '@/components/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // page components
-import TbsPerformanceChartWithAutoFetch from '@/components/pages/user-loans/CrediturCard/TbsPerformanceChart/WithAutoFetch'
+import CrediturCard from '../../user-loans/CrediturCard'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
-import { FormikProps } from 'formik'
 
 export default function HerPaymentFields({
     values: {
@@ -210,16 +210,8 @@ export default function HerPaymentFields({
                 }
                 unmountOnExit>
                 <div>
-                    {by_user?.uuid && (
-                        <>
-                            <Typography variant="h6" component="div" mt={2}>
-                                Performa TBS &mdash; {by_user?.name}
-                            </Typography>
-
-                            <TbsPerformanceChartWithAutoFetch
-                                userUuid={by_user.uuid}
-                            />
-                        </>
+                    {by_user?.uuid && !is_paid && (
+                        <CrediturCard data={by_user} />
                     )}
 
                     <Typography variant="h6" component="div" mt={2}>

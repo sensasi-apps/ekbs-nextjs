@@ -26,6 +26,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 // components
+import CrediturCard from '../user-loans/CrediturCard'
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
 import LoadingAddorment from '@/components/LoadingAddorment'
@@ -33,7 +34,6 @@ import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import ProductSaleDetailArrayField from './Form/ProductSaleDetailArrayField'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import TbsPerformanceChartWithAutoFetch from '@/components/pages/user-loans/CrediturCard/TbsPerformanceChart/WithAutoFetch'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 // icons
@@ -280,17 +280,8 @@ const ProductSaleForm = memo(function ProductSaleForm({
 
             {payment_method === 'installment' && (
                 <>
-                    {userAutocompleteValue?.uuid && (
-                        <>
-                            <Typography variant="h6" component="div" mt={2}>
-                                Performa TBS &mdash;{' '}
-                                {userAutocompleteValue?.name}
-                            </Typography>
-
-                            <TbsPerformanceChartWithAutoFetch
-                                userUuid={userAutocompleteValue.uuid}
-                            />
-                        </>
+                    {userAutocompleteValue?.uuid && !is_paid && (
+                        <CrediturCard data={userAutocompleteValue} />
                     )}
 
                     <Typography variant="h6" component="div" mt={2}>
