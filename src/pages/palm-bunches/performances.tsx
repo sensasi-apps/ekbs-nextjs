@@ -22,64 +22,62 @@ export default function PalmBunchesPerformances() {
     const isWeeklyData = dataUnit === 'weeks'
     const isMonthlyData = dataUnit === 'months'
 
-    if (!userHasRole([Role.FARMER, Role.COURIER])) {
-        return ''
-    }
-
     return (
         <AuthLayout title="Performa TBS">
-            <FlexColumnBox>
-                <ScrollableXBox>
-                    <Chip
-                        label="12 Hari Terakhir"
-                        color={isDailyData ? 'success' : undefined}
-                        onClick={
-                            isDailyData
-                                ? undefined
-                                : () =>
-                                      replace({
-                                          query: {
-                                              nData: 12,
-                                              dataUnit: 'days',
-                                          },
-                                      })
-                        }
-                    />
-                    <Chip
-                        label="12 Minggu Terakhir"
-                        color={isWeeklyData ? 'success' : undefined}
-                        onClick={
-                            isWeeklyData
-                                ? undefined
-                                : () =>
-                                      replace({
-                                          query: {
-                                              nData: 12,
-                                              dataUnit: 'weeks',
-                                          },
-                                      })
-                        }
-                    />
-                    <Chip
-                        label="12 Bulan Terakhir"
-                        color={isMonthlyData ? 'success' : undefined}
-                        onClick={
-                            isMonthlyData
-                                ? undefined
-                                : () =>
-                                      replace({
-                                          query: {
-                                              nData: 12,
-                                              dataUnit: 'months',
-                                          },
-                                      })
-                        }
-                    />
-                </ScrollableXBox>
+            {userHasRole([Role.FARMER, Role.COURIER]) && (
+                <FlexColumnBox>
+                    <ScrollableXBox>
+                        <Chip
+                            label="12 Hari Terakhir"
+                            color={isDailyData ? 'success' : undefined}
+                            onClick={
+                                isDailyData
+                                    ? undefined
+                                    : () =>
+                                          replace({
+                                              query: {
+                                                  nData: 12,
+                                                  dataUnit: 'days',
+                                              },
+                                          })
+                            }
+                        />
+                        <Chip
+                            label="12 Minggu Terakhir"
+                            color={isWeeklyData ? 'success' : undefined}
+                            onClick={
+                                isWeeklyData
+                                    ? undefined
+                                    : () =>
+                                          replace({
+                                              query: {
+                                                  nData: 12,
+                                                  dataUnit: 'weeks',
+                                              },
+                                          })
+                            }
+                        />
+                        <Chip
+                            label="12 Bulan Terakhir"
+                            color={isMonthlyData ? 'success' : undefined}
+                            onClick={
+                                isMonthlyData
+                                    ? undefined
+                                    : () =>
+                                          replace({
+                                              query: {
+                                                  nData: 12,
+                                                  dataUnit: 'months',
+                                              },
+                                          })
+                            }
+                        />
+                    </ScrollableXBox>
 
-                {userHasRole(Role.FARMER) && <PalmBunchWeightChart />}
-                {userHasRole(Role.COURIER) && <PalmBunchDeliveryChart />}
-            </FlexColumnBox>
+                    {userHasRole(Role.FARMER) && <PalmBunchWeightChart />}
+                    {userHasRole(Role.COURIER) && <PalmBunchDeliveryChart />}
+                </FlexColumnBox>
+            )}
         </AuthLayout>
     )
 }
@@ -101,16 +99,21 @@ const getXAxisLabel = (dataUnit: string) => {
 }
 
 const PalmBunchWeightChart = () => {
-    const router = useRouter()
-    const { dataUnit = 'weeks', nData = 12 } = router.query
+    const { user } = useAuth()
+    const { query } = useRouter()
+    const { dataUnit = 'weeks', nData = 12 } = query
 
-    const { data, isLoading } = useSWR([
-        'palm-bunches/farmer/performances',
-        {
-            nData: nData,
-            dataUnit: dataUnit,
-        },
-    ])
+    const { data, isLoading } = useSWR(
+        user
+            ? [
+                  `palm-bunches/farmer/performances/${user?.uuid}`,
+                  {
+                      nData: nData,
+                      dataUnit: dataUnit,
+                  },
+              ]
+            : null,
+    )
 
     return (
         <StatCard title="Bobot Jual TBS" isLoading={isLoading}>
@@ -149,16 +152,21 @@ const PalmBunchWeightChart = () => {
 }
 
 const PalmBunchDeliveryChart = () => {
-    const router = useRouter()
-    const { dataUnit = 'weeks', nData = 12 } = router.query
+    const { user } = useAuth()
+    const { query } = useRouter()
+    const { dataUnit = 'weeks', nData = 12 } = query
 
-    const { data, isLoading } = useSWR([
-        'palm-bunches/courier/performances',
-        {
-            nData: nData,
-            dataUnit: dataUnit,
-        },
-    ])
+    const { data, isLoading } = useSWR(
+        user
+            ? [
+                  `palm-bunches/courier/performances/${user.uuid}`,
+                  {
+                      nData: nData,
+                      dataUnit: dataUnit,
+                  },
+              ]
+            : null,
+    )
 
     return (
         <StatCard title="Bobot Angkut TBS" isLoading={isLoading}>
