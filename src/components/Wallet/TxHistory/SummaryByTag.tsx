@@ -17,66 +17,56 @@ import TransactionTag from '@/enums/TransactionTag'
 import formatNumber from '@/utils/formatNumber'
 
 export default function SummaryByTag({ data }: { data: ApiResponseType }) {
-    const excludedTags = [TransactionTag.TAX]
+    const inboundTxs = data.data.filter(tx => tx.amount > 0)
+    const outboundTxs = data.data.filter(tx => tx.amount < 0)
 
-    const inboundData: { name: string; data: Transaction[] }[] = [
-        TransactionTag.PELUNASAN_TBS,
-        TransactionTag.INSENTIF_GRADING,
-        TransactionTag.PELUNASAN_BIAYA_ANGKUT,
-        'Lain-Lain',
-    ].map(tag => ({
-        name: tag,
-        data: [],
-    }))
+    const inboundData: { name: string; data: Transaction[] }[] =
+        inboundTxs.reduce<{ name: string; data: Transaction[] }[]>(
+            (acc, tx) => {
+                const tag = tx.tags[0]?.name.id ?? 'Lain-Lain'
+                const index = acc.findIndex(d => d.name === tag)
 
-    const outboundData: { name: string; data: Transaction[] }[] = [
-        TransactionTag.POTONGAN_GRADING,
-        TransactionTag.PPH_22,
-        TransactionTag.POTONGAN_BIAYA_JASA_KOPERASI,
-        TransactionTag.POTONGAN_BIAYA_JASA_OPERASIONAL_KELOMPOK_TANI,
-        TransactionTag.POTONGAN_BIAYA_ANGKUT,
-        TransactionTag.ANGSURAN_SAPRODI,
-        TransactionTag.ANGSURAN_SPP,
-        TransactionTag.ANGSURAN_ALAT_BERAT,
-        'Lain-Lain',
-    ].map(tag => ({
-        name: tag,
-        data: [],
-    }))
-
-    data.data.forEach(tx => {
-        if (tx.tags.length > 0) {
-            tx.tags.forEach(tag => {
-                const name = tag.name.id
-
-                if (excludedTags.includes(name as TransactionTag)) {
-                    return
-                }
-
-                if (inboundData.some(d => d.name === name)) {
-                    inboundData.find(d => d.name === name)?.data.push(tx)
-                } else if (outboundData.some(d => d.name === name)) {
-                    outboundData.find(d => d.name === name)?.data.push(tx)
+                if (index === -1) {
+                    acc.push({ name: tag, data: [tx] })
                 } else {
-                    if (tx.amount > 0) {
-                        inboundData
-                            .find(d => d.name === 'Lain-Lain')
-                            ?.data.push(tx)
-                    } else {
-                        outboundData
-                            .find(d => d.name === 'Lain-Lain')
-                            ?.data.push(tx)
-                    }
+                    acc[index].data.push(tx)
                 }
-            })
-        } else {
-            if (tx.amount > 0) {
-                inboundData.find(d => d.name === 'Lain-Lain')?.data.push(tx)
-            } else {
-                outboundData.find(d => d.name === 'Lain-Lain')?.data.push(tx)
-            }
-        }
-    })
+
+                return acc
+            },
+            [],
+        )
+
+    inboundData.push(
+        inboundData.splice(
+            inboundData.findIndex(({ name }) => name === 'Lain-lain'),
+            1,
+        )[0],
+    )
+
+    const outboundData: { name: string; data: Transaction[] }[] =
+        outboundTxs.reduce<{ name: string; data: Transaction[] }[]>(
+            (acc, tx) => {
+                const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
+                const index = acc.findIndex(d => d.name === tag)
+
+                if (index === -1) {
+                    acc.push({ name: tag, data: [tx] })
+                } else {
+                    acc[index].data.push(tx)
+                }
+
+                return acc
+            },
+            [],
+        )
+
+    outboundData.push(
+        outboundData.splice(
+            outboundData.findIndex(({ name }) => name === 'Lain-lain'),
+            1,
+        )[0],
+    )
 
     const inboundTotalRp = inboundData.reduce(
         (acc, { data }) => acc + data.reduce((acc, tx) => acc + tx.amount, 0),

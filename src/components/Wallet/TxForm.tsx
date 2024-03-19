@@ -7,6 +7,7 @@ import type WalletType from '@/dataTypes/Wallet'
 import { useState } from 'react'
 import { FastField } from 'formik'
 // materials
+import Autocomplete from '@mui/material/Autocomplete'
 import Chip from '@mui/material/Chip'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
@@ -20,11 +21,13 @@ import InfoBox from '@/components/InfoBox'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '../InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
+import TextField from '@/components/TextField'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
 import DatePicker from '../DatePicker'
 import TextFieldFastableComponent from '../TextField/FastableComponent'
+import TransactionTag from '@/enums/TransactionTag'
 
 export default function WalletTxForm({
     dirty,
@@ -159,6 +162,27 @@ export default function WalletTxForm({
                 {...errorsToHelperTextObj(errors.amount)}
             />
 
+            <Autocomplete
+                disabled={disabled}
+                options={[
+                    TransactionTag.ARISAN,
+                    TransactionTag.GAJIAN_TBS,
+                    TransactionTag.KOREKSI,
+                    TransactionTag.TARIK_TUNAI,
+                    TransactionTag.POTONGAN_JASA_PANEN,
+                    TransactionTag.POTONGAN_JASA_PERAWATAN,
+                ]}
+                onChange={(_, value) => setFieldValue('tag', value)}
+                renderInput={params => (
+                    <TextField
+                        {...params}
+                        label="Kategori"
+                        placeholder="Kategori"
+                        {...errorsToHelperTextObj(errors.tag)}
+                    />
+                )}
+            />
+
             <FastField
                 name="desc"
                 label="Keterangan"
@@ -177,4 +201,5 @@ type FormValuesType = Partial<{
     desc: string
     from_cash_uuid: UUID
     type: 'in' | 'out'
+    tag: TransactionTag
 }>
