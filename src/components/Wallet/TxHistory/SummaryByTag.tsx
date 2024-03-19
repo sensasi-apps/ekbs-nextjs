@@ -23,7 +23,7 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
     const inboundData: { name: string; data: Transaction[] }[] =
         inboundTxs.reduce<{ name: string; data: Transaction[] }[]>(
             (acc, tx) => {
-                const tag = tx.tags[0]?.name.id ?? 'Lain-Lain'
+                const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
                 const index = acc.findIndex(d => d.name === tag)
 
                 if (index === -1) {
@@ -37,12 +37,14 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
             [],
         )
 
-    inboundData.push(
-        inboundData.splice(
-            inboundData.findIndex(({ name }) => name === 'Lain-lain'),
-            1,
-        )[0],
-    )
+    if (inboundData.findIndex(({ name }) => name === 'Lain-lain') >= 0) {
+        inboundData.push(
+            inboundData.splice(
+                inboundData.findIndex(({ name }) => name === 'Lain-lain'),
+                1,
+            )[0],
+        )
+    }
 
     const outboundData: { name: string; data: Transaction[] }[] =
         outboundTxs.reduce<{ name: string; data: Transaction[] }[]>(
@@ -61,12 +63,14 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
             [],
         )
 
-    outboundData.push(
-        outboundData.splice(
-            outboundData.findIndex(({ name }) => name === 'Lain-lain'),
-            1,
-        )[0],
-    )
+    if (outboundData.findIndex(({ name }) => name === 'Lain-lain') >= 0) {
+        outboundData.push(
+            outboundData.splice(
+                outboundData.findIndex(({ name }) => name === 'Lain-lain'),
+                1,
+            )[0],
+        )
+    }
 
     const inboundTotalRp = inboundData.reduce(
         (acc, { data }) => acc + data.reduce((acc, tx) => acc + tx.amount, 0),
