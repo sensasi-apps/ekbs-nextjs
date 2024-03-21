@@ -3,6 +3,7 @@ import type NavItem from './NavItem.type'
 // icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
+import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 import PaymentsIcon from '@mui/icons-material/Payments'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
@@ -12,12 +13,14 @@ import GroupTitle from './GroupTitle'
 import Role from '@/enums/Role'
 import Cash from '@/enums/permissions/Cash'
 import Finance from '@/enums/permissions/Finance'
+import Transaction from '@/enums/permissions/Transaction'
 import Wallet from '@/enums/permissions/Wallet'
 
 const accountingNavItems: NavItem[] = [
     {
         children: <GroupTitle>Keuangan</GroupTitle>,
-        forRole: [Role.MEMBER, Role.EMPLOYEE, Role.CASH_MANAGER],
+        forPermission: [Cash.READ, Transaction.READ],
+        forRole: [Role.MEMBER, Role.EMPLOYEE],
     },
     {
         href: '/finances/payrolls/employees',
@@ -45,7 +48,7 @@ const accountingNavItems: NavItem[] = [
         label: 'Kas',
         pathname: '/cashes',
         icon: <AutoStoriesIcon />,
-        forRole: Role.CASH_MANAGER,
+        forPermission: [Cash.READ, Transaction.READ],
     },
     {
         href: '/wallets',
@@ -60,6 +63,13 @@ const accountingNavItems: NavItem[] = [
         pathname: '/receivables',
         icon: <CreditCardIcon />,
         forPermission: Cash.READ_ALL_INSTALLMENT,
+    },
+    {
+        href: '/tbs-payroll-list',
+        label: 'Daftar Gajian TBS',
+        pathname: '/tbs-payroll-list',
+        icon: <FormatAlignJustifyIcon />,
+        forPermission: Transaction.READ,
     },
 ]
 

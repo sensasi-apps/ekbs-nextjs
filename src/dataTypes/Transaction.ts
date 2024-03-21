@@ -5,6 +5,9 @@ import type CashType from './Cash'
 import type PalmBunchType from './PalmBunch'
 import type PalmBunchesDeliveryType from './PalmBunchesDelivery'
 import type Tag from './Tag'
+import type WalletType from './Wallet'
+// import BusinessUnitCash from './BusinessUnitCash'
+// import FarmerGroupType from './FarmerGroup'
 
 type TransferType =
     | {
@@ -39,6 +42,9 @@ type TransactionType = {
 
     // relations
     tags: Tag[]
+    cashable?: CashType | WalletType
+    // cashable?: CashType | WalletType | BusinessUnitCash | FarmerGroupType // unused for now
+    cash_transfer_origin?: CashTransfer
 } & (TransferType | NonTransferType)
 
 export default TransactionType
@@ -46,4 +52,13 @@ export default TransactionType
 export enum CashableClassname {
     Cash = 'App\\Models\\Cash',
     UserCash = 'App\\Models\\UserCash',
+}
+
+type CashTransfer = {
+    from_transaction_uuid: UUID
+    to_transaction_uuid: UUID
+
+    // relations
+    transaction_origin?: TransactionType
+    transaction_destination?: TransactionType
 }
