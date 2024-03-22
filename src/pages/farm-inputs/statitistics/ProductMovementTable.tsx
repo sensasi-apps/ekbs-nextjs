@@ -32,7 +32,7 @@ const ProductMovementTable = memo(function ProductMovementTable({
 
     return (
         <TableContainer>
-            <Table>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
                         <TableCell rowSpan={3}>#</TableCell>

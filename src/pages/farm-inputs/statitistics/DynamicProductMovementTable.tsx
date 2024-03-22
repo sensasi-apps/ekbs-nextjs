@@ -18,7 +18,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
 }: DynamicProductMovementTableProp) {
     return (
         <TableContainer>
-            <Table>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
                         <TableCell rowSpan={2}>#</TableCell>
