@@ -43,7 +43,11 @@ const TableOfContents = memo(function TableOfContents() {
                 },
                 {
                     label: 'TBS',
-                    lis: ['Bobot', 'Penjualan-Pencairan'],
+                    lis: [
+                        'Bobot',
+                        'Penjualan-Pelunasan',
+                        'Kontribusi Kelompok Tani',
+                    ],
                 },
             ],
         },
