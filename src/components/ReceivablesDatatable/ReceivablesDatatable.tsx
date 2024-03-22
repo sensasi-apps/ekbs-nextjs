@@ -11,6 +11,9 @@ import Datatable, { GetRowDataType } from '@/components/Datatable'
 import InstallmentType from '@/dataTypes/Installment'
 import ScrollableXBox from '../ScrollableXBox'
 import numberToCurrency from '@/utils/numberToCurrency'
+import { Typography } from '@mui/material'
+import dayjs from 'dayjs'
+import toDmy from '@/utils/toDmy'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
@@ -71,6 +74,9 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'should_be_paid_at',
         label: 'Jatuh Tempo',
+        options: {
+            customBodyRender: value => (value ? toDmy(value) : ''),
+        },
     },
     {
         name: 'installmentable',
@@ -87,25 +93,41 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'installmentable_classname',
+        name: 'installmentable_uuid',
         label: 'Tipe',
         options: {
-            searchable: false,
             sort: false,
-            customBodyRender: value => {
-                switch (value) {
+            customBodyRenderLite: dataIndex => {
+                const { installmentable_uuid, installmentable_classname } =
+                    getRowData(dataIndex) ?? {}
+
+                let theReturn: string = ''
+
+                switch (installmentable_classname) {
                     case 'App\\Models\\ProductSale':
-                        return 'Penjualan Produk (SAPRODI)'
+                        theReturn = 'Penjualan Produk (SAPRODI)'
+                        break
 
                     case 'App\\Models\\UserLoan':
-                        return 'Pinjaman (SPP)'
+                        theReturn = 'Pinjaman (SPP)'
+                        break
 
                     case 'App\\Models\\RentItemRent':
-                        return 'Sewa Alat Berat'
-
-                    default:
-                        return null
+                        theReturn = 'Sewa Alat Berat'
+                        break
                 }
+
+                return (
+                    <>
+                        {theReturn}
+                        <Typography
+                            variant="caption"
+                            fontSize="0.7rem"
+                            component="div">
+                            {installmentable_uuid?.slice(-6).toUpperCase()}
+                        </Typography>
+                    </>
+                )
             },
         },
     },
@@ -130,27 +152,42 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: value => {
-                let color = 'text.primary'
+            customBodyRenderLite: dataIndex => {
+                const { state, transaction } = getRowData(dataIndex) ?? {}
 
-                switch (value) {
+                let color = 'inherit'
+
+                switch (state) {
                     case 'Jatuh Tempo':
-                        color = 'error'
+                        color = 'error.main'
                         break
 
                     case 'Jatuh Tempo Dalam 7 Hari':
-                        color = 'warning'
+                        color = 'warning.main'
                         break
 
                     case 'Lunas':
-                        color = 'success'
+                        color = 'success.main'
                         break
 
                     default:
                         break
                 }
 
-                return <Box color={`${color}.main`}>{value}</Box>
+                return (
+                    <Box color={color}>
+                        {state}
+                        {transaction?.at && (
+                            <Typography
+                                variant="caption"
+                                fontSize="0.7rem"
+                                component="div">
+                                TGL:{' '}
+                                {dayjs(transaction.at).format('DD-MM-YYYY')}
+                            </Typography>
+                        )}
+                    </Box>
+                )
             },
         },
     },

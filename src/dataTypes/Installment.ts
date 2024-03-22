@@ -12,11 +12,11 @@ type InstallmentDBTableType = {
     amount_rp: number
     penalty_rp: number
     n_th: number
+    state: string
+    installmentable_uuid: UUID
 
+    // relation
     transaction?: TransactionType
-
-    // table columns but practically unused
-    // installmentable_uuid: UUID
 } & (
     | {
           installmentable_classname: 'App\\Models\\UserLoan'
