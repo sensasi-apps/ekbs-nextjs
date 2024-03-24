@@ -52,6 +52,7 @@ export default TransactionType
 export enum CashableClassname {
     Cash = 'App\\Models\\Cash',
     UserCash = 'App\\Models\\UserCash',
+    BusinessUnitCash = 'App\\Models\\BusinessUnitCash',
 }
 
 type CashTransfer = {

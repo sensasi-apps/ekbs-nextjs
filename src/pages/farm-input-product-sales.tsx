@@ -40,6 +40,7 @@ import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Rece
 import Role from '@/enums/Role'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
 import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
+import { CashableClassname } from '@/dataTypes/Transaction'
 
 let getRowData: GetRowDataType<ProductSaleType>
 let mutate: MutateType<ProductSaleType>
@@ -357,6 +358,8 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 if (
                     !data ||
                     !data.is_paid ||
+                    data.transaction?.cashable_classname ===
+                        CashableClassname.BusinessUnitCash ||
                     Boolean(
                         data.installments?.find(installment =>
                             Boolean(installment.transaction),
