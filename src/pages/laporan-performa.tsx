@@ -135,7 +135,36 @@ export default function Stat() {
                         <StatCard
                             title="Penjualan — Bulanan"
                             isLoading={isLoading}>
-                            <LineChart currency data={farmInputSaleRp?.value} />
+                            <LineChart
+                                currency
+                                data={farmInputSaleRp?.value}
+                                lines={[
+                                    {
+                                        type: 'monotone',
+                                        dataKey: 'total',
+                                        name: 'Total',
+                                        stroke: 'var(--mui-palette-success-main)',
+                                    },
+                                    {
+                                        type: 'monotone',
+                                        dataKey: 'cash',
+                                        name: 'Tunai',
+                                        stroke: 'var(--mui-palette-primary-main)',
+                                    },
+                                    {
+                                        type: 'monotone',
+                                        dataKey: 'installment1',
+                                        name: 'Angsur 1x',
+                                        stroke: 'var(--mui-palette-warning-main)',
+                                    },
+                                    {
+                                        type: 'monotone',
+                                        dataKey: 'installment2',
+                                        name: 'Angsur 2x',
+                                        stroke: 'var(--mui-palette-error-main)',
+                                    },
+                                ]}
+                            />
                         </StatCard>
                     </Box>
 
