@@ -9,13 +9,9 @@ import axios from '@/lib/axios'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 // materials
-import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid2 from '@mui/material/Unstable_Grid2'
-// icons
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable from '@/components/Datatable'
@@ -24,6 +20,8 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 // components/pages
 import AssignPicButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/AssignPicButtonAndDialogForm'
 import ChekupButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/CheckupButtonAndDialogForm'
+import FlexColumnBox from '@/components/FlexColumnBox'
+import BackButton from '@/components/BackButton'
 
 let picMutator: MutateType<InventoryItem['latest_pic']>
 let checkupMutator: MutateType<InventoryItem['latest_checkup']>
@@ -35,7 +33,6 @@ export default function InventoryItemDetail() {
     const {
         query: { uuid },
         replace,
-        back,
     } = useRouter()
 
     const { data: inventoryItem, mutate } = useSWR<InventoryItemFormValues>(
@@ -59,15 +56,7 @@ export default function InventoryItemDetail() {
                     ? inventoryItem.name + ' | '
                     : ''
             }Inventaris`}>
-            <Button
-                style={{
-                    marginBottom: '1rem',
-                }}
-                startIcon={<ArrowBackIcon />}
-                onClick={() => back()}
-                size="small">
-                Kembali
-            </Button>
+            <BackButton />
             {inventoryItem && inventoryItem.uuid ? (
                 <Grid2
                     container
@@ -83,35 +72,29 @@ export default function InventoryItemDetail() {
                             latestPic={inventoryItem.latest_pic}
                         />
 
-                        {uuid && (
-                            <Box display="flex" flexDirection="column" gap={3}>
-                                <Datatable
-                                    title="Pemeriksaan"
-                                    tableId="inventory-item-checkup-table"
-                                    apiUrl={`inventory-items/${uuid}/checkups/datatable`}
-                                    columns={CHECKUP_DATATABLE_COLUMNS}
-                                    defaultSortOrder={DEFAULT_SORT_ORDER}
-                                    mutateCallback={fn => (checkupMutator = fn)}
-                                    getRowDataCallback={fn =>
-                                        (getCheckupRowData = fn)
-                                    }
-                                />
+                        <FlexColumnBox gap={3}>
+                            <Datatable
+                                title="Pemeriksaan"
+                                tableId="inventory-item-checkup-table"
+                                apiUrl={`inventory-items/${inventoryItem.uuid}/checkups/datatable`}
+                                columns={CHECKUP_DATATABLE_COLUMNS}
+                                defaultSortOrder={DEFAULT_SORT_ORDER}
+                                mutateCallback={fn => (checkupMutator = fn)}
+                                getRowDataCallback={fn =>
+                                    (getCheckupRowData = fn)
+                                }
+                            />
 
-                                <Datatable
-                                    title="Penanggung Jawab"
-                                    tableId="inventory-item-pic-table"
-                                    apiUrl={`inventory-items/${uuid}/pics/datatable`}
-                                    columns={PIC_DATATABLE_COLUMNS}
-                                    defaultSortOrder={DEFAULT_SORT_ORDER}
-                                    mutateCallback={mutate =>
-                                        (picMutator = mutate)
-                                    }
-                                    getRowDataCallback={fn =>
-                                        (getPicRowData = fn)
-                                    }
-                                />
-                            </Box>
-                        )}
+                            <Datatable
+                                title="Penanggung Jawab"
+                                tableId="inventory-item-pic-table"
+                                apiUrl={`inventory-items/${inventoryItem.uuid}/pics/datatable`}
+                                columns={PIC_DATATABLE_COLUMNS}
+                                defaultSortOrder={DEFAULT_SORT_ORDER}
+                                mutateCallback={mutate => (picMutator = mutate)}
+                                getRowDataCallback={fn => (getPicRowData = fn)}
+                            />
+                        </FlexColumnBox>
                     </Grid2>
                     <Grid2 xs={12} sm={4}>
                         <AssignPicButtonAndDialogForm
@@ -162,7 +145,7 @@ const PIC_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pada',
     },
     {
-        name: 'pic_user.name',
+        name: 'picUser.name',
         label: 'Oleh',
         options: {
             customBodyRenderLite: dataIndex => {
@@ -174,10 +157,6 @@ const PIC_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 return `#${id} ${name}`
             },
         },
-    },
-    {
-        name: 'note',
-        label: 'Catatan',
     },
 ]
 
@@ -191,7 +170,7 @@ const CHECKUP_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pemeriksaan',
     },
     {
-        name: 'by_user.name',
+        name: 'byUser.name',
         label: 'Oleh',
         options: {
             customBodyRenderLite: dataIndex => {

@@ -24,7 +24,6 @@ import ReportIcon from '@mui/icons-material/Report'
 // locals
 import CustomHeadButton from './components/CustomHeadButton'
 // utils
-import debounce from '@/utils/debounce'
 import formatToDatatableParams from './utils/formatToDatatableParams'
 
 const MUIDataTable = dynamic(() => import('mui-datatables'), {
@@ -99,6 +98,8 @@ const Datatable = memo(function Datatable({
 
     const isLoading = isApiLoading || isValidating || initialLoading
 
+    let timerId: NodeJS.Timeout
+
     const handleFetchData = useCallback(
         (action: string, tableState: MUIDataTableState) => {
             if (
@@ -122,8 +123,12 @@ const Datatable = memo(function Datatable({
                 })
             }
 
-            setInitialLoading(true)
-            debounce(() => {
+            if (!initialLoading) {
+                setInitialLoading(true)
+            }
+
+            clearTimeout(timerId)
+            timerId = setTimeout(() => {
                 setParams(formatToDatatableParams(tableState))
                 setInitialLoading(false)
             }, 350)
