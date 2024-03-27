@@ -1,18 +1,21 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
+import type InstallmentType from '@/dataTypes/Installment'
 // vendors
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
 import Chip, { ChipOwnProps } from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 // components
 import Datatable, { GetRowDataType } from '@/components/Datatable'
-import InstallmentType from '@/dataTypes/Installment'
 import ScrollableXBox from '../ScrollableXBox'
+// utils
+import getInstallmentType from '@/utils/getInstallmentType'
+import getInstallmentColor from '@/utils/getInstallmentColor'
 import numberToCurrency from '@/utils/numberToCurrency'
-import { Typography } from '@mui/material'
-import dayjs from 'dayjs'
 import toDmy from '@/utils/toDmy'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
@@ -98,36 +101,9 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const { installmentable_uuid, installmentable_classname } =
-                    getRowData(dataIndex) ?? {}
+                const installment = getRowData(dataIndex)
 
-                let theReturn: string = ''
-
-                switch (installmentable_classname) {
-                    case 'App\\Models\\ProductSale':
-                        theReturn = 'Penjualan Produk (SAPRODI)'
-                        break
-
-                    case 'App\\Models\\UserLoan':
-                        theReturn = 'Pinjaman (SPP)'
-                        break
-
-                    case 'App\\Models\\RentItemRent':
-                        theReturn = 'Sewa Alat Berat'
-                        break
-                }
-
-                return (
-                    <>
-                        {theReturn}
-                        <Typography
-                            variant="caption"
-                            fontSize="0.7rem"
-                            component="div">
-                            {installmentable_uuid?.slice(-6).toUpperCase()}
-                        </Typography>
-                    </>
-                )
+                if (installment) return getInstallmentType(installment)
             },
         },
     },
@@ -153,41 +129,25 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             searchable: false,
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const { state, transaction } = getRowData(dataIndex) ?? {}
+                const installment = getRowData(dataIndex)
 
-                let color = 'inherit'
-
-                switch (state) {
-                    case 'Jatuh Tempo':
-                        color = 'error.main'
-                        break
-
-                    case 'Jatuh Tempo Dalam 7 Hari':
-                        color = 'warning.main'
-                        break
-
-                    case 'Lunas':
-                        color = 'success.main'
-                        break
-
-                    default:
-                        break
-                }
-
-                return (
-                    <Box color={color}>
-                        {state}
-                        {transaction?.at && (
-                            <Typography
-                                variant="caption"
-                                fontSize="0.7rem"
-                                component="div">
-                                TGL:{' '}
-                                {dayjs(transaction.at).format('DD-MM-YYYY')}
-                            </Typography>
-                        )}
-                    </Box>
-                )
+                if (installment)
+                    return (
+                        <Box color={getInstallmentColor(installment)}>
+                            {installment.state}
+                            {installment?.transaction?.at && (
+                                <Typography
+                                    variant="caption"
+                                    fontSize="0.7rem"
+                                    component="div">
+                                    TGL:{' '}
+                                    {dayjs(installment.transaction.at).format(
+                                        'DD-MM-YYYY',
+                                    )}
+                                </Typography>
+                            )}
+                        </Box>
+                    )
             },
         },
     },
