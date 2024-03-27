@@ -1,6 +1,8 @@
+import type { UUID } from 'crypto'
+import type UserType from '@/dataTypes/User'
 // vendors
-import useSWR from 'swr'
 import { useRouter } from 'next/router'
+import useSWR from 'swr'
 // materials
 import Chip from '@mui/material/Chip'
 // components
@@ -9,23 +11,14 @@ import LineChart from '@/components/Chart/Line/Line'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import StatCard from '@/components/StatCard'
 // etc
-import useAuth from '@/providers/Auth'
-import Role from '@/enums/Role'
-import UserType from '@/dataTypes/User'
-import { UUID } from 'crypto'
 
 export default function TbsPerformanceChart({ user }: { user: UserType }) {
-    const { userHasRole } = useAuth()
     const { replace, query } = useRouter()
     const { dataUnit = 'weeks' } = query
 
     const isDailyData = dataUnit === 'days'
     const isWeeklyData = dataUnit === 'weeks'
     const isMonthlyData = dataUnit === 'months'
-
-    if (!userHasRole([Role.FARMER, Role.COURIER], user)) {
-        return ''
-    }
 
     return (
         <FlexColumnBox>
@@ -77,17 +70,13 @@ export default function TbsPerformanceChart({ user }: { user: UserType }) {
                 />
             </ScrollableXBox>
 
-            {userHasRole(Role.FARMER) && (
-                <PalmBunchWeightChart userUuid={user.uuid} />
-            )}
-            {userHasRole(Role.COURIER) && (
-                <PalmBunchDeliveryChart userUuid={user.uuid} />
-            )}
+            <PalmBunchWeightChart userUuid={user.uuid} />
+            <PalmBunchDeliveryChart userUuid={user.uuid} />
         </FlexColumnBox>
     )
 }
 
-const getXAxisLabel = (dataUnit: string) => {
+function getXAxisLabel(dataUnit: string) {
     switch (dataUnit) {
         case 'days':
             return 'Tanggal'
@@ -151,7 +140,7 @@ function PalmBunchWeightChart({ userUuid }: { userUuid: UUID }) {
     )
 }
 
-const PalmBunchDeliveryChart = ({ userUuid }: { userUuid: UUID }) => {
+function PalmBunchDeliveryChart({ userUuid }: { userUuid: UUID }) {
     const { query } = useRouter()
     const { dataUnit = 'weeks', nData = 12 } = query
 
