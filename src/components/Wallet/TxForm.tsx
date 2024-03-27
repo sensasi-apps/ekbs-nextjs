@@ -8,7 +8,10 @@ import { useState } from 'react'
 import { FastField } from 'formik'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
+import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
@@ -22,12 +25,16 @@ import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '../InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextField from '@/components/TextField'
+// icons
+import ViewListIcon from '@mui/icons-material/ViewList'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
 import DatePicker from '../DatePicker'
 import TextFieldFastableComponent from '../TextField/FastableComponent'
 import TransactionTag from '@/enums/TransactionTag'
+import IconButton from '../IconButton'
+import InstallmentTable from './TxForm/InstallmentTable'
 
 export default function WalletTxForm({
     dirty,
@@ -38,6 +45,7 @@ export default function WalletTxForm({
     setFieldValue,
 }: FormikProps<FormValuesType>) {
     const [fromCash, setFromCash] = useState<CashType>()
+    const [openPiutang, setOpenPiutang] = useState(false)
 
     const typedStatus: WalletType = status
 
@@ -75,6 +83,41 @@ export default function WalletTxForm({
                     {
                         label: 'Saldo',
                         value: numberToCurrency(typedStatus.balance ?? 0),
+                    },
+                    {
+                        label: 'Piutang',
+                        value: (
+                            <Box display="flex" alignItems="center">
+                                {numberToCurrency(
+                                    typedStatus.user.unpaid_installments?.reduce(
+                                        (acc, curr) => acc + curr.amount_rp,
+                                        0,
+                                    ) ?? 0,
+                                )}
+
+                                <IconButton
+                                    title="Detail"
+                                    color="primary"
+                                    icon={ViewListIcon}
+                                    onClick={() => setOpenPiutang(true)}
+                                />
+
+                                <Dialog
+                                    open={openPiutang}
+                                    maxWidth="sm"
+                                    fullWidth
+                                    onClose={() => setOpenPiutang(false)}>
+                                    <DialogContent>
+                                        <InstallmentTable
+                                            data={
+                                                typedStatus.user
+                                                    .unpaid_installments ?? []
+                                            }
+                                        />
+                                    </DialogContent>
+                                </Dialog>
+                            </Box>
+                        ),
                     },
                 ]}
             />
