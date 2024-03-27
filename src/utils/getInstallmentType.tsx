@@ -1,9 +1,10 @@
-import type Installment from "@/dataTypes/Installment"
-import Typography from "@mui/material/Typography"
+import type Installment from '@/dataTypes/Installment'
+import Typography from '@mui/material/Typography'
 
-export default function getInstallmentType(
-    {installmentable_classname, installmentable_uuid}: Installment,
-) {
+export default function getInstallmentType({
+    installmentable_classname,
+    installmentable_uuid,
+}: Installment) {
     let theReturn: string = ''
 
     switch (installmentable_classname) {
@@ -23,10 +24,7 @@ export default function getInstallmentType(
     return (
         <>
             {theReturn}
-            <Typography
-                variant="caption"
-                fontSize="0.7rem"
-                component="div">
+            <Typography variant="caption" fontSize="0.7rem" component="div">
                 {installmentable_uuid?.slice(-6).toUpperCase()}
             </Typography>
         </>
