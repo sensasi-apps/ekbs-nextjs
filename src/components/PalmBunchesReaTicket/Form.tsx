@@ -106,7 +106,7 @@ export default function PalmBuncesReaTicketForm({
                 clearByName={clearByName}
             />
 
-            {userHasRole(Role.PALM_BUNCH_MANAGER) && data.payment_detail && (
+            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
                 <>
                     <ReaTiketPaymentDetailView data={data} />
 

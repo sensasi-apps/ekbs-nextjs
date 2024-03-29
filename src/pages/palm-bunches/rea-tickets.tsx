@@ -2,10 +2,9 @@ import type { MUIDataTableColumn } from 'mui-datatables'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type PalmBunchType from '@/dataTypes/PalmBunch'
 // vendors
-import { FC, useState } from 'react'
+import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 // materials
-import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // icons
@@ -17,17 +16,19 @@ import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'
 import FormActions from '@/components/Global/Form/Actions'
 import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
+import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
+import ScrollableXBox from '@/components/ScrollableXBox'
 // local components
 import MainForm from '@/components/PalmBunchesReaTicket/Form'
+import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 // providers
 import { FormDataProvider } from '@/providers/useFormData'
 import useFormData from '@/providers/useFormData'
 import useAuth from '@/providers/Auth'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
+import Role from '@/enums/Role'
 // utils
-import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
-import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import formatNumber from '@/utils/formatNumber'
 
 export default function PalmBuncesReaTickets() {
@@ -40,11 +41,9 @@ export default function PalmBuncesReaTickets() {
     )
 }
 
-const Crud: FC = () => {
+function Crud() {
     const { userHasPermission } = useAuth()
-    const [filter, setFilter] = useState<
-        '' | 'not-found' | 'unmatched' | 'unvalidated'
-    >('')
+    const { query } = useRouter()
 
     const {
         data,
@@ -61,44 +60,16 @@ const Crud: FC = () => {
 
     return (
         <>
-            <Box
-                sx={{
-                    overflowX: 'auto',
-                }}
-                mb={3}
-                display="flex"
-                gap={1}>
-                <Chip
-                    label="Semua"
-                    color={filter === '' ? 'success' : undefined}
-                    onClick={() => setFilter('')}
-                />
-
-                <Chip
-                    label="Menunggu Validasi"
-                    color={filter === 'unvalidated' ? 'success' : undefined}
-                    onClick={() => setFilter('unvalidated')}
-                />
-
-                <Chip
-                    label="Data pembayaran tidak cocok"
-                    color={filter === 'unmatched' ? 'success' : undefined}
-                    onClick={() => setFilter('unmatched')}
-                />
-
-                <Chip
-                    label="Data pembayaran tidak ditemukan"
-                    color={filter === 'not-found' ? 'success' : undefined}
-                    onClick={() => setFilter('not-found')}
-                />
-            </Box>
+            <ScrollableXBox mb={3}>
+                <FilterChips />
+            </ScrollableXBox>
 
             <Datatable
                 title="Riwayat"
                 tableId="PalmBunchDeliveryRateDatatable"
                 apiUrl={PalmBunchApiUrlEnum.TICKET_DATATABLE_DATA}
                 apiUrlParams={{
-                    filter,
+                    filter: query.filter as string,
                 }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
@@ -339,3 +310,63 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
 ]
+
+function FilterChips() {
+    const { userHasRole } = useAuth()
+    const { query, replace } = useRouter()
+    const filter = query.filter
+
+    return (
+        <>
+            <Chip
+                label="Semua"
+                color={!filter ? 'success' : undefined}
+                onClick={() =>
+                    replace({
+                        query: {
+                            filter: '',
+                        },
+                    })
+                }
+            />
+
+            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
+                <Chip
+                    label="Menunggu Validasi"
+                    color={filter === 'unvalidated' ? 'success' : undefined}
+                    onClick={() =>
+                        replace({
+                            query: {
+                                filter: 'unvalidated',
+                            },
+                        })
+                    }
+                />
+            )}
+
+            <Chip
+                label="Data pembayaran tidak cocok"
+                color={filter === 'unmatched' ? 'success' : undefined}
+                onClick={() =>
+                    replace({
+                        query: {
+                            filter: 'unmatched',
+                        },
+                    })
+                }
+            />
+
+            <Chip
+                label="Data pembayaran tidak ditemukan"
+                color={filter === 'not-found' ? 'success' : undefined}
+                onClick={() =>
+                    replace({
+                        query: {
+                            filter: 'not-found',
+                        },
+                    })
+                }
+            />
+        </>
+    )
+}
