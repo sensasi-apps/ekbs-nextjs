@@ -7,10 +7,10 @@ import axios from '@/lib/axios'
 import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
 // icons
-import PaymentsIcon from '@mui/icons-material/Payments'
+// import PaymentsIcon from '@mui/icons-material/Payments'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Fab from '@/components/Fab'
+// import Fab from '@/components/Fab'
 import { mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 // page components
@@ -26,11 +26,11 @@ export default function Loans() {
     const [dialogOpen, setDialogOpen] = useState(false)
     const [userLoanFromDb, setUserLoanFromDb] = useState<LoanType | null>(null)
 
-    const handleNew = useCallback(() => {
-        setValues(INITIAL_VALUES)
-        setUserLoanFromDb(null)
-        setDialogOpen(true)
-    }, [])
+    // const handleNew = useCallback(() => {
+    //     setValues(INITIAL_VALUES)
+    //     setUserLoanFromDb(null)
+    //     setDialogOpen(true)
+    // }, [])
 
     const handleEdit = useCallback((values: LoanType) => {
         setValues({
@@ -42,6 +42,7 @@ export default function Loans() {
             term_unit: values.term_unit,
             user_uuid: values.user_uuid,
             type: values.type,
+            cashable_uuid: values.transaction?.cashable_uuid ?? '',
         })
         setUserLoanFromDb(values)
         setDialogOpen(true)
@@ -91,9 +92,9 @@ export default function Loans() {
                 />
             </DialogWithTitle>
 
-            <Fab onClick={handleNew} aria-label="Ajukan pinjaman baru">
+            {/* <Fab onClick={handleNew} aria-label="Ajukan pinjaman baru">
                 <PaymentsIcon />
-            </Fab>
+            </Fab> */}
         </AuthLayout>
     )
 }

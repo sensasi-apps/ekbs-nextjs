@@ -1,3 +1,4 @@
+import type CashType from '@/dataTypes/Cash'
 import type UserLoanType from '@/dataTypes/Loan'
 
 /**
@@ -12,4 +13,5 @@ export type UserLoanFormDataType = {
     proposed_at: UserLoanType['proposed_at'] | null
     interest_percent: UserLoanType['interest_percent'] | ''
     type: UserLoanType['type'] | ''
+    cashable_uuid: CashType['uuid'] | ''
 }

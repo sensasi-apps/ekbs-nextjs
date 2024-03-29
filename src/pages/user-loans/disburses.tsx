@@ -14,11 +14,14 @@ import UserLoanDisburseForm, {
 import UserLoanDisburseDatatable from '@/components/pages/user-loans/disburse/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 // utils
+import useDisablePage from '@/hooks/useDisablePage'
 import errorCatcher from '@/utils/errorCatcher'
 // enums
 import ApiUrlEnum from '@/components/pages/user-loans/ApiUrlEnum'
 
 export default function UserLoansDisburses() {
+    useDisablePage()
+
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [formData, setFormData] = useState<FormValuesType>({})
     const [userLoan, setUserLoan] = useState<UserLoanType | null>(null)

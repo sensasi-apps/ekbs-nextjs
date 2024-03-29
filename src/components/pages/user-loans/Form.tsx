@@ -2,15 +2,17 @@
 import type { FormikProps } from 'formik'
 import type { FieldProps } from 'formik'
 import type { Ymd } from '@/types/DateString'
+import type CashType from '@/dataTypes/Cash'
 import type UserLoanType from '@/dataTypes/Loan'
 // vendors
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
 import { Field, useFormik } from 'formik'
 import { useEffect, useState, memo } from 'react'
+import axios from '@/lib/axios'
+import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -29,7 +31,7 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import NumericFormat from '@/components/NumericFormat'
 import FormikForm from '@/components/FormikForm'
 import LoadingAddorment from '@/components/LoadingAddorment'
-
+import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserAutocomplete from '@/components/Global/UserAutocomplete'
 // utils
@@ -317,6 +319,40 @@ export default function LoanForm({
                 />
             </Box>
 
+            <Box mb={1}>
+                <SelectFromApi
+                    required
+                    endpoint="/data/cashes"
+                    label="Telah dicairkan melalui Kas"
+                    size="small"
+                    margin="none"
+                    disabled={isDisabled}
+                    selectProps={{
+                        value: loanValues.cashable_uuid ?? '',
+                    }}
+                    onValueChange={(cash: CashType) => {
+                        setFieldValue('cashable_uuid', cash.uuid)
+                    }}
+                    renderOption={(cash: CashType) => (
+                        <MenuItem key={cash.uuid} value={cash.uuid}>
+                            {cash.code && (
+                                <Chip
+                                    label={cash.code}
+                                    size="small"
+                                    variant="outlined"
+                                    sx={{
+                                        mr: 1,
+                                    }}
+                                />
+                            )}
+
+                            {cash.name}
+                        </MenuItem>
+                    )}
+                    {...errorsToHelperTextObj(errors.cashable_uuid)}
+                />
+            </Box>
+
             <Typography variant="caption">{agreementText}</Typography>
         </FormikForm>
     )
@@ -331,6 +367,7 @@ export const INITIAL_VALUES: UserLoanFormDataType = {
     n_term: '',
     term_unit: 'bulan',
     interest_percent: 1.5,
+    cashable_uuid: '',
 }
 
 const UserLoanInfoGrid = memo(function UserLoanInfoGrid({

@@ -13,8 +13,11 @@ import ReviewDatatable from '@/components/pages/user-loans/reviews/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
+import useDisablePage from '@/hooks/useDisablePage'
 
 export default function UserLoansReviews() {
+    useDisablePage()
+
     const [state, setState] = useState<FormOpenStateType | FormCloseStateType>(
         CLOSE_STATE,
     )

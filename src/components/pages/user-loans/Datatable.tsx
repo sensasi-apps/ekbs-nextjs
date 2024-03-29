@@ -33,7 +33,7 @@ export default function LoanDatatable({
     const API_URL =
         mode === 'manager' ? '/user-loans/datatable' : '/loans/datatable'
 
-    const TITLE = mode === 'manager' ? 'Daftar Pengajuan Pinjaman' : 'Riwayat'
+    const TITLE = mode === 'manager' ? 'Daftar Pinjaman' : 'Riwayat'
 
     const columns = [...DATATABLE_COLUMNS]
 

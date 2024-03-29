@@ -43,6 +43,7 @@ export default function UserLoans() {
             term_unit: values.term_unit,
             user_uuid: values.user_uuid,
             type: values.type,
+            cashable_uuid: values.transaction?.cashable_uuid ?? '',
         })
         setUserLoanFromDb(values)
         setDialogOpen(true)

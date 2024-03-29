@@ -5,8 +5,8 @@ import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
-import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
-import RateReviewIcon from '@mui/icons-material/RateReview'
+// import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
+// import RateReviewIcon from '@mui/icons-material/RateReview'
 // page components
 import GroupTitle from './GroupTitle'
 // enums
@@ -38,20 +38,20 @@ const loanNavItems: NavItem[] = [
         icon: <BackupTableIcon />,
         forPermission: UserLoan.READ,
     },
-    {
-        href: '/user-loans/reviews',
-        label: 'Persetujuan',
-        pathname: '/user-loans/reviews',
-        icon: <RateReviewIcon />,
-        forPermission: UserLoan.READ_NEED_REVIEW,
-    },
-    {
-        href: '/user-loans/disburses',
-        label: 'Pencairan',
-        pathname: '/user-loans/disburses',
-        icon: <RequestQuoteIcon />,
-        forPermission: UserLoan.READ_NEED_DISBURSE,
-    },
+    // {
+    //     href: '/user-loans/reviews',
+    //     label: 'Persetujuan',
+    //     pathname: '/user-loans/reviews',
+    //     icon: <RateReviewIcon />,
+    //     forPermission: UserLoan.READ_NEED_REVIEW,
+    // },
+    // {
+    //     href: '/user-loans/disburses',
+    //     label: 'Pencairan',
+    //     pathname: '/user-loans/disburses',
+    //     icon: <RequestQuoteIcon />,
+    //     forPermission: UserLoan.READ_NEED_DISBURSE,
+    // },
     {
         href: '/user-loans/installments',
         label: 'Angsuran',
