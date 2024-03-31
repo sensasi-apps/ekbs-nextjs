@@ -113,17 +113,21 @@ export default function LoanForm({
 
     const hasResponses = isNew ? false : userLoanFromDb.responses.length > 0
     const isProcessing = isSubmitting || isDeleting
-    const isDisabled =
+    const isDisabled = Boolean(
         isProcessing ||
-        hasResponses ||
-        isTermUnitLoading ||
-        !isCreatedByCurrentUser
+            hasResponses ||
+            isTermUnitLoading ||
+            !isCreatedByCurrentUser ||
+            userLoanFromDb?.transaction,
+    )
 
     const isUserCanDelete =
         !isNew &&
         userHasPermission('delete own loan') &&
         isCreatedByCurrentUser &&
         !hasResponses
+
+    const disabledCashUuid = Boolean(!isManager || userLoanFromDb?.transaction)
 
     return (
         <FormikForm
@@ -139,7 +143,7 @@ export default function LoanForm({
                     disabled: isDisabled || !isUserCanDelete,
                 },
                 submitButton: {
-                    disabled: isDisabled,
+                    disabled: false,
                 },
             }}>
             <UserLoanInfoGrid data={userLoanFromDb} />
@@ -326,7 +330,7 @@ export default function LoanForm({
                     label="Telah dicairkan melalui Kas"
                     size="small"
                     margin="none"
-                    disabled={isDisabled}
+                    disabled={disabledCashUuid}
                     selectProps={{
                         value: loanValues.cashable_uuid ?? '',
                     }}

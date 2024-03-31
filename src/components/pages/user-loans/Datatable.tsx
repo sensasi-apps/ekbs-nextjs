@@ -1,6 +1,6 @@
 // types
 import type LoanType from '@/dataTypes/Loan'
-import type { OnRowClickType } from '@/components/Datatable'
+import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
 import type { MUISortOptions } from 'mui-datatables'
 import type { GetRowDataType } from '@/components/Datatable'
 // vendors
@@ -14,9 +14,13 @@ let getRowData: GetRowDataType<LoanType>
 export default function LoanDatatable({
     mode,
     onEdit,
+    apiUrlParams,
+    mutateCallback,
 }: {
     mode: 'applier' | 'manager'
+    apiUrlParams?: DatatableProps['apiUrlParams']
     onEdit: (values: LoanType) => void
+    mutateCallback?: DatatableProps['mutateCallback']
 }) {
     const handleRowClick: OnRowClickType = useCallback(
         (_, { rowIndex }, event) => {
@@ -44,12 +48,14 @@ export default function LoanDatatable({
     return (
         <Datatable
             apiUrl={API_URL}
+            apiUrlParams={apiUrlParams}
             columns={columns}
             defaultSortOrder={DEFAULT_SORT_ORDER}
             onRowClick={handleRowClick}
             tableId="loans-table"
             title={TITLE}
             getRowDataCallback={fn => (getRowData = fn)}
+            mutateCallback={mutateCallback}
         />
     )
 }

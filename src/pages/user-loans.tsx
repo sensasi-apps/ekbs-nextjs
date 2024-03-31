@@ -3,16 +3,20 @@ import type LoanType from '@/dataTypes/Loan'
 import type { FormikConfig } from 'formik'
 import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/types'
 // vendors
-import axios from '@/lib/axios'
 import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
+import { useRouter } from 'next/router'
+import axios from '@/lib/axios'
+// materials
+import Chip, { ChipOwnProps } from '@mui/material/Chip'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
+import { MutateType } from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Fab from '@/components/Fab'
-import { mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
+import ScrollableXBox from '@/components/ScrollableXBox'
 // page components
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
@@ -20,8 +24,13 @@ import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 import useAuth from '@/providers/Auth'
 import errorCatcher from '@/utils/errorCatcher'
 import UserLoan from '@/enums/permissions/UserLoan'
+import FlexColumnBox from '@/components/FlexColumnBox'
+
+let mutateUserLoans: MutateType
 
 export default function UserLoans() {
+    const { query } = useRouter()
+
     const { userHasPermission } = useAuth()
     const [values, setValues] = useState(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
@@ -62,7 +71,7 @@ export default function UserLoans() {
 
         return axios[method]('user-loans' + urlPrefix, values)
             .then(() => {
-                mutate()
+                mutateUserLoans()
                 closeDialog()
             })
             .catch(error => errorCatcher(error, setErrors))
@@ -76,7 +85,16 @@ export default function UserLoans() {
 
     return (
         <AuthLayout title="Kelola Pinjaman">
-            <LoansDatatable mode="manager" onEdit={handleEdit} />
+            <FlexColumnBox>
+                <FilterChips />
+
+                <LoansDatatable
+                    mode="manager"
+                    onEdit={handleEdit}
+                    apiUrlParams={{ type: query.type as string | undefined }}
+                    mutateCallback={fn => (mutateUserLoans = fn)}
+                />
+            </FlexColumnBox>
 
             <DialogWithTitle open={dialogOpen} title={title}>
                 <Formik
@@ -98,5 +116,51 @@ export default function UserLoans() {
                 <PaymentsIcon />
             </Fab>
         </AuthLayout>
+    )
+}
+
+const CHIP_DEFAULT_PROPS: ChipOwnProps = {
+    size: 'small',
+}
+
+function FilterChips() {
+    const { replace, query } = useRouter()
+
+    function handleTypeChange(value?: 'active' | 'waiting' | 'finished') {
+        replace({
+            query: {
+                ...query,
+                type: value,
+            },
+        })
+    }
+
+    return (
+        <ScrollableXBox>
+            <Chip
+                {...CHIP_DEFAULT_PROPS}
+                label="Semua"
+                onClick={() => handleTypeChange(undefined)}
+                color={query.type ? undefined : 'success'}
+            />
+            <Chip
+                {...CHIP_DEFAULT_PROPS}
+                label="Angsuran Aktif"
+                onClick={() => handleTypeChange('active')}
+                color={query.type === 'active' ? 'success' : undefined}
+            />
+            <Chip
+                {...CHIP_DEFAULT_PROPS}
+                label="Belum Dicairkan"
+                onClick={() => handleTypeChange('waiting')}
+                color={query.type === 'waiting' ? 'success' : undefined}
+            />
+            <Chip
+                {...CHIP_DEFAULT_PROPS}
+                label="Selesai"
+                onClick={() => handleTypeChange('finished')}
+                color={query.type === 'finished' ? 'success' : undefined}
+            />
+        </ScrollableXBox>
     )
 }
