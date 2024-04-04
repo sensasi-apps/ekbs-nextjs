@@ -75,6 +75,15 @@ let getRowData: GetRowDataType<InstallmentType>
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
+        name: 'uuid',
+        label: 'UUID',
+        options: {
+            display: false,
+            filter: false,
+            sort: false,
+        },
+    },
+    {
         name: 'should_be_paid_at',
         label: 'Jatuh Tempo',
         options: {
