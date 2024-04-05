@@ -35,7 +35,7 @@ import ScrollableXBox from '../ScrollableXBox'
 import SummaryByTag from './TxHistory/SummaryByTag'
 
 const DEFAULT_START_DATE = dayjs().startOf('month')
-const DEFAULT_END_DATE = dayjs()
+const DEFAULT_END_DATE = dayjs().endOf('month')
 
 export type ApiResponseType = {
     balanceFrom: number
@@ -122,7 +122,7 @@ export default function TxHistory({
                     disabled={loading}
                     value={toDate}
                     minDate={fromDate}
-                    maxDate={dayjs()}
+                    maxDate={DEFAULT_END_DATE}
                     slotProps={{
                         textField: {
                             margin: 'none',
