@@ -103,8 +103,8 @@ export default function App({ Component, pageProps }: AppProps) {
                                 .then(res => res.data)
                         },
                         shouldRetryOnError: false,
-                        revalidateOnFocus: false,
-                        revalidateIfStale: false,
+                        // revalidateOnFocus: false,
+                        // revalidateIfStale: false,
                     }}>
                     <Component {...pageProps} />
                 </SWRConfig>
