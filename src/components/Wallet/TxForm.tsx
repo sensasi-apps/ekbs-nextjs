@@ -35,6 +35,7 @@ import TextFieldFastableComponent from '../TextField/FastableComponent'
 import TransactionTag from '@/enums/TransactionTag'
 import IconButton from '../IconButton'
 import InstallmentTable from './TxForm/InstallmentTable'
+import dayjs from 'dayjs'
 
 export default function WalletTxForm({
     dirty,
@@ -148,7 +149,7 @@ export default function WalletTxForm({
 
             <DatePicker
                 label="Tanggal"
-                disableFuture
+                maxDate={dayjs().endOf('month')}
                 disabled={disabled}
                 onChange={value =>
                     setFieldValue('at', value?.format('YYYY-MM-DD'))
