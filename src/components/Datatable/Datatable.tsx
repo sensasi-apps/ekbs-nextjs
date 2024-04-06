@@ -1,10 +1,10 @@
 // types
 import type YajraDatatable from '@/types/responses/YajraDatatable'
-import type {
-    MUIDataTableColumn,
-    MUIDataTableOptions,
-    MUIDataTableState,
-    MUISortOptions,
+import {
+    type MUIDataTableColumn,
+    type MUIDataTableOptions,
+    type MUIDataTableState,
+    type MUISortOptions,
 } from 'mui-datatables'
 import type { KeyedMutator } from 'swr'
 import type { OnRowClickType } from './types'
@@ -15,6 +15,7 @@ import dynamic from 'next/dynamic'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 import LinearProgress from '@mui/material/LinearProgress'
 import Paper from '@mui/material/Paper'
@@ -52,10 +53,37 @@ export type DatatableProps = {
     swrOptions?: SWRConfiguration
 }
 
+const SXs = {
+    loading: {
+        borderTopLeftRadius: 11,
+        borderTopRightRadius: 11,
+        translate: '0 4px',
+        zIndex: 1,
+    },
+
+    tableParent: {
+        '& td, & th': {
+            py: 1,
+            px: 2,
+        },
+        '& tbody .MuiTableRow-hover': {
+            cursor: 'pointer',
+        },
+    },
+
+    paper: {
+        p: 1,
+        color: 'error.main',
+        fontFamily: 'monospace',
+        fontSize: 12,
+        maxWidth: '400px',
+    },
+}
+
 const Datatable = memo(function Datatable({
     apiUrl,
     apiUrlParams,
-    columns,
+    columns: defaultColumns,
     defaultSortOrder,
     tableId,
     title,
@@ -66,6 +94,7 @@ const Datatable = memo(function Datatable({
     ...props
 }: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick'>) {
     const [params, setParams] = useState<any>()
+    const [columns, setColums] = useState(defaultColumns)
     const [sortOrder, setSortOrder] = useState(defaultSortOrder)
     const [initialLoading, setInitialLoading] = useState(false)
 
@@ -137,7 +166,6 @@ const Datatable = memo(function Datatable({
     )
 
     const isRowClickable = Boolean(onRowClick)
-    const isHover = !isLoading && data.length > 0 && isRowClickable
 
     const options: MUIDataTableOptions = {
         tableId: tableId,
@@ -158,10 +186,33 @@ const Datatable = memo(function Datatable({
                 <RefreshIcon />
             </CustomHeadButton>
         ),
-        rowHover: isHover,
+        rowHover: isRowClickable,
         onRowClick: onRowClick as MUIDataTableOptions['onRowClick'],
         onTableInit: handleFetchData,
         onTableChange: handleFetchData,
+        onViewColumnsChange(changedColumn, action) {
+            if (action === 'add') {
+                setColums(prev => {
+                    const col = prev.find(col => col.name === changedColumn)
+
+                    if (col && col.options) {
+                        col.options.display = true
+                    }
+
+                    return prev
+                })
+            } else {
+                setColums(prev => {
+                    const col = prev.find(col => col.name === changedColumn)
+
+                    if (col && col.options) {
+                        col.options.display = false
+                    }
+
+                    return prev
+                })
+            }
+        },
         textLabels: {
             body: {
                 noMatch: generateTextLabel(isLoading, error),
@@ -172,26 +223,10 @@ const Datatable = memo(function Datatable({
     }
 
     return (
-        <Box
-            sx={
-                isHover
-                    ? {
-                          '& tbody tr:hover': {
-                              cursor: 'pointer',
-                          },
-                      }
-                    : undefined
-            }>
-            {isLoading && (
-                <LinearProgress
-                    sx={{
-                        borderTopLeftRadius: 11,
-                        borderTopRightRadius: 11,
-                        translate: '0 4px',
-                        zIndex: 1,
-                    }}
-                />
-            )}
+        <Box sx={SXs.tableParent}>
+            <Fade in={isLoading}>
+                <LinearProgress sx={SXs.loading} />
+            </Fade>
 
             <MUIDataTable
                 title={title}
@@ -200,17 +235,16 @@ const Datatable = memo(function Datatable({
                 options={options}
             />
 
-            {isRowClickable && (
-                <Typography
-                    variant="caption"
-                    mt={1.1}
-                    ml={0.5}
-                    component="div"
-                    color="gray"
-                    fontStyle="italic">
-                    *Klik 2x pada baris untuk membuka formulir.
-                </Typography>
-            )}
+            <Typography
+                variant="caption"
+                display={isRowClickable ? 'block' : 'none'}
+                mt={1.1}
+                ml={0.5}
+                component="div"
+                color="gray"
+                fontStyle="italic">
+                *Klik 2x pada baris untuk membuka formulir.
+            </Typography>
         </Box>
     )
 })
@@ -238,15 +272,7 @@ function generateTextLabel(isLoading: boolean, error: YajraDatatable['error']) {
                 <Typography color="error" component="div" mb={1}>
                     Terjadi kesalahan
                 </Typography>
-                <Paper
-                    sx={{
-                        p: 1,
-                        color: 'error.main',
-                        fontFamily: 'monospace',
-                        fontSize: 12,
-                        maxWidth: '400px',
-                    }}
-                    component="div">
+                <Paper sx={SXs.paper} component="div">
                     {error}
                 </Paper>
             </Box>
