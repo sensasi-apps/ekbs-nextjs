@@ -127,7 +127,12 @@ export default function LoanForm({
         isCreatedByCurrentUser &&
         !hasResponses
 
-    const disabledCashUuid = Boolean(!isManager || userLoanFromDb?.transaction)
+    const disabledCashUuid = Boolean(
+        !isManager ||
+            userLoanFromDb?.transaction ||
+            isProcessing ||
+            isTermUnitLoading,
+    )
 
     return (
         <FormikForm
