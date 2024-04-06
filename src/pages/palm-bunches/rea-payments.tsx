@@ -295,6 +295,13 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
+        name: 'final_rp',
+        label: 'Nilai Akhir',
+        options: {
+            customBodyRender: (value: number) => numberToCurrency(value),
+        },
+    },
+    {
         name: 'transactions.at',
         label: 'Tanggal Pelunasan oleh REA',
         options: {
@@ -308,13 +315,6 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     ? toDmy(data.transactions[0].at)
                     : ''
             },
-        },
-    },
-    {
-        name: 'final_rp',
-        label: 'Nilai Akhir',
-        options: {
-            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
 ]
