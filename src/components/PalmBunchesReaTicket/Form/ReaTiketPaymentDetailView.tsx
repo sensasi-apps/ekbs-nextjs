@@ -77,7 +77,9 @@ export default function ReaTiketPaymentDetailView({
             <Row
                 label="Nama Petani"
                 value={data.payment_detail.farmer_name}
-                comparationValue={''}
+                comparationValue={data.delivery.palm_bunches
+                    .map(palmBunch => palmBunch.owner_user?.name)
+                    .join(', ')}
             />
         </Box>
     )
@@ -91,21 +93,25 @@ const Row = ({
     label: string
     value: string | number
     comparationValue: string | number
-}) => (
-    <Tooltip
-        placement="right"
-        arrow
-        title={`${label} tidak sesuai dengan data yang di-input`}
-        disableHoverListener={comparationValue === value}
-        sx={{
-            textDecoration: comparationValue !== value ? 'underline' : 'none',
-            textDecorationStyle: 'dashed',
-        }}>
-        <Typography variant="body2" component="div" width="fit-content">
-            {label}: <b>{value}</b>
-            {comparationValue !== value && (
-                <InfoIcon fontSize="small" color="warning" />
-            )}
-        </Typography>
-    </Tooltip>
-)
+}) => {
+    const isEqual =
+        comparationValue.toString().toLowerCase() ===
+        value.toString().toLowerCase()
+
+    return (
+        <Tooltip
+            placement="right"
+            arrow
+            title={`${label} tidak sesuai dengan data yang di-input`}
+            disableHoverListener={isEqual}
+            sx={{
+                textDecoration: isEqual ? 'none' : 'underline',
+                textDecorationStyle: 'dashed',
+            }}>
+            <Typography variant="body2" component="div" width="fit-content">
+                {label}: <b>{value}</b>
+                {!isEqual && <InfoIcon fontSize="small" color="warning" />}
+            </Typography>
+        </Tooltip>
+    )
+}

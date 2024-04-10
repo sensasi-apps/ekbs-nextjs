@@ -1,10 +1,11 @@
+import type { UUID } from 'crypto'
 import type PalmBunchRate from './PalmBunchRate'
 import type PalmBunchesReaPaymentDetail from './PalmBunchReaPaymentDetail'
 import type PalmBunchesDelivery from './PalmBunchesDelivery'
 import type PalmBunchesReaGrading from './PalmBunchesReaGrading'
 import type User from './User'
 
-interface PalmBunchesReaTicket {
+type PalmBunchesReaTicket = {
     id: number
     at: string
     spb_no?: string
@@ -22,8 +23,20 @@ interface PalmBunchesReaTicket {
     payment_detail?: PalmBunchesReaPaymentDetail
     rate?: PalmBunchRate
 
-    validated_at?: string
-    validated_by_user: User
-}
+    validated_at: null | string
+    validated_by_user_uuid: null | UUID
+    validated_by_user?: User
+} & (
+    | {
+          validated_at: null
+          validated_by_user_uuid: null
+          validated_by_user: undefined
+      }
+    | {
+          validated_at: string
+          validated_by_user_uuid: UUID
+          validated_by_user?: User
+      }
+)
 
 export default PalmBunchesReaTicket

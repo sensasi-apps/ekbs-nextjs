@@ -8,9 +8,11 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
-import Checkbox from '@mui/material/Checkbox'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 // icons
 import InfoIcon from '@mui/icons-material/Info'
@@ -125,6 +127,13 @@ export default function PalmBuncesReaTicketForm({
                 </>
             )}
 
+            {data.validated_by_user && (
+                <Box component={FormHelperText} mb={2}>
+                    Telah divalidasi oleh {data?.validated_by_user.name} pada{' '}
+                    {dayjs(data.validated_at).format('DD-MM-YYYY HH:mm')}
+                </Box>
+            )}
+
             {!data?.delivery?.transactions?.length &&
                 userHasPermission([
                     PalmBunch.CREATE_TICKET,
@@ -133,8 +142,15 @@ export default function PalmBuncesReaTicketForm({
                 actionsSlot}
 
             {/* TODO: refactor to permission based */}
-            {userHasRole(Role.PALM_BUNCH_MANAGER) && data?.delivery?.logs && (
-                <UserActivityLog data={data.delivery.logs} />
+            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
+                <UserActivityLog
+                    data={[
+                        ...(data.delivery?.logs ?? []),
+                        ...(data.delivery?.palm_bunches.flatMap(
+                            palmBunch => palmBunch.logs ?? [],
+                        ) ?? []),
+                    ]}
+                />
             )}
         </form>
     )
