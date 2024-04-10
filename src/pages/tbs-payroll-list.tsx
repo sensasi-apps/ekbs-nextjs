@@ -130,7 +130,7 @@ function FilterForm({ disabled }: { disabled: boolean }) {
                 name="at"
                 value={at ? dayjs(at as string) : null}
                 disabled={disabled}
-                maxDate={dayjs()}
+                maxDate={dayjs().endOf('month')}
                 label="Tanggal"
                 onChange={date =>
                     replace({
