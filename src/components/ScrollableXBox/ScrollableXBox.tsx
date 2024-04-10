@@ -8,6 +8,7 @@ import Box, { BoxProps } from '@mui/material/Box'
  * @param gap 1
  * @param whiteSpace nowrap
  * @param overflowX auto
+ * @param alignItems center
  */
 const ScrollableXBox = memo(function ScrollableXBox({
     sx,
@@ -23,6 +24,7 @@ const ScrollableXBox = memo(function ScrollableXBox({
             display="flex"
             gap={1}
             whiteSpace="nowrap"
+            alignItems="center"
             sx={appliedSx}
             {...props}
         />
