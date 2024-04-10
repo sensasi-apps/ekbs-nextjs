@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
+// import Fab from '@mui/material/Fab'
 import Skeleton from '@mui/material/Skeleton'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -28,6 +29,7 @@ import numberToCurrency from '@/utils/numberToCurrency'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import InfoBox from '@/components/InfoBox'
 import toDmy from '@/utils/toDmy'
+import ScrollToTopFab from '@/components/ScrollToTopFab'
 
 const ApiUrl = '/transactions/gajian-tbs/data'
 
@@ -114,6 +116,8 @@ export default function TbsPayrollList() {
                     {(!at || !to_cash_uuid) && <i>Silahkan melengkapi isian</i>}
                 </Box>
             </FlexColumnBox>
+
+            <ScrollToTopFab />
         </AuthLayout>
     )
 }

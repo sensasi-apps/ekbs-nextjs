@@ -10,6 +10,7 @@ import MemberSection from '@/components/pages/executive/statistics/sections/Memb
 import FinanceSection from '@/components/pages/executive/statistics/sections/Finance'
 import ReceivableSection from '@/components/pages/executive/statistics/sections/Receivable'
 import BusinessUnitSection from '@/components/pages/executive/statistics/sections/BusinessUnit'
+import ScrollToTopFab from '@/components/ScrollToTopFab'
 
 export default function Statistics() {
     return (
@@ -38,6 +39,8 @@ export default function Statistics() {
                 <ReceivableSection />
                 <BusinessUnitSection />
             </FlexColumnBox>
+
+            <ScrollToTopFab />
         </AuthLayout>
     )
 }
