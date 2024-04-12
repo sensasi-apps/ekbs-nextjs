@@ -130,7 +130,7 @@ export default function FarmInputProductSalesReport() {
             </Grid2>
 
             <TableContainer>
-                <Table>
+                <Table size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell>Tanggal</TableCell>
