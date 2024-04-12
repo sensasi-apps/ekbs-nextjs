@@ -76,7 +76,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
     const totalRp =
         product_sale_details?.reduce(
             (acc, { qty, rp_per_unit }) =>
-                acc + (qty ?? 0) * -1 * (rp_per_unit ?? 0),
+                acc + Math.abs(qty ?? 0) * (rp_per_unit ?? 0),
             0,
         ) ?? 0
 
@@ -133,7 +133,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
             <Grid container columnSpacing={1.5}>
                 <Grid item xs={12} sm={6}>
                     <DatePicker
-                        value={at ? dayjs(at) : undefined}
+                        value={at ? dayjs(at) : null}
                         disabled={isDisabled}
                         maxDate={dayjs().add(1, 'day')}
                         label="Tanggal"

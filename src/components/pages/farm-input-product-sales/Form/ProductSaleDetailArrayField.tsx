@@ -167,7 +167,7 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                     }
                                                     value={
                                                         row.qty
-                                                            ? row.qty * -1
+                                                            ? Math.abs(row.qty)
                                                             : ''
                                                     }
                                                     {...errorsToHelperTextObj(
@@ -236,7 +236,8 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                         }}
                                         value={
                                             row.qty && row.rp_per_unit
-                                                ? row.qty * -1 * row.rp_per_unit
+                                                ? Math.abs(row.qty) *
+                                                  row.rp_per_unit
                                                 : ''
                                         }
                                     />
@@ -262,8 +263,7 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                 product_sale_details?.reduce(
                                     (acc, row) =>
                                         acc +
-                                        (row.qty ?? 0) *
-                                            -1 *
+                                        Math.abs(row.qty ?? 0) *
                                             (row.rp_per_unit ?? 0),
                                     0,
                                 ) ?? 0,
