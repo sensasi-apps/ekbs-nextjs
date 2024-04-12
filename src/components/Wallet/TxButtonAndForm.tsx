@@ -18,9 +18,11 @@ import WalletTxForm from './TxForm'
 export default function WalletTxButtonAndForm({
     data,
     onSubmit = () => {},
+    disabled,
 }: {
     data: WalletType
     onSubmit?: () => void
+    disabled?: boolean
 }) {
     const [open, setOpen] = useState(false)
 
@@ -35,9 +37,15 @@ export default function WalletTxButtonAndForm({
     return (
         <>
             <Tooltip title="Tambah Transaksi" placement="top" arrow>
-                <IconButton color="success" size="small" onClick={handleCreate}>
-                    <PointOfSaleIcon />
-                </IconButton>
+                <span>
+                    <IconButton
+                        disabled={disabled}
+                        color="success"
+                        size="small"
+                        onClick={handleCreate}>
+                        <PointOfSaleIcon />
+                    </IconButton>
+                </span>
             </Tooltip>
 
             <DialogWithTitle title="Tambah Transaksi" open={open} maxWidth="xs">
