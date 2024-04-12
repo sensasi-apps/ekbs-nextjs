@@ -3,7 +3,7 @@ import type Transaction from '@/dataTypes/Transaction'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
 import { useState } from 'react'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import Image from 'next/image'
 import useSWR from 'swr'
 // materials
@@ -33,6 +33,8 @@ import WalletTxButtonAndForm from './TxButtonAndForm'
 import InfoBox from '../InfoBox'
 import ScrollableXBox from '../ScrollableXBox'
 import SummaryByTag from './TxHistory/SummaryByTag'
+import SummaryByTag2 from './TxHistory/SummaryByTag2'
+import Head from 'next/head'
 
 const DEFAULT_START_DATE = dayjs().startOf('month')
 const DEFAULT_END_DATE = dayjs().endOf('month')
@@ -53,9 +55,9 @@ export default function TxHistory({
     canExportExcel?: boolean
 }) {
     const { userHasPermission } = useAuth()
-    const [activeTab, setActiveTab] = useState<'rangkuman' | 'rincian'>(
-        'rangkuman',
-    )
+    const [activeTab, setActiveTab] = useState<
+        'rangkuman' | 'rincian' | 'rangkumanV2'
+    >('rangkuman')
     const [fromDate, setFromDate] = useState(DEFAULT_START_DATE)
     const [toDate, setToDate] = useState(DEFAULT_END_DATE)
 
@@ -142,6 +144,7 @@ export default function TxHistory({
                             Wallet.CREATE_USER_WALLET_TRANSACTION,
                         ) && (
                             <WalletTxButtonAndForm
+                                disabled={loading}
                                 data={walletData}
                                 onSubmit={() => {
                                     mutateHistory()
@@ -158,88 +161,14 @@ export default function TxHistory({
                                     disabled: loading,
                                 },
                             }}>
-                            <>
-                                <Box display="flex" gap={2}>
-                                    <Image
-                                        src="/assets/pwa-icons/green-transparent.svg"
-                                        width={0}
-                                        height={0}
-                                        sizes="100vw"
-                                        style={{ width: '6em', height: '6em' }}
-                                        alt="logo"
-                                        priority
-                                    />
-
-                                    <FlexColumnBox gap={1}>
-                                        <Typography>
-                                            {activeTab === 'rangkuman'
-                                                ? 'Rangkuman'
-                                                : 'Mutasi'}{' '}
-                                            EKBS Wallet
-                                        </Typography>
-                                        <Box>
-                                            <Typography
-                                                variant="caption"
-                                                color="text.disabled"
-                                                component="div">
-                                                Periode Transaksi:
-                                            </Typography>
-                                            <Typography
-                                                variant="caption"
-                                                component="div">
-                                                {toDmy(fromDate)} s/d{' '}
-                                                {toDmy(toDate)}
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography
-                                                variant="caption"
-                                                color="text.disabled"
-                                                component="div">
-                                                Waktu Cetak:
-                                            </Typography>
-                                            <Typography
-                                                variant="caption"
-                                                component="div">
-                                                {dayjs().format(
-                                                    'DD-MM-YYYY HH:mm:ss',
-                                                )}
-                                            </Typography>
-                                        </Box>
-                                    </FlexColumnBox>
-                                </Box>
-
-                                <FlexColumnBox gap={2}>
-                                    {activeTab === 'rincian' && (
-                                        <Header data={walletData} />
-                                    )}
-
-                                    {activeTab === 'rangkuman' && (
-                                        <Box mt={1}>
-                                            <Typography
-                                                variant="caption"
-                                                color="text.disabled"
-                                                component="div">
-                                                Nama:
-                                            </Typography>
-                                            <Typography
-                                                variant="body1"
-                                                component="div"
-                                                fontWeight="bold">
-                                                #{walletData?.user.id} &mdash;{' '}
-                                                {walletData.user.name}
-                                            </Typography>
-                                        </Box>
-                                    )}
-
-                                    {!loading && txs && (
-                                        <Body
-                                            data={txs}
-                                            activeTab={activeTab}
-                                        />
-                                    )}
-                                </FlexColumnBox>
-                            </>
+                            <PrintTemplate
+                                tab={activeTab}
+                                walletData={walletData}
+                                fromDate={fromDate}
+                                toDate={toDate}
+                                loading={loading}
+                                txs={txs}
+                            />
                         </PrintHandler>
                     )}
 
@@ -280,6 +209,18 @@ export default function TxHistory({
                                     : 'outlined'
                             }
                             onClick={() => setActiveTab('rangkuman')}
+                        />
+
+                        <Chip
+                            label="Rangkuman V2"
+                            color="success"
+                            size="small"
+                            variant={
+                                activeTab === 'rangkumanV2'
+                                    ? 'filled'
+                                    : 'outlined'
+                            }
+                            onClick={() => setActiveTab('rangkumanV2')}
                         />
 
                         <Chip
@@ -325,13 +266,19 @@ function Body({
     activeTab,
 }: {
     data: ApiResponseType
-    activeTab: 'rangkuman' | 'rincian'
+    activeTab: 'rangkuman' | 'rincian' | 'rangkumanV2'
 }) {
     return (
         <>
             <Fade in={activeTab === 'rangkuman'} unmountOnExit>
                 <span>
                     <SummaryByTag data={txs} />
+                </span>
+            </Fade>
+
+            <Fade in={activeTab === 'rangkumanV2'} unmountOnExit>
+                <span>
+                    <SummaryByTag2 data={txs} />
                 </span>
             </Fade>
 
@@ -473,5 +420,102 @@ function SummaryTable({ data }: { data: ApiResponseType }) {
                 },
             ]}
         />
+    )
+}
+
+type TabType = 'rangkuman' | 'rincian' | 'rangkumanV2'
+
+function PrintTemplate({
+    tab: activeTab,
+    fromDate,
+    toDate,
+    walletData,
+    loading,
+    txs,
+}: {
+    tab: TabType
+    fromDate: Dayjs
+    toDate: Dayjs
+    walletData: WalletType
+    loading: boolean
+    txs: ApiResponseType | undefined
+}) {
+    const title =
+        (['rangkuman', 'rangkumanV2'].includes(activeTab)
+            ? 'Rangkuman'
+            : 'Mutasi') + ' EKBS Wallet'
+
+    const dateRangeText = `${toDmy(fromDate)} s/d ${toDmy(toDate)}`
+
+    const windowTitle = `${title} — ${dateRangeText} — #${walletData?.user.id} — ${walletData.user.name} — ${process.env.NEXT_PUBLIC_APP_NAME}`
+
+    return (
+        <>
+            <Head>
+                <title>{windowTitle}</title>
+            </Head>
+
+            <Box display="flex" gap={2}>
+                <Image
+                    src="/assets/pwa-icons/green-transparent.svg"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: '6em', height: '6em' }}
+                    alt="logo"
+                    priority
+                />
+
+                <FlexColumnBox gap={1}>
+                    <Typography>{title}</Typography>
+                    <Box>
+                        <Typography
+                            variant="caption"
+                            color="text.disabled"
+                            component="div">
+                            Periode Transaksi:
+                        </Typography>
+                        <Typography variant="caption" component="div">
+                            {dateRangeText}
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Typography
+                            variant="caption"
+                            color="text.disabled"
+                            component="div">
+                            Waktu Cetak:
+                        </Typography>
+                        <Typography variant="caption" component="div">
+                            {dayjs().format('DD-MM-YYYY HH:mm:ss')}
+                        </Typography>
+                    </Box>
+                </FlexColumnBox>
+            </Box>
+
+            <FlexColumnBox gap={2}>
+                {activeTab === 'rincian' && <Header data={walletData} />}
+
+                {['rangkuman', 'rangkumanV2'].includes(activeTab) && (
+                    <Box mt={1}>
+                        <Typography
+                            variant="caption"
+                            color="text.disabled"
+                            component="div">
+                            Nama:
+                        </Typography>
+                        <Typography
+                            variant="body1"
+                            component="div"
+                            fontWeight="bold">
+                            #{walletData?.user.id} &mdash;{' '}
+                            {walletData.user.name}
+                        </Typography>
+                    </Box>
+                )}
+
+                {!loading && txs && <Body data={txs} activeTab={activeTab} />}
+            </FlexColumnBox>
+        </>
     )
 }

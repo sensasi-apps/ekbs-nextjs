@@ -30,6 +30,10 @@ enum TransactionTag {
     // POTONGAN_JASA_OPERASIONAL_KELOMPOK_TANI = 'Potongan Jasa Operasional Kelompok Tani',
     // POTONGAN_JASA_KONTRAKTOR = 'Potongan Jasa Kontraktor',
     // PPH_22 = 'Pph 22',
+    PPH_22_0_25 = 'Pph 22 (0,25%)',
+    POTONGAN_JASA_KOPERASI_1_50 = 'Potongan Jasa Koperasi (1,50%)',
+    POTONGAN_JASA_OPERASIONAL_KELOMPOK_TANI_0_50 = 'Potongan Jasa Operasional Kelompok Tani (0,50%)',
+    POTONGAN_JASA_KONTRAKTOR_RP_5 = 'Potongan Jasa Kontraktor (Rp. 5)',
 }
 
 export default TransactionTag

@@ -12,5 +12,5 @@ export default function toDmy(date: Ymd | Dayjs): string {
         return `${z}-${y}-${x}`
     }
 
-    return date.format('YYYY-MM-DD')
+    return date.format('DD-MM-YYYY')
 }
