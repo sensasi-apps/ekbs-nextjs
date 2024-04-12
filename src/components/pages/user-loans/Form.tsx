@@ -99,7 +99,7 @@ export default function LoanForm({
         : userLoanFromDb?.activity_logs[0].user_uuid === currentUser?.uuid
 
     const {
-        data: userDefaultTermUnit = 'bulan',
+        data: userDefaultTermUnit = loanValues.term_unit ?? 'bulan',
         isLoading: isTermUnitLoading,
     } = useSWR<string>(
         loanValues.user_uuid && isNew
