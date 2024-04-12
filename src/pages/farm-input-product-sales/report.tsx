@@ -145,7 +145,12 @@ export default function FarmInputProductSalesReport() {
                             <TableCell>Keuntungan</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody
+                        sx={{
+                            '& td': {
+                                whiteSpace: 'nowrap',
+                            },
+                        }}>
                         {data.length === 0 && (
                             <TableRow>
                                 <TableCell
