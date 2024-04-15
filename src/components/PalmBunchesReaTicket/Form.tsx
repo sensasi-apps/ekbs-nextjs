@@ -142,13 +142,13 @@ export default function PalmBuncesReaTicketForm({
                 actionsSlot}
 
             {/* TODO: refactor to permission based */}
-            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
+            {userHasRole(Role.PALM_BUNCH_MANAGER) && data.delivery && (
                 <UserActivityLog
                     data={[
-                        ...(data.delivery?.logs ?? []),
-                        ...(data.delivery?.palm_bunches.flatMap(
+                        ...data.delivery.logs,
+                        ...data.delivery.palm_bunches.flatMap(
                             palmBunch => palmBunch.logs ?? [],
-                        ) ?? []),
+                        ),
                     ]}
                 />
             )}
