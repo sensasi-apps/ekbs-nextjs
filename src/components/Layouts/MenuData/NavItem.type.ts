@@ -16,7 +16,7 @@ type NavItemLink = {
 
     href: string
     label: string
-    pathname: string | string[]
+    pathname?: string | string[]
     icon: JSX.Element
     forRole?: Role | Role[]
     forPermission?: string | string[]

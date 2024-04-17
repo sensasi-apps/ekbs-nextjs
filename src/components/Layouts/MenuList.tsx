@@ -125,10 +125,12 @@ const CustomListItem = memo(function CustomListItem({
 
     const { href, icon, label, pathname } = data
 
+    const pathnameOrHref = pathname ?? href
+
     const isSelected =
-        typeof pathname === 'string'
-            ? pathname === currPathname
-            : pathname.includes(currPathname)
+        typeof pathnameOrHref === 'string'
+            ? pathnameOrHref === currPathname
+            : pathnameOrHref.includes(currPathname)
 
     return (
         <ListItem disablePadding>
