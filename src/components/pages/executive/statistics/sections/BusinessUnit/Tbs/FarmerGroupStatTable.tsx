@@ -10,6 +10,10 @@ import { TableBody, TableFooter } from '@mui/material'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 
+const CELL_SX_BORDER_LEFT = {
+    borderLeft: '1px solid var(--mui-palette-TableCell-border)',
+}
+
 export default function FarmerGroupStatTable({
     data,
 }: {
@@ -32,14 +36,23 @@ export default function FarmerGroupStatTable({
                     </TableRow>
                     <TableRow>
                         {months.map((monthName, i) => (
-                            <TableCell key={i} colSpan={2}>
+                            <TableCell
+                                key={i}
+                                colSpan={2}
+                                align="center"
+                                sx={CELL_SX_BORDER_LEFT}>
                                 {monthName}
                             </TableCell>
                         ))}
                     </TableRow>
                     <TableRow>
                         {months.map((_, i) => (
-                            <WeightRpCols key={i} data1="Bobot" data2="Nilai" />
+                            <WeightRpCols
+                                key={i}
+                                data1="Bobot"
+                                data2="Nilai"
+                                align="center"
+                            />
                         ))}
                     </TableRow>
                 </TableHead>
@@ -109,18 +122,27 @@ export default function FarmerGroupStatTable({
     )
 }
 
-function WeightRpCols({ data1, data2 }: { data1: string; data2: string }) {
+function WeightRpCols({
+    data1,
+    data2,
+    align = 'right',
+}: {
+    data1: string
+    data2: string
+    align?: 'right' | 'center'
+}) {
     return (
         <>
             <TableCell
-                align="right"
+                align={align}
                 sx={{
                     whiteSpace: 'nowrap',
+                    ...CELL_SX_BORDER_LEFT,
                 }}>
                 {data1}
             </TableCell>
             <TableCell
-                align="right"
+                align={align}
                 sx={{
                     whiteSpace: 'nowrap',
                 }}>
