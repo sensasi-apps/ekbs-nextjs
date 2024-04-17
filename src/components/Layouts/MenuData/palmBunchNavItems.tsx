@@ -4,6 +4,7 @@ import type NavItem from './NavItem.type'
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
 import AssessmentIcon from '@mui/icons-material/Assessment'
 import BalanceIcon from '@mui/icons-material/Balance'
+// import FormatAlignJustify from '@mui/icons-material/FormatAlignJustify'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
 import GrassIcon from '@mui/icons-material/Grass'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
@@ -25,45 +26,46 @@ const palmBunchNavItems: NavItem[] = [
     {
         label: 'Statistik',
         href: '/palm-bunches/statistics',
-        pathname: '/palm-bunches/statistics',
         icon: <AlignHorizontalLeftIcon />,
         forPermission: PalmBunch.READ_STATISTIC,
     },
     {
         href: '/palm-bunches/performances',
         label: 'Performa Anda',
-        pathname: '/palm-bunches/performances',
         icon: <AssessmentIcon />,
         forRole: [Role.FARMER, Role.COURIER],
     },
     {
         href: '/palm-bunches/rates',
         label: 'Harga TBS',
-        pathname: '/palm-bunches/rates',
         icon: <GrassIcon />,
         forRole: Role.PALM_BUNCH_MANAGER,
     },
     {
         href: '/palm-bunches/delivery-rates',
         label: 'Tarif Angkut',
-        pathname: '/palm-bunches/delivery-rates',
         icon: <FireTruckIcon />,
         forRole: Role.PALM_BUNCH_MANAGER,
     },
     {
         href: '/palm-bunches/rea-tickets',
         label: 'Tiket REA',
-        pathname: '/palm-bunches/rea-tickets',
         icon: <BalanceIcon />,
         forPermission: PalmBunch.READ_TICKET,
     },
     {
         href: '/palm-bunches/rea-payments',
         label: 'Pembayaran REA',
-        pathname: '/palm-bunches/rea-payments',
         icon: <PointOfSaleIcon />,
         forRole: Role.PALM_BUNCH_MANAGER,
     },
+    // ################ PENDING
+    // {
+    //     href: '/palm-bunches/payment-monthly-report',
+    //     label: 'Laporan Alur Penerimaan',
+    //     icon: <FormatAlignJustify />,
+    //     forPermission: PalmBunch.READ_STATISTIC,
+    // },
 ]
 
 export default palmBunchNavItems
