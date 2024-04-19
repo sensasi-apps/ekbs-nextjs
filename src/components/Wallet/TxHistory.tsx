@@ -4,37 +4,41 @@ import type WalletType from '@/dataTypes/Wallet'
 // vendors
 import { useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
+import Head from 'next/head'
 import Image from 'next/image'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
-import Divider from '@mui/material/Divider'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
+import CloseIcon from '@mui/icons-material/Close'
+import SearchIcon from '@mui/icons-material/Search'
 // components
 import DatePicker from '@/components/DatePicker'
-import Skeletons from '@/components/Global/Skeletons'
-// components/TxHistory
-import TxHistoryItem from './TxHistory/Item'
-// utils
-import toDmy from '@/utils/toDmy'
-import numberToCurrency from '@/utils/numberToCurrency'
-import debounce from '@/utils/debounce'
-import PrintHandler from '../PrintHandler'
 import FlexColumnBox from '../FlexColumnBox'
-import Wallet from '@/enums/permissions/Wallet'
-import useAuth from '@/providers/Auth'
-import WalletTxButtonAndForm from './TxButtonAndForm'
 import InfoBox from '../InfoBox'
 import ScrollableXBox from '../ScrollableXBox'
+import Skeletons from '@/components/Global/Skeletons'
+import TextField from '../TextField'
+// components/TxHistory
 import SummaryByTag from './TxHistory/SummaryByTag'
 import SummaryByTag2 from './TxHistory/SummaryByTag2'
-import Head from 'next/head'
+import TxHistoryItem from './TxHistory/Item'
+import WalletTxButtonAndForm from './TxButtonAndForm'
+// utils
+import debounce from '@/utils/debounce'
+import numberToCurrency from '@/utils/numberToCurrency'
+import PrintHandler from '../PrintHandler'
+import toDmy from '@/utils/toDmy'
+// enums
+import Wallet from '@/enums/permissions/Wallet'
+// providers
+import useAuth from '@/providers/Auth'
 
 const DEFAULT_START_DATE = dayjs().startOf('month')
 const DEFAULT_END_DATE = dayjs().endOf('month')
@@ -268,96 +272,206 @@ function Body({
     data: ApiResponseType
     activeTab: 'rangkuman' | 'rincian' | 'rangkumanV2'
 }) {
+    const [showSearch, setShowSearch] = useState(false)
+    const [searchTerm, setSearchTerm] = useState<string>()
+
+    const filteredTxs = searchTerm
+        ? {
+              data: txs.data.filter(tx =>
+                  tx.desc?.toLowerCase().includes(searchTerm),
+              ),
+          }
+        : txs
+
     return (
         <>
-            <Fade in={activeTab === 'rangkuman'} unmountOnExit>
+            <Fade in={activeTab === 'rangkuman'} unmountOnExit exit={false}>
                 <span>
                     <SummaryByTag data={txs} />
                 </span>
             </Fade>
 
-            <Fade in={activeTab === 'rangkumanV2'} unmountOnExit>
+            <Fade in={activeTab === 'rangkumanV2'} unmountOnExit exit={false}>
                 <span>
                     <SummaryByTag2 data={txs} />
                 </span>
             </Fade>
 
-            <Fade in={activeTab === 'rincian'} unmountOnExit>
+            <Fade in={activeTab === 'rincian'} unmountOnExit exit={false}>
                 <span>
-                    <Box>
-                        <Typography
-                            lineHeight="1em"
-                            variant="overline"
-                            color="text.disabled"
-                            component="div"
-                            fontWeight="bold"
-                            mb={0.5}>
-                            Rangkuman
-                        </Typography>
-                        <SummaryTable data={txs} />
-                    </Box>
+                    <FlexColumnBox>
+                        <Box>
+                            <Typography
+                                lineHeight="1em"
+                                variant="overline"
+                                color="text.disabled"
+                                component="div"
+                                fontWeight="bold"
+                                mb={0.5}>
+                                Rangkuman
+                            </Typography>
+                            <SummaryTable data={txs} />
+                        </Box>
 
-                    <Box mt={1.5}>
-                        <Typography
-                            variant="overline"
-                            lineHeight="1em"
-                            color="text.disabled"
-                            component="div"
-                            fontWeight="bold">
-                            Rincian
-                        </Typography>
-                        <TxsList data={txs} />
-                    </Box>
+                        <Box
+                            display="flex"
+                            justifyContent="end"
+                            sx={{
+                                displayPrint: 'none',
+                            }}>
+                            <Fade in={showSearch} unmountOnExit>
+                                <Box width="100%">
+                                    <TextField
+                                        autoComplete="off"
+                                        margin="none"
+                                        required={false}
+                                        placeholder="Cari..."
+                                        value={searchTerm}
+                                        onChange={({ target }) =>
+                                            setSearchTerm(target.value)
+                                        }
+                                    />
+                                </Box>
+                            </Fade>
+
+                            <IconButton
+                                disableTouchRipple
+                                onClick={() =>
+                                    setShowSearch(prev => {
+                                        if (prev) {
+                                            setSearchTerm(undefined)
+                                        }
+
+                                        return !prev
+                                    })
+                                }>
+                                <Fade
+                                    in={!showSearch}
+                                    unmountOnExit
+                                    exit={false}>
+                                    <SearchIcon />
+                                </Fade>
+
+                                <Fade
+                                    in={showSearch}
+                                    unmountOnExit
+                                    exit={false}>
+                                    <CloseIcon />
+                                </Fade>
+                            </IconButton>
+                        </Box>
+
+                        <Box>
+                            <Typography
+                                variant="overline"
+                                lineHeight="1em"
+                                color="text.disabled"
+                                component="div"
+                                fontWeight="bold">
+                                Rincian
+                            </Typography>
+
+                            <TxsList data={filteredTxs} />
+                        </Box>
+                    </FlexColumnBox>
                 </span>
             </Fade>
         </>
     )
 }
 
-function TxsList({ data: txs }: { data: ApiResponseType }) {
-    let dateTemp = ''
-
-    function dateHandler(date: Transaction['at']) {
-        if (dateTemp !== toDmy(date)) {
-            dateTemp = toDmy(date)
-            return (
-                <Divider
-                    textAlign="left"
-                    sx={{
-                        mb: 0.8,
-                    }}>
-                    <Box color="text.disabled" fontWeight="bold">
-                        {dateTemp}
-                    </Box>
-                </Divider>
-            )
-        }
+function TxsList({
+    data: txs,
+}: {
+    data: {
+        balanceFrom?: number
+        data: Transaction[]
+        balanceTo?: number
     }
+}) {
+    const ats = txs.data
+        .map(tx => toDmy(tx.at))
+        .filter((v, i, a) => a.indexOf(v) === i)
+
+    const txsGroups = ats.map(at => ({
+        date: at,
+        txs: txs.data.filter(tx => toDmy(tx.at) === at),
+    }))
 
     return (
         <FlexColumnBox gap={1}>
-            <TxHistoryItem
-                desc="Saldo Awal"
-                amount={txs.balanceFrom}
-                slotProps={{
-                    typography: {
-                        variant: 'body1',
-                    },
-                    chip: {
-                        size: 'medium',
-                    },
-                }}
-            />
+            {txs.balanceFrom && (
+                <TxHistoryItem
+                    desc="Saldo Awal"
+                    amount={txs.balanceFrom}
+                    slotProps={{
+                        typography: {
+                            variant: 'body1',
+                        },
+                        chip: {
+                            size: 'medium',
+                        },
+                    }}
+                />
+            )}
 
             {txs?.data && txs.data.length > 0 ? (
-                <FlexColumnBox gap={1}>
-                    {txs.data.map(tx => (
-                        <div key={tx.uuid}>
-                            {dateHandler(tx.at)}
-                            <TxHistoryItem desc={tx.desc} amount={tx.amount} />
-                        </div>
-                    ))}
-                </FlexColumnBox>
+                txsGroups.map((txsGroup, i) => (
+                    <FlexColumnBox gap={1} key={i}>
+                        <Box
+                            sx={{
+                                mt: 1.5,
+                                position: 'sticky',
+                                top: 0,
+                                backgroundColor:
+                                    'var(--mui-palette-background-paper)',
+                                backgroundImage: 'var(--mui-overlays-24)',
+                                color: 'success.main',
+                            }}>
+                            <Box
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                sx={{
+                                    px: 1,
+                                    py: 0.2,
+                                    borderColor: 'success.main',
+                                    borderWidth: '1px',
+                                    borderStyle: 'solid',
+                                    borderRadius: '4px',
+                                }}>
+                                <Typography
+                                    lineHeight="inherit"
+                                    variant="body2"
+                                    fontWeight="bold"
+                                    component="div">
+                                    {txsGroup.date}
+                                </Typography>
+
+                                <Typography
+                                    lineHeight="inherit"
+                                    variant="caption"
+                                    fontWeight="bold"
+                                    component="div">
+                                    {numberToCurrency(
+                                        txsGroup.txs.reduce(
+                                            (acc, tx) => acc + tx.amount,
+                                            0,
+                                        ),
+                                    )}
+                                </Typography>
+                            </Box>
+                        </Box>
+
+                        {txsGroup.txs.map((tx, i) => (
+                            <TxHistoryItem
+                                key={i}
+                                desc={tx.desc}
+                                amount={tx.amount}
+                            />
+                        ))}
+                    </FlexColumnBox>
+                ))
             ) : (
                 <Typography
                     fontStyle="italic"
@@ -367,19 +481,21 @@ function TxsList({ data: txs }: { data: ApiResponseType }) {
                 </Typography>
             )}
 
-            <TxHistoryItem
-                mt={2}
-                desc="Saldo Akhir"
-                amount={txs.balanceTo}
-                slotProps={{
-                    typography: {
-                        variant: 'body1',
-                    },
-                    chip: {
-                        size: 'medium',
-                    },
-                }}
-            />
+            {txs.balanceTo && (
+                <TxHistoryItem
+                    mt={2}
+                    desc="Saldo Akhir"
+                    amount={txs.balanceTo}
+                    slotProps={{
+                        typography: {
+                            variant: 'body1',
+                        },
+                        chip: {
+                            size: 'medium',
+                        },
+                    }}
+                />
+            )}
         </FlexColumnBox>
     )
 }
