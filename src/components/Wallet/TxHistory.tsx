@@ -1,17 +1,15 @@
 // types
-import type { DatePickerProps, PickersDayProps } from '@mui/x-date-pickers'
-import type { Ymd } from '@/types/DateString'
+
 import type Transaction from '@/dataTypes/Transaction'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
+import { useDebounce } from 'use-debounce'
 import { useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import Head from 'next/head'
 import Image from 'next/image'
 import useSWR from 'swr'
-// materials
-import { PickersDay } from '@mui/x-date-pickers'
-import Badge from '@mui/material/Badge'
+
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
@@ -23,19 +21,21 @@ import BackupTableIcon from '@mui/icons-material/BackupTable'
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
 // components
-import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '../FlexColumnBox'
 import InfoBox from '../InfoBox'
 import ScrollableXBox from '../ScrollableXBox'
 import Skeletons from '@/components/Global/Skeletons'
 import TextField from '../TextField'
 // components/TxHistory
+import DatePickers, {
+    DEFAULT_END_DATE,
+    DEFAULT_START_DATE,
+} from './TxHistory/DatePickers'
 import SummaryByTag from './TxHistory/SummaryByTag'
 import SummaryByTag2 from './TxHistory/SummaryByTag2'
 import TxHistoryItem from './TxHistory/Item'
 import WalletTxButtonAndForm from './TxButtonAndForm'
 // utils
-import debounce from '@/utils/debounce'
 import numberToCurrency from '@/utils/numberToCurrency'
 import PrintHandler from '../PrintHandler'
 import toDmy from '@/utils/toDmy'
@@ -43,9 +43,6 @@ import toDmy from '@/utils/toDmy'
 import Wallet from '@/enums/permissions/Wallet'
 // providers
 import useAuth from '@/providers/Auth'
-
-const DEFAULT_START_DATE = dayjs().startOf('month')
-const DEFAULT_END_DATE = dayjs().endOf('month')
 
 export type ApiResponseType = {
     balanceFrom: number
@@ -68,45 +65,31 @@ export default function TxHistory({
     >('rangkuman')
     const [fromDate, setFromDate] = useState(DEFAULT_START_DATE)
     const [toDate, setToDate] = useState(DEFAULT_END_DATE)
-    const [yearOnView, setYearOnView] = useState(fromDate.year())
+
+    const [fromDateDebounced] = useDebounce(fromDate, 1000)
+    const [toDateDebounced] = useDebounce(toDate, 1000)
 
     const {
         data: txs,
         isLoading,
         isValidating,
         mutate: mutateHistory,
-    } = useSWR<ApiResponseType>(
-        walletDataCache?.uuid
-            ? [
-                  `/wallets/transactions/${walletDataCache.uuid}`,
-                  {
-                      fromDate: fromDate.format('YYYY-MM-DD'),
-                      toDate: toDate.format('YYYY-MM-DD'),
-                  },
-              ]
-            : null,
-    )
+    } = useSWR<ApiResponseType>([
+        `/wallets/transactions/${walletDataCache.uuid}`,
+        {
+            fromDate: fromDateDebounced.format('YYYY-MM-DD'),
+            toDate: toDateDebounced.format('YYYY-MM-DD'),
+        },
+    ])
 
     const {
         data: walletData = walletDataCache,
         isLoading: isWalletDataLoading,
         isValidating: isWalletDataValidating,
         mutate: mutateWalletData,
-    } = useSWR<WalletType>(
-        walletDataCache?.user_uuid
-            ? `/wallets/user/${walletDataCache.user_uuid}`
-            : null,
-        null,
-        { keepPreviousData: true },
-    )
-
-    const { data: highlightedDays } = useSWR<Ymd[]>(
-        walletDataCache?.uuid && yearOnView
-            ? `/wallets/user/${walletDataCache.uuid}/tx-dates/${yearOnView}`
-            : null,
-        null,
-        { keepPreviousData: true },
-    )
+    } = useSWR<WalletType>(`/wallets/user/${walletDataCache.user_uuid}`, null, {
+        keepPreviousData: true,
+    })
 
     const loading =
         isLoading ||
@@ -114,48 +97,22 @@ export default function TxHistory({
         isWalletDataLoading ||
         isWalletDataValidating
 
-    const datePickersSharedProps: DatePickerProps<Dayjs> = {
-        disabled: loading,
-        slots: { day: CustomPickersDay },
-        slotProps: {
-            textField: {
-                margin: 'none',
-                size: 'small',
-                fullWidth: true,
-            },
-            day: {
-                highlightedDays,
-            } as any,
-        },
-        onYearChange: date => setYearOnView(date.year()),
-        onMonthChange: date => setYearOnView(date.year()),
-    }
+    const excelExportUrl = `${
+        process.env.NEXT_PUBLIC_BACKEND_URL
+    }/wallets/transactions/${walletData.uuid}?fromDate=${fromDate.format(
+        'YYYY-MM-DD',
+    )}&toDate=${toDate.format('YYYY-MM-DD')}&download=true`
 
     return (
         <FlexColumnBox>
             <Header data={walletData} />
 
             <Box display="flex" gap={2}>
-                <DatePicker
-                    {...datePickersSharedProps}
-                    label="Dari"
-                    value={fromDate}
-                    minDate={dayjs('2023-01-01')}
-                    maxDate={toDate}
-                    onChange={date =>
-                        debounce(() => setFromDate(date ?? DEFAULT_START_DATE))
-                    }
-                />
-
-                <DatePicker
-                    {...datePickersSharedProps}
-                    label="Hingga"
-                    value={toDate}
-                    minDate={fromDate}
-                    maxDate={DEFAULT_END_DATE}
-                    onChange={date =>
-                        debounce(() => setToDate(date ?? DEFAULT_END_DATE))
-                    }
+                <DatePickers
+                    disabled={loading}
+                    fromDateUseState={[fromDate, setFromDate]}
+                    toDateUseState={[toDate, setToDate]}
+                    userCashUuid={walletData.uuid}
                 />
             </Box>
 
@@ -201,13 +158,7 @@ export default function TxHistory({
                                     disabled={loading}
                                     color="inherit"
                                     size="small"
-                                    href={`${
-                                        process.env.NEXT_PUBLIC_BACKEND_URL
-                                    }/wallets/transactions/${walletData?.uuid}?fromDate=${fromDate?.format(
-                                        'YYYY-MM-DD',
-                                    )}&toDate=${toDate?.format(
-                                        'YYYY-MM-DD',
-                                    )}&download=true`}
+                                    href={excelExportUrl}
                                     download>
                                     <BackupTableIcon />
                                 </IconButton>
@@ -263,47 +214,21 @@ export default function TxHistory({
     )
 }
 
-function CustomPickersDay({
-    highlightedDays = [],
-    day,
-    outsideCurrentMonth,
-    ...rest
-}: PickersDayProps<Dayjs> & { highlightedDays?: Ymd[] }) {
-    const isSelected =
-        !outsideCurrentMonth &&
-        highlightedDays.includes(day.format('YYYY-MM-DD') as Ymd)
-
-    return (
-        <Badge
-            key={day.toString()}
-            color="success"
-            overlap="circular"
-            variant="dot"
-            invisible={!isSelected}>
-            <PickersDay
-                {...rest}
-                outsideCurrentMonth={outsideCurrentMonth}
-                day={day}
-            />
-        </Badge>
-    )
-}
-
-function Header({ data }: { data: WalletType | undefined }) {
+function Header({ data }: { data: WalletType }) {
     return (
         <Box textAlign="center">
             <Typography color="text.disabled" variant="caption">
                 Saldo Saat Ini:
             </Typography>
             <Typography color="text.secondary">
-                #{data?.user?.id} &mdash; {data?.user?.name}
+                #{data.user?.id} &mdash; {data.user?.name}
             </Typography>
             <Typography
                 color="text.primary"
                 variant="h4"
                 fontWeight="bold"
                 component="div">
-                {numberToCurrency(data?.balance ?? 0)}
+                {numberToCurrency(data.balance ?? 0)}
             </Typography>
         </Box>
     )
@@ -616,7 +541,7 @@ function PrintTemplate({
 
     const dateRangeText = `${toDmy(fromDate)} s/d ${toDmy(toDate)}`
 
-    const windowTitle = `${title} — ${dateRangeText} — #${walletData?.user.id} — ${walletData.user.name} — ${process.env.NEXT_PUBLIC_APP_NAME}`
+    const windowTitle = `${title} — ${dateRangeText} — #${walletData.user?.id} — ${walletData.user?.name} — ${process.env.NEXT_PUBLIC_APP_NAME}`
 
     return (
         <>
@@ -677,8 +602,8 @@ function PrintTemplate({
                             variant="body1"
                             component="div"
                             fontWeight="bold">
-                            #{walletData?.user.id} &mdash;{' '}
-                            {walletData.user.name}
+                            #{walletData.user?.id} &mdash;{' '}
+                            {walletData.user?.name}
                         </Typography>
                     </Box>
                 )}

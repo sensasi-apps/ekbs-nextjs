@@ -38,20 +38,20 @@ export default function WalletsPage() {
                 defaultSortOrder={{ name: 'balance', direction: 'desc' }}
             />
 
-            {walletData && (
-                <Dialog
-                    title="Riwayat Transaksi Wallet"
-                    open={Boolean(walletData.uuid)}
-                    closeButtonProps={{
-                        onClick: () => setWalletData(undefined),
-                    }}>
+            <Dialog
+                title="Riwayat Transaksi Wallet"
+                open={Boolean(walletData?.uuid)}
+                closeButtonProps={{
+                    onClick: () => setWalletData(undefined),
+                }}>
+                {walletData && (
                     <TxHistory
                         walletData={walletData}
                         canPrint
                         canExportExcel
                     />
-                </Dialog>
-            )}
+                )}
+            </Dialog>
         </AuthLayout>
     )
 }
@@ -70,7 +70,7 @@ const DATATABLE_COLUMNS = [
         options: {
             display: false,
             customBodyRender: (_: any, rowMeta: any) =>
-                getRowData(rowMeta.rowIndex)?.user.id,
+                getRowData(rowMeta.rowIndex)?.user?.id,
         },
     },
     {
