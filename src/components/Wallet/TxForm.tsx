@@ -71,15 +71,15 @@ export default function WalletTxForm({
                 data={[
                     {
                         label: 'ID',
-                        value: typedStatus.user.id,
+                        value: typedStatus.user?.id,
                     },
                     {
                         label: 'Nama',
-                        value: typedStatus.user.name,
+                        value: typedStatus.user?.name,
                     },
                     {
                         label: 'Panggilan',
-                        value: typedStatus.user.nickname,
+                        value: typedStatus.user?.nickname,
                     },
                     {
                         label: 'Saldo',
@@ -90,7 +90,7 @@ export default function WalletTxForm({
                         value: (
                             <Box display="flex" alignItems="center">
                                 {numberToCurrency(
-                                    typedStatus.user.unpaid_installments?.reduce(
+                                    typedStatus.user?.unpaid_installments?.reduce(
                                         (acc, curr) => acc + curr.amount_rp,
                                         0,
                                     ) ?? 0,
@@ -112,7 +112,7 @@ export default function WalletTxForm({
                                         <InstallmentTable
                                             data={
                                                 typedStatus.user
-                                                    .unpaid_installments ?? []
+                                                    ?.unpaid_installments ?? []
                                             }
                                         />
                                     </DialogContent>
