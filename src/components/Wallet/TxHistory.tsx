@@ -1,4 +1,6 @@
 // types
+import type { DatePickerProps, PickersDayProps } from '@mui/x-date-pickers'
+import type { Ymd } from '@/types/DateString'
 import type Transaction from '@/dataTypes/Transaction'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
@@ -8,6 +10,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import useSWR from 'swr'
 // materials
+import { PickersDay } from '@mui/x-date-pickers'
+import Badge from '@mui/material/Badge'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
@@ -64,6 +68,7 @@ export default function TxHistory({
     >('rangkuman')
     const [fromDate, setFromDate] = useState(DEFAULT_START_DATE)
     const [toDate, setToDate] = useState(DEFAULT_END_DATE)
+    const [yearOnView, setYearOnView] = useState(fromDate.year())
 
     const {
         data: txs,
@@ -80,8 +85,6 @@ export default function TxHistory({
                   },
               ]
             : null,
-        null,
-        { keepPreviousData: true },
     )
 
     const {
@@ -97,11 +100,36 @@ export default function TxHistory({
         { keepPreviousData: true },
     )
 
+    const { data: highlightedDays } = useSWR<Ymd[]>(
+        walletDataCache?.uuid && yearOnView
+            ? `/wallets/user/${walletDataCache.uuid}/tx-dates/${yearOnView}`
+            : null,
+        null,
+        { keepPreviousData: true },
+    )
+
     const loading =
         isLoading ||
         isValidating ||
         isWalletDataLoading ||
         isWalletDataValidating
+
+    const datePickersSharedProps: DatePickerProps<Dayjs> = {
+        disabled: loading,
+        slots: { day: CustomPickersDay },
+        slotProps: {
+            textField: {
+                margin: 'none',
+                size: 'small',
+                fullWidth: true,
+            },
+            day: {
+                highlightedDays,
+            } as any,
+        },
+        onYearChange: date => setYearOnView(date.year()),
+        onMonthChange: date => setYearOnView(date.year()),
+    }
 
     return (
         <FlexColumnBox>
@@ -109,35 +137,25 @@ export default function TxHistory({
 
             <Box display="flex" gap={2}>
                 <DatePicker
-                    disabled={loading}
+                    {...datePickersSharedProps}
+                    label="Dari"
+                    value={fromDate}
                     minDate={dayjs('2023-01-01')}
                     maxDate={toDate}
-                    value={fromDate}
-                    slotProps={{
-                        textField: {
-                            margin: 'none',
-                        },
-                    }}
-                    label="Dari"
                     onChange={date =>
                         debounce(() => setFromDate(date ?? DEFAULT_START_DATE))
                     }
                 />
 
                 <DatePicker
-                    disabled={loading}
+                    {...datePickersSharedProps}
+                    label="Hingga"
                     value={toDate}
                     minDate={fromDate}
                     maxDate={DEFAULT_END_DATE}
-                    slotProps={{
-                        textField: {
-                            margin: 'none',
-                        },
-                    }}
                     onChange={date =>
                         debounce(() => setToDate(date ?? DEFAULT_END_DATE))
                     }
-                    label="Hingga"
                 />
             </Box>
 
@@ -242,6 +260,32 @@ export default function TxHistory({
                 </>
             )}
         </FlexColumnBox>
+    )
+}
+
+function CustomPickersDay({
+    highlightedDays = [],
+    day,
+    outsideCurrentMonth,
+    ...rest
+}: PickersDayProps<Dayjs> & { highlightedDays?: Ymd[] }) {
+    const isSelected =
+        !outsideCurrentMonth &&
+        highlightedDays.includes(day.format('YYYY-MM-DD') as Ymd)
+
+    return (
+        <Badge
+            key={day.toString()}
+            color="success"
+            overlap="circular"
+            variant="dot"
+            invisible={!isSelected}>
+            <PickersDay
+                {...rest}
+                outsideCurrentMonth={outsideCurrentMonth}
+                day={day}
+            />
+        </Badge>
     )
 }
 
@@ -416,62 +460,71 @@ function TxsList({
             )}
 
             {txs?.data && txs.data.length > 0 ? (
-                txsGroups.map((txsGroup, i) => (
-                    <FlexColumnBox gap={1} key={i}>
-                        <Box
-                            sx={{
-                                mt: 1.5,
-                                position: 'sticky',
-                                top: 0,
-                                backgroundColor:
-                                    'var(--mui-palette-background-paper)',
-                                backgroundImage: 'var(--mui-overlays-24)',
-                                color: 'success.main',
-                            }}>
+                txsGroups.map((txsGroup, i) => {
+                    const dailyTotal = txsGroup.txs.reduce(
+                        (acc, tx) => acc + tx.amount,
+                        0,
+                    )
+
+                    return (
+                        <FlexColumnBox gap={1} key={i}>
                             <Box
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
                                 sx={{
-                                    px: 1,
-                                    py: 0.2,
-                                    borderColor: 'success.main',
-                                    borderWidth: '1px',
-                                    borderStyle: 'solid',
-                                    borderRadius: '4px',
+                                    mt: 1.5,
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor:
+                                        'var(--mui-palette-background-paper)',
+                                    backgroundImage: 'var(--mui-overlays-24)',
+                                    color: 'success.main',
+                                    borderBottomRightRadius: '4px',
+                                    borderBottomLeftRadius: '4px',
                                 }}>
-                                <Typography
-                                    lineHeight="inherit"
-                                    variant="body2"
-                                    fontWeight="bold"
-                                    component="div">
-                                    {txsGroup.date}
-                                </Typography>
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                    sx={{
+                                        px: 1,
+                                        py: 0.2,
+                                        borderColor: 'success.main',
+                                        borderWidth: '1px',
+                                        borderStyle: 'solid',
+                                        borderRadius: '4px',
+                                    }}>
+                                    <Typography
+                                        lineHeight="inherit"
+                                        variant="body2"
+                                        fontWeight="bold"
+                                        component="div">
+                                        {txsGroup.date}
+                                    </Typography>
 
-                                <Typography
-                                    lineHeight="inherit"
-                                    variant="caption"
-                                    fontWeight="bold"
-                                    component="div">
-                                    {numberToCurrency(
-                                        txsGroup.txs.reduce(
-                                            (acc, tx) => acc + tx.amount,
-                                            0,
-                                        ),
-                                    )}
-                                </Typography>
+                                    <Typography
+                                        lineHeight="inherit"
+                                        variant="caption"
+                                        fontWeight="bold"
+                                        color={
+                                            dailyTotal < 0
+                                                ? 'text.secondary'
+                                                : 'success'
+                                        }
+                                        component="div">
+                                        {numberToCurrency(dailyTotal)}
+                                    </Typography>
+                                </Box>
                             </Box>
-                        </Box>
 
-                        {txsGroup.txs.map((tx, i) => (
-                            <TxHistoryItem
-                                key={i}
-                                desc={tx.desc}
-                                amount={tx.amount}
-                            />
-                        ))}
-                    </FlexColumnBox>
-                ))
+                            {txsGroup.txs.map((tx, i) => (
+                                <TxHistoryItem
+                                    key={i}
+                                    desc={tx.desc}
+                                    amount={tx.amount}
+                                />
+                            ))}
+                        </FlexColumnBox>
+                    )
+                })
             ) : (
                 <Typography
                     fontStyle="italic"
