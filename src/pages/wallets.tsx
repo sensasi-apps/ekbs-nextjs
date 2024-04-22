@@ -149,7 +149,10 @@ function DialogForDownloadXls() {
                     setShowError(true)
                 }
             })
-            .catch(error => setErrors(error?.response?.data))
+            .catch(error => {
+                setErrors(error?.response?.data)
+                setShowError(true)
+            })
             .finally(() => setIsFetching(false))
     }
 
