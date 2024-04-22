@@ -1,5 +1,6 @@
 import type { AxiosResponse } from 'axios'
 import { OptionsObject, enqueueSnackbar } from 'notistack'
+import SNACKBAR_419_OPTIONS from './SNACKBAR_419_OPTIONS'
 
 const SNACKBAR_OPTIONS: OptionsObject = {
     variant: 'error',
@@ -15,13 +16,14 @@ export default function handleServerError({ status, data }: AxiosResponse) {
         case 419:
             if (data.message === 'CSRF token mismatch.') {
                 enqueueSnackbar(
-                    'Halaman kadaluarsa, peramban akan disegarkan.',
-                    {
-                        variant: 'warning',
-                    },
+                    'Halaman ini sudah kadaluarsa, peramban akan disegarkan dalam 5 detik.',
+                    SNACKBAR_419_OPTIONS,
                 )
 
-                location.reload()
+                setTimeout(() => {
+                    location.reload()
+                }, 5000)
+
                 break
             }
 
