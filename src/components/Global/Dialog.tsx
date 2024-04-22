@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import type { DialogTitleProps } from '@mui/material/DialogTitle'
 // materials
 import MuiDialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
@@ -16,6 +17,7 @@ export default function Dialog({
     dialogTitleProps,
     middleHead,
     title,
+    actions,
     ...props
 }: {
     closeButtonProps?: {
@@ -25,6 +27,7 @@ export default function Dialog({
     dialogTitleProps?: DialogTitleProps
     middleHead?: ReactNode
     title: string
+    actions?: ReactNode
 } & DialogProps) {
     return (
         <MuiDialog fullWidth maxWidth="xs" disableRestoreFocus {...props}>
@@ -50,7 +53,10 @@ export default function Dialog({
                     </div>
                 )}
             </DialogTitle>
+
             <DialogContent>{children}</DialogContent>
+
+            {actions && <DialogActions>{actions}</DialogActions>}
         </MuiDialog>
     )
 }
