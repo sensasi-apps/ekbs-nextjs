@@ -16,13 +16,13 @@ export default function handleServerError({ status, data }: AxiosResponse) {
         case 419:
             if (data.message === 'CSRF token mismatch.') {
                 enqueueSnackbar(
-                    'Halaman ini sudah kadaluarsa, peramban akan disegarkan dalam 5 detik.',
+                    'Halaman ini sudah kadaluarsa, peramban akan disegarkan dalam 10 detik.',
                     SNACKBAR_419_OPTIONS,
                 )
 
                 setTimeout(() => {
                     location.reload()
-                }, 5000)
+                }, 10000)
 
                 break
             }
