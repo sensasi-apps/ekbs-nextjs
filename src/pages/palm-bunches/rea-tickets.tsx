@@ -30,6 +30,9 @@ import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'
 // utils
 import formatNumber from '@/utils/formatNumber'
+import useSWR from 'swr'
+import { Collapse } from '@mui/material'
+import blink from '@/utils/cssAnimations/blink'
 
 export default function PalmBuncesReaTickets() {
     return (
@@ -311,10 +314,30 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
 ]
 
+const SX_FOR_BADGE = {
+    ':after': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        right: -3,
+        width: '1em',
+        height: '1em',
+        backgroundColor: 'error.main',
+        borderRadius: '50%',
+        animation: `${blink} 1.5s ease infinite`,
+    },
+}
+
 function FilterChips() {
     const { userHasRole } = useAuth()
     const { query, replace } = useRouter()
     const filter = query.filter
+
+    const { data: stats } = useSWR<{
+        unvalidated: number
+        waiting: number
+        unsynced: number
+    }>(PalmBunchApiUrlEnum.TICKET_FILTERS_STATS)
 
     return (
         <>
@@ -330,39 +353,59 @@ function FilterChips() {
                 }
             />
 
-            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
-                <Chip
-                    label="Menunggu Validasi"
-                    color={filter === 'unvalidated' ? 'success' : undefined}
-                    onClick={() =>
-                        replace({
-                            query: {
-                                filter: 'unvalidated',
-                            },
-                        })
-                    }
-                />
-            )}
+            <div>
+                <Collapse
+                    in={userHasRole(Role.PALM_BUNCH_MANAGER)}
+                    orientation="horizontal">
+                    <Chip
+                        sx={stats?.unvalidated ? SX_FOR_BADGE : undefined}
+                        label={
+                            'Belum Divalidasi' +
+                            (stats?.unvalidated
+                                ? ` (${stats?.unvalidated})`
+                                : '')
+                        }
+                        disabled={!stats?.unvalidated}
+                        color={filter === 'unvalidated' ? 'success' : undefined}
+                        onClick={() =>
+                            replace({
+                                query: {
+                                    filter: 'unvalidated',
+                                },
+                            })
+                        }
+                    />
+                </Collapse>
+            </div>
 
             <Chip
-                label="Data pembayaran tidak cocok"
-                color={filter === 'unmatched' ? 'success' : undefined}
+                label={
+                    'Menunggu Data REA' +
+                    (stats?.waiting ? ` (${stats?.waiting})` : '')
+                }
+                color={filter === 'waiting' ? 'success' : undefined}
+                disabled={!stats?.waiting}
                 onClick={() =>
                     replace({
                         query: {
-                            filter: 'unmatched',
+                            filter: 'waiting',
                         },
                     })
                 }
             />
 
             <Chip
-                label="Data pembayaran tidak ditemukan"
-                color={filter === 'not-found' ? 'success' : undefined}
+                label={
+                    'Data Tidak Sinkron' +
+                    (stats?.unsynced ? ` (${stats?.unsynced})` : '')
+                }
+                color={filter === 'unsynced' ? 'success' : undefined}
+                disabled={!stats?.unsynced}
+                sx={stats?.unsynced ? SX_FOR_BADGE : undefined}
                 onClick={() =>
                     replace({
                         query: {
-                            filter: 'not-found',
+                            filter: 'unsynced',
                         },
                     })
                 }
