@@ -1,7 +1,7 @@
 {
     "name": "ekbs",
-    "version": "0.7.21",
-    "versionDate": "2024-04-20",
+    "version": "0.7.22",
+    "versionDate": "2024-04-24",
     "private": true,
     "scripts": {
         "dev": "next dev",

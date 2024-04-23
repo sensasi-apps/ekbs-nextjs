@@ -22,10 +22,10 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
     type,
     onClose,
 }: {
-    uuid: UUID
+    uuid?: UUID
     open: boolean
     title: string
-    type: 'not-found' | 'incorrect' | 'done'
+    type: 'not-found' | 'unvalidated' | 'unsynced' | 'done'
     onClose: () => unknown
 }) {
     return (
@@ -34,22 +34,24 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
                 sx={{
                     p: 0,
                 }}>
-                <Datatable
-                    title={title}
-                    tableId="PalmBunchReaPaymentDetailDatatable"
-                    apiUrl={ApiUrlEnum.REA_PAYMENT_DETAIL_DATATABLE.replace(
-                        '$1',
-                        uuid,
-                    )}
-                    apiUrlParams={{
-                        type: type,
-                    }}
-                    columns={DATATABLE_COLUMNS}
-                    defaultSortOrder={{
-                        name: 'wb_ticket_no',
-                        direction: 'asc',
-                    }}
-                />
+                {uuid && (
+                    <Datatable
+                        title={title}
+                        tableId="PalmBunchReaPaymentDetailDatatable"
+                        apiUrl={ApiUrlEnum.REA_PAYMENT_DETAIL_DATATABLE.replace(
+                            '$1',
+                            uuid,
+                        )}
+                        apiUrlParams={{
+                            type: type,
+                        }}
+                        columns={DATATABLE_COLUMNS}
+                        defaultSortOrder={{
+                            name: 'wb_ticket_no',
+                            direction: 'asc',
+                        }}
+                    />
+                )}
             </DialogContent>
             <Button fullWidth onClick={onClose} color="warning">
                 <DialogActions

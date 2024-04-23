@@ -52,7 +52,9 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
 
     const [notFoundDetailsOnPaymentUuid, setNotFoundDetailsOnPaymentUuid] =
         useState<UUID>()
-    const [incorrectDetailsOnPaymentUuid, setIncorrectDetailsPaymentUuid] =
+    const [unvalidatedDetailsOnPaymentUuid, setUnvalidatedDetailsPaymentUuid] =
+        useState<UUID>()
+    const [unsyncedDetailsOnPaymentUuid, setUnsyncedDetailsPaymentUuid] =
         useState<UUID>()
     const [paidDetailsOnPaymentUuid, setPaidDetailsOnPaymentUuid] =
         useState<UUID>()
@@ -65,7 +67,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                 apiUrl={ApiUrlEnum.REA_PAYMENT_DATATABLE}
                 onRowClick={
                     !notFoundDetailsOnPaymentUuid &&
-                    !incorrectDetailsOnPaymentUuid &&
+                    !unsyncedDetailsOnPaymentUuid &&
                     !paidDetailsOnPaymentUuid
                         ? (_, { dataIndex }, event) => {
                               if (event.detail === 2) {
@@ -118,21 +120,17 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                         },
                     },
                     {
-                        name: 'n_details_incorrect_on_system',
-                        label: 'Tiket Tidak Cocok',
+                        name: 'n_details_unvalidated',
+                        label: 'Belum Divalidasi',
                         options: {
                             sort: false,
                             searchable: false,
                             customBodyRenderLite: dataIndex => {
                                 const data = getRowData(dataIndex)
-                                const { uuid, n_details_incorrect } = data ?? {}
+                                const { uuid, n_details_unvalidated } =
+                                    data ?? {}
 
-                                if (
-                                    !uuid ||
-                                    !n_details_incorrect ||
-                                    n_details_incorrect == 0
-                                )
-                                    return ''
+                                if (!uuid || !n_details_unvalidated) return ''
 
                                 return (
                                     <Button
@@ -140,12 +138,42 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                         color="warning"
                                         variant="outlined"
                                         onClick={() =>
-                                            setIncorrectDetailsPaymentUuid(uuid)
+                                            setUnsyncedDetailsPaymentUuid(uuid)
                                         }>
                                         <Typography
                                             fontWeight="bold"
                                             component="span">
-                                            {n_details_incorrect}
+                                            {n_details_unvalidated}
+                                        </Typography>
+                                    </Button>
+                                )
+                            },
+                        },
+                    },
+                    {
+                        name: 'n_details_unsynced',
+                        label: 'Data Asinkron',
+                        options: {
+                            sort: false,
+                            searchable: false,
+                            customBodyRenderLite: dataIndex => {
+                                const data = getRowData(dataIndex)
+                                const { uuid, n_details_unsynced } = data ?? {}
+
+                                if (!uuid || !n_details_unsynced) return ''
+
+                                return (
+                                    <Button
+                                        size="small"
+                                        color="warning"
+                                        variant="outlined"
+                                        onClick={() =>
+                                            setUnsyncedDetailsPaymentUuid(uuid)
+                                        }>
+                                        <Typography
+                                            fontWeight="bold"
+                                            component="span">
+                                            {n_details_unsynced}
                                         </Typography>
                                     </Button>
                                 )
@@ -235,35 +263,36 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                 />
             </Dialog>
 
-            {notFoundDetailsOnPaymentUuid && (
-                <PalmBuncesReaPaymentDetailDatatableModal
-                    uuid={notFoundDetailsOnPaymentUuid}
-                    title="Rincian"
-                    open={true}
-                    onClose={() => setNotFoundDetailsOnPaymentUuid(undefined)}
-                    type="not-found"
-                />
-            )}
-
-            {incorrectDetailsOnPaymentUuid && (
-                <PalmBuncesReaPaymentDetailDatatableModal
-                    uuid={incorrectDetailsOnPaymentUuid}
-                    title="Rincian"
-                    open={true}
-                    onClose={() => setIncorrectDetailsPaymentUuid(undefined)}
-                    type="incorrect"
-                />
-            )}
-
-            {paidDetailsOnPaymentUuid && (
-                <PalmBuncesReaPaymentDetailDatatableModal
-                    uuid={paidDetailsOnPaymentUuid}
-                    title="Rincian"
-                    open={Boolean(paidDetailsOnPaymentUuid)}
-                    onClose={() => setPaidDetailsOnPaymentUuid(undefined)}
-                    type="done"
-                />
-            )}
+            <PalmBuncesReaPaymentDetailDatatableModal
+                uuid={
+                    notFoundDetailsOnPaymentUuid ??
+                    unsyncedDetailsOnPaymentUuid ??
+                    paidDetailsOnPaymentUuid ??
+                    unvalidatedDetailsOnPaymentUuid
+                }
+                title="Rincian"
+                open={Boolean(
+                    notFoundDetailsOnPaymentUuid ??
+                        unsyncedDetailsOnPaymentUuid ??
+                        paidDetailsOnPaymentUuid ??
+                        unvalidatedDetailsOnPaymentUuid,
+                )}
+                onClose={() => {
+                    setNotFoundDetailsOnPaymentUuid(undefined)
+                    setUnsyncedDetailsPaymentUuid(undefined)
+                    setPaidDetailsOnPaymentUuid(undefined)
+                    setUnvalidatedDetailsPaymentUuid(undefined)
+                }}
+                type={
+                    notFoundDetailsOnPaymentUuid
+                        ? 'not-found'
+                        : unsyncedDetailsOnPaymentUuid
+                          ? 'unsynced'
+                          : paidDetailsOnPaymentUuid
+                            ? 'done'
+                            : 'unvalidated'
+                }
+            />
 
             <Fab in={!formOpen} onClick={handleCreate}>
                 <BackupTableIcon />
