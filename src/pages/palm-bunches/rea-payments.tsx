@@ -6,6 +6,7 @@ import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPaymen
 import { useState } from 'react'
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
@@ -61,182 +62,221 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
 
     return (
         <>
-            <Datatable
-                title="Riwayat"
-                tableId="PalmBunchDeliveryRateDatatable"
-                apiUrl={ApiUrlEnum.REA_PAYMENT_DATATABLE}
-                onRowClick={
-                    !notFoundDetailsOnPaymentUuid &&
-                    !unsyncedDetailsOnPaymentUuid &&
-                    !paidDetailsOnPaymentUuid
-                        ? (_, { dataIndex }, event) => {
-                              if (event.detail === 2) {
-                                  const data = getRowData(dataIndex)
-                                  if (!data) return
+            <Box
+                sx={{
+                    '& tbody td': {
+                        whiteSpace: 'nowrap',
+                    },
+                    '& .all-paid': {
+                        backgroundColor: 'green',
+                    },
+                }}>
+                <Datatable
+                    title="Riwayat"
+                    tableId="PalmBunchDeliveryRateDatatable"
+                    apiUrl={ApiUrlEnum.REA_PAYMENT_DATATABLE}
+                    onRowClick={
+                        !notFoundDetailsOnPaymentUuid &&
+                        !unsyncedDetailsOnPaymentUuid &&
+                        !paidDetailsOnPaymentUuid
+                            ? (_, { dataIndex }, event) => {
+                                  if (event.detail === 2) {
+                                      const data = getRowData(dataIndex)
+                                      if (!data) return
 
-                                  return handleEdit(data)
+                                      return handleEdit(data)
+                                  }
                               }
-                          }
-                        : undefined
-                }
-                columns={[
-                    ...DATATABLE_COLUMNS,
-                    {
-                        name: 'n_details_not_found_on_system',
-                        label: 'Tiket Tidak Ditemukan',
-                        options: {
-                            sort: false,
-                            searchable: false,
-                            customBodyRenderLite: dataIndex => {
-                                const { uuid, n_details_not_found_on_system } =
-                                    getRowData(dataIndex) ?? {}
+                            : undefined
+                    }
+                    columns={[
+                        ...DATATABLE_COLUMNS,
+                        {
+                            name: 'n_details_not_found_on_system',
+                            label: 'Tiket Tidak Ditemukan',
+                            options: {
+                                sort: false,
+                                searchable: false,
+                                customBodyRenderLite: dataIndex => {
+                                    const {
+                                        uuid,
+                                        n_details_not_found_on_system,
+                                    } = getRowData(dataIndex) ?? {}
 
-                                if (
-                                    !uuid ||
-                                    !n_details_not_found_on_system ||
-                                    n_details_not_found_on_system == 0
-                                )
-                                    return ''
+                                    if (
+                                        !uuid ||
+                                        !n_details_not_found_on_system ||
+                                        n_details_not_found_on_system == 0
+                                    )
+                                        return ''
 
-                                return (
-                                    <Button
-                                        size="small"
-                                        color="warning"
-                                        variant="outlined"
-                                        onClick={() =>
-                                            setNotFoundDetailsOnPaymentUuid(
-                                                uuid,
-                                            )
-                                        }>
-                                        <Typography
-                                            fontWeight="bold"
-                                            component="span">
-                                            {n_details_not_found_on_system}
-                                        </Typography>
-                                    </Button>
-                                )
-                            },
-                            hint: 'Data Tiket dari file Excel REA (farmer name) yang tidak/belum tercatat pada EKBS',
-                        },
-                    },
-                    {
-                        name: 'n_details_unvalidated',
-                        label: 'Belum Divalidasi',
-                        options: {
-                            sort: false,
-                            searchable: false,
-                            customBodyRenderLite: dataIndex => {
-                                const data = getRowData(dataIndex)
-                                const { uuid, n_details_unvalidated } =
-                                    data ?? {}
-
-                                if (!uuid || !n_details_unvalidated) return ''
-
-                                return (
-                                    <Button
-                                        size="small"
-                                        color="warning"
-                                        variant="outlined"
-                                        onClick={() =>
-                                            setUnsyncedDetailsPaymentUuid(uuid)
-                                        }>
-                                        <Typography
-                                            fontWeight="bold"
-                                            component="span">
-                                            {n_details_unvalidated}
-                                        </Typography>
-                                    </Button>
-                                )
-                            },
-                        },
-                    },
-                    {
-                        name: 'n_details_unsynced',
-                        label: 'Data Asinkron',
-                        options: {
-                            sort: false,
-                            searchable: false,
-                            customBodyRenderLite: dataIndex => {
-                                const data = getRowData(dataIndex)
-                                const { uuid, n_details_unsynced } = data ?? {}
-
-                                if (!uuid || !n_details_unsynced) return ''
-
-                                return (
-                                    <Button
-                                        size="small"
-                                        color="warning"
-                                        variant="outlined"
-                                        onClick={() =>
-                                            setUnsyncedDetailsPaymentUuid(uuid)
-                                        }>
-                                        <Typography
-                                            fontWeight="bold"
-                                            component="span">
-                                            {n_details_unsynced}
-                                        </Typography>
-                                    </Button>
-                                )
-                            },
-                            hint: 'Data Tiket dari file Excel REA (farmer name) tidak cocok dengan tiket yang tercatat pada EKBS',
-                        },
-                    },
-                    {
-                        name: 'n_details_has_paid',
-                        label: 'Tiket Lunas',
-                        options: {
-                            sort: false,
-                            searchable: false,
-                            customBodyRenderLite: dataIndex => {
-                                const data = getRowData(dataIndex)
-
-                                const { uuid, n_details_has_paid, n_tickets } =
-                                    data ?? {}
-
-                                if (!uuid || !n_details_has_paid || !n_tickets)
-                                    return ''
-
-                                return (
-                                    <Tooltip
-                                        title={`${formatNumber(n_details_has_paid)} / ${formatNumber(
-                                            n_tickets,
-                                        )} Tiket`}
-                                        arrow
-                                        placement="top">
+                                    return (
                                         <Button
                                             size="small"
+                                            color="warning"
                                             variant="outlined"
-                                            color={
-                                                n_details_has_paid === n_tickets
-                                                    ? 'success'
-                                                    : 'warning'
-                                            }
                                             onClick={() =>
-                                                setPaidDetailsOnPaymentUuid(
+                                                setNotFoundDetailsOnPaymentUuid(
                                                     uuid,
                                                 )
                                             }>
                                             <Typography
                                                 fontWeight="bold"
                                                 component="span">
-                                                {Math.floor(
-                                                    (n_details_has_paid /
-                                                        n_tickets) *
-                                                        100,
-                                                )}
-                                                %
+                                                {n_details_not_found_on_system}
                                             </Typography>
                                         </Button>
-                                    </Tooltip>
-                                )
+                                    )
+                                },
+                                hint: 'Data Tiket dari file Excel REA (farmer name) yang tidak/belum tercatat pada EKBS',
                             },
                         },
-                    },
-                ]}
-                defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
-            />
+                        {
+                            name: 'n_details_unvalidated',
+                            label: 'Belum Divalidasi',
+                            options: {
+                                sort: false,
+                                searchable: false,
+                                customBodyRenderLite: dataIndex => {
+                                    const data = getRowData(dataIndex)
+                                    const { uuid, n_details_unvalidated } =
+                                        data ?? {}
+
+                                    if (!uuid || !n_details_unvalidated)
+                                        return ''
+
+                                    return (
+                                        <Button
+                                            size="small"
+                                            color="warning"
+                                            variant="outlined"
+                                            onClick={() =>
+                                                setUnsyncedDetailsPaymentUuid(
+                                                    uuid,
+                                                )
+                                            }>
+                                            <Typography
+                                                fontWeight="bold"
+                                                component="span">
+                                                {n_details_unvalidated}
+                                            </Typography>
+                                        </Button>
+                                    )
+                                },
+                            },
+                        },
+                        {
+                            name: 'n_details_unsynced',
+                            label: 'Data Asinkron',
+                            options: {
+                                sort: false,
+                                searchable: false,
+                                customBodyRenderLite: dataIndex => {
+                                    const data = getRowData(dataIndex)
+                                    const { uuid, n_details_unsynced } =
+                                        data ?? {}
+
+                                    if (!uuid || !n_details_unsynced) return ''
+
+                                    return (
+                                        <Button
+                                            size="small"
+                                            color="warning"
+                                            variant="outlined"
+                                            onClick={() =>
+                                                setUnsyncedDetailsPaymentUuid(
+                                                    uuid,
+                                                )
+                                            }>
+                                            <Typography
+                                                fontWeight="bold"
+                                                component="span">
+                                                {n_details_unsynced}
+                                            </Typography>
+                                        </Button>
+                                    )
+                                },
+                                hint: 'Data Tiket dari file Excel REA (farmer name) tidak cocok dengan tiket yang tercatat pada EKBS',
+                            },
+                        },
+                        {
+                            name: 'n_details_has_paid',
+                            label: 'Tiket Lunas',
+                            options: {
+                                sort: false,
+                                searchable: false,
+                                customBodyRenderLite: dataIndex => {
+                                    const data = getRowData(dataIndex)
+
+                                    const {
+                                        uuid,
+                                        n_details_has_paid,
+                                        n_tickets,
+                                    } = data ?? {}
+
+                                    if (
+                                        !uuid ||
+                                        !n_details_has_paid ||
+                                        !n_tickets
+                                    )
+                                        return ''
+
+                                    return (
+                                        <Tooltip
+                                            title={`${formatNumber(n_details_has_paid)} / ${formatNumber(
+                                                n_tickets,
+                                            )} Tiket`}
+                                            arrow
+                                            placement="top">
+                                            <Button
+                                                size="small"
+                                                variant="outlined"
+                                                color={
+                                                    n_details_has_paid ===
+                                                    n_tickets
+                                                        ? 'success'
+                                                        : 'warning'
+                                                }
+                                                onClick={() =>
+                                                    setPaidDetailsOnPaymentUuid(
+                                                        uuid,
+                                                    )
+                                                }>
+                                                <Typography
+                                                    fontWeight="bold"
+                                                    component="span">
+                                                    {Math.floor(
+                                                        (n_details_has_paid /
+                                                            n_tickets) *
+                                                            100,
+                                                    )}
+                                                    %
+                                                </Typography>
+                                            </Button>
+                                        </Tooltip>
+                                    )
+                                },
+                            },
+                        },
+                    ]}
+                    defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
+                    getRowDataCallback={fn => (getRowData = fn)}
+                    mutateCallback={fn => (mutate = fn)}
+                    setRowProps={(_, dataIndex) => {
+                        const { n_tickets, n_details_has_paid } =
+                            getRowData(dataIndex) ?? {}
+
+                        if (!n_tickets || !n_details_has_paid) return {}
+
+                        return {
+                            sx:
+                                n_tickets === n_details_has_paid
+                                    ? { '& td': { color: 'GrayText' } }
+                                    : undefined,
+                        }
+                    }}
+                />
+            </Box>
 
             <Dialog
                 open={formOpen}

@@ -1,10 +1,10 @@
 // types
 import type YajraDatatable from '@/types/responses/YajraDatatable'
-import {
-    type MUIDataTableColumn,
-    type MUIDataTableOptions,
-    type MUIDataTableState,
-    type MUISortOptions,
+import type {
+    MUIDataTableColumn,
+    MUIDataTableOptions,
+    MUIDataTableState,
+    MUISortOptions,
 } from 'mui-datatables'
 import type { KeyedMutator } from 'swr'
 import type { OnRowClickType } from './types'
@@ -63,8 +63,7 @@ const SXs = {
 
     tableParent: {
         '& td, & th': {
-            py: 1,
-            px: 2,
+            p: 1,
         },
         '& tbody .MuiTableRow-hover': {
             cursor: 'pointer',
