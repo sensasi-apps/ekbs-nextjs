@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import FormikForm from '@/components/FormikForm'
 import TypographyWithLabel from '@/components/pages/user-loans/SummaryBox/TypographyWithLabel'
-import UserAutocomplete from '@/components/Global/UserAutocomplete'
+import UserAutocomplete from '@/components/UserAutocomplete'
 // providers
 import useAuth from '@/providers/Auth'
 // utils
@@ -92,6 +92,7 @@ const AssignPicButtonAndDialogForm = memo(
                                         },
                                     }}>
                                     <UserAutocomplete
+                                        label="Pilih Penanggung Jawab"
                                         disabled={isDisabled}
                                         fullWidth
                                         onChange={(_, user) => {

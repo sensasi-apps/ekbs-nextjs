@@ -33,7 +33,7 @@ import FormikForm from '@/components/FormikForm'
 import LoadingAddorment from '@/components/LoadingAddorment'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import UserAutocomplete from '@/components/Global/UserAutocomplete'
+import UserAutocomplete from '@/components/UserAutocomplete'
 // utils
 import getLoanStatusColor from '@/utils/getLoanStatusColor'
 import useAuth from '@/providers/Auth'
@@ -188,6 +188,7 @@ export default function LoanForm({
 
             {isManager && (
                 <UserAutocomplete
+                    label="Pemohon"
                     disabled={isDisabled}
                     fullWidth
                     onChange={(_, user) => {
@@ -198,7 +199,6 @@ export default function LoanForm({
                     size="small"
                     textFieldProps={{
                         required: true,
-                        label: 'Pemohon',
                         margin: 'dense',
                         ...errorsToHelperTextObj(errors.user_uuid),
                     }}

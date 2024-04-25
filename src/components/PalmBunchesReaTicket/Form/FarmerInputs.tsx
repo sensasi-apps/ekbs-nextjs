@@ -18,7 +18,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // components
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import UserAutocomplete from '@/components/Global/UserAutocomplete'
+import UserAutocomplete from '@/components/UserAutocomplete'
 // providers
 import useFormData from '@/providers/useFormData'
 
@@ -113,6 +113,7 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                 />
 
                                 <UserAutocomplete
+                                    label="Nama"
                                     disabled={disabled}
                                     fullWidth
                                     onChange={(_, user) => {
@@ -130,18 +131,16 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                     value={palmBunch.owner_user || null}
                                     size="small"
                                     onBlur={handleBlur}
+                                    error={Boolean(
+                                        validationErrors[
+                                            `palm_bunches.${index}.owner_user_uuid`
+                                        ],
+                                    )}
+                                    helperText={validationErrors[
+                                        `palm_bunches.${index}.owner_user_uuid`
+                                    ]?.join(', ')}
                                     textFieldProps={{
                                         required: true,
-                                        label: 'Nama',
-                                        error: Boolean(
-                                            validationErrors[
-                                                `palm_bunches.${index}.owner_user_uuid`
-                                            ],
-                                        ),
-                                        helperText:
-                                            validationErrors[
-                                                `palm_bunches.${index}.owner_user_uuid`
-                                            ]?.join(', '),
                                     }}
                                 />
                             </Grid>
