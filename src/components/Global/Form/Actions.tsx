@@ -1,9 +1,10 @@
+// vendors
+import { useIsOnline } from 'react-use-is-online'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
 // hooks
-import { useOnlineStatus } from '@/hooks/useOnlineStatus'
 
 export default function FormActions({
     submitting,
@@ -18,7 +19,7 @@ export default function FormActions({
     onCancel: () => void
     onDelete?: () => void
 }) {
-    const isOnline = useOnlineStatus()
+    const { isOffline } = useIsOnline()
 
     return (
         <Box
@@ -29,7 +30,7 @@ export default function FormActions({
             {onDelete && (
                 <LoadingButton
                     onClick={onDelete}
-                    disabled={submitting || disabled || !isOnline}
+                    disabled={submitting || disabled || isOffline}
                     loading={deleting}
                     color="error">
                     Hapus
@@ -47,9 +48,9 @@ export default function FormActions({
 
                 <LoadingButton
                     type="submit"
-                    disabled={deleting || disabled || !isOnline}
+                    disabled={deleting || disabled || isOffline}
                     loading={submitting}
-                    variant={!isOnline ? 'outlined' : 'contained'}
+                    variant={isOffline ? 'outlined' : 'contained'}
                     color="info">
                     Simpan
                 </LoadingButton>

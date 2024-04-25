@@ -1,16 +1,11 @@
 // vendor
-import { useState } from 'react'
+import { useIsOnline } from 'react-use-is-online'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
+import { useState } from 'react'
 // materials
 import AppBar from '@mui/material/AppBar'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
-import CircularProgress from '@mui/material/CircularProgress'
-// import Collapse from '@mui/material/Collapse'
-const Collapse = dynamic(() => import('@mui/material/Collapse'), {
-    ssr: false,
-})
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -18,12 +13,14 @@ import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import GradingIcon from '@mui/icons-material/Grading'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
+import SignalWifiStatusbarConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiStatusbarConnectedNoInternet4'
 import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuth from '@/providers/Auth'
@@ -36,8 +33,6 @@ import FooterBox from './FooterBox'
 import FlexColumnBox from '../FlexColumnBox'
 // utils
 import blink from '@/utils/cssAnimations/blink'
-// hooks
-import { useOnlineStatus } from '@/hooks/useOnlineStatus'
 
 export default function TopBar({
     title,
@@ -46,8 +41,8 @@ export default function TopBar({
     title: string
     toggleDrawer: () => void
 }) {
+    const { isOffline } = useIsOnline()
     const { user } = useAuth()
-    const isOnline = useOnlineStatus()
     const router = useRouter()
 
     const [isOpenTncp, setIsOpenTncp] = useState(false)
@@ -62,16 +57,6 @@ export default function TopBar({
                 width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
                 ml: { sm: `${DRAWER_WIDTH}px` },
             }}>
-            <Collapse in={!isOnline}>
-                <Alert
-                    variant="filled"
-                    severity="error"
-                    sx={{
-                        borderRadius: 0,
-                    }}>
-                    Perangkat Anda sedang tidak terhubung ke internet.
-                </Alert>
-            </Collapse>
             <Toolbar
                 sx={{
                     display: 'flex',
@@ -91,24 +76,35 @@ export default function TopBar({
                 </Typography>
 
                 <Box>
+                    {isOffline && (
+                        <Tooltip
+                            title={
+                                <Alert severity="error" variant="filled">
+                                    Perangkat anda sedang tidak terhubung ke
+                                    internet, data yang anda lihat mungkin tidak
+                                    muthakir.
+                                </Alert>
+                            }
+                            arrow
+                            placement="left">
+                            <IconButton
+                                size="small"
+                                color="error"
+                                disableTouchRipple>
+                                <SignalWifiStatusbarConnectedNoInternet4Icon
+                                    sx={{
+                                        animation: `${blink} 1s linear infinite`,
+                                    }}
+                                />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+
                     <IconButton
                         color="inherit"
                         size="small"
-                        sx={{ position: 'relative' }}
                         onClick={event => setAnchorEl(event.currentTarget)}>
                         <AccountCircleIcon />
-                        {!isOnline && router.isReady && (
-                            <CircularProgress
-                                color="error"
-                                size={30}
-                                variant="determinate"
-                                value={100}
-                                sx={{
-                                    animation: `${blink} 1s linear infinite`,
-                                    position: 'absolute',
-                                }}
-                            />
-                        )}
                     </IconButton>
 
                     <Menu
@@ -123,21 +119,6 @@ export default function TopBar({
                             textAlign="center"
                             gap={0}
                             my={1}>
-                            {!isOnline && router.isReady && (
-                                <Typography
-                                    variant="overline"
-                                    lineHeight="1rem"
-                                    width="20rem"
-                                    p={1}
-                                    sx={{
-                                        backgroundColor: 'error.main',
-                                    }}
-                                    mb={2}>
-                                    Perangkat anda sedang tidak terhubung ke
-                                    internet, data yang anda lihat mungkin tidak
-                                    ter-<i>update</i>.
-                                </Typography>
-                            )}
                             <Typography variant="overline" lineHeight="1rem">
                                 #<strong>{user?.id}</strong> &mdash;{' '}
                                 {user?.name}
