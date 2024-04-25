@@ -21,7 +21,7 @@ import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import UserAutocomplete from '@/components/Global/UserAutocomplete'
+import UserAutocomplete from '@/components/UserAutocomplete'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
@@ -112,6 +112,7 @@ export default function BaseTaskFields({
             </Fade>
 
             <UserAutocomplete
+                label={type === 'personal' ? 'Penyewa' : 'Penanggung Jawab'}
                 disabled={isDisabled}
                 fullWidth
                 onChange={(_, user) => {
@@ -121,7 +122,6 @@ export default function BaseTaskFields({
                 value={by_user ?? null}
                 size="small"
                 textFieldProps={{
-                    label: type === 'personal' ? 'Penyewa' : 'Penanggung Jawab',
                     required: type === 'farmer-group',
                     margin: 'dense',
                     ...errorsToHelperTextObj(errors.by_user_uuid),
@@ -188,6 +188,7 @@ export default function BaseTaskFields({
             />
 
             <UserAutocomplete
+                label="Operator"
                 disabled={isDisabled}
                 fullWidth
                 onChange={(_, user) => {
@@ -197,7 +198,6 @@ export default function BaseTaskFields({
                 value={operated_by_user ?? null}
                 size="small"
                 textFieldProps={{
-                    label: 'Operator',
                     required: true,
                     margin: 'dense',
                     ...errorsToHelperTextObj(errors.operated_by_user),

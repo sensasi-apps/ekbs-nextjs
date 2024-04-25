@@ -2,7 +2,7 @@
 import { useState } from 'react'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import UserAutocomplete from '@/components/Global/UserAutocomplete'
+import UserAutocomplete from '@/components/UserAutocomplete'
 import axios from '@/lib/axios'
 
 export default function ActingAs() {
@@ -11,6 +11,7 @@ export default function ActingAs() {
     return (
         <AuthLayout title="">
             <UserAutocomplete
+                label="Pilih User"
                 disabled={loading}
                 onChange={(_, user) => {
                     if (!user) return

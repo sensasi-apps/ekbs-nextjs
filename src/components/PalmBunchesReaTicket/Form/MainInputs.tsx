@@ -14,7 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 // components
 import DatePicker from '@/components/DatePicker'
-import UserAutocomplete from '@/components/Global/UserAutocomplete'
+import UserAutocomplete from '@/components/UserAutocomplete'
 import TextField from '@/components/TextField'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 // providers
@@ -379,6 +379,7 @@ function PalmBunchesReaDeliveryMainInputs({
             />
 
             <UserAutocomplete
+                label="Pengangkut"
                 disabled={disabled}
                 fullWidth
                 onChange={(_, user) => {
@@ -391,11 +392,8 @@ function PalmBunchesReaDeliveryMainInputs({
                 textFieldProps={{
                     required: true,
                     margin: 'dense',
-                    label: 'Pengangkut',
-                    ...errorsToHelperTextObj(
-                        validationErrors.courier_user_uuid,
-                    ),
                 }}
+                {...errorsToHelperTextObj(validationErrors.courier_user_uuid)}
             />
 
             <TextField
