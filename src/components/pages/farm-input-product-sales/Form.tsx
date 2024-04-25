@@ -35,7 +35,7 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import ProductSaleDetailArrayField from './Form/ProductSaleDetailArrayField'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import UserAutocomplete from '@/components/Global/UserAutocomplete'
+import UserAutocomplete from '@/components/UserAutocomplete'
 // icons
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 // utils
@@ -150,6 +150,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <UserAutocomplete
+                        label="Pengguna"
                         disabled={isDisabled}
                         fullWidth
                         onChange={(_, user) => {
@@ -162,7 +163,6 @@ const ProductSaleForm = memo(function ProductSaleForm({
                             required: ['installment', 'wallet'].includes(
                                 payment_method ?? '',
                             ),
-                            label: 'Pengguna',
                             margin: 'dense',
                             ...errorsToHelperTextObj(errors.buyer_user_uuid),
                         }}

@@ -5,6 +5,7 @@ import type UserType from '@/dataTypes/User'
 import type { ReactNode } from 'react'
 // vendors
 import { useState } from 'react'
+import { useDebounce } from 'use-debounce'
 // materials
 import MuiAutocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
@@ -13,7 +14,6 @@ import Typography from '@mui/material/Typography'
 // components
 import TextField from '@/components/TextField'
 import useSWR from 'swr'
-import debounce from '@/utils/debounce'
 import RoleChips from '../User/RoleChips'
 import ScrollableXBox from '../ScrollableXBox'
 import { TextFieldProps } from '@mui/material'
@@ -50,27 +50,20 @@ export default function UserAutocomplete<
     showNickname?: boolean
 }) {
     const [inputValue, setInputValue] = useState('')
-    const [initialLoading, setInitialLoading] = useState(false)
 
-    const isAllowedToFetch = inputValue && inputValue.length >= 3
+    const [debouncedInputValue] = useDebounce(inputValue, 500)
 
-    const {
-        data: options = [],
-        isLoading,
-        isValidating,
-    } = useSWR<UserType[]>(
-        isAllowedToFetch
+    const { data: options = [], isLoading } = useSWR<UserType[]>(
+        debouncedInputValue && debouncedInputValue.length >= 3
             ? [
                   '/users/search',
                   {
-                      query: inputValue,
+                      query: debouncedInputValue,
                   },
               ]
             : null,
+        null,
     )
-
-    const loading = isValidating || isLoading || initialLoading
-
     return (
         <MuiAutocomplete
             options={options}
@@ -91,17 +84,8 @@ export default function UserAutocomplete<
                 </>
             }
             filterOptions={x => x}
-            loading={loading}
-            onInputChange={(_, value) => {
-                if (isAllowedToFetch) {
-                    setInitialLoading(true)
-                }
-
-                debounce(() => {
-                    value ? setInputValue(value) : null
-                    setInitialLoading(false)
-                }, 350)
-            }}
+            loading={isLoading}
+            onInputChange={(_, value) => setInputValue(value)}
             renderOption={(props, option) => (
                 <li
                     {...props}
