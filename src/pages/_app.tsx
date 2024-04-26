@@ -2,32 +2,36 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
-
+// types
 import type { AppProps } from 'next/app'
-
+// vendors
+import { closeSnackbar, SnackbarProvider } from 'notistack'
+import { SWRConfig } from 'swr'
+import axios from '@/lib/axios'
+import Head from 'next/head'
 import dayjs from 'dayjs'
 import 'dayjs/locale/id'
-dayjs.locale('id')
-
-import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import QueryString from 'qs'
+// materials
+import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import IconButton from '@mui/material/IconButton'
+// icons
 import CloseIcon from '@mui/icons-material/Close'
-import { SWRConfig } from 'swr'
-import { closeSnackbar, SnackbarProvider } from 'notistack'
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
+// utils
+import { AuthProvider } from '@/providers/Auth'
+import getTheme from '@/lib/getTheme'
+import useRedirectIfBrowserIsUnsupported from '@/hooks/useRedirectIfBrowserIsUnsupported'
 
 const Typography = dynamic(() => import('@mui/material/Typography'))
 
-import { AuthProvider } from '@/providers/Auth'
-import axios from '@/lib/axios'
-
-import getTheme from '@/lib/getTheme'
+dayjs.locale('id')
 
 export default function App({ Component, pageProps }: AppProps) {
+    useRedirectIfBrowserIsUnsupported()
+
     return (
         <CssVarsProvider theme={getTheme()}>
             <GlobalStyles

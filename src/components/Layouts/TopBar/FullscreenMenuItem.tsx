@@ -10,17 +10,28 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 
 export default function FullscreenMenuItem() {
     const [isFullscreen, setIsFullscreen] = useState(false)
+    const [isSupported, setIsSupported] = useState(false)
 
     useEffect(() => {
         setIsFullscreen(Boolean(document.fullscreenElement))
+        setIsSupported(
+            [
+                'requestFullscreen',
+                'webkitRequestFullScreen',
+                'mozRequestFullScreen',
+            ].some(method => method in document.documentElement),
+        )
     }, [])
 
+    if (!isSupported) return null
+
     const toggleFullscreen = () => {
-        if (!isFullscreen) {
-            document.documentElement.requestFullscreen()
+        if (isFullscreen) {
+            exitFullscreen()
         } else {
-            document.exitFullscreen()
+            requestFullscreen()
         }
+
         setIsFullscreen(prev => !prev)
     }
 
@@ -40,4 +51,53 @@ export default function FullscreenMenuItem() {
             </Typography>
         </MenuItem>
     )
+}
+
+function requestFullscreen() {
+    const docEl = document.documentElement
+
+    ;[
+        // mozilla proposal and W3C Proposal
+        'requestFullscreen',
+
+        // Webkit (works in Safari and Chrome Canary)
+        'webkitRequestFullScreen',
+
+        // Firefox (works in nightly)
+        'mozRequestFullScreen',
+    ].every(method => {
+        if (method in docEl) {
+            // @ts-ignore
+            docEl[method]()
+
+            return false
+        }
+
+        return true
+    })
+}
+
+function exitFullscreen() {
+    ;[
+        // mozilla proposal
+        'exitFullscreen',
+
+        // Webkit (works in Safari and Chrome Canary)
+        'webkitExitFullscreen',
+
+        // Firefox (works in nightly)
+        'mozCancelFullScreen',
+
+        // W3C Proposal
+        'exitFullscreen',
+    ].every(method => {
+        if (method in document) {
+            // @ts-ignore
+            document[method]()
+
+            return false
+        }
+
+        return true
+    })
 }

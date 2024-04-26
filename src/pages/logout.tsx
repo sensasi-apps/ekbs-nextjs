@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios'
 // vendors
 import { useEffect } from 'react'
 import axios from '@/lib/axios'
@@ -7,16 +8,19 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 // etc
 import useAuth from '@/providers/Auth'
 
-const logout = () =>
-    axios.post('/logout').catch(error => {
-        if (![401, 422].includes(error.response.status)) throw error
-    })
-
-const LogoutPage = () => {
+export default function LogoutPage() {
     const { onLogoutSuccess } = useAuth()
 
     useEffect(() => {
-        logout().then(onLogoutSuccess)
+        axios
+            .post('/logout')
+            .catch((error: AxiosError) => {
+                if (
+                    ![401, 419, 422, undefined].includes(error.response?.status)
+                )
+                    throw error
+            })
+            .then(onLogoutSuccess)
     }, [])
 
     return (
@@ -27,5 +31,3 @@ const LogoutPage = () => {
         </AuthLayout>
     )
 }
-
-export default LogoutPage
