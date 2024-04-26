@@ -4,8 +4,10 @@ import type PalmBunchType from '@/dataTypes/PalmBunch'
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
+import useSWR from 'swr'
 // materials
 import Chip from '@mui/material/Chip'
+import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
 // icons
 import ReceiptIcon from '@mui/icons-material/Receipt'
@@ -30,8 +32,6 @@ import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import useSWR from 'swr'
-import { Collapse } from '@mui/material'
 import blink from '@/utils/cssAnimations/blink'
 
 export default function PalmBuncesReaTickets() {
@@ -380,7 +380,7 @@ function FilterChips() {
 
             <Chip
                 label={
-                    'Menunggu Data REA' +
+                    'Menunggu REA' +
                     (stats?.waiting ? ` (${stats?.waiting})` : '')
                 }
                 color={filter === 'waiting' ? 'success' : undefined}

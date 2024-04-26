@@ -151,7 +151,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                             color="warning"
                                             variant="outlined"
                                             onClick={() =>
-                                                setUnsyncedDetailsPaymentUuid(
+                                                setUnvalidatedDetailsPaymentUuid(
                                                     uuid,
                                                 )
                                             }>
