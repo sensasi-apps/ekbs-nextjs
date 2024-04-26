@@ -167,39 +167,51 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
         <TableContainer>
             <Table size="small">
                 <TableBody>
-                    <HeadingRow>
-                        TBS — {formatNumber(kgSellTotal)} kg
-                    </HeadingRow>
+                    {tbsTotalRp != 0 && (
+                        <>
+                            <HeadingRow>
+                                TBS — {formatNumber(kgSellTotal)} kg
+                            </HeadingRow>
 
-                    {tbsData
-                        .filter(d => d.data.length > 0)
-                        .map((data, i) => (
-                            <ItemRow key={i} {...data} />
-                        ))}
+                            {tbsData
+                                .filter(d => d.data.length > 0)
+                                .map((data, i) => (
+                                    <ItemRow key={i} {...data} />
+                                ))}
 
-                    <TotalRow total={tbsTotalRp} />
+                            <TotalRow total={tbsTotalRp} />
+                        </>
+                    )}
 
-                    <HeadingRow>
-                        Transport — {formatNumber(kgDelivTotal)} kg
-                    </HeadingRow>
+                    {transportTotalRp != 0 && (
+                        <>
+                            <HeadingRow>
+                                Transport — {formatNumber(kgDelivTotal)} kg
+                            </HeadingRow>
 
-                    {transportData
-                        .filter(d => d.data.length > 0)
-                        .map((data, i) => (
-                            <ItemRow key={i} {...data} />
-                        ))}
+                            {transportData
+                                .filter(d => d.data.length > 0)
+                                .map((data, i) => (
+                                    <ItemRow key={i} {...data} />
+                                ))}
 
-                    <TotalRow total={transportTotalRp} />
+                            <TotalRow total={transportTotalRp} />
+                        </>
+                    )}
 
-                    <HeadingRow>Potongan dan Lain-lain</HeadingRow>
+                    {etcTotalRp != 0 && (
+                        <>
+                            <HeadingRow>Potongan dan Lain-lain</HeadingRow>
 
-                    {etcData
-                        .filter(d => d.data.length > 0)
-                        .map((data, i) => (
-                            <ItemRow key={i} {...data} />
-                        ))}
+                            {etcData
+                                .filter(d => d.data.length > 0)
+                                .map((data, i) => (
+                                    <ItemRow key={i} {...data} />
+                                ))}
 
-                    <TotalRow total={etcTotalRp} />
+                            <TotalRow total={etcTotalRp} />
+                        </>
+                    )}
 
                     <TotalRow
                         bg
