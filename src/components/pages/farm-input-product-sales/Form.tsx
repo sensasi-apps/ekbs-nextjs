@@ -408,7 +408,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                 disabled={isDisabled}
                                 decimalScale={0}
                                 value={adjustment_rp}
-                                name="n_term"
+                                name="adjustment_rp"
                                 onValueChange={({ floatValue }) =>
                                     debounce(() =>
                                         setFieldValue(

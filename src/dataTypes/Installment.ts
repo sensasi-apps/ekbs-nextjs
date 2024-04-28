@@ -17,6 +17,14 @@ type InstallmentDBTableType = {
 
     // relation
     transaction?: TransactionType
+    installmentable_classname:
+        | 'App\\Models\\UserLoan'
+        | 'App\\Models\\ProductSale'
+        | 'App\\Models\\RentItemRent'
+    installmentable?: UserLoan | ProductSale | RentItemRent
+    user_loan?: UserLoan
+    product_sale?: ProductSale
+    rent_item_rent?: RentItemRent
 } & (
     | {
           installmentable_classname: 'App\\Models\\UserLoan'
