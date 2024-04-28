@@ -1,24 +1,32 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type InstallmentType from '@/dataTypes/Installment'
+import type Installment from '@/dataTypes/Installment'
 // vendors
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { Formik } from 'formik'
+import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
 import Chip, { ChipOwnProps } from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { GetRowDataType } from '@/components/Datatable'
+import Datatable, { GetRowDataType, MutateType } from '@/components/Datatable'
 import ScrollableXBox from '../ScrollableXBox'
 // utils
 import getInstallmentType from '@/utils/getInstallmentType'
 import getInstallmentColor from '@/utils/getInstallmentColor'
+import handle422 from '@/utils/errorCatcher'
 import numberToCurrency from '@/utils/numberToCurrency'
 import toDmy from '@/utils/toDmy'
+import ReceivablePaymentForm, { FormValuesType } from './PaymentForm'
+import Dialog from '../Global/Dialog'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
+
+let getRowData: GetRowDataType<Installment>
+let mutate: MutateType
 
 export default function ReceivablesDatatable({
     asManager,
@@ -30,6 +38,14 @@ export default function ReceivablesDatatable({
     const {
         query: { type, state },
     } = useRouter()
+
+    const [formikProps, setFormikProps] = useState<{
+        values: FormValuesType
+        status: Installment
+    }>()
+
+    const closeFormDialog = () => setFormikProps(undefined)
+
     return (
         <Box display="flex" flexDirection="column" gap={2}>
             {!typeProp && <TypeFilterChips />}
@@ -54,24 +70,74 @@ export default function ReceivablesDatatable({
                     name: 'should_be_paid_at',
                     direction: 'asc',
                 }}
-                // onRowClick={(_, { dataIndex }, event) => {
-                //     if (event.detail === 2) {
-                //         const data = getRowData(dataIndex)
-                //         if (!data) return
+                onRowClick={
+                    true // TODO: remove this after data is ready
+                        ? undefined
+                        : (_, { dataIndex }, event) => {
+                              if (event.detail === 2) {
+                                  const data = getRowData(dataIndex)
+                                  if (!data) return
 
-                //         return handleEdit(data)
-                //     }
-                // }}
+                                  return setFormikProps({
+                                      values: {
+                                          at: data.transaction?.at,
+                                          cashable_uuid:
+                                              data.transaction?.cashable_uuid,
+                                          payment_method:
+                                              data.transaction
+                                                  ?.cashable_classname ===
+                                              'App\\Models\\Cash'
+                                                  ? 'cash'
+                                                  : data.transaction
+                                                          ?.cashable_classname ===
+                                                      'App\\Models\\UserCash'
+                                                    ? 'wallet'
+                                                    : undefined,
+                                          adjustment_rp: data.transaction
+                                              ?.amount
+                                              ? data.transaction?.amount -
+                                                data.amount_rp
+                                              : undefined,
+                                      },
+                                      status: data,
+                                  })
+                              }
+                          }
+                }
                 tableId="receiveables-table"
                 title={asManager ? 'Daftar Piutang' : 'Daftar Tagihan'}
                 getRowDataCallback={fn => (getRowData = fn)}
-                // mutateCallback={fn => (mutate = fn)}
+                mutateCallback={fn => (mutate = fn)}
             />
+
+            <Dialog
+                title="Pelunasan Angsuran"
+                open={Boolean(formikProps)}
+                maxWidth="xs">
+                {formikProps?.values && formikProps?.status && (
+                    <Formik
+                        initialValues={formikProps.values}
+                        initialStatus={formikProps.status}
+                        onSubmit={(values, { setErrors }) =>
+                            axios
+                                .put(
+                                    `receivables/payment/${formikProps.status.uuid}`,
+                                    values,
+                                )
+                                .then(() => {
+                                    mutate()
+                                    closeFormDialog()
+                                })
+                                .catch(error => handle422(error, setErrors))
+                        }
+                        onReset={closeFormDialog}
+                        component={ReceivablePaymentForm}
+                    />
+                )}
+            </Dialog>
         </Box>
     )
 }
-
-let getRowData: GetRowDataType<InstallmentType>
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
@@ -100,7 +166,11 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 const data = getRowData(dataIndex)
                 if (!data) return null
 
-                return getUserNameFromInstallmentable(data)
+                return (
+                    data.user_loan?.user?.name ??
+                    data.product_sale?.buyer_user?.name ??
+                    data.rent_item_rent?.by_user?.name
+                )
             },
         },
     },
@@ -187,22 +257,6 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
 ]
-
-const getUserNameFromInstallmentable = (data: InstallmentType) => {
-    switch (data.installmentable_classname) {
-        case 'App\\Models\\ProductSale':
-            return data.product_sale?.buyer_user?.name
-
-        case 'App\\Models\\UserLoan':
-            return data.user_loan?.user?.name
-
-        case 'App\\Models\\RentItemRent':
-            return data.rent_item_rent?.by_user?.name
-
-        default:
-            break
-    }
-}
 
 const CHIP_DEFAULT_PROPS: ChipOwnProps = {
     size: 'small',
