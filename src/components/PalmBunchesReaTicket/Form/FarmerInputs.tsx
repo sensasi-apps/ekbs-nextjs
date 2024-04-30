@@ -114,6 +114,7 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
 
                                 <UserAutocomplete
                                     label="Nama"
+                                    showNickname
                                     disabled={disabled}
                                     fullWidth
                                     onChange={(_, user) => {
