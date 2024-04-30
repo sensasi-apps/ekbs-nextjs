@@ -20,6 +20,13 @@ const executiveNavItems: NavItem[] = [
         icon: <AlignHorizontalLeftIcon />,
         forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
     },
+    {
+        label: 'Laba-Rugi',
+        href: '/executive/profit-loss',
+        pathname: '/executive/profit-loss',
+        icon: <AlignHorizontalLeftIcon />,
+        forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
+    },
     // {
     //     label: 'Laporan',
     //     href: '/executive/reports',
