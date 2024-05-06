@@ -4,7 +4,7 @@ import TransactionType from '@/dataTypes/Transaction'
 // materials
 import { green } from '@mui/material/colors'
 // components
-import { getRowData } from '@/components/Datatable'
+import { getNoWrapCellProps, getRowData } from '@/components/Datatable'
 // utils
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
@@ -12,15 +12,24 @@ import numberToCurrency from '@/utils/numberToCurrency'
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
-        label: 'uuid',
+        label: 'UUID',
         options: {
             display: false,
+        },
+    },
+    {
+        name: 'short_uuid',
+        label: 'Kode',
+        options: {
+            searchable: false,
+            sort: false,
         },
     },
     {
         name: 'at',
         label: 'Tanggal',
         options: {
+            setCellProps: getNoWrapCellProps,
             customBodyRender: toDmy,
         },
     },
@@ -28,8 +37,14 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'cash.code',
         label: 'Kode Kas',
         options: {
-            customBodyRenderLite: dataIndex =>
-                getRowData<TransactionType>(dataIndex)?.cash.code,
+            customBodyRenderLite: dataIndex => {
+                const cashable =
+                    getRowData<TransactionType>(dataIndex)?.cashable
+
+                if (!cashable || !('code' in cashable)) return null
+
+                return cashable.code
+            },
         },
     },
     {
