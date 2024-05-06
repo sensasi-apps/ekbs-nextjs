@@ -279,3 +279,9 @@ function generateTextLabel(isLoading: boolean, error: YajraDatatable['error']) {
 
     return 'Tidak ada data yang tersedia'
 }
+
+export function getNoWrapCellProps() {
+    return {
+        style: { whiteSpace: 'nowrap' },
+    }
+}
