@@ -13,6 +13,7 @@ import TableRow from '@mui/material/TableRow'
 import TransactionTag from '@/enums/TransactionTag'
 // utils
 import formatNumber from '@/utils/formatNumber'
+import { Typography } from '@mui/material'
 
 type TxsGroup = { name: string; data: Transaction[] }
 
@@ -32,6 +33,20 @@ const tbsTags = [
 ]
 
 export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
+    if (data.data.length === 0) {
+        return (
+            <Typography
+                color="text.disabled"
+                variant="caption"
+                fontStyle="italic"
+                maxWidth="20em"
+                component="div">
+                Tidak terdapat aktivitas transaksi pada rentang tanggal yang
+                dipilih
+            </Typography>
+        )
+    }
+
     const inboundTxs = data.data.filter(tx => tx.amount > 0)
     const outboundTxs = data.data.filter(tx => tx.amount < 0)
 
