@@ -168,8 +168,6 @@ function PaymentSection({
     payment_method: 'cash' | undefined | 'wallet'
     setFieldValue: (field: string, value: any) => void
 }) {
-    console.log('payment_method', payment_method)
-
     return (
         <>
             <FormControl
