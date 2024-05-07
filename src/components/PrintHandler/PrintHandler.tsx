@@ -41,19 +41,21 @@ const PrintHandler = memo(function PrintHandler({
 
     return (
         <>
-            <ReactToPrint
-                pageStyle="@page { margin: auto; }"
-                content={() => toPrintContentRef.current}
-                trigger={() => (
-                    <Tooltip {...tooltipProps}>
-                        <span>
-                            <IconButton {...printButtonProps}>
-                                <PrintIcon />
-                            </IconButton>
-                        </span>
-                    </Tooltip>
-                )}
-            />
+            <div>
+                <ReactToPrint
+                    pageStyle="@page { margin: auto; }"
+                    content={() => toPrintContentRef.current}
+                    trigger={() => (
+                        <Tooltip {...tooltipProps}>
+                            <span>
+                                <IconButton {...printButtonProps}>
+                                    <PrintIcon />
+                                </IconButton>
+                            </span>
+                        </Tooltip>
+                    )}
+                />
+            </div>
 
             <div
                 style={{
