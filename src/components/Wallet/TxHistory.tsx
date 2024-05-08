@@ -372,7 +372,7 @@ function TxsList({
 
     return (
         <FlexColumnBox gap={1}>
-            {txs.balanceFrom && (
+            {txs.balanceFrom !== undefined && (
                 <TxHistoryItem
                     desc="Saldo Awal"
                     amount={txs.balanceFrom}
@@ -465,7 +465,7 @@ function TxsList({
                 </Typography>
             )}
 
-            {txs.balanceTo && (
+            {txs.balanceTo !== undefined && (
                 <TxHistoryItem
                     mt={2}
                     desc="Saldo Akhir"
