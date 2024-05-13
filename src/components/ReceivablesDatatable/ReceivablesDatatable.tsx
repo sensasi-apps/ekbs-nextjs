@@ -70,40 +70,32 @@ export default function ReceivablesDatatable({
                     name: 'should_be_paid_at',
                     direction: 'asc',
                 }}
-                onRowClick={
-                    true // TODO: remove this after data is ready
-                        ? undefined
-                        : (_, { dataIndex }, event) => {
-                              if (event.detail === 2) {
-                                  const data = getRowData(dataIndex)
-                                  if (!data) return
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data = getRowData(dataIndex)
+                        if (!data) return
 
-                                  return setFormikProps({
-                                      values: {
-                                          at: data.transaction?.at,
-                                          cashable_uuid:
-                                              data.transaction?.cashable_uuid,
-                                          payment_method:
-                                              data.transaction
-                                                  ?.cashable_classname ===
-                                              'App\\Models\\Cash'
-                                                  ? 'cash'
-                                                  : data.transaction
-                                                          ?.cashable_classname ===
-                                                      'App\\Models\\UserCash'
-                                                    ? 'wallet'
-                                                    : undefined,
-                                          adjustment_rp: data.transaction
-                                              ?.amount
-                                              ? data.transaction?.amount -
-                                                data.amount_rp
-                                              : undefined,
-                                      },
-                                      status: data,
-                                  })
-                              }
-                          }
-                }
+                        return setFormikProps({
+                            values: {
+                                at: data.transaction?.at,
+                                cashable_uuid: data.transaction?.cashable_uuid,
+                                payment_method:
+                                    data.transaction?.cashable_classname ===
+                                    'App\\Models\\Cash'
+                                        ? 'cash'
+                                        : data.transaction
+                                                ?.cashable_classname ===
+                                            'App\\Models\\UserCash'
+                                          ? 'wallet'
+                                          : undefined,
+                                adjustment_rp: data.transaction?.amount
+                                    ? data.transaction?.amount - data.amount_rp
+                                    : undefined,
+                            },
+                            status: data,
+                        })
+                    }
+                }}
                 tableId="receiveables-table"
                 title={asManager ? 'Daftar Piutang' : 'Daftar Tagihan'}
                 getRowDataCallback={fn => (getRowData = fn)}
