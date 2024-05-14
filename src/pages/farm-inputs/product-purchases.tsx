@@ -61,7 +61,7 @@ export default function FarmInputsProducts() {
 
             setInitialFormikValues({
                 ...productPurchase,
-                cashable_uuid: productPurchase.transaction?.cash.uuid,
+                cashable_uuid: productPurchase.transaction?.cashable?.uuid,
             })
 
             setInitialFormikStatus({

@@ -72,7 +72,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Oleh',
         options: {
             customBodyRenderLite: dataIndex =>
-                getRowData<TransactionType>(dataIndex)?.user_activity_logs[0]
+                getRowData<TransactionType>(dataIndex)?.user_activity_logs?.[0]
                     ?.user.name,
         },
     },
