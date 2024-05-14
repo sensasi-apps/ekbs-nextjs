@@ -21,8 +21,9 @@ import FinanceApiUrlEnum from '@/components/pages/finances/ApiUrlEnum'
 import FinancesPayrollsForm from '@/components/pages/finances/payrolls/Form'
 // etc
 import handle422 from '@/utils/errorCatcher'
-import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
+import toDmy from '@/utils/toDmy'
+import ucWords from '@/utils/ucWords'
 
 let getRowData: GetRowDataType<Payroll>
 
@@ -99,12 +100,19 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
+        name: 'type',
+        label: 'Jenis',
+        options: {
+            customBodyRender: ucWords,
+        },
+    },
+    {
         name: 'note',
         label: 'Catatan',
     },
     {
         name: 'earning_rp_cache',
-        label: 'Total Penerimaan Kotor',
+        label: 'Total Gaji Kotor',
         options: {
             setCellProps: () => ({
                 style: {

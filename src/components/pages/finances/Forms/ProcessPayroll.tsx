@@ -2,6 +2,7 @@ import type { Ymd } from '@/types/DateString'
 import type CashType from '@/dataTypes/Cash'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import type Payroll from '@/dataTypes/Payroll'
+import type { PayrollType } from '@/dataTypes/Payroll'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -10,11 +11,14 @@ import dayjs from 'dayjs'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Checkbox from '@mui/material/Checkbox'
+import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
+import InputLabel from '@mui/material/InputLabel'
 import LoadingButton from '@mui/lab/LoadingButton'
 import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -38,6 +42,7 @@ import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
 import handle422 from '@/utils/errorCatcher'
 import FinanceApiUrlEnum from '../ApiUrlEnum'
+import ucWords from '@/utils/ucWords'
 
 const SX_NOWRAP = { whiteSpace: 'nowrap' }
 
@@ -52,6 +57,7 @@ export default function ProcessPayrollForm({
 }) {
     const [loading, setLoading] = useState(false)
     const [at, setAt] = useState(data.at)
+    const [type, setType] = useState(data.type)
     const [note, setNote] = useState(data.note)
     const [cashUuid, setCashUuid] = useState<string>(data.cash_uuid as string)
     const [isFinal, setIsFinal] = useState(Boolean(data.processed_at))
@@ -67,6 +73,7 @@ export default function ProcessPayrollForm({
                 FinanceApiUrlEnum.PROCESS_PAYROLL.replace('$uuid', data.uuid),
                 {
                     at,
+                    type,
                     note,
                     cash_uuid: cashUuid,
                     is_final: isFinal,
@@ -84,7 +91,7 @@ export default function ProcessPayrollForm({
             .finally(() => setLoading(false))
     }
 
-    const disabled = loading
+    const disabled = loading || Boolean(data.processed_at)
 
     return (
         <>
@@ -111,6 +118,29 @@ export default function ProcessPayrollForm({
                         },
                     }}
                 />
+
+                <FormControl fullWidth margin="dense" size="small" required>
+                    <InputLabel id="type-select-label">Jenis</InputLabel>
+                    <Select
+                        value={type}
+                        name="type"
+                        required
+                        label="Jenis"
+                        disabled={disabled}
+                        labelId="type-select-label"
+                        id="type-select"
+                        onChange={({ target }) =>
+                            setType(target.value as PayrollType)
+                        }>
+                        {['pengelola', 'pengurus', 'pengawas', 'pendiri'].map(
+                            type => (
+                                <MenuItem value={type} key={type}>
+                                    {ucWords(type)}
+                                </MenuItem>
+                            ),
+                        )}
+                    </Select>
+                </FormControl>
 
                 <TextField
                     multiline
@@ -161,7 +191,7 @@ export default function ProcessPayrollForm({
                 <InfoBox
                     data={[
                         {
-                            label: 'Penerimaan Kotor',
+                            label: 'Total Gaji Kotor',
                             value: numberToCurrency(
                                 data?.earning_rp_cache ?? 0,
                             ),
@@ -189,7 +219,7 @@ export default function ProcessPayrollForm({
                             <TableRow>
                                 <TableCell>Unit Bisnis</TableCell>
                                 <TableCell>Beban Kotor</TableCell>
-                                <TableCell>Penerimaan</TableCell>
+                                <TableCell>Penerimaan Unit</TableCell>
                                 <TableCell>Beban Bersih</TableCell>
                             </TableRow>
                         </TableHead>
@@ -295,9 +325,12 @@ export default function ProcessPayrollForm({
                 }}>
                 <FormControlLabel
                     disabled={disabled}
+                    sx={{
+                        maxWidth: 'fit-content',
+                    }}
                     control={
                         <Checkbox
-                            value={isFinal}
+                            checked={isFinal}
                             onChange={({ target: { checked } }) =>
                                 setIsFinal(checked)
                             }
@@ -311,9 +344,9 @@ export default function ProcessPayrollForm({
                 <LoadingButton
                     size="small"
                     color={isFinal ? 'warning' : 'info'}
-                    disabled={disabled}
+                    disabled={loading}
                     onClick={handleClose}>
-                    Batal
+                    {data.processed_at ? 'Tutup' : 'Batal'}
                 </LoadingButton>
 
                 <LoadingButton

@@ -31,7 +31,7 @@ type Payroll = {
 
 export default Payroll
 
-type PayrollType = 'employee' | 'palm bunch'
+export type PayrollType = 'pengelola' | 'pengurus' | 'pengawas' | 'pendiri'
 
 type PayrollCostShare = {
     uuid: UUID

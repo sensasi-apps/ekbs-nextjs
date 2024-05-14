@@ -27,9 +27,10 @@ export default function handleServerError({ status, data }: AxiosResponse) {
                 break
             }
 
-        // case 422:
-        // validation error are handled on each form
-        // break
+        case 422:
+            // add 422 case to prevent default error message
+            // validation error are handled on each form
+            break
 
         case 403:
             enqueueSnackbar(

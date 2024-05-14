@@ -133,7 +133,7 @@ export default function PayrollsEmployeesTable({
             )}
 
             <TableContainer>
-                <Table>
+                <Table size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
