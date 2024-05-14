@@ -1,9 +1,10 @@
 // types
 import type PayrollUser from '@/dataTypes/PayrollUser'
-import type { FieldProps, FormikProps } from 'formik'
+import type { FastFieldProps, FieldProps, FormikProps } from 'formik'
 // vendors
 import { FastField, Field, FieldArray } from 'formik'
 // materials
+import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -16,11 +17,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // components
 import FormikForm from '@/components/FormikForm'
-import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import InfoBox from '@/components/InfoBox'
+import NumericFormat from '@/components/NumericFormat'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
+import TextField from '@/components/TextField'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
@@ -143,25 +144,49 @@ export default function PayrollEmployeeDetailsForm({
                                         flexGrow="1">
                                         <Grid2 xs={6}>
                                             <FastField
-                                                name={`details.${index}.name`}
-                                                component={
-                                                    TextFieldFastableComponent
-                                                }
-                                                label="Nama"
-                                                multiline
-                                                margin="none"
-                                                disabled={
-                                                    isDisabled ||
-                                                    Boolean(
-                                                        detail.payroll_user_detailable_id,
-                                                    )
-                                                }
-                                                {...errorsToHelperTextObj(
-                                                    (
-                                                        errors as LaravelValidationException['errors']
-                                                    )[`details.${index}.name`],
+                                                name={`details.${index}.name`}>
+                                                {({
+                                                    field: { name, value },
+                                                    form: { setFieldValue },
+                                                }: FastFieldProps<string>) => (
+                                                    <Autocomplete
+                                                        freeSolo
+                                                        size="small"
+                                                        options={[
+                                                            'Gaji Pokok',
+                                                            'Tunjangan',
+                                                            'Lembur',
+                                                        ]}
+                                                        value={value}
+                                                        onChange={(ev, value) =>
+                                                            setFieldValue(
+                                                                name,
+                                                                value,
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            isDisabled ||
+                                                            Boolean(
+                                                                detail.payroll_user_detailable_id,
+                                                            )
+                                                        }
+                                                        renderInput={params => (
+                                                            <TextField
+                                                                {...params}
+                                                                margin="none"
+                                                                label="Nama"
+                                                                {...errorsToHelperTextObj(
+                                                                    (
+                                                                        errors as LaravelValidationException['errors']
+                                                                    )[
+                                                                        `details.${index}.name`
+                                                                    ],
+                                                                )}
+                                                            />
+                                                        )}
+                                                    />
                                                 )}
-                                            />
+                                            </FastField>
                                         </Grid2>
 
                                         <Grid2 xs={6}>
