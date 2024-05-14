@@ -1,6 +1,7 @@
 // types
 import type NavItem from './NavItem.type'
 // icons
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
@@ -27,14 +28,18 @@ const loanNavItems: NavItem[] = [
     {
         label: 'Statistik',
         href: '/user-loans/statistics',
-        pathname: '/user-loans/statistics',
         icon: <AlignHorizontalLeftIcon />,
+        forPermission: UserLoan.READ_STATISTIC,
+    },
+    {
+        label: 'Kas',
+        href: '/user-loans/cashes',
+        icon: <AutoStoriesIcon />,
         forPermission: UserLoan.READ_STATISTIC,
     },
     {
         href: '/user-loans',
         label: 'Kelola',
-        pathname: '/user-loans',
         icon: <BackupTableIcon />,
         forPermission: UserLoan.READ,
     },
@@ -55,14 +60,12 @@ const loanNavItems: NavItem[] = [
     {
         href: '/user-loans/installments',
         label: 'Angsuran',
-        pathname: '/user-loans/installments',
         icon: <PointOfSaleIcon />,
         forPermission: UserLoan.READ_INSTALLMENT,
     },
     {
         href: '/loans',
         label: 'Pinjaman Anda',
-        pathname: '/loans',
         icon: <CurrencyExchangeIcon />,
         forPermission: UserLoan.READ_OWN,
     },
