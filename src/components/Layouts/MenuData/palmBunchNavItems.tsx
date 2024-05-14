@@ -2,9 +2,9 @@
 import type NavItem from './NavItem.type'
 // icons
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import AssessmentIcon from '@mui/icons-material/Assessment'
 import BalanceIcon from '@mui/icons-material/Balance'
-// import FormatAlignJustify from '@mui/icons-material/FormatAlignJustify'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify'
 import GrassIcon from '@mui/icons-material/Grass'
@@ -28,6 +28,12 @@ const palmBunchNavItems: NavItem[] = [
         label: 'Statistik',
         href: '/palm-bunches/statistics',
         icon: <AlignHorizontalLeftIcon />,
+        forPermission: PalmBunch.READ_STATISTIC,
+    },
+    {
+        label: 'Kas',
+        href: '/palm-bunches/cashes',
+        icon: <AutoStoriesIcon />,
         forPermission: PalmBunch.READ_STATISTIC,
     },
     {

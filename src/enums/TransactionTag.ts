@@ -34,6 +34,59 @@ enum TransactionTag {
     POTONGAN_JASA_KOPERASI_1_50 = 'Potongan Jasa Koperasi (1,50%)',
     POTONGAN_JASA_OPERASIONAL_KELOMPOK_TANI_0_50 = 'Potongan Jasa Operasional Kelompok Tani (0,50%)',
     POTONGAN_JASA_KONTRAKTOR_RP_5 = 'Potongan Jasa Kontraktor (Rp. 5)',
+
+    // general incomes (all units has this)
+    PENDAPATAN_LAIN_LAIN = 'Pendapatan Lain-lain',
+
+    //user loans
+    PENDAPATAN_DENDA = 'Pendapatan Denda',
+    PENDAPATAN_BUNGA_BANK = 'Pendapatan Bunga Bank',
+
+    // palm bunch
+    PENDAPATAN_INSENTIF_RSPO = 'Pendapatan Insentif RSPO',
+    PENDAPATAN_ADMINISTRASI = 'Pendapatan Administrasi',
+
+    // ###################### COSTS
+
+    // general costs
+    BEBAN_JASA_PENGURUS = 'Beban Jasa Pengurus',
+    BEBAN_JASA_PENGAWAS = 'Beban Jasa Pengawas',
+    BEBAN_JASA_PENDIRI = 'Beban Jasa Pendiri',
+    BEBAN_GAJI_PENGELOLA = 'Beban Gaji Pengelola',
+    BEBAN_LAIN_LAIN = 'Beban Lain-lain',
+    BEBAN_ADMINISTRASI = 'Beban Administrasi',
+
+    // farm input and he
+    BEBAN_ANGSURAN = 'Beban Angsuran',
+
+    // farm input costs
+    BEBAN_JASA_BAGI_HASIL_INVESTASI = 'Beban Jasa Bagi Hasil Investasi',
+    BEBAN_PERAWATAN_KANTOR = 'Beban Perawatan Kantor',
+
+    // heavy equipment costs
+    BEBAN_BAHAN_BAKAR_MINYAK = 'Beban Bahan Bakar Minyak (BBM)',
+    BEBAN_PERAWATAN_MESIN = 'Beban Perawatan Mesin',
+    BEBAN_PERBAIKAN_UNIT = 'Beban Perbaikan Unit',
+    BEBAN_PENYUSUTAN = 'Beban Penyusutan',
+
+    // he and user loan costs
+    BEBAN_OPERASIONAL = 'Beban Operasional',
+
+    // user loan costs
+    BEBAN_JASA_SIMPANAN = 'Beban Jasa Simpanan',
+
+    // user loan and palm bunch costs
+    BEBAN_AIR_DAN_LISTRIK = 'Beban Air & Listrik',
+
+    // palm bunch costs
+    BEBAN_KEGIATAN_KANTOR = 'Beban Kegiatan Kantor',
+    BEBAN_PENYERAHAN_SHU = 'Beba Penyerahan SHU 2021',
+    // BEBAN_OPERASIONAL_KELOMPOK_TANI = 'Beban Operasional Kelompok Tani',
+    BEBAN_SERTIFIKASI_RSPO = 'Beban Sertifikasi RSPO',
+    BEBAN_INVESTASI = 'Beban Investasi',
+    BEBAN_KEGIATAN_RAT = 'Beban Kegiatan RAT',
+    BEBAN_PERJALANAN_DINAS = 'Beban Perjalanan Dinas',
+    BEBAN_PPH_BADAN_PERIODE_SEBELUMNYA = 'PPH Badan Periode Sebelumnya',
 }
 
 export default TransactionTag

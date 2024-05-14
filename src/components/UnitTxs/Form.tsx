@@ -1,8 +1,7 @@
 // types
-import type BusinessUnitCash from '@/dataTypes/BusinessUnitCash'
-import type TransactionType from '@/dataTypes/Transaction'
+import type Transaction from '@/dataTypes/Transaction'
 // vendors
-import axios from '@/lib/axios'
+// import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 import {
     FastField,
@@ -10,19 +9,22 @@ import {
     Field,
     Form,
     FormikProps,
-    useFormik,
+    // useFormik,
 } from 'formik'
 // materials
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
-import LoadingButton from '@mui/lab/LoadingButton'
+import InputLabel from '@mui/material/InputLabel'
+// import LoadingButton from '@mui/lab/LoadingButton'
+// import MenuItem from '@mui/material/MenuItem'
 import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import TextField from '@mui/material/TextField'
+import Select from '@mui/material/Select'
 // icons
-import DeleteIcon from '@mui/icons-material/Delete'
+// import DeleteIcon from '@mui/icons-material/Delete'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormResetButton from '@/components/form/ResetButton'
@@ -32,77 +34,78 @@ import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import UserActivityLogs from '@/components/UserActivityLogs'
+// import UserActivityLogsDialogTable from '@/components/UserActivityLogs/DialogTable'
 // providers
-import useAuth from '@/providers/Auth'
+// import useAuth from '@/providers/Auth'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+// import errorCatcher from '@/utils/errorCatcher'
+import TransactionTag from '@/enums/TransactionTag'
+import getUnitTxTags from '@/utils/getUnitTxTags'
+import BusinessUnit from '@/enums/BusinessUnit'
 
-export default function TransactionForm({
+export default function UnitTxForm({
     dirty,
-    errors: validationErrors,
-    handleReset,
+    // errors,
+    // handleReset,
     isSubmitting,
-    values: transaction,
-}: FormikProps<TransactionInitialType | TransactionType>) {
-    const { handleSubmit: handleDelete, isSubmitting: isDeleting } = useFormik({
-        initialValues: {},
-        onSubmit: (_, { setErrors }) =>
-            axios
-                .delete(`/transactions/${transaction.uuid}`)
-                .then(() => handleReset())
-                .catch(error => errorCatcher(error, setErrors)),
-    })
+    // values,
+    status,
+}: Omit<FormikProps<FormValues>, 'status'> & {
+    status?: {
+        businessUnit: BusinessUnit
+    }
+}) {
+    // const { handleSubmit: handleDelete, isSubmitting: isDeleting } = useFormik({
+    //     initialValues: {},
+    //     onSubmit: (_, { setErrors }) =>
+    //         axios
+    //             .delete(`/transactions/${values.uuid}`)
+    //             .then(() => handleReset())
+    //             .catch(error => errorCatcher(error, setErrors)),
+    // })
 
-    const { userHasPermission } = useAuth()
-    const isUserCanDelete = userHasPermission('transactions delete')
+    // const { userHasPermission } = useAuth()
+    // const isUserCanDelete = userHasPermission('transactions delete')
 
-    const isProcessing = isSubmitting || isDeleting
+    const isProcessing = isSubmitting //|| isDeleting
 
-    const isDisabled =
-        isProcessing ||
-        transaction.is_transaction_destination ||
-        Boolean(transaction.transactionable)
-    const isOldDirty = dirty && !transaction.uuid
+    const isDisabled = isProcessing
+    // || status?.is_transaction_destination ||
+    // Boolean(status?.transactionable)
+
+    const isOldDirty = dirty //&& !status?.uuid
+
+    if (!status) throw new Error('status is required')
 
     return (
         <>
             <FormLoadingBar in={isProcessing} />
             <Form autoComplete="off" id="transaction-form">
-                <FastField name="uuid">
-                    {({ field }: FastFieldProps) => {
-                        if (field.value) {
-                            return (
-                                <div
-                                    style={{
-                                        marginBottom: 16,
-                                        textAlign: 'end',
-                                    }}>
-                                    {transaction?.user_activity_logs && (
-                                        <UserActivityLogs
-                                            data={
-                                                transaction.user_activity_logs
-                                            }
-                                        />
-                                    )}
+                {/* {status?.user_activity_logs && (
+                    <div
+                        style={{
+                            marginBottom: 16,
+                            textAlign: 'end',
+                        }}>
+                        <LogButtonAndDialog
+                            disabled={isProcessing}
+                            data={status?.user_activity_logs ?? []}
+                        />
 
-                                    <TextField
-                                        size="small"
-                                        disabled
-                                        fullWidth
-                                        id="uuid"
-                                        margin="none"
-                                        variant="filled"
-                                        label="Kode Transaksi"
-                                        value={transaction.uuid}
-                                        error={Boolean(validationErrors.uuid)}
-                                        helperText={validationErrors.uuid}
-                                    />
-                                </div>
-                            )
-                        }
-                    }}
-                </FastField>
+                        <TextField
+                            size="small"
+                            disabled
+                            fullWidth
+                            id="uuid"
+                            margin="none"
+                            variant="filled"
+                            label="Kode Transaksi"
+                            value={status?.uuid}
+                            error={Boolean(validationErrors.uuid)}
+                            helperText={validationErrors.uuid}
+                        />
+                    </div>
+                )} */}
 
                 <FastField name="type">
                     {({ field }: FastFieldProps) => (
@@ -111,7 +114,11 @@ export default function TransactionForm({
                             required
                             disabled={isDisabled}>
                             <FormLabel id="type">Jenis Transaksi</FormLabel>
-                            <RadioGroup row aria-labelledby="type" {...field}>
+                            <RadioGroup
+                                row
+                                aria-labelledby="type"
+                                {...field}
+                                value={field.value ?? null}>
                                 <FormControlLabel
                                     value="income"
                                     control={<Radio required />}
@@ -122,18 +129,22 @@ export default function TransactionForm({
                                     control={<Radio />}
                                     label="Keluar"
                                 />
-                                <FormControlLabel
+                                {/* <FormControlLabel
                                     value="transfer"
                                     control={<Radio />}
                                     label="Transfer"
-                                />
+                                /> */}
                             </RadioGroup>
                         </FormControl>
                     )}
                 </FastField>
 
                 <FastField name="at">
-                    {({ field, meta, form }: FastFieldProps) => (
+                    {({
+                        field: { name, value },
+                        meta: { error },
+                        form,
+                    }: FastFieldProps) => (
                         <DatePicker
                             slotProps={{
                                 textField: {
@@ -141,20 +152,20 @@ export default function TransactionForm({
                                     required: true,
                                     margin: 'dense',
                                     size: 'small',
-                                    error: Boolean(meta.error),
-                                    helperText: meta.error,
-                                    name: field.name,
+                                    error: Boolean(error),
+                                    helperText: error,
+                                    name: name,
                                 },
                             }}
+                            value={value ? dayjs(value) : null}
                             label="Tanggal"
                             disabled={isDisabled}
                             onChange={value =>
                                 form.setFieldValue(
-                                    field.name,
+                                    name,
                                     value?.format('YYYY-MM-DD') ?? '',
                                 )
                             }
-                            value={dayjs(field.value)}
                         />
                     )}
                 </FastField>
@@ -166,11 +177,11 @@ export default function TransactionForm({
                         form: {
                             values: {
                                 type,
-                                to_cash_uuid,
-                                is_transaction_destination,
+                                // to_cash_uuid,
+                                // is_transaction_destination,
                             },
-                            errors,
-                            setFieldValue,
+                            // errors,
+                            // setFieldValue,
                         },
                     }: FastFieldProps) => {
                         return (
@@ -191,7 +202,7 @@ export default function TransactionForm({
                                     margin="dense"
                                     disabled={isDisabled}
                                     selectProps={{
-                                        value: value,
+                                        value: value ?? '',
                                         name: name,
                                         onBlur: onBlur,
                                     }}
@@ -200,7 +211,7 @@ export default function TransactionForm({
                                     onChange={onChange}
                                 />
 
-                                {type === 'transfer' &&
+                                {/* {type === 'transfer' &&
                                     !is_transaction_destination && (
                                         <SelectFromApi
                                             required
@@ -226,13 +237,13 @@ export default function TransactionForm({
                                                 )
                                             }
                                         />
-                                    )}
+                                    )} */}
                             </div>
                         )
                     }}
                 </Field>
 
-                {transaction.type !== 'transfer' && (
+                {/* {values.type !== 'transfer' && (
                     <Field name="to_cash_uuid">
                         {({
                             field: { name, value, onBlur, onChange },
@@ -267,7 +278,67 @@ export default function TransactionForm({
                             )
                         }}
                     </Field>
-                )}
+                )} */}
+
+                <Field name="transaction_tag">
+                    {({
+                        field: { name, value, onChange },
+                        meta: { error },
+                        form: {
+                            values: { type },
+                        },
+                    }: FastFieldProps) => {
+                        const categories =
+                            status.businessUnit && type
+                                ? getUnitTxTags(
+                                      status.businessUnit,
+                                      type as 'income' | 'expense',
+                                  )
+                                : []
+
+                        return (
+                            <FormControl
+                                fullWidth
+                                size="small"
+                                margin="dense"
+                                required>
+                                <InputLabel id="category-select-label">
+                                    Kategori
+                                </InputLabel>
+
+                                <Select
+                                    labelId="category-select-label"
+                                    id="category-select"
+                                    required
+                                    disabled={isDisabled}
+                                    value={
+                                        value && categories.includes(value)
+                                            ? value
+                                            : ''
+                                    }
+                                    label="Kategori"
+                                    name={name}
+                                    onChange={onChange}>
+                                    {categories.map(
+                                        (category: string, index: number) => (
+                                            <MenuItem
+                                                key={index}
+                                                value={category}>
+                                                {category}
+                                            </MenuItem>
+                                        ),
+                                    )}
+                                </Select>
+
+                                {error && (
+                                    <FormHelperText>
+                                        {error as string}
+                                    </FormHelperText>
+                                )}
+                            </FormControl>
+                        )
+                    }}
+                </Field>
 
                 <FastField name="amount">
                     {({
@@ -317,7 +388,7 @@ export default function TransactionForm({
                         style={{
                             flexGrow: 1,
                         }}>
-                        {transaction.uuid && isUserCanDelete && (
+                        {/* {values.uuid && isUserCanDelete && (
                             <LoadingButton
                                 color="error"
                                 onClick={() => handleDelete()}
@@ -325,7 +396,7 @@ export default function TransactionForm({
                                 disabled={isDisabled}>
                                 <DeleteIcon />
                             </LoadingButton>
-                        )}
+                        )} */}
                     </span>
 
                     <FormResetButton
@@ -346,29 +417,13 @@ export default function TransactionForm({
     )
 }
 
-export type TransactionInitialType = {
-    uuid: ''
-    cashable_uuid: ''
-    at: ''
-    amount: ''
-    desc: ''
-    type: ''
-    to_cash_uuid: ''
-    is_transaction_destination: false
-    transactionable: null
-    user_activity_logs: []
-}
-
-export const INITIAL_VALUES: TransactionInitialType = {
-    uuid: '',
-    type: '',
-    cashable_uuid: '',
-    at: '',
-    amount: '',
-    desc: '',
-
-    to_cash_uuid: '',
-    is_transaction_destination: false,
-    transactionable: null,
-    user_activity_logs: [],
+type FormValues = {
+    // uuid?: Transaction['uuid']
+    cashable_uuid?: Transaction['cashable_uuid']
+    at?: Transaction['at']
+    amount?: Transaction['amount']
+    desc?: Transaction['desc']
+    type?: Transaction['type']
+    // to_cash_uuid?: Transaction['to_cash_uuid']
+    transaction_tag?: TransactionTag
 }

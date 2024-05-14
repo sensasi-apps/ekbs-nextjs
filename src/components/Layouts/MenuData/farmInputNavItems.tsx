@@ -2,6 +2,7 @@
 import type NavItem from './NavItem.type'
 // icons
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import InventoryIcon from '@mui/icons-material/Inventory'
@@ -21,44 +22,44 @@ const farmInputNavItems: NavItem[] = [
     {
         href: '/farm-inputs/products',
         label: 'Produk',
-        pathname: '/farm-inputs/products',
         icon: <InventoryIcon />,
         forPermission: [FarmInput.CREATE_PRODUCT, FarmInput.UPDATE_PRODUCT],
     },
     {
         label: 'Statistik',
         href: '/farm-inputs/statistics',
-        pathname: '/farm-inputs/statistics',
         icon: <AlignHorizontalLeftIcon />,
-        forPermission: [FarmInput.READ_STATISTIC],
+        forPermission: FarmInput.READ_STATISTIC,
+    },
+    {
+        label: 'Kas',
+        href: '/farm-inputs/cashes',
+        icon: <AutoStoriesIcon />,
+        forPermission: FarmInput.READ_STATISTIC,
     },
     {
         label: 'Piutang',
         href: '/farm-inputs/receivables',
-        pathname: '/farm-inputs/receivables',
         icon: <CreditCardIcon />,
-        forPermission: [FarmInput.READ_RECEIVABLE],
+        forPermission: FarmInput.READ_RECEIVABLE,
     },
     {
         href: '/farm-input-product-in-outs',
         label: 'Barang Keluar-Masuk',
-        pathname: '/farm-input-product-in-outs',
         icon: <WarehouseIcon />,
-        forPermission: [FarmInput.READ_STATISTIC],
+        forPermission: FarmInput.READ_STATISTIC,
     },
     {
         href: '/farm-input-product-opnames',
         label: 'Opname',
-        pathname: '/farm-input-product-opnames',
         icon: <ChecklistIcon />,
-        forPermission: [FarmInput.READ_STATISTIC],
+        forPermission: FarmInput.READ_STATISTIC,
     },
     {
         href: '/farm-inputs/product-purchases',
         label: 'Pembelian',
-        pathname: '/farm-inputs/product-purchases',
         icon: <ShoppingCartIcon />,
-        forPermission: [FarmInput.READ_PRODUCT_PURCHASE],
+        forPermission: FarmInput.READ_PRODUCT_PURCHASE,
     },
     {
         href: '/farm-input-product-sales',
@@ -68,19 +69,17 @@ const farmInputNavItems: NavItem[] = [
             '/farm-input-product-sales/report',
         ],
         icon: <ReceiptIcon />,
-        forPermission: [FarmInput.READ_PRODUCT_SALE],
+        forPermission: FarmInput.READ_PRODUCT_SALE,
     },
     {
         href: '/farm-input-he-gas-sales',
         label: 'Penjualan BBM ke Alat Berat',
-        pathname: '/farm-input-he-gas-sales',
         icon: <LocalGasStationIcon />,
-        forPermission: [FarmInput.READ_PRODUCT_SALE],
+        forPermission: FarmInput.READ_PRODUCT_SALE,
     },
     {
         href: '/katalog-saprodi',
         label: 'Katalog',
-        pathname: '/katalog-saprodi',
         icon: <WarehouseIcon />,
     },
 ]

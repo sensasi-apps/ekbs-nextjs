@@ -3,6 +3,7 @@ import type NavItem from './NavItem.type'
 // page components
 import GroupTitle from './GroupTitle'
 // icons
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 import EventNoteIcon from '@mui/icons-material/EventNote'
@@ -23,30 +24,32 @@ const heavyEquipmentNavItems: NavItem[] = [
     {
         label: 'Statistik',
         href: '/heavy-equipment-rents/statistics',
-        pathname: '/heavy-equipment-rents/statistics',
         icon: <AlignHorizontalLeftIcon />,
-        forPermission: [HeavyEquipmentRent.READ_STATISTIC],
+        forPermission: HeavyEquipmentRent.READ_STATISTIC,
+    },
+    {
+        label: 'Kas',
+        href: '/heavy-equipment-rents/cashes',
+        icon: <AutoStoriesIcon />,
+        forPermission: HeavyEquipmentRent.READ_STATISTIC,
     },
     {
         label: 'Piutang',
         href: '/heavy-equipment-rents/receivables',
-        pathname: '/heavy-equipment-rents/receivables',
         icon: <CreditCardIcon />,
-        forPermission: [HeavyEquipmentRent.READ_RECEIVABLE],
+        forPermission: HeavyEquipmentRent.READ_RECEIVABLE,
     },
     {
         href: '/heavy-equipment-rents',
         label: 'Penyewaan',
-        pathname: '/heavy-equipment-rents',
         icon: <EventNoteIcon />,
         forPermission: [HeavyEquipmentRent.CREATE, HeavyEquipmentRent.UPDATE],
     },
     {
         href: '/heavy-equipment-rents/tasks',
         label: 'Tugas',
-        pathname: '/heavy-equipment-rents/tasks',
         icon: <EventNoteIcon />,
-        forPermission: [HeavyEquipmentRent.FINISH_TASK],
+        forPermission: HeavyEquipmentRent.FINISH_TASK,
     },
 ]
 
