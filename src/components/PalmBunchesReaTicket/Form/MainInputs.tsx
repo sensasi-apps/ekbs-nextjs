@@ -381,6 +381,7 @@ function PalmBunchesReaDeliveryMainInputs({
             <UserAutocomplete
                 label="Pengangkut"
                 disabled={disabled}
+                showNickname
                 fullWidth
                 onChange={(_, user) => {
                     setCourierUser(user ?? undefined)

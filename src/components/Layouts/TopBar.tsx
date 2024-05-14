@@ -2,6 +2,7 @@
 import { useIsOnline } from 'react-use-is-online'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 // materials
 import AppBar from '@mui/material/AppBar'
 import Alert from '@mui/material/Alert'
@@ -13,7 +14,8 @@ import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
-import Tooltip from '@mui/material/Tooltip'
+// import Tooltip from '@mui/material/Tooltip'
+const Tooltip = dynamic(() => import('@mui/material/Tooltip'))
 import Typography from '@mui/material/Typography'
 // icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'

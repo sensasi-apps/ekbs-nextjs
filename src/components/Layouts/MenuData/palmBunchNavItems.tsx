@@ -5,8 +5,8 @@ import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import AssessmentIcon from '@mui/icons-material/Assessment'
 import BalanceIcon from '@mui/icons-material/Balance'
-// import FormatAlignJustify from '@mui/icons-material/FormatAlignJustify'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
+import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify'
 import GrassIcon from '@mui/icons-material/Grass'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 // enums
@@ -34,6 +34,12 @@ const palmBunchNavItems: NavItem[] = [
         label: 'Kas',
         href: '/palm-bunches/cashes',
         icon: <AutoStoriesIcon />,
+        forPermission: PalmBunch.READ_STATISTIC,
+    },
+    {
+        label: 'Bobot TBS',
+        href: '/palm-bunches/reports/farmer-weights',
+        icon: <FormatAlignJustifyIcon />,
         forPermission: PalmBunch.READ_STATISTIC,
     },
     {

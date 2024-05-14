@@ -1,5 +1,4 @@
 // types
-
 import type Transaction from '@/dataTypes/Transaction'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
@@ -9,7 +8,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import Head from 'next/head'
 import Image from 'next/image'
 import useSWR from 'swr'
-
+// materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
@@ -31,7 +30,8 @@ import DatePickers, {
     DEFAULT_END_DATE,
     DEFAULT_START_DATE,
 } from './TxHistory/DatePickers'
-import SummaryByTag from './TxHistory/SummaryByTag'
+// unused: deactived for now
+// import SummaryByTag from './TxHistory/SummaryByTag'
 import SummaryByTag2 from './TxHistory/SummaryByTag2'
 import TxHistoryItem from './TxHistory/Item'
 import WalletTxButtonAndForm from './TxButtonAndForm'
@@ -62,7 +62,7 @@ export default function TxHistory({
     const { userHasPermission } = useAuth()
     const [activeTab, setActiveTab] = useState<
         'rangkuman' | 'rincian' | 'rangkumanV2'
-    >('rangkuman')
+    >('rangkumanV2')
     const [fromDate, setFromDate] = useState(DEFAULT_START_DATE)
     const [toDate, setToDate] = useState(DEFAULT_END_DATE)
 
@@ -172,7 +172,8 @@ export default function TxHistory({
             {!loading && txs && (
                 <>
                     <ScrollableXBox>
-                        <Chip
+                        {/* unused: deactived for now */}
+                        {/* <Chip
                             label="Rangkuman"
                             color="success"
                             size="small"
@@ -182,10 +183,11 @@ export default function TxHistory({
                                     : 'outlined'
                             }
                             onClick={() => setActiveTab('rangkuman')}
-                        />
+                        /> */}
 
                         <Chip
-                            label="Rangkuman V2"
+                            // label="Rangkuman V2" // changed: from 'Rangkuman V2' to 'Rangkuman'
+                            label="Rangkuman"
                             color="success"
                             size="small"
                             variant={
@@ -254,11 +256,12 @@ function Body({
 
     return (
         <>
-            <Fade in={activeTab === 'rangkuman'} unmountOnExit exit={false}>
+            {/* unused: deactived for now */}
+            {/* <Fade in={activeTab === 'rangkuman'} unmountOnExit exit={false}>
                 <span>
                     <SummaryByTag data={txs} />
                 </span>
-            </Fade>
+            </Fade> */}
 
             <Fade in={activeTab === 'rangkumanV2'} unmountOnExit exit={false}>
                 <span>
@@ -369,7 +372,7 @@ function TxsList({
 
     return (
         <FlexColumnBox gap={1}>
-            {txs.balanceFrom && (
+            {txs.balanceFrom !== undefined && (
                 <TxHistoryItem
                     desc="Saldo Awal"
                     amount={txs.balanceFrom}
@@ -452,14 +455,17 @@ function TxsList({
                 })
             ) : (
                 <Typography
+                    color="text.disabled"
+                    variant="caption"
                     fontStyle="italic"
-                    textAlign="center"
-                    color="text.secondary">
-                    Tidak ada data transaksi
+                    maxWidth="20em"
+                    component="div">
+                    Tidak terdapat aktivitas transaksi pada rentang tanggal yang
+                    dipilih
                 </Typography>
             )}
 
-            {txs.balanceTo && (
+            {txs.balanceTo !== undefined && (
                 <TxHistoryItem
                     mt={2}
                     desc="Saldo Akhir"

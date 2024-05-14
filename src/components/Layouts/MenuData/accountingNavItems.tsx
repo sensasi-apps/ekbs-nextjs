@@ -19,7 +19,7 @@ import Wallet from '@/enums/permissions/Wallet'
 const accountingNavItems: NavItem[] = [
     {
         children: <GroupTitle>Keuangan</GroupTitle>,
-        forPermission: [Cash.READ, Transaction.READ],
+        forPermission: [Cash.READ, Transaction.READ, Cash.READ_OWN_INSTALLMENT],
         forRole: [Role.MEMBER, Role.EMPLOYEE],
     },
     {
