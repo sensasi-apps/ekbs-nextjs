@@ -40,10 +40,14 @@ type Transaction = {
 
     // appends
     short_uuid: string
-    user_activity_logs: ActivityLogType[]
-    transactionable: null | PalmBunchesDeliveryType | PalmBunchType
+    type: 'income' | 'expense' | 'transfer'
+    is_transaction_destination: boolean
 
     // relations
+    cashTransferDestination?: CashTransfer
+    cashTransferOrigin?: CashTransfer
+    user_activity_logs?: ActivityLogType[]
+    transactionable?: null | PalmBunchesDeliveryType | PalmBunchType
     tags: Tag[]
     cashable?: CashType | WalletType | BusinessUnitCash
     // cashable?: CashType | WalletType | BusinessUnitCash | FarmerGroupType // unused for now

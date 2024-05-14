@@ -6,6 +6,7 @@ import useSWR from 'swr'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
+import LinearProgress from '@mui/material/LinearProgress'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell, { TableCellProps } from '@mui/material/TableCell'
@@ -92,7 +93,14 @@ export default function ProfitLoss() {
                     unmountOnExit>
                     <div>
                         {data?.heavyEquipmentRent && (
-                            <AlatBeratTable data={data.heavyEquipmentRent} />
+                            <>
+                                <Fade in={isValidating} unmountOnExit>
+                                    <LinearProgress />
+                                </Fade>
+                                <AlatBeratTable
+                                    data={data.heavyEquipmentRent}
+                                />
+                            </>
                         )}
                     </div>
                 </Fade>
@@ -100,7 +108,12 @@ export default function ProfitLoss() {
                 <Fade in={activeTab === 'saprodi'} unmountOnExit>
                     <div>
                         {data?.farmInput && (
-                            <FarmInputTable data={data.farmInput} />
+                            <>
+                                <Fade in={isValidating} unmountOnExit>
+                                    <LinearProgress />
+                                </Fade>
+                                <FarmInputTable data={data.farmInput} />
+                            </>
                         )}
                     </div>
                 </Fade>
@@ -108,7 +121,12 @@ export default function ProfitLoss() {
                 <Fade in={activeTab === 'spp'} unmountOnExit>
                     <div>
                         {data?.userLoan && (
-                            <UserLoanTable data={data.userLoan} />
+                            <>
+                                <Fade in={isValidating} unmountOnExit>
+                                    <LinearProgress />
+                                </Fade>
+                                <UserLoanTable data={data.userLoan} />
+                            </>
                         )}
                     </div>
                 </Fade>
@@ -116,7 +134,12 @@ export default function ProfitLoss() {
                 <Fade in={activeTab === 'tbs'} unmountOnExit>
                     <div>
                         {data?.palmBunch && (
-                            <PalmBunchTable data={data.palmBunch} />
+                            <>
+                                <Fade in={isValidating} unmountOnExit>
+                                    <LinearProgress />
+                                </Fade>
+                                <PalmBunchTable data={data.palmBunch} />
+                            </>
                         )}
                     </div>
                 </Fade>
@@ -147,6 +170,7 @@ function TabChips({
         <ScrollableXBox>
             <Chip
                 label="Alat Berat"
+                disabled={disabled}
                 onClick={() => handleActiveTabChange('alat-berat')}
                 color={
                     !query.activeTab || query.activeTab === 'alat-berat'
@@ -156,16 +180,19 @@ function TabChips({
             />
             <Chip
                 label="SAPRODI"
+                disabled={disabled}
                 onClick={() => handleActiveTabChange('saprodi')}
                 color={query.activeTab === 'saprodi' ? 'success' : undefined}
             />
             <Chip
                 label="SPP"
+                disabled={disabled}
                 onClick={() => handleActiveTabChange('spp')}
                 color={query.activeTab === 'spp' ? 'success' : undefined}
             />
             <Chip
                 label="TBS"
+                disabled={disabled}
                 onClick={() => handleActiveTabChange('tbs')}
                 color={query.activeTab === 'tbs' ? 'success' : undefined}
             />
@@ -473,7 +500,7 @@ function FarmInputTable({ data }: { data: ApiResponseType['farmInput'] }) {
                         ))}
                     </TableRow>
 
-                    <HeaderRow>Beban (II)</HeaderRow>
+                    <HeaderRow>Beban (III)</HeaderRow>
 
                     {data.outcomes.map((outcome, i) => (
                         <TableRow key={i}>
@@ -486,7 +513,7 @@ function FarmInputTable({ data }: { data: ApiResponseType['farmInput'] }) {
                     ))}
 
                     <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (II)</TableCell>
+                        <TableCell sx={HEADER_SX}>Total (III)</TableCell>
 
                         {outcomeSums.map((sum, i) => (
                             <RpItemCell sx={HEADER_SX} key={i} data={sum} />
