@@ -130,7 +130,8 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                     }
                     slotProps={{
                         textField: {
-                            required: false,
+                            required:
+                                Boolean(costs) && (costs ?? []).length > 0,
                             name: 'received',
                             ...errorsToHelperTextObj(errors.received),
                         },
