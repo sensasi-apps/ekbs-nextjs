@@ -29,7 +29,7 @@ import PayrollDeleteForm from '@/components/pages/finances/Forms/Delete'
 import PrintHandler from '@/components/PrintHandler'
 import IconButton from '@/components/IconButton'
 
-export default function Test() {
+export default function FinancePayrollEmployee() {
     const {
         query: { uuid: uuidQuery },
         isReady,
