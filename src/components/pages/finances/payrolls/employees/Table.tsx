@@ -1,11 +1,11 @@
 import type Payroll from '@/dataTypes/Payroll'
+import type PayrollUser from '@/dataTypes/PayrollUser'
 // vendors
 import { useState } from 'react'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
 import dynamic from 'next/dynamic'
 // materials
-import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -15,17 +15,21 @@ import TableContainer from '@mui/material/TableContainer'
 const TableFooter = dynamic(() => import('@mui/material/TableFooter'))
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import PrintHandler from '@/components/PrintHandler'
 import PayrollSlip from './Table/PayrollSlip'
 // icons
 import SettingsIcon from '@mui/icons-material/Settings'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+// components
+import DialogWithTitle from '@/components/DialogWithTitle'
+import PayrollEmployeeDetailsForm, { FormikValues } from './DetailForm'
+import IconButton from '@/components/IconButton'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
-import DialogWithTitle from '@/components/DialogWithTitle'
 import handle422 from '@/utils/errorCatcher'
-import PayrollUser from '@/dataTypes/PayrollUser'
-import PayrollEmployeeDetailsForm, { FormikValues } from './DetailForm'
+// enums
 import FinanceApiUrlEnum from '../../ApiUrlEnum'
+import dayjs from 'dayjs'
+import PrintHandler from '@/components/PrintHandler'
 
 export default function PayrollsEmployeesTable({
     data,
@@ -38,7 +42,6 @@ export default function PayrollsEmployeesTable({
 }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [deleting, setDeleting] = useState(false)
-
     const [initialFormikValues, setInitialFormikValues] =
         useState<FormikValues>({})
     const [initialFormikStatus, setInitialFormikStatus] =
@@ -60,78 +63,10 @@ export default function PayrollsEmployeesTable({
 
     const payrollUuid = data?.uuid as string
     const payrollUserUuid = initialFormikStatus?.uuid as string
+    const isFinished = Boolean(data?.processed_by_user_uuid)
 
     return (
         <>
-            {data && (
-                <DialogWithTitle
-                    title="Rincian"
-                    open={isDialogOpen}
-                    maxWidth="sm">
-                    <Formik
-                        initialValues={initialFormikValues}
-                        initialStatus={initialFormikStatus}
-                        onSubmit={(values, { setErrors }) =>
-                            axios
-                                .post(
-                                    FinanceApiUrlEnum.CREATE_PAYROLL_USER_DETAILS.replace(
-                                        '$payrollUuid',
-                                        payrollUuid,
-                                    ).replace(
-                                        '$payrollUserUuid',
-                                        payrollUserUuid,
-                                    ),
-                                    {
-                                        details: values.details?.map(
-                                            (detail, i) => ({
-                                                ...detail,
-                                                seq_no: i,
-                                            }),
-                                        ),
-                                    },
-                                )
-                                .then(() => {
-                                    mutate()
-                                    handleClose()
-                                })
-                                .catch(error => handle422(error, setErrors))
-                        }
-                        onReset={handleClose}>
-                        {({ setErrors, ...props }) => (
-                            <PayrollEmployeeDetailsForm
-                                {...props}
-                                setErrors={setErrors}
-                                handleDelete={() => {
-                                    setDeleting(true)
-
-                                    return axios
-                                        .delete(
-                                            FinanceApiUrlEnum.DELETE_PAYROLL_USER.replace(
-                                                '$payrollUuid',
-                                                payrollUuid,
-                                            ).replace(
-                                                '$payrollUserUuid',
-                                                payrollUserUuid,
-                                            ),
-                                        )
-                                        .then(() => {
-                                            mutate()
-                                            handleClose()
-                                        })
-                                        .catch(error =>
-                                            handle422(error, setErrors),
-                                        )
-                                        .finally(() => {
-                                            setDeleting(false)
-                                        })
-                                }}
-                                isDeleting={deleting}
-                            />
-                        )}
-                    </Formik>
-                </DialogWithTitle>
-            )}
-
             <TableContainer>
                 <Table size="small">
                     <TableHead>
@@ -142,14 +77,7 @@ export default function PayrollsEmployeesTable({
                             <TableCell>Posisi</TableCell>
                             <TableCell>Rincian</TableCell>
                             <TableCell>Total</TableCell>
-
-                            {!data?.processed_by_user_uuid && (
-                                <TableCell>Atur</TableCell>
-                            )}
-
-                            {data?.processed_by_user_uuid && (
-                                <TableCell>Slip Gaji</TableCell>
-                            )}
+                            <TableCell>Aksi</TableCell>
                         </TableRow>
                     </TableHead>
 
@@ -230,28 +158,63 @@ export default function PayrollsEmployeesTable({
                                             )}
                                         </TableCell>
 
-                                        {!data?.processed_by_user_uuid && (
-                                            <TableCell>
+                                        <TableCell>
+                                            <PrintHandler
+                                                slotProps={{
+                                                    printButton: {
+                                                        size: 'small',
+                                                        children:
+                                                            isFinished ? undefined : ( // default
+                                                                <VisibilityIcon />
+                                                            ),
+                                                    },
+                                                    tooltip: {
+                                                        title: isFinished
+                                                            ? 'Cetak Slip Gaji'
+                                                            : 'Pratinjau',
+                                                    },
+                                                }}
+                                                documentTitle={
+                                                    (isFinished
+                                                        ? 'Slip Gaji'
+                                                        : 'Pratinjau') +
+                                                    payrollUser.user_state
+                                                        .name +
+                                                    ' (#' +
+                                                    payrollUser.user_state.id +
+                                                    ') - ' +
+                                                    dayjs().format(
+                                                        'YYYYMMDDHHmmss',
+                                                    )
+                                                }
+                                                onBeforePrint={() => {
+                                                    history.pushState(
+                                                        null,
+                                                        '',
+                                                        '/finances/payrolls/employees/detail/' +
+                                                            payrollUser.uuid,
+                                                    )
+                                                }}
+                                                onAfterPrint={() => {
+                                                    history.back()
+                                                }}>
+                                                <PayrollSlip
+                                                    payrollData={data}
+                                                    data={payrollUser}
+                                                    isPreview={!isFinished}
+                                                />
+                                            </PrintHandler>
+                                            {!isFinished && (
                                                 <IconButton
                                                     size="small"
+                                                    title="Atur"
                                                     onClick={() =>
                                                         handleOpen(payrollUser)
-                                                    }>
-                                                    <SettingsIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        )}
-
-                                        {data?.processed_by_user_uuid && (
-                                            <TableCell>
-                                                <PrintHandler>
-                                                    <PayrollSlip
-                                                        payrollData={data}
-                                                        data={payrollUser}
-                                                    />
-                                                </PrintHandler>
-                                            </TableCell>
-                                        )}
+                                                    }
+                                                    icon={SettingsIcon}
+                                                />
+                                            )}
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                     </TableBody>
@@ -275,6 +238,75 @@ export default function PayrollsEmployeesTable({
                     </TableFooter>
                 </Table>
             </TableContainer>
+
+            {data && (
+                <DialogWithTitle
+                    title="Rincian"
+                    open={isDialogOpen}
+                    maxWidth="sm">
+                    <Formik
+                        initialValues={initialFormikValues}
+                        initialStatus={initialFormikStatus}
+                        onSubmit={(values, { setErrors }) =>
+                            axios
+                                .post(
+                                    FinanceApiUrlEnum.CREATE_PAYROLL_USER_DETAILS.replace(
+                                        '$payrollUuid',
+                                        payrollUuid,
+                                    ).replace(
+                                        '$payrollUserUuid',
+                                        payrollUserUuid,
+                                    ),
+                                    {
+                                        details: values.details?.map(
+                                            (detail, i) => ({
+                                                ...detail,
+                                                seq_no: i,
+                                            }),
+                                        ),
+                                    },
+                                )
+                                .then(() => {
+                                    mutate()
+                                    handleClose()
+                                })
+                                .catch(error => handle422(error, setErrors))
+                        }
+                        onReset={handleClose}>
+                        {({ setErrors, ...props }) => (
+                            <PayrollEmployeeDetailsForm
+                                {...props}
+                                setErrors={setErrors}
+                                handleDelete={() => {
+                                    setDeleting(true)
+
+                                    return axios
+                                        .delete(
+                                            FinanceApiUrlEnum.DELETE_PAYROLL_USER.replace(
+                                                '$payrollUuid',
+                                                payrollUuid,
+                                            ).replace(
+                                                '$payrollUserUuid',
+                                                payrollUserUuid,
+                                            ),
+                                        )
+                                        .then(() => {
+                                            mutate()
+                                            handleClose()
+                                        })
+                                        .catch(error =>
+                                            handle422(error, setErrors),
+                                        )
+                                        .finally(() => {
+                                            setDeleting(false)
+                                        })
+                                }}
+                                isDeleting={deleting}
+                            />
+                        )}
+                    </Formik>
+                </DialogWithTitle>
+            )}
         </>
     )
 }

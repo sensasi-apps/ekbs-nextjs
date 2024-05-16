@@ -4,7 +4,7 @@ import type { IconButtonProps } from '@mui/material/IconButton'
 import type { TooltipProps } from '@mui/material/Tooltip'
 // vendors
 import { memo, useRef } from 'react'
-import ReactToPrint from 'react-to-print'
+import ReactToPrint, { IReactToPrintProps } from 'react-to-print'
 import PrintLayout from '@/components/Layouts/PrintLayout'
 // materials
 import IconButton from '@mui/material/IconButton'
@@ -16,15 +16,16 @@ const PrintHandler = memo(function PrintHandler({
     content,
     children,
     slotProps,
-}: {
+    ...props
+}: Omit<IReactToPrintProps, 'content'> & {
     slotProps?: {
         printButton?: IconButtonProps
         tooltip?: Omit<TooltipProps, 'children'>
     }
 } & (
-    | { content: ReactNode; children?: never }
-    | { content?: never; children: ReactNode }
-)) {
+        | { content: ReactNode; children?: never }
+        | { content?: never; children: ReactNode }
+    )) {
     const tooltipProps: Omit<TooltipProps, 'children'> = {
         title: 'Cetak',
         placement: 'top',
@@ -35,28 +36,25 @@ const PrintHandler = memo(function PrintHandler({
     const printButtonProps: IconButtonProps = {
         size: 'small',
         ...(slotProps?.printButton ?? {}),
+        children: slotProps?.printButton?.children ?? <PrintIcon />,
     }
 
     const toPrintContentRef = useRef(null)
 
     return (
-        <>
-            <div>
-                <ReactToPrint
-                    pageStyle="@page { margin: auto; }"
-                    content={() => toPrintContentRef.current}
-                    trigger={() => (
-                        <Tooltip {...tooltipProps}>
-                            <span>
-                                <IconButton {...printButtonProps}>
-                                    <PrintIcon />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
-                    )}
-                />
-            </div>
-
+        <div>
+            <ReactToPrint
+                {...props}
+                pageStyle="@page { margin: auto; }"
+                content={() => toPrintContentRef.current}
+                trigger={() => (
+                    <Tooltip {...tooltipProps}>
+                        <span>
+                            <IconButton {...printButtonProps} />
+                        </span>
+                    </Tooltip>
+                )}
+            />
             <div
                 style={{
                     display: 'none',
@@ -65,7 +63,7 @@ const PrintHandler = memo(function PrintHandler({
                     <PrintLayout>{content ?? children}</PrintLayout>
                 </div>
             </div>
-        </>
+        </div>
     )
 })
 

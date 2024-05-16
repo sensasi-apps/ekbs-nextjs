@@ -1,37 +1,25 @@
+// types
+import type { ItemRow } from '@/components/pages/executive/profit-loss/Table'
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
-import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
 import LinearProgress from '@mui/material/LinearProgress'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell, { TableCellProps } from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableFooter from '@mui/material/TableFooter'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
+// icons
+import RefreshIcon from '@mui/icons-material/Refresh'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
-import ScrollableXBox from '@/components/ScrollableXBox'
-// utils
-import formatNumber from '@/utils/formatNumber'
 import IconButton from '@/components/IconButton'
-import RefreshIcon from '@mui/icons-material/Refresh'
+import ScrollableXBox from '@/components/ScrollableXBox'
 import Skeletons from '@/components/Global/Skeletons'
-
-type ItemRow = {
-    name: string
-    data: number[]
-}
+import Table from '@/components/pages/executive/profit-loss/Table'
 
 type TabType = 'alat-berat' | 'saprodi' | 'spp' | 'tbs'
-const monthNames: string[] = []
 
 type ApiResponseType = {
     heavyEquipmentRent: {
@@ -58,10 +46,6 @@ type ApiResponseType = {
     }
 }
 
-for (let i = 0; i < 12; i++) {
-    monthNames.push(dayjs().month(i).format('MMMM'))
-}
-
 const CURR_YEAR = dayjs().format('YYYY')
 
 export default function ProfitLoss() {
@@ -75,6 +59,8 @@ export default function ProfitLoss() {
             year: query.year ?? CURR_YEAR,
         },
     ])
+
+    const { palmBunch, heavyEquipmentRent, farmInput, userLoan } = data ?? {}
 
     return (
         <AuthLayout title="Laporan Laba-Rugi">
@@ -92,13 +78,29 @@ export default function ProfitLoss() {
                     in={!activeTab || activeTab === 'alat-berat'}
                     unmountOnExit>
                     <div>
-                        {data?.heavyEquipmentRent && (
+                        {heavyEquipmentRent && (
                             <>
                                 <Fade in={isValidating} unmountOnExit>
                                     <LinearProgress />
                                 </Fade>
-                                <AlatBeratTable
-                                    data={data.heavyEquipmentRent}
+
+                                <Table
+                                    subtables={[
+                                        {
+                                            header: 'Pendapatan (I)',
+                                            data: heavyEquipmentRent.incomes,
+                                            footer: 'Total (I)',
+                                        },
+                                        {
+                                            header: 'Beban (II)',
+                                            data: heavyEquipmentRent.outcomes,
+                                            footer: 'Total (II)',
+                                        },
+                                    ]}
+                                    footer={{
+                                        incomes: heavyEquipmentRent.incomes,
+                                        outcomes: heavyEquipmentRent.outcomes,
+                                    }}
                                 />
                             </>
                         )}
@@ -107,12 +109,52 @@ export default function ProfitLoss() {
 
                 <Fade in={activeTab === 'saprodi'} unmountOnExit>
                     <div>
-                        {data?.farmInput && (
+                        {farmInput && (
                             <>
                                 <Fade in={isValidating} unmountOnExit>
                                     <LinearProgress />
                                 </Fade>
-                                <FarmInputTable data={data.farmInput} />
+
+                                <Table
+                                    subtables={[
+                                        {
+                                            header: 'Penjualan (I)',
+                                            data: farmInput.sales,
+                                            footer: 'Total (I)',
+                                        },
+                                        {
+                                            header: 'Pembelian (II)',
+                                            data: farmInput.purchases,
+                                            footer: 'Total (II)',
+                                        },
+                                        {
+                                            header: 'Persediaan',
+                                            data: [
+                                                ...farmInput.stock_ins,
+                                                ...farmInput.stock_outs.map(
+                                                    item => {
+                                                        item.data =
+                                                            item.data.map(
+                                                                n => n * -1,
+                                                            )
+
+                                                        return item
+                                                    },
+                                                ),
+                                            ],
+                                            footer: 'Stok Akhir',
+                                        },
+                                        {
+                                            header: 'Beban (III)',
+                                            data: farmInput.outcomes,
+                                            footer: 'Total (III)',
+                                        },
+                                    ]}
+                                    footer={{
+                                        incomes: farmInput.sales,
+                                        outcomes: farmInput.outcomes,
+                                    }}
+                                />
                             </>
                         )}
                     </div>
@@ -120,12 +162,29 @@ export default function ProfitLoss() {
 
                 <Fade in={activeTab === 'spp'} unmountOnExit>
                     <div>
-                        {data?.userLoan && (
+                        {userLoan && (
                             <>
                                 <Fade in={isValidating} unmountOnExit>
                                     <LinearProgress />
                                 </Fade>
-                                <UserLoanTable data={data.userLoan} />
+                                <Table
+                                    subtables={[
+                                        {
+                                            header: 'Pendapatan (I)',
+                                            data: userLoan.incomes,
+                                            footer: 'Total (I)',
+                                        },
+                                        {
+                                            header: 'Beban (II)',
+                                            data: userLoan.outcomes,
+                                            footer: 'Total (II)',
+                                        },
+                                    ]}
+                                    footer={{
+                                        incomes: userLoan.incomes,
+                                        outcomes: userLoan.outcomes,
+                                    }}
+                                />
                             </>
                         )}
                     </div>
@@ -133,12 +192,30 @@ export default function ProfitLoss() {
 
                 <Fade in={activeTab === 'tbs'} unmountOnExit>
                     <div>
-                        {data?.palmBunch && (
+                        {palmBunch && (
                             <>
                                 <Fade in={isValidating} unmountOnExit>
                                     <LinearProgress />
                                 </Fade>
-                                <PalmBunchTable data={data.palmBunch} />
+
+                                <Table
+                                    subtables={[
+                                        {
+                                            header: 'Pendapatan (I)',
+                                            data: palmBunch.incomes,
+                                            footer: 'Total (I)',
+                                        },
+                                        {
+                                            header: 'Beban (II)',
+                                            data: palmBunch.outcomes,
+                                            footer: 'Total (II)',
+                                        },
+                                    ]}
+                                    footer={{
+                                        incomes: palmBunch.incomes,
+                                        outcomes: palmBunch.outcomes,
+                                    }}
+                                />
                             </>
                         )}
                     </div>
@@ -232,524 +309,5 @@ function TabChips({
                 icon={RefreshIcon}
             />
         </ScrollableXBox>
-    )
-}
-
-const HEADER_SX = {
-    fontWeight: 'bold',
-    fontSize: '0.8rem',
-}
-
-function HeaderRow({ children }: { children: React.ReactNode }) {
-    return (
-        <TableRow>
-            <TableCell colSpan={13} sx={HEADER_SX}>
-                {children}
-            </TableCell>
-        </TableRow>
-    )
-}
-
-function RpItemCell({
-    sx,
-    data,
-}: Omit<TableCellProps, 'children'> & { data: number }) {
-    return (
-        <TableCell sx={sx} align="right">
-            {data ? (
-                <Box
-                    display="flex"
-                    gap={2}
-                    component="span"
-                    justifyContent="space-between">
-                    <span>Rp.</span>
-
-                    <span>{formatNumber(data)}</span>
-                </Box>
-            ) : (
-                '-'
-            )}
-        </TableCell>
-    )
-}
-
-const TB_BODY_SX = {
-    '& > tr': {
-        '&:nth-of-type(odd)': {
-            backgroundColor: 'rgba(0, 0, 0, 0.04)',
-        },
-    },
-    '& > tr > td': {
-        whiteSpace: 'nowrap',
-    },
-}
-
-function AlatBeratTable({
-    data,
-}: {
-    data: ApiResponseType['heavyEquipmentRent']
-}) {
-    const incomeSums = data.incomes[0].data.map((_, i) =>
-        data.incomes.reduce((acc, outcome) => acc + outcome.data[i], 0),
-    )
-
-    const outcomeSums = data.outcomes[0].data.map((_, i) =>
-        data.outcomes.reduce((acc, outcome) => acc + outcome.data[i], 0),
-    )
-
-    const diffs = incomeSums.map((iSum, i) => iSum - outcomeSums[i])
-    const diffsPph25 = diffs.map(diff => diff * 0.1)
-    const nets = diffs.map((diff, i) => diff - diffsPph25[i])
-
-    return (
-        <TableContainer>
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Keterangan</TableCell>
-                        {monthNames.map(monthName => (
-                            <TableCell key={monthName}>{monthName}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-
-                <TableBody sx={TB_BODY_SX}>
-                    <HeaderRow>Pendapatan (I)</HeaderRow>
-
-                    {data.incomes.map((income, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{income.name}</TableCell>
-
-                            {income.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (I)</TableCell>
-
-                        {incomeSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-
-                    <HeaderRow>Beban (II)</HeaderRow>
-
-                    {data.outcomes.map((outcome, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{outcome.name}</TableCell>
-
-                            {outcome.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (II)</TableCell>
-
-                        {outcomeSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-                </TableBody>
-
-                <TableFooter>
-                    <TableRow>
-                        <TableCell>Laba Kotor</TableCell>
-                        {diffs.map((diff, i) => (
-                            <RpItemCell key={i} data={diff} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>PPH Pasal 25 @10%</TableCell>
-                        {diffs.map((diff, i) => (
-                            <RpItemCell key={i} data={diff * 0.1} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>PPH 23</TableCell>
-
-                        {diffs.map((_, i) => (
-                            <RpItemCell key={i} data={0} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>Laba Bersih Setelah Pajak</TableCell>
-
-                        {nets.map((net, i) => (
-                            <RpItemCell key={i} data={net} />
-                        ))}
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
-    )
-}
-
-function FarmInputTable({ data }: { data: ApiResponseType['farmInput'] }) {
-    const saleSums = data.sales[0].data.map((_, i) =>
-        data.sales.reduce((acc, itemRow) => acc + itemRow.data[i], 0),
-    )
-
-    const purchaseSums = data.purchases[0].data.map((_, i) =>
-        data.purchases.reduce((acc, itemRow) => acc + itemRow.data[i], 0),
-    )
-
-    const stockInSums = data.stock_ins[0].data.map((_, i) =>
-        data.stock_ins.reduce((acc, itemRow) => acc + itemRow.data[i], 0),
-    )
-
-    const stockOutSums = data.stock_outs[0].data.map((_, i) =>
-        data.stock_outs.reduce((acc, itemRow) => acc + itemRow.data[i], 0),
-    )
-
-    const outcomeSums = data.outcomes[0].data.map((_, i) =>
-        data.outcomes.reduce((acc, itemRow) => acc + itemRow.data[i], 0),
-    )
-
-    const diffs = saleSums.map((iSum, i) => iSum - outcomeSums[i])
-    const diffsPph25 = diffs.map(diff => diff * 0.1)
-    const nets = diffs.map((diff, i) => diff - diffsPph25[i])
-
-    return (
-        <TableContainer>
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Keterangan</TableCell>
-                        {monthNames.map(monthName => (
-                            <TableCell key={monthName}>{monthName}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-
-                <TableBody sx={TB_BODY_SX}>
-                    <HeaderRow>Penjualan (I)</HeaderRow>
-
-                    {data.sales.map((sale, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{sale.name}</TableCell>
-
-                            {sale.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (I)</TableCell>
-
-                        {saleSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-
-                    <HeaderRow>Pembelian (II)</HeaderRow>
-
-                    {data.purchases.map((purchase, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{purchase.name}</TableCell>
-
-                            {purchase.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (II)</TableCell>
-
-                        {purchaseSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-
-                    <HeaderRow>Persediaan</HeaderRow>
-
-                    {data.stock_ins.map((stock_in, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{stock_in.name}</TableCell>
-
-                            {stock_in.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    {data.stock_outs.map((itemRow, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{itemRow.name}</TableCell>
-
-                            {itemRow.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Stok Akhir</TableCell>
-
-                        {stockInSums.map((sum, i) => (
-                            <RpItemCell
-                                sx={HEADER_SX}
-                                key={i}
-                                data={sum - stockOutSums[i]}
-                            />
-                        ))}
-                    </TableRow>
-
-                    <HeaderRow>Beban (III)</HeaderRow>
-
-                    {data.outcomes.map((outcome, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{outcome.name}</TableCell>
-
-                            {outcome.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (III)</TableCell>
-
-                        {outcomeSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-                </TableBody>
-
-                <TableFooter>
-                    <TableRow>
-                        <TableCell>Laba Kotor</TableCell>
-                        {diffs.map((diff, i) => (
-                            <RpItemCell key={i} data={diff} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>PPH Pasal 25 @10%</TableCell>
-                        {diffs.map((diff, i) => (
-                            <RpItemCell key={i} data={diff * 0.1} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>PPH 23</TableCell>
-
-                        {diffs.map((_, i) => (
-                            <RpItemCell key={i} data={0} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>Laba Bersih Setelah Pajak</TableCell>
-
-                        {nets.map((net, i) => (
-                            <RpItemCell key={i} data={net} />
-                        ))}
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
-    )
-}
-
-function UserLoanTable({ data }: { data: ApiResponseType['userLoan'] }) {
-    const incomeSums = data.incomes[0].data.map((_, i) =>
-        data.incomes.reduce((acc, outcome) => acc + outcome.data[i], 0),
-    )
-
-    const outcomeSums = data.outcomes[0].data.map((_, i) =>
-        data.outcomes.reduce((acc, outcome) => acc + outcome.data[i], 0),
-    )
-
-    const diffs = incomeSums.map((iSum, i) => iSum - outcomeSums[i])
-    const diffsPph25 = diffs.map(diff => diff * 0.1)
-    const nets = diffs.map((diff, i) => diff - diffsPph25[i])
-
-    return (
-        <TableContainer>
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Keterangan</TableCell>
-                        {monthNames.map(monthName => (
-                            <TableCell key={monthName}>{monthName}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-
-                <TableBody sx={TB_BODY_SX}>
-                    <HeaderRow>Pendapatan (I)</HeaderRow>
-
-                    {data.incomes.map((income, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{income.name}</TableCell>
-
-                            {income.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (I)</TableCell>
-
-                        {incomeSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-
-                    <HeaderRow>Beban (II)</HeaderRow>
-
-                    {data.outcomes.map((outcome, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{outcome.name}</TableCell>
-
-                            {outcome.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (II)</TableCell>
-
-                        {outcomeSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-                </TableBody>
-
-                <TableFooter>
-                    <TableRow>
-                        <TableCell>Laba Kotor</TableCell>
-                        {diffs.map((diff, i) => (
-                            <RpItemCell key={i} data={diff} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>PPH Pasal 25 @10%</TableCell>
-                        {diffs.map((diff, i) => (
-                            <RpItemCell key={i} data={diff * 0.1} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>PPH 23</TableCell>
-
-                        {diffs.map((_, i) => (
-                            <RpItemCell key={i} data={0} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>Laba Bersih Setelah Pajak</TableCell>
-
-                        {nets.map((net, i) => (
-                            <RpItemCell key={i} data={net} />
-                        ))}
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
-    )
-}
-
-function PalmBunchTable({ data }: { data: ApiResponseType['palmBunch'] }) {
-    const incomeSums = data.incomes[0].data.map((_, i) =>
-        data.incomes.reduce((acc, outcome) => acc + outcome.data[i], 0),
-    )
-
-    const outcomeSums = data.outcomes[0].data.map((_, i) =>
-        data.outcomes.reduce((acc, outcome) => acc + outcome.data[i], 0),
-    )
-
-    const diffs = incomeSums.map((iSum, i) => iSum - outcomeSums[i])
-    const diffsPph25 = diffs.map(diff => diff * 0.1)
-    const nets = diffs.map((diff, i) => diff - diffsPph25[i])
-
-    return (
-        <TableContainer>
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Keterangan</TableCell>
-                        {monthNames.map(monthName => (
-                            <TableCell key={monthName}>{monthName}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-
-                <TableBody sx={TB_BODY_SX}>
-                    <HeaderRow>Pendapatan (I)</HeaderRow>
-
-                    {data.incomes.map((income, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{income.name}</TableCell>
-
-                            {income.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (I)</TableCell>
-
-                        {incomeSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-
-                    <HeaderRow>Beban (II)</HeaderRow>
-
-                    {data.outcomes.map((outcome, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{outcome.name}</TableCell>
-
-                            {outcome.data.map((item, j) => (
-                                <RpItemCell key={j} data={item} />
-                            ))}
-                        </TableRow>
-                    ))}
-
-                    <TableRow>
-                        <TableCell sx={HEADER_SX}>Total (II)</TableCell>
-
-                        {outcomeSums.map((sum, i) => (
-                            <RpItemCell sx={HEADER_SX} key={i} data={sum} />
-                        ))}
-                    </TableRow>
-                </TableBody>
-
-                <TableFooter>
-                    <TableRow>
-                        <TableCell>Laba Kotor</TableCell>
-                        {diffs.map((diff, i) => (
-                            <RpItemCell key={i} data={diff} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>PPH Pasal 25 @10%</TableCell>
-                        {diffs.map((diff, i) => (
-                            <RpItemCell key={i} data={diff * 0.1} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>PPH 23</TableCell>
-
-                        {diffs.map((_, i) => (
-                            <RpItemCell key={i} data={0} />
-                        ))}
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>Laba Bersih Setelah Pajak</TableCell>
-
-                        {nets.map((net, i) => (
-                            <RpItemCell key={i} data={net} />
-                        ))}
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
     )
 }
