@@ -2,8 +2,8 @@ import type { UUID } from 'crypto'
 import type UserType from './User'
 
 type PayrollUser = {
-    uuid: string
-    payroll_uuid: string
+    uuid: UUID
+    payroll_uuid: UUID
     user_uuid: string
     user_state: UserType
     note?: string
