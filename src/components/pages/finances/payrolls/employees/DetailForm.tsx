@@ -158,12 +158,6 @@ export default function PayrollEmployeeDetailsForm({
                                                             'Lembur',
                                                         ]}
                                                         value={value}
-                                                        onChange={(ev, value) =>
-                                                            setFieldValue(
-                                                                name,
-                                                                value,
-                                                            )
-                                                        }
                                                         disabled={
                                                             isDisabled ||
                                                             Boolean(
@@ -175,6 +169,18 @@ export default function PayrollEmployeeDetailsForm({
                                                                 {...params}
                                                                 margin="none"
                                                                 label="Nama"
+                                                                name={name}
+                                                                onChange={({
+                                                                    target,
+                                                                }) =>
+                                                                    debounce(
+                                                                        () =>
+                                                                            setFieldValue(
+                                                                                name,
+                                                                                target.value,
+                                                                            ),
+                                                                    )
+                                                                }
                                                                 {...errorsToHelperTextObj(
                                                                     (
                                                                         errors as LaravelValidationException['errors']

@@ -1,6 +1,6 @@
 {
     "name": "ekbs",
-    "version": "0.7.28",
+    "version": "0.7.29",
     "versionDate": "2024-05-18",
     "private": true,
     "scripts": {
@@ -20,11 +20,11 @@
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
         "@fontsource/roboto": "^5.0.13",
-        "@mui/icons-material": "^5.15.17",
+        "@mui/icons-material": "^5.15.18",
         "@mui/lab": "^5.0.0-alpha.170",
-        "@mui/material": "^5.15.17",
-        "@mui/x-date-pickers": "^6.19.9",
-        "@sentry/nextjs": "^7.114.0",
+        "@mui/material": "^5.15.18",
+        "@mui/x-date-pickers": "^6.19.12",
+        "@sentry/nextjs": "^7.116.0",
         "axios": "^1.6.8",
         "dayjs": "^1.11.11",
         "formik": "^2.4.6",
