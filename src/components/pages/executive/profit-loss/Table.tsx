@@ -12,12 +12,14 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableFooter from '@mui/material/TableFooter'
 import TableRow from '@mui/material/TableRow'
+import Tooltip from '@mui/material/Tooltip'
 // utils
 import formatNumber from '@/utils/formatNumber'
 
 export type ItemRow = {
     name: string
     data: number[]
+    info?: string
 }
 
 const HEADER_SX = {
@@ -112,7 +114,7 @@ function SubTable({
     )
 }
 
-function CustomRow({ name, data }: { name: string; data: number[] }) {
+function CustomRow({ name, data, info }: ItemRow) {
     const SX_CELL_DATA = {
         borderBottom: 'none',
         py: 0.1,
@@ -120,7 +122,15 @@ function CustomRow({ name, data }: { name: string; data: number[] }) {
 
     return (
         <TableRow>
-            <TableCell sx={SX_CELL_DATA}>{name}</TableCell>
+            <TableCell sx={SX_CELL_DATA}>
+                {info ? (
+                    <Tooltip title={info} arrow placement="right">
+                        <span>{name}*</span>
+                    </Tooltip>
+                ) : (
+                    name
+                )}
+            </TableCell>
 
             {data.map((subItem, i) => (
                 <RpItemCell key={i} data={subItem} sx={SX_CELL_DATA} />
