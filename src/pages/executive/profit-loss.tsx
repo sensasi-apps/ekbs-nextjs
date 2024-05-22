@@ -131,16 +131,7 @@ export default function ProfitLoss() {
                                             header: 'Persediaan',
                                             data: [
                                                 ...farmInput.stock_ins,
-                                                ...farmInput.stock_outs.map(
-                                                    item => {
-                                                        item.data =
-                                                            item.data.map(
-                                                                n => n * -1,
-                                                            )
-
-                                                        return item
-                                                    },
-                                                ),
+                                                ...farmInput.stock_outs,
                                             ],
                                             footer: 'Stok Akhir',
                                         },
