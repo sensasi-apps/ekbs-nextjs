@@ -18,6 +18,10 @@ import RoleChips from '../User/RoleChips'
 import ScrollableXBox from '../ScrollableXBox'
 import { TextFieldProps } from '@mui/material'
 
+function isSearchTermPassedTheRequirements(value: string) {
+    return value.length >= 3 || (value.length >= 2 && value.startsWith('#'))
+}
+
 export default function UserAutocomplete<
     Multiple extends boolean | undefined = false,
     DisableClearable extends boolean | undefined = false,
@@ -54,7 +58,8 @@ export default function UserAutocomplete<
     const [debouncedInputValue] = useDebounce(inputValue, 500)
 
     const { data: options = [], isLoading } = useSWR<UserType[]>(
-        debouncedInputValue && debouncedInputValue.length >= 3
+        debouncedInputValue &&
+            isSearchTermPassedTheRequirements(debouncedInputValue)
             ? [
                   '/users/search',
                   {
@@ -72,7 +77,7 @@ export default function UserAutocomplete<
             }
             getOptionLabel={option => `#${option.id} - ${option.name}`}
             noOptionsText={
-                inputValue.length < 3
+                isSearchTermPassedTheRequirements(inputValue)
                     ? 'Ketik minimal 3 karakter'
                     : noOptionsText
             }
