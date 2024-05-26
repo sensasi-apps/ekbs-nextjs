@@ -256,6 +256,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'buyerUser.name',
         label: 'Pengguna',
         options: {
+            sort: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
                 if (!data || !data.buyer_user) return ''
