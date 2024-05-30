@@ -150,6 +150,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <UserAutocomplete
+                        showNickname
                         label="Pengguna"
                         disabled={isDisabled}
                         fullWidth

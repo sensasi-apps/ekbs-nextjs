@@ -112,6 +112,7 @@ export default function BaseTaskFields({
             </Fade>
 
             <UserAutocomplete
+                showNickname
                 label={type === 'personal' ? 'Penyewa' : 'Penanggung Jawab'}
                 disabled={isDisabled}
                 fullWidth
@@ -188,6 +189,7 @@ export default function BaseTaskFields({
             />
 
             <UserAutocomplete
+                showNickname
                 label="Operator"
                 disabled={isDisabled}
                 fullWidth
