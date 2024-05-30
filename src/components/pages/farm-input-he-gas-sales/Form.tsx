@@ -130,6 +130,7 @@ export default function FarmInputHeGasSaleForm({
 
             <UserAutocomplete
                 label="Pemesan"
+                showNickname
                 disabled={isDisabled}
                 fullWidth
                 onChange={(_, user) => {
