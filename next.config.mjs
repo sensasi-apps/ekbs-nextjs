@@ -48,5 +48,11 @@ const nextConfig = withPWA({
 })
 
 export default withSentryConfig(nextConfig, {
-    dryRun: process.env.VERCEL_ENV !== 'production',
+    org: 'sensasi-apps',
+    project: 'ekbs-nextjs',
+
+    // An auth token is required for uploading source maps.
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+
+    silent: false, // Can be used to suppress logs
 })
