@@ -1,7 +1,8 @@
-// eslint-disable-next-line
-const runtimeCaching = require('next-pwa/cache')
-// eslint-disable-next-line
-const withPWA = require('next-pwa')({
+import { withSentryConfig } from '@sentry/nextjs'
+import runtimeCaching from 'next-pwa/cache.js'
+import withPWAConstructor from 'next-pwa'
+
+const withPWA = withPWAConstructor({
     dest: 'public',
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
@@ -34,10 +35,7 @@ const withPWA = require('next-pwa')({
  * @type {import('next').NextConfig}
  */
 const nextConfig = withPWA({
-    experimental: {
-        webpackBuildWorker: true,
-    },
-
+    reactStrictMode: true,
     rewrites() {
         return [
             {
@@ -47,19 +45,8 @@ const nextConfig = withPWA({
             },
         ]
     },
-    sentry: {
-        hideSourceMaps: true,
-    },
 })
 
-// eslint-disable-next-line
-const { withSentryConfig, SentryWebpackPluginOptions } = require('@sentry/nextjs')
-
-/**
- * @type {SentryWebpackPluginOptions}
- */
-const sentryWebpackPluginOptions = {
+export default withSentryConfig(nextConfig, {
     dryRun: process.env.VERCEL_ENV !== 'production',
-}
-
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
+})
