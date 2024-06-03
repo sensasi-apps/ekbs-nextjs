@@ -1,4 +1,4 @@
-export type OnRowClickType = (
+export type OnRowClick = (
     rowData: string[],
     rowMeta: {
         dataIndex: number

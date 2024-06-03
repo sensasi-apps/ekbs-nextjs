@@ -1,31 +1,24 @@
 // types
-import type YajraDatatable from '@/types/responses/YajraDatatable'
-import type {
-    MUIDataTableColumn,
-    MUIDataTableOptions,
-    MUIDataTableState,
-    MUISortOptions,
-} from 'mui-datatables'
-import type { KeyedMutator } from 'swr'
-import type { OnRowClickType } from './types'
-import type { SWRConfiguration } from 'swr'
+import type { MUIDataTableOptions } from 'mui-datatables'
+import type { Mutate, DatatableProps } from './@types'
+import type { ReactNode } from 'react'
 // vendors
-import { memo, useCallback, useState } from 'react'
 import dynamic from 'next/dynamic'
-import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
-import Typography from '@mui/material/Typography'
 import LinearProgress from '@mui/material/LinearProgress'
-import Paper from '@mui/material/Paper'
 // icons
+import DownloadIcon from '@mui/icons-material/Download'
 import RefreshIcon from '@mui/icons-material/Refresh'
-import ReportIcon from '@mui/icons-material/Report'
 // locals
-import CustomHeadButton from './components/CustomHeadButton'
+import sxs from './sxs'
+import staticOptions from './staticOptions'
+import { useHooks } from './hooks'
 // utils
-import formatToDatatableParams from './utils/formatToDatatableParams'
+import DownloadConfirmationDialog from './components/DownloadConfirmationDialog'
+import { CLICKABLE_INFO } from './statics'
+import CustomHeadButton from './components/CustomHeadButton'
 
 const MUIDataTable = dynamic(() => import('mui-datatables'), {
     ssr: false,
@@ -37,49 +30,10 @@ const MUIDataTable = dynamic(() => import('mui-datatables'), {
  * - [ ] table state always restart when data changed
  */
 
-let getRowData: <T = object>(index: number) => T | undefined
-let mutatorForExport: MutateType
+let getRowData: <T = unknown>(index: number) => T | undefined
+let mutatorForExport: Mutate
 
-export type DatatableProps = {
-    apiUrl: string
-    apiUrlParams?: { [key: string]: string | number | undefined }
-    columns: MUIDataTableColumn[]
-    defaultSortOrder: MUISortOptions
-    tableId: string
-    title?: string
-    onRowClick?: OnRowClickType
-    mutateCallback?: (fn: MutateType<any>) => any
-    getRowDataCallback?: (fn: GetRowDataType<any>) => any
-    swrOptions?: SWRConfiguration
-}
-
-const SXs = {
-    loading: {
-        borderTopLeftRadius: 11,
-        borderTopRightRadius: 11,
-        translate: '0 4px',
-        zIndex: 1,
-    },
-
-    tableParent: {
-        '& td, & th': {
-            p: 1,
-        },
-        '& tbody .MuiTableRow-hover': {
-            cursor: 'pointer',
-        },
-    },
-
-    paper: {
-        p: 1,
-        color: 'error.main',
-        fontFamily: 'monospace',
-        fontSize: 12,
-        maxWidth: '400px',
-    },
-}
-
-const Datatable = memo(function Datatable({
+export function Datatable({
     apiUrl,
     apiUrlParams,
     columns: defaultColumns,
@@ -90,198 +44,114 @@ const Datatable = memo(function Datatable({
     mutateCallback,
     getRowDataCallback,
     swrOptions,
+    download = false,
     ...props
-}: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick'>) {
-    const [params, setParams] = useState<any>()
-    const [columns, setColums] = useState(defaultColumns)
-    const [sortOrder, setSortOrder] = useState(defaultSortOrder)
-    const [initialLoading, setInitialLoading] = useState(false)
-
-    const { keepPreviousData = true, ...restSwrOptions } = swrOptions || {}
-
+}: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick' | 'onDownload'>) {
     const {
-        isLoading: isApiLoading,
-        isValidating,
-        data: { data = [], recordsTotal, recordsFiltered, error } = {},
-        mutate,
-    } = useSWR<YajraDatatable<object>>(
-        params ? [apiUrl, { ...params, ...apiUrlParams }] : null,
-        null,
-        {
-            keepPreviousData: keepPreviousData,
-            ...restSwrOptions,
+        state,
+        swr: {
+            data: { data = [], recordsTotal, recordsFiltered } = {},
+            mutate,
         },
+        handleColumnSortChange,
+        handleViewColumnsChange,
+        handleOnDownload,
+        handleTableChange,
+    } = useHooks(
+        tableId,
+        defaultColumns,
+        defaultSortOrder,
+        apiUrl,
+        apiUrlParams,
+        swrOptions,
     )
 
     getRowData = index => data[index] as any
-    mutatorForExport = mutate
+    mutatorForExport = () => mutate()
 
-    if (mutateCallback) {
-        mutateCallback(mutate)
-    }
-
-    if (getRowDataCallback) {
-        getRowDataCallback(index => data[index])
-    }
-
-    const isLoading = isApiLoading || isValidating || initialLoading
-
-    let timerId: NodeJS.Timeout
-
-    const handleFetchData = useCallback(
-        (action: string, tableState: MUIDataTableState) => {
-            if (
-                ![
-                    'sort',
-                    'changePage',
-                    'changeRowsPerPage',
-                    'search',
-                    'tableInitialized',
-                ].includes(action)
-            ) {
-                return false
-            }
-
-            if (action === 'sort') {
-                setSortOrder(prev => {
-                    prev.name = tableState.sortOrder.name
-                    prev.direction = tableState.sortOrder.direction
-
-                    return prev
-                })
-            }
-
-            if (!initialLoading) {
-                setInitialLoading(true)
-            }
-
-            clearTimeout(timerId)
-            timerId = setTimeout(() => {
-                setParams(formatToDatatableParams(tableState))
-                setInitialLoading(false)
-            }, 350)
-        },
-        [],
-    )
+    getRowDataCallback?.(index => data[index])
+    mutateCallback?.(mutate)
 
     const isRowClickable = Boolean(onRowClick)
 
     const options: MUIDataTableOptions = {
+        ...staticOptions,
         tableId: tableId,
-        filter: false,
-        sortOrder: sortOrder,
-        serverSide: true,
-        responsive: 'standard',
-        selectableRows: 'none',
-        download: false,
-        print: false,
-        jumpToPage: true,
+        sortOrder: state.sortOrder,
         count: recordsFiltered ?? recordsTotal ?? 0,
+        rowHover: isRowClickable,
+        download: download ? (state.isLoading ? 'disabled' : true) : false,
         customToolbar: () => (
             <CustomHeadButton
                 aria-label="Refresh"
-                disabled={isLoading}
+                disabled={state.isLoading}
                 onClick={() => mutate()}>
                 <RefreshIcon />
             </CustomHeadButton>
         ),
-        rowHover: isRowClickable,
         onRowClick: onRowClick as MUIDataTableOptions['onRowClick'],
-        onTableInit: handleFetchData,
-        onTableChange: handleFetchData,
-        onViewColumnsChange(changedColumn, action) {
-            if (action === 'add') {
-                setColums(prev => {
-                    const col = prev.find(col => col.name === changedColumn)
-
-                    if (col && col.options) {
-                        col.options.display = true
-                    }
-
-                    return prev
-                })
-            } else {
-                setColums(prev => {
-                    const col = prev.find(col => col.name === changedColumn)
-
-                    if (col && col.options) {
-                        col.options.display = false
-                    }
-
-                    return prev
-                })
-            }
-        },
+        onTableInit: handleTableChange,
+        onTableChange: handleTableChange,
+        onViewColumnsChange: handleViewColumnsChange,
+        onColumnSortChange: handleColumnSortChange,
+        onDownload: handleOnDownload,
         textLabels: {
             body: {
-                noMatch: generateTextLabel(isLoading, error),
+                noMatch: state.isLoading
+                    ? 'Memuat data...'
+                    : 'Tidak ada data yang tersedia',
                 toolTip: 'Urutkan',
+            },
+            pagination: {
+                next: 'Selanjutnya',
+                previous: 'Sebelumnya',
+                rowsPerPage: 'Baris per halaman:',
+                jumpToPage: 'Pergi ke halaman:',
+            },
+            toolbar: {
+                search: 'Cari',
+                downloadCsv: 'Unduh',
+                print: 'Cetak',
+                viewColumns: 'Tampilkan kolom',
             },
         },
         ...props,
     }
 
     return (
-        <Box sx={SXs.tableParent}>
-            <Fade in={isLoading}>
-                <LinearProgress sx={SXs.loading} />
+        <Box sx={sxs.tableParent}>
+            <Fade in={state.isLoading}>
+                <LinearProgress sx={sxs.loadingTop} />
             </Fade>
 
             <MUIDataTable
                 title={title}
                 data={data}
-                columns={columns}
+                columns={state.columns}
                 options={options}
+                components={{
+                    icons: {
+                        DownloadIcon: DownloadIcon as unknown as ReactNode,
+                    },
+                }}
             />
 
-            <Typography
-                variant="caption"
-                display={isRowClickable ? 'block' : 'none'}
-                mt={1.1}
-                ml={0.5}
-                component="div"
-                color="gray"
-                fontStyle="italic">
-                *Klik 2x pada baris untuk membuka formulir.
-            </Typography>
+            <Fade in={state.isLoading}>
+                <LinearProgress sx={sxs.loadingBottom} />
+            </Fade>
+
+            {download && (
+                <DownloadConfirmationDialog
+                    open={state.isDownloadConfirmationDialogOpen}
+                    nData={10}
+                    onAgree={() => {}}
+                    onDisagree={() => {}}
+                />
+            )}
+
+            {isRowClickable && CLICKABLE_INFO}
         </Box>
     )
-})
+}
 
-export default Datatable
 export { getRowData, mutatorForExport as mutate }
-export type GetRowDataType<T = unknown> = (index: number) => T | undefined
-export type MutateType<T = object> = KeyedMutator<YajraDatatable<T>>
-
-function generateTextLabel(isLoading: boolean, error: YajraDatatable['error']) {
-    if (isLoading) {
-        return 'Memuat data...'
-    }
-
-    if (error)
-        return (
-            <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center">
-                <Typography color="error" component="div">
-                    <ReportIcon />
-                </Typography>
-                <Typography color="error" component="div" mb={1}>
-                    Terjadi kesalahan
-                </Typography>
-                <Paper sx={SXs.paper} component="div">
-                    {error}
-                </Paper>
-            </Box>
-        )
-
-    return 'Tidak ada data yang tersedia'
-}
-
-export function getNoWrapCellProps() {
-    return {
-        style: { whiteSpace: 'nowrap' },
-    }
-}

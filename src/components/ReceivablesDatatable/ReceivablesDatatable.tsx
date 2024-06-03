@@ -1,50 +1,45 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type Installment from '@/dataTypes/Installment'
-// vendors
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { Formik } from 'formik'
-import axios from '@/lib/axios'
+import type { GetRowDataType, MutateType } from '@/components/Datatable'
 import dayjs from 'dayjs'
 // materials
+// utils
+import getInstallmentColor from '@/utils/getInstallmentColor'
+import numberToCurrency from '@/utils/numberToCurrency'
+// vendors
+import { Formik } from 'formik'
+import axios from '@/lib/axios'
+import shortUuid from '@/utils/uuidToShort'
+// materials
 import Box from '@mui/material/Box'
-import Chip, { ChipOwnProps } from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { GetRowDataType, MutateType } from '@/components/Datatable'
-import ScrollableXBox from '../ScrollableXBox'
+import Datatable from '@/components/Datatable'
+// locals
+import { useHooks } from './hooks/useHooks'
+import StateFilterChips from './components/StateFilterChips'
+import TypeFilterChips from './components/TypeFilterChips'
 // utils
-import getInstallmentType from '@/utils/getInstallmentType'
-import getInstallmentColor from '@/utils/getInstallmentColor'
 import handle422 from '@/utils/errorCatcher'
-import numberToCurrency from '@/utils/numberToCurrency'
-import toDmy from '@/utils/toDmy'
-import ReceivablePaymentForm, { FormValuesType } from './PaymentForm'
+import ReceivablePaymentForm from './PaymentForm'
 import Dialog from '../Global/Dialog'
+import Installment from '@/dataTypes/Installment'
+import { DATATABE_SEARCH_ONLY_COLUMNS } from './hooks/statics'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
-let getRowData: GetRowDataType<Installment>
+let getRowData: GetRowDataType<Installment> = () => undefined
 let mutate: MutateType
 
 export default function ReceivablesDatatable({
-    asManager,
+    asManager = false,
     type: typeProp,
 }: {
     asManager?: boolean
     type?: 'rent-item-rent' | 'product-sale' | 'user-loan'
 }) {
-    const {
-        query: { type, state },
-    } = useRouter()
-
-    const [formikProps, setFormikProps] = useState<{
-        values: FormValuesType
-        status: Installment
-    }>()
-
-    const closeFormDialog = () => setFormikProps(undefined)
+    const { type, state, formikProps, closeFormDialog, setFormikProps } =
+        useHooks()
 
     return (
         <Box display="flex" flexDirection="column" gap={2}>
@@ -57,8 +52,10 @@ export default function ReceivablesDatatable({
                 apiUrlParams={{
                     type: typeProp ?? (type as string | undefined),
                     state: state as string | undefined,
-                    asManager: asManager as string | undefined,
+                    asManager: asManager ? 'true' : '',
                 }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
                 columns={
                     asManager
                         ? DATATABLE_COLUMNS
@@ -98,8 +95,7 @@ export default function ReceivablesDatatable({
                 }}
                 tableId="receiveables-table"
                 title={asManager ? 'Daftar Piutang' : 'Daftar Tagihan'}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                download={true}
             />
 
             <Dialog
@@ -117,7 +113,7 @@ export default function ReceivablesDatatable({
                                     values,
                                 )
                                 .then(() => {
-                                    mutate()
+                                    mutate?.()
                                     closeFormDialog()
                                 })
                                 .catch(error => handle422(error, setErrors))
@@ -132,6 +128,7 @@ export default function ReceivablesDatatable({
 }
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+    // UUID
     {
         name: 'uuid',
         label: 'UUID',
@@ -141,44 +138,70 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             sort: false,
         },
     },
+
+    // Short UUID
     {
-        name: 'should_be_paid_at',
-        label: 'Jatuh Tempo',
+        name: 'short_uuid',
+        label: 'Kode',
         options: {
-            customBodyRender: value => (value ? toDmy(value) : ''),
+            filter: false,
+            sort: false,
+            searchable: false,
         },
     },
+
+    // User ID
     {
-        name: 'installmentable',
+        name: 'user_id',
+        label: 'ID Pengguna',
+        options: {
+            searchable: false, // search is accomodated in DATATABE_SEARCH_ONLY_COLUMNS
+            sort: false,
+        },
+    },
+
+    // User Name
+    {
+        name: 'user_name',
         label: 'Nama Pengguna',
         options: {
             searchable: false,
             sort: false,
-            customBodyRenderLite: dataIndex => {
-                const data = getRowData(dataIndex)
-                if (!data) return null
-
-                return (
-                    data.user_loan?.user?.name ??
-                    data.product_sale?.buyer_user?.name ??
-                    data.rent_item_rent?.by_user?.name
-                )
-            },
         },
     },
+
+    // Transaction Date
+    {
+        name: 'at',
+        label: 'TGL. Transaksi',
+        options: {
+            searchable: false,
+            sort: false,
+        },
+    },
+
+    // Installmentable UUID (short)
     {
         name: 'installmentable_uuid',
-        label: 'Tipe',
+        label: 'Kode Refrensi',
         options: {
             sort: false,
-            customBodyRenderLite: dataIndex => {
-                const installment = getRowData(dataIndex)
-
-                if (installment) return getInstallmentType(installment)
-            },
+            customBodyRender: shortUuid,
         },
     },
 
+    // Installmentable Classname (Type)
+    {
+        name: 'installmentable_classname',
+        label: 'Jenis',
+        options: {
+            sort: false,
+            searchable: false,
+            customBodyRender: getInstallmentTypeByClassname,
+        },
+    },
+
+    // Amount
     {
         name: 'amount_rp',
         label: 'Nilai',
@@ -193,12 +216,20 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
 
+    // Due Date
+    {
+        name: 'should_be_paid_at',
+        label: 'Jatuh Tempo',
+    },
+
+    // Current State
     {
         name: 'state',
         label: 'Status',
         options: {
             searchable: false,
             sort: false,
+            customBodyRender: value => value, // for download purpose
             customBodyRenderLite: dataIndex => {
                 const installment = getRowData(dataIndex)
 
@@ -223,126 +254,18 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
 
-    // [...COLUMNS_FOR_SEARCH_ONLY],
-    {
-        name: 'productSale.buyerUser.name',
-        options: {
-            display: 'excluded',
-            filter: false,
-            sort: false,
-        },
-    },
-    {
-        name: 'userLoan.user.name',
-        options: {
-            display: 'excluded',
-            filter: false,
-            sort: false,
-        },
-    },
-    {
-        name: 'rentItemRent.byUser.name',
-        options: {
-            display: 'excluded',
-            filter: false,
-            sort: false,
-        },
-    },
+    ...DATATABE_SEARCH_ONLY_COLUMNS,
 ]
 
-const CHIP_DEFAULT_PROPS: ChipOwnProps = {
-    size: 'small',
-}
+function getInstallmentTypeByClassname(classname: string) {
+    switch (classname) {
+        case 'App\\Models\\ProductSale':
+            return 'Penjualan Produk (SAPRODI)'
 
-function TypeFilterChips() {
-    const { replace, query } = useRouter()
+        case 'App\\Models\\UserLoan':
+            return 'Pinjaman (SPP)'
 
-    function handleTypeChange(value?: string) {
-        replace({
-            query: {
-                ...query,
-                type: value,
-            },
-        })
+        case 'App\\Models\\RentItemRent':
+            return 'Sewa Alat Berat'
     }
-
-    return (
-        <ScrollableXBox>
-            <Chip
-                {...CHIP_DEFAULT_PROPS}
-                label="Semua"
-                onClick={() => handleTypeChange(undefined)}
-                color={query.type ? undefined : 'success'}
-            />
-            <Chip
-                {...CHIP_DEFAULT_PROPS}
-                label="Penjualan Produk (SAPRODI)"
-                onClick={() => handleTypeChange('product-sale')}
-                color={query.type === 'product-sale' ? 'success' : undefined}
-            />
-            <Chip
-                {...CHIP_DEFAULT_PROPS}
-                label="Pinjaman (SPP)"
-                onClick={() => handleTypeChange('user-loan')}
-                color={query.type === 'user-loan' ? 'success' : undefined}
-            />
-            <Chip
-                {...CHIP_DEFAULT_PROPS}
-                label="Sewa Alat Berat"
-                onClick={() => handleTypeChange('rent-item-rent')}
-                color={query.type === 'rent-item-rent' ? 'success' : undefined}
-            />
-        </ScrollableXBox>
-    )
-}
-
-function StateFilterChips() {
-    const { replace, query, isReady } = useRouter()
-
-    function handleStateChange(value?: string) {
-        replace({
-            query: {
-                ...query,
-                state: value,
-            },
-        })
-    }
-
-    useEffect(() => {
-        if (isReady && !query.state) {
-            handleStateChange('due')
-        }
-    }, [])
-
-    return (
-        <ScrollableXBox>
-            <Chip
-                {...CHIP_DEFAULT_PROPS}
-                label="Semua"
-                onClick={() => handleStateChange(undefined)}
-                color={query.state ? undefined : 'success'}
-            />
-
-            <Chip
-                {...CHIP_DEFAULT_PROPS}
-                label="Dekat Jatuh Tempo"
-                onClick={() => handleStateChange('due-soon')}
-                color={query.state === 'due-soon' ? 'success' : undefined}
-            />
-
-            <Chip
-                {...CHIP_DEFAULT_PROPS}
-                label="Jatuh Tempo"
-                onClick={() => handleStateChange('due')}
-                color={query.state === 'due' ? 'success' : undefined}
-            />
-
-            <Chip
-                {...CHIP_DEFAULT_PROPS}
-                label="Lunas"
-                onClick={() => handleStateChange('paid')}
-                color={query.state === 'paid' ? 'success' : undefined}
-            />
-        </ScrollableXBox>
-    )
 }
