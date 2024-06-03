@@ -1,6 +1,6 @@
 // types
 import type { MUIDataTableOptions } from 'mui-datatables'
-import type { GetRowData, Mutate, DatatableProps } from './@types'
+import type { Mutate, DatatableProps } from './@types'
 import type { ReactNode } from 'react'
 // vendors
 import dynamic from 'next/dynamic'
@@ -30,7 +30,7 @@ const MUIDataTable = dynamic(() => import('mui-datatables'), {
  * - [ ] table state always restart when data changed
  */
 
-let getRowData: GetRowData
+let getRowData: <T = unknown>(index: number) => T | undefined
 let mutatorForExport: Mutate
 
 export function Datatable({
@@ -66,7 +66,7 @@ export function Datatable({
         swrOptions,
     )
 
-    getRowData = (index: number) => data[index]
+    getRowData = index => data[index] as any
     mutatorForExport = () => mutate()
 
     getRowDataCallback?.(index => data[index])
