@@ -18,107 +18,94 @@ import PublicLayout from '@/components/Layouts/PublicLayout'
 import useAuth from '@/providers/Auth'
 
 export default function Index() {
-    const router = useRouter()
+    const { replace } = useRouter()
     const { user } = useAuth()
 
     useEffect(() => {
         if (user) {
-            router.replace('/dashboard')
+            replace('/dashboard')
         }
-    }, [user])
+    }, [user, replace])
+
+    const isLoading = user === undefined
+    const isGuest = user === null
 
     return (
         <>
-            <Fade in={user !== null} unmountOnExit>
-                <Box>
+            <Fade in={isLoading} unmountOnExit>
+                <span>
                     <LogoLoadingBox />
-                </Box>
+                </span>
             </Fade>
 
-            <Fade in={user === null} unmountOnExit>
-                <Box>
-                    <PublicLayout
-                        footerTextOnly
-                        maxWidth="xs"
-                        title={process.env.NEXT_PUBLIC_APP_NAME ?? ''}>
-                        <Box display="flex" alignItems="start">
-                            <Box flexGrow={1}>
-                                <LogoImage />
-                            </Box>
-                        </Box>
-
-                        <Typography variant="h4" component="h1" mb={4}>
-                            {process.env.NEXT_PUBLIC_APP_NAME}
-                        </Typography>
-
-                        <Typography
-                            variant="caption"
-                            component="div"
-                            gutterBottom>
-                            Halaman publik
-                        </Typography>
-
-                        <Box display="flex" gap={1} flexWrap="wrap">
-                            <Button
-                                {...BUTTON_DEFAULT_PROPS}
-                                href="katalog-saprodi"
-                                startIcon={
-                                    <WarehouseIcon {...ICON_DEFAULT_PROPS} />
-                                }>
-                                Katalog Saprodi
-                            </Button>
-                            <Button
-                                {...BUTTON_DEFAULT_PROPS}
-                                href="laporan-performa"
-                                startIcon={
-                                    <AssessmentIcon {...ICON_DEFAULT_PROPS} />
-                                }>
-                                Performa Koperasi
-                            </Button>
-                        </Box>
-
-                        <Typography
-                            variant="caption"
-                            component="div"
-                            gutterBottom
-                            mt={2}>
-                            Atau
-                        </Typography>
-
-                        <Box display="flex" gap={1} flexWrap="wrap">
-                            <Button
-                                {...BUTTON_DEFAULT_PROPS}
-                                href="login"
-                                color="success"
-                                endIcon={<LoginIcon {...ICON_DEFAULT_PROPS} />}>
-                                Masuk Aplikasi
-                            </Button>
-                        </Box>
-                    </PublicLayout>
-                </Box>
+            <Fade in={isGuest} unmountOnExit>
+                <span>
+                    <PublicMenu />
+                </span>
             </Fade>
         </>
     )
 }
 
-const BUTTON_DEFAULT_PROPS: {
-    fullWidth: ButtonProps['fullWidth']
-    size: ButtonProps['size']
-    variant: ButtonProps['variant']
-} = {
+const BUTTON_DEFAULT_PROPS: ButtonProps = {
     fullWidth: true,
     size: 'large',
     variant: 'outlined',
 }
 
-const ICON_DEFAULT_PROPS: {
-    sx: {
-        width: string
-        height: string
-    }
-} = {
-    sx: {
-        width: '1em',
-        height: '1em',
-    },
+const ICON_DEFAULT_SX = {
+    width: '1em',
+    height: '1em',
+}
+
+function PublicMenu() {
+    return (
+        <PublicLayout
+            footerTextOnly
+            maxWidth="xs"
+            title={process.env.NEXT_PUBLIC_APP_NAME ?? ''}>
+            <Box display="flex" alignItems="start">
+                <Box flexGrow={1}>
+                    <LogoImage />
+                </Box>
+            </Box>
+
+            <Typography variant="h4" component="h1" mb={4}>
+                {process.env.NEXT_PUBLIC_APP_NAME}
+            </Typography>
+
+            <Typography variant="caption" component="div" gutterBottom>
+                Halaman publik
+            </Typography>
+
+            <Box display="flex" gap={1} flexWrap="wrap">
+                <Button
+                    {...BUTTON_DEFAULT_PROPS}
+                    href="katalog-saprodi"
+                    startIcon={<WarehouseIcon sx={ICON_DEFAULT_SX} />}>
+                    Katalog Saprodi
+                </Button>
+                <Button
+                    {...BUTTON_DEFAULT_PROPS}
+                    href="laporan-performa"
+                    startIcon={<AssessmentIcon sx={ICON_DEFAULT_SX} />}>
+                    Performa Koperasi
+                </Button>
+            </Box>
+
+            <Typography variant="caption" component="div" gutterBottom mt={2}>
+                Atau
+            </Typography>
+
+            <Box display="flex" gap={1} flexWrap="wrap">
+                <Button
+                    {...BUTTON_DEFAULT_PROPS}
+                    href="login"
+                    color="success"
+                    endIcon={<LoginIcon sx={ICON_DEFAULT_SX} />}>
+                    Masuk Aplikasi
+                </Button>
+            </Box>
+        </PublicLayout>
+    )
 }
