@@ -1,17 +1,22 @@
+// vandors
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
-
+// materials
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-
+// icons
 import LockResetIcon from '@mui/icons-material/LockReset'
-
+// components
 import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
 import useValidationErrors from '@/hooks/useValidationErrors'
 
-const PasswordReset = () => {
-    const router = useRouter()
+export default function PasswordReset() {
+    const {
+        push,
+        query: { token, email },
+    } = useRouter()
+
     const [isLoading, setIsLoading] = useState(false)
     const { validationErrors, setValidationErrors, clearByEvent } =
         useValidationErrors()
@@ -30,10 +35,8 @@ const PasswordReset = () => {
         const formData = new FormData(formEl)
 
         return axios
-            .post('/reset-password', formData)
-            .then(response =>
-                router.push('/login?reset=' + btoa(response.data.status)),
-            )
+            .post<string>('/reset-password', formData)
+            .then(({ data }) => push('/login?response=' + btoa(data)))
             .catch(error => {
                 if (error.response.status !== 422) throw error
 
@@ -53,7 +56,7 @@ const PasswordReset = () => {
                 <input
                     type="hidden"
                     name="token"
-                    value={router.query.token ?? ''}
+                    value={token ?? ''}
                     readOnly
                 />
                 <TextField
@@ -64,7 +67,7 @@ const PasswordReset = () => {
                     label="Email Address"
                     type="email"
                     name="email"
-                    value={router.query.email ?? ''}
+                    value={email ?? ''}
                     inputProps={{
                         readOnly: true,
                     }}
@@ -103,5 +106,3 @@ const PasswordReset = () => {
         </GuestFormLayout>
     )
 }
-
-export default PasswordReset
