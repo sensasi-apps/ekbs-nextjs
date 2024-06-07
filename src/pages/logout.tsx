@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios'
 // vendors
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import axios from '@/lib/axios'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -10,18 +10,14 @@ import useAuth from '@/providers/Auth'
 
 export default function LogoutPage() {
     const { onLogoutSuccess } = useAuth()
+    const isLoggingOut = useRef(false)
 
     useEffect(() => {
-        axios
-            .post('/logout')
-            .catch((error: AxiosError) => {
-                if (
-                    ![401, 419, 422, undefined].includes(error.response?.status)
-                )
-                    throw error
-            })
-            .then(onLogoutSuccess)
-    }, [])
+        if (!isLoggingOut.current) {
+            isLoggingOut.current = true
+            axios.post('/logout').then(onLogoutSuccess).catch(HANDLE_CATCH)
+        }
+    }, [onLogoutSuccess])
 
     return (
         <AuthLayout title="Logout">
@@ -30,4 +26,12 @@ export default function LogoutPage() {
             </LoadingCenter>
         </AuthLayout>
     )
+}
+
+function HANDLE_CATCH(error: AxiosError) {
+    if ([401, 419, 422, undefined].includes(error.response?.status)) {
+        // do nothing
+    } else {
+        throw error
+    }
 }
