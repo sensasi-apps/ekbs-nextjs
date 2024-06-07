@@ -4,6 +4,7 @@ import { UAParser } from 'ua-parser-js'
 
 export default function useRedirectIfBrowserIsUnsupported() {
     const { replace, asPath } = useRouter()
+
     useEffect(() => {
         const { name, version } = new UAParser().getBrowser()
 
@@ -24,11 +25,11 @@ export default function useRedirectIfBrowserIsUnsupported() {
         if (!isUnsupported && asPath.startsWith('/outdated')) {
             replace('/')
         }
-    }, [])
+    }, [asPath, replace])
 }
 
 /**
- * reference: https://github.com/mui/material-ui/blob/v5.15.14/.browserslistrc
+ * @see https://github.com/mui/material-ui/blob/v5.15.14/.browserslistrc
  */
 export const BROWSER_MINIMUM_VERSIONS: {
     [key: string]: number
