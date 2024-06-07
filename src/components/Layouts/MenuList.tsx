@@ -1,7 +1,7 @@
 // types
 import type NavItem from './MenuData/NavItem.type'
 // vendors
-import { memo, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 // materials
 import Box from '@mui/material/Box'
@@ -27,31 +27,29 @@ const MenuList = memo(function MenuList({
     const { user: currentUser } = useAuth()
     const [drawerProps, setDrawerProps] = useState({})
 
-    const makeDrawerProps = () => {
-        if (window.innerWidth < 600) {
+    useEffect(() => {
+        function makeDrawerProps() {
+            if (window.innerWidth < 600) {
+                return {
+                    variant: 'temporary',
+                    onClose: toggleDrawer,
+                }
+            }
+
             return {
-                variant: 'temporary',
-                onClose: toggleDrawer,
+                variant: 'permanent',
+                onClose: null,
             }
         }
 
-        return {
-            variant: 'permanent',
-            onClose: null,
-        }
-    }
+        const handleResize = () => setDrawerProps(makeDrawerProps())
 
-    const handleResize = () => {
-        setDrawerProps(makeDrawerProps())
-    }
-
-    useEffect(() => {
-        setDrawerProps(makeDrawerProps())
+        handleResize()
 
         window.addEventListener('resize', handleResize, false)
 
         return () => window.removeEventListener('resize', handleResize, false)
-    }, [])
+    }, [toggleDrawer])
 
     return (
         <Box

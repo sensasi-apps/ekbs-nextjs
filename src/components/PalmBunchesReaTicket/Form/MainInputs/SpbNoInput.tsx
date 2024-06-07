@@ -32,13 +32,13 @@ export default function SpbNoInput({
         return () => {
             tempValue = undefined
         }
-    }, [])
+    }, [data.spb_no])
 
     useEffect(() => {
         if (data.spb_no === spbNo) return
 
         setSpbNo(data.spb_no)
-    }, [data.spb_no])
+    }, [data.spb_no, spbNo])
 
     return (
         <TextField

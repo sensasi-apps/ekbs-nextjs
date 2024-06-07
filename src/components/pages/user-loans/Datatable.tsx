@@ -31,7 +31,7 @@ export default function LoanDatatable({
                 }
             }
         },
-        [],
+        [onEdit],
     )
 
     const API_URL =

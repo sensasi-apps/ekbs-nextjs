@@ -109,7 +109,7 @@ export default function LoanForm({
 
     useEffect(() => {
         setFieldValue('term_unit', userDefaultTermUnit)
-    }, [userDefaultTermUnit])
+    }, [userDefaultTermUnit, setFieldValue])
 
     const hasResponses = isNew ? false : userLoanFromDb.responses.length > 0
     const isProcessing = isSubmitting || isDeleting

@@ -28,20 +28,20 @@ const GuestFormLayout: FC<{
     isError = false,
     message,
 }) => {
-    const router = useRouter()
+    const { replace, pathname, query } = useRouter()
     const { user } = useAuth()
 
     useEffect(() => {
-        if (user && router.pathname !== '/maintenance') {
-            const redirectTo = router.query.redirectTo
+        if (user && pathname !== '/maintenance') {
+            const redirectTo = query.redirectTo
 
             if (redirectTo) {
-                router.replace(redirectTo.toString())
+                replace(redirectTo.toString())
             } else {
-                router.replace('/dashboard')
+                replace('/dashboard')
             }
         }
-    }, [user])
+    }, [user, replace, pathname, query])
 
     return (
         <div>

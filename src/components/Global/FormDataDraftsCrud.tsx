@@ -57,7 +57,7 @@ const FormDataDraftsCrud: FC<{
                 .getAllFromIndex('formDataDrafts', 'modelName', modelName)
                 .then(setDrafts),
         )
-    }, [])
+    }, [modelName])
 
     const handleSaveAsDraft = () => {
         if (!currDataNameId)

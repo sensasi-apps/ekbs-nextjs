@@ -60,10 +60,11 @@ const PalmBunchRatesForm: FC<{
 
     useEffect(() => {
         temp = structuredClone(data)
+
         return () => {
             temp = undefined
         }
-    }, [])
+    }, [data])
 
     useEffect(() => {
         setValidFrom(valid_from ? dayjs(valid_from) : null)
@@ -73,7 +74,7 @@ const PalmBunchRatesForm: FC<{
                     type,
                 })),
         )
-    }, [data])
+    }, [valid_from, rates])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()

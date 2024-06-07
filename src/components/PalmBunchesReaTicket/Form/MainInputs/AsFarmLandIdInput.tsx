@@ -23,7 +23,7 @@ const AsFarmLandIdInput: FC<{
         return () => {
             tempValue = undefined
         }
-    }, [])
+    }, [data.as_farm_land_id])
 
     useEffect(() => {
         setAsFarmLandId(data.as_farm_land_id)

@@ -36,7 +36,7 @@ export default function CashCrud() {
                 .post('cashes', values)
                 .then(() => {
                     mutate()
-                    closeDialog()
+                    setDialogOpen(false)
                 })
                 .catch(error => errorCatcher(error, setErrors)),
         [],

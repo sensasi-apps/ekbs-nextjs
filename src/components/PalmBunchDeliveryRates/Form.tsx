@@ -67,7 +67,7 @@ export default function PalmBunchDeliveryRatesForm({
     useEffect(() => {
         setValidFrom(valid_from ? dayjs(valid_from) : null)
         setDeliveryRates(structuredClone(delivery_rates || emptyDeliveryRates))
-    }, [data])
+    }, [valid_from, delivery_rates])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
