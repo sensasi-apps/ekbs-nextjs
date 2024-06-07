@@ -27,16 +27,16 @@ import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuth from '@/providers/Auth'
 // components
-import TncpDialog from '@/components/TncpDialog'
-import { DRAWER_WIDTH } from './MenuList'
-import DarkModeSwitch from './TopBar/DarkModeSwitch'
-import FullscreenMenuItem from './TopBar/FullscreenMenuItem'
-import FooterBox from './FooterBox'
-import FlexColumnBox from '../FlexColumnBox'
+import TncpDialog from './components/TncpDialog'
+import { DRAWER_WIDTH } from '../../MenuList'
+import DarkModeSwitch from './components/DarkModeSwitch'
+import FullscreenMenuItem from './components/FullscreenMenuItem'
+import FooterBox from '../../FooterBox'
+import FlexColumnBox from '../../../FlexColumnBox'
 // utils
 import blink from '@/utils/cssAnimations/blink'
 
-export default function TopBar({
+export function TopBar({
     title,
     toggleDrawer,
 }: {
