@@ -3,16 +3,21 @@ import { OptionsObject, enqueueSnackbar } from 'notistack'
 import { useEffect } from 'react'
 
 const SNACKBAR_OPTIONS: OptionsObject = {
-    variant: 'error',
+    variant: 'warning',
     persist: true,
 }
 
 export default function useDisablePage() {
-    const { replace } = useRouter()
+    const { replace, back } = useRouter()
 
     useEffect(() => {
-        enqueueSnackbar('Halaman telah dinonaktifkan', SNACKBAR_OPTIONS)
+        enqueueSnackbar(
+            'Halaman telah dinonaktifkan. Akan mengembalikan Anda ke halaman sebelumnya dalam 5 detik',
+            SNACKBAR_OPTIONS,
+        )
 
-        replace('/dashboard')
-    }, [])
+        setTimeout(() => {
+            back()
+        }, 5000)
+    }, [replace, back])
 }
