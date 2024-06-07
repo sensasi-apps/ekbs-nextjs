@@ -1,6 +1,19 @@
 {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
     "extends": [
+        "plugin:@typescript-eslint/recommended",
+        // "plugin:@typescript-eslint/recommended-type-checked",
+        // "plugin:@typescript-eslint/strict",
+        // "plugin:@typescript-eslint/strict-type-checked",
+        // "plugin:@typescript-eslint/stylistic-type-checked",
         "next/core-web-vitals",
         "plugin:prettier/recommended"
-    ]
+    ],
+    "rules": {
+        "no-console": "warn"
+    }
 }
