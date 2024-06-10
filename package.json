@@ -1,7 +1,7 @@
 {
     "name": "ekbs",
-    "version": "0.7.31",
-    "versionDate": "2024-06-04",
+    "version": "0.8.0",
+    "versionDate": "2024-06-11",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -24,7 +24,7 @@
         "@mui/lab": "^5.0.0-alpha.170",
         "@mui/material": "^5.15.19",
         "@mui/x-date-pickers": "^6.20.1",
-        "@sentry/nextjs": "^8.7.0",
+        "@sentry/nextjs": "^8.8.0",
         "axios": "^1.7.2",
         "dayjs": "^1.11.11",
         "formik": "^2.4.6",
@@ -67,7 +67,7 @@
         "npm-check-updates": "^16.14.20",
         "prettier": "^3.3.1",
         "typescript": "^5.4.5",
-        "typescript-eslint": "^7.12.0",
+        "typescript-eslint": "^7.13.0",
         "unimported": "^1.31.1"
     }
 }
