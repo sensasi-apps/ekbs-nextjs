@@ -56,7 +56,7 @@ export default function UserCard() {
                             Peran:
                             <Box component="span" ml={1}>
                                 <RolesAndPermissionButtonAndDialogForm
-                                    isLoading={!Boolean(userWithDetails)}
+                                    isLoading={!userWithDetails}
                                     data={userWithDetails}
                                 />
                             </Box>

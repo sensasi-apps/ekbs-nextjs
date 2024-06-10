@@ -14,11 +14,16 @@ import TotalMemberParticipationBigNumber from '@/components/pages/executive/stat
 import MonthlyTotalMemberParticipationChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberParticipationChartCard'
 import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
 
+type DataItem = {
+    value: number
+    month: string
+}
+
 export default function MemberSection() {
     const { data, isLoading } = useSWR<{
         member_total: number
-        monthly_member_in_outs: any[]
-        monthly_member_participations: any[]
+        monthly_member_in_outs: DataItem[]
+        monthly_member_participations: DataItem[]
     }>('executive/member-section-data')
 
     return (

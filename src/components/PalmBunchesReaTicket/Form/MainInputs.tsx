@@ -32,6 +32,8 @@ interface MainInputProps {
     disabled: boolean
 }
 
+// TODO: remove any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let tempData: any
 
 // TODO: prevent rerender make input atomic

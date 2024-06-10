@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography'
 // components
 import TextField from '@/components/TextField'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MuiAutocompleteProps = MuiAutocompletePropsTemp<any, false, false, false>
 type AutocompleteProps = Omit<MuiAutocompleteProps, 'options' | 'renderInput'>
 
@@ -32,6 +33,7 @@ export default function Autocomplete({
 } & AutocompleteProps) {
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [options, setOptions] = useState<any[]>([])
 
     const fetchUserOptions = async (

@@ -71,10 +71,9 @@ const Crud = () => {
                 swrOptions={{
                     revalidateOnMount: true,
                 }}
-                setRowProps={(row, dataIndex) => {
+                setRowProps={(_, dataIndex) => {
                     const data = getRowData(dataIndex)
-
-                    if (!data) return
+                    if (!data) return {}
 
                     if (data.deleted_at)
                         return {
@@ -83,9 +82,9 @@ const Crud = () => {
                                     color: 'var(--mui-palette-grey-800)',
                                 },
                             },
-                        } as any
+                        }
 
-                    return {} as any
+                    return {}
                 }}
             />
 

@@ -1,12 +1,10 @@
-// types
-import { ButtonProps } from '@mui/material/Button'
 // vendors
 import { useState } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+import Button, { ButtonProps } from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 // components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
@@ -99,7 +97,7 @@ export default function AddressForm({
                     const inputEl = document.querySelector(
                         'input[name="region_id"]',
                     ) as HTMLInputElement
-                    if (inputEl) inputEl.value = value?.id
+                    if (inputEl && value?.id) inputEl.value = value.id
                 }}
                 endpoint={`/select2/administrative-regions`}
                 label="Wilayah Administratif"

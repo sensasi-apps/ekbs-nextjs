@@ -62,7 +62,7 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
 
             <Grid2 xs={12} id="omzet" sx={SX_SCROLL_MARGIN_TOP}>
                 <OmzetChartCard
-                    data={data?.omzet_monthly}
+                    data={data?.omzet_monthly ?? []}
                     isLoading={isLoading}
                 />
             </Grid2>
@@ -83,7 +83,7 @@ function OmzetChartCard({
     data,
     isLoading,
 }: {
-    data: any
+    data: ApiResponseType['omzet_monthly']
     isLoading: boolean | undefined
 }) {
     return (

@@ -85,11 +85,13 @@ export default function App({ Component, pageProps }: AppProps) {
             <AuthProvider>
                 <SWRConfig
                     value={{
-                        fetcher: (endpointPassed: any[] | string) => {
+                        fetcher: (
+                            endpointPassed: [string, object] | string,
+                        ) => {
                             // TODO: apply global swr
 
                             let endpoint: string
-                            let params: any
+                            let params: object
 
                             if (endpointPassed instanceof Array) {
                                 ;[endpoint, params] = endpointPassed

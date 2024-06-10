@@ -38,7 +38,7 @@ export default function PayrollsEmployeesTable({
 }: {
     data: Payroll | undefined
     loading: boolean
-    mutate: () => any
+    mutate: () => void
 }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [deleting, setDeleting] = useState(false)

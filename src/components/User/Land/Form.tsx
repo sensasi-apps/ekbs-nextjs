@@ -2,7 +2,13 @@
 import type UserLandFormPropType from './Form/type'
 import type Address from '@/types/Address'
 // vendors
-import { useState, FC } from 'react'
+import {
+    useState,
+    useCallback,
+    FormEvent,
+    ChangeEvent,
+    SyntheticEvent,
+} from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
@@ -32,7 +38,7 @@ const getRegion = (address?: Address): { id: string } | null => {
     return address?.village || address?.district || address?.regency || null
 }
 
-const UserLandForm: FC<UserLandFormPropType> = props => {
+export default function UserLandForm(props: UserLandFormPropType) {
     const { data, userUuid, onCancel, onSubmit, isLoading, setIsLoading } =
         props
     const {
@@ -46,45 +52,55 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
 
     const [validationErrors, setValidationErrors] = useState(INITIAL_STATE)
 
-    const handleSubmit = async (e: any) => {
-        e.preventDefault()
+    const handleSubmit = useCallback(
+        (ev: FormEvent<HTMLFormElement>) => {
+            ev.preventDefault()
 
-        const formEl = e.target.closest('form')
-        if (!formEl.reportValidity()) return
+            const formEl = ev.currentTarget
+            if (!formEl.reportValidity()) return
 
-        setIsLoading(true)
-        const formData = new FormData(formEl)
-        const dataFormData = Object.fromEntries(formData.entries())
+            setIsLoading(true)
+            const formData = new FormData(formEl)
+            const dataFormData = Object.fromEntries(formData.entries())
 
-        dataFormData.planted_at = dayjs(
-            dataFormData.planted_at as string,
-            'DD-MM-YYYY',
-        ).format('YYYY-MM-DD')
+            dataFormData.planted_at = dayjs(
+                dataFormData.planted_at as string,
+                'DD-MM-YYYY',
+            ).format('YYYY-MM-DD')
 
-        try {
-            if (data?.uuid) {
-                await axios.put(
-                    `/users/${userUuid}/lands/${data.uuid}`,
-                    dataFormData,
-                )
-            } else {
-                await axios.post(`/users/${userUuid}/lands`, dataFormData)
-            }
-            await mutate(`/users/${userUuid}`)
-        } catch (err: any) {
-            if (err.response?.status === 422) {
-                setValidationErrors(err.response.data.errors)
-            } else {
-                throw err
-            }
-        }
+            const axiosRequest = data?.uuid
+                ? axios.put(
+                      `/users/${userUuid}/lands/${data.uuid}`,
+                      dataFormData,
+                  )
+                : axios.post(`/users/${userUuid}/lands`, dataFormData)
 
-        setIsLoading(false)
-        onSubmit()
-    }
+            axiosRequest
+                .then(() => {
+                    mutate(`/users/${userUuid}`)
+                })
+                .catch(err => {
+                    if (err.response?.status === 422) {
+                        setValidationErrors(err.response.data.errors)
+                    } else {
+                        throw err
+                    }
+                })
+                .finally(() => {
+                    setIsLoading(false)
+                    onSubmit()
+                })
+        },
+        [data.uuid, onSubmit, setIsLoading, userUuid],
+    )
 
-    const clearValidationError = (e: any) => {
-        const name: string = e.target.name
+    const clearValidationError = (
+        ev:
+            | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+            | SyntheticEvent,
+    ) => {
+        // @ts-expect-error name is not available in SyntheticEvent
+        const name = ev.currentTarget.name
 
         if (validationErrors[name as keyof typeof INITIAL_STATE]) {
             setValidationErrors(prev => ({
@@ -102,11 +118,11 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
                 id="n_area_hectares"
                 defaultValue={n_area_hectares}
             />
-
             <TextField
                 fullWidth
                 required
                 disabled={isLoading}
+                name="n_area_hectares"
                 label="Luas Lahan"
                 margin="dense"
                 defaultValue={n_area_hectares}
@@ -121,14 +137,11 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
                     document
                         .getElementById('n_area_hectares')
                         ?.setAttribute('value', value)
-                    clearValidationError({
-                        target: { name: 'n_area_hectares' },
-                    })
+                    clearValidationError(event)
                 }}
                 error={Boolean(validationErrors.n_area_hectares)}
                 helperText={validationErrors.n_area_hectares}
             />
-
             <TextField
                 fullWidth
                 disabled={isLoading}
@@ -140,7 +153,6 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
                 error={Boolean(validationErrors.rea_land_id)}
                 helperText={validationErrors.rea_land_id}
             />
-
             <DatePicker
                 disabled={isLoading}
                 defaultValue={planted_at ? dayjs(planted_at) : null}
@@ -151,47 +163,43 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
                         label: 'Tanggal Tanam',
                         error: Boolean(validationErrors.planted_at),
                         helperText: validationErrors.planted_at,
+                        onChange: clearValidationError,
                     },
                 }}
-                onChange={() =>
-                    clearValidationError({ target: { name: 'planted_at' } })
-                }
             />
 
-            {/* @ts-ignore */}
+            {/* @ts-expect-error - TODO: fix this later js to ts */}
             <SelectInputFromApi
-                required
-                disabled={isLoading}
-                margin="dense"
                 name="farmer_group_uuid"
                 selectProps={{
+                    margin: 'dense',
                     defaultValue: farmer_group_uuid || '',
+                    required: true,
+                    disabled: isLoading,
                 }}
                 endpoint="/data/farmer-groups"
                 label="Kelompok Tani"
             />
-
             <input
                 type="hidden"
                 name="region_id"
                 defaultValue={getRegion(address)?.id}
             />
-
             <Autocomplete
                 required
                 disabled={isLoading}
                 margin="dense"
                 defaultValue={getRegion(address)}
-                onChange={(e: any, value: any) => {
+                onChange={(ev, value) => {
                     document
                         .querySelector('input[name="region_id"]')
-                        ?.setAttribute('value', value?.id)
-                    clearValidationError({ target: { name: 'region_id' } })
+                        ?.setAttribute('value', value?.id ?? '')
+
+                    clearValidationError(ev)
                 }}
                 endpoint="/select2/administrative-regions"
                 label="Wilayah Administratif"
             />
-
             <TextField
                 fullWidth
                 disabled={isLoading}
@@ -204,7 +212,6 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
                 onChange={clearValidationError}
                 helperText={validationErrors.detail}
             />
-
             <TextField
                 fullWidth
                 disabled={isLoading}
@@ -224,7 +231,6 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
                 onChange={clearValidationError}
                 helperText={validationErrors.zip_code}
             />
-
             <TextField
                 fullWidth
                 disabled={isLoading}
@@ -238,7 +244,6 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
                 error={Boolean(validationErrors.note)}
                 helperText={validationErrors.note}
             />
-
             <Box display="flex" justifyContent="space-between" mt={2}>
                 <Button disabled={isLoading} color="error">
                     Hapus
@@ -264,5 +269,3 @@ const UserLandForm: FC<UserLandFormPropType> = props => {
         </form>
     )
 }
-
-export default UserLandForm

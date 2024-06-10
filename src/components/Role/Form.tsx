@@ -1,7 +1,14 @@
-import { FC } from 'react'
-import QueryString from 'qs'
+// types
+import type { AxiosError } from 'axios'
+import type Role from '@/dataTypes/Role'
+import type FormType from '@/components/Global/Form/type'
+import type ValidationErrorsType from '@/types/ValidationErrors'
+// vendors
+import { stringify } from 'qs'
+import axios from '@/lib/axios'
+import Masonry from '@mui/lab/Masonry'
 import useSWR from 'swr'
-
+// materials
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -9,53 +16,56 @@ import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
-
-import Masonry from '@mui/lab/Masonry'
-
-import axios from '@/lib/axios'
-
+// components
 import useValidationErrors from '@/hooks/useValidationErrors'
-import Role from '@/dataTypes/Role'
-import FormType from '@/components/Global/Form/type'
 import Skeletons from '@/components/Global/Skeletons'
 
-const RoleForm: FC<FormType<Role>> = ({
-    data: { id, name_id, group, permissions: rolePermissions } = {},
+export default function RoleForm({
+    data: { id, name_id, group, permissions: rolePermissions },
     loading,
     actionsSlot,
     onSubmitted,
     setSubmitting,
-}) => {
+}: FormType<Role>) {
     const { validationErrors, setValidationErrors } = useValidationErrors()
 
     const { data: permissions = [], isLoading } = useSWR('/data/permissions')
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
+        ev.preventDefault()
 
         if (loading) return
 
-        const formEl = e.currentTarget
+        const formEl = ev.currentTarget
         if (!formEl.checkValidity()) return
 
         setSubmitting(true)
 
-        try {
-            const formData = new FormData(formEl)
-            const payload = Object.fromEntries(formData.entries())
+        const formData = new FormData(formEl)
+        const payload = Object.fromEntries(formData.entries())
 
-            await axios.put(`/roles/${id}`, QueryString.stringify(payload))
+        axios
+            .put(`/roles/${id}`, stringify(payload))
+            .then(() => onSubmitted())
+            .catch(
+                (
+                    err: AxiosError<{
+                        errors?: ValidationErrorsType
+                        message?: string
+                    }>,
+                ) => {
+                    if (err.response?.status !== 422) {
+                        throw err
+                    }
 
-            onSubmitted()
-        } catch (error: any) {
-            setSubmitting(false)
-
-            if (error.response.status !== 422) {
-                throw error
-            }
-
-            setValidationErrors(error.response.data.errors)
-        }
+                    if (err.response?.data.errors) {
+                        setValidationErrors(err.response.data.errors)
+                    }
+                },
+            )
+            .finally(() => {
+                setSubmitting(false)
+            })
     }
 
     return (
@@ -130,5 +140,3 @@ const RoleForm: FC<FormType<Role>> = ({
         </form>
     )
 }
-
-export default RoleForm

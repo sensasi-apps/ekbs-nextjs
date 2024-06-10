@@ -86,7 +86,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'user.id',
         label: 'ID Pengguna',
         options: {
-            customBodyRender: (_: any, rowMeta: any) =>
+            customBodyRender: (_, rowMeta) =>
                 getRowData(rowMeta.rowIndex)?.user?.id,
         },
     },
@@ -94,7 +94,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'user.name',
         label: 'Nama Pengguna',
         options: {
-            customBodyRender: (_: any, rowMeta: any) =>
+            customBodyRender: (_, rowMeta) =>
                 getRowData(rowMeta.rowIndex)?.user?.name,
         },
     },
@@ -246,9 +246,7 @@ function DialogForDownloadXls() {
                     }}
                     onChange={(date, { validationError }) =>
                         setToDate(
-                            Boolean(validationError)
-                                ? undefined
-                                : date ?? undefined,
+                            validationError ? undefined : date ?? undefined,
                         )
                     }
                 />

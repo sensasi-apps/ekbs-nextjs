@@ -1,5 +1,5 @@
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import { FormDataProvider } from '@/providers/useFormData'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 export default function PalmBuncesRates() {
     return (
@@ -12,12 +12,11 @@ export default function PalmBuncesRates() {
 }
 
 // types
+import type PalmBunchRateType from '@/dataTypes/PalmBunchRate'
 import type PalmBunchRateValidDateType from '@/dataTypes/PalmBunchRateValidDate'
 // vendors
 import Fab from '@mui/material/Fab'
 import SellIcon from '@mui/icons-material/Sell'
-// providers
-import useFormData from '@/providers/useFormData'
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
@@ -67,8 +66,10 @@ function Crud() {
             options: {
                 searchable: false,
                 sort: false,
-                customBodyRender: (value: any) =>
-                    numberToCurrency(value[0].rp_per_kg),
+                customBodyRender: (value: PalmBunchRateType[]) =>
+                    value[0].rp_per_kg
+                        ? numberToCurrency(value[0].rp_per_kg)
+                        : '-',
             },
         },
     ]

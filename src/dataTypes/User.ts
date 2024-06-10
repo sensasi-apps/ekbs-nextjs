@@ -15,7 +15,14 @@ interface UserType {
     uuid: UUID
 
     // relations
-    member?: any // TODO: define member type
+    member?: {
+        uuid: UUID
+        user_uuid: UUID
+        joined_at: Ymd
+        unjoined_at: Ymd | null
+        unjoined_reason: string | null
+        note: string | null
+    }
     socials?: []
     last_six_months_tbs_performance?: []
     employee?: Employee | null

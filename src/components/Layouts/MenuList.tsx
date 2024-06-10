@@ -1,7 +1,7 @@
 // types
 import type NavItem from './MenuData/NavItem.type'
 // vendors
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 // materials
 import Box from '@mui/material/Box'

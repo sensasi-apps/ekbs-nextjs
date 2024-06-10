@@ -22,7 +22,7 @@ const ConfirmationDialog = memo(function ConfirmationDialog({
 }: {
     color?: LoadingButtonProps['color']
     title: string
-    onConfirm: () => void
+    onConfirm: LoadingButtonProps['onClick']
     onCancel: () => void
     cancelButtonProps?: LoadingButtonProps
     confirmButtonProps?: LoadingButtonProps

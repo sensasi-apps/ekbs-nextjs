@@ -1,6 +1,7 @@
 // types
 import type { MutateType } from '@/components/Datatable'
 import type ProductSaleType from '@/dataTypes/ProductSale'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -23,7 +24,9 @@ export default function RefundForm({
 }) {
     const { userHasPermission } = useAuth()
     const [isRefunding, setIsRefunding] = useState(false)
-    const [errors, setErrors] = useState<any>({})
+    const [errors, setErrors] = useState<LaravelValidationException['errors']>(
+        {},
+    )
 
     const handleRefund = () => {
         setIsRefunding(true)
@@ -50,7 +53,7 @@ export default function RefundForm({
                     !userHasPermission(FarmInput.REFUND_PRODUCT_SALE) ||
                     Boolean(data.refund_product_sale) ||
                     Boolean(data.refund_from_product_sale) ||
-                    !Boolean(data.is_paid)
+                    !data.is_paid
                 }
                 endIcon={<VolunteerActivismIcon />}>
                 Refund

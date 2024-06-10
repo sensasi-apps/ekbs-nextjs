@@ -1,6 +1,6 @@
 // types
 import type { ReactNode } from 'react'
-import type { SelectChangeEvent, SelectProps } from '@mui/material/Select'
+import type { SelectProps } from '@mui/material/Select'
 import type { FormControlProps } from '@mui/material/FormControl'
 // vendors
 import useSWR from 'swr'
@@ -18,7 +18,7 @@ export default function SelectFromApi({
     label,
     selectProps,
     onChange,
-    onValueChange = () => {},
+    onValueChange,
     renderOption,
     dataKey = 'uuid',
     ...rest
@@ -27,22 +27,18 @@ export default function SelectFromApi({
     label?: string
     selectProps?: Omit<SelectProps, 'onChange' | 'label'>
     helperText?: ReactNode
+    // TODO: remove any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     renderOption?: (option: any) => JSX.Element
-    onChange?: (event: SelectChangeEvent<unknown>) => void
-    onValueChange?: (value: any) => any // TODO: remove any
+    onChange?: SelectProps['onChange']
+    // TODO: remove any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onValueChange?: (value: any) => unknown
     dataKey?: string
-} & FormControlProps) {
+} & Omit<FormControlProps, 'onChange'>) {
+    // TODO: remove any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data = [], isLoading } = useSWR<any[]>(endpoint)
-
-    const handleChange = (event: SelectChangeEvent<unknown>) => {
-        const value = event.target.value
-
-        onChange?.(event)
-
-        onValueChange(
-            data.find((item: any) => (item[dataKey] ?? item.id) === value),
-        )
-    }
 
     return (
         <FormControl
@@ -62,11 +58,22 @@ export default function SelectFromApi({
                         {...(rest as SelectProps)}
                         {...selectProps}
                         error={rest?.error || data.length === 0}
-                        onChange={handleChange}
+                        onChange={(ev, child) => {
+                            const value = ev.target.value
+
+                            onChange?.(ev, child)
+
+                            onValueChange?.(
+                                data.find(
+                                    item =>
+                                        (item[dataKey] ?? item.id) === value,
+                                ),
+                            )
+                        }}
                         label={label}>
                         {data.map(
                             renderOption ??
-                                ((item: any) => (
+                                (item => (
                                     <MenuItem
                                         key={item[dataKey] ?? item.id}
                                         value={item[dataKey] ?? item.id}>

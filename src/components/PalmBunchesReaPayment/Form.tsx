@@ -4,7 +4,7 @@ import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPaymen
 import type FormType from '@/components/Global/Form/type'
 import type TransactionDataType from '@/dataTypes/Transaction'
 // vendors
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
@@ -98,7 +98,7 @@ export default function PalmBuncesReaPaymentForm({
         transactions.forEach((transaction, index) => {
             formData.set(
                 `transactions[${index}][amount]`,
-                parseFloat(transaction.amount + '') as any,
+                transaction.amount.toString(),
             )
         })
 
@@ -119,45 +119,40 @@ export default function PalmBuncesReaPaymentForm({
             .finally(() => setSubmitting(false))
     }
 
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files
+    const handleFileChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        const files = ev.target.files
 
         if (files?.length === 0) return
 
         setSubmitting(true)
 
-        try {
-            const formData = new FormData()
-            formData.append('excel_file', e.target.files?.[0] as File)
-            const data = await axios
-                .post(
-                    `/palm-bunches/rea-payments/excel-parser${
-                        uuid ? '/' + uuid : ''
-                    }`,
-                    formData,
-                )
-                .then(res => res.data)
+        const formData = new FormData()
+        formData.append('excel_file', ev.target.files?.[0] as File)
 
-            data.from_at = dayjs(data.from_at)
-            data.to_at = dayjs(data.to_at)
-
-            setFile(e.target.files?.[0])
-            setData(data as PalmBunchesReaPaymentDataType)
-            setTransactions(data.transactions)
-        } catch (error: any) {
-            if (error.response?.status === 422) {
-                setValidationErrors(error.response.data.errors)
-            } else {
-                setSubmitting(false)
-                throw error
-            }
-        }
-
-        setSubmitting(false)
+        axios
+            .post<PalmBunchesReaPaymentDataType>(
+                `/palm-bunches/rea-payments/excel-parser${
+                    uuid ? '/' + uuid : ''
+                }`,
+                formData,
+            )
+            .then(({ data }) => {
+                setFile(ev.target.files?.[0])
+                setData(data)
+                setTransactions(data.transactions)
+            })
+            .catch(error => {
+                if (error.response?.status === 422) {
+                    setValidationErrors(error.response.data.errors)
+                } else {
+                    throw error
+                }
+            })
+            .finally(() => setSubmitting(false))
     }
 
-    const clearValidationError = (event: any) => {
-        const { name } = event.target
+    const clearValidationError1 = (ev: ChangeEvent<HTMLInputElement>) => {
+        const { name } = ev.target
 
         if (validationErrors[name]) {
             setValidationErrors(prev => {
@@ -180,7 +175,7 @@ export default function PalmBuncesReaPaymentForm({
                 <Grid item xs={12} sm={8}>
                     <Typography variant="caption">
                         <Button
-                            disabled={loading || !Boolean(excel_file)}
+                            disabled={loading || !excel_file}
                             target="_blank"
                             href={fileUrl}
                             startIcon={<BackupTableIcon />}>
@@ -215,7 +210,7 @@ export default function PalmBuncesReaPaymentForm({
                             name="excel_file"
                             hidden
                             onChange={e => {
-                                clearValidationError(e)
+                                clearValidationError1(e)
                                 handleFileChange(e)
                             }}
                         />
@@ -292,7 +287,7 @@ export default function PalmBuncesReaPaymentForm({
                                                 disabled={
                                                     hasTransactions ||
                                                     loading ||
-                                                    !Boolean(file || excel_file)
+                                                    !(file || excel_file)
                                                 }
                                                 name={`transactions[${index}][desc]`}
                                                 defaultValue={
@@ -320,7 +315,7 @@ export default function PalmBuncesReaPaymentForm({
                                                 disabled={
                                                     hasTransactions ||
                                                     loading ||
-                                                    !Boolean(file || excel_file)
+                                                    !(file || excel_file)
                                                 }
                                                 required
                                                 size="small"
@@ -332,7 +327,7 @@ export default function PalmBuncesReaPaymentForm({
                                                         </InputAdornment>
                                                     ),
                                                     inputComponent:
-                                                        NumericFormat as any, // TODO: remove this
+                                                        NumericFormat,
                                                 }}
                                                 inputProps={{
                                                     decimalScale: 4,
@@ -355,7 +350,7 @@ export default function PalmBuncesReaPaymentForm({
                                                         textAlign: 'right',
                                                     },
                                                 }}
-                                                onChange={clearValidationError}
+                                                onChange={clearValidationError1}
                                                 value={transaction.amount || ''}
                                                 defaultValue={
                                                     transaction.amount || ''
@@ -450,7 +445,17 @@ export default function PalmBuncesReaPaymentForm({
                                         name: 'cash_uuid',
                                     }}
                                     margin="dense"
-                                    onChange={clearValidationError}
+                                    onChange={({ target }) => {
+                                        if (
+                                            'name' in target &&
+                                            validationErrors[target.name]
+                                        ) {
+                                            setValidationErrors(prev => {
+                                                delete prev[target.name]
+                                                return prev
+                                            })
+                                        }
+                                    }}
                                     error={Boolean(validationErrors.cash_uuid)}
                                     helperText={validationErrors.cash_uuid}
                                     disabled={loading || hasTransactions}

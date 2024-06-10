@@ -24,11 +24,7 @@ import errorCatcher from '@/utils/errorCatcher'
 import numberToCurrency from '@/utils/numberToCurrency'
 import { mutate } from './List'
 
-export const INITIAL_VALUES: CashType = {
-    uuid: '',
-    code: '',
-    name: '',
-} as any
+export const INITIAL_VALUES: Partial<CashType> = {}
 
 export default function CashForm({
     dirty,
@@ -37,7 +33,7 @@ export default function CashForm({
     isSubmitting,
     handleReset,
     setErrors,
-}: FormikProps<CashType>) {
+}: FormikProps<Partial<CashType>>) {
     const { userHasPermission } = useAuth()
 
     const isNew = !values.uuid

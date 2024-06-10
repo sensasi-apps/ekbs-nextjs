@@ -1,10 +1,10 @@
 // types
 import type { Ymd } from '@/types/DateString'
+import type { Mutate } from '../Datatable/@types'
 import type PalmBunchRateType from '@/dataTypes/PalmBunchRate'
 import type PalmBunchRateValidDateType from '@/dataTypes/PalmBunchRateValidDate'
-import type { KeyedMutator } from 'swr'
 // vendors
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import { NumericFormat } from 'react-number-format'
 // materials
@@ -39,9 +39,11 @@ const getEmptyRates = () =>
 
 let temp: PalmBunchRateValidDateType | undefined
 
-const PalmBunchRatesForm: FC<{
-    parentDatatableMutator: KeyedMutator<any>
-}> = ({ parentDatatableMutator }) => {
+export default function PalmBunchRatesForm({
+    parentDatatableMutator,
+}: {
+    parentDatatableMutator: Mutate
+}) {
     const { data, setData, loading, isDirty, handleClose, setSubmitting } =
         useFormData<PalmBunchRateValidDateType>()
     const { id, valid_from, rates } = data
@@ -280,5 +282,3 @@ const PalmBunchRatesForm: FC<{
         </form>
     )
 }
-
-export default PalmBunchRatesForm

@@ -1,36 +1,36 @@
 // types
-import type { FormikProps } from 'formik'
+import type { FormikErrors, FormikProps } from 'formik'
 import type { UUID } from 'crypto'
+import type Installment from '@/dataTypes/Installment'
+import type CashType from '@/dataTypes/Cash'
 // vendors
 import dayjs from 'dayjs'
+// materials
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
+import FormLabel from '@mui/material/FormLabel'
+import Grid from '@mui/material/Grid'
+import InputAdornment from '@mui/material/InputAdornment'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+// icons
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 // components
 import FormikForm from '@/components/FormikForm'
 import DatePicker from '@/components/DatePicker'
+import InfoBox from '../InfoBox'
+import SelectFromApi from '../Global/SelectFromApi'
+import IconButton from '../IconButton'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import getInstallmentType from '@/utils/getInstallmentType'
-import Installment from '@/dataTypes/Installment'
-import InfoBox from '../InfoBox'
 import numberToCurrency from '@/utils/numberToCurrency'
 import toDmy from '@/utils/toDmy'
-import {
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    FormLabel,
-    Grid,
-    InputAdornment,
-    Radio,
-    RadioGroup,
-    Stack,
-    Typography,
-} from '@mui/material'
 import NumericFormat from '../NumericFormat'
 import RpInputAdornment from '../InputAdornment/Rp'
-import SelectFromApi from '../Global/SelectFromApi'
-import CashType from '@/dataTypes/Cash'
-import IconButton from '../IconButton'
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 
 export type FormValuesType = {
     at?: string
@@ -164,9 +164,9 @@ function PaymentSection({
     setFieldValue,
 }: {
     disabled: boolean
-    errors: any
+    errors: FormikErrors<FormValuesType>
     payment_method: 'cash' | undefined | 'wallet'
-    setFieldValue: (field: string, value: any) => void
+    setFieldValue: FormikProps<FormValuesType>['setFieldValue']
 }) {
     return (
         <>
@@ -247,7 +247,6 @@ function PaymentSection({
     )
 }
 
-// TODO: replace any with the correct type
 function CashPayment({
     disabled,
     errors,
@@ -257,11 +256,11 @@ function CashPayment({
     setFieldValue,
 }: {
     disabled: boolean
-    errors: any
+    errors: FormikErrors<FormValuesType>
     cashable_uuid: UUID | undefined
     totalRp: number
     adjustment_rp: number | undefined
-    setFieldValue: (field: string, value: any) => void
+    setFieldValue: FormikProps<FormValuesType>['setFieldValue']
 }) {
     return (
         <>

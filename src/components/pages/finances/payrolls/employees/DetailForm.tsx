@@ -37,7 +37,7 @@ export default function PayrollEmployeeDetailsForm({
     handleDelete,
     isDeleting,
 }: FormikProps<FormikValues> & {
-    handleDelete: () => any
+    handleDelete: () => void
     isDeleting: boolean
 }) {
     const isPropcessing = isSubmitting || isDeleting

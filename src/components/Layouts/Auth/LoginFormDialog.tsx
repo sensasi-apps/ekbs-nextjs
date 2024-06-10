@@ -1,32 +1,33 @@
+// types
 import type { TransitionProps } from '@mui/material/transitions/transition'
-
-import { FC, forwardRef, FormEvent, useState } from 'react'
+import type UserType from '@/dataTypes/User'
+// vendors
+import { forwardRef, FormEvent, useState, ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
-
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Slide from '@mui/material/Slide'
 import TextField from '@mui/material/TextField'
-
 import LoadingButton from '@mui/lab/LoadingButton'
-
+// icons
 import LogoutIcon from '@mui/icons-material/Logout'
-
+// components
 import Dialog from '@/components/Global/Dialog'
 import useAuth from '@/providers/Auth'
 import useValidationErrors from '@/hooks/useValidationErrors'
 
-const LoginFormDialog: FC = () => {
-    const router = useRouter()
+export default function LoginFormDialog() {
+    const { reload } = useRouter()
     const { isAuthenticated, user, onLoginSuccess } = useAuth()
     const [isLoading, setIsLoading] = useState(false)
     const { validationErrors, setValidationErrors, clearByEvent } =
         useValidationErrors()
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         const formEl = event.currentTarget
@@ -38,11 +39,10 @@ const LoginFormDialog: FC = () => {
 
         setIsLoading(true)
 
-        await axios
-            .post(`/relogin/${user?.uuid}`, formData)
-            .then(res => res.data)
-            .then(onLoginSuccess)
-            .then(router.reload)
+        axios
+            .post<UserType>(`/relogin/${user?.uuid}`, formData)
+            .then(res => onLoginSuccess(res.data))
+            .then(() => reload())
             .catch(err => {
                 if (err.response) {
                     const { data } = err.response
@@ -131,11 +131,9 @@ const LoginFormDialog: FC = () => {
     )
 }
 
-export default LoginFormDialog
-
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
-        children: React.ReactElement<any, any>
+        children: ReactElement
     },
     ref: React.Ref<unknown>,
 ) {

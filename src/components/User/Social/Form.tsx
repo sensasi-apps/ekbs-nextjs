@@ -83,8 +83,8 @@ export default function SocialForm({
                             setSocialId(social?.id ?? 1)
                             setErrors({
                                 ...errors,
-                                social_id: undefined,
-                            } as any)
+                                social_id: [],
+                            })
                         }}
                         {...errorsToHelperTextObj(errors.social_id)}
                     />
@@ -98,8 +98,8 @@ export default function SocialForm({
                         onChange={() =>
                             setErrors({
                                 ...errors,
-                                username: undefined,
-                            } as any)
+                                username: [],
+                            })
                         }
                         error={Boolean(errors.username)}
                         helperText={errors.username}
