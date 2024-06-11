@@ -1,12 +1,13 @@
 // types
-import { TextFieldProps } from '@mui/material/TextField'
-import { AutocompleteProps as MuiAutocompletePropsTemp } from '@mui/material/Autocomplete'
+import type { TextFieldProps } from '@mui/material/TextField'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
 import useSWRMutation from 'swr/mutation'
 // material-ui
-import MuiAutocomplete from '@mui/material/Autocomplete'
+import MuiAutocomplete, {
+    AutocompleteProps as MuiAutocompletePropsTemp,
+} from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'

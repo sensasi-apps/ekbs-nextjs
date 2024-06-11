@@ -16,9 +16,8 @@ import ProductForm from '@/components/Product/Form'
 // page components
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 // providers
-import { FormDataProvider } from '@/providers/useFormData'
 import useAuth from '@/providers/Auth'
-import useFormData from '@/providers/useFormData'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'

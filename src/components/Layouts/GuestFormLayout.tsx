@@ -1,7 +1,7 @@
-import Head from 'next/head'
-import { FC, ReactNode } from 'react'
-import { useEffect } from 'react'
+// vendors
+import { useEffect, ReactNode } from 'react'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 // materials
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -13,21 +13,21 @@ import FooterBox from './FooterBox'
 import LoadingCenter from '../Statuses/LoadingCenter'
 import useAuth from '@/providers/Auth'
 
-const GuestFormLayout: FC<{
-    children: ReactNode
-    icon: ReactNode
-    isLoading?: boolean
-    isError?: boolean
-    message?: string
-    title: string
-}> = ({
+export default function GuestFormLayout({
     children,
     title,
     icon,
     isLoading = false,
     isError = false,
     message,
-}) => {
+}: {
+    children: ReactNode
+    icon: ReactNode
+    isLoading?: boolean
+    isError?: boolean
+    message?: string
+    title: string
+}) {
     const { replace, pathname, query } = useRouter()
     const { user } = useAuth()
 
@@ -88,5 +88,3 @@ const GuestFormLayout: FC<{
         </div>
     )
 }
-
-export default GuestFormLayout

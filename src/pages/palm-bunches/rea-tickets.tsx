@@ -25,8 +25,7 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 import MainForm from '@/components/PalmBunchesReaTicket/Form'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 // providers
-import { FormDataProvider } from '@/providers/useFormData'
-import useFormData from '@/providers/useFormData'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import useAuth from '@/providers/Auth'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'

@@ -1,3 +1,4 @@
+// assets
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
@@ -9,10 +10,10 @@ import { closeSnackbar, SnackbarProvider } from 'notistack'
 import { SWRConfig } from 'swr'
 import axios from '@/lib/axios'
 import Head from 'next/head'
-import dayjs from 'dayjs'
+import { locale } from 'dayjs'
 import 'dayjs/locale/id'
 import dynamic from 'next/dynamic'
-import QueryString from 'qs'
+import { stringify } from 'qs'
 // materials
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -27,7 +28,7 @@ import useRedirectIfBrowserIsUnsupported from '@/hooks/useRedirectIfBrowserIsUns
 
 const Typography = dynamic(() => import('@mui/material/Typography'))
 
-dayjs.locale('id')
+locale('id')
 
 export default function App({ Component, pageProps }: AppProps) {
     useRedirectIfBrowserIsUnsupported()
@@ -104,7 +105,7 @@ export default function App({ Component, pageProps }: AppProps) {
                                 .get(endpoint, {
                                     params: params,
                                     paramsSerializer: params =>
-                                        QueryString.stringify(params),
+                                        stringify(params),
                                 })
                                 .then(res => res.data)
                         },

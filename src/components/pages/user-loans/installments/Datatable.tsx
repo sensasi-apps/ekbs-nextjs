@@ -88,10 +88,10 @@ import {
     InstallmentWithTransactionType,
 } from '@/dataTypes/Installment'
 import numberToCurrency from '@/utils/numberToCurrency'
-import dayjs from 'dayjs'
+import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
-dayjs.extend(relativeTime)
+extend(relativeTime)
 
 const DEFAULT_SORT_ORDER: MUISortOptions = {
     name: 'should_be_paid_at',
