@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
-import { InputAdornment, CircularProgress } from '@mui/material'
+import InputAdornment from '@mui/material/InputAdornment'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const LoadingAddorment = ({ show }) =>
     show ? (
@@ -7,9 +7,5 @@ const LoadingAddorment = ({ show }) =>
             <CircularProgress size={20} />
         </InputAdornment>
     ) : null
-
-LoadingAddorment.propTypes = {
-    show: PropTypes.bool.isRequired,
-}
 
 export default LoadingAddorment
