@@ -1,11 +1,9 @@
 // types
-import type { FormikProps } from 'formik'
-import type { FieldProps } from 'formik'
 import type { Ymd } from '@/types/DateString'
 import type CashType from '@/dataTypes/Cash'
 import type UserLoanType from '@/dataTypes/Loan'
 // vendors
-import { Field, useFormik } from 'formik'
+import { Field, useFormik, type FormikProps, type FieldProps } from 'formik'
 import { useEffect, useState, memo } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
