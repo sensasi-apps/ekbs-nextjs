@@ -16,9 +16,8 @@ import ProductForm from '@/components/Product/Form'
 // page components
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 // providers
-import { FormDataProvider } from '@/providers/useFormData'
 import useAuth from '@/providers/Auth'
-import useFormData from '@/providers/useFormData'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
@@ -71,10 +70,9 @@ const Crud = () => {
                 swrOptions={{
                     revalidateOnMount: true,
                 }}
-                setRowProps={(row, dataIndex) => {
+                setRowProps={(_, dataIndex) => {
                     const data = getRowData(dataIndex)
-
-                    if (!data) return
+                    if (!data) return {}
 
                     if (data.deleted_at)
                         return {
@@ -83,9 +81,9 @@ const Crud = () => {
                                     color: 'var(--mui-palette-grey-800)',
                                 },
                             },
-                        } as any
+                        }
 
-                    return {} as any
+                    return {}
                 }}
             />
 

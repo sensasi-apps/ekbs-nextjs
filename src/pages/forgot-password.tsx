@@ -1,11 +1,15 @@
-import { useEffect, useState, FormEvent } from 'react'
+// types
+import { AxiosError } from 'axios'
+// vendors
+import { useState, FormEvent } from 'react'
 import axios from '@/lib/axios'
-
+// materials
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-
+// icons
 import SyncLockIcon from '@mui/icons-material/SyncLock'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+// components
 import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 
@@ -15,35 +19,37 @@ export default function ForgotPassword() {
 
     // ui data
     const [isLoading, setIsLoading] = useState(false)
-    const [errors, setErrors] = useState<any[]>([])
-    const [status, setStatus] = useState<string>()
-
-    useEffect(() => {
-        const tempErrors = Object.values(errors)
-
-        if (tempErrors.length > 0) {
-            setIsLoading(false)
-            setStatus(tempErrors[0][0])
-        }
-    }, [errors])
+    const [isError, setIsError] = useState<boolean>(false)
+    const [msg, setMsg] = useState<string>()
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        setErrors([])
-        setStatus(undefined)
+        setIsError(false)
+        setMsg(undefined)
         setIsLoading(true)
 
         return axios
             .post('/forgot-password', { email })
             .then(response => {
-                setStatus(response.data.status)
+                setMsg(response.data.status)
             })
-            .catch(error => {
-                if (error.response.status !== 422) throw error
-
-                setErrors(error.response.data.errors)
-            })
+            .catch(
+                ({
+                    response,
+                    message,
+                }: AxiosError<{
+                    // php / laravel exception
+                    message?: string
+                }>) => {
+                    setIsError(true)
+                    setMsg(
+                        response?.data.message ??
+                            response?.statusText ??
+                            message,
+                    )
+                },
+            )
             .finally(() => setIsLoading(false))
     }
 
@@ -56,12 +62,9 @@ export default function ForgotPassword() {
             title="Lupa kata sandi"
             icon={<SyncLockIcon />}
             isLoading={isLoading}
-            isError={Object.values(errors).length > 0}
-            message={status}>
-            <CompleteCenter
-                isShow={Boolean(status && Object.values(errors).length === 0)}
-                message={status}
-            />
+            isError={isError}
+            message={msg}>
+            <CompleteCenter isShow={!isError && Boolean(msg)} message={msg} />
             <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
                 <TextField
                     autoFocus

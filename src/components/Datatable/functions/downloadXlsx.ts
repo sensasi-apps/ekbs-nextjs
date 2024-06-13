@@ -1,6 +1,6 @@
 // types
 import type { DatatableProps } from '../@types'
-import type { MUIDataTableState } from 'mui-datatables'
+import type { MUIDataTableMeta, MUIDataTableState } from 'mui-datatables'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
 import dayjs from 'dayjs'
@@ -45,7 +45,7 @@ export default async function downloadXlsx(
                             {
                                 rowIndex: i,
                                 columnIndex: j,
-                            } as any,
+                            } as MUIDataTableMeta,
                             () => {},
                         )
                     }

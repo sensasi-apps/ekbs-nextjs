@@ -1,12 +1,13 @@
 // types
-import { TextFieldProps } from '@mui/material/TextField'
-import { AutocompleteProps as MuiAutocompletePropsTemp } from '@mui/material/Autocomplete'
+import type { TextFieldProps } from '@mui/material/TextField'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
 import useSWRMutation from 'swr/mutation'
 // material-ui
-import MuiAutocomplete from '@mui/material/Autocomplete'
+import MuiAutocomplete, {
+    AutocompleteProps as MuiAutocompletePropsTemp,
+} from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -14,6 +15,7 @@ import Typography from '@mui/material/Typography'
 // components
 import TextField from '@/components/TextField'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MuiAutocompleteProps = MuiAutocompletePropsTemp<any, false, false, false>
 type AutocompleteProps = Omit<MuiAutocompleteProps, 'options' | 'renderInput'>
 
@@ -32,6 +34,7 @@ export default function Autocomplete({
 } & AutocompleteProps) {
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [options, setOptions] = useState<any[]>([])
 
     const fetchUserOptions = async (

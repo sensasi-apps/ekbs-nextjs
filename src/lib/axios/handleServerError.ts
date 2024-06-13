@@ -8,24 +8,23 @@ const SNACKBAR_OPTIONS: OptionsObject = {
 }
 
 export default function handleServerError({ status, data }: AxiosResponse) {
+    if (status === 419 && data.message === 'CSRF token mismatch.') {
+        enqueueSnackbar(
+            'Halaman ini sudah kadaluarsa, peramban akan disegarkan dalam 10 detik.',
+            SNACKBAR_419_OPTIONS,
+        )
+
+        setTimeout(() => {
+            location.reload()
+        }, 10000)
+
+        return
+    }
+
     switch (status) {
         case 401:
             dispatchEvent(new CustomEvent('401Error'))
             break
-
-        case 419:
-            if (data.message === 'CSRF token mismatch.') {
-                enqueueSnackbar(
-                    'Halaman ini sudah kadaluarsa, peramban akan disegarkan dalam 10 detik.',
-                    SNACKBAR_419_OPTIONS,
-                )
-
-                setTimeout(() => {
-                    location.reload()
-                }, 10000)
-
-                break
-            }
 
         case 422:
             // add 422 case to prevent default error message

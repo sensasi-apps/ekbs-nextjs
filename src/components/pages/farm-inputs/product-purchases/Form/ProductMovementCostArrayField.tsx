@@ -1,6 +1,6 @@
 // types
 import type ProductMovementType from '@/dataTypes/ProductMovement'
-import type { FieldArrayRenderProps } from 'formik'
+import type { FieldArrayRenderProps, FormikErrors } from 'formik'
 // vendors
 // ....
 // materials
@@ -29,7 +29,7 @@ export default function ProductMovementCostArrayField({
 }: {
     data?: ProductMovementType['costs']
     disabled?: boolean
-    errors: any // Laravel array of object validation errors is not supported by formik (?)
+    errors: FormikErrors<ProductMovementType>
 } & FieldArrayRenderProps) {
     return (
         <>
@@ -105,6 +105,7 @@ export default function ProductMovementCostArrayField({
                                 )
                             }}
                             {...errorsToHelperTextObj(
+                                // @ts-expect-error formik errors is different from laravel exception errors
                                 errors[`product_movement.costs.${index}.name`],
                             )}
                         />
@@ -128,6 +129,7 @@ export default function ProductMovementCostArrayField({
                                 )
                             }
                             {...errorsToHelperTextObj(
+                                // @ts-expect-error formik errors is different from laravel exception errors
                                 errors[`product_movement.costs.${index}.rp`],
                             )}
                         />

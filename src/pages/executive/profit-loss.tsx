@@ -221,7 +221,7 @@ function TabChips({
     mutate,
 }: {
     disabled: boolean
-    mutate: () => any
+    mutate: () => void
 }) {
     const { replace, query } = useRouter()
 

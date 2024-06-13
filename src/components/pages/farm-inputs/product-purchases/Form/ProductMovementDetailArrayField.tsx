@@ -1,5 +1,5 @@
 // types
-import type { FieldArrayRenderProps } from 'formik'
+import type { FieldArrayRenderProps, FormikErrors } from 'formik'
 import type ProductType from '@/dataTypes/Product'
 import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
 // vendors
@@ -26,6 +26,7 @@ import TextField from '@/components/TextField'
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import { FormValuesType } from '../Form'
 
 const calculatePrice = (qty?: number, subtotal?: number) => {
     if (!qty || !subtotal) return undefined
@@ -44,7 +45,7 @@ export default function ProductMovementDetailArrayField({
 }: {
     data: ProductMovementDetailType[]
     disabled?: boolean
-    errors: any // Laravel array of object validation errors is not supported by formik (?)
+    errors: FormikErrors<FormValuesType>
     totalRpCost: number
 } & FieldArrayRenderProps) {
     const { data: products = [], isLoading } = useSWR<ProductType[]>(
@@ -185,6 +186,7 @@ export default function ProductMovementDetailArrayField({
                             }
                             value={row.qty || ''}
                             {...errorsToHelperTextObj(
+                                // @ts-expect-error formix errors can't accomodate laravel 422 errors
                                 errors[`product_movement_details.${index}.qty`],
                             )}
                         />
@@ -217,6 +219,8 @@ export default function ProductMovementDetailArrayField({
                                         {...params}
                                         label="Produk"
                                         {...errorsToHelperTextObj(
+                                            // @ts-expect-error formix errors can't accomodate laravel 422 errors
+
                                             errors[
                                                 `product_movement_details.${index}.product_id`
                                             ],
@@ -250,6 +254,7 @@ export default function ProductMovementDetailArrayField({
                             }}
                             value={row.rp_per_unit || ''}
                             {...errorsToHelperTextObj(
+                                // @ts-expect-error formix errors can't accomodate laravel 422 errors
                                 errors[
                                     `product_movement_details.${index}.rp_per_unit`
                                 ],
@@ -288,6 +293,7 @@ export default function ProductMovementDetailArrayField({
                                 })
                             }
                             {...errorsToHelperTextObj(
+                                // @ts-expect-error formix errors can't accomodate laravel 422 errors
                                 errors[
                                     `product_movement_details.${index}.rp_per_unit`
                                 ],
@@ -326,6 +332,7 @@ export default function ProductMovementDetailArrayField({
                                 )
                             }}
                             {...errorsToHelperTextObj(
+                                // @ts-expect-error formix errors can't accomodate laravel 422 errors
                                 errors[
                                     `product_movement_details.${index}.rp_cost_per_unit`
                                 ],

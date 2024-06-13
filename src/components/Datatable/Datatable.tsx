@@ -66,7 +66,9 @@ export function Datatable({
         swrOptions,
     )
 
-    getRowData = index => data[index] as any
+    // TODO: remove ts-expect-error when getRowData and mutatorForExport is not global
+    // @ts-expect-error getRowData and mutatorForExport is global
+    getRowData = index => data[index]
     mutatorForExport = () => mutate()
 
     getRowDataCallback?.(index => data[index])
@@ -126,7 +128,7 @@ export function Datatable({
 
             <MUIDataTable
                 title={title}
-                data={data}
+                data={data as object[]}
                 columns={state.columns}
                 options={options}
                 components={{

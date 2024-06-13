@@ -1,41 +1,49 @@
+// types
 import type { MouseEvent } from 'react'
-
-import { FC, useEffect, useState } from 'react'
+// vendors
+import { useEffect, useState } from 'react'
 import { enqueueSnackbar } from 'notistack'
-
+// materials
 import Badge from '@mui/material/Badge'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-
+import Tooltip from '@mui/material/Tooltip'
+// icons
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SaveAsIcon from '@mui/icons-material/SaveAs'
 import EditNoteIcon from '@mui/icons-material/EditNote'
 import DeleteIcon from '@mui/icons-material/Delete'
-
+// hooks
 import useFormData from '@/providers/useFormData'
+// utils
 import { dbPromise } from '@/lib/idb'
-import { Divider, Tooltip } from '@mui/material'
 
 interface DraftType {
     id?: IDBValidKey
     modelName: string
     nameId: string | number
-    data: any
+    data: {
+        [key: string]: string | number
+    }
 }
 
-const FormDataDraftsCrud: FC<{
+export default function FormDataDraftsCrud({
+    modelName,
+    dataKeyForNameId,
+    nameIdFormatter = nameId => nameId as string,
+}: {
     modelName: string
     dataKeyForNameId: string
-    nameIdFormatter?: (nameId: any) => any
-}> = ({ modelName, dataKeyForNameId, nameIdFormatter = nameId => nameId }) => {
-    const { data, handleEdit, loading, isDirty, handleCreate } = useFormData<{
-        [key: string]: string | number
-    }>()
+    nameIdFormatter?: (nameId: string | number) => string
+}) {
+    const { data, handleEdit, loading, isDirty, handleCreate } =
+        useFormData<DraftType['data']>()
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const [drafts, setDrafts] = useState<DraftType[]>([])
@@ -57,7 +65,7 @@ const FormDataDraftsCrud: FC<{
                 .getAllFromIndex('formDataDrafts', 'modelName', modelName)
                 .then(setDrafts),
         )
-    }, [])
+    }, [modelName])
 
     const handleSaveAsDraft = () => {
         if (!currDataNameId)
@@ -123,7 +131,7 @@ const FormDataDraftsCrud: FC<{
         )
     }
 
-    const handleSelect = (draft: any) => {
+    const handleSelect = (draft: DraftType) => {
         setDraft(draft)
         handleEdit(draft.data)
         handleClose()
@@ -138,7 +146,7 @@ const FormDataDraftsCrud: FC<{
                             color="error"
                             size="small"
                             onClick={handleDelete}
-                            disabled={!Boolean(draft) || loading}>
+                            disabled={!draft || loading}>
                             <DeleteIcon />
                         </IconButton>
                     </span>
@@ -219,5 +227,3 @@ const FormDataDraftsCrud: FC<{
         </div>
     )
 }
-
-export default FormDataDraftsCrud

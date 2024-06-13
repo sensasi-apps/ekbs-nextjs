@@ -1,8 +1,7 @@
 // types
-import type InstallmentType from '@/dataTypes/Installment'
 import type { InstallmentWithTransactionType } from '@/dataTypes/Installment'
-import type LoanType from '@/dataTypes/Loan'
 import type { UserLoanFormDataType } from '../Form/types'
+import type LoanType from '@/dataTypes/Loan'
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -13,6 +12,11 @@ import TableRow from '@mui/material/TableRow'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import toDmy from '@/utils/toDmy'
+
+type DraftInstallment = {
+    n_th: number
+    amount_rp: number
+}
 
 export default function UserLoanInstallmentDialogTable({
     data: loan,
@@ -32,13 +36,13 @@ export default function UserLoanInstallmentDialogTable({
     const installments = hasInstallments
         ? loan.installments
         : (() => {
-              const installments: InstallmentType[] = []
+              const installments: DraftInstallment[] = []
 
               for (let index = 0; index < n_term; index++) {
                   installments.push({
                       n_th: index + 1,
                       amount_rp: base_rp + interest_rp,
-                  } as any)
+                  })
               }
 
               return installments
@@ -120,18 +124,24 @@ function InstallmentTableRow({
     interest_rp,
     isDisbursed = false,
 }: {
-    data: InstallmentWithTransactionType
+    data: InstallmentWithTransactionType | DraftInstallment
     remaining_rp: number
     base_rp: number
     interest_rp: number
     isDisbursed: boolean
 }) {
-    const { n_th, should_be_paid_at, transaction, amount_rp } = data
+    const { n_th, amount_rp } = data
+
+    const transaction = 'transaction' in data ? data.transaction : undefined
+    const should_be_paid_at =
+        'should_be_paid_at' in data ? data.should_be_paid_at : undefined
 
     return (
         <TableRow>
             <TableCell>{n_th}</TableCell>
-            {isDisbursed && <TableCell>{toDmy(should_be_paid_at)}</TableCell>}
+            {isDisbursed && should_be_paid_at && (
+                <TableCell>{toDmy(should_be_paid_at)}</TableCell>
+            )}
             <TableCell>
                 {numberToCurrency(remaining_rp < 0 ? 0 : remaining_rp)}
             </TableCell>

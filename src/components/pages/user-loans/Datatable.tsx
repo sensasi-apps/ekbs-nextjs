@@ -1,8 +1,11 @@
 // types
 import type LoanType from '@/dataTypes/Loan'
-import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
+import type {
+    GetRowDataType,
+    DatatableProps,
+    OnRowClickType,
+} from '@/components/Datatable'
 import type { MUISortOptions } from 'mui-datatables'
-import type { GetRowDataType } from '@/components/Datatable'
 // vendors
 import { useCallback } from 'react'
 // components
@@ -31,7 +34,7 @@ export default function LoanDatatable({
                 }
             }
         },
-        [],
+        [onEdit],
     )
 
     const API_URL =

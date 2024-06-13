@@ -25,7 +25,7 @@ export default function LineChart({
     currency,
     slotsProps,
 }: {
-    data: any[] | StatDataCache['value'] | undefined
+    data: unknown[] | StatDataCache['value'] | undefined
     prefix?: string
     lines?: Omit<LineProps, 'ref'>[]
     xAxisDataKey?: string
@@ -33,7 +33,7 @@ export default function LineChart({
     currency?: boolean
     slotsProps?: {
         xAxis?: XAxisProps
-        tooltip?: TooltipProps<any, any>
+        tooltip?: TooltipProps<number, string>
     }
 }) {
     if (!data || typeof data === 'number') {

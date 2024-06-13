@@ -1,6 +1,7 @@
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type PalmBunchType from '@/dataTypes/PalmBunch'
+import type Land from '@/types/Land'
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
@@ -24,8 +25,7 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 import MainForm from '@/components/PalmBunchesReaTicket/Form'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 // providers
-import { FormDataProvider } from '@/providers/useFormData'
-import useFormData from '@/providers/useFormData'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import useAuth from '@/providers/Auth'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
@@ -214,7 +214,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (value: any) => {
+            customBodyRender: (value: Land | undefined) => {
                 if (!value) return ''
 
                 return `${value.rea_land_id}
@@ -255,6 +255,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                         getRowData<PalmBunchesReaTicketType>(dataIndex)
                             ?.delivery?.palm_bunches
                     }
+                    // @ts-expect-error - TODO: remove ignore
                     renderItem={(palmBunch: PalmBunchType) => (
                         <>
                             #{palmBunch.owner_user?.id + ' '}

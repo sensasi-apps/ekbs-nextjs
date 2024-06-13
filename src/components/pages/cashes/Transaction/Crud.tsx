@@ -27,19 +27,13 @@ export default function TransactionCrud() {
         TransactionInitialType | TransactionType
     >(INITIAL_VALUES)
 
-    const [dialogProps, setDialogProps] = useState({
-        open: false,
-        title: '',
-    })
-
-    const handleClose = useCallback(
-        () => setDialogProps(prev => ({ ...prev, open: false })),
-        [],
-    )
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+    const [dialogTitle, setDialogTitle] = useState<string>('')
 
     const handleFabClick = useCallback(() => {
         setValues(INITIAL_VALUES)
-        setDialogProps({ title: 'Transaksi Baru', open: true })
+        setDialogTitle('Transaksi Baru')
+        setIsDialogOpen(true)
     }, [])
 
     const handleRowClick: OnRowClickType = useCallback((_, rowMeta, event) => {
@@ -49,7 +43,9 @@ export default function TransactionCrud() {
             if (data) {
                 setValues(data)
             }
-            setDialogProps({ title: 'Ubah Transaksi', open: true })
+
+            setDialogTitle('Ubah Transaksi')
+            setIsDialogOpen(true)
         }
     }, [])
 
@@ -62,7 +58,7 @@ export default function TransactionCrud() {
                 .then(() => {
                     mutate()
                     mutateCashlist()
-                    handleClose()
+                    setIsDialogOpen(false)
                 })
                 .catch(error => errorCatcher(error, setErrors)),
         [],
@@ -79,17 +75,17 @@ export default function TransactionCrud() {
                 defaultSortOrder={DEFAULT_SORT_ORDER}
             />
 
-            <DialogWithTitle title={dialogProps.title} open={dialogProps.open}>
+            <DialogWithTitle title={dialogTitle} open={isDialogOpen}>
                 <Formik
                     initialValues={values}
                     onSubmit={handleFormSubmit}
-                    onReset={handleClose}
+                    onReset={() => setIsDialogOpen(false)}
                     component={TransactionForm}
                 />
             </DialogWithTitle>
 
             <Fab
-                disabled={dialogProps.open}
+                disabled={isDialogOpen}
                 onClick={handleFabClick}
                 aria-label="tambah transaksi">
                 <PaymentsIcon />

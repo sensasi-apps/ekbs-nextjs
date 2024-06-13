@@ -87,14 +87,17 @@ function Values({
 }: {
     model_value_changed: ActivityLogType['model_value_changed']
 }) {
-    return Object.entries(model_value_changed).map(([key, value], i) => (
-        <Typography key={i} variant="body2">
-            <Typography variant="caption" color="gray" component="span">
-                {key}:&nbsp;
+    // TODO: remove casting
+    return Object.entries(model_value_changed as object).map(
+        ([key, value], i) => (
+            <Typography key={i} variant="body2">
+                <Typography variant="caption" color="gray" component="span">
+                    {key}:&nbsp;
+                </Typography>
+                {value as string}
             </Typography>
-            {value as string}
-        </Typography>
-    ))
+        ),
+    )
 }
 
 function getColorByAction(action: ActivityLogType['action']) {

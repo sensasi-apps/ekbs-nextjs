@@ -1,6 +1,6 @@
 import { useState, memo } from 'react'
 
-import TopBar from './TopBar'
+import TopBar from './components/TopBar'
 import MenuList from './MenuList'
 
 const TopBarAndMenuList = memo(function TopBarAndMenuList({

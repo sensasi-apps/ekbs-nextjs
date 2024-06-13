@@ -16,7 +16,7 @@ export default function FormDeleteButton({
                 open={isDialogOpen}
                 title="Apakah Anda yakin ingin menghapus data?"
                 color="error"
-                onConfirm={() => onClick?.({} as any)}
+                onConfirm={ev => onClick?.(ev)}
                 cancelButtonProps={{
                     disabled: loading,
                 }}

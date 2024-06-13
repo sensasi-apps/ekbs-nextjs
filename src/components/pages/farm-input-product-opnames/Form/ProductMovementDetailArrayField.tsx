@@ -1,7 +1,7 @@
 // types
 import type ProductType from '@/dataTypes/Product'
 // vendors
-import { FieldArray } from 'formik'
+import { FieldArray, FormikErrors } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
@@ -33,7 +33,7 @@ const ProductMovementDetailArrayField = memo(
     }: {
         data: typeof EMPTY_FORM_DATA.product_opname_movement_details
         disabled?: boolean
-        errors: any // Laravel array of object validation errors is not supported by formik (?)
+        errors: FormikErrors<typeof EMPTY_FORM_DATA>
     }) {
         const { data: products = [], isLoading } = useSWR<ProductType[]>(
             DatatableEndpointEnum.PRODUCTS,
@@ -131,6 +131,7 @@ const ProductMovementDetailArrayField = memo(
                                                     {...params}
                                                     label="Nama Barang"
                                                     {...errorsToHelperTextObj(
+                                                        // @ts-expect-error accomodate laravel 422 error response
                                                         errors[
                                                             `product_opname_movement_details.${index}.product_id`
                                                         ],
@@ -163,6 +164,7 @@ const ProductMovementDetailArrayField = memo(
                                         }
                                         value={row.product?.qty || ''}
                                         {...errorsToHelperTextObj(
+                                            // @ts-expect-error accomodate laravel 422 error response
                                             errors[
                                                 `product_opname_movement_details.${index}.qty`
                                             ],
@@ -192,6 +194,7 @@ const ProductMovementDetailArrayField = memo(
                                         }
                                         value={row.physical_qty || ''}
                                         {...errorsToHelperTextObj(
+                                            // @ts-expect-error accomodate laravel 422 error response
                                             errors[
                                                 `product_opname_movement_details.${index}.qty`
                                             ],

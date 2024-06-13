@@ -12,7 +12,10 @@ export type DatatableProps = {
     tableId: string
     title?: string
     onRowClick?: OnRowClick
-    mutateCallback?: (fn: Mutate<any>) => any
-    getRowDataCallback?: (fn: GetRowData<any>) => any
+    // TODO: remove any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mutateCallback?: (fn: Mutate<any>) => unknown
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getRowDataCallback?: (fn: GetRowData<any>) => unknown
     swrOptions?: SWRConfiguration
 }

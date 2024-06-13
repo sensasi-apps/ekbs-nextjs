@@ -1,5 +1,5 @@
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import { FormDataProvider } from '@/providers/useFormData'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 export default function PalmBuncesDeliveryRates() {
     return (
@@ -17,8 +17,7 @@ import type PalmBunchDeliveryRateType from '@/dataTypes/PalmBunchDeliveryRate'
 // vendors
 import Fab from '@mui/material/Fab'
 import SellIcon from '@mui/icons-material/Sell'
-// providers
-import useFormData from '@/providers/useFormData'
+
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'

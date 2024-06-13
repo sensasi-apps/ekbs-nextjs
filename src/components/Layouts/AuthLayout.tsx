@@ -22,7 +22,7 @@ export default function AuthLayout({
     title: string
     children: ReactNode
 }) {
-    const router = useRouter()
+    const { replace } = useRouter()
     const { onError401, user } = useAuth()
 
     useEffect(() => {
@@ -30,19 +30,19 @@ export default function AuthLayout({
         return () => {
             window.removeEventListener('401Error', onError401, false)
         }
-    }, [])
+    }, [onError401])
 
     useEffect(() => {
         if (user === null) {
             const redirectTo = location.pathname
 
             if (redirectTo === '/logout') {
-                router.replace(`/login`)
+                replace(`/login`)
             } else {
-                router.replace(`/login?redirectTo=${redirectTo}`)
+                replace(`/login?redirectTo=${redirectTo}`)
             }
         }
-    }, [user])
+    }, [user, replace])
 
     return (
         <div

@@ -1,6 +1,7 @@
 // types
 import type { BoxProps } from '@mui/material/Box'
 import type File from '@/dataTypes/File'
+import type { UserDetailDBTypeWithRelations } from '@/dataTypes/UserDetail'
 // vendors
 import Image from 'next/image'
 import { PatternFormat } from 'react-number-format'
@@ -14,7 +15,7 @@ import toDmy from '@/utils/toDmy'
 export default function UserDetailBox({
     data: userDetail,
 }: {
-    data: any // TODO: remove this any, make the UserDetailType
+    data: UserDetailDBTypeWithRelations
 }) {
     if (!userDetail) return null
 
@@ -138,8 +139,7 @@ export default function UserDetailBox({
     )
 }
 
-// TODO: remove this any, make the UserDetailType
-const getBirthRegion = (userDetail: any) =>
+const getBirthRegion = (userDetail: UserDetailDBTypeWithRelations) =>
     userDetail?.birth_village ||
     userDetail?.birth_district ||
     userDetail?.birth_regency ||

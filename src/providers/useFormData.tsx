@@ -106,7 +106,10 @@ export const FormDataProvider: FC<{
 }> = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    const isNew = !((state.data as any).uuid || (state.data as any).id)
+    const isNew = !(
+        ('uuid' in state.data && Boolean(state.data.uuid)) ||
+        ('id' in state.data && Boolean(state.data.id))
+    )
     const isDirty = state.initialDataInString !== JSON.stringify(state.data)
 
     return (

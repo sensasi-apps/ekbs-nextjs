@@ -35,7 +35,7 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
 }: {
     data: typeof EMPTY_FORM_DATA.product_sale_details
     disabled?: boolean
-    errors: any // Laravel array of object validation errors is not supported by formik (?)
+    errors: Record<string, string>
 }) {
     const { data: products = [], isLoading } = useSWR<ProductType[]>(
         DatatableEndpointEnum.PRODUCTS,

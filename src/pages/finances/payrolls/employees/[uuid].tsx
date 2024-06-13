@@ -63,7 +63,7 @@ export default function FinancePayrollEmployee() {
 
                 {data && (
                     <Box display="flex" gap={1} alignItems="center">
-                        {!Boolean(data.processed_at) && (
+                        {!data.processed_at && (
                             <PayrollDeleteForm
                                 disabled={disabled}
                                 uuid={data.uuid}

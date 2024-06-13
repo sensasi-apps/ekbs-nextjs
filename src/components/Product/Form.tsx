@@ -1,9 +1,9 @@
 // types
-import type { KeyedMutator } from 'swr'
+import type { Mutate } from '../Datatable/@types'
 import type ProductType from '@/dataTypes/Product'
+import type { FormEvent } from 'react'
 // vendors
 import axios from '@/lib/axios'
-import { FC, FormEvent } from 'react'
 import { NumericFormat } from 'react-number-format'
 // materials
 import Alert from '@mui/material/Alert'
@@ -21,9 +21,11 @@ import numericFormatDefaultProps from '@/utils/numericFormatDefaultProps'
 import handle422 from '@/utils/errorCatcher'
 import toDmy from '@/utils/toDmy'
 
-const ProductForm: FC<{
-    parentDatatableMutator: KeyedMutator<any>
-}> = ({ parentDatatableMutator }) => {
+export default function ProductForm({
+    parentDatatableMutator,
+}: {
+    parentDatatableMutator: Mutate<ProductType>
+}) {
     const {
         data,
         isDirty,
@@ -294,5 +296,3 @@ const ProductForm: FC<{
         </form>
     )
 }
-
-export default ProductForm

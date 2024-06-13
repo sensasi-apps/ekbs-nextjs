@@ -3,7 +3,7 @@ import type LaravelValidationException from '@/types/LaravelValidationException'
 
 export default function handle422(
     error: AxiosError,
-    callback: (errors: LaravelValidationException['errors']) => any,
+    callback: (errors: LaravelValidationException['errors']) => unknown,
 ) {
     const { response } = error
 

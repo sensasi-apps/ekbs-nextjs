@@ -1,1 +1,1 @@
-export type GetRowData<T = unknown> = (index: number) => T | undefined
+export type GetRowData<T = object> = (index: number) => T | undefined

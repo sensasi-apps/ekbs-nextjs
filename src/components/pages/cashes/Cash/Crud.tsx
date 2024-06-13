@@ -15,7 +15,7 @@ import useAuth from '@/providers/Auth'
 
 export default function CashCrud() {
     const { userHasPermission } = useAuth()
-    const [values, setValues] = useState<CashType>(INITIAL_VALUES)
+    const [values, setValues] = useState<Partial<CashType>>(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
 
     const handleNew = useCallback(() => {
@@ -30,17 +30,18 @@ export default function CashCrud() {
 
     const closeDialog = useCallback(() => setDialogOpen(false), [])
 
-    const handleSubmit: FormikConfig<CashType>['onSubmit'] = useCallback(
-        (values, { setErrors }) =>
-            axios
-                .post('cashes', values)
-                .then(() => {
-                    mutate()
-                    closeDialog()
-                })
-                .catch(error => errorCatcher(error, setErrors)),
-        [],
-    )
+    const handleSubmit: FormikConfig<Partial<CashType>>['onSubmit'] =
+        useCallback(
+            (values, { setErrors }) =>
+                axios
+                    .post('cashes', values)
+                    .then(() => {
+                        mutate()
+                        setDialogOpen(false)
+                    })
+                    .catch(error => errorCatcher(error, setErrors)),
+            [],
+        )
 
     if (userHasPermission('cashes read') === false) return null
 

@@ -33,7 +33,7 @@ const StatCard = memo(function StatCard({
         if (!disableAutoScrollLeft && !isLoading && contentRef.current) {
             contentRef.current.scrollLeft = contentRef.current.scrollWidth
         }
-    }, [isLoading])
+    }, [isLoading, disableAutoScrollLeft])
 
     return (
         <MuiCard {...rest}>

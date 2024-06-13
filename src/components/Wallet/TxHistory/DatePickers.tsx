@@ -1,10 +1,10 @@
 // types
 import type { Dayjs } from 'dayjs'
-import type { DatePickerProps, PickersDayProps } from '@mui/x-date-pickers'
+import type { DatePickerProps } from '@mui/x-date-pickers'
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
 // vendors
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
@@ -12,6 +12,13 @@ import { PickersDay } from '@mui/x-date-pickers'
 import Badge from '@mui/material/Badge'
 // components
 import DatePicker from '@/components/DatePicker'
+
+type YearlyTxDates = { [key: number]: Ymd[] }
+
+const MINIMUM_DATE = dayjs('2023-01-01')
+const MAXIMUM_DATE = dayjs().endOf('month')
+export const DEFAULT_START_DATE = dayjs().startOf('month')
+export const DEFAULT_END_DATE = MAXIMUM_DATE
 
 export default function DatePickers({
     disabled,
@@ -44,22 +51,45 @@ export default function DatePickers({
         },
     })
 
-    const datePickersSharedProps: DatePickerProps<Dayjs> = {
-        disabled: disabled,
-        slots: { day: CustomPickersDay },
-        slotProps: {
-            textField: {
-                margin: 'none',
-                size: 'small',
-                fullWidth: true,
+    const datePickersSharedProps: DatePickerProps<Dayjs> = useMemo(
+        () => ({
+            disabled: disabled,
+            slots: {
+                day: ({ day, outsideCurrentMonth, ...rest }) => {
+                    const isSelected =
+                        !outsideCurrentMonth &&
+                        yearlyTxDates?.[day.year()]?.includes(
+                            day.format('YYYY-MM-DD') as Ymd,
+                        )
+
+                    return (
+                        <Badge
+                            key={day.toString()}
+                            color="success"
+                            overlap="circular"
+                            variant="dot"
+                            invisible={!isSelected}>
+                            <PickersDay
+                                {...rest}
+                                outsideCurrentMonth={outsideCurrentMonth}
+                                day={day}
+                            />
+                        </Badge>
+                    )
+                },
             },
-            day: {
-                yearlyTxDates,
-            } as any,
-        },
-        onYearChange: date => setYearCursor(date.year()),
-        onMonthChange: date => setYearCursor(date.year()),
-    }
+            slotProps: {
+                textField: {
+                    margin: 'none',
+                    size: 'small',
+                    fullWidth: true,
+                },
+            },
+            onYearChange: date => setYearCursor(date.year()),
+            onMonthChange: date => setYearCursor(date.year()),
+        }),
+        [disabled, yearlyTxDates],
+    )
 
     return (
         <>
@@ -87,38 +117,5 @@ export default function DatePickers({
                 }
             />
         </>
-    )
-}
-
-type YearlyTxDates = { [key: number]: Ymd[] }
-
-const MINIMUM_DATE = dayjs('2023-01-01')
-const MAXIMUM_DATE = dayjs().endOf('month')
-export const DEFAULT_START_DATE = dayjs().startOf('month')
-export const DEFAULT_END_DATE = MAXIMUM_DATE
-
-function CustomPickersDay({
-    yearlyTxDates = [],
-    day,
-    outsideCurrentMonth,
-    ...rest
-}: PickersDayProps<Dayjs> & { yearlyTxDates?: YearlyTxDates }) {
-    const isSelected =
-        !outsideCurrentMonth &&
-        yearlyTxDates?.[day.year()]?.includes(day.format('YYYY-MM-DD') as Ymd)
-
-    return (
-        <Badge
-            key={day.toString()}
-            color="success"
-            overlap="circular"
-            variant="dot"
-            invisible={!isSelected}>
-            <PickersDay
-                {...rest}
-                outsideCurrentMonth={outsideCurrentMonth}
-                day={day}
-            />
-        </Badge>
     )
 }

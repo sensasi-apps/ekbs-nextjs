@@ -1,52 +1,55 @@
 // vendors
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 // components
 import ChipSmall from '@/components/ChipSmall'
 import ScrollableXBox from '@/components/ScrollableXBox'
 
 export function StateFilterChips() {
     const { replace, query, isReady } = useRouter()
+    const { state } = query
 
-    function handleStateChange(value?: string) {
-        replace({
-            query: {
-                ...query,
-                state: value,
-            },
-        })
-    }
+    const handleStateChange = useCallback(
+        (value?: string) =>
+            replace({
+                query: {
+                    ...query,
+                    state: value,
+                },
+            }),
+        [replace, query],
+    )
 
     useEffect(() => {
-        if (isReady && !query.state) {
+        if (isReady && !state) {
             handleStateChange('due')
         }
-    }, [])
+    }, [isReady, state, handleStateChange])
 
     return (
         <ScrollableXBox>
             <ChipSmall
                 label="Semua"
                 onClick={() => handleStateChange(undefined)}
-                color={query.state ? undefined : 'success'}
+                color={state ? undefined : 'success'}
             />
 
             <ChipSmall
                 label="Dekat Jatuh Tempo"
                 onClick={() => handleStateChange('due-soon')}
-                color={query.state === 'due-soon' ? 'success' : undefined}
+                color={state === 'due-soon' ? 'success' : undefined}
             />
 
             <ChipSmall
                 label="Jatuh Tempo"
                 onClick={() => handleStateChange('due')}
-                color={query.state === 'due' ? 'success' : undefined}
+                color={state === 'due' ? 'success' : undefined}
             />
 
             <ChipSmall
                 label="Lunas"
                 onClick={() => handleStateChange('paid')}
-                color={query.state === 'paid' ? 'success' : undefined}
+                color={state === 'paid' ? 'success' : undefined}
             />
         </ScrollableXBox>
     )

@@ -56,7 +56,7 @@ export default function FullscreenMenuItem() {
 function requestFullscreen() {
     const docEl = document.documentElement
 
-    ;[
+    const method = [
         // mozilla proposal and W3C Proposal
         'requestFullscreen',
 
@@ -65,20 +65,16 @@ function requestFullscreen() {
 
         // Firefox (works in nightly)
         'mozRequestFullScreen',
-    ].every(method => {
-        if (method in docEl) {
-            // @ts-ignore
-            docEl[method]()
+    ].find(method => method in docEl)
 
-            return false
-        }
-
-        return true
-    })
+    if (method) {
+        // @ts-expect-error method is in docEl
+        docEl[method]()
+    }
 }
 
 function exitFullscreen() {
-    ;[
+    const method = [
         // mozilla proposal
         'exitFullscreen',
 
@@ -90,14 +86,10 @@ function exitFullscreen() {
 
         // W3C Proposal
         'exitFullscreen',
-    ].every(method => {
-        if (method in document) {
-            // @ts-ignore
-            document[method]()
+    ].find(method => method in document)
 
-            return false
-        }
-
-        return true
-    })
+    if (method) {
+        // @ts-expect-error method is in docEl
+        document[method]()
+    }
 }

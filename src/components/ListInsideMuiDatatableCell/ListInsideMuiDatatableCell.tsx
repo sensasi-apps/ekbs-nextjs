@@ -1,19 +1,20 @@
 // vendors
-import { memo } from 'react'
+import type { ReactNode } from 'react'
+import type { BoxProps } from '@mui/material/Box'
 // materials
-import Box, { BoxProps } from '@mui/material/Box'
+import Box from '@mui/material/Box'
 
-const ListInsideMuiDatatableCell = memo(function ListInsideMuiDatatableCell({
+export default function ListInsideMuiDatatableCell({
     listItems,
     slotProps,
-    renderItem = item => item,
+    renderItem = () => null,
 }: {
-    listItems: any[] | undefined
+    listItems: unknown[] | undefined
     slotProps?: {
         list: BoxProps
         listItem: BoxProps
     }
-    renderItem?: (item: any) => JSX.Element
+    renderItem?: (item: unknown) => ReactNode
 }) {
     if (!listItems?.length) return null
 
@@ -34,6 +35,4 @@ const ListInsideMuiDatatableCell = memo(function ListInsideMuiDatatableCell({
             ))}
         </Box>
     )
-})
-
-export default ListInsideMuiDatatableCell
+}

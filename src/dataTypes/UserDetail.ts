@@ -37,4 +37,17 @@ export type UserDetailRelationsType = {
     birth_district?: DistrictType
     birth_village?: VillageType
     files?: File[]
+    gender?: {
+        id: GenderEnum
+        name: string
+        short_name: string
+    }
+    last_education?: {
+        id: EducationEnum
+        name: string
+    }
+    marital_status?: {
+        id: MaritalStatusEnum
+        name: string
+    }
 }

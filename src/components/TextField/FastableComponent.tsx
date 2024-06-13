@@ -27,7 +27,7 @@ export default function TextFieldFastableComponent({
         if (value && value !== innerValue) {
             setInnerValue(value as string)
         }
-    }, [value])
+    }, [value, innerValue])
 
     const handleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +36,7 @@ export default function TextFieldFastableComponent({
             setInnerValue(e.target.value)
             debounce(() => onChange(e))
         },
-        [],
+        [onChange],
     )
 
     return (

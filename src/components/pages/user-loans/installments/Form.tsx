@@ -20,10 +20,10 @@ import TypographyWithLabel from '../SummaryBox/TypographyWithLabel'
 // utils
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
-import dayjs from 'dayjs'
+import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
-dayjs.extend(relativeTime)
+extend(relativeTime)
 
 export default function UserLoanInstallmentForm({
     values,

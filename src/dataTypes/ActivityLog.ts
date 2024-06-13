@@ -7,7 +7,7 @@ export default interface ActivityLogType {
     action: 'created' | 'updated' | 'deleted'
     // model_classname: string,
     // model_uuid: UUID,
-    model_value_changed: any //TODO: remove any
+    model_value_changed: unknown
     at: string
     user: UserType
 }

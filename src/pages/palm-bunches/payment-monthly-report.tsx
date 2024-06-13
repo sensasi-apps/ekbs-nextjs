@@ -1,5 +1,4 @@
 // vendors
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
@@ -24,6 +23,7 @@ import Skeletons from '@/components/Global/Skeletons'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // utils
 import formatNumber from '@/utils/formatNumber'
+import useDisablePage from '@/hooks/useDisablePage'
 
 type ApiResponseType = {
     name: string
@@ -34,10 +34,12 @@ type ApiResponseType = {
 
 /**
  * PENDING FEATURE
- * @returns redirect back
+ * @returns useDisablePage
  */
 export default function PalmBuncesPayrollMonthlyReport() {
-    const { query, back } = useRouter()
+    useDisablePage()
+
+    const { query } = useRouter()
 
     const selectedDate = dayjs(
         `${query.year ?? CURR_MONTH.format('YYYY')}-${query.month ?? CURR_MONTH.format('MM')}-01`,
@@ -50,10 +52,6 @@ export default function PalmBuncesPayrollMonthlyReport() {
             month: selectedDate.format('MM'),
         },
     ])
-
-    useEffect(() => {
-        return back()
-    }, [])
 
     return (
         <AuthLayout title="Alur Penerimaan TBS">

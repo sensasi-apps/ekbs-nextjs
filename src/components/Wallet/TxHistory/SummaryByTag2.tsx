@@ -17,12 +17,12 @@ import { Typography } from '@mui/material'
 
 type TxsGroup = { name: string; data: Transaction[] }
 
-const transportTags = [
+const TRANSPORT_STRING_TAGS = [
     TransactionTag.PELUNASAN_BIAYA_ANGKUT,
     TransactionTag.POTONGAN_JASA_KONTRAKTOR_RP_5,
-]
+].map(tag => tag.toString())
 
-const tbsTags = [
+const TBS_STRING_TAGS = [
     TransactionTag.PELUNASAN_TBS,
     TransactionTag.PPH_22_0_25,
     TransactionTag.POTONGAN_JASA_KOPERASI_1_50,
@@ -30,7 +30,7 @@ const tbsTags = [
     TransactionTag.INSENTIF_GRADING,
     TransactionTag.POTONGAN_GRADING,
     TransactionTag.POTONGAN_BIAYA_ANGKUT,
-]
+].map(tag => tag.toString())
 
 export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
     if (data.data.length === 0) {
@@ -109,7 +109,9 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
         .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
 
     const tbsData = data.data
-        .filter(tx => tx.tags.find(tag => tbsTags.includes(tag.name.id as any)))
+        .filter(tx =>
+            tx.tags.find(tag => TBS_STRING_TAGS.includes(tag.name.id)),
+        )
         .reduce<TxsGroup[]>((acc, tx) => {
             const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
             const index = acc.findIndex(d => d.name === tag)
@@ -130,7 +132,7 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
 
     const transportData = data.data
         .filter(tx =>
-            tx.tags.find(tag => transportTags.includes(tag.name.id as any)),
+            tx.tags.find(tag => TRANSPORT_STRING_TAGS.includes(tag.name.id)),
         )
         .reduce<TxsGroup[]>((acc, tx) => {
             const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
@@ -152,12 +154,12 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
 
     const etcData = data.data
         .filter(
-            tx => !tx.tags.find(tag => tbsTags.includes(tag.name.id as any)),
+            tx => !tx.tags.find(tag => TBS_STRING_TAGS.includes(tag.name.id)),
         )
         .filter(
             tx =>
                 !tx.tags.find(tag =>
-                    transportTags.includes(tag.name.id as any),
+                    TRANSPORT_STRING_TAGS.includes(tag.name.id),
                 ),
         )
         .reduce<TxsGroup[]>((acc, tx) => {

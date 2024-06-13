@@ -7,7 +7,7 @@ const MonthlyTotalMemberParticipationChartCard = memo(
         data,
         isLoading,
     }: {
-        data: any[] | undefined
+        data: unknown[] | undefined
         isLoading: boolean
     }) {
         return (
