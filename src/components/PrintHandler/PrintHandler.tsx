@@ -45,7 +45,7 @@ const PrintHandler = memo(function PrintHandler({
         <div>
             <ReactToPrint
                 {...props}
-                pageStyle="@page { margin: auto; }"
+                pageStyle="@print media { margin: auto; }"
                 content={() => toPrintContentRef.current}
                 trigger={() => (
                     <Tooltip {...tooltipProps}>
