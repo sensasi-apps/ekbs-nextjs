@@ -15,19 +15,19 @@ const AsFarmLandIdInput: FC<{
     clearByName: (name: string) => void
 }> = ({ disabled, validationErrors, clearByName }) => {
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
-    const [asFarmLandId, setAsFarmLandId] = useState<string>()
+    const [asFarmLandId, setAsFarmLandId] = useState<string>(
+        data.as_farm_land_id ?? '',
+    )
 
     useEffect(() => {
         tempValue = data.as_farm_land_id
+        setAsFarmLandId(data.as_farm_land_id ?? '')
 
         return () => {
             tempValue = undefined
         }
     }, [data.as_farm_land_id])
 
-    useEffect(() => {
-        setAsFarmLandId(data.as_farm_land_id)
-    }, [data.as_farm_land_id])
     return (
         <>
             <input
@@ -59,7 +59,7 @@ const AsFarmLandIdInput: FC<{
                               as_farm_land_id: tempValue,
                           })
                 }
-                value={asFarmLandId ?? ''}
+                value={asFarmLandId}
                 error={Boolean(validationErrors.as_farm_land_id)}
                 helperText={validationErrors.as_farm_land_id}
             />
