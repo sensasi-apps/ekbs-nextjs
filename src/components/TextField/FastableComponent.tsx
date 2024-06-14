@@ -2,7 +2,7 @@
 import type { FieldProps } from 'formik'
 import type { TextFieldProps } from '@mui/material/TextField'
 // vendors
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 // components
 import TextField from '@/components/TextField'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
@@ -21,20 +21,17 @@ export default function TextFieldFastableComponent({
     form: { errors },
     ...props
 }: FieldProps & TextFieldProps) {
-    const [innerValue, setInnerValue] = useState('')
-
-    useEffect(() => {
-        if (value && value !== innerValue) {
-            setInnerValue(value as string)
-        }
-    }, [value, innerValue])
+    const [innerValue, setInnerValue] = useState(value ?? '')
 
     const handleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist()
 
             setInnerValue(e.target.value)
-            debounce(() => onChange(e))
+
+            debounce(() => {
+                onChange(e)
+            })
         },
         [onChange],
     )
