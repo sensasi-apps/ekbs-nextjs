@@ -24,21 +24,16 @@ export default function SpbNoInput({
     clearByName: (name: string) => void
 }) {
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
-    const [spbNo, setSpbNo] = useState(data.spb_no)
+    const [internalValue, setInternalValue] = useState(data.spb_no ?? '')
 
     useEffect(() => {
         tempValue = data.spb_no
+        setInternalValue(data.spb_no ?? '')
 
         return () => {
             tempValue = undefined
         }
     }, [data.spb_no])
-
-    useEffect(() => {
-        if (data.spb_no === spbNo) return
-
-        setSpbNo(data.spb_no)
-    }, [data.spb_no, spbNo])
 
     return (
         <TextField
@@ -60,7 +55,7 @@ export default function SpbNoInput({
                 tempValue = value.toUpperCase()
 
                 clearByName('spb_no')
-                setSpbNo(tempValue)
+                setInternalValue(tempValue)
             }}
             onBlur={() =>
                 data.id
@@ -70,7 +65,7 @@ export default function SpbNoInput({
                           spb_no: tempValue,
                       })
             }
-            value={spbNo ?? ''}
+            value={internalValue}
             error={Boolean(validationErrors.spb_no)}
             helperText={validationErrors.spb_no}
         />
