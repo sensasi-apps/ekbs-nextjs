@@ -9,11 +9,12 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
+import Typography from '@mui/material/Typography'
 // enums
 import TransactionTag from '@/enums/TransactionTag'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import { Typography } from '@mui/material'
+import numberToCurrency from '@/utils/numberToCurrency'
 
 type TxsGroup = { name: string; data: Transaction[] }
 
@@ -47,147 +48,28 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
         )
     }
 
-    const inboundTxs = data.data.filter(tx => tx.amount > 0)
-    const outboundTxs = data.data.filter(tx => tx.amount < 0)
+    const {
+        txses: tbsData,
+        rpTotal: tbsRpTotal,
+        kgTotal: tbsKgTotal,
+    } = getTotalAndData(data, 'tbs')
 
-    const inboundData: TxsGroup[] = inboundTxs.reduce<TxsGroup[]>((acc, tx) => {
-        const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
-        const index = acc.findIndex(d => d.name === tag)
+    const {
+        txses: transportData,
+        rpTotal: transportRpTotal,
+        kgTotal: transportKgTotal,
+    } = getTotalAndData(data, 'delivery')
 
-        if (index === -1) {
-            acc.push({ name: tag, data: [tx] })
-        } else {
-            acc[index].data.push(tx)
-        }
-
-        return acc
-    }, [])
-
-    if (inboundData.findIndex(({ name }) => name === 'Lain-lain') >= 0) {
-        inboundData.push(
-            inboundData.splice(
-                inboundData.findIndex(({ name }) => name === 'Lain-lain'),
-                1,
-            )[0],
-        )
-    }
-
-    const outboundData = outboundTxs.reduce<TxsGroup[]>((acc, tx) => {
-        const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
-        const index = acc.findIndex(d => d.name === tag)
-
-        if (index === -1) {
-            acc.push({ name: tag, data: [tx] })
-        } else {
-            acc[index].data.push(tx)
-        }
-
-        return acc
-    }, [])
-
-    if (outboundData.findIndex(({ name }) => name === 'Lain-lain') >= 0) {
-        outboundData.push(
-            outboundData.splice(
-                outboundData.findIndex(({ name }) => name === 'Lain-lain'),
-                1,
-            )[0],
-        )
-    }
-
-    const kgSellTotal = data.data
-        .filter(tx =>
-            tx.tags.find(tag => tag.name.id === TransactionTag.PELUNASAN_TBS),
-        )
-        .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
-
-    const kgDelivTotal = data.data
-        .filter(tx =>
-            tx.tags.find(
-                tag => tag.name.id === TransactionTag.PELUNASAN_BIAYA_ANGKUT,
-            ),
-        )
-        .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
-
-    const tbsData = data.data
-        .filter(tx =>
-            tx.tags.find(tag => TBS_STRING_TAGS.includes(tag.name.id)),
-        )
-        .reduce<TxsGroup[]>((acc, tx) => {
-            const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
-            const index = acc.findIndex(d => d.name === tag)
-
-            if (index === -1) {
-                acc.push({ name: tag, data: [tx] })
-            } else {
-                acc[index].data.push(tx)
-            }
-
-            return acc
-        }, [])
-
-    const tbsTotalRp = tbsData.reduce(
-        (acc, { data }) => acc + data.reduce((acc, tx) => acc + tx.amount, 0),
-        0,
-    )
-
-    const transportData = data.data
-        .filter(tx =>
-            tx.tags.find(tag => TRANSPORT_STRING_TAGS.includes(tag.name.id)),
-        )
-        .reduce<TxsGroup[]>((acc, tx) => {
-            const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
-            const index = acc.findIndex(d => d.name === tag)
-
-            if (index === -1) {
-                acc.push({ name: tag, data: [tx] })
-            } else {
-                acc[index].data.push(tx)
-            }
-
-            return acc
-        }, [])
-
-    const transportTotalRp = transportData.reduce(
-        (acc, { data }) => acc + data.reduce((acc, tx) => acc + tx.amount, 0),
-        0,
-    )
-
-    const etcData = data.data
-        .filter(
-            tx => !tx.tags.find(tag => TBS_STRING_TAGS.includes(tag.name.id)),
-        )
-        .filter(
-            tx =>
-                !tx.tags.find(tag =>
-                    TRANSPORT_STRING_TAGS.includes(tag.name.id),
-                ),
-        )
-        .reduce<TxsGroup[]>((acc, tx) => {
-            const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
-            const index = acc.findIndex(d => d.name === tag)
-
-            if (index === -1) {
-                acc.push({ name: tag, data: [tx] })
-            } else {
-                acc[index].data.push(tx)
-            }
-
-            return acc
-        }, [])
-
-    const etcTotalRp = etcData.reduce(
-        (acc, { data }) => acc + data.reduce((acc, tx) => acc + tx.amount, 0),
-        0,
-    )
+    const { txses: etcData, rpTotal: etcRpTotal } = getTotalAndData(data, 'etc')
 
     return (
         <TableContainer>
             <Table size="small">
                 <TableBody>
-                    {tbsTotalRp != 0 && (
+                    {tbsRpTotal != 0 && (
                         <>
                             <HeadingRow>
-                                TBS — {formatNumber(kgSellTotal)} kg
+                                TBS — {formatNumber(tbsKgTotal)} kg
                             </HeadingRow>
 
                             {tbsData
@@ -196,14 +78,14 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
                                     <ItemRow key={i} {...data} />
                                 ))}
 
-                            <TotalRow total={tbsTotalRp} />
+                            <TotalRow total={tbsRpTotal} />
                         </>
                     )}
 
-                    {transportTotalRp != 0 && (
+                    {transportRpTotal != 0 && (
                         <>
                             <HeadingRow>
-                                Transport — {formatNumber(kgDelivTotal)} kg
+                                Transport — {formatNumber(transportKgTotal)} kg
                             </HeadingRow>
 
                             {transportData
@@ -212,11 +94,11 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
                                     <ItemRow key={i} {...data} />
                                 ))}
 
-                            <TotalRow total={transportTotalRp} />
+                            <TotalRow total={transportRpTotal} />
                         </>
                     )}
 
-                    {etcTotalRp != 0 && (
+                    {etcRpTotal != 0 && (
                         <>
                             <HeadingRow>Potongan dan Lain-lain</HeadingRow>
 
@@ -226,7 +108,7 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
                                     <ItemRow key={i} {...data} />
                                 ))}
 
-                            <TotalRow total={etcTotalRp} />
+                            <TotalRow total={etcRpTotal} />
                         </>
                     )}
 
@@ -247,29 +129,110 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
 function ItemRow({ name, data }: TxsGroup) {
     const rpTotal = data.reduce((acc, tx) => acc + tx.amount, 0)
 
+    const details = data
+        .filter(tx =>
+            [
+                TransactionTag.PELUNASAN_BIAYA_ANGKUT.toString(),
+                TransactionTag.PELUNASAN_TBS.toString(),
+                TransactionTag.POTONGAN_BIAYA_ANGKUT.toString(),
+            ].includes(tx.tags[0].name.id),
+        )
+        .map(tx => {
+            if (!tx.transactionable) return
+
+            if (
+                'delivery' in tx.transactionable &&
+                tx.transactionable.delivery?.deliverable &&
+                tx.tags[0].name.id === TransactionTag.PELUNASAN_TBS
+            ) {
+                return {
+                    kg: tx.transactionable?.n_kg,
+                    rp_per_kg:
+                        tx.transactionable?.delivery?.deliverable.rate
+                            ?.rp_per_kg,
+                }
+            }
+
+            if (
+                'delivery' in tx.transactionable &&
+                tx.transactionable.delivery?.deliverable &&
+                tx.tags[0].name.id === TransactionTag.POTONGAN_BIAYA_ANGKUT
+            ) {
+                return {
+                    kg: tx.transactionable?.n_kg,
+                    rp_per_kg: tx.transactionable?.delivery?.rate?.rp_per_kg,
+                }
+            }
+
+            if (
+                'rate' in tx.transactionable &&
+                tx.tags[0].name.id === TransactionTag.PELUNASAN_BIAYA_ANGKUT
+            ) {
+                return {
+                    kg: tx.transactionable?.n_kg,
+                    rp_per_kg: tx.transactionable?.rate?.rp_per_kg,
+                }
+            }
+        })
+        .reduce<
+            {
+                kg: number
+                rp_per_kg: number
+            }[]
+        >((acc, data) => {
+            const index = acc?.findIndex(d => d.rp_per_kg === data?.rp_per_kg)
+
+            if (index === -1) {
+                acc.push({
+                    kg: data?.kg ?? 0,
+                    rp_per_kg: data?.rp_per_kg ?? 0,
+                })
+            } else {
+                acc[index].kg += data?.kg ?? 0
+            }
+
+            return acc
+        }, [])
+
     return (
-        <TableRow
-            sx={{
-                '*': {
-                    color: rpTotal > 0 ? 'success.main' : 'inherit',
-                },
-                '& td': {
-                    py: 0.35,
-                },
-            }}>
-            <TableCell>{name}</TableCell>
-            <TableCell>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: 1.5,
-                        justifyContent: 'space-between',
-                    }}>
-                    <Box>Rp</Box>
-                    <Box>{formatNumber(rpTotal)}</Box>
-                </Box>
-            </TableCell>
-        </TableRow>
+        <>
+            <TableRow
+                sx={{
+                    '& td': {
+                        color: rpTotal > 0 ? 'success.main' : 'inherit',
+                        py: 0.35,
+                    },
+                }}>
+                <TableCell>
+                    {name}
+
+                    {details && (
+                        <ul
+                            style={{
+                                margin: 0,
+                            }}>
+                            {details.map((d, i) => (
+                                <li key={i}>
+                                    {formatNumber(d.kg)} kg &times;{' '}
+                                    {numberToCurrency(d.rp_per_kg)}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </TableCell>
+                <TableCell>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 1.5,
+                            justifyContent: 'space-between',
+                        }}>
+                        <Box>Rp</Box>
+                        <Box>{formatNumber(rpTotal)}</Box>
+                    </Box>
+                </TableCell>
+            </TableRow>
+        </>
     )
 }
 
@@ -331,4 +294,81 @@ function TotalRow({
             </TableCell>
         </TableRow>
     )
+}
+
+function getTotalAndData(
+    data: ApiResponseType,
+    section: 'tbs' | 'delivery' | 'etc',
+) {
+    let txs: Transaction[] = []
+    let kgTotal = 0
+
+    switch (section) {
+        case 'tbs':
+            txs = data.data.filter(tx =>
+                tx.tags.find(tag => TBS_STRING_TAGS.includes(tag.name.id)),
+            )
+
+            kgTotal = data.data
+                .filter(tx =>
+                    tx.tags.find(
+                        tag => tag.name.id === TransactionTag.PELUNASAN_TBS,
+                    ),
+                )
+                .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
+            break
+
+        case 'delivery':
+            txs = data.data.filter(tx =>
+                tx.tags.find(tag =>
+                    TRANSPORT_STRING_TAGS.includes(tag.name.id),
+                ),
+            )
+
+            kgTotal = data.data
+                .filter(tx =>
+                    tx.tags.find(
+                        tag =>
+                            tag.name.id ===
+                            TransactionTag.PELUNASAN_BIAYA_ANGKUT,
+                    ),
+                )
+                .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
+            break
+
+        default:
+            txs = data.data.filter(
+                tx =>
+                    !tx.tags.find(
+                        tag =>
+                            TBS_STRING_TAGS.includes(tag.name.id) ||
+                            TRANSPORT_STRING_TAGS.includes(tag.name.id),
+                    ),
+            )
+            break
+    }
+
+    const txses = txs.reduce<TxsGroup[]>((acc, tx) => {
+        const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
+        const index = acc.findIndex(d => d.name === tag)
+
+        if (index === -1) {
+            acc.push({ name: tag, data: [tx] })
+        } else {
+            acc[index].data.push(tx)
+        }
+
+        return acc
+    }, [])
+
+    const rpTotal = txses.reduce(
+        (acc, { data }) => acc + data.reduce((acc, tx) => acc + tx.amount, 0),
+        0,
+    )
+
+    return {
+        txses,
+        rpTotal,
+        kgTotal,
+    }
 }
