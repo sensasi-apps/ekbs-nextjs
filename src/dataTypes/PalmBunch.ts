@@ -14,7 +14,7 @@ interface PalmBunchType {
     // relations
     owner_user?: UserType
     logs?: ActivityLogType[]
-    delivery?: PalmBunchesDeliveryType,
+    delivery?: PalmBunchesDeliveryType
 }
 
 export default PalmBunchType

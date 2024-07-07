@@ -309,16 +309,13 @@ function getTotalAndData(
                 tx.tags.find(tag => TBS_STRING_TAGS.includes(tag.name.id)),
             )
 
-            const palmBunchTxs = data.data.filter(tx =>
-                tx.tags.find(
-                    tag => tag.name.id === TransactionTag.PELUNASAN_TBS,
-                ),
-            )
-
-            kgTotal = palmBunchTxs.reduce(
-                (acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0),
-                0,
-            )
+            kgTotal = data.data
+                .filter(tx =>
+                    tx.tags.find(
+                        tag => tag.name.id === TransactionTag.PELUNASAN_TBS,
+                    ),
+                )
+                .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
             break
 
         case 'delivery':
@@ -328,17 +325,15 @@ function getTotalAndData(
                 ),
             )
 
-            const delveryTxs = data.data.filter(tx =>
-                tx.tags.find(
-                    tag =>
-                        tag.name.id === TransactionTag.PELUNASAN_BIAYA_ANGKUT,
-                ),
-            )
-
-            kgTotal = delveryTxs.reduce(
-                (acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0),
-                0,
-            )
+            kgTotal = data.data
+                .filter(tx =>
+                    tx.tags.find(
+                        tag =>
+                            tag.name.id ===
+                            TransactionTag.PELUNASAN_BIAYA_ANGKUT,
+                    ),
+                )
+                .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
             break
 
         default:
