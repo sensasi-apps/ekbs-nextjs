@@ -8,7 +8,7 @@ import { useCallback, useState } from 'react'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
 // materials
-import green from '@mui/material/colors/green'
+import { green } from '@mui/material/colors'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
