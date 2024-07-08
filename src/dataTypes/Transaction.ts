@@ -52,6 +52,7 @@ type Transaction = {
     cashable?: CashType | WalletType | BusinessUnitCash
     // cashable?: CashType | WalletType | BusinessUnitCash | FarmerGroupType // unused for now
     cash_transfer_origin?: CashTransfer
+    cash?: CashType
 } & (TransferType | NonTransferType)
 
 export default Transaction
