@@ -49,12 +49,12 @@ const farmInputNavItems: NavItem[] = [
         icon: <WarehouseIcon />,
         forPermission: FarmInput.READ_STATISTIC,
     },
-    {
-        href: '/farm-input-product-opnames',
-        label: 'Opname',
-        icon: <ChecklistIcon />,
-        forPermission: FarmInput.READ_STATISTIC,
-    },
+    // {
+    //     href: '/farm-input-product-opnames',
+    //     label: 'Opname',
+    //     icon: <ChecklistIcon />,
+    //     forPermission: FarmInput.READ_STATISTIC,
+    // },
     {
         href: '/farm-inputs/product-purchases',
         label: 'Pembelian',
