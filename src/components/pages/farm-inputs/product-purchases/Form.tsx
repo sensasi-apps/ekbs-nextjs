@@ -1,16 +1,21 @@
 // types
 import type { UUID } from 'crypto'
-import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
+import type ProductPurchase from '@/dataTypes/ProductPurchase'
 import type CashType from '@/dataTypes/Cash'
 // vendors
-import { FastField, FieldArray, FormikProps } from 'formik'
+import { FastField, FieldArray, FormikErrors, FormikProps } from 'formik'
 import { memo } from 'react'
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
+import FormControl from '@mui/material/FormControl'
+import FormHelperText from '@mui/material/FormHelperText'
+import FormLabel from '@mui/material/FormLabel'
 import Grid2 from '@mui/material/Unstable_Grid2'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 // components
 import DatePicker from '@/components/DatePicker'
@@ -25,6 +30,7 @@ import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
 import useAuth from '@/providers/Auth'
 import Role from '@/enums/Role'
+import Warehouse from '@/enums/Warehouse'
 
 const ProductPurchaseForm = memo(function ProductPurchaseForm({
     dirty,
@@ -35,9 +41,12 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
         due,
         paid,
         received,
-        product_movement,
         product_movement_details,
+
+        // product movement
         cashable_uuid,
+        warehouse,
+        costs,
     },
     status,
     setFieldValue,
@@ -53,22 +62,22 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
     const isDisableProductMovementDetailFields =
         isDisabled || (received && !userHasRole(Role.FARM_INPUT_MANAGER))
 
-    const { costs } = product_movement ?? {}
-
     const totalRpCost = (costs ?? []).reduce(
         (acc, cur) => acc + (cur?.rp ?? 0),
         0,
     )
 
-    const totalRpCostItem = product_movement_details.reduce(
-        (acc, cur) => acc + (cur?.rp_cost_per_unit ?? 0) * (cur?.qty ?? 0),
-        0,
-    )
+    const totalRpCostItem =
+        product_movement_details?.reduce(
+            (acc, cur) => acc + (cur?.rp_cost_per_unit ?? 0) * (cur?.qty ?? 0),
+            0,
+        ) ?? 0
 
-    const totalPrice = product_movement_details.reduce(
-        (acc, cur) => acc + (cur.qty ?? 0) * (cur.rp_per_unit ?? 0),
-        0,
-    )
+    const totalPrice =
+        product_movement_details?.reduce(
+            (acc, cur) => acc + (cur.qty ?? 0) * (cur.rp_per_unit ?? 0),
+            0,
+        ) ?? 0
 
     const isCostMatch = totalRpCost === totalRpCostItem
 
@@ -140,6 +149,38 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
 
                 <Fade in={!!received} unmountOnExit>
                     <span>
+                        <FormControl
+                            size="small"
+                            margin="normal"
+                            disabled={isDisabled}>
+                            <FormLabel id="gudang-buttons-group-label">
+                                Gudang
+                            </FormLabel>
+
+                            <ToggleButtonGroup
+                                aria-labelledby="gudang-buttons-group-label"
+                                color="primary"
+                                value={warehouse}
+                                disabled={isDisabled}
+                                exclusive
+                                size="small"
+                                onChange={(_, value) =>
+                                    setFieldValue('warehouse', value)
+                                }>
+                                {Object.values(Warehouse).map(
+                                    (warehouse, i) => (
+                                        <ToggleButton key={i} value={warehouse}>
+                                            {warehouse}
+                                        </ToggleButton>
+                                    ),
+                                )}
+                            </ToggleButtonGroup>
+
+                            <FormHelperText error>
+                                {errors?.warehouse}
+                            </FormHelperText>
+                        </FormControl>
+
                         <DatePicker
                             value={paid ? dayjs(paid) : null}
                             minDate={order ? dayjs(order) : undefined}
@@ -202,7 +243,11 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                 render={props => (
                     <ProductMovementCostArrayField
                         {...props}
-                        errors={errors}
+                        errors={
+                            errors.costs as FormikErrors<
+                                FormValuesType['costs']
+                            >
+                        }
                         data={costs}
                         disabled={isDisableProductMovementDetailFields}
                     />
@@ -227,11 +272,15 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                         {...props}
                         errors={errors}
                         totalRpCost={totalRpCost}
-                        data={product_movement_details}
+                        data={product_movement_details ?? []}
                         disabled={isDisableProductMovementDetailFields}
                     />
                 )}
             />
+
+            <FormHelperText error>
+                {errors?.product_movement_details?.toString()}
+            </FormHelperText>
 
             <Grid2 container spacing={2} mt={0} mb={2}>
                 <Grid2 xs={4} sm={7.5} textAlign="right">
@@ -280,18 +329,41 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
 
 export default ProductPurchaseForm
 
-export type FormValuesType = {
-    product_movement_details: ProductPurchaseType['product_movement_details']
-} & Partial<
-    ProductPurchaseType & {
-        cashable_uuid?: UUID
-    }
->
+export type FormValuesType = Partial<{
+    order: ProductPurchase['order']
+    due: ProductPurchase['due']
+    paid: ProductPurchase['paid']
+    received: ProductPurchase['received']
+    product_movement_details: ProductPurchase['product_movement_details']
+    note: ProductPurchase['note']
+
+    // product movement
+    cashable_uuid: UUID
+    warehouse: ProductPurchase['product_movement']['warehouse']
+    costs: ProductPurchase['product_movement']['costs']
+}>
 
 export const EMPTY_FORM_STATUS: {
-    uuid: null | ProductPurchaseType['uuid']
+    uuid: null | ProductPurchase['uuid']
     hasTransaction: boolean
 } = {
     uuid: null,
     hasTransaction: false,
+}
+
+export function productPurchaseToFormValues(
+    productPurchase?: ProductPurchase,
+): FormValuesType {
+    return {
+        order: productPurchase?.order,
+        due: productPurchase?.due,
+        paid: productPurchase?.paid,
+        received: productPurchase?.received,
+        product_movement_details: productPurchase?.product_movement_details,
+        note: productPurchase?.note,
+
+        cashable_uuid: productPurchase?.transaction?.cashable_uuid,
+        warehouse: productPurchase?.product_movement?.warehouse,
+        costs: productPurchase?.product_movement?.costs,
+    }
 }

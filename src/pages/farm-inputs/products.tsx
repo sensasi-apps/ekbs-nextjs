@@ -1,56 +1,55 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductType from '@/dataTypes/Product'
+// vendors
+import { Formik } from 'formik'
+import { useState } from 'react'
 // materials
-import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { GetRowDataType, MutateType } from '@/components/Datatable'
-import Dialog from '@/components/Global/Dialog'
+import Datatable, {
+    getNoWrapCellProps,
+    GetRowDataType,
+    MutateType,
+} from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import ProductForm from '@/components/Product/Form'
 // page components
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 // providers
 import useAuth from '@/providers/Auth'
-import useFormData, { FormDataProvider } from '@/providers/useFormData'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DialogWithTitle from '@/components/DialogWithTitle'
+import axios from '@/lib/axios'
+import ApiUrlEnum from '@/components/Product/ApiUrlEnum'
+import handle422 from '@/utils/errorCatcher'
+import Warehouse from '@/enums/Warehouse'
 
 let mutate: MutateType<ProductType>
 let getRowData: GetRowDataType<ProductType>
 
 export default function FarmInputsProducts() {
-    return (
-        <AuthLayout title="Produk">
-            <FormDataProvider>
-                <Crud />
-            </FormDataProvider>
-        </AuthLayout>
-    )
-}
-
-const Crud = () => {
     const { userHasPermission } = useAuth()
 
-    const {
-        formOpen,
-        handleClose,
-        handleCreate,
-        handleEdit,
-        isNew,
-        isDirty,
-        loading,
-    } = useFormData<ProductType>()
+    const [isFormOpen, setIsFormOpen] = useState(false)
+
+    const [initialFormikValues, setInitialFormikValues] = useState<
+        Partial<ProductType>
+    >({})
+
+    const handleClose = () => setIsFormOpen(false)
+
+    const isNew = !initialFormikValues?.id
 
     return (
-        <>
+        <AuthLayout title="Produk">
             <Datatable
                 apiUrl={DatatableEndpointEnum.PRODUCTS}
                 columns={columns}
@@ -60,7 +59,8 @@ const Crud = () => {
                         const data = getRowData(dataIndex)
                         if (!data) return
 
-                        return handleEdit(data)
+                        setInitialFormikValues(data)
+                        setIsFormOpen(true)
                     }
                 }}
                 tableId="products-table"
@@ -70,53 +70,67 @@ const Crud = () => {
                 swrOptions={{
                     revalidateOnMount: true,
                 }}
-                setRowProps={(_, dataIndex) => {
-                    const data = getRowData(dataIndex)
-                    if (!data) return {}
-
-                    if (data.deleted_at)
-                        return {
-                            sx: {
-                                '& td': {
-                                    color: 'var(--mui-palette-grey-800)',
-                                },
-                            },
-                        }
-
-                    return {}
-                }}
+                setRowProps={(_, dataIndex) =>
+                    getRowData(dataIndex)?.deleted_at
+                        ? {
+                              sx: {
+                                  '& td': {
+                                      color: 'text.disabled',
+                                      textDecoration: 'line-through',
+                                  },
+                              },
+                          }
+                        : {}
+                }
             />
 
-            <Dialog
-                title={(isNew ? 'Tambah ' : 'Perbaharui ') + 'Produk'}
-                open={formOpen}
-                closeButtonProps={{
-                    onClick: () => {
-                        if (
-                            isDirty &&
-                            !window.confirm(
-                                'Perubahan belum tersimpan, yakin ingin menutup?',
+            <DialogWithTitle
+                maxWidth="sm"
+                title={(isNew ? 'Tambah' : 'Perbaharui') + ' Data Produk'}
+                open={isFormOpen}>
+                <Formik
+                    initialValues={initialFormikValues}
+                    onSubmit={(values, { setErrors }) =>
+                        axios
+                            .post(
+                                ApiUrlEnum.UPDATE_OR_CREATE_PRODUCT.replace(
+                                    '$1',
+                                    values.id ? '/' + values.id : '',
+                                ),
+                                values,
                             )
-                        ) {
-                            return
-                        }
-
-                        return handleClose()
-                    },
-                    disabled: loading,
-                }}>
-                <ProductForm parentDatatableMutator={mutate} />
-            </Dialog>
+                            .then(() => {
+                                mutate()
+                                handleClose()
+                            })
+                            .catch(error => handle422(error, setErrors))
+                    }
+                    onReset={handleClose}
+                    component={ProductForm}
+                />
+            </DialogWithTitle>
 
             <Fab
                 in={
                     userHasPermission(['create product', 'update product']) ??
                     false
                 }
-                onClick={handleCreate}>
+                onClick={() => {
+                    setInitialFormikValues({
+                        unit: 'pcs',
+                        warehouses: Object.values(Warehouse).map(warehouse => ({
+                            warehouse,
+                            base_cost_rp_per_unit: 0,
+                            qty: 0,
+                            default_sell_price: 0,
+                        })),
+                    })
+                    setIsFormOpen(true)
+                }}
+                title="Tambah Produk">
                 <InventoryIcon />
             </Fab>
-        </>
+        </AuthLayout>
     )
 }
 
@@ -168,59 +182,120 @@ const columns: MUIDataTableColumn[] = [
     {
         name: 'description',
         label: 'Deskripsi',
+        options: {
+            display: false,
+        },
     },
     {
-        name: 'qty',
-        label: 'Stok',
+        name: 'warehouses.warehouse',
+        label: 'Gudang',
         options: {
-            customBodyRenderLite: dataIndex => {
-                const data = getRowData(dataIndex)
-                if (!data) return
+            setCellProps: getNoWrapCellProps,
+            customBodyRenderLite(dataIndex) {
+                const warehouses = getRowData(dataIndex)?.warehouses
+                if (!warehouses) return
 
-                const { qty, low_number, unit } = data
-
-                const isLowQty = low_number !== null && qty <= low_number
-
-                const base = (
-                    <Box
-                        component="span"
-                        lineHeight="inherit"
-                        whiteSpace="nowrap"
-                        color={qty === 0 ? 'error.main' : undefined}>
-                        {formatNumber(qty)}{' '}
-                        <Typography
-                            variant="overline"
-                            fontFamily="monospace"
-                            lineHeight="inherit">
-                            {unit}
-                        </Typography>
-                    </Box>
+                return (
+                    <ul
+                        style={{
+                            margin: 0,
+                            padding: 0,
+                        }}>
+                        {warehouses.map(({ warehouse }, i) => (
+                            <li key={i}>{warehouse}</li>
+                        ))}
+                    </ul>
                 )
-
-                if (isLowQty)
-                    return (
-                        <FarmInputsProductsLowQty>
-                            {base}
-                        </FarmInputsProductsLowQty>
-                    )
-
-                return base
             },
         },
     },
     {
-        name: 'base_cost_rp_per_unit',
-        label: 'Biaya Dasar',
+        name: 'warehouses.qty',
+        label: 'QTY',
         options: {
-            customBodyRender: (value: number) => numberToCurrency(value),
+            setCellProps: getNoWrapCellProps,
+            customBodyRenderLite(dataIndex) {
+                const data = getRowData(dataIndex)
+
+                if (!data) return
+
+                const { low_number, warehouses } = data
+
+                return (
+                    <ul
+                        style={{
+                            margin: 0,
+                            padding: 0,
+                        }}>
+                        {warehouses.map(({ qty }, i) => {
+                            const content =
+                                low_number !== null && qty <= low_number ? (
+                                    <FarmInputsProductsLowQty>
+                                        {formatNumber(qty)}
+                                    </FarmInputsProductsLowQty>
+                                ) : (
+                                    formatNumber(qty)
+                                )
+
+                            return <li key={i}>{content}</li>
+                        })}
+                    </ul>
+                )
+            },
         },
     },
-
     {
-        name: 'default_sell_price',
-        label: 'Harga Dasar',
+        name: 'unit',
+        label: 'Satuan',
+    },
+    {
+        name: 'warehouses.base_cost_rp_per_unit',
+        label: 'Biaya Dasar',
         options: {
-            customBodyRender: (value: number) => numberToCurrency(value),
+            setCellProps: getNoWrapCellProps,
+            customBodyRenderLite(dataIndex) {
+                const warehouses = getRowData(dataIndex)?.warehouses
+                if (!warehouses) return
+
+                return (
+                    <ul
+                        style={{
+                            margin: 0,
+                            padding: 0,
+                        }}>
+                        {warehouses.map(({ base_cost_rp_per_unit }, i) => (
+                            <li key={i}>
+                                {numberToCurrency(base_cost_rp_per_unit)}
+                            </li>
+                        ))}
+                    </ul>
+                )
+            },
+        },
+    },
+    {
+        name: 'warehouses.default_sell_price',
+        label: 'Harga Jual Default',
+        options: {
+            setCellProps: getNoWrapCellProps,
+            customBodyRenderLite(dataIndex) {
+                const warehouses = getRowData(dataIndex)?.warehouses
+                if (!warehouses) return
+
+                return (
+                    <ul
+                        style={{
+                            margin: 0,
+                            padding: 0,
+                        }}>
+                        {warehouses.map(({ default_sell_price }, i) => (
+                            <li key={i}>
+                                {numberToCurrency(default_sell_price)}
+                            </li>
+                        ))}
+                    </ul>
+                )
+            },
         },
     },
 ]

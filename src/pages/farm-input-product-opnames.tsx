@@ -22,8 +22,11 @@ import useAuth from '@/providers/Auth'
 import errorCatcher from '@/utils/errorCatcher'
 import { ApiUrlEnum } from '@/components/pages/farm-input-product-in-outs/Datatable.type'
 import { DATATABLE_COLUMNS } from '@/components/pages/farm-input-product-in-outs/Datatable'
+import useDisablePage from '@/hooks/useDisablePage'
 
 export default function FarmInputProductOpnames() {
+    useDisablePage()
+
     const { userHasPermission } = useAuth()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -41,8 +44,11 @@ export default function FarmInputProductOpnames() {
 
             const opnameMovementDetails = productMovement.details.map(pmd => ({
                 ...pmd,
-                product: pmd.product_state,
-                physical_qty: (pmd.product_state.qty ?? 0) + pmd.qty,
+                product: {
+                    ...pmd.product_state,
+                    warehouses: [pmd.product_warehouse_state],
+                },
+                physical_qty: pmd.product_warehouse_state.qty + pmd.qty,
             }))
 
             setInitialFormikValues({

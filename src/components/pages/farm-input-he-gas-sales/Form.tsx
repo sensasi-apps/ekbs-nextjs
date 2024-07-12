@@ -1,6 +1,6 @@
 // types
 import type { FormikProps } from 'formik'
-import type ProductType from '@/dataTypes/Product'
+import type Product from '@/dataTypes/Product'
 import type { Ymd } from '@/types/DateString'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 import type InventoryItem from '@/dataTypes/InventoryItem'
@@ -10,8 +10,12 @@ import type UserType from '@/dataTypes/User'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
-// material
+// materials
 import Autocomplete from '@mui/material/Autocomplete'
+import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormGroup from '@mui/material/FormGroup'
+import FormHelperText from '@mui/material/FormHelperText'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
@@ -28,12 +32,7 @@ import debounce from '@/utils/debounce'
 import numberToCurrency from '@/utils/numberToCurrency'
 // enums
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
-import {
-    Checkbox,
-    FormControlLabel,
-    FormGroup,
-    FormHelperText,
-} from '@mui/material'
+import Warehouse from '@/enums/Warehouse'
 
 export type FormValues = Partial<{
     is_paid: boolean
@@ -49,7 +48,7 @@ export type FormValues = Partial<{
     uuid: UUID
     has_tx: boolean
     inventory_item: InventoryItem | null
-    product: ProductType | null
+    product: Product | null
     buyer_user: UserType | null
 }>
 
@@ -73,7 +72,7 @@ export default function FarmInputHeGasSaleForm({
 }: FormikProps<FormValues>) {
     const { data: products = [], isLoading: isProductsLoading } = useSWR(
         PRODUCTS_SWR_KEY,
-        FETCHER<ProductType>,
+        FETCHER<Product>,
         {
             revalidateOnMount: true,
         },
@@ -116,6 +115,7 @@ export default function FarmInputHeGasSaleForm({
             <DatePicker
                 value={at ? dayjs(at) : null}
                 disabled={isDisabled}
+                disableFuture
                 label="Tanggal"
                 onChange={date =>
                     setFieldValue('at', date?.format('YYYY-MM-DD'))
@@ -218,7 +218,9 @@ export default function FarmInputHeGasSaleForm({
                         setFieldValue('product_id', product?.id)
                         setFieldValue(
                             'rp_per_unit',
-                            product?.default_sell_price,
+                            product?.warehouses.find(
+                                w => w.warehouse === Warehouse.MUAI,
+                            )?.default_sell_price,
                         )
                     }}
                     renderInput={params => (

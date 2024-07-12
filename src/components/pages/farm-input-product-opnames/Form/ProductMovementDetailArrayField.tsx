@@ -33,7 +33,9 @@ const ProductMovementDetailArrayField = memo(
     }: {
         data: typeof EMPTY_FORM_DATA.product_opname_movement_details
         disabled?: boolean
-        errors: FormikErrors<typeof EMPTY_FORM_DATA>
+        errors: FormikErrors<
+            (typeof EMPTY_FORM_DATA)['product_opname_movement_details']
+        >
     }) {
         const { data: products = [], isLoading } = useSWR<ProductType[]>(
             DatatableEndpointEnum.PRODUCTS,
@@ -131,10 +133,8 @@ const ProductMovementDetailArrayField = memo(
                                                     {...params}
                                                     label="Nama Barang"
                                                     {...errorsToHelperTextObj(
-                                                        // @ts-expect-error accomodate laravel 422 error response
-                                                        errors[
-                                                            `product_opname_movement_details.${index}.product_id`
-                                                        ],
+                                                        errors[index]
+                                                            ?.product_id,
                                                     )}
                                                 />
                                             )}
@@ -162,12 +162,13 @@ const ProductMovementDetailArrayField = memo(
                                                 }),
                                             )
                                         }
-                                        value={row.product?.qty || ''}
+                                        value={
+                                            // TODO: should defined warehouse to get the exact qty
+                                            row.product_warehouse_state.qty ??
+                                            ''
+                                        }
                                         {...errorsToHelperTextObj(
-                                            // @ts-expect-error accomodate laravel 422 error response
-                                            errors[
-                                                `product_opname_movement_details.${index}.qty`
-                                            ],
+                                            errors[index]?.qty,
                                         )}
                                     />
                                 </Grid>
@@ -194,10 +195,7 @@ const ProductMovementDetailArrayField = memo(
                                         }
                                         value={row.physical_qty || ''}
                                         {...errorsToHelperTextObj(
-                                            // @ts-expect-error accomodate laravel 422 error response
-                                            errors[
-                                                `product_opname_movement_details.${index}.qty`
-                                            ],
+                                            errors[index]?.qty,
                                         )}
                                     />
                                 </Grid>

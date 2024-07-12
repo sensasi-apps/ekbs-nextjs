@@ -1,7 +1,7 @@
 // types
 import type { FieldArrayRenderProps, FormikErrors } from 'formik'
 import type ProductType from '@/dataTypes/Product'
-import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -43,7 +43,7 @@ export default function ProductMovementDetailArrayField({
     errors,
     totalRpCost,
 }: {
-    data: ProductMovementDetailType[]
+    data: ProductMovementDetail[]
     disabled?: boolean
     errors: FormikErrors<FormValuesType>
     totalRpCost: number

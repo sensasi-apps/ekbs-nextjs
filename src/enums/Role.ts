@@ -15,8 +15,9 @@ enum Role {
     // farm input
     FARM_INPUT_MANAGER = 'farm inputs manager',
     FARM_INPUT_WAREHOUSE_MANAGER = 'farm input warehouse manager',
-    FARM_INPUT_SALES = 'farm input sales',
     FARM_INPUT_PURCHASER = 'farm inputs purchaser',
+    FARM_INPUT_SALES_MUAI_WAREHOUSE = 'farm inputs sales - muai warehouse',
+    FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE = 'farm inputs sales - pulau pinang warehouse',
 
     // cash
     CASH_MANAGER = 'cashes manager',

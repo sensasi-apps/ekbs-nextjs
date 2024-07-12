@@ -1,5 +1,5 @@
 // types
-import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 import type ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
 import { useRouter } from 'next/router'
@@ -174,7 +174,7 @@ export default function FarmInputProductSalesReport() {
                                         acc +
                                         pmd.qty *
                                             -1 *
-                                            pmd.product_state
+                                            pmd.product_warehouse_state
                                                 .base_cost_rp_per_unit,
                                     0,
                                 )
@@ -290,7 +290,7 @@ export default function FarmInputProductSalesReport() {
     )
 }
 
-const pmdsSaleCustomBodyRender = (pids: ProductMovementDetailType[]) => (
+const pmdsSaleCustomBodyRender = (pids: ProductMovementDetail[]) => (
     <ul
         style={{
             margin: 0,
@@ -318,7 +318,7 @@ const pmdsSaleCustomBodyRender = (pids: ProductMovementDetailType[]) => (
     </ul>
 )
 
-const pmdsCostCustomBodyRender = (pids: ProductMovementDetailType[]) => (
+const pmdsCostCustomBodyRender = (pids: ProductMovementDetail[]) => (
     <ul
         style={{
             margin: 0,
@@ -329,7 +329,8 @@ const pmdsCostCustomBodyRender = (pids: ProductMovementDetailType[]) => (
             ({
                 id,
                 qty,
-                product_state: { name, unit, base_cost_rp_per_unit },
+                product_state: { name, unit },
+                product_warehouse_state: { base_cost_rp_per_unit },
             }) => (
                 <Typography
                     key={id}

@@ -1,5 +1,5 @@
 // types
-import type ProductType from '@/dataTypes/Product'
+import type Product from '@/dataTypes/Product'
 // vendors
 import { memo } from 'react'
 // materials
@@ -224,12 +224,12 @@ export default DynamicProductMovementTable
 
 export type DynamicProductMovementTableProp = {
     data?: {
-        id: ProductType['id']
-        category_name: ProductType['category_name']
-        base_cost_rp_per_unit: ProductType['base_cost_rp_per_unit']
-        name: ProductType['name']
-        code: ProductType['code']
-        unit: ProductType['unit']
+        id: Product['id']
+        category_name: Product['category_name']
+        base_cost_rp_per_unit: Product['warehouses'][0]['base_cost_rp_per_unit']
+        name: Product['name']
+        code: Product['code']
+        unit: Product['unit']
 
         initial_qty: number
         initial_rp: number
