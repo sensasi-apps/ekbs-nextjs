@@ -4,7 +4,7 @@ import type ActivityLogType from './ActivityLog'
 import type BusinessUnitProductSale from './BusinessUnitProductSale'
 import type InstallmentType from './Installment'
 import type ProductMovementType from './ProductMovement'
-import type ProductMovementDetailType from './ProductMovementDetail'
+import type ProductMovementDetail from './ProductMovementDetail'
 import type TransactionType from './Transaction'
 import type UserType from './User'
 
@@ -34,7 +34,7 @@ type BaseType = {
 
     // relations
     product_movement: ProductMovementType
-    product_movement_details: ProductMovementDetailType[]
+    product_movement_details: ProductMovementDetail[]
     user_activity_logs: ActivityLogType[]
     business_unit_product_sale: BusinessUnitProductSale | null
     refund_from_product_sale: ProductSaleType | null

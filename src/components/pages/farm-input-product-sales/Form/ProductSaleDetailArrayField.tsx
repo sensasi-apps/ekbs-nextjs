@@ -1,5 +1,5 @@
 // types
-import type ProductType from '@/dataTypes/Product'
+import type Product from '@/dataTypes/Product'
 // vendors
 import { FieldArray } from 'formik'
 import { memo } from 'react'
@@ -27,17 +27,20 @@ import { EMPTY_FORM_DATA } from '../Form'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import numberToCurrency from '@/utils/numberToCurrency'
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import Warehouse from '@/enums/Warehouse'
 
 const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
+    warehouse,
     data: product_sale_details,
     disabled,
     errors,
 }: {
+    warehouse?: Warehouse
     data: typeof EMPTY_FORM_DATA.product_sale_details
     disabled?: boolean
     errors: Record<string, string>
 }) {
-    const { data: products = [], isLoading } = useSWR<ProductType[]>(
+    const { data: products = [], isLoading } = useSWR<Product[]>(
         DatatableEndpointEnum.PRODUCTS,
         url => axios.get(url).then(res => res.data.data),
         {
@@ -98,9 +101,7 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                             ) => option.id === value.id}
                                             options={products}
                                             disabled={disabled}
-                                            getOptionLabel={(
-                                                option: ProductType,
-                                            ) =>
+                                            getOptionLabel={(option: Product) =>
                                                 `#${option.id} - ${option.name}`
                                             }
                                             value={
@@ -109,15 +110,22 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                         p.id === row.product_id,
                                                 ) ?? null
                                             }
-                                            onChange={(_, product) =>
+                                            onChange={(_, product) => {
+                                                const rp_per_unit = warehouse
+                                                    ? product?.warehouses.find(
+                                                          w =>
+                                                              w.warehouse ===
+                                                              warehouse,
+                                                      )?.default_sell_price
+                                                    : undefined
+
                                                 replace(index, {
                                                     ...row,
-                                                    rp_per_unit:
-                                                        product?.default_sell_price,
+                                                    rp_per_unit: rp_per_unit,
                                                     product_id: product?.id,
                                                     product,
                                                 })
-                                            }
+                                            }}
                                             renderInput={params => (
                                                 <TextField
                                                     {...params}

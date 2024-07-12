@@ -6,12 +6,13 @@ import type ProductSaleType from '@/dataTypes/ProductSale'
 import type UserType from '@/dataTypes/User'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
+import { FastField, FormikProps } from 'formik'
 import { memo, useState } from 'react'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
-import { FastField, FormikProps } from 'formik'
 // materials
 import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -24,6 +25,8 @@ import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 // components
 import CrediturCard from '../user-loans/CrediturCard'
@@ -47,6 +50,8 @@ import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums
 import Role from '@/enums/Role'
+import ProductMovementType from '@/dataTypes/ProductMovement'
+import Warehouse from '@/enums/Warehouse'
 
 const ProductSaleForm = memo(function ProductSaleForm({
     dirty,
@@ -61,6 +66,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
         product_sale_details,
         cashable_uuid,
         interest_percent,
+        warehouse,
     },
     status,
     setFieldValue,
@@ -90,6 +96,15 @@ const ProductSaleForm = memo(function ProductSaleForm({
     const isPropcessing = isSubmitting
     const isDisabled = isPropcessing || !isNew
     const isBalanceEnough = (wallet?.balance ?? 0) >= totalRp
+    const isNeedToDetermineWarehouse =
+        userHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE) ===
+        userHasRole(Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE)
+
+    const warehouseAuto = isNeedToDetermineWarehouse
+        ? undefined
+        : userHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE)
+          ? Warehouse.MUAI
+          : Warehouse.PULAU_PINANG
 
     if (!isBalanceEnough && payment_method === 'wallet' && isNew) {
         setFieldValue('payment_method', null)
@@ -129,6 +144,33 @@ const ProductSaleForm = memo(function ProductSaleForm({
                     </Grid>
                 </Grid>
             )}
+
+            <Fade in={isNeedToDetermineWarehouse} unmountOnExit>
+                <FormControl size="small" disabled={isDisabled}>
+                    <FormLabel id="gudang-buttons-group-label">
+                        Gudang
+                    </FormLabel>
+
+                    <ToggleButtonGroup
+                        disabled={isDisabled}
+                        aria-labelledby="gudang-buttons-group-label"
+                        color="primary"
+                        value={warehouse}
+                        exclusive
+                        size="small"
+                        onChange={(_, value) =>
+                            setFieldValue('warehouse', value)
+                        }>
+                        {Object.values(Warehouse).map((warehouse, i) => (
+                            <ToggleButton key={i} value={warehouse}>
+                                {warehouse}
+                            </ToggleButton>
+                        ))}
+                    </ToggleButtonGroup>
+
+                    <FormHelperText error>{errors?.warehouse}</FormHelperText>
+                </FormControl>
+            </Fade>
 
             <Grid container columnSpacing={1.5}>
                 <Grid item xs={12} sm={6}>
@@ -183,6 +225,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
             />
 
             <ProductSaleDetailArrayField
+                warehouse={warehouse ?? warehouseAuto}
                 errors={errors}
                 data={product_sale_details}
                 disabled={isDisabled}
@@ -499,6 +542,7 @@ export const EMPTY_FORM_DATA: Partial<{
     buyer_user_uuid: null | ProductSaleType['buyer_user_uuid']
     at: null | ProductSaleType['at']
     note: '' | ProductSaleType['note']
+    warehouse: ProductMovementType['warehouse']
 
     product_sale_details: {
         product_id: null | number

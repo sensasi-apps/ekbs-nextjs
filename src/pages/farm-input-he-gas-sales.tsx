@@ -2,7 +2,7 @@
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type { OnRowClickType } from '@/components/Datatable'
 import type ProductSaleType from '@/dataTypes/ProductSale'
-import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -51,8 +51,13 @@ export default function FarmInputHeGasSales() {
                 uuid: productSale.uuid,
                 at: productSale.at,
 
-                product:
-                    productSale.product_movement_details?.[0]?.product_state,
+                product: {
+                    ...productSale.product_movement_details?.[0]?.product_state,
+                    warehouses: [
+                        productSale.product_movement_details?.[0]
+                            ?.product_warehouse_state,
+                    ],
+                },
                 product_id:
                     productSale.product_movement_details?.[0]?.product_id,
 
@@ -145,7 +150,7 @@ export default function FarmInputHeGasSales() {
     )
 }
 
-const pmdsCustomBodyRender = (pids: ProductMovementDetailType[]) => (
+const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
     <ul
         style={{
             margin: 0,

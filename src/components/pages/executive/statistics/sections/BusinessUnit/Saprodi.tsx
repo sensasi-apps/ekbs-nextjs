@@ -110,7 +110,8 @@ const ProductMovementTableStatCard = memo(
                         }
                     />
 
-                    <Chip
+                    {/* DISABLED DUE UPDATE. RESULT IS UNMATCH WITH ANOTHER */}
+                    {/* <Chip
                         label="Periode Tertentu"
                         size="small"
                         color={
@@ -123,10 +124,11 @@ const ProductMovementTableStatCard = memo(
                                 ? undefined
                                 : () => setSelectedPeriod('periode tertentu')
                         }
-                    />
+                    /> */}
                 </ScrollableXBox>
 
-                <Fade in={isPeriodeTertentu} unmountOnExit>
+                {/* DISABLED DUE UPDATE. RESULT IS UNMATCH WITH ANOTHER */}
+                <Fade in={isPeriodeTertentu && false} unmountOnExit>
                     <span>
                         <ScrollableXBox mt={2}>
                             <DatePicker

@@ -2,6 +2,8 @@
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type { GetRowDataType } from '@/components/Datatable'
 import type ProductType from '@/dataTypes/Product'
+// vendors
+import { useRouter } from 'next/router'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -14,11 +16,20 @@ import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
 // layout
 import PublicLayout from '@/components/Layouts/PublicLayout'
+import WarehouseSelectionButton from '@/components/pages/katalog-saprodi/WarehouseSelectionButton'
 
-let getRowData: GetRowDataType<ProductType>
+let getRowData: GetRowDataType<
+    Omit<ProductType, 'warehouses'> & {
+        qty: number
+        default_sell_price: number
+    }
+>
 
 export default function KatalogProdukSaprodi() {
     const pageTitle = 'Katalog Digital Produk SAPRODI'
+
+    const { query } = useRouter()
+    const warehouse = query.warehouse?.toString() ?? 'muai'
 
     return (
         <PublicLayout
@@ -28,26 +39,28 @@ export default function KatalogProdukSaprodi() {
                 <Typography variant="h4" component="h1">
                     {pageTitle}
                 </Typography>
+
                 <Typography variant="subtitle1" component="h2">
                     Koperasi Belayan Sejahtera
                 </Typography>
+
+                <WarehouseSelectionButton />
             </Box>
 
             <Datatable
-                apiUrl="/public/produk-saprodi/datatable"
+                apiUrl={'/public/produk-saprodi/datatable/' + warehouse}
                 columns={columns}
                 defaultSortOrder={{
                     name: 'category_name',
                     direction: 'asc',
                 }}
                 tableId="products-table"
-                title="Daftar Produk"
+                title={'Daftar Produk — Gudang ' + warehouse.toUpperCase()}
                 getRowDataCallback={fn => (getRowData = fn)}
                 swrOptions={{
                     revalidateOnMount: true,
                 }}
             />
-
             <Box mt={1}>
                 <Typography variant="caption">Keterangan:</Typography>
                 <Box component="ul" m={0}>
@@ -83,12 +96,9 @@ const columns: MUIDataTableColumn[] = [
         name: 'category_name',
         label: 'Kategori',
         options: {
-            customBodyRender: text =>
-                text ? (
-                    <Chip label={text} size="small" variant="outlined" />
-                ) : (
-                    ''
-                ),
+            customBodyRender: (text: string) => (
+                <Chip label={text} size="small" variant="outlined" />
+            ),
         },
     },
     {
@@ -169,18 +179,12 @@ const columns: MUIDataTableColumn[] = [
             },
         },
     },
-    // {
-    //     name: 'base_cost_rp_per_unit',
-    //     label: 'Biaya Dasar',
-    //     options: {
-    //         customBodyRender: (value: number) => numberToCurrency(value),
-    //     },
-    // },
     {
         name: 'default_sell_price',
         label: 'Harga Satuan (Tunai)',
         options: {
-            customBodyRender: (value: number) => numberToCurrency(value),
+            customBodyRender: (value: number) =>
+                value ? numberToCurrency(value) : '',
         },
     },
     {

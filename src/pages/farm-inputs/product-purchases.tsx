@@ -1,6 +1,6 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
 import type { Ymd } from '@/types/DateString'
 import type {
@@ -23,16 +23,18 @@ import Fab from '@/components/Fab'
 import ProductPurchaseForm, {
     EMPTY_FORM_STATUS,
     FormValuesType,
+    productPurchaseToFormValues,
 } from '@/components/pages/farm-inputs/product-purchases/Form'
 // icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 // providers
 import useAuth from '@/providers/Auth'
 // utils
-import toDmy from '@/utils/toDmy'
+import errorCatcher from '@/utils/errorCatcher'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
-import errorCatcher from '@/utils/errorCatcher'
+import replaceNullPropValuesWithUndefined from '@/utils/replaceNullPropValuesWithUndefined'
+import toDmy from '@/utils/toDmy'
 // enums
 import FarmInput from '@/enums/permissions/FarmInput'
 import ApiUrlEnum from '@/components/pages/farm-inputs/ApiUrlEnum'
@@ -46,9 +48,8 @@ export default function FarmInputsProducts() {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
     const [initialFormikValues, setInitialFormikValues] =
-        useState<FormValuesType>({
-            product_movement_details: [{} as ProductMovementDetailType],
-        })
+        useState<FormValuesType>(productPurchaseToFormValues())
+
     const [initialFormikStatus, setInitialFormikStatus] =
         useState(EMPTY_FORM_STATUS)
 
@@ -59,10 +60,7 @@ export default function FarmInputsProducts() {
             const productPurchase = getRowData(dataIndex)
             if (!productPurchase) return
 
-            setInitialFormikValues({
-                ...productPurchase,
-                cashable_uuid: productPurchase.transaction?.cashable?.uuid,
-            })
+            setInitialFormikValues(productPurchaseToFormValues(productPurchase))
 
             setInitialFormikStatus({
                 uuid: productPurchase.uuid,
@@ -73,9 +71,7 @@ export default function FarmInputsProducts() {
     }
 
     const handleNew = () => {
-        setInitialFormikValues({
-            product_movement_details: [{} as ProductMovementDetailType],
-        })
+        setInitialFormikValues(productPurchaseToFormValues())
         setInitialFormikStatus(EMPTY_FORM_STATUS)
         setIsDialogOpen(true)
     }
@@ -92,18 +88,7 @@ export default function FarmInputsProducts() {
                     '$1',
                     isNew ? '' : `/${initialFormikStatus.uuid}`,
                 ),
-                {
-                    order: values.order,
-                    due: values.due,
-                    received: values.received,
-                    paid: values.paid,
-                    note: values.note,
-                    product_movement: {
-                        costs: values.product_movement?.costs,
-                    },
-                    product_movement_details: values.product_movement_details,
-                    cashable_uuid: values.cashable_uuid,
-                },
+                replaceNullPropValuesWithUndefined(values),
             )
             .then(() => {
                 mutate()
@@ -153,56 +138,62 @@ export default function FarmInputsProducts() {
     )
 }
 
-const pmdsCustomBodyRender = (pids: ProductMovementDetailType[]) => (
-    <ul
-        style={{
-            margin: 0,
-            paddingLeft: '1em',
-            whiteSpace: 'nowrap',
-        }}>
-        {pids?.map(
-            ({
-                id,
-                qty,
-                rp_per_unit,
-                rp_cost_per_unit,
-                product_state: { name, unit },
-            }) => (
-                <Typography
-                    key={id}
-                    variant="overline"
-                    component="li"
-                    lineHeight="unset">
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: name,
-                        }}
-                    />{' '}
-                    &mdash; {formatNumber(qty)} {unit} &times;{' ('}
-                    <Tooltip title="harga beli" placement="top" arrow>
-                        <u
-                            style={{
-                                textDecorationStyle: 'dotted',
-                            }}>
-                            {numberToCurrency(rp_per_unit)}
-                        </u>
-                    </Tooltip>{' '}
-                    +{' '}
-                    <Tooltip title="biaya lain" placement="top" arrow>
-                        <u
-                            style={{
-                                textDecorationStyle: 'dotted',
-                            }}>
-                            {numberToCurrency(rp_cost_per_unit)}
-                        </u>
-                    </Tooltip>
-                    {') '}={' '}
-                    {numberToCurrency(qty * (rp_cost_per_unit + rp_per_unit))}
-                </Typography>
-            ),
-        )}
-    </ul>
-)
+function pmdsCustomBodyRender(pids: ProductMovementDetail[]) {
+    return (
+        <ul
+            style={{
+                margin: 0,
+                paddingLeft: '1em',
+                whiteSpace: 'nowrap',
+            }}>
+            {pids?.map(
+                (
+                    {
+                        qty,
+                        rp_per_unit,
+                        rp_cost_per_unit,
+                        product_state: { name, unit },
+                    },
+                    index,
+                ) => (
+                    <Typography
+                        key={index}
+                        variant="overline"
+                        component="li"
+                        lineHeight="unset">
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: name,
+                            }}
+                        />{' '}
+                        &mdash; {formatNumber(qty)} {unit} &times;{' ('}
+                        <Tooltip title="harga beli" placement="top" arrow>
+                            <u
+                                style={{
+                                    textDecorationStyle: 'dotted',
+                                }}>
+                                {numberToCurrency(rp_per_unit)}
+                            </u>
+                        </Tooltip>{' '}
+                        +{' '}
+                        <Tooltip title="biaya lain" placement="top" arrow>
+                            <u
+                                style={{
+                                    textDecorationStyle: 'dotted',
+                                }}>
+                                {numberToCurrency(rp_cost_per_unit)}
+                            </u>
+                        </Tooltip>
+                        {') '}={' '}
+                        {numberToCurrency(
+                            qty * (rp_cost_per_unit + rp_per_unit),
+                        )}
+                    </Typography>
+                ),
+            )}
+        </ul>
+    )
+}
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
@@ -210,6 +201,14 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'UUID',
         options: {
             display: false,
+        },
+    },
+    {
+        name: 'product_movement.warehouse',
+        label: 'Gudang',
+        options: {
+            customBodyRenderLite: dataIndex =>
+                getRowData(dataIndex)?.product_movement?.warehouse,
         },
     },
     {

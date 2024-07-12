@@ -1,19 +1,18 @@
 // types
-import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 import type ProductOpanameType from '@/dataTypes/ProductOpname'
+import type { ProductOpnameMovementType } from '@/dataTypes/ProductMovement'
 // vendors
 import { memo } from 'react'
 import dayjs from 'dayjs'
-import { FastField, FormikProps } from 'formik'
+import { FastField, FormikErrors, FormikProps } from 'formik'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
-// import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayField'
-import { ProductOpnameMovementType } from '@/dataTypes/ProductMovement'
 
 const ProductOpnameForm = memo(function ProductOpnameForm({
     dirty,
@@ -56,7 +55,11 @@ const ProductOpnameForm = memo(function ProductOpnameForm({
             />
 
             <ProductMovementDetailArrayField
-                errors={errors}
+                errors={
+                    errors?.product_opname_movement_details as FormikErrors<
+                        (typeof EMPTY_FORM_DATA)['product_opname_movement_details']
+                    >
+                }
                 data={product_opname_movement_details}
                 disabled={isDisabled}
             />
@@ -78,7 +81,7 @@ const ProductOpnameForm = memo(function ProductOpnameForm({
 
 export default ProductOpnameForm
 
-type ProductOpnameMovementDetail = ProductMovementDetailType & {
+type ProductOpnameMovementDetail = ProductMovementDetail & {
     physical_qty: '' | number
 }
 

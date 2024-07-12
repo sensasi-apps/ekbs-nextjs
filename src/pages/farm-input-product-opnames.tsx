@@ -44,8 +44,11 @@ export default function FarmInputProductOpnames() {
 
             const opnameMovementDetails = productMovement.details.map(pmd => ({
                 ...pmd,
-                product: pmd.product_state,
-                physical_qty: (pmd.product_state.warehouses[0].qty ?? 0) + pmd.qty,
+                product: {
+                    ...pmd.product_state,
+                    warehouses: [pmd.product_warehouse_state],
+                },
+                physical_qty: pmd.product_warehouse_state.qty + pmd.qty,
             }))
 
             setInitialFormikValues({

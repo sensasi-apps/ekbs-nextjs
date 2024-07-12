@@ -1,5 +1,5 @@
 // types
-import type ProductType from '@/dataTypes/Product'
+import type Product from '@/dataTypes/Product'
 // vendors
 import { memo } from 'react'
 // materials
@@ -81,7 +81,9 @@ const ProductMovementTable = memo(function ProductMovementTable({
                             />
                         ))}
                         <TableCell sx={LEFT_BORDER_STYLE}>Jumlah</TableCell>
-                        <TableCell>Biaya Dasar</TableCell>
+                        <TableCell sx={LEFT_BORDER_STYLE}>
+                            Biaya Dasar
+                        </TableCell>
                         <TableCell>Nilai</TableCell>
                         <TableCell sx={LEFT_BORDER_STYLE}>
                             Harga Tunai
@@ -127,7 +129,7 @@ const ProductMovementTable = memo(function ProductMovementTable({
                             <TableCell align="right" sx={LEFT_BORDER_STYLE}>
                                 {formatNumber(row.final_qty)}
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell align="right" sx={LEFT_BORDER_STYLE}>
                                 {roundedCurrencyFormat(
                                     row.base_cost_rp_per_unit ?? 0,
                                 )}
@@ -191,11 +193,11 @@ export default ProductMovementTable
 
 export type ProductMovementTableProp = {
     data?: {
-        id: ProductType['id']
-        category_name: ProductType['category_name']
-        base_cost_rp_per_unit: ProductType['base_cost_rp_per_unit']
-        name: ProductType['name']
-        code: ProductType['code']
+        id: Product['id']
+        category_name: Product['category_name']
+        base_cost_rp_per_unit: Product['warehouses'][0]['base_cost_rp_per_unit']
+        name: Product['name']
+        code: Product['code']
         initial_qty: number
         movements: {
             in: number

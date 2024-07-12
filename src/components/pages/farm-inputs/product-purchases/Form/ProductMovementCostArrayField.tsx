@@ -18,6 +18,7 @@ import TextField from '@/components/TextField'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import { FormValuesType } from '../Form'
 
 export default function ProductMovementCostArrayField({
     replace,
@@ -29,7 +30,7 @@ export default function ProductMovementCostArrayField({
 }: {
     data?: ProductMovementType['costs']
     disabled?: boolean
-    errors: FormikErrors<ProductMovementType>
+    errors?: FormikErrors<FormValuesType['costs']>
 } & FieldArrayRenderProps) {
     return (
         <>
@@ -104,10 +105,7 @@ export default function ProductMovementCostArrayField({
                                     }),
                                 )
                             }}
-                            {...errorsToHelperTextObj(
-                                // @ts-expect-error formik errors is different from laravel exception errors
-                                errors[`product_movement.costs.${index}.name`],
-                            )}
+                            {...errorsToHelperTextObj(errors?.[index]?.name)}
                         />
                     </Grid>
 
@@ -128,10 +126,7 @@ export default function ProductMovementCostArrayField({
                                     }),
                                 )
                             }
-                            {...errorsToHelperTextObj(
-                                // @ts-expect-error formik errors is different from laravel exception errors
-                                errors[`product_movement.costs.${index}.rp`],
-                            )}
+                            {...errorsToHelperTextObj(errors?.[index]?.rp)}
                         />
                     </Grid>
                 </Grid>

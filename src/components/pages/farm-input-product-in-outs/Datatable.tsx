@@ -1,6 +1,6 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type ProductMovementType from '@/dataTypes/ProductMovement'
+import type ProductMovement from '@/dataTypes/ProductMovement'
 // vendors
 import { memo, useState } from 'react'
 // materials
@@ -8,7 +8,10 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { OnRowClickType, getRowData } from '@/components/Datatable'
+import Datatable, {
+    GetRowDataType,
+    OnRowClickType,
+} from '@/components/Datatable'
 // utils
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
@@ -16,6 +19,8 @@ import formatNumber from '@/utils/formatNumber'
 // enums
 import { ApiUrlEnum } from './Datatable.type'
 import { ProductMovementTypeEnum } from '@/dataTypes/ProductMovement'
+
+let getRowData: GetRowDataType<ProductMovement>
 
 const FarmInputProductInOutDatatable = memo(
     function FarmInputProductInOutDatatable({
@@ -35,6 +40,7 @@ const FarmInputProductInOutDatatable = memo(
                     apiUrl={apiUrl}
                     onRowClick={onRowClick}
                     columns={DATATABLE_COLUMNS}
+                    getRowDataCallback={fn => (getRowData = fn)}
                     defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 />
             </>
@@ -90,7 +96,7 @@ function FilterBox({
 }
 
 const detailsProductStateCustomBodyRenderLite = (dataIndex: number) => {
-    const data = getRowData<ProductMovementType>(dataIndex)
+    const data = getRowData(dataIndex)
     if (!data) return ''
 
     return (
@@ -106,13 +112,13 @@ const detailsProductStateCustomBodyRenderLite = (dataIndex: number) => {
                     qty,
                     rp_per_unit,
                     rp_cost_per_unit,
-                    product_state: { name, unit, base_cost_rp_per_unit },
+                    product_state: { name, unit },
+                    product_warehouse_state: { base_cost_rp_per_unit },
                 }) => {
-                    let rpPerUnit = rp_per_unit + rp_cost_per_unit
-
-                    if (data.type === ProductMovementTypeEnum.OPNAME) {
-                        rpPerUnit = base_cost_rp_per_unit
-                    }
+                    const rpPerUnit =
+                        data.type === ProductMovementTypeEnum.OPNAME
+                            ? base_cost_rp_per_unit
+                            : rp_per_unit + rp_cost_per_unit
 
                     return (
                         <Typography
@@ -190,7 +196,7 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
             searchable: false,
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductMovementType>(dataIndex)
+                const data = getRowData(dataIndex)
                 if (!data || !data.details) return ''
 
                 return numberToCurrency(
@@ -201,14 +207,15 @@ export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                                 qty,
                                 rp_per_unit,
                                 rp_cost_per_unit,
-                                product_state: { base_cost_rp_per_unit },
+                                product_warehouse_state: {
+                                    base_cost_rp_per_unit,
+                                },
                             },
                         ) => {
-                            let rpPerUnit = rp_per_unit + rp_cost_per_unit
-
-                            if (data.type === ProductMovementTypeEnum.OPNAME) {
-                                rpPerUnit = base_cost_rp_per_unit
-                            }
+                            const rpPerUnit =
+                                data.type === ProductMovementTypeEnum.OPNAME
+                                    ? base_cost_rp_per_unit
+                                    : rp_per_unit + rp_cost_per_unit
 
                             return acc + rpPerUnit * qty
                         },

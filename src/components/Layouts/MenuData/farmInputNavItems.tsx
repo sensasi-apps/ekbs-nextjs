@@ -4,16 +4,18 @@ import type NavItem from './NavItem.type'
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
-import ChecklistIcon from '@mui/icons-material/Checklist'
+// import ChecklistIcon from '@mui/icons-material/Checklist'
 import InventoryIcon from '@mui/icons-material/Inventory'
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
+
 // page components
 import GroupTitle from './GroupTitle'
 // enums
 import FarmInput from '@/enums/permissions/FarmInput'
+import Role from '@/enums/Role'
 
 const farmInputNavItems: NavItem[] = [
     {
@@ -43,12 +45,12 @@ const farmInputNavItems: NavItem[] = [
         icon: <CreditCardIcon />,
         forPermission: FarmInput.READ_RECEIVABLE,
     },
-    {
-        href: '/farm-input-product-in-outs',
-        label: 'Barang Keluar-Masuk',
-        icon: <WarehouseIcon />,
-        forPermission: FarmInput.READ_STATISTIC,
-    },
+    // {
+    //     href: '/farm-input-product-in-outs',
+    //     label: 'Barang Keluar-Masuk',
+    //     icon: <WarehouseIcon />,
+    //     forPermission: FarmInput.READ_STATISTIC,
+    // },
     // {
     //     href: '/farm-input-product-opnames',
     //     label: 'Opname',
@@ -76,6 +78,10 @@ const farmInputNavItems: NavItem[] = [
         label: 'Penjualan BBM ke Alat Berat',
         icon: <LocalGasStationIcon />,
         forPermission: FarmInput.READ_PRODUCT_SALE,
+        forRole: [
+            Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
+            Role.FARM_INPUT_MANAGER,
+        ],
     },
     {
         href: '/katalog-saprodi',

@@ -5,7 +5,7 @@ import type {
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type ProductMovementDetailType from '@/dataTypes/ProductMovementDetail'
+import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 import type ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
 import { Formik } from 'formik'
@@ -41,6 +41,7 @@ import Role from '@/enums/Role'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
 import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
 import { CashableClassname } from '@/dataTypes/Transaction'
+import Warehouse from '@/enums/Warehouse'
 
 let getRowData: GetRowDataType<ProductSaleType>
 let mutate: MutateType<ProductSaleType>
@@ -64,6 +65,8 @@ export default function FarmInputProductSales() {
                 at: productSale.at,
                 buyer_user_uuid: productSale.buyer_user_uuid,
                 note: productSale.note,
+                warehouse: productSale.product_movement.warehouse,
+
                 payment_method: productSale.payment_method,
                 cashable_uuid: productSale.transaction?.cashable_uuid ?? '',
                 interest_percent: productSale.interest_percent,
@@ -96,6 +99,10 @@ export default function FarmInputProductSales() {
 
     const isNew = !initialFormikStatus?.uuid
 
+    const isNeedToDetermineWarehouse =
+        userHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE) ===
+        userHasRole(Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE)
+
     return (
         <AuthLayout title="Penjualan">
             <Box
@@ -126,7 +133,18 @@ export default function FarmInputProductSales() {
             {userHasPermission('create product sale') && (
                 <>
                     <DialogWithTitle
-                        title={(isNew ? 'Tambah ' : '') + 'Data Penjualan'}
+                        title={
+                            (isNew ? 'Tambah ' : '') +
+                            'Data Penjualan' +
+                            (!isNeedToDetermineWarehouse
+                                ? ' Gudang ' +
+                                  (userHasRole(
+                                      Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
+                                  )
+                                      ? Warehouse.MUAI
+                                      : Warehouse.PULAU_PINANG)
+                                : '')
+                        }
                         open={isDialogOpen}
                         maxWidth="sm">
                         <Formik
@@ -169,6 +187,7 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
         note,
         product_sale_details,
         payment_method,
+        warehouse,
 
         cashable_uuid,
         interest_percent,
@@ -183,6 +202,7 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
         note,
         product_sale_details,
         payment_method,
+        warehouse,
     }
 
     if (payment_method === 'cash') {
@@ -209,7 +229,7 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
     }
 }
 
-const pmdsCustomBodyRender = (pids: ProductMovementDetailType[]) => (
+const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
     <ul
         style={{
             margin: 0,

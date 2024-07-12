@@ -1,28 +1,30 @@
 import type { UUID } from 'crypto'
-import type ProductMovementDetailType from './ProductMovementDetail'
-import type ActivityLogType from './ActivityLog'
-import type ProductOpnameType from './ProductOpname'
+import type ProductMovementDetail from './ProductMovementDetail'
+import type ActivityLog from './ActivityLog'
+import type ProductOpname from './ProductOpname'
+import Warehouse from '@/enums/Warehouse'
 
-type ProductMovementType = {
+type ProductMovement = {
     uuid: UUID
     at: string
     type: ProductMovementTypeEnum
     rp_cost: number
+    warehouse: Warehouse
 
     // relations
-    details: ProductMovementDetailType[]
-    user_activity_logs: ActivityLogType[]
+    details: ProductMovementDetail[]
+    user_activity_logs: ActivityLog[]
     costs: {
         name: string
         rp: number
     }[]
 }
 
-export default ProductMovementType
+export default ProductMovement
 
-export type ProductOpnameMovementType = ProductMovementType & {
+export type ProductOpnameMovementType = ProductMovement & {
     type: ProductMovementTypeEnum.OPNAME
-    product_movementable: ProductOpnameType
+    product_movementable: ProductOpname
 }
 
 export enum ProductMovementTypeEnum {
