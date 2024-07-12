@@ -1,10 +1,14 @@
 {
-    "ignoreUnresolved": [],
-    "ignoreUnused": [
-        "@sentry/nextjs",
-        "next",
-        "next-pwa",
-        "react",
-        "react-dom"
-    ]
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "@sentry/nextjs",
+    "next",
+    "next-pwa",
+    "react",
+    "react-dom"
+  ],
+  "ignoreUnimported": [
+    "src/components/Wallet/TxHistory/SummaryByTag.tsx",
+    "src/instrumentation.ts"
+  ]
 }
