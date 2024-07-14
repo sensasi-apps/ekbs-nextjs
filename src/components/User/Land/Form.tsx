@@ -20,9 +20,10 @@ import TextField from '@mui/material/TextField'
 import LoadingButton from '@mui/lab/LoadingButton'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import NumericMasking from '@/components/Inputs/NumericMasking'
-import SelectInputFromApi from '@/components/SelectInputFromApi'
 import DatePicker from '@/components/DatePicker'
+import SelectFromApi from '@/components/Global/SelectFromApi'
+import NumericFormat from '@/components/NumericFormat'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
 const INITIAL_STATE = {
     n_area_hectares: undefined,
@@ -118,19 +119,16 @@ export default function UserLandForm(props: UserLandFormPropType) {
                 id="n_area_hectares"
                 defaultValue={n_area_hectares}
             />
-            <TextField
-                fullWidth
-                required
+
+            <NumericFormat
                 disabled={isLoading}
                 name="n_area_hectares"
                 label="Luas Lahan"
-                margin="dense"
                 defaultValue={n_area_hectares}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="start">Ha</InputAdornment>
                     ),
-                    inputComponent: NumericMasking,
                 }}
                 onChange={event => {
                     const { value } = event.target
@@ -139,9 +137,9 @@ export default function UserLandForm(props: UserLandFormPropType) {
                         ?.setAttribute('value', value)
                     clearValidationError(event)
                 }}
-                error={Boolean(validationErrors.n_area_hectares)}
-                helperText={validationErrors.n_area_hectares}
+                {...errorsToHelperTextObj(validationErrors.n_area_hectares)}
             />
+
             <TextField
                 fullWidth
                 disabled={isLoading}
@@ -168,10 +166,9 @@ export default function UserLandForm(props: UserLandFormPropType) {
                 }}
             />
 
-            {/* @ts-expect-error - TODO: fix this later js to ts */}
-            <SelectInputFromApi
-                name="farmer_group_uuid"
+            <SelectFromApi
                 selectProps={{
+                    name: 'farmer_group_uuid',
                     margin: 'dense',
                     defaultValue: farmer_group_uuid || '',
                     required: true,
@@ -180,6 +177,7 @@ export default function UserLandForm(props: UserLandFormPropType) {
                 endpoint="/data/farmer-groups"
                 label="Kelompok Tani"
             />
+
             <input
                 type="hidden"
                 name="region_id"
@@ -212,25 +210,21 @@ export default function UserLandForm(props: UserLandFormPropType) {
                 onChange={clearValidationError}
                 helperText={validationErrors.detail}
             />
-            <TextField
+
+            <NumericFormat
                 fullWidth
                 disabled={isLoading}
                 margin="dense"
                 name="zip_code"
                 label="Kode Pos"
-                InputProps={{
-                    inputComponent: NumericMasking,
-                }}
-                inputProps={{
-                    thousandSeparator: false,
-                    decimalScale: 0,
-                    maxLength: 5,
-                }}
                 defaultValue={address?.zip_code}
-                error={Boolean(validationErrors.zip_code)}
+                thousandSeparator={false}
+                decimalScale={0}
+                maxLength={5}
                 onChange={clearValidationError}
-                helperText={validationErrors.zip_code}
+                {...errorsToHelperTextObj(validationErrors.zip_code)}
             />
+
             <TextField
                 fullWidth
                 disabled={isLoading}
