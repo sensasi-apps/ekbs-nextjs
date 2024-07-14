@@ -111,13 +111,16 @@ const UserDriversCrudBox = ({ courierUserUuid, data: drivers = [] }) => {
             <Fade
                 in={isFormOpen}
                 unmountOnExit
-                style={{
-                    marginTop: 16,
-                }}>
-                <UserDriverForm
-                    courierUserUuid={courierUserUuid}
-                    onClose={() => setIsFormOpen(false)}
-                />
+                // style={{
+                //     marginTop: 16,
+                // }}
+            >
+                <span>
+                    <UserDriverForm
+                        courierUserUuid={courierUserUuid}
+                        onClose={() => setIsFormOpen(false)}
+                    />
+                </span>
             </Fade>
         </Box>
     )
