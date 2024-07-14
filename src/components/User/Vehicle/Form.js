@@ -1,15 +1,16 @@
+// vendors
 import { useState, forwardRef } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
-
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-
 import LoadingButton from '@mui/lab/LoadingButton'
-
-import NumericMasking from '@/components/Inputs/NumericMasking'
+// components
+import NumericFormat from '@/components/NumericFormat'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
 const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
     const [errors, setErrors] = useState({})
@@ -89,19 +90,16 @@ const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
                 name="max_capacity_ton"
             />
 
-            <TextField
-                fullWidth
+            <NumericFormat
                 disabled={isLoading}
-                required
                 margin="normal"
                 label="Kapasitas Muatan"
+                value={inputMaxCapacityValue}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="start">Ton</InputAdornment>
                     ),
-                    inputComponent: NumericMasking,
                 }}
-                error={Boolean(errors.max_capacity_ton)}
                 onChange={e => {
                     const { value } = e.target
                     document.getElementById('max_capacity_ton').value = value
@@ -109,8 +107,7 @@ const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
 
                     return clearError(e)
                 }}
-                value={inputMaxCapacityValue}
-                helperText={errors.max_capacity_ton}
+                {...errorsToHelperTextObj(errors.max_capacity_ton)}
             />
 
             <TextField

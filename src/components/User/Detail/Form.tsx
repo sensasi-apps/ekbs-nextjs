@@ -25,7 +25,6 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import DatePicker from '@/components/DatePicker'
 import DeprecatedImageInput from '@/components/DeprecatedImageInput'
-import NumericMasking from '@/components/Inputs/NumericMasking'
 import TextField from '@/components/TextField'
 // providers
 import useFormData from '@/providers/FormData'
@@ -38,6 +37,7 @@ import MaritalStatusEnum from '@/dataTypes/enums/MaritalStatus'
 import DistrictType from '@/dataTypes/District'
 import RegencyType from '@/dataTypes/Regency'
 import VillageType from '@/dataTypes/Village'
+import NumericFormat from '@/components/NumericFormat'
 
 const getBirthRegion = (userDetail?: UserDetailRelationsType) => {
     return (
@@ -304,19 +304,15 @@ export default function UserDetailForm() {
                 </Grid>
 
                 <Grid item sm={6} xs={12}>
-                    <TextField
+                    <NumericFormat
                         required={false}
                         label="Jumlah Anak"
                         disabled={isLoading}
                         name="n_children"
                         onChange={clearByEvent}
-                        InputProps={{
-                            inputComponent: NumericMasking,
-                        }}
-                        inputProps={{
-                            decimalScale: 0,
-                            maxLength: 2,
-                        }}
+                        inputProps={{}}
+                        maxLength={2}
+                        decimalScale={0}
                         defaultValue={userDetail?.n_children || ''}
                         {...errorsToHelperTextObj(validationErrors.n_children)}
                     />

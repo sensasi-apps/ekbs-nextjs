@@ -9,8 +9,9 @@ import TextField from '@mui/material/TextField'
 // components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import NumericMasking from '@/components/Inputs/NumericMasking'
 import useValidationErrors from '@/hooks/useValidationErrors'
+import NumericFormat from '@/components/NumericFormat'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
 export default function AddressForm({
     isShow,
@@ -113,21 +114,14 @@ export default function AddressForm({
                 helperText={errors.detail}
             />
 
-            <TextField
-                fullWidth
+            <NumericFormat
                 margin="normal"
                 name="zip_code"
                 label="Kode Pos"
-                InputProps={{
-                    inputComponent: NumericMasking,
-                }}
-                inputProps={{
-                    thousandSeparator: false,
-                    decimalScale: 0,
-                    maxLength: 5,
-                }}
-                error={Boolean(errors.zip_code)}
-                helperText={errors.zip_code}
+                decimalScale={0}
+                maxLength={5}
+                thousandSeparator={false}
+                {...errorsToHelperTextObj(errors.zip_code)}
             />
 
             <Box textAlign="right" mt={1}>
