@@ -9,7 +9,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import LoadingButton from '@mui/lab/LoadingButton'
 // components
-import SelectInputFromApi from '@/components/SelectInputFromApi'
+import SelectFromApi from '@/components/Global/SelectFromApi'
 import DatePicker from '@/components/DatePicker'
 // providers
 import useFormData from '@/providers/FormData'
@@ -89,7 +89,7 @@ const EmployeeForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <SelectInputFromApi
+            <SelectFromApi
                 endpoint="/data/employee-statuses"
                 label="Status Karyawan"
                 disabled={isLoading}
