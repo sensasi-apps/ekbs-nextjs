@@ -246,7 +246,7 @@ function DialogForDownloadXls() {
                     }}
                     onChange={(date, { validationError }) =>
                         setToDate(
-                            validationError ? undefined : date ?? undefined,
+                            validationError ? undefined : (date ?? undefined),
                         )
                     }
                 />
