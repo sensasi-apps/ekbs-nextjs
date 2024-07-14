@@ -1,89 +1,105 @@
-import { useState, forwardRef } from 'react'
+// types
+import type { AxiosError } from 'axios'
+import type { UUID } from 'crypto'
+import type LaravelValidationException from '@/types/LaravelValidationException'
+// vendors
+import { useState } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
-
+// materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-
 import LoadingButton from '@mui/lab/LoadingButton'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+// components
+import TextField from '@/components/TextField'
+import UserAutocomplete from '@/components/UserAutocomplete'
 
-import UserSelect from '../Select'
-
-const UserDriverForm = ({ onClose, courierUserUuid, ...props }, ref) => {
-    const [errors, setErrors] = useState({})
+export default function UserDriverForm({
+    onClose,
+    courierUserUuid,
+}: {
+    onClose?: () => void
+    courierUserUuid: UUID
+}) {
+    const [formValues, setFormValues] = useState<{
+        driver_user_uuid?: UUID
+        license_number?: string
+    }>()
+    const [errors, setErrors] = useState<Record<string, string[] | undefined>>()
     const [isLoading, setIsLoading] = useState(false)
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-        setIsLoading(true)
-
-        const form = e.target.closest('form')
-        if (!form.reportValidity()) {
-            setIsLoading(false)
-            return false
-        }
-
-        const formData = new FormData(form)
-
-        try {
-            await axios.post(
-                `/users/${courierUserUuid}/courier/drivers`,
-                formData,
-            )
-            await mutate(`/users/${courierUserUuid}`)
-
-            if (onClose) {
-                onClose()
-            }
-        } catch (err) {
-            if (err.response?.status === 422) {
-                setErrors(err.response.data.errors)
-            } else {
-                throw err
-            }
-        }
-
-        setIsLoading(false)
-    }
-
     return (
-        <form ref={ref} autoComplete="off" {...props}>
-            <input type="hidden" required name="driver_user_uuid" />
+        <form
+            autoComplete="off"
+            onSubmit={e => {
+                e.preventDefault()
+                setIsLoading(true)
 
-            <UserSelect
-                required
+                const form = e.currentTarget
+                if (!form.reportValidity()) {
+                    setIsLoading(false)
+                    return false
+                }
+
+                return axios
+                    .post(
+                        `/users/${courierUserUuid}/courier/drivers`,
+                        formValues,
+                    )
+                    .then(() => {
+                        mutate(`/users/${courierUserUuid}`).then(() => {
+                            onClose?.()
+                        })
+                    })
+                    .catch((err: AxiosError<LaravelValidationException>) => {
+                        if (err.response?.status === 422) {
+                            setErrors(err.response.data.errors)
+                        } else {
+                            throw err
+                        }
+                    })
+                    .finally(() => {
+                        setIsLoading(false)
+                    })
+            }}>
+            <UserAutocomplete
                 disabled={isLoading}
-                margin="dense"
-                onChange={(e, user) => {
+                label="Nama"
+                onChange={(_, user) => {
+                    if (!user || !user?.uuid) return
+
                     setErrors({
                         ...errors,
-                        driver_user_uuid: null,
+                        driver_user_uuid: undefined,
                     })
 
-                    document.querySelector(
-                        'input[name="driver_user_uuid"]',
-                    ).value = user?.uuid
+                    setFormValues({
+                        ...formValues,
+                        driver_user_uuid: user.uuid,
+                    })
                 }}
-                error={Boolean(errors.driver_user_uuid)}
-                helperText={errors.driver_user_uuid}
+                {...errorsToHelperTextObj(errors?.driver_user_uuid)}
             />
 
             <TextField
-                fullWidth
                 disabled={isLoading}
-                margin="dense"
                 name="license_number"
                 label="Nomor SIM"
-                error={Boolean(errors.license_number)}
-                onChange={() =>
+                onChange={ev => {
                     setErrors({
                         ...errors,
-                        license_number: null,
+                        license_number: undefined,
                     })
-                }
-                helperText={errors.license_number}
+
+                    setFormValues({
+                        ...formValues,
+                        license_number: ev.target.value,
+                    })
+                }}
+                {...errorsToHelperTextObj(errors?.license_number)}
             />
+
             <Box textAlign="right" mt={1}>
                 <Button
                     disabled={isLoading}
@@ -94,8 +110,9 @@ const UserDriverForm = ({ onClose, courierUserUuid, ...props }, ref) => {
                     }}>
                     Batal
                 </Button>
+
                 <LoadingButton
-                    onClick={handleSubmit}
+                    type="submit"
                     loading={isLoading}
                     variant="contained"
                     color="info">
@@ -105,5 +122,3 @@ const UserDriverForm = ({ onClose, courierUserUuid, ...props }, ref) => {
         </form>
     )
 }
-
-export default forwardRef(UserDriverForm)
