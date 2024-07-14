@@ -1,8 +1,12 @@
-import { FormControl, FormControlLabel, FormLabel, Switch } from '@mui/material'
+// materials
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormLabel from '@mui/material/FormLabel'
+import Switch from '@mui/material/Switch'
 
-export default function IsActiveDisplay({ isActive = false, ...props }) {
+export default function IsActiveDisplay({ isActive = false }) {
     return (
-        <FormControl fullWidth margin="normal" disabled {...props}>
+        <FormControl fullWidth margin="normal" disabled>
             <FormLabel>Status Akun</FormLabel>
             <FormControlLabel
                 sx={{
