@@ -239,7 +239,7 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
             </Container>
 
             <FieldArray
-                name="product_movement.costs"
+                name="costs"
                 render={props => (
                     <ProductMovementCostArrayField
                         {...props}

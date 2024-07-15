@@ -71,14 +71,19 @@ const farmInputNavItems: NavItem[] = [
             '/farm-input-product-sales/report',
         ],
         icon: <ReceiptIcon />,
-        forPermission: FarmInput.READ_PRODUCT_SALE,
+        forRole: [
+            // TODO: change to permission based
+            Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
+            Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE,
+            Role.FARM_INPUT_MANAGER,
+        ],
     },
     {
         href: '/farm-input-he-gas-sales',
         label: 'Penjualan BBM ke Alat Berat',
         icon: <LocalGasStationIcon />,
-        forPermission: FarmInput.READ_PRODUCT_SALE,
         forRole: [
+            // TODO: change to permission based
             Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
             Role.FARM_INPUT_MANAGER,
         ],
