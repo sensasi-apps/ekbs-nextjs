@@ -204,7 +204,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
-        name: 'product_movement.warehouse',
+        name: 'productMovement.warehouse',
         label: 'Gudang',
         options: {
             customBodyRenderLite: dataIndex =>
