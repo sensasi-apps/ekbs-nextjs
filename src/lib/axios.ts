@@ -1,11 +1,9 @@
-// types
-import type { AxiosError } from 'axios'
 // vendors
-import Axios from 'axios'
+import { enqueueSnackbar } from 'notistack'
+import Axios, { AxiosError } from 'axios'
 // utils
 import getCookie from '@/utils/getCookie'
 import handleServerError from './axios/handleServerError'
-import { enqueueSnackbar } from 'notistack'
 
 const axios = Axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
@@ -28,22 +26,18 @@ axios.interceptors.request.use(request => {
 })
 
 axios.interceptors.response.use(undefined, (error: AxiosError) => {
-    const { response, request } = error
+    const { response, code } = error
 
     if (response) {
         handleServerError(response)
-    } else if (request) {
-        const { code } = request
-
-        if (code === 'ERR_NETWORK') {
-            enqueueSnackbar(
-                'Permintaan gagal dikirimkan, mohon periksa kembali koneksi internet anda',
-                {
-                    variant: 'error',
-                    persist: true,
-                },
-            )
-        }
+    } else if (code === AxiosError.ERR_NETWORK) {
+        enqueueSnackbar(
+            'Permintaan gagal dikirimkan, mohon periksa kembali koneksi internet anda',
+            {
+                variant: 'error',
+                persist: true,
+            },
+        )
     }
 
     return Promise.reject(error)
