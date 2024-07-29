@@ -50,6 +50,7 @@ const FormikForm = memo(function FormikForm({
         cancelButton?: Omit<LoadingButtonProps, 'disabled' | 'form' | 'type'>
         submitButton: {
             disabled: boolean
+            confirmationText?: string
         }
         loadingBar?: Parameters<typeof DialogLoadingBar>[0]
     }
@@ -82,6 +83,9 @@ const FormikForm = memo(function FormikForm({
                             form={formId}
                             disabled={!dirty || submitButtonProps.disabled}
                             oldDirty={dirty && !isNew}
+                            confirmationText={
+                                submitButtonProps.confirmationText
+                            }
                         />
                     </Box>
                 </Box>

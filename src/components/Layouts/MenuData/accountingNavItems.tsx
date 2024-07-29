@@ -7,6 +7,7 @@ import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 import PaymentsIcon from '@mui/icons-material/Payments'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
+import SavingsIcon from '@mui/icons-material/Savings'
 // components
 import GroupTitle from './GroupTitle'
 // enums
@@ -53,10 +54,16 @@ const accountingNavItems: NavItem[] = [
         forPermission: Wallet.READ_USER_WALLET,
     },
     {
+        href: '/finances/debts',
+        label: 'Hutang',
+        icon: <CreditCardIcon />,
+        forPermission: Finance.READ_DEBT,
+    },
+    {
         href: '/receivables',
         label: 'Piutang',
         pathname: ['/receivables', '/receivables/report'],
-        icon: <CreditCardIcon />,
+        icon: <SavingsIcon />,
         forPermission: Cash.READ_ALL_INSTALLMENT,
     },
     {
