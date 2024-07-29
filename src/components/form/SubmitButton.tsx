@@ -6,11 +6,13 @@ const FormSubmitButton = memo(function FormSubmitButton({
     loading,
     disabled,
     form,
+    confirmationText,
 }: {
     disabled: boolean
     loading: boolean
     oldDirty: boolean
     form: string
+    confirmationText?: string
 }) {
     return (
         <ConfirmationDialogWithButton
@@ -30,7 +32,7 @@ const FormSubmitButton = memo(function FormSubmitButton({
                 type: 'submit',
                 form: form,
             }}>
-            Apakah Anda yakin ingin menyimpan perubahan?
+            {confirmationText ?? 'Apakah Anda yakin ingin menyimpan perubahan?'}
         </ConfirmationDialogWithButton>
     )
 })
