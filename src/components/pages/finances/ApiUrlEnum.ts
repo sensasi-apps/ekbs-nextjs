@@ -9,6 +9,10 @@ enum FinanceApiUrlEnum {
     DELETE_PAYROLL_USER = 'finances/payrolls/employees/$payrollUuid/$payrollUserUuid',
 
     CREATE_PAYROLL_USER_DETAILS = 'finances/payrolls/employees/$payrollUuid/$payrollUserUuid/details',
+
+    DEBT_DATATABLE_DATA = 'finances/debts/datatable-data',
+    UPDATE_OR_CREATE_DEBT = 'finances/debts/$uuid',
+    SETTLEMENT_DEBT = 'finances/debts/settlement/$uuid',
 }
 
 export default FinanceApiUrlEnum
