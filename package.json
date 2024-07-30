@@ -1,7 +1,7 @@
 {
     "name": "ekbs",
-    "version": "0.10.0",
-    "versionDate": "2024-07-21",
+    "version": "0.10.1",
+    "versionDate": "2024-07-31",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -12,9 +12,9 @@
         "test": "jest",
         "test:watch": "jest --watch",
         "check:update": "ncu",
-        "update": "ncu -u -t patch",
-        "update:minor": "ncu -u -t minor",
-        "update:major": "ncu -u"
+        "update": "ncu -u -t patch && npm install",
+        "update:minor": "ncu -u -t minor && npm install",
+        "update:major": "ncu -u && npm install"
     },
     "dependencies": {
         "@emotion/react": "^11.13.0",
@@ -67,7 +67,7 @@
         "npm-check-updates": "^16.14.20",
         "prettier": "^3.3.3",
         "typescript": "^5.5.4",
-        "typescript-eslint": "^7.17.0",
+        "typescript-eslint": "^7.18.0",
         "unimported": "^1.31.1"
     }
 }
