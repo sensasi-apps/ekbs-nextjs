@@ -15,7 +15,22 @@ export default function LogoutPage() {
     useEffect(() => {
         if (!isLoggingOut.current) {
             isLoggingOut.current = true
-            axios.post('/logout').then(onLogoutSuccess).catch(HANDLE_CATCH)
+
+            axios
+                .post('/logout')
+                .then(onLogoutSuccess)
+                .catch((error: AxiosError) => {
+                    if (
+                        // all of these status code could be considered as "user is not logged in"
+                        // 401: Unauthorized (user is not logged in)
+                        // 419: CSRF token mismatch
+                        [401, 419, undefined].includes(error.response?.status)
+                    ) {
+                        onLogoutSuccess()
+                    } else {
+                        throw error
+                    }
+                })
         }
     }, [onLogoutSuccess])
 
@@ -26,12 +41,4 @@ export default function LogoutPage() {
             </LoadingCenter>
         </AuthLayout>
     )
-}
-
-function HANDLE_CATCH(error: AxiosError) {
-    if ([401, 419, 422, undefined].includes(error.response?.status)) {
-        // do nothing
-    } else {
-        throw error
-    }
 }
