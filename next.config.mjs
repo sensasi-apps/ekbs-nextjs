@@ -1,40 +1,10 @@
 import { withSentryConfig } from '@sentry/nextjs'
-import runtimeCaching from 'next-pwa/cache.js'
-import withPWAConstructor from 'next-pwa'
-
-const withPWA = withPWAConstructor({
-    dest: 'public',
-    skipWaiting: true,
-    disable: process.env.NODE_ENV === 'development',
-    reloadOnOnline: false,
-    maximumFileSizeToCacheInBytes: 2.5 * 1024 * 1024,
-    runtimeCaching: [
-        {
-            urlPattern: new RegExp(
-                `^${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
-            ),
-            handler: 'StaleWhileRevalidate',
-            options: {
-                cacheName: 'auth-user-cache',
-            },
-        },
-        {
-            urlPattern: new RegExp(
-                `^${process.env.NEXT_PUBLIC_BACKEND_URL}/users/search?query=`,
-            ),
-            handler: 'StaleWhileRevalidate',
-            options: {
-                cacheName: 'users-search-cache',
-            },
-        },
-        ...runtimeCaching,
-    ],
-})
+import withSerwistInit from '@serwist/next'
 
 /**
  * @type {import('next').NextConfig}
  */
-const nextConfig = withPWA({
+const nextConfig = {
     reactStrictMode: true,
     rewrites() {
         return [
@@ -45,9 +15,14 @@ const nextConfig = withPWA({
             },
         ]
     },
+}
+
+const withSerwist = withSerwistInit({
+    swSrc: 'src/sw/index.ts',
+    swDest: 'public/sw.js',
 })
 
-export default withSentryConfig(nextConfig, {
+export default withSentryConfig(withSerwist(nextConfig), {
     org: 'sensasi-apps',
     project: 'ekbs-nextjs',
 
