@@ -79,7 +79,9 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
             0,
         ) ?? 0
 
-    const isCostMatch = parseFloat(totalRpCost) === parseFloat(totalRpCostItem)
+    const isCostMatch =
+        parseFloat(totalRpCost.toString()) ===
+        parseFloat(totalRpCostItem.toString())
 
     return (
         <FormikForm
