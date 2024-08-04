@@ -3,7 +3,7 @@ import { Field, FieldProps } from 'formik'
 import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
 // components
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat, { NumericFormatProps } from '@/components/NumericFormat'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
@@ -11,6 +11,7 @@ type NumericFieldProps = {
     name: string
     label: string
     disabled: boolean
+    numericFormatProps?: Omit<NumericFormatProps, 'name' | 'label' | 'disabled'>
 }
 
 export default function NumericFormikField({
@@ -28,6 +29,7 @@ function InnerComponent({
     // additional props
     disabled,
     label,
+    numericFormatProps,
 }: Omit<FieldProps<number>, 'meta'> & Omit<NumericFieldProps, 'name'>) {
     const { error, value } = getFieldMeta<number>(name)
     const [innerValue, setInnerValue] = useState<number | undefined>(value)
@@ -47,9 +49,10 @@ function InnerComponent({
                 setInnerValue(floatValue)
                 setFieldValueDebounced(floatValue)
             }}
-            {...errorsToHelperTextObj(error)}
             disabled={disabled}
             label={label}
+            {...numericFormatProps}
+            {...errorsToHelperTextObj(error)}
         />
     )
 }
