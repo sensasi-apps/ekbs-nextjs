@@ -1,11 +1,15 @@
 // types
-import type { NumericFormatProps } from 'react-number-format'
 import type { TextFieldProps } from '@mui/material/TextField'
 // vendors
 import { memo } from 'react'
-import { NumericFormat as VendorNumericFormat } from 'react-number-format'
+import {
+    NumericFormat as VendorNumericFormat,
+    NumericFormatProps as VendorNumericFormatProps,
+} from 'react-number-format'
 // components
 import TextField from '@/components/TextField'
+
+export type NumericFormatProps = VendorNumericFormatProps<TextFieldProps>
 
 /**
  * A component that formats numeric input with options for negative values, thousand separator, decimal separator, and custom input component.
@@ -26,7 +30,7 @@ const NumericFormat = memo(function NumericFormat({
         maxLength: 19,
     },
     ...props
-}: NumericFormatProps<TextFieldProps>) {
+}: NumericFormatProps) {
     return (
         <VendorNumericFormat
             allowNegative={allowNegative}
