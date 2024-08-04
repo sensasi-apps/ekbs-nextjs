@@ -1,20 +1,33 @@
+// vendors
 import { LoadingButton, LoadingButtonProps } from '@mui/lab'
-import ConfirmationDialog from '../ConfirmationDialog'
 import { useState } from 'react'
+// components
+import ConfirmationDialog from '../ConfirmationDialog'
+
+export type FormDeleteButtonProps = LoadingButtonProps & {
+    titleText?: string
+    confirmationText?: string
+}
 
 export default function FormDeleteButton({
     onClick,
     disabled,
     loading,
+    children,
+    titleText,
+    confirmationText,
     ...props
-}: LoadingButtonProps) {
+}: LoadingButtonProps & {
+    titleText?: string
+    confirmationText?: string
+}) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
     return (
         <>
             <ConfirmationDialog
                 open={isDialogOpen}
-                title="Apakah Anda yakin ingin menghapus data?"
+                title={titleText ?? 'Apakah Anda yakin ingin menghapus data?'}
                 color="error"
                 onConfirm={ev => onClick?.(ev)}
                 cancelButtonProps={{
@@ -24,7 +37,8 @@ export default function FormDeleteButton({
                     loading: loading,
                 }}
                 onCancel={() => setIsDialogOpen(false)}>
-                Data yang dihapus tidak dapat dikembalikan.
+                {confirmationText ??
+                    'Data yang dihapus tidak dapat dikembalikan.'}
             </ConfirmationDialog>
 
             <LoadingButton
@@ -33,7 +47,7 @@ export default function FormDeleteButton({
                 disabled={disabled}
                 loading={loading}
                 {...props}>
-                Hapus
+                {children ?? 'Hapus'}
             </LoadingButton>
         </>
     )
