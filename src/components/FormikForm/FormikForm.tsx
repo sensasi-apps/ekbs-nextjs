@@ -9,7 +9,9 @@ import Box from '@mui/material/Box'
 import DialogLoadingBar from '@/components/Dialog/LoadingBar'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
-import FormDeleteButton from '../form/FormDeleteButton'
+import FormDeleteButton, {
+    FormDeleteButtonProps,
+} from '@/components/form/FormDeleteButton'
 
 /**
  * A memoized component that renders a Formik form with additional buttons and features.
@@ -46,7 +48,7 @@ const FormikForm = memo(function FormikForm({
     submitting: boolean
     processing: boolean
     slotProps: {
-        deleteButton?: LoadingButtonProps
+        deleteButton?: FormDeleteButtonProps
         cancelButton?: Omit<LoadingButtonProps, 'disabled' | 'form' | 'type'>
         submitButton: {
             disabled: boolean

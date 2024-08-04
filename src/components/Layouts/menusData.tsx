@@ -13,6 +13,7 @@ import loanNavItems from './MenuData/loanNavItems'
 import palmBunchNavItems from './MenuData/palmBunchNavItems'
 import supermanNavItems from './MenuData/supermanNavItems'
 import systemNavItems from './MenuData/systemNavItems'
+import martNavItems from './MenuData/martNavItems'
 
 const NAV_ITEMS: NavItem[] = [
     {
@@ -34,6 +35,7 @@ const NAV_ITEMS: NavItem[] = [
     ...farmInputNavItems,
     ...inventoryNavItems,
     ...heavyEquipmentNavItems,
+    ...martNavItems,
     ...accountingNavItems,
     ...systemNavItems,
     ...supermanNavItems,

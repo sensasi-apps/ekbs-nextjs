@@ -27,8 +27,8 @@ type TextFieldProps = {
     >
 }
 
-export default function TextField({ name }: TextFieldProps) {
-    return <Field name={name} component={InnerComponent} />
+export default function TextField(props: TextFieldProps) {
+    return <Field component={InnerComponent} {...props} />
 }
 
 function InnerComponent({
