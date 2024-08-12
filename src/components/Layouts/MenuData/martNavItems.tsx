@@ -33,13 +33,13 @@ const martNavItems: NavItem[] = [
         // forPermission: UserLoan.READ_NEED_DISBURSE,
     },
     {
-        href: '/marts/purchases',
+        href: '/marts/products/purchases',
         label: 'Pembelian',
         icon: <ShoppingCartIcon />,
         // forPermission: UserLoan.READ_NEED_DISBURSE,
     },
     {
-        href: '/marts/sales',
+        href: '/marts/products/sales',
         label: 'Penjualan',
         icon: <PointOfSaleIcon />,
         // forPermission: UserLoan.READ_NEED_DISBURSE,
