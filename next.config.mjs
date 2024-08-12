@@ -20,6 +20,7 @@ const nextConfig = {
 const withSerwist = withSerwistInit({
     swSrc: 'src/sw/index.ts',
     swDest: 'public/sw.js',
+    reloadOnOnline: false,
 })
 
 export default withSentryConfig(withSerwist(nextConfig), {
