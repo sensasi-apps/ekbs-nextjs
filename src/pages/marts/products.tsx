@@ -7,12 +7,12 @@ import { Formik } from 'formik'
 import axios from '@/lib/axios'
 // materials
 import Typography from '@mui/material/Typography'
-import Chip from '@mui/material/Chip'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import ApiUrl from '@/components/pages/marts/products/ApiUrl'
 import AuthLayout from '@/components/Layouts/AuthLayout'
+import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
     getNoWrapCellProps,
     GetRowDataType,
@@ -75,6 +75,7 @@ export default function Products() {
                 setRowProps={(_, dataIndex) =>
                     getRowData(dataIndex)?.deleted_at
                         ? {
+                              ...getNoWrapCellProps(),
                               sx: {
                                   '& td': {
                                       color: 'text.disabled',
@@ -82,7 +83,7 @@ export default function Products() {
                                   },
                               },
                           }
-                        : {}
+                        : getNoWrapCellProps()
                 }
             />
 
@@ -207,11 +208,7 @@ const columns: MUIDataTableColumn[] = [
         label: 'Kategori',
         options: {
             customBodyRender: text =>
-                text ? (
-                    <Chip label={text} size="small" variant="outlined" />
-                ) : (
-                    ''
-                ),
+                text ? <ChipSmall label={text} variant="outlined" /> : '',
         },
     },
     {
@@ -225,7 +222,6 @@ const columns: MUIDataTableColumn[] = [
         name: 'warehouses.warehouse',
         label: 'Gudang',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
                 if (!warehouses) return
@@ -248,7 +244,6 @@ const columns: MUIDataTableColumn[] = [
         name: 'warehouses.qty',
         label: 'QTY',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
 
@@ -287,7 +282,6 @@ const columns: MUIDataTableColumn[] = [
         name: 'warehouses.base_cost_rp_per_unit',
         label: 'Biaya Dasar',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
                 if (!warehouses) return
@@ -312,7 +306,6 @@ const columns: MUIDataTableColumn[] = [
         name: 'warehouses.default_sell_price',
         label: 'Harga Jual Default',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
                 if (!warehouses) return
@@ -323,9 +316,25 @@ const columns: MUIDataTableColumn[] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ default_sell_price }, i) => (
+                        {warehouses.map(({ default_sell_price, margin }, i) => (
                             <li key={i}>
                                 {numberToCurrency(default_sell_price)}
+
+                                {margin && (
+                                    <ChipSmall
+                                        variant="outlined"
+                                        sx={{
+                                            ml: 2,
+                                        }}
+                                        label={
+                                            Math.round((margin - 1) * 100) +
+                                            ' %'
+                                        }
+                                        color={
+                                            margin - 1 < 0 ? 'error' : 'success'
+                                        }
+                                    />
+                                )}
                             </li>
                         ))}
                     </ul>
