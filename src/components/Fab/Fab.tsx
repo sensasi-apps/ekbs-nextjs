@@ -23,15 +23,17 @@ export default function Fab({
     return (
         <Zoom in={inProp} unmountOnExit>
             <Tooltip title={title} arrow placement="left">
-                <MuiFab
-                    color="success"
-                    sx={{
-                        position: 'fixed',
-                        bottom: 16,
-                        right: 16,
-                    }}
-                    {...props}
-                />
+                <span>
+                    <MuiFab
+                        color="success"
+                        sx={{
+                            position: 'fixed',
+                            bottom: 16,
+                            right: 16,
+                        }}
+                        {...props}
+                    />
+                </span>
             </Tooltip>
         </Zoom>
     )
