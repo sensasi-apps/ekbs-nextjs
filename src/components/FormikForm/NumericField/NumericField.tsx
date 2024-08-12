@@ -9,7 +9,7 @@ import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
 type NumericFieldProps = {
     name: string
-    label: string
+    label?: string
     disabled: boolean
     numericFormatProps?: Omit<NumericFormatProps, 'name' | 'label' | 'disabled'>
 }

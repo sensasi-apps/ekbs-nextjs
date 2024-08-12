@@ -12,7 +12,7 @@ import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 type TextFieldProps = {
     value?: string
     name: string
-    label: string
+    label?: string
     disabled: boolean
     textFieldProps?: Omit<
         MuiTextFieldProps,
