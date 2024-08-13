@@ -30,6 +30,7 @@ import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/Lo
 import useAuth from '@/providers/Auth'
 // enums
 import Warehouse from '@/dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
+import Mart from '@/enums/permissions/Mart'
 
 let mutate: MutateType<Product>
 let getRowData: GetRowDataType<Product>
@@ -118,10 +119,8 @@ export default function Products() {
             </DialogWithTitle>
 
             <Fab
-                in={
-                    userHasPermission(['create product', 'update product']) ??
-                    false
-                }
+                in={userHasPermission(Mart.CREATE_PRODUCT)}
+                disabled={!!formValues}
                 onClick={() => {
                     setFormValues({
                         unit: 'pcs',
