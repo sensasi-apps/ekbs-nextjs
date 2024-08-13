@@ -39,7 +39,7 @@ export default function Form({
             isNew={!dataFromDb?.uuid}
             slotProps={{
                 submitButton: {
-                    disabled: isDisabled,
+                    disabled: !(dirty || isSubmitting),
                 },
             }}>
             <Grid2 container spacing={4}>
@@ -115,7 +115,7 @@ export default function Form({
                                         size="small"
                                         margin="dense"
                                         disabled={
-                                            isDisabled ||
+                                            isSubmitting ||
                                             !values.paid ||
                                             !!dataFromDb?.purchase?.paid
                                         }
