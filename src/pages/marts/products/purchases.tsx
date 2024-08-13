@@ -23,6 +23,7 @@ import toDmy from '@/utils/toDmy'
 // etc
 import useAuth from '@/providers/Auth'
 import ChipSmall from '@/components/ChipSmall'
+import Mart from '@/enums/permissions/Mart'
 
 let mutate: MutateType<ProductMovement>
 let getRowData: GetRowDataType<ProductMovement>
@@ -63,7 +64,7 @@ export default function ProductPurchases() {
 
                             details: data.details.map(detail => ({
                                 qty: detail.qty,
-                                product: detail.product_state,
+                                product: detail.product_state ?? detail.product,
                                 product_id: detail.product_id,
                                 rp_per_unit: detail.rp_per_unit,
                                 cost_rp_total:
@@ -92,12 +93,8 @@ export default function ProductPurchases() {
             />
 
             <Fab
-                disabled={
-                    !userHasPermission([
-                        'create product purchase',
-                        'update product purchase',
-                    ])
-                }
+                in={userHasPermission(Mart.CREATE_PURCHASE)}
+                disabled={!!formValues}
                 onClick={() => {
                     setFormValues({})
                     setSelectedRow(undefined)
@@ -140,7 +137,7 @@ const columns: MUIDataTableColumn[] = [
         label: 'TGL Terima',
         options: {
             customBodyRenderLite(dataIndex) {
-                const paid = getRowData(dataIndex)?.purchase?.paid
+                const paid = getRowData(dataIndex)?.purchase?.received
 
                 return paid ? toDmy(paid) : ''
             },
@@ -151,17 +148,17 @@ const columns: MUIDataTableColumn[] = [
         label: 'TGL Lunas',
         options: {
             customBodyRenderLite(dataIndex) {
-                const received = getRowData(dataIndex)?.purchase?.received
+                const received = getRowData(dataIndex)?.purchase?.paid
 
                 return received ? toDmy(received) : ''
             },
         },
     },
-
     {
         name: 'note',
         label: 'Catatan',
     },
+
     {
         name: 'details.product_state',
         label: 'Produk',
@@ -171,8 +168,11 @@ const columns: MUIDataTableColumn[] = [
 
                 if (!data) return
 
-                return data.details.map(({ product_state }, i) => (
-                    <ChipSmall key={i} label={product_state.name} />
+                return data.details.map(({ product_state, product }, i) => (
+                    <ChipSmall
+                        key={i}
+                        label={(product_state ?? product)?.name}
+                    />
                 ))
             },
         },
