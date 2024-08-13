@@ -1,4 +1,4 @@
-import type Product from '../Product'
+import type Product from './Product'
 
 type ProductMovementDetail = {
     // product_movement_uuid: UUID
@@ -6,8 +6,9 @@ type ProductMovementDetail = {
     qty: number
     rp_per_unit: number
     cost_rp_per_unit: number
-    warehouse_state: Product['warehouses'][0]
-    product_state: Product
+
+    product_state: Product | null
+    warehouse_state: Product['warehouses'][0] | null
 
     // relations
     product?: Product
