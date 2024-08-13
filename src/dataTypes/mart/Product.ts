@@ -17,6 +17,9 @@ type Product = {
         qty: number
         cost_rp_per_unit: number
         default_sell_price: number
+
+        // getter
+        margin?: number | null
     }[]
 }
 

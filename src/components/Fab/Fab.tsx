@@ -25,6 +25,7 @@ export default function Fab({
             <Tooltip title={title} arrow placement="left">
                 <MuiFab
                     color="success"
+                    component="span"
                     sx={{
                         position: 'fixed',
                         bottom: 16,

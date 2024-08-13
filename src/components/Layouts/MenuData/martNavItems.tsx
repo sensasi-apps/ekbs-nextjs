@@ -7,42 +7,42 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 // page components
 import GroupTitle from './GroupTitle'
+// enums
+import Mart from '@/enums/permissions/Mart'
 
 const martNavItems: NavItem[] = [
     {
         children: <GroupTitle>Belayan Mart</GroupTitle>,
-        // forPermission: [
-        //     UserLoan.READ,
-        //     UserLoan.READ_NEED_REVIEW,
-        //     UserLoan.READ_NEED_DISBURSE,
-        //     UserLoan.READ_INSTALLMENT,
-        //     UserLoan.READ_OWN,
-        //     UserLoan.READ_STATISTIC,
-        // ],
+        forPermission: [
+            Mart.READ_CASH,
+            Mart.READ_PRODUCT,
+            Mart.READ_PURCHASE,
+            Mart.READ_SALE,
+        ],
     },
     {
         label: 'Kas',
         href: '/marts/cashes',
         icon: <AutoStoriesIcon />,
-        // forPermission: FarmInput.READ_STATISTIC,
+        forPermission: Mart.READ_CASH,
     },
     {
         href: '/marts/products',
         label: 'Produk',
         icon: <InventoryIcon />,
-        // forPermission: UserLoan.READ_NEED_DISBURSE,
+        forPermission: Mart.READ_PRODUCT,
     },
     {
-        href: '/marts/purchases',
+        href: '/marts/products/purchases',
         label: 'Pembelian',
         icon: <ShoppingCartIcon />,
-        // forPermission: UserLoan.READ_NEED_DISBURSE,
+        forPermission: Mart.READ_PURCHASE,
     },
     {
-        href: '/marts/sales',
+        href: '/marts/products/sales',
         label: 'Penjualan',
         icon: <PointOfSaleIcon />,
-        // forPermission: UserLoan.READ_NEED_DISBURSE,
+        forPermission: Mart.READ_SALE,
     },
 ]
 
