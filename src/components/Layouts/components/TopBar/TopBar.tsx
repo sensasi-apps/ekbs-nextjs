@@ -13,12 +13,10 @@ import Typography from '@mui/material/Typography'
 // icons
 import MenuIcon from '@mui/icons-material/Menu'
 import SignalWifiStatusbarConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiStatusbarConnectedNoInternet4'
-
 // components
 import { DRAWER_WIDTH } from '../../MenuList'
-
 // utils
-import blink from '@/utils/cssAnimations/blink'
+import blinkSxValue from '@/utils/blinkSxValue'
 import AccountButton from './components/AccountButton'
 
 export function TopBar({
@@ -73,9 +71,7 @@ export function TopBar({
                                 color="error"
                                 disableTouchRipple>
                                 <SignalWifiStatusbarConnectedNoInternet4Icon
-                                    sx={{
-                                        animation: `${blink} 1s linear infinite`,
-                                    }}
+                                    sx={blinkSxValue}
                                 />
                             </IconButton>
                         </Tooltip>

@@ -32,7 +32,7 @@ import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import blink from '@/utils/cssAnimations/blink'
+import blinkSxValue from '@/utils/blinkSxValue'
 
 export default function PalmBuncesReaTickets() {
     return (
@@ -325,7 +325,7 @@ const SX_FOR_BADGE = {
         height: '1em',
         backgroundColor: 'error.main',
         borderRadius: '50%',
-        animation: `${blink} 1.5s ease infinite`,
+        ...blinkSxValue,
     },
 }
 

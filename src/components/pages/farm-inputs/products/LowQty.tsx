@@ -4,7 +4,7 @@ import { memo } from 'react'
 import Box from '@mui/material/Box'
 import Tooltip from '@mui/material/Tooltip'
 // utils
-import blink from '@/utils/cssAnimations/blink'
+import blinkSxValue from '@/utils/blinkSxValue'
 
 const FarmInputsProductsLowQty = memo(function FarmInputsProductsLowQty({
     children,
@@ -17,9 +17,7 @@ const FarmInputsProductsLowQty = memo(function FarmInputsProductsLowQty({
                 fontWeight="bold"
                 whiteSpace="nowrap"
                 color="warning.main"
-                sx={{
-                    animation: `${blink} 1s linear infinite`,
-                }}
+                sx={blinkSxValue}
                 component="span">
                 {children}
             </Box>
