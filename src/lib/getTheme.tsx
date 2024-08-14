@@ -17,6 +17,15 @@ const LinkBehaviour = forwardRef<HTMLAnchorElement, LinkProps>(
 export default function getTheme() {
     if (!THEME)
         THEME = extendTheme({
+            colorSchemes: {
+                light: {
+                    palette: {
+                        background: {
+                            default: '#f8f7f4',
+                        },
+                    },
+                },
+            },
             components: {
                 MuiLink: {
                     defaultProps: {
