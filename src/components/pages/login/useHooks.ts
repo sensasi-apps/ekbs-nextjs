@@ -1,15 +1,13 @@
 // types
 import type { AxiosError } from 'axios'
-import type UserType from '@/dataTypes/User'
 // vendors
-import { useEffect, useState, FormEvent, useCallback } from 'react'
+import { useEffect, useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
-import axios from '@/lib/axios'
 // hooks
 import useAuth from '@/providers/Auth'
 
 export function useHooks() {
-    const { onLoginSuccess } = useAuth()
+    const { login } = useAuth()
     const { query } = useRouter()
     const { response } = query
 
@@ -45,8 +43,11 @@ export function useHooks() {
         }
     }, [response])
 
-    const handleSubmit = useCallback(
-        (event: FormEvent<HTMLFormElement>) => {
+    return {
+        isLoading,
+        isError,
+        message,
+        handleSubmit: (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault()
 
             const formEl = event.currentTarget
@@ -60,36 +61,29 @@ export function useHooks() {
             setIsError(false)
             setMessage(undefined)
 
-            axios
-                .post<UserType>('/login', new FormData(formEl))
-                .then(res => onLoginSuccess(res.data))
-                .catch(
-                    ({
-                        response,
-                        message,
-                    }: AxiosError<{
-                        // php / laravel exception
-                        message?: string
-                    }>) => {
-                        setMessage(
-                            response?.data.message ??
-                                response?.statusText ??
-                                message,
-                        )
+            const formData = new FormData(formEl)
 
-                        setIsError(true)
-                        setIsLoading(false)
-                    },
-                )
+            const email = formData.get('email') as string
+            const password = formData.get('password') as string
+
+            login(email, password).catch(
+                ({
+                    response,
+                    message,
+                }: AxiosError<{
+                    // php / laravel exception
+                    message?: string
+                }>) => {
+                    setMessage(
+                        response?.data.message ??
+                            response?.statusText ??
+                            message,
+                    )
+
+                    setIsError(true)
+                    setIsLoading(false)
+                },
+            )
         },
-        // TODO: tell eslint that onLoginSuccess is never change
-        [onLoginSuccess],
-    )
-
-    return {
-        isLoading,
-        isError,
-        message,
-        handleSubmit,
     }
 }
