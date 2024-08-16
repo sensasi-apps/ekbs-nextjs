@@ -56,6 +56,8 @@ type Employee = {
 }
 
 export type AuthInfo = {
+    id: User['id']
+    uuid: User['uuid']
     name: User['name']
     is_agreed_tncp: User['is_agreed_tncp']
     accessToken: string
