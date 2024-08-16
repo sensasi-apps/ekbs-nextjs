@@ -1,8 +1,6 @@
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 
@@ -35,12 +33,6 @@ export function Form({
                 type="password"
                 id="password"
                 autoComplete="off"
-            />
-
-            <FormControlLabel
-                name="remember"
-                control={<Checkbox value="true" color="primary" />}
-                label="Remember me"
             />
 
             <Button
