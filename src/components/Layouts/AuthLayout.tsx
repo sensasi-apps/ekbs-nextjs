@@ -22,14 +22,15 @@ export default function AuthLayout({
     children: ReactNode
 }) {
     const { replace } = useRouter()
-    const { onError401, user } = useAuth()
+    const { user } = useAuth()
 
-    useEffect(() => {
-        window.addEventListener('401Error', onError401, false)
-        return () => {
-            window.removeEventListener('401Error', onError401, false)
-        }
-    }, [onError401])
+    // disabling this case for now 2024-08-16
+    // useEffect(() => {
+    //     window.addEventListener('401Error', onError401, false)
+    //     return () => {
+    //         window.removeEventListener('401Error', onError401, false)
+    //     }
+    // }, [onError401])
 
     useEffect(() => {
         if (user === null) {
