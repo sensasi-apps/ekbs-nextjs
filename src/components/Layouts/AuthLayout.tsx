@@ -12,7 +12,6 @@ import useAuth from '@/providers/Auth'
 // components
 import { DRAWER_WIDTH } from './MenuList'
 import TopBarAndMenuList from './TopBarAndMenuList'
-import LoginFormDialog from './Auth/LoginFormDialog'
 import FooterBox from './FooterBox'
 
 export default function AuthLayout({
@@ -70,8 +69,6 @@ export default function AuthLayout({
 
                 <FooterBox mt={10} mb={0} />
             </Box>
-
-            <LoginFormDialog />
         </div>
     )
 }
