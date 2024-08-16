@@ -18,7 +18,7 @@ const nextConfig = {
 }
 
 const withSerwist = withSerwistInit({
-    swSrc: 'src/sw/index.ts',
+    swSrc: 'src/sw.ts',
     swDest: 'public/sw.js',
     reloadOnOnline: false,
 })

@@ -21,6 +21,7 @@ const serwist = new Serwist({
     skipWaiting: true,
     clientsClaim: true,
     navigationPreload: true,
+    disableDevLogs: false,
     runtimeCaching: defaultCache,
 })
 
