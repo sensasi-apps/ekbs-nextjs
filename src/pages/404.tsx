@@ -12,7 +12,9 @@ import AuthLayout from '@/components/Layouts/AuthLayout'
 import FooterBox from '@/components/Layouts/FooterBox'
 
 export default function NotFoundPage() {
-    const { isAuthenticated } = useAuth()
+    const { user } = useAuth()
+
+    const isAuthenticated = Boolean(user)
 
     const mainContent = (
         <Container
