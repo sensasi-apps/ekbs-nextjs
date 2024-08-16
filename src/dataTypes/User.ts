@@ -2,7 +2,7 @@ import type { Ymd } from '@/types/DateString'
 import type { UUID } from 'crypto'
 import Installment from './Installment'
 
-interface UserType {
+interface User {
     id: number
     is_active: boolean
     is_agreed_tncp: boolean
@@ -31,7 +31,7 @@ interface UserType {
     unpaid_installments?: Installment[] // only used in \src\components\Wallet\TxForm.tsx
 }
 
-export default UserType
+export default User
 
 enum EmployeeStatusId {
     MAGANG = 1,
@@ -53,4 +53,15 @@ type Employee = {
         id: EmployeeStatusId
         name: string
     }
+}
+
+export type AuthInfo = {
+    name: User['name']
+    is_agreed_tncp: User['is_agreed_tncp']
+    accessToken: string
+    permission_names: User['permission_names']
+    role_names: User['role_names']
+
+    // TODO: remove this if possible
+    role_names_id?: User['role_names_id']
 }
