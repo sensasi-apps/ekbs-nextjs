@@ -49,15 +49,19 @@ export default function GuestFormLayout({
                 <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
-            <Container component="main" maxWidth="xs">
-                <Box
-                    mt={6}
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center">
+            <Container
+                component="main"
+                maxWidth="xs"
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    height: '100vh',
+                    p: 8,
+                }}>
+                <Box display="flex" gap={2}>
                     <Avatar
                         sx={{
-                            m: 1,
                             bgcolor: () => {
                                 if (isLoading) return 'primary.main'
                                 if (isError) return 'error.main'
@@ -66,24 +70,32 @@ export default function GuestFormLayout({
                         {icon}
                     </Avatar>
 
-                    <Typography component="h1" variant="body2">
-                        {process.env.NEXT_PUBLIC_APP_NAME}
-                    </Typography>
+                    <Box>
+                        <Typography
+                            component="div"
+                            variant="body2"
+                            gutterBottom>
+                            {process.env.NEXT_PUBLIC_APP_NAME}
+                        </Typography>
 
-                    <Typography component="h1" variant="h5">
-                        {title}
-                    </Typography>
-
-                    <LoadingCenter isShow={isLoading} message={message} />
-
-                    <ErrorCenter isShow={isError} message={message} />
-
-                    <Box display={isLoading ? 'none' : 'block'} mt={2}>
-                        {children}
+                        <Typography
+                            component="div"
+                            variant="h5"
+                            lineHeight={0.5}>
+                            {title}
+                        </Typography>
                     </Box>
-
-                    <FooterBox />
                 </Box>
+
+                <LoadingCenter isShow={isLoading} message={message} />
+
+                <ErrorCenter isShow={isError} message={message} />
+
+                <Box display={isLoading ? 'none' : 'block'} mt={2}>
+                    {children}
+                </Box>
+
+                <FooterBox />
             </Container>
         </div>
     )
