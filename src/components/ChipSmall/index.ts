@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { ChipSmall } from './ChipSmall'
 
-export default ChipSmall
+export default memo(ChipSmall)
