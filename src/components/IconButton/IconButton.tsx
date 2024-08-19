@@ -14,7 +14,7 @@ export default function IconButton({
     children?: never
 }) {
     return (
-        <Tooltip title={title}>
+        <Tooltip title={title} placement="left" arrow>
             <MuiIconButton size="small" {...props}>
                 <Icon />
             </MuiIconButton>
