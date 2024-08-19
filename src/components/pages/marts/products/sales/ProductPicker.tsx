@@ -1,20 +1,49 @@
-import dynamic from 'next/dynamic'
-import ChipSmall from '@/components/ChipSmall'
-import TextField from '@/components/TextField'
-import SearchIcon from '@mui/icons-material/Search'
+// types
+import type { FieldProps } from 'formik'
+import type { FormValuesType } from '@/pages/marts/products/sales'
+import type Product from '@/dataTypes/mart/Product'
+// vendors
+import { Box, Paper, Typography } from '@mui/material'
+import { memo, useEffect, useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 import { Masonry } from '@mui/lab'
-import {
-    Box,
-    Card,
-    CardActionArea,
-    CardContent,
-    Paper,
-    Typography,
-} from '@mui/material'
+import useSWR from 'swr'
+// subcomponents
+import CategoryChips from './ProductPicker/CategoryChips'
+import ProductCard from './ProductPicker/ProductCard'
+import SearchTextField from './ProductPicker/SearchTextField'
 
-const InputAdornment = dynamic(() => import('@mui/material/InputAdornment'))
+const WAREHOUSE = 'main'
+let detailsTemp: FormValuesType['details'] = []
 
-export default function ProductPicker() {
+function ProductPicker({
+    field: { name, value },
+    form: { setFieldValue },
+}: FieldProps<FormValuesType['details']>) {
+    const { data: products = [], isLoading } = useSWR<Product[]>(
+        '/data/marts/products',
+        {
+            keepPreviousData: true,
+        },
+    )
+
+    useEffect(() => {
+        detailsTemp = value
+    }, [value])
+
+    const [query, setQuery] = useState<string>()
+    const [selectedCategory, setSelectedCategory] = useState<string>()
+
+    const debounceSetQuery = useDebouncedCallback(setQuery, 250)
+    const debounceSetFieldValue = useDebouncedCallback(
+        () => setFieldValue(name, detailsTemp),
+        100,
+    )
+
+    const filteredProducts = products?.filter(product =>
+        isProductMatch(product, query, selectedCategory),
+    )
+
     return (
         <Paper
             sx={{
@@ -23,82 +52,87 @@ export default function ProductPicker() {
                 flexDirection: 'column',
                 gap: 3,
             }}>
-            <TextField
-                placeholder="Nama / Kode / Kategori"
-                name="product-search"
-                margin="none"
-                required={false}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon fontSize="small" color="disabled" />
-                        </InputAdornment>
-                    ),
-                }}
+            <SearchTextField
+                onChange={({ target: { value } }) => debounceSetQuery(value)}
+            />
+
+            <CategoryChips
+                data={products}
+                setSelectedCategory={setSelectedCategory}
             />
 
             <Box display="flex" justifyContent="center">
-                <Masonry columns={3} spacing={2}>
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                </Masonry>
+                {filteredProducts.length === 0 ? (
+                    <Typography
+                        variant="body2"
+                        color="text.disabled"
+                        align="center">
+                        {isLoading
+                            ? 'Memuat produk...'
+                            : 'Tidak ada produk yang ditemukan'}
+                    </Typography>
+                ) : (
+                    <Masonry columns={3} spacing={2}>
+                        {filteredProducts.map(product => (
+                            <ProductCard
+                                key={product.id}
+                                data={product}
+                                onClick={() => {
+                                    handleAddProduct(product)
+                                    debounceSetFieldValue()
+                                }}
+                            />
+                        ))}
+                    </Masonry>
+                )}
             </Box>
         </Paper>
     )
 }
 
-function ProductCard() {
-    return (
-        <Card
-            component="span"
-            variant="outlined"
-            sx={{
-                borderRadius: 4,
-            }}>
-            <CardActionArea>
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 1,
-                    }}>
-                    <div>
-                        <ChipSmall
-                            component="div"
-                            label="Kudapan"
-                            variant="outlined"
-                        />
+export default memo(ProductPicker)
 
-                        <Typography
-                            mt={1}
-                            component="div"
-                            variant="caption"
-                            color="text.disabled">
-                            #1 / 12834628
-                        </Typography>
-                    </div>
+function isProductMatch(
+    product: Product,
+    query?: string,
+    selectedCategory?: string,
+) {
+    const isCategoryMatch =
+        selectedCategory === undefined ||
+        product.category_name === selectedCategory
+    const isNameMatch = product.name
+        .toLowerCase()
+        .includes((query ?? '').toLowerCase())
+    const isCodeMatch = product.code
+        ?.toLowerCase()
+        .includes((query ?? '').toLowerCase())
+    const isIdMatch = product.id
+        .toString()
+        .includes((query ?? '').toLowerCase())
 
-                    <Typography>Good Day Freeze Cookies n Cream</Typography>
+    return isCategoryMatch && (isNameMatch || isCodeMatch || isIdMatch)
+}
 
-                    <div>
-                        <Typography
-                            variant="h5"
-                            component="div"
-                            color="success.main">
-                            Rp. 100.000
-                        </Typography>
-                        <Typography color="text.disabled" variant="overline">
-                            / Botol
-                        </Typography>
-                    </div>
-
-                    <Typography variant="body2" color="text.disabled">
-                        well meaning and kindly.
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+function handleAddProduct(product: Product) {
+    const existingIndex = detailsTemp.findIndex(
+        ({ product_id }) => product_id === product.id,
     )
+
+    if (existingIndex !== -1) {
+        detailsTemp[existingIndex] = {
+            ...detailsTemp[existingIndex],
+            qty: detailsTemp[existingIndex].qty + 1,
+        }
+    } else {
+        const warehouse = product.warehouses.find(
+            warehouse => warehouse.warehouse === WAREHOUSE,
+        )
+
+        detailsTemp.push({
+            product: product,
+            product_id: product.id,
+            qty: 1,
+            rp_per_unit: warehouse?.default_sell_price ?? 0,
+        })
+    }
 }
