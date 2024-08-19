@@ -8,8 +8,9 @@ import {
     Paper,
     Typography,
 } from '@mui/material'
+import { memo } from 'react'
 
-export default function SaleList() {
+function SaleList() {
     return (
         <Paper>
             <Box px={2} pt={3} display="flex" gap={0.5}>
@@ -32,6 +33,8 @@ export default function SaleList() {
         </Paper>
     )
 }
+
+export default memo(SaleList)
 
 function MyListItem() {
     return (
