@@ -1,0 +1,70 @@
+import { memo } from 'react'
+import { Typography } from '@mui/material'
+import { FormValuesType } from '@/pages/marts/products/sales'
+import Grid2 from '@mui/material/Unstable_Grid2'
+import IconButton from '@/components/IconButton'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import formatNumber from '@/utils/formatNumber'
+
+function DetailItem({
+    data: { qty, rp_per_unit, product },
+    onDecreaseQtyItem,
+}: {
+    data: FormValuesType['details'][0]
+    onDecreaseQtyItem: () => void
+}) {
+    return (
+        <>
+            <Grid2 xs={1}>
+                <IconButton
+                    title="Kurangi jumlah"
+                    size="small"
+                    icon={RemoveCircleIcon}
+                    onClick={onDecreaseQtyItem}
+                    sx={{
+                        p: 0,
+                    }}
+                    color="error"
+                />
+            </Grid2>
+
+            <Grid2
+                xs={7}
+                component={Typography}
+                variant="overline"
+                lineHeight="2em"
+                fontSize="1em"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+                pl={1}>
+                {product?.name}
+                <Typography variant="caption" component="div">
+                    {formatNumber(qty)} {product?.unit} &times; RP{' '}
+                    {formatNumber(rp_per_unit)}
+                </Typography>
+            </Grid2>
+
+            <Grid2
+                xs={1}
+                textAlign="end"
+                component={Typography}
+                variant="overline"
+                lineHeight="unset"
+                fontSize="1em">
+                Rp
+            </Grid2>
+
+            <Grid2
+                xs={3}
+                textAlign="end"
+                component={Typography}
+                variant="overline"
+                lineHeight="unset"
+                fontSize="1em">
+                {formatNumber(qty * rp_per_unit)}
+            </Grid2>
+        </>
+    )
+}
+
+export default memo(DetailItem)
