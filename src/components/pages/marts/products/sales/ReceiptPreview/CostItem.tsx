@@ -12,17 +12,25 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import TextField from '@/components/TextField'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
-import { FieldProps } from 'formik'
+import { FieldProps, FormikErrors } from 'formik'
+import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import LaravelValidationException from '@/types/LaravelValidationException'
 
 function CostItem({
+    index,
     onRemove,
     onDataChange,
     data: { name: costName, rp: costRp },
+    errors,
+    disabled,
 }: {
+    index: number
+    disabled: boolean
     onRemove: () => void
     onDataChange: (data: FormValuesType['costs'][0]) => void
     data: FormValuesType['costs'][0]
     setFieldValue: FieldProps['form']['setFieldValue']
+    errors?: FormikErrors<LaravelValidationException['errors']>
 }) {
     const [name, setName] = useState(costName)
     const [rp, setRp] = useState(costRp)
@@ -39,6 +47,7 @@ function CostItem({
                     icon={RemoveCircleIcon}
                     color="error"
                     onClick={onRemove}
+                    disabled={disabled}
                 />
             </Grid2>
 
@@ -57,6 +66,7 @@ function CostItem({
                     variant="standard"
                     margin="none"
                     value={name}
+                    disabled={disabled}
                     onChange={({ target: { value } }) => {
                         setName(value)
 
@@ -71,6 +81,7 @@ function CostItem({
                             fontFamily: 'Roboto',
                         },
                     }}
+                    {...errorsToHelperTextObj(errors?.[`costs.${index}.rp`])}
                 />
             </Grid2>
 
@@ -83,6 +94,7 @@ function CostItem({
                 <NumericFormat
                     value={rp}
                     allowNegative
+                    disabled={disabled}
                     onValueChange={({ floatValue }) => {
                         setRp(floatValue)
 
@@ -113,6 +125,7 @@ function CostItem({
                             />
                         ),
                     }}
+                    {...errorsToHelperTextObj(errors?.[`costs.${index}.rp`])}
                 />
             </Grid2>
         </>

@@ -8,7 +8,7 @@ import AddCircle from '@mui/icons-material/AddCircle'
 import { useDebouncedCallback } from 'use-debounce'
 
 function CostFieldComponent({
-    form: { setFieldValue },
+    form: { setFieldValue, errors, isSubmitting },
     field: { value, name },
 }: FieldProps<FormValuesType['costs']>) {
     const debounceHandleDataChange = useDebouncedCallback(
@@ -27,8 +27,11 @@ function CostFieldComponent({
                 {value.map((cost, i) => (
                     <CostItem
                         key={i}
+                        index={i}
+                        disabled={isSubmitting}
                         data={cost}
                         setFieldValue={setFieldValue}
+                        errors={errors}
                         onRemove={() =>
                             setFieldValue(name, [
                                 ...value.slice(0, i),
@@ -36,26 +39,6 @@ function CostFieldComponent({
                             ])
                         }
                         onDataChange={data => debounceHandleDataChange(i, data)}
-                        // onNameChange={({ target: { value: nameValue } }) =>
-                        //     setFieldValue(name, [
-                        //         ...value.slice(0, i),
-                        //         {
-                        //             ...value[i],
-                        //             name: nameValue,
-                        //         },
-                        //         ...value.slice(i + 1),
-                        //     ])
-                        // }
-                        // onRpChange={({ floatValue }) =>
-                        //     setFieldValue(name, [
-                        //         ...value.slice(0, i),
-                        //         {
-                        //             ...value[i],
-                        //             rp: floatValue,
-                        //         },
-                        //         ...value.slice(i + 1),
-                        //     ])
-                        // }
                     />
                 ))}
             </Grid2>
@@ -67,6 +50,7 @@ function CostFieldComponent({
                 startIcon={<AddCircle />}
                 size="small"
                 color="success"
+                disabled={isSubmitting}
                 onClick={() =>
                     setFieldValue(name, [
                         ...value,

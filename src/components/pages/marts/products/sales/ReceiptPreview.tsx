@@ -1,29 +1,31 @@
 // vendors
 import { memo } from 'react'
-import {
-    Box,
-    BoxProps,
-    Button,
-    Chip,
-    Divider,
-    Paper,
-    Typography,
-} from '@mui/material'
-import { Field, FieldProps } from 'formik'
+import dayjs from 'dayjs'
+import useSWR from 'swr'
+import { Box, BoxProps, Divider, Paper, Typography } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Field, FieldProps, useFormikContext } from 'formik'
 import Grid2 from '@mui/material/Unstable_Grid2'
 // locals
 import type { FormValuesType } from '@/pages/marts/products/sales'
-import DetailItem from './ReceiptPreview/DetailItem'
+import CostsFieldComponent from './ReceiptPreview/CostsFieldComponent'
+import CashableUuidFieldComponent from './ReceiptPreview/CashableUuidFieldComponent'
+import BuyerUserUuidFieldComponent from './ReceiptPreview/BuyerUserUuidFieldComponent'
+import DetailsFieldComponent from './ReceiptPreview/DetailsFieldComponent'
 // icons
 import SaveIcon from '@mui/icons-material/Save'
 // utils
 import formatNumber from '@/utils/formatNumber'
 // providers
 import useAuth from '@/providers/Auth'
-import CostsFieldComponent from './ReceiptPreview/CostsFieldComponent'
+import ApiUrl from './ApiUrl'
 
 function ReceiptPreview() {
     const { user } = useAuth()
+
+    const { handleSubmit, isSubmitting } = useFormikContext<FormValuesType>()
+
+    const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER)
 
     return (
         <Paper
@@ -31,99 +33,43 @@ function ReceiptPreview() {
                 p: 2.5,
             }}>
             <Box display="flex" justifyContent="end">
-                <Button startIcon={<SaveIcon />} color="warning" size="small">
+                <LoadingButton
+                    startIcon={<SaveIcon />}
+                    color="warning"
+                    size="small"
+                    onClick={() => handleSubmit()}
+                    loading={isSubmitting}>
                     Simpan
-                </Button>
+                </LoadingButton>
             </Box>
 
-            <Typography variant="caption" color="GrayText">
-                14-08-2024 12:34:56
-                {/* {dayjs().format('DD-MM-YYYY')} */}
-            </Typography>
+            <DefaultItemDesc desc="TGL" value={dayjs().format('DD-MM-YYYY')} />
 
-            <DefaultItemDesc desc="NO. Nota" value="" />
-
-            <Typography variant="h4" component="div" mt={-0.5}>
-                12312
-            </Typography>
+            <DefaultItemDesc
+                desc="NO. Nota"
+                value={newNumber?.toString() ?? ''}
+            />
 
             <DefaultItemDesc desc="Kasir" value={user?.name ?? ''} />
 
-            <DefaultItemDesc desc="Pelanggan" value="Mr. Y" />
+            <Box display="flex" alignItems="center">
+                <DefaultItemDesc desc="Pelanggan" value="" />
 
-            <DefaultItemDesc desc="Metode Pembayaran" value="" />
-
-            <Box display="flex" mb={2} gap={0.75}>
-                <Chip
-                    label="Fisik"
-                    size="small"
-                    variant="outlined"
-                    color="success"
-                />
-
-                <Chip
-                    label="Transfer"
-                    size="small"
-                    variant="outlined"
-                    disabled
+                <Field
+                    name="buyer_user"
+                    component={BuyerUserUuidFieldComponent}
                 />
             </Box>
 
-            <Box display="flex" flexDirection="column" gap={1.5}>
-                <Field
-                    name="details"
-                    component={({
-                        field: { value },
-                        form: { setFieldValue },
-                    }: FieldProps<FormValuesType['details']>) => {
-                        return (
-                            <Grid2 container alignItems="center">
-                                {value.length > 0 ? (
-                                    value.map((detail, i) => (
-                                        <DetailItem
-                                            key={i}
-                                            data={detail}
-                                            onDecreaseQtyItem={() => {
-                                                const detailItem = value[i]
+            <DefaultItemDesc desc="Pembayaran Ke" value="" />
 
-                                                const newValue =
-                                                    value[i].qty === 1
-                                                        ? value.filter(
-                                                              (_, idx) =>
-                                                                  idx !== i,
-                                                          )
-                                                        : [
-                                                              ...value.slice(
-                                                                  0,
-                                                                  i,
-                                                              ),
-                                                              {
-                                                                  ...detailItem,
-                                                                  qty:
-                                                                      detailItem.qty -
-                                                                      1,
-                                                              },
-                                                              ...value.slice(
-                                                                  i + 1,
-                                                              ),
-                                                          ]
+            <Field
+                name="cashable_uuid"
+                component={CashableUuidFieldComponent}
+            />
 
-                                                setFieldValue(
-                                                    'details',
-                                                    newValue,
-                                                )
-                                            }}
-                                        />
-                                    ))
-                                ) : (
-                                    <DisabledText>
-                                        Belum ada barang yang ditambahkan...
-                                    </DisabledText>
-                                )}
-                            </Grid2>
-                        )
-                    }}
-                />
+            <Box mt={4} display="flex" flexDirection="column" gap={1.5}>
+                <Field name="details" component={DetailsFieldComponent} />
             </Box>
 
             <Divider
@@ -197,24 +143,6 @@ function ReceiptPreview() {
 }
 
 export default memo(ReceiptPreview)
-
-const DisabledText = memo(function DisabledText({
-    children,
-}: {
-    children?: React.ReactNode
-}) {
-    return (
-        <Typography
-            variant="caption"
-            color="text.disabled"
-            component="div"
-            sx={{
-                fontStyle: 'italic',
-            }}>
-            {children}
-        </Typography>
-    )
-})
 
 function DefaultItemDesc({
     desc,

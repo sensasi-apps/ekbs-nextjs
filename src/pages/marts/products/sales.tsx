@@ -1,7 +1,7 @@
 // types
-import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
 import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
+import type ProductMovementSale from '@/dataTypes/mart/ProductMovementSale'
 import type Transaction from '@/dataTypes/Transaction'
 // vendors
 import { useState } from 'react'
@@ -21,6 +21,12 @@ import SaleList from '@/components/pages/marts/products/sales/SaleList'
 import ReceiptPreview from '@/components/pages/marts/products/sales/ReceiptPreview'
 // utils
 import blinkSxValue from '@/utils/blinkSxValue'
+import dayjs from 'dayjs'
+import axios from '@/lib/axios'
+import handle422 from '@/utils/errorCatcher'
+import { AxiosError } from 'axios'
+import LaravelValidationException from '@/types/LaravelValidationException'
+import ApiUrl from '@/components/pages/marts/products/sales/ApiUrl'
 
 export default function SalesPage() {
     const [showList, setShowList] = useState(false)
@@ -57,9 +63,17 @@ export default function SalesPage() {
                     details: [],
                     costs: [],
                 }}
-                onSubmit={values => {
-                    console.log(values)
-                }}>
+                onSubmit={(values, { setErrors }) =>
+                    axios
+                        .post(ApiUrl.STORE, {
+                            at: dayjs().format('YYYY-MM-DD'),
+                            paid: dayjs().format('YYYY-MM-DD'),
+                            ...values,
+                        })
+                        .catch((err: AxiosError<LaravelValidationException>) =>
+                            handle422(err, setErrors),
+                        )
+                }>
                 {() => (
                     <Grid2
                         container
@@ -138,8 +152,9 @@ function Top() {
 }
 
 export type FormValuesType = {
-    at: ProductMovement['at']
     cashable_uuid: Transaction['cashable_uuid']
+    buyer_user_uuid: ProductMovementSale['buyer_user_uuid']
+    no: ProductMovementSale['no']
     details: {
         product: ProductMovementDetail['product']
         product_id: ProductMovementDetail['product_id']
