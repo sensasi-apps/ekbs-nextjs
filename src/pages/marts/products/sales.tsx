@@ -1,6 +1,7 @@
 // types
-import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
+import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
+import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 import type Transaction from '@/dataTypes/Transaction'
 // vendors
 import { useState } from 'react'
@@ -33,6 +34,7 @@ export default function SalesPage() {
                 msUserSelect: 'none',
                 webkitUserSelect: 'none',
                 mozUserSelect: 'none',
+                minHeight: '100%',
             }}>
             <Head>
                 <title>{`Kasir Belayan Mart — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
@@ -53,6 +55,7 @@ export default function SalesPage() {
             <Formik
                 initialValues={{
                     details: [],
+                    costs: [],
                 }}
                 onSubmit={values => {
                     console.log(values)
@@ -142,5 +145,9 @@ export type FormValuesType = {
         product_id: ProductMovementDetail['product_id']
         qty: ProductMovementDetail['qty']
         rp_per_unit: ProductMovementDetail['rp_per_unit']
+    }[]
+    costs: {
+        name: ProductMovementCost['name']
+        rp?: ProductMovementCost['rp']
     }[]
 }

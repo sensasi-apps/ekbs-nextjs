@@ -14,15 +14,13 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 // locals
 import type { FormValuesType } from '@/pages/marts/products/sales'
 import DetailItem from './ReceiptPreview/DetailItem'
-// components
-import IconButton from '@/components/IconButton'
 // icons
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import SaveIcon from '@mui/icons-material/Save'
 // utils
 import formatNumber from '@/utils/formatNumber'
 // providers
 import useAuth from '@/providers/Auth'
+import CostsFieldComponent from './ReceiptPreview/CostsFieldComponent'
 
 function ReceiptPreview() {
     const { user } = useAuth()
@@ -118,15 +116,9 @@ function ReceiptPreview() {
                                         />
                                     ))
                                 ) : (
-                                    <Typography
-                                        variant="caption"
-                                        color="text.disabled"
-                                        component="div"
-                                        sx={{
-                                            fontStyle: 'italic',
-                                        }}>
+                                    <DisabledText>
                                         Belum ada barang yang ditambahkan...
-                                    </Typography>
+                                    </DisabledText>
                                 )}
                             </Grid2>
                         )
@@ -141,10 +133,7 @@ function ReceiptPreview() {
             />
 
             <Box>
-                <Item2>Subtotal</Item2>
-                <Item2>Diskon</Item2>
-                <Item2>Pembulatan</Item2>
-                <Item2>...</Item2>
+                <Field name="costs" component={CostsFieldComponent} />
             </Box>
 
             <Divider
@@ -183,7 +172,24 @@ function ReceiptPreview() {
                     variant="overline"
                     lineHeight="unset"
                     fontSize="1em">
-                    {formatNumber(4 * 10000)}
+                    <Field
+                        component={({ form: { values } }: FieldProps) => {
+                            const formValues = values as FormValuesType
+
+                            const totalDetails = formValues.details.reduce(
+                                (acc, { qty, rp_per_unit }) =>
+                                    acc + qty * rp_per_unit,
+                                0,
+                            )
+
+                            const totalCosts = formValues.costs.reduce(
+                                (acc, { rp }) => acc + (rp ?? 0),
+                                0,
+                            )
+
+                            return formatNumber(totalDetails + totalCosts)
+                        }}
+                    />
                 </Grid2>
             </Grid2>
         </Paper>
@@ -192,52 +198,23 @@ function ReceiptPreview() {
 
 export default memo(ReceiptPreview)
 
-function Item2({ children }: { children?: React.ReactNode }) {
+const DisabledText = memo(function DisabledText({
+    children,
+}: {
+    children?: React.ReactNode
+}) {
     return (
-        <Grid2 container alignItems="center">
-            <Grid2 xs={1}>
-                <IconButton
-                    sx={{
-                        p: 0,
-                    }}
-                    title="hapus"
-                    size="small"
-                    icon={RemoveCircleIcon}
-                    color="error"
-                />
-            </Grid2>
-
-            <Grid2
-                xs={6}
-                component={Typography}
-                lineHeight="unset"
-                whiteSpace="nowrap"
-                textOverflow="ellipsis"
-                variant="caption"
-                pl={1}>
-                {children}
-            </Grid2>
-
-            <Grid2
-                xs={1}
-                textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset">
-                Rp
-            </Grid2>
-
-            <Grid2
-                xs={4}
-                textAlign="end"
-                component={Typography}
-                variant="caption"
-                lineHeight="unset">
-                {formatNumber(1 * -1 * 10000)}
-            </Grid2>
-        </Grid2>
+        <Typography
+            variant="caption"
+            color="text.disabled"
+            component="div"
+            sx={{
+                fontStyle: 'italic',
+            }}>
+            {children}
+        </Typography>
     )
-}
+})
 
 function DefaultItemDesc({
     desc,
