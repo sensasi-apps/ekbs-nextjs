@@ -19,6 +19,7 @@ import TextField from '@/components/TextField'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
 import { List, ListRowProps } from 'react-virtualized'
+import ApiUrl from '../ApiUrl'
 
 type UserSelectItemData = {
     id: User['id']
@@ -83,7 +84,7 @@ function VirtualizedAutocomplete({
     value: UserSelectItemData
 }) {
     const { data: users = [] } = useSWR<UserSelectItemData[]>(
-        '/marts/products/sales/users',
+        ApiUrl.USERS,
         null,
         {
             keepPreviousData: true,

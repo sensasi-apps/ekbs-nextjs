@@ -5,13 +5,16 @@ import { FormHelperText } from '@mui/material'
 import { FieldProps } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
+import ApiUrl from '../ApiUrl'
 
 function CashableUuidFieldComponent({
     field: { name: fieldName, value },
     form: { setFieldValue, getFieldMeta, isSubmitting },
 }: FieldProps) {
     const { error } = getFieldMeta(fieldName)
-    const { data: cashes } = useSWR<CashType[]>('/data/cashes')
+    const { data: cashes } = useSWR<CashType[]>(ApiUrl.CASHES, null, {
+        keepPreviousData: true,
+    })
 
     return (
         <>

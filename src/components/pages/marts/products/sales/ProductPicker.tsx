@@ -12,6 +12,7 @@ import useSWR from 'swr'
 import CategoryChips from './ProductPicker/CategoryChips'
 import ProductCard from './ProductPicker/ProductCard'
 import SearchTextField from './ProductPicker/SearchTextField'
+import ApiUrl from './ApiUrl'
 
 const WAREHOUSE = 'main'
 let detailsTemp: FormValuesType['details'] = []
@@ -21,7 +22,7 @@ function ProductPicker({
     form: { setFieldValue },
 }: FieldProps<FormValuesType['details']>) {
     const { data: products = [], isLoading } = useSWR<Product[]>(
-        '/data/marts/products',
+        ApiUrl.PRODUCTS,
         {
             keepPreviousData: true,
         },
