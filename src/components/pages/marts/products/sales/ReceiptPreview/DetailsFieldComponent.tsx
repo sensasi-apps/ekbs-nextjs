@@ -7,7 +7,7 @@ import DetailItem from './DetailItem'
 
 function DetailsFieldComponent({
     field: { value, name },
-    form: { setFieldValue, getFieldMeta },
+    form: { setFieldValue, getFieldMeta, isSubmitting },
 }: FieldProps<FormValuesType['details']>) {
     const { error } = getFieldMeta(name)
 
@@ -19,6 +19,7 @@ function DetailsFieldComponent({
                         <DetailItem
                             key={i}
                             data={detail}
+                            disabled={isSubmitting}
                             onDecreaseQtyItem={() => {
                                 const detailItem = value[i]
 

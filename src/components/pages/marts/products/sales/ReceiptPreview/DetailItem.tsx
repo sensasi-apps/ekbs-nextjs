@@ -8,8 +8,10 @@ import formatNumber from '@/utils/formatNumber'
 
 function DetailItem({
     data: { qty, rp_per_unit, product },
+    disabled,
     onDecreaseQtyItem,
 }: {
+    disabled: boolean
     data: FormValuesType['details'][0]
     onDecreaseQtyItem: () => void
 }) {
@@ -19,6 +21,7 @@ function DetailItem({
                 <IconButton
                     title="Kurangi jumlah"
                     size="small"
+                    disabled={disabled}
                     icon={RemoveCircleIcon}
                     onClick={onDecreaseQtyItem}
                     sx={{
