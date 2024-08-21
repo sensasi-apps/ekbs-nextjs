@@ -40,7 +40,6 @@ export default function SalesPage() {
                 msUserSelect: 'none',
                 webkitUserSelect: 'none',
                 mozUserSelect: 'none',
-                minHeight: '100%',
             }}>
             <Head>
                 <title>{`Kasir Belayan Mart — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
@@ -66,8 +65,8 @@ export default function SalesPage() {
                 onSubmit={(values, { setErrors }) =>
                     axios
                         .post(ApiUrl.STORE, {
-                            at: dayjs().format('YYYY-MM-DD'),
-                            paid: dayjs().format('YYYY-MM-DD'),
+                            at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                            paid: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                             ...values,
                         })
                         .catch((err: AxiosError<LaravelValidationException>) =>
