@@ -29,7 +29,7 @@ function ProductPicker({
     )
 
     useEffect(() => {
-        detailsTemp = value
+        detailsTemp = [...value]
     }, [value])
 
     const [query, setQuery] = useState<string>()
@@ -37,7 +37,7 @@ function ProductPicker({
 
     const debounceSetQuery = useDebouncedCallback(setQuery, 250)
     const debounceSetFieldValue = useDebouncedCallback(
-        () => setFieldValue(name, detailsTemp),
+        () => setFieldValue(name, [...detailsTemp]),
         100,
     )
 

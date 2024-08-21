@@ -6,11 +6,13 @@ import { FieldProps } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
 import ApiUrl from '../ApiUrl'
+import { FormikStatusType } from '@/pages/marts/products/sales'
 
 function CashableUuidFieldComponent({
     field: { name: fieldName, value },
-    form: { setFieldValue, getFieldMeta, isSubmitting },
+    form: { setFieldValue, getFieldMeta, isSubmitting, status },
 }: FieldProps) {
+    const typedStatus = status as FormikStatusType
     const { error } = getFieldMeta(fieldName)
     const { data: cashes } = useSWR<CashType[]>(ApiUrl.CASHES, null, {
         keepPreviousData: true,
@@ -24,7 +26,7 @@ function CashableUuidFieldComponent({
                         key={uuid}
                         label={name}
                         variant="outlined"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !!typedStatus?.isDisabled}
                         color={uuid === value ? 'success' : undefined}
                         sx={{
                             color: uuid !== value ? 'text.disabled' : undefined,

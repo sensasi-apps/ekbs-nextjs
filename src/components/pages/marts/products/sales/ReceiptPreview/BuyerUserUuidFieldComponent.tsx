@@ -1,5 +1,6 @@
 import type User from '@/dataTypes/User'
-import { FieldProps } from 'formik'
+import type { FormikStatusType } from '@/pages/marts/products/sales'
+import type { FieldProps } from 'formik'
 import React, {
     Children,
     cloneElement,
@@ -30,8 +31,9 @@ type UserSelectItemData = {
 
 function BuyerUserUuidFieldComponent({
     field: { value },
-    form: { setFieldValue, isSubmitting },
+    form: { setFieldValue, isSubmitting, status },
 }: FieldProps<UserSelectItemData>) {
+    const typedStatus = status as FormikStatusType
     const [show, setShow] = useState(false)
 
     return (
@@ -40,7 +42,7 @@ function BuyerUserUuidFieldComponent({
                 size="small"
                 color={show ? undefined : 'success'}
                 disableRipple
-                disabled={isSubmitting}
+                disabled={isSubmitting || typedStatus?.isDisabled}
                 sx={{
                     p: 0,
                 }}
@@ -59,7 +61,7 @@ function BuyerUserUuidFieldComponent({
             <Fade in={show}>
                 <Box width="100%">
                     <VirtualizedAutocomplete
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !!typedStatus?.isDisabled}
                         setFieldValue={setFieldValue}
                         required={show}
                         value={value}
@@ -100,7 +102,7 @@ function VirtualizedAutocomplete({
                 setFieldValue('buyer_user', value)
             }}
             disabled={disabled}
-            value={value}
+            value={value ?? null}
             filterOptions={(options, { inputValue }) => {
                 if (!inputValue || inputValue.length <= 3) {
                     return []

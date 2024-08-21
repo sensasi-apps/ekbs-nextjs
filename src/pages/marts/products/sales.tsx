@@ -6,7 +6,7 @@ import type Transaction from '@/dataTypes/Transaction'
 // vendors
 import { useState } from 'react'
 import { Alert, Box, Button, Fade, Typography } from '@mui/material'
-import { Field, Formik } from 'formik'
+import { Field, Formik, FormikErrors } from 'formik'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import Head from 'next/head'
 // icons
@@ -57,52 +57,81 @@ export default function SalesPage() {
                 </Button>
             </Box>
 
-            <Formik
-                initialValues={{
-                    details: [],
-                    costs: [],
-                }}
-                onSubmit={(values, { setErrors }) =>
-                    axios
-                        .post(ApiUrl.STORE, {
-                            at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                            paid: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                            ...values,
-                        })
-                        .catch((err: AxiosError<LaravelValidationException>) =>
-                            handle422(err, setErrors),
-                        )
-                }>
-                {() => (
-                    <Grid2
-                        container
-                        spacing={2}
-                        sx={{
-                            '& > *': {
-                                transition: 'all 0.1s',
-                            },
-                        }}>
-                        <Grid2
-                            xs={showList ? 2.5 : 0}
-                            sx={{
-                                opacity: showList ? 1 : 0,
-                                p: showList ? undefined : 0,
-                                maxHeight: showList ? undefined : 0,
-                                overflow: 'hidden',
-                            }}>
-                            <SaleList />
-                        </Grid2>
+            <Grid2
+                container
+                spacing={2}
+                sx={{
+                    '& > *': {
+                        transition: 'all 0.1s',
+                    },
+                }}>
+                <Grid2
+                    xs={showList ? 2.5 : 0}
+                    sx={{
+                        opacity: showList ? 1 : 0,
+                        p: showList ? undefined : 0,
+                        maxHeight: showList ? undefined : 0,
+                        overflow: 'hidden',
+                    }}>
+                    <SaleList />
+                </Grid2>
 
-                        <Grid2 xs={12} md={showList ? 6 : 8}>
-                            <Field name="details" component={ProductPicker} />
-                        </Grid2>
+                <Formik<FormValuesType>
+                    initialValues={JSON.parse(
+                        JSON.stringify(DEFAULT_FORM_VALUES),
+                    )}
+                    initialStatus={{
+                        isDisabled: false,
+                        isFormOpen: false,
+                    }}
+                    initialErrors={{
+                        details: 'Barang tidak boleh kosong',
+                    }}
+                    onSubmit={(values, { setErrors }) =>
+                        axios
+                            .post(ApiUrl.STORE, {
+                                at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                paid: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                ...values,
+                            })
+                            .catch(
+                                (err: AxiosError<LaravelValidationException>) =>
+                                    handle422(err, setErrors),
+                            )
+                    }
+                    onReset={(_, { setValues }) =>
+                        setValues(DEFAULT_FORM_VALUES)
+                    }
+                    component={() => (
+                        <>
+                            <Grid2 xs={12} md={showList ? 6 : 8}>
+                                <Field
+                                    name="details"
+                                    component={ProductPicker}
+                                />
+                            </Grid2>
 
-                        <Grid2 xs={12} md={showList ? 3.5 : 4}>
-                            <ReceiptPreview />
-                        </Grid2>
-                    </Grid2>
-                )}
-            </Formik>
+                            <Grid2 xs={12} md={showList ? 3.5 : 4}>
+                                <ReceiptPreview />
+                            </Grid2>
+                        </>
+                    )}
+                    validate={values => {
+                        const errors: FormikErrors<FormValuesType> = {}
+
+                        if (!values?.cashable_uuid) {
+                            errors.cashable_uuid =
+                                'Metode pembayaran tidak boleh kosong'
+                        }
+
+                        if (values.details.length === 0) {
+                            errors.details = 'Barang tidak boleh kosong'
+                        }
+
+                        return errors
+                    }}
+                />
+            </Grid2>
 
             <FooterBox />
         </Box>
@@ -151,9 +180,9 @@ function Top() {
 }
 
 export type FormValuesType = {
-    cashable_uuid: Transaction['cashable_uuid']
-    buyer_user_uuid: ProductMovementSale['buyer_user_uuid']
-    no: ProductMovementSale['no']
+    cashable_uuid?: Transaction['cashable_uuid']
+    buyer_user_uuid?: ProductMovementSale['buyer_user_uuid']
+    no?: ProductMovementSale['no']
     details: {
         product: ProductMovementDetail['product']
         product_id: ProductMovementDetail['product_id']
@@ -164,4 +193,14 @@ export type FormValuesType = {
         name: ProductMovementCost['name']
         rp?: ProductMovementCost['rp']
     }[]
+}
+
+export const DEFAULT_FORM_VALUES: FormValuesType = {
+    details: [],
+    costs: [],
+}
+
+export type FormikStatusType = {
+    isDisabled?: boolean
+    isFormOpen?: boolean
 }

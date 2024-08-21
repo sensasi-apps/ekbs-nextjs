@@ -6,6 +6,7 @@ import {
     CardActionArea,
     CardActionAreaProps,
     CardContent,
+    Fade,
     Typography,
     Zoom,
 } from '@mui/material'
@@ -15,16 +16,30 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import ChipSmall from '@/components/ChipSmall'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
+import { useFormikContext } from 'formik'
+import { FormikStatusType } from '@/pages/marts/products/sales'
 
 const WAREHOUSE = 'main'
 
 function ProductCard({
-    data: { id, code, name, description, category_name, unit, warehouses },
+    data: {
+        id,
+        code,
+        name,
+        description,
+        category_name,
+        unit,
+        warehouses,
+        deleted_at,
+    },
     onClick,
 }: {
     data: Product
     onClick: CardActionAreaProps['onClick']
 }) {
+    const { status } = useFormikContext()
+    const typedStatus = status as FormikStatusType
+
     const { default_sell_price } =
         warehouses.find(warehouse => warehouse.warehouse === WAREHOUSE) ?? {}
 
@@ -35,8 +50,11 @@ function ProductCard({
                 variant="outlined"
                 sx={{
                     borderRadius: 4,
+                    textDecoration: deleted_at ? 'line-through' : 'none',
                 }}>
-                <CardActionArea onClick={onClick}>
+                <CardActionArea
+                    onClick={onClick}
+                    disabled={!typedStatus?.isFormOpen || !!deleted_at}>
                     <CardContent
                         sx={{
                             display: 'flex',
@@ -50,7 +68,9 @@ function ProductCard({
                                 variant="outlined"
                             />
 
-                            <AddCircleIcon color="success" />
+                            <Fade in={typedStatus?.isFormOpen}>
+                                <AddCircleIcon color="success" />
+                            </Fade>
                         </Box>
 
                         <Typography

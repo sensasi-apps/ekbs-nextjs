@@ -17,7 +17,11 @@ import { LoadingButton } from '@mui/lab'
 import { Field, FieldProps, useFormikContext } from 'formik'
 import Grid2 from '@mui/material/Unstable_Grid2'
 // locals
-import type { FormValuesType } from '@/pages/marts/products/sales'
+import {
+    DEFAULT_FORM_VALUES,
+    FormikStatusType,
+    type FormValuesType,
+} from '@/pages/marts/products/sales'
 import CostsFieldComponent from './ReceiptPreview/CostsFieldComponent'
 import CashableUuidFieldComponent from './ReceiptPreview/CashableUuidFieldComponent'
 import BuyerUserUuidFieldComponent from './ReceiptPreview/BuyerUserUuidFieldComponent'
@@ -33,9 +37,21 @@ import useAuth from '@/providers/Auth'
 import ApiUrl from './ApiUrl'
 
 function ReceiptPreview() {
-    const { isSubmitting, submitForm } = useFormikContext<FormValuesType>()
+    const {
+        isSubmitting,
+        submitForm,
+        errors,
+        resetForm,
+        setStatus,
+        dirty,
+        status,
+        setValues,
+    } = useFormikContext<FormValuesType>()
+    const typedStatus = status as FormikStatusType
     const [show, setShow] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
+
+    const isError = Object.keys(errors).length > 0
 
     return (
         <Paper
@@ -47,12 +63,27 @@ function ReceiptPreview() {
                     startIcon={show ? <SaveIcon /> : <AddBoxIcon />}
                     color={show ? 'warning' : 'success'}
                     size="small"
-                    onClick={() =>
-                        show
-                            ? submitForm().then(() => setIsSubmitted(true))
-                            : setShow(true)
+                    onClick={() => {
+                        if (show) {
+                            submitForm().then(() => {
+                                setStatus({
+                                    ...typedStatus,
+                                    isDisabled: true,
+                                })
+                                setIsSubmitted(!isError)
+                            })
+                        } else {
+                            setStatus({
+                                ...typedStatus,
+                                isFormOpen: true,
+                            })
+                            setShow(true)
+                        }
+                    }}
+                    disabled={
+                        isSubmitted ||
+                        (show && (!dirty || isError || typedStatus?.isDisabled))
                     }
-                    disabled={isSubmitted}
                     loading={isSubmitting}>
                     {show ? 'Simpan' : 'Penjualan Baru'}
                 </LoadingButton>
@@ -64,7 +95,18 @@ function ReceiptPreview() {
                         placement="top">
                         <IconButton
                             size="small"
-                            onClick={() => setShow(false)}
+                            onClick={() => {
+                                setShow(false)
+                                setIsSubmitted(false)
+                                setValues({
+                                    ...DEFAULT_FORM_VALUES,
+                                })
+                                setStatus({
+                                    isDisabled: false,
+                                    isFormOpen: false,
+                                })
+                                resetForm()
+                            }}
                             disabled={isSubmitting}
                             color={isSubmitted ? undefined : 'error'}>
                             <CloseIcon />
@@ -82,7 +124,7 @@ function ReceiptPreview() {
     )
 }
 
-export default memo(ReceiptPreview)
+export default ReceiptPreview
 
 function DefaultItemDesc({
     desc,
@@ -109,7 +151,7 @@ function DefaultItemDesc({
     )
 }
 
-function Form() {
+const Form = memo(function Form() {
     const { user } = useAuth()
     const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER)
 
@@ -212,4 +254,4 @@ function Form() {
             </Grid2>
         </>
     )
-}
+})
