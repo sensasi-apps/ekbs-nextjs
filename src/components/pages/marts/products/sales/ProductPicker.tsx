@@ -1,6 +1,9 @@
 // types
 import type { FieldProps } from 'formik'
-import type { FormValuesType } from '@/pages/marts/products/sales'
+import type {
+    FormikStatusType,
+    FormValuesType,
+} from '@/pages/marts/products/sales'
 import type Product from '@/dataTypes/mart/Product'
 // vendors
 import { Box, Paper, Typography } from '@mui/material'
@@ -13,14 +16,16 @@ import CategoryChips from './ProductPicker/CategoryChips'
 import ProductCard from './ProductPicker/ProductCard'
 import SearchTextField from './ProductPicker/SearchTextField'
 import ApiUrl from './ApiUrl'
+import BarcodeReader from 'react-barcode-reader'
 
 const WAREHOUSE = 'main'
 let detailsTemp: FormValuesType['details'] = []
 
 function ProductPicker({
     field: { name, value },
-    form: { setFieldValue },
+    form: { setFieldValue, status },
 }: FieldProps<FormValuesType['details']>) {
+    const typedStatus = status as FormikStatusType
     const { data: products = [], isLoading } = useSWR<Product[]>(
         ApiUrl.PRODUCTS,
         {
@@ -53,7 +58,29 @@ function ProductPicker({
                 flexDirection: 'column',
                 gap: 3,
             }}>
+            <BarcodeReader
+                onScan={
+                    typedStatus?.isFormOpen
+                        ? data => {
+                              setQuery(data)
+
+                              const filteredProducts = products.filter(
+                                  product =>
+                                      product.code
+                                          ?.toLowerCase()
+                                          .includes(data.toLowerCase()),
+                              )
+
+                              if (filteredProducts.length === 1) {
+                                  handleAddProduct(filteredProducts[0])
+                                  debounceSetFieldValue()
+                              }
+                          }
+                        : undefined
+                }
+            />
             <SearchTextField
+                value={query ?? ''}
                 onChange={({ target: { value } }) => debounceSetQuery(value)}
             />
 
