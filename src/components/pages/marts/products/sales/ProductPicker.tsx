@@ -14,6 +14,7 @@ import ProductCard from './ProductPicker/ProductCard'
 import SearchTextField from './ProductPicker/SearchTextField'
 import ApiUrl from './ApiUrl'
 import BarcodeReader from 'react-barcode-reader'
+import ScrollableXBox from '@/components/ScrollableXBox'
 
 const WAREHOUSE = 'main'
 let detailsTemp: FormValuesType['details'] = []
@@ -34,7 +35,7 @@ function ProductPicker({
         detailsTemp = [...value]
     }, [value])
 
-    const [query, setQuery] = useState<string>()
+    const [query, setQuery] = useState<string>('')
     const [selectedCategory, setSelectedCategory] = useState<string>()
 
     const debounceSetQuery = useDebouncedCallback(setQuery, 250)
@@ -43,9 +44,16 @@ function ProductPicker({
         100,
     )
 
-    const filteredProducts = products?.filter(product =>
-        isProductMatch(product, query, selectedCategory),
-    )
+    const filteredProducts = []
+
+    for (const product of products) {
+        if (query.length < 3) break
+        if (filteredProducts.length >= 8) break
+
+        if (isProductMatch(product, query, selectedCategory)) {
+            filteredProducts.push(product)
+        }
+    }
 
     return (
         <Paper
@@ -56,25 +64,22 @@ function ProductPicker({
                 gap: 3,
             }}>
             <BarcodeReader
-                onScan={
-                    typedStatus?.isFormOpen
-                        ? data => {
-                              setQuery(data)
+                onScan={data => {
+                    setQuery(data)
 
-                              const filteredProducts = products.filter(
-                                  product =>
-                                      product.code
-                                          ?.toLowerCase()
-                                          .includes(data.toLowerCase()),
-                              )
+                    if (typedStatus?.isFormOpen) {
+                        const filteredProducts = products.filter(product =>
+                            product.code
+                                ?.toLowerCase()
+                                .includes(data.toLowerCase()),
+                        )
 
-                              if (filteredProducts.length === 1) {
-                                  handleAddProduct(filteredProducts[0])
-                                  debounceSetFieldValue()
-                              }
-                          }
-                        : undefined
-                }
+                        if (filteredProducts.length === 1) {
+                            handleAddProduct(filteredProducts[0])
+                            debounceSetFieldValue()
+                        }
+                    }
+                }}
             />
             <SearchTextField
                 value={query ?? ''}
@@ -94,21 +99,51 @@ function ProductPicker({
                         align="center">
                         {isLoading
                             ? 'Memuat produk...'
-                            : 'Tidak ada produk yang ditemukan'}
+                            : query?.length >= 3
+                              ? 'Tidak ada produk yang ditemukan'
+                              : 'Silakan mulai mencari produk'}
                     </Typography>
                 ) : (
-                    <Masonry columns={3} spacing={2}>
-                        {filteredProducts.map(product => (
-                            <ProductCard
-                                key={product.id}
-                                data={product}
-                                onClick={() => {
-                                    handleAddProduct(product)
-                                    debounceSetFieldValue()
-                                }}
-                            />
-                        ))}
-                    </Masonry>
+                    <>
+                        <Masonry
+                            sx={{
+                                display: { xs: 'none', sm: 'flex' },
+                            }}
+                            columns={4}
+                            spacing={2}>
+                            {filteredProducts.map(product => (
+                                <ProductCard
+                                    key={product.id}
+                                    data={product}
+                                    onClick={() => {
+                                        handleAddProduct(product)
+                                        debounceSetFieldValue()
+                                    }}
+                                />
+                            ))}
+                        </Masonry>
+
+                        <ScrollableXBox
+                            sx={{
+                                display: { xs: 'flex', sm: 'none' },
+                                '& > .MuiPaper-root': {
+                                    width: 200,
+                                    minWidth: 200,
+                                    whiteSpace: 'wrap',
+                                },
+                            }}>
+                            {filteredProducts.map(product => (
+                                <ProductCard
+                                    key={product.id}
+                                    data={product}
+                                    onClick={() => {
+                                        handleAddProduct(product)
+                                        debounceSetFieldValue()
+                                    }}
+                                />
+                            ))}
+                        </ScrollableXBox>
+                    </>
                 )}
             </Box>
         </Paper>
@@ -119,21 +154,17 @@ export default memo(ProductPicker)
 
 function isProductMatch(
     product: Product,
-    query?: string,
+    query: string,
     selectedCategory?: string,
 ) {
     const isCategoryMatch =
         selectedCategory === undefined ||
         product.category_name === selectedCategory
-    const isNameMatch = product.name
-        .toLowerCase()
-        .includes((query ?? '').toLowerCase())
+    const isNameMatch = product.name.toLowerCase().includes(query.toLowerCase())
     const isCodeMatch = product.code
         ?.toLowerCase()
-        .includes((query ?? '').toLowerCase())
-    const isIdMatch = product.id
-        .toString()
-        .includes((query ?? '').toLowerCase())
+        .includes(query.toLowerCase())
+    const isIdMatch = product.id.toString().includes(query.toLowerCase())
 
     return isCategoryMatch && (isNameMatch || isCodeMatch || isIdMatch)
 }
