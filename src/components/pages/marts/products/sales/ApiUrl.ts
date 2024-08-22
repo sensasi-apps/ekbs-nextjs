@@ -6,9 +6,10 @@ enum ApiUrl {
     STORE = '/marts/products/sales',
 
     // get data
+    DATATABLE = '/marts/products/sales/datatable',
+    PRODUCTS = '/data/marts/products',
     NEW_SALE_NUMBER = '/marts/products/sales/new-sale-number',
     USERS = '/marts/products/sales/users',
-    PRODUCTS = '/data/marts/products',
     CASHES = '/marts/products/sales/cashes',
 }
 
