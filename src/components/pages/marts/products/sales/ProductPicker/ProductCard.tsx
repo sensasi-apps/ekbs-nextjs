@@ -87,9 +87,7 @@ function ProductCard({
                             variant="h5"
                             component="div"
                             color="success.main">
-                            {default_sell_price
-                                ? numberToCurrency(default_sell_price)
-                                : ''}
+                            {numberToCurrency(default_sell_price ?? 0)}
                         </Typography>
 
                         <Typography
