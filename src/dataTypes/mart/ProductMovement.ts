@@ -6,6 +6,8 @@ import type Transaction from '../Transaction'
 import type ProductMovementDetail from './ProductMovementDetail'
 import type ProductMovementPurchase from './ProductMovementPurchase'
 import type ProductMovementCost from './ProductMovementCost'
+import ProductMovementSale from './ProductMovementSale'
+import ActivityLogType from '../ActivityLog'
 
 type ProductMovement = {
     uuid: UUID
@@ -22,6 +24,11 @@ type ProductMovement = {
     details: ProductMovementDetail[]
     transaction?: Transaction
     purchase?: ProductMovementPurchase
+    logs?: ActivityLogType[]
 }
 
 export default ProductMovement
+
+export type ProductMovementWithSale = ProductMovement & {
+    sale: ProductMovementSale
+}
