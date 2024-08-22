@@ -50,7 +50,7 @@ const PrintHandler = memo(function PrintHandler({
                 trigger={() => (
                     <Tooltip {...tooltipProps}>
                         <span>
-                            <IconButton {...printButtonProps} />
+                            <IconButton size="small" {...printButtonProps} />
                         </span>
                     </Tooltip>
                 )}
