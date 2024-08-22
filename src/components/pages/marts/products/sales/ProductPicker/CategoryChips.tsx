@@ -19,6 +19,7 @@ function CategoryChips({
 
     const categories = data
         .map(product => product.category_name)
+        .sort()
         .filter((category, i, arr) => arr.indexOf(category) === i)
 
     return (
