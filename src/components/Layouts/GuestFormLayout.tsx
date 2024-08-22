@@ -44,59 +44,54 @@ export default function GuestFormLayout({
     }, [user, replace, pathname, query])
 
     return (
-        <div>
+        <Container
+            component="main"
+            maxWidth="xs"
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                px: 8,
+                pt: 8,
+            }}>
             <Head>
                 <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
-            <Container
-                component="main"
-                maxWidth="xs"
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    height: '100vh',
-                    p: 8,
-                }}>
-                <Box display="flex" gap={2}>
-                    <Avatar
-                        sx={{
-                            bgcolor: () => {
-                                if (isLoading) return 'primary.main'
-                                if (isError) return 'error.main'
-                            },
-                        }}>
-                        {icon}
-                    </Avatar>
+            <Box display="flex" gap={3} alignItems="center">
+                <Avatar
+                    sx={{
+                        bgcolor: () => {
+                            if (isLoading) return 'primary.main'
+                            if (isError) return 'error.main'
+                        },
+                    }}>
+                    {icon}
+                </Avatar>
 
-                    <Box>
-                        <Typography
-                            component="div"
-                            variant="body2"
-                            gutterBottom>
-                            {process.env.NEXT_PUBLIC_APP_NAME}
-                        </Typography>
+                <Box>
+                    <Typography component="div" variant="body2">
+                        {process.env.NEXT_PUBLIC_APP_NAME}
+                    </Typography>
 
-                        <Typography
-                            component="div"
-                            variant="h5"
-                            lineHeight={0.5}>
-                            {title}
-                        </Typography>
-                    </Box>
+                    <Typography
+                        component="div"
+                        variant="h5"
+                        lineHeight="normal">
+                        {title}
+                    </Typography>
                 </Box>
+            </Box>
 
-                <LoadingCenter isShow={isLoading} message={message} />
+            <LoadingCenter isShow={isLoading} message={message} />
 
-                <ErrorCenter isShow={isError} message={message} />
+            <ErrorCenter isShow={isError} message={message} />
 
-                <Box display={isLoading ? 'none' : 'block'} mt={2}>
-                    {children}
-                </Box>
+            <Box display={isLoading ? 'none' : 'block'} mt={2}>
+                {children}
+            </Box>
 
-                <FooterBox />
-            </Container>
-        </div>
+            <FooterBox />
+        </Container>
     )
 }
