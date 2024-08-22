@@ -1,9 +1,9 @@
-import { FormikStatusType, FormValuesType } from '@/pages/marts/products/sales'
 import { FormHelperText } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import { FieldProps } from 'formik'
 import DetailItem from './DetailItem'
 import { memo } from 'react'
+import { FormikStatusType, FormValuesType } from '../FormikComponent'
 
 function DetailsFieldComponent({
     field: { value, name },

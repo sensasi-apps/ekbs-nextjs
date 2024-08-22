@@ -1,4 +1,3 @@
-import { FormikStatusType, FormValuesType } from '@/pages/marts/products/sales'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import { FieldProps } from 'formik'
 import { memo } from 'react'
@@ -6,6 +5,7 @@ import CostItem from './CostItem'
 import { Button } from '@mui/material'
 import AddCircle from '@mui/icons-material/AddCircle'
 import { useDebouncedCallback } from 'use-debounce'
+import { FormikStatusType, FormValuesType } from '../FormikComponent'
 
 function CostFieldComponent({
     form: { setFieldValue, errors, isSubmitting, status },

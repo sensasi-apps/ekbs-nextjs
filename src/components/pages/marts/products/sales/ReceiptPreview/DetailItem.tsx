@@ -1,6 +1,6 @@
+import type { FormValuesType } from '../FormikComponent'
 import { memo } from 'react'
 import { Typography } from '@mui/material'
-import { FormValuesType } from '@/pages/marts/products/sales'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import IconButton from '@/components/IconButton'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'

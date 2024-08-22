@@ -1,0 +1,133 @@
+import { memo, useEffect } from 'react'
+import DefaultItemDesc from './DefaultItemDesc'
+import { Box, Divider, Typography } from '@mui/material'
+import ApiUrl from '../ApiUrl'
+import useSWR from 'swr'
+import useAuth from '@/providers/Auth'
+import { Field, FieldProps, useFormikContext } from 'formik'
+import CostsFieldComponent from './CostsFieldComponent'
+import CashableUuidFieldComponent from './CashableUuidFieldComponent'
+import BuyerUserUuidFieldComponent from './BuyerUserUuidFieldComponent'
+import DetailsFieldComponent from './DetailsFieldComponent'
+import Grid2 from '@mui/material/Unstable_Grid2'
+import formatNumber from '@/utils/formatNumber'
+import { FormikStatusType, FormValuesType } from '../FormikComponent'
+
+function CreateSaleForm() {
+    const { user } = useAuth()
+    const { setFieldValue, status } = useFormikContext<FormValuesType>()
+    const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER)
+
+    useEffect(() => {
+        if (!newNumber) return
+
+        setFieldValue('no', newNumber)
+    }, [newNumber, setFieldValue])
+
+    const typedStatus = status as FormikStatusType
+
+    return (
+        <>
+            <DefaultItemDesc
+                desc="TGL"
+                value={typedStatus?.submittedData?.at}
+            />
+
+            <DefaultItemDesc
+                desc="NO. Nota"
+                value={typedStatus?.submittedData?.no.toString() ?? ''}
+            />
+
+            <DefaultItemDesc desc="Kasir" value={user?.name ?? ''} />
+
+            <Box display="flex" alignItems="center">
+                <DefaultItemDesc desc="Pelanggan" value="" />
+
+                <Field
+                    name="buyer_user"
+                    component={BuyerUserUuidFieldComponent}
+                />
+            </Box>
+
+            <DefaultItemDesc desc="Pembayaran Ke" value="" />
+
+            <Field
+                name="cashable_uuid"
+                component={CashableUuidFieldComponent}
+            />
+
+            <Box mt={4} display="flex" flexDirection="column" gap={1.5}>
+                <Field name="details" component={DetailsFieldComponent} />
+            </Box>
+
+            <Divider
+                sx={{
+                    my: 1,
+                }}
+            />
+
+            <Box>
+                <Field name="costs" component={CostsFieldComponent} />
+            </Box>
+
+            <Divider
+                sx={{
+                    my: 0.5,
+                }}
+            />
+
+            <Grid2 container alignItems="center">
+                <Grid2
+                    xs={7}
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em"
+                    whiteSpace="nowrap"
+                    textOverflow="ellipsis"
+                    pl={1}>
+                    Total
+                </Grid2>
+
+                <Grid2
+                    xs={1}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em">
+                    Rp
+                </Grid2>
+
+                <Grid2
+                    xs={4}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em">
+                    <Field
+                        component={({ form: { values } }: FieldProps) => {
+                            const formValues = values as FormValuesType
+
+                            const totalDetails = formValues.details.reduce(
+                                (acc, { qty, rp_per_unit }) =>
+                                    acc + qty * rp_per_unit,
+                                0,
+                            )
+
+                            const totalCosts = formValues.costs.reduce(
+                                (acc, { rp }) => acc + (rp ?? 0),
+                                0,
+                            )
+
+                            return formatNumber(totalDetails + totalCosts)
+                        }}
+                    />
+                </Grid2>
+            </Grid2>
+        </>
+    )
+}
+
+export default memo(CreateSaleForm)

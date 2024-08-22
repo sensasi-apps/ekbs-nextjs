@@ -6,13 +6,14 @@ import { FieldProps } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
 import ApiUrl from '../ApiUrl'
-import { FormikStatusType } from '@/pages/marts/products/sales'
+import { FormikStatusType } from '../FormikComponent'
 
 function CashableUuidFieldComponent({
     field: { name: fieldName, value },
     form: { setFieldValue, getFieldMeta, isSubmitting, status },
 }: FieldProps) {
     const typedStatus = status as FormikStatusType
+
     const { error } = getFieldMeta(fieldName)
     const { data: cashes } = useSWR<CashType[]>(ApiUrl.CASHES, null, {
         keepPreviousData: true,
@@ -31,7 +32,10 @@ function CashableUuidFieldComponent({
                         sx={{
                             color: uuid !== value ? 'text.disabled' : undefined,
                         }}
-                        onClick={() => setFieldValue(fieldName, uuid)}
+                        onClick={() => {
+                            setFieldValue('cashable_name', name)
+                            setFieldValue(fieldName, uuid)
+                        }}
                     />
                 ))}
             </ScrollableXBox>

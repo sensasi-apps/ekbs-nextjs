@@ -2,8 +2,7 @@
 import { memo, useState } from 'react'
 import { Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
-// locals
-import type { FormValuesType } from '@/pages/marts/products/sales'
+
 // components
 import IconButton from '@/components/IconButton'
 // icons
@@ -15,6 +14,7 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import { FieldProps, FormikErrors } from 'formik'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import LaravelValidationException from '@/types/LaravelValidationException'
+import { FormValuesType } from '../FormikComponent'
 
 function CostItem({
     index,

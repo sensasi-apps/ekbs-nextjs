@@ -1,17 +1,16 @@
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
 import type Type from '../enums/MartDB/ProductMovements/Type'
 import type Warehouse from '../enums/MartDB/ProductWarehouses/Warehouse'
 import type Transaction from '../Transaction'
 import type ProductMovementDetail from './ProductMovementDetail'
 import type ProductMovementPurchase from './ProductMovementPurchase'
 import type ProductMovementCost from './ProductMovementCost'
-import ProductMovementSale from './ProductMovementSale'
-import ActivityLogType from '../ActivityLog'
+import type ProductMovementSale from './ProductMovementSale'
+import type ActivityLogType from '../ActivityLog'
 
 type ProductMovement = {
     uuid: UUID
-    at: Ymd
+    at: string
     type: Type
     warehouse: Warehouse
     note?: string

@@ -1,7 +1,7 @@
 import type User from '@/dataTypes/User'
-import type { FormikStatusType } from '@/pages/marts/products/sales'
 import type { FieldProps } from 'formik'
-import React, {
+import type { FormikStatusType } from '../FormikComponent'
+import {
     Children,
     cloneElement,
     ComponentType,
