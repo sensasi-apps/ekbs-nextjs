@@ -19,6 +19,7 @@ function SearchTextField({
     return (
         <TextField
             placeholder="Nama / Kode / Kategori"
+            autoComplete="off"
             name="product-search"
             margin="none"
             size="small"
