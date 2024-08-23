@@ -1,6 +1,5 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type { Ymd } from '@/types/DateString'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 // vendors
 import { useState } from 'react'

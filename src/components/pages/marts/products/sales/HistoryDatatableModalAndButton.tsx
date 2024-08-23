@@ -1,24 +1,20 @@
-// icons
-import type ProductMovementWithSale from '@/dataTypes/mart/ProductMovementWithSale'
-import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 // vendors
-import { Dialog } from '@mui/material'
+import { Box, Dialog, Tab, Tabs } from '@mui/material'
 import { useState } from 'react'
 // components
-import Datatable, { GetRowDataType } from '@/components/Datatable'
 import IconButton from '@/components/IconButton'
-import numberToCurrency from '@/utils/numberToCurrency'
-import Receipt from './ReceiptPreview/Receipt'
+import Datatable from './HistoryDatatableModalAndButton/Datatable'
 // icons
 import HistoryIcon from '@mui/icons-material/History'
-// utils
-import ApiUrl from './ApiUrl'
-import PrintHandler from '@/components/PrintHandler'
-
-let getRowData: GetRowDataType<ProductMovementWithSale>
+import BalanceInSummary from './HistoryDatatableModalAndButton/BalanceInSummary'
 
 export default function HistoryDatatableModalAndButton() {
     const [open, setOpen] = useState(false)
+    const [value, setValue] = useState(0)
+
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue)
+    }
 
     return (
         <>
@@ -33,107 +29,52 @@ export default function HistoryDatatableModalAndButton() {
                 fullWidth
                 open={open}
                 onClose={() => setOpen(false)}>
-                <Datatable
-                    apiUrl={ApiUrl.DATATABLE}
-                    columns={DATATABLE_COLUMNS}
-                    defaultSortOrder={DEFAULT_SORT_ORDER}
-                    tableId="mart-sales-table"
-                    title="Riwayat Penjualan"
-                    getRowDataCallback={fn => (getRowData = fn)}
-                />
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example">
+                        <Tab label="Semua" {...a11yProps(0)} />
+                        <Tab label="Saldo Masuk" {...a11yProps(1)} />
+                    </Tabs>
+                </Box>
+                <CustomTabPanel value={value} index={0}>
+                    <Datatable />
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                    <Box p={4}>
+                        <BalanceInSummary />
+                    </Box>
+                </CustomTabPanel>
             </Dialog>
         </>
     )
 }
 
-const DEFAULT_SORT_ORDER: MUISortOptions = {
-    name: 'at',
-    direction: 'desc',
+interface TabPanelProps {
+    children?: React.ReactNode
+    index: number
+    value: number
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
-    {
-        name: 'sale.no',
-        label: 'NO Struk',
-        options: {
-            customBodyRenderLite: dataIndex => getRowData(dataIndex)?.sale.no,
-        },
-    },
-    {
-        name: 'short_uuid',
-        label: 'Kode',
-        options: {
-            display: false,
-        },
-    },
-    {
-        name: 'at',
-        label: 'Waktu',
-    },
-    {
-        name: 'logs.user.name',
-        label: 'Kasir',
-        options: {
-            customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.by_user?.name,
-        },
-    },
-    {
-        name: 'sale.buyerUser.name',
-        label: 'Pelanggan',
-        options: {
-            customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.sale?.buyer_user?.name,
-        },
-    },
+function CustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props
 
-    {
-        name: 'grand_total_rp',
-        label: 'Total',
-        options: {
-            customBodyRender: (value: number) => numberToCurrency(value),
-        },
-    },
-    {
-        name: 'transaction.cashable.name',
-        label: 'Pembayaran',
-        options: {
-            customBodyRenderLite: dataIndex => {
-                const cashable = getRowData(dataIndex)?.transaction?.cashable
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`tabpanel-${index}`}
+            aria-labelledby={`tab-${index}`}
+            {...other}>
+            {value === index && <Box>{children}</Box>}
+        </div>
+    )
+}
 
-                if (cashable && 'name' in cashable) return cashable.name
-            },
-        },
-    },
-    {
-        name: 'uuid',
-        label: 'Cetak',
-        options: {
-            customBodyRenderLite: dataIndex => {
-                const data = getRowData(dataIndex)
-
-                if (!data) return
-
-                const cashable = data.transaction?.cashable
-                const transactionCashName =
-                    cashable && 'name' in cashable ? cashable.name : '-'
-
-                return (
-                    <PrintHandler>
-                        <Receipt
-                            data={{
-                                at: data.at,
-                                saleNo: data.sale.no,
-                                servedByUserName: data.by_user?.name ?? '-',
-                                saleBuyerUser: data.sale?.buyer_user,
-                                transactionCashName: transactionCashName,
-                                details: data.details,
-                                costs: data.costs,
-                            }}
-                        />
-                    </PrintHandler>
-                )
-            },
-        },
-    },
-]
+function a11yProps(index: number) {
+    return {
+        id: `tab-${index}`,
+        'aria-controls': `tabpanel-${index}`,
+    }
+}
