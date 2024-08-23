@@ -43,6 +43,9 @@ function ProductCard({
     const { default_sell_price } =
         warehouses.find(warehouse => warehouse.warehouse === WAREHOUSE) ?? {}
 
+    const isDisabled =
+        !typedStatus?.isFormOpen || !!deleted_at || typedStatus.isDisabled
+
     return (
         <Zoom in>
             <Card
@@ -52,9 +55,7 @@ function ProductCard({
                     borderRadius: 4,
                     textDecoration: deleted_at ? 'line-through' : 'none',
                 }}>
-                <CardActionArea
-                    onClick={onClick}
-                    disabled={!typedStatus?.isFormOpen || !!deleted_at}>
+                <CardActionArea onClick={onClick} disabled={isDisabled}>
                     <CardContent
                         sx={{
                             display: 'flex',
@@ -71,7 +72,7 @@ function ProductCard({
                                 variant="outlined"
                             />
 
-                            <Fade in={typedStatus?.isFormOpen}>
+                            <Fade in={!isDisabled}>
                                 <AddCircleIcon color="success" />
                             </Fade>
                         </Box>
