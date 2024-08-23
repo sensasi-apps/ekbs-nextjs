@@ -1,14 +1,19 @@
-import type { ProductMovementWithSale } from '@/dataTypes/mart/ProductMovement'
-import Datatable, { GetRowDataType } from '@/components/Datatable'
-import IconButton from '@/components/IconButton'
-import HistoryIcon from '@mui/icons-material/History'
+// icons
+import type ProductMovementWithSale from '@/dataTypes/mart/ProductMovementWithSale'
+import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
+// vendors
 import { Dialog } from '@mui/material'
 import { useState } from 'react'
-import ApiUrl from './ApiUrl'
-import { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
+// components
+import Datatable, { GetRowDataType } from '@/components/Datatable'
+import IconButton from '@/components/IconButton'
 import numberToCurrency from '@/utils/numberToCurrency'
-import PrintHandler from '@/components/PrintHandler'
 import Receipt from './ReceiptPreview/Receipt'
+// icons
+import HistoryIcon from '@mui/icons-material/History'
+// utils
+import ApiUrl from './ApiUrl'
+import PrintHandler from '@/components/PrintHandler'
 
 let getRowData: GetRowDataType<ProductMovementWithSale>
 
@@ -70,7 +75,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Kasir',
         options: {
             customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.logs?.[0]?.user?.name,
+                getRowData(dataIndex)?.by_user?.name,
         },
     },
     {
@@ -119,8 +124,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                             data={{
                                 at: data.at,
                                 saleNo: data.sale.no,
-                                servedByUserName:
-                                    data.logs?.[0]?.user.name ?? '-',
+                                servedByUserName: data.by_user?.name ?? '-',
                                 saleBuyerUser: data.sale?.buyer_user,
                                 transactionCashName: transactionCashName,
                                 details: data.details,
