@@ -43,7 +43,7 @@ function DetailItem({
                 pl={1}>
                 {product?.name}
                 <Typography variant="caption" component="div">
-                    {formatNumber(qty)} {product?.unit} &times; RP{' '}
+                    {formatNumber(Math.abs(qty))} {product?.unit} &times; RP{' '}
                     {formatNumber(rp_per_unit)}
                 </Typography>
             </Grid2>

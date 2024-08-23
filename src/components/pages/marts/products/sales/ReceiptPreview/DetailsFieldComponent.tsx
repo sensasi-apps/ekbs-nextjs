@@ -30,7 +30,7 @@ function DetailsFieldComponent({
                                           ...value.slice(0, i),
                                           {
                                               ...detailItem,
-                                              qty: detailItem.qty - 1,
+                                              qty: Math.abs(detailItem.qty) - 1,
                                           },
                                           ...value.slice(i + 1),
                                       ]

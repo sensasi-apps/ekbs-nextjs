@@ -69,7 +69,8 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'grand_total_rp',
         label: 'Total',
         options: {
-            customBodyRender: (value: number) => numberToCurrency(value),
+            customBodyRender: (value: number) =>
+                numberToCurrency(Math.abs(value)),
         },
     },
     {

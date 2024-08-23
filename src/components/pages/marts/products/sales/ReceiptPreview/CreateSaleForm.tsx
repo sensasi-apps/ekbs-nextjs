@@ -112,7 +112,7 @@ function CreateSaleForm() {
 
                             const totalDetails = formValues.details.reduce(
                                 (acc, { qty, rp_per_unit }) =>
-                                    acc + qty * rp_per_unit,
+                                    acc + Math.abs(qty) * rp_per_unit,
                                 0,
                             )
 

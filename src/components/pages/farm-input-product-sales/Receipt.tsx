@@ -117,7 +117,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                             variant="overline"
                             lineHeight="unset"
                             fontSize="1em">
-                            {formatNumber(qty * -1)} {unit}
+                            {formatNumber(Math.abs(qty))} {unit}
                         </Grid2>
 
                         <Grid2
@@ -151,7 +151,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                             variant="overline"
                             lineHeight="unset"
                             fontSize="1em">
-                            {formatNumber(qty * -1 * rp_per_unit)}
+                            {formatNumber(Math.abs(qty) * rp_per_unit)}
                         </Grid2>
                     </Grid2>
                 ),

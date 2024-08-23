@@ -37,7 +37,7 @@ export default function Receipt({
     }
 }) {
     const totalDetails = details.reduce(
-        (acc, { qty, rp_per_unit }) => acc + qty * rp_per_unit,
+        (acc, { qty, rp_per_unit }) => acc + Math.abs(qty) * rp_per_unit,
         0,
     )
 
@@ -205,8 +205,8 @@ function DetailItem({
                     {printedProduct?.name}
                 </Typography>
                 <Typography variant="caption" component="div">
-                    {formatNumber(qty)} {printedProduct?.unit} &times; RP{' '}
-                    {formatNumber(rp_per_unit)}
+                    {formatNumber(Math.abs(qty))} {printedProduct?.unit} &times;
+                    RP {formatNumber(rp_per_unit)}
                 </Typography>
             </Grid2>
 
@@ -227,7 +227,7 @@ function DetailItem({
                 variant="overline"
                 lineHeight="unset"
                 fontSize="1em">
-                {formatNumber(qty * rp_per_unit)}
+                {formatNumber(Math.abs(qty) * rp_per_unit)}
             </Grid2>
         </>
     )
