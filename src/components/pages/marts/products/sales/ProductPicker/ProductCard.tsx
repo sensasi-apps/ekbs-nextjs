@@ -61,7 +61,10 @@ function ProductCard({
                             flexDirection: 'column',
                             gap: 1,
                         }}>
-                        <Box display="flex" justifyContent="space-between" gap={1}>
+                        <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            gap={1}>
                             <ChipSmall
                                 component="div"
                                 label={category_name ?? 'Tanpa Kategori'}
