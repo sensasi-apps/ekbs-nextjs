@@ -3,13 +3,15 @@ import type ProductMovementSale from '@/dataTypes/mart/ProductMovementSale'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 import type ActivityLogType from '@/dataTypes/ActivityLog'
 import type CashType from '@/dataTypes/Cash'
-
-import { ProductMovementWithSale } from '@/dataTypes/mart/ProductMovement'
-import DefaultItemDesc from './DefaultItemDesc'
+import type ProductMovementWithSale from '@/dataTypes/mart/ProductMovementWithSale'
+// vendors
 import { Box, Divider, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
-import formatNumber from '@/utils/formatNumber'
 import Image from 'next/image'
+// components
+import DefaultItemDesc from './DefaultItemDesc'
+// utils
+import formatNumber from '@/utils/formatNumber'
 import LogoImage from '@/../public/assets/images/belayan-mart-logo.jpg'
 
 export default function Receipt({
@@ -185,10 +187,12 @@ function CostItem({
 }
 
 function DetailItem({
-    data: { product, qty, rp_per_unit },
+    data: { product, qty, rp_per_unit, product_state },
 }: {
     data: ProductMovementWithSale['details'][0]
 }) {
+    const printedProduct = product_state ?? product
+
     return (
         <>
             <Grid2 xs={8} pl={1}>
@@ -198,10 +202,10 @@ function DetailItem({
                     whiteSpace="nowrap"
                     textOverflow="ellipsis"
                     lineHeight="normal">
-                    {product?.name}
+                    {printedProduct?.name}
                 </Typography>
                 <Typography variant="caption" component="div">
-                    {formatNumber(qty)} {product?.unit} &times; RP{' '}
+                    {formatNumber(qty)} {printedProduct?.unit} &times; RP{' '}
                     {formatNumber(rp_per_unit)}
                 </Typography>
             </Grid2>
