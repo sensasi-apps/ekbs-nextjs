@@ -7,10 +7,15 @@ import Datatable from './HistoryDatatableModalAndButton/Datatable'
 // icons
 import HistoryIcon from '@mui/icons-material/History'
 import BalanceInSummary from './HistoryDatatableModalAndButton/BalanceInSummary'
+import SalesReport from './HistoryDatatableModalAndButton/SalesReport'
+import useAuth from '@/providers/Auth'
+import Mart from '@/enums/permissions/Mart'
 
 export default function HistoryDatatableModalAndButton() {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState(0)
+
+    const { userHasPermission } = useAuth()
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue)
@@ -36,6 +41,10 @@ export default function HistoryDatatableModalAndButton() {
                         aria-label="basic tabs example">
                         <Tab label="Semua" {...a11yProps(0)} />
                         <Tab label="Saldo Masuk" {...a11yProps(1)} />
+
+                        {userHasPermission(Mart.READ_SALE_REPORT) && (
+                            <Tab label="Rincian Marjin" {...a11yProps(2)} />
+                        )}
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
@@ -46,6 +55,14 @@ export default function HistoryDatatableModalAndButton() {
                         <BalanceInSummary />
                     </Box>
                 </CustomTabPanel>
+
+                {userHasPermission(Mart.READ_SALE_REPORT) && (
+                    <CustomTabPanel value={value} index={2}>
+                        <Box p={4}>
+                            <SalesReport />
+                        </Box>
+                    </CustomTabPanel>
+                )}
             </Dialog>
         </>
     )
