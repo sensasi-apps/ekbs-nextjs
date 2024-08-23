@@ -39,7 +39,9 @@ function FormikComponent() {
                         setStatus({
                             isDisabled: true,
                             isFormOpen: true,
-                            submittedData,
+                            submittedData: {
+                                ...submittedData,
+                            },
                         })
                     })
                     .catch((err: AxiosError<LaravelValidationException>) =>
