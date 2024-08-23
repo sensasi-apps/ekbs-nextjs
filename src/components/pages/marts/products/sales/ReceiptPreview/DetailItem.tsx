@@ -39,6 +39,7 @@ function DetailItem({
                 fontSize="1em"
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
+                overflow="hidden"
                 pl={1}>
                 {product?.name}
                 <Typography variant="caption" component="div">
