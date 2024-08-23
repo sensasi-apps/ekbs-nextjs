@@ -111,7 +111,7 @@ const columns: MUIDataTableColumn[] = [
         name: 'at',
         label: 'TGL',
         options: {
-            customBodyRender: (value: Ymd) => toDmy(value),
+            customBodyRender: (value: string) => toDmy(value),
         },
     },
 
