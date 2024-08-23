@@ -80,7 +80,7 @@ export default function Receipt({
                 </Box>
             </Box>
 
-            <Grid2 container mt={3} alignItems="center">
+            <Grid2 container mt={3} alignItems="center" spacing={4}>
                 {details.map((detail, index) => (
                     <DetailItem key={index} data={detail} />
                 ))}
