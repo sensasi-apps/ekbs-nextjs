@@ -5,6 +5,7 @@ import Tooltip, { TooltipProps } from '../Tooltip'
 export default function IconButton({
     title,
     icon: Icon,
+    slotProps: { tooltip: tooltipProps } = {},
     ...props
 }: IconButtonProps & {
     title: TooltipProps['title']
@@ -12,9 +13,12 @@ export default function IconButton({
     href?: string | URL
     download?: boolean
     children?: never
+    slotProps?: {
+        tooltip?: TooltipProps
+    }
 }) {
     return (
-        <Tooltip title={title}>
+        <Tooltip title={title} placement="top" arrow {...tooltipProps}>
             <MuiIconButton size="small" {...props}>
                 <Icon />
             </MuiIconButton>

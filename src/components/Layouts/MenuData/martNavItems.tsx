@@ -13,18 +13,13 @@ import Mart from '@/enums/permissions/Mart'
 const martNavItems: NavItem[] = [
     {
         children: <GroupTitle>Belayan Mart</GroupTitle>,
-        forPermission: [
-            Mart.READ_CASH,
-            Mart.READ_PRODUCT,
-            Mart.READ_PURCHASE,
-            Mart.READ_SALE,
-        ],
+        forPermission: [Mart.READ_PRODUCT, Mart.READ_PURCHASE, Mart.READ_SALE],
     },
     {
         label: 'Kas',
         href: '/marts/cashes',
         icon: <AutoStoriesIcon />,
-        forPermission: Mart.READ_CASH,
+        forPermission: Mart.READ_SALE_REPORT,
     },
     {
         href: '/marts/products',

@@ -1,15 +1,16 @@
 {
-    "ignoreUnresolved": [],
-    "ignoreUnused": [
-        "@sentry/nextjs",
-        "@serwist/next",
-        "next",
-        "react",
-        "react-dom"
-    ],
-    "ignoreUnimported": [
-        "src/components/Wallet/TxHistory/SummaryByTag.tsx",
-        "src/instrumentation.ts",
-        "src/sw.ts"
-    ]
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "@sentry/nextjs",
+    "@serwist/next",
+    "next",
+    "react",
+    "react-dom"
+  ],
+  "ignoreUnimported": [
+    "src/@types/BarcodeReader.ts",
+    "src/components/Wallet/TxHistory/SummaryByTag.tsx",
+    "src/instrumentation.ts",
+    "src/sw.ts"
+  ]
 }

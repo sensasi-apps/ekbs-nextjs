@@ -1,14 +1,18 @@
 // vendors
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import {
     Chip,
     Divider,
+    Fade,
+    IconButton,
     ListItemIcon,
     ListItemText,
     Menu,
     MenuItem,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
@@ -25,22 +29,60 @@ import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuth from '@/providers/Auth'
 
-export default function AccountButton() {
+function AccountButton({
+    color = 'inherit',
+}: {
+    color?:
+        | 'inherit'
+        | 'primary'
+        | 'secondary'
+        | 'success'
+        | 'error'
+        | 'info'
+        | 'warning'
+}) {
     const { user } = useAuth()
     const router = useRouter()
 
     const [isOpenTncp, setIsOpenTncp] = useState(false)
     const [anchorEl, setAnchorEl] = useState<Element>()
 
+    const theme = useTheme()
+    const isXs = useMediaQuery(theme.breakpoints.down('md'))
+
     return (
         <>
-            <Chip
-                icon={<AccountCircleIcon />}
-                label={user?.name ?? 'memuat...'}
-                variant="filled"
-                color="success"
-                onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
-            />
+            <Fade
+                in={isXs}
+                unmountOnExit
+                timeout={{
+                    enter: 300,
+                    exit: 0,
+                }}>
+                <IconButton
+                    aria-label="akun"
+                    onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
+                    color={color}>
+                    <AccountCircleIcon />
+                </IconButton>
+            </Fade>
+
+            <Fade
+                in={!isXs}
+                unmountOnExit
+                timeout={{
+                    enter: 300,
+                    exit: 0,
+                }}>
+                <Chip
+                    aria-label="akun"
+                    icon={<AccountCircleIcon />}
+                    label={user?.name ?? 'memuat...'}
+                    variant="filled"
+                    color={color === 'inherit' ? 'default' : color}
+                    onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
+                />
+            </Fade>
 
             <Menu
                 anchorEl={anchorEl}
@@ -107,3 +149,5 @@ export default function AccountButton() {
         </>
     )
 }
+
+export default memo(AccountButton)

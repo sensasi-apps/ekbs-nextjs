@@ -9,10 +9,8 @@ enum Mart {
     UPDATE_PURCHASE = 'update mart product purchase',
 
     READ_SALE = 'read mart product sale',
+    READ_SALE_REPORT = 'read mart product sale report',
     CREATE_SALE = 'create mart product sale',
-    UPDATE_SALE = 'update mart product sale',
-
-    READ_CASH = 'read mart cash',
 }
 
 export default Mart

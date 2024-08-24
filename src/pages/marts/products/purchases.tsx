@@ -1,6 +1,5 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type { Ymd } from '@/types/DateString'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 // vendors
 import { useState } from 'react'
@@ -111,7 +110,7 @@ const columns: MUIDataTableColumn[] = [
         name: 'at',
         label: 'TGL',
         options: {
-            customBodyRender: (value: Ymd) => toDmy(value),
+            customBodyRender: (value: string) => toDmy(value),
         },
     },
 

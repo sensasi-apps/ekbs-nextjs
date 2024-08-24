@@ -111,7 +111,7 @@ export default function App({ Component, pageProps }: AppProps) {
                         },
                         shouldRetryOnError: false,
                         revalidateOnFocus: false,
-                        // revalidateIfStale: false,
+                        keepPreviousData: true,
                     }}>
                     <Component {...pageProps} />
                 </SWRConfig>

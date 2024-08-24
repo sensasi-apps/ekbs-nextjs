@@ -1,13 +1,38 @@
-import { Box, Button, Chip, Divider, Paper, Typography } from '@mui/material'
-import formatNumber from '@/utils/formatNumber'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import IconButton from '@/components/IconButton'
+// vendors
+import { memo } from 'react'
+import { Box, Collapse, Fade, IconButton, Paper, Tooltip } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { useFormikContext } from 'formik'
+// locals
+import {
+    FormikStatusType,
+    type FormValuesType,
+} from '@/components/pages/marts/products/sales/FormikComponent'
+// icons
+import SaveIcon from '@mui/icons-material/Save'
+import AddBoxIcon from '@mui/icons-material/AddBox'
+import CloseIcon from '@mui/icons-material/Close'
+import PrintHandler from '@/components/PrintHandler'
+import CreateSaleForm from './ReceiptPreview/CreateSaleForm'
+import Receipt from './ReceiptPreview/Receipt'
 import useAuth from '@/providers/Auth'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-import { Save } from '@mui/icons-material'
 
-export default function ReceiptPreview() {
+function ReceiptPreview() {
+    const {
+        handleSubmit,
+        handleReset,
+        setStatus,
+        isSubmitting,
+        errors,
+        dirty,
+        status,
+        values,
+    } = useFormikContext<FormValuesType>()
     const { user } = useAuth()
+    const { isDisabled, isFormOpen, submittedData } = status as FormikStatusType
+
+    const isError = Object.keys(errors).length > 0
+    const isSubmitted = Boolean(submittedData)
 
     return (
         <Paper
@@ -15,221 +40,84 @@ export default function ReceiptPreview() {
                 p: 2.5,
             }}>
             <Box display="flex" justifyContent="space-between">
-                <Typography variant="caption" color="GrayText">
-                    14-08-2024 12:34:56
-                    {/* {dayjs().format('DD-MM-YYYY')} */}
-                </Typography>
+                <Box display="flex">
+                    <LoadingButton
+                        startIcon={isFormOpen ? <SaveIcon /> : <AddBoxIcon />}
+                        color={isFormOpen ? 'warning' : 'success'}
+                        size="small"
+                        onClick={() =>
+                            isFormOpen
+                                ? handleSubmit()
+                                : setStatus({ ...status, isFormOpen: true })
+                        }
+                        disabled={
+                            isSubmitted ||
+                            (isFormOpen && (!dirty || isError || isDisabled))
+                        }
+                        loading={isSubmitting}>
+                        {isFormOpen ? 'Simpan' : 'Penjualan Baru'}
+                    </LoadingButton>
 
-                <Button startIcon={<Save />} color="warning">
-                    Simpan
-                </Button>
+                    <PrintHandler
+                        slotProps={{
+                            printButton: {
+                                size: 'small',
+                                sx: {
+                                    display: isSubmitted ? undefined : 'none',
+                                },
+                            },
+                        }}>
+                        {submittedData && (
+                            <Receipt
+                                data={{
+                                    at: submittedData.at,
+                                    saleNo: submittedData.no,
+                                    servedByUserName: user?.name ?? '-',
+                                    saleBuyerUser: submittedData.buyer_user,
+                                    transactionCashName:
+                                        submittedData.cashable_name,
+                                    details: values.details.map(detail => ({
+                                        product: detail.product,
+                                        product_id: detail.product_id,
+                                        qty: detail.qty,
+                                        rp_per_unit: detail.rp_per_unit,
+                                        cost_rp_per_unit: 0,
+                                        product_state: null,
+                                        warehouse_state: null,
+                                    })),
+                                    costs: values.costs.map(cost => ({
+                                        name: cost.name,
+                                        rp: cost.rp ?? 0,
+                                    })),
+                                }}
+                            />
+                        )}
+                    </PrintHandler>
+                </Box>
+
+                <Fade in={isFormOpen}>
+                    <Tooltip
+                        title={isSubmitted ? 'Tutup' : 'Batal'}
+                        arrow
+                        placement="top">
+                        <IconButton
+                            size="small"
+                            onClick={() => handleReset()}
+                            disabled={isSubmitting}
+                            color={isSubmitted ? undefined : 'error'}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Fade>
             </Box>
 
-            <DefaultItemDesc desc="NO. Nota" value=" " />
-
-            <Typography variant="h4">12312</Typography>
-
-            <DefaultItemDesc desc="Kasir" value={user?.name ?? ''} />
-
-            <DefaultItemDesc desc="Pelanggan" value="Mr. Y" />
-
-            <DefaultItemDesc desc="Metode Pembayaran" value="" />
-            <Box mb={2} mt={0.5} display="flex" gap={0.7}>
-                <Chip
-                    label="Fisik"
-                    size="small"
-                    variant="outlined"
-                    color="success"
-                />
-
-                <Chip
-                    label="Transfer"
-                    size="small"
-                    variant="outlined"
-                    disabled
-                />
-            </Box>
-
-            <Divider />
-
-            <Box mt={1} mb={1}>
-                <Item />
-                <Item />
-                <Item />
-                <Item />
-            </Box>
-
-            <Divider />
-
-            <Box mt={1}>
-                <Item2>Subtotal</Item2>
-                <Item2>Diskon</Item2>
-                <Item2>Pembulatan</Item2>
-                <Item2>...</Item2>
-            </Box>
-
-            <Divider />
-
-            <Grid2 container mb={0.75} alignItems="center" mt={1}>
-                <Grid2
-                    xs={7}
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em"
-                    whiteSpace="nowrap"
-                    textOverflow="ellipsis"
-                    pl={1}>
-                    Total
-                </Grid2>
-
-                <Grid2
-                    xs={1}
-                    textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
-                    Rp
-                </Grid2>
-
-                <Grid2
-                    xs={4}
-                    textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
-                    {formatNumber(4 * 10000)}
-                </Grid2>
-            </Grid2>
+            <Collapse in={isFormOpen}>
+                <Box mt={2}>
+                    <CreateSaleForm />
+                </Box>
+            </Collapse>
         </Paper>
     )
 }
 
-function Item({ children }: { children?: React.ReactNode }) {
-    return (
-        <Grid2 container mb={1.5} alignItems="center">
-            <Grid2 xs={1}>
-                <IconButton
-                    title="hapus"
-                    size="small"
-                    icon={RemoveCircleIcon}
-                    sx={{
-                        p: 0,
-                    }}
-                    color="error"
-                />
-            </Grid2>
-            <Grid2
-                xs={7}
-                component={Typography}
-                variant="overline"
-                lineHeight="2em"
-                fontSize="1em"
-                whiteSpace="nowrap"
-                textOverflow="ellipsis"
-                pl={1}>
-                {/* {name} */}
-                {children ?? (
-                    <>
-                        Produk A
-                        <Typography variant="caption" component="div">
-                            {formatNumber(1000)} pcs &times; RP{' '}
-                            {formatNumber(10000)}
-                        </Typography>
-                    </>
-                )}
-            </Grid2>
-
-            <Grid2
-                xs={1}
-                textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset"
-                fontSize="1em">
-                Rp
-            </Grid2>
-
-            <Grid2
-                xs={3}
-                textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset"
-                fontSize="1em">
-                {formatNumber(1 * 10000)}
-            </Grid2>
-        </Grid2>
-    )
-}
-
-function Item2({ children }: { children?: React.ReactNode }) {
-    return (
-        <Grid2 container mb={0.75} alignItems="center">
-            <Grid2 xs={1}>
-                <IconButton
-                    sx={{
-                        p: 0,
-                    }}
-                    title="hapus"
-                    size="small"
-                    icon={RemoveCircleIcon}
-                    color="error"
-                />
-            </Grid2>
-
-            <Grid2
-                xs={6}
-                component={Typography}
-                lineHeight="unset"
-                whiteSpace="nowrap"
-                textOverflow="ellipsis"
-                variant="caption"
-                pl={1}>
-                {children}
-            </Grid2>
-
-            <Grid2
-                xs={1}
-                textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset">
-                Rp
-            </Grid2>
-
-            <Grid2
-                xs={4}
-                textAlign="end"
-                component={Typography}
-                variant="caption"
-                lineHeight="unset">
-                {formatNumber(1 * -1 * 10000)}
-            </Grid2>
-        </Grid2>
-    )
-}
-
-function DefaultItemDesc({ desc, value }: { desc: string; value: string }) {
-    return (
-        <Box display="flex">
-            <Typography
-                variant="caption"
-                color="GrayText"
-                component="div"
-                mr={1}
-                sx={{
-                    ':after': {
-                        content: '":"',
-                    },
-                }}>
-                {desc}
-            </Typography>
-            <Typography variant="caption" component="div" mr={1}>
-                {value}
-            </Typography>
-        </Box>
-    )
-}
+export default memo(ReceiptPreview)
