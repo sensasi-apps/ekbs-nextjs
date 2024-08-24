@@ -28,6 +28,7 @@ import DatePicker from '@/components/DatePicker'
 import toDmy from '@/utils/toDmy'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
+import ucWords from '@/utils/ucWords'
 
 const apiUrl = 'farm-inputs/product-sales/report'
 
@@ -133,16 +134,19 @@ export default function FarmInputProductSalesReport() {
                 <Table size="small">
                     <TableHead>
                         <TableRow>
+                            <TableCell>#</TableCell>
+                            <TableCell>Gudang</TableCell>
                             <TableCell>Tanggal</TableCell>
                             <TableCell>Pengguna</TableCell>
                             <TableCell>Metode Pembayaran</TableCell>
-                            <TableCell>Biaya Dasar</TableCell>
-                            <TableCell>Total Biaya Dasar</TableCell>
+                            <TableCell>Biaya Dasar / HPP</TableCell>
+                            <TableCell>Total Biaya Dasar / HPP (RP)</TableCell>
                             <TableCell>Penjualan</TableCell>
-                            <TableCell>Subtotal Penjualan</TableCell>
-                            <TableCell>Penyesuaian/Jasa</TableCell>
-                            <TableCell>Total Penjualan</TableCell>
-                            <TableCell>Keuntungan</TableCell>
+                            <TableCell>Subtotal Penjualan (RP)</TableCell>
+                            <TableCell>Penyesuaian/Jasa (RP)</TableCell>
+                            <TableCell>Total Penjualan (RP)</TableCell>
+                            <TableCell>Marjin (RP)</TableCell>
+                            <TableCell>Marjin (%)</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody
@@ -167,7 +171,7 @@ export default function FarmInputProductSalesReport() {
                             </TableRow>
                         )}
 
-                        {data.map(productSale => {
+                        {data.map((productSale, i) => {
                             const totalBaseCostRp =
                                 productSale.product_movement_details.reduce(
                                     (acc, pmd) =>
@@ -190,6 +194,13 @@ export default function FarmInputProductSalesReport() {
 
                             return (
                                 <TableRow key={productSale.uuid}>
+                                    <TableCell>{i + 1}</TableCell>
+                                    <TableCell>
+                                        {ucWords(
+                                            productSale.product_movement
+                                                .warehouse,
+                                        )}
+                                    </TableCell>
                                     <TableCell>
                                         {toDmy(productSale.at)}
                                     </TableCell>
@@ -206,29 +217,38 @@ export default function FarmInputProductSalesReport() {
                                             productSale.product_movement_details,
                                         )}
                                     </TableCell>
-                                    <TableCell>
-                                        {numberToCurrency(totalBaseCostRp)}
+                                    <TableCell align="right">
+                                        {formatNumber(totalBaseCostRp)}
                                     </TableCell>
                                     <TableCell>
                                         {pmdsSaleCustomBodyRender(
                                             productSale.product_movement_details,
                                         )}
                                     </TableCell>
-                                    <TableCell>
-                                        {numberToCurrency(
+
+                                    <TableCell align="right">
+                                        {formatNumber(
                                             productSale.total_base_rp,
                                         )}
                                     </TableCell>
-                                    <TableCell>
-                                        {numberToCurrency(
-                                            adjustmentOrInterestRp,
+                                    <TableCell align="right">
+                                        {formatNumber(adjustmentOrInterestRp)}
+                                    </TableCell>
+
+                                    <TableCell align="right">
+                                        {formatNumber(productSale.total_rp)}
+                                    </TableCell>
+
+                                    <TableCell align="right">
+                                        {formatNumber(profit)}
+                                    </TableCell>
+
+                                    <TableCell align="right">
+                                        {formatNumber(
+                                            (profit / productSale.total_rp) *
+                                                100,
                                         )}
-                                    </TableCell>
-                                    <TableCell>
-                                        {numberToCurrency(productSale.total_rp)}
-                                    </TableCell>
-                                    <TableCell>
-                                        {numberToCurrency(profit)}
+                                        %
                                     </TableCell>
                                 </TableRow>
                             )
@@ -236,7 +256,7 @@ export default function FarmInputProductSalesReport() {
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-                            <TableCell colSpan={4}>GRAND TOTAL</TableCell>
+                            <TableCell colSpan={6}>GRAND TOTAL</TableCell>
                             <TableCell>
                                 {numberToCurrency(
                                     totalsBaseCostRp.reduce(
@@ -247,16 +267,17 @@ export default function FarmInputProductSalesReport() {
                             </TableCell>
                             <TableCell />
 
-                            <TableCell>
-                                {numberToCurrency(
+                            <TableCell align="right">
+                                {formatNumber(
                                     data.reduce(
                                         (acc, row) => acc + row.total_base_rp,
                                         0,
                                     ),
                                 )}
                             </TableCell>
-                            <TableCell>
-                                {numberToCurrency(
+
+                            <TableCell align="right">
+                                {formatNumber(
                                     data.reduce(
                                         (acc, row) =>
                                             acc +
@@ -266,21 +287,38 @@ export default function FarmInputProductSalesReport() {
                                     ),
                                 )}
                             </TableCell>
-                            <TableCell>
-                                {numberToCurrency(
+
+                            <TableCell align="right">
+                                {formatNumber(
                                     data.reduce(
                                         (acc, row) => acc + row.total_rp,
                                         0,
                                     ),
                                 )}
                             </TableCell>
-                            <TableCell>
-                                {numberToCurrency(
+
+                            <TableCell align="right">
+                                {formatNumber(
                                     totalsProfitRp.reduce(
                                         (acc, curr) => acc + curr,
                                         0,
                                     ),
                                 )}
+                            </TableCell>
+
+                            <TableCell align="right">
+                                {formatNumber(
+                                    (totalsProfitRp.reduce(
+                                        (acc, curr) => acc + curr,
+                                        0,
+                                    ) /
+                                        data.reduce(
+                                            (acc, row) => acc + row.total_rp,
+                                            0,
+                                        )) *
+                                        100,
+                                )}
+                                %
                             </TableCell>
                         </TableRow>
                     </TableFooter>
