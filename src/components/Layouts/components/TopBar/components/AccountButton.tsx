@@ -76,10 +76,17 @@ function AccountButton({
                 }}>
                 <Chip
                     aria-label="akun"
-                    icon={<AccountCircleIcon />}
+                    icon={
+                        <AccountCircleIcon
+                            color={color === 'inherit' ? 'inherit' : undefined}
+                        />
+                    }
                     label={user?.name ?? 'memuat...'}
                     variant="filled"
-                    color={color === 'inherit' ? 'default' : color}
+                    color={color === 'inherit' ? undefined : color}
+                    sx={{
+                        color: color === 'inherit' ? '#e0e0e0' : undefined,
+                    }}
                     onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
                 />
             </Fade>
