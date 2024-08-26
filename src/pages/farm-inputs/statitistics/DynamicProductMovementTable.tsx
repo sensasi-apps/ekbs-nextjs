@@ -52,17 +52,19 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                         <TableCell sx={LEFT_BORDER_STYLE}>Jumlah</TableCell>
                         <TableCell>Biaya Dasar</TableCell>
                         <TableCell>Nilai</TableCell>
+
                         <TableCell sx={LEFT_BORDER_STYLE}>Jumlah</TableCell>
                         <TableCell>Biaya Dasar</TableCell>
                         <TableCell>Nilai</TableCell>
+
                         <TableCell sx={LEFT_BORDER_STYLE}>Jumlah</TableCell>
                         <TableCell>Biaya Dasar</TableCell>
                         <TableCell>Nilai</TableCell>
+
                         <TableCell sx={LEFT_BORDER_STYLE}>Jumlah</TableCell>
-                        <TableCell sx={LEFT_BORDER_STYLE}>
-                            Biaya Dasar
-                        </TableCell>
+                        <TableCell>Biaya Dasar</TableCell>
                         <TableCell>Nilai</TableCell>
+
                         <TableCell sx={LEFT_BORDER_STYLE}>
                             Harga Tunai
                         </TableCell>
@@ -88,21 +90,22 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
 
                                 initial_qty,
                                 initial_rp,
-                                initial_value,
+                                initial_worth,
 
                                 in_qty,
                                 in_rp,
-                                in_value,
+                                in_worth,
 
                                 out_qty,
                                 out_rp,
-                                out_value,
+                                out_worth,
 
                                 final_qty,
                                 final_rp,
-                                final_value,
+                                final_worth,
+
                                 default_sell_price,
-                                final_sell_value,
+                                final_sell_worth,
                             },
                             i,
                         ) => (
@@ -120,7 +123,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                                     {roundedCurrencyFormat(initial_rp ?? 0)}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {roundedCurrencyFormat(initial_value ?? 0)}
+                                    {roundedCurrencyFormat(initial_worth ?? 0)}
                                 </TableCell>
 
                                 <TableCell sx={LEFT_BORDER_STYLE} align="right">
@@ -130,7 +133,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                                     {roundedCurrencyFormat(in_rp ?? 0)}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {roundedCurrencyFormat(in_value ?? 0)}
+                                    {roundedCurrencyFormat(in_worth ?? 0)}
                                 </TableCell>
 
                                 <TableCell sx={LEFT_BORDER_STYLE} align="right">
@@ -139,26 +142,25 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                                 <TableCell align="right">
                                     {roundedCurrencyFormat(out_rp ?? 0)}
                                 </TableCell>
-                                <TableCell
-                                    sx={{ whiteSpace: 'nowrap' }}
-                                    align="right">
-                                    {roundedCurrencyFormat(out_value)}
+                                <TableCell align="right">
+                                    {roundedCurrencyFormat(out_worth)}
                                 </TableCell>
 
                                 <TableCell sx={LEFT_BORDER_STYLE} align="right">
                                     {formatNumber(final_qty)}
                                 </TableCell>
-                                <TableCell sx={LEFT_BORDER_STYLE} align="right">
+                                <TableCell align="right">
                                     {roundedCurrencyFormat(final_rp ?? 0)}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {roundedCurrencyFormat(final_value ?? 0)}
+                                    {roundedCurrencyFormat(final_worth ?? 0)}
                                 </TableCell>
+
                                 <TableCell sx={LEFT_BORDER_STYLE} align="right">
                                     {roundedCurrencyFormat(default_sell_price)}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {roundedCurrencyFormat(final_sell_value)}
+                                    {roundedCurrencyFormat(final_sell_worth)}
                                 </TableCell>
                             </TableRow>
                         ),
@@ -167,48 +169,52 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                 <TableFooter>
                     <TableRow>
                         <TableCell colSpan={5}>Total</TableCell>
+
                         <TableCell sx={LEFT_BORDER_STYLE} colSpan={2} />
-                        <TableCell>
+                        <TableCell align="right">
                             {roundedCurrencyFormat(
                                 data?.reduce(
-                                    (a, b) => a + (b.initial_value ?? 0),
+                                    (a, b) => a + (b.initial_worth ?? 0),
                                     0,
                                 ) ?? 0,
                             )}
                         </TableCell>
+
                         <TableCell colSpan={2} sx={LEFT_BORDER_STYLE} />
-                        <TableCell>
+                        <TableCell align="right">
                             {roundedCurrencyFormat(
                                 data?.reduce(
-                                    (a, b) => a + (b.in_value ?? 0),
+                                    (a, b) => a + (b.in_worth ?? 0),
                                     0,
                                 ) ?? 0,
                             )}
                         </TableCell>
+
                         <TableCell colSpan={2} sx={LEFT_BORDER_STYLE} />
-                        <TableCell>
+                        <TableCell align="right">
                             {roundedCurrencyFormat(
                                 data?.reduce(
-                                    (a, b) => a + (b.out_value ?? 0),
+                                    (a, b) => a + (b.out_worth ?? 0),
                                     0,
                                 ) ?? 0,
                             )}
                         </TableCell>
-                        <TableCell sx={LEFT_BORDER_STYLE} />
-                        <TableCell sx={LEFT_BORDER_STYLE} />
-                        <TableCell>
+
+                        <TableCell colSpan={2} sx={LEFT_BORDER_STYLE} />
+                        <TableCell align="right">
                             {roundedCurrencyFormat(
                                 data?.reduce(
-                                    (a, b) => a + (b.final_value ?? 0),
+                                    (a, b) => a + (b.final_worth ?? 0),
                                     0,
                                 ) ?? 0,
                             )}
                         </TableCell>
+
                         <TableCell sx={LEFT_BORDER_STYLE} />
-                        <TableCell>
+                        <TableCell align="right">
                             {roundedCurrencyFormat(
                                 data?.reduce(
-                                    (a, b) => a + (b.final_sell_value ?? 0),
+                                    (a, b) => a + (b.final_sell_worth ?? 0),
                                     0,
                                 ) ?? 0,
                             )}
@@ -226,28 +232,27 @@ export type DynamicProductMovementTableProp = {
     data?: {
         id: Product['id']
         category_name: Product['category_name']
-        base_cost_rp_per_unit: Product['warehouses'][0]['base_cost_rp_per_unit']
         name: Product['name']
         code: Product['code']
         unit: Product['unit']
 
         initial_qty: number
         initial_rp: number
-        initial_value: number
+        initial_worth: number
 
         in_qty: number
         in_rp: number
-        in_value: number
+        in_worth: number
 
         out_qty: number
         out_rp: number
-        out_value: number
+        out_worth: number
 
         final_qty: number
         final_rp: number
-        final_value: number
+        final_worth: number
 
         default_sell_price: number
-        final_sell_value: number
+        final_sell_worth: number
     }[]
 }

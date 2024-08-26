@@ -9,6 +9,7 @@ import Fade from '@mui/material/Fade'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import Skeleton from '@mui/material/Skeleton'
 // icons
+import RefreshIcon from '@mui/icons-material/Refresh'
 // components
 import InOutLineChart, {
     InOutLineChartProps,
@@ -24,6 +25,7 @@ import DatePicker from '@/components/DatePicker'
 import DynamicProductMovementTable, {
     DynamicProductMovementTableProp,
 } from '@/pages/farm-inputs/statitistics/DynamicProductMovementTable'
+import IconButton from '@/components/IconButton'
 
 const SaprodiSubsection = memo(function SaprodiSubsection() {
     const { data, isLoading } = useSWR<{
@@ -75,20 +77,28 @@ const ProductMovementTableStatCard = memo(
         const [from, setFrom] = useState<Dayjs>(START_OF_CURR_MONTH)
         const [till, setTill] = useState<Dayjs>(END_OF_CURR_MONTH)
 
+        const [swrParams, setSwrParams] = useState<{
+            from: string
+            till: string
+        }>({
+            from: START_OF_CURR_MONTH.format('YYYY-MM-DD'),
+            till: END_OF_CURR_MONTH.format('YYYY-MM-DD'),
+        })
+
         const isPeriodeTertentu = selectedPeriod === 'periode tertentu'
 
-        const { data: periodData = [], isLoading: periodDataIsLoading } =
-            useSWR<DynamicProductMovementTableProp['data']>(
-                isPeriodeTertentu
-                    ? [
-                          `farm-inputs/get-product-value-report-data`,
-                          {
-                              from: from.format('YYYY-MM-DD'),
-                              till: till.format('YYYY-MM-DD'),
-                          },
-                      ]
-                    : undefined,
-            )
+        const {
+            data: periodData = [],
+            isLoading: periodDataIsLoading,
+            isValidating,
+            mutate,
+        } = useSWR<DynamicProductMovementTableProp['data']>(
+            isPeriodeTertentu && swrParams
+                ? [`farm-inputs/get-product-value-report-data`, swrParams]
+                : undefined,
+            null,
+            {},
+        )
 
         return (
             <StatCard
@@ -110,8 +120,7 @@ const ProductMovementTableStatCard = memo(
                         }
                     />
 
-                    {/* DISABLED DUE UPDATE. RESULT IS UNMATCH WITH ANOTHER */}
-                    {/* <Chip
+                    <Chip
                         label="Periode Tertentu"
                         size="small"
                         color={
@@ -124,16 +133,19 @@ const ProductMovementTableStatCard = memo(
                                 ? undefined
                                 : () => setSelectedPeriod('periode tertentu')
                         }
-                    /> */}
+                    />
                 </ScrollableXBox>
 
-                {/* DISABLED DUE UPDATE. RESULT IS UNMATCH WITH ANOTHER */}
-                <Fade in={isPeriodeTertentu && false} unmountOnExit>
+                <Fade in={isPeriodeTertentu} unmountOnExit>
                     <span>
                         <ScrollableXBox mt={2}>
                             <DatePicker
                                 value={from}
-                                disabled={isLoading || periodDataIsLoading}
+                                disabled={
+                                    isLoading ||
+                                    periodDataIsLoading ||
+                                    isValidating
+                                }
                                 maxDate={till}
                                 minDate={dayjs('2023-12-31')}
                                 label="Awal"
@@ -144,12 +156,44 @@ const ProductMovementTableStatCard = memo(
 
                             <DatePicker
                                 value={till}
-                                disabled={isLoading || periodDataIsLoading}
+                                disabled={
+                                    isLoading ||
+                                    periodDataIsLoading ||
+                                    isValidating
+                                }
                                 minDate={from}
                                 maxDate={END_OF_CURR_MONTH}
                                 label="Akhir"
                                 onChange={date =>
                                     date ? setTill(date) : undefined
+                                }
+                            />
+
+                            <IconButton
+                                title="Segarkan"
+                                icon={RefreshIcon}
+                                disabled={
+                                    isLoading ||
+                                    periodDataIsLoading ||
+                                    isValidating
+                                }
+                                onClick={() =>
+                                    setSwrParams(prev => {
+                                        const newParams = {
+                                            from: from.format('YYYY-MM-DD'),
+                                            till: till.format('YYYY-MM-DD'),
+                                        }
+
+                                        if (
+                                            JSON.stringify(prev) ===
+                                            JSON.stringify(newParams)
+                                        ) {
+                                            mutate()
+                                            return prev
+                                        }
+
+                                        return newParams
+                                    })
                                 }
                             />
                         </ScrollableXBox>
