@@ -53,6 +53,7 @@ export default function FarmInputProductSales() {
 
     const [initialFormikValues, setInitialFormikValues] =
         useState(EMPTY_FORM_DATA)
+
     const [initialFormikStatus, setInitialFormikStatus] =
         useState(EMPTY_FORM_STATUS)
 
@@ -113,6 +114,7 @@ export default function FarmInputProductSales() {
                 <Button
                     href="/farm-input-product-sales/report"
                     startIcon={<BackupTableIcon />}
+                    size="small"
                     color="success"
                     variant="contained">
                     Laporan

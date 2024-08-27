@@ -1,6 +1,7 @@
 // vendors
 import { Box } from '@mui/material'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 // components
 import DatePicker from '@/components/DatePicker'
@@ -9,7 +10,6 @@ import IconButton from '@/components/IconButton'
 // import BackupTableIcon from '@mui/icons-material/BackupTable'
 import RefreshIcon from '@mui/icons-material/Refresh'
 // import { apiUrl } from '@/pages/farm-input-product-sales/report'
-import { useEffect, useState } from 'react'
 
 const MAX_DATE = dayjs().endOf('month')
 const MIN_DATE = dayjs('2024-01-01')
@@ -34,13 +34,11 @@ export default function FiltersBox({
     )
 
     useEffect(() => {
-        console.log('from_date', from_date)
-
-        if (from_date !== fromDate?.format('YYYY-MM-DD')) {
+        if (from_date) {
             setFromDate(dayjs(from_date as string))
         }
 
-        if (till_date !== tillDate?.format('YYYY-MM-DD')) {
+        if (till_date) {
             setTillDate(dayjs(till_date as string))
         }
     }, [from_date, till_date])

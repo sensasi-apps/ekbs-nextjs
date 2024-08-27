@@ -15,9 +15,11 @@ import SearchTextField from './ProductPicker/SearchTextField'
 import ApiUrl from './ApiUrl'
 import BarcodeReader from 'react-barcode-reader'
 import ScrollableXBox from '@/components/ScrollableXBox'
+import ResultNav from './ProductPicker/ResultNav'
 
 const WAREHOUSE = 'main'
 let detailsTemp: FormValuesType['details'] = []
+const PRODUCT_PER_PAGE = 8
 
 function ProductPicker({
     field: { name, value },
@@ -30,6 +32,8 @@ function ProductPicker({
             keepPreviousData: true,
         },
     )
+
+    const [currentSearchPageNo, setCurrentSearchPageNo] = useState(1)
 
     useEffect(() => {
         detailsTemp = [...value]
@@ -46,14 +50,31 @@ function ProductPicker({
 
     const filteredProducts = []
 
+    const itemTotal = products.reduce(
+        (acc, product) =>
+            acc + (isProductMatch(product, query, selectedCategory) ? 1 : 0),
+        0,
+    )
+
+    let skipCount = 0
+
     for (const product of products) {
-        if (query.length < 3) break
-        if (filteredProducts.length >= 8) break
+        if (filteredProducts.length >= PRODUCT_PER_PAGE) break
 
         if (isProductMatch(product, query, selectedCategory)) {
+            if (
+                skipCount <
+                currentSearchPageNo * PRODUCT_PER_PAGE - PRODUCT_PER_PAGE
+            ) {
+                skipCount++
+                continue
+            }
+
             filteredProducts.push(product)
         }
     }
+
+    const maxPage = Math.ceil(itemTotal / PRODUCT_PER_PAGE)
 
     return (
         <Paper
@@ -88,20 +109,35 @@ function ProductPicker({
 
             <CategoryChips
                 data={products}
-                setSelectedCategory={setSelectedCategory}
+                onSelect={category => {
+                    setSelectedCategory(category)
+                    setCurrentSearchPageNo(1)
+                }}
+            />
+
+            <ResultNav
+                currentSearchPageNo={currentSearchPageNo}
+                itemTotal={itemTotal}
+                productPerPage={PRODUCT_PER_PAGE}
+                onPrev={() =>
+                    setCurrentSearchPageNo(prev =>
+                        prev - 1 === 0 ? maxPage : prev - 1,
+                    )
+                }
+                onNext={() =>
+                    setCurrentSearchPageNo(prev =>
+                        prev + 1 > maxPage ? 1 : prev + 1,
+                    )
+                }
             />
 
             <Box display="flex" justifyContent="center">
-                {filteredProducts.length === 0 ? (
+                {isLoading ? (
                     <Typography
                         variant="body2"
                         color="text.disabled"
                         align="center">
-                        {isLoading
-                            ? 'Memuat produk...'
-                            : query?.length >= 3
-                              ? 'Tidak ada produk yang ditemukan'
-                              : 'Silakan mulai mencari produk'}
+                        Memuat produk...
                     </Typography>
                 ) : (
                     <>

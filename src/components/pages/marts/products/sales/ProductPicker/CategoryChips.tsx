@@ -8,10 +8,10 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 
 function CategoryChips({
     data,
-    setSelectedCategory,
+    onSelect,
 }: {
     data: Product[]
-    setSelectedCategory: (category?: string) => void
+    onSelect: (category?: string) => void
 }) {
     const [value, setValue] = useState<string>()
 
@@ -31,7 +31,7 @@ function CategoryChips({
                 label="Semua"
                 onClick={() => {
                     setValue(undefined)
-                    setSelectedCategory(undefined)
+                    onSelect(undefined)
                 }}
                 variant="outlined"
                 color={value === undefined ? 'success' : undefined}
@@ -45,7 +45,7 @@ function CategoryChips({
                     variant="outlined"
                     onClick={() => {
                         setValue(category)
-                        setSelectedCategory(category)
+                        onSelect(category)
                     }}
                 />
             ))}
