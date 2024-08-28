@@ -28,14 +28,15 @@ function TableRow({
     const totalBaseCostRp = product_movement_details.reduce(
         (acc, pmd) =>
             acc +
-            pmd.qty * -1 * pmd.product_warehouse_state.base_cost_rp_per_unit,
+            Math.abs(pmd.qty) *
+                pmd.product_warehouse_state.base_cost_rp_per_unit,
         0,
     )
 
     const adjustedTotalRp = total_rp - total_base_rp
 
     const marginRp = total_rp - totalBaseCostRp
-    const marginPercentage = (marginRp / total_rp) * 100
+    const marginPercentage = (marginRp / totalBaseCostRp) * 100
 
     return (
         <MuiTableRow>

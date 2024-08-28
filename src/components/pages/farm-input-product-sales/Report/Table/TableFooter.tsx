@@ -37,7 +37,7 @@ function TableFooter({ data }: { data: ProductSaleType[] }) {
 
     const marginTotalRp = saleTotalRp - baseCostTotalRp
 
-    const marginTotalPercentage = (marginTotalRp / saleTotalRp) * 100
+    const marginTotalPercentage = (marginTotalRp / baseCostTotalRp) * 100
 
     return (
         <MuiTableFooter>
