@@ -281,6 +281,7 @@ const columns: MUIDataTableColumn[] = [
         name: 'warehouses.base_cost_rp_per_unit',
         label: 'Biaya Dasar',
         options: {
+            searchable: false,
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
                 if (!warehouses) return

@@ -1,6 +1,7 @@
 // types
 import type NavItem from './NavItem.type'
 // icons
+import AllInboxIcon from '@mui/icons-material/AllInbox'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import InventoryIcon from '@mui/icons-material/Inventory'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
@@ -32,6 +33,12 @@ const martNavItems: NavItem[] = [
         label: 'Pembelian',
         icon: <ShoppingCartIcon />,
         forPermission: Mart.READ_PURCHASE,
+    },
+    {
+        href: '/marts/products/opnames',
+        label: 'Opname',
+        icon: <AllInboxIcon />,
+        forPermission: Mart.READ_OPNAME,
     },
     {
         href: '/marts/products/sales',

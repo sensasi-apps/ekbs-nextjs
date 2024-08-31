@@ -13,6 +13,7 @@ import DefaultItemDesc from './DefaultItemDesc'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import LogoImage from '@/../public/assets/images/belayan-mart-logo.jpg'
+import ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 
 export default function Receipt({
     data: {
@@ -28,7 +29,7 @@ export default function Receipt({
     data: {
         at: ProductMovement['at']
         saleNo: ProductMovementSale['no']
-        details: ProductMovement['details']
+        details: Omit<ProductMovementDetail, 'id'>[]
         costs: ProductMovement['costs']
         transactionCashName: CashType['name']
 
@@ -189,7 +190,7 @@ function CostItem({
 function DetailItem({
     data: { product, qty, rp_per_unit, product_state },
 }: {
-    data: ProductMovementWithSale['details'][0]
+    data: Omit<ProductMovementWithSale['details'][0], 'id'>
 }) {
     const printedProduct = product_state ?? product
 

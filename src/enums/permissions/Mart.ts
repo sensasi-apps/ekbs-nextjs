@@ -11,6 +11,10 @@ enum Mart {
     READ_SALE = 'read mart product sale',
     READ_SALE_REPORT = 'read mart product sale report',
     CREATE_SALE = 'create mart product sale',
+
+    CREATE_OPNAME = 'create mart product opname',
+    READ_OPNAME = 'read mart product opname',
+    UPDATE_OPNAME = 'update mart product opname',
 }
 
 export default Mart

@@ -14,7 +14,7 @@ export default function IconButton({
     download?: boolean
     children?: never
     slotProps?: {
-        tooltip?: TooltipProps
+        tooltip?: Omit<TooltipProps, 'title' | 'children'>
     }
 }) {
     return (
