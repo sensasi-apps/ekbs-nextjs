@@ -75,7 +75,7 @@ function Rows({
                         <Values model_value_changed={model_value_changed} />
                     </TableCell>
                     <TableCell>
-                        {dayjs(at).format('YYYY-MM-DD hh:mm:ss')}
+                        {dayjs(at).format('YYYY-MM-DD HH:mm:ss')}
                     </TableCell>
                 </TableRow>
             ),
