@@ -1,6 +1,7 @@
 import type Product from './Product'
 
 type ProductMovementDetail = {
+    id: number
     // product_movement_uuid: UUID
     product_id: Product['id']
     qty: number
