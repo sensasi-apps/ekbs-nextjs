@@ -20,6 +20,10 @@ const sxs = {
         '& tbody .MuiTableRow-hover': {
             cursor: 'pointer',
         },
+        userSelect: 'none',
+        msUserSelect: 'none',
+        webkitUserSelect: 'none',
+        mozUserSelect: 'none',
     },
 }
 
