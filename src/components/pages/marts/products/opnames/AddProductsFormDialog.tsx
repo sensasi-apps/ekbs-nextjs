@@ -24,8 +24,10 @@ import { AxiosError } from 'axios'
 
 export default function AddProductFormDialog({
     productMovementUuid,
+    disabled,
 }: {
     productMovementUuid: string
+    disabled: boolean
 }) {
     const { refresh } = useRouter()
     const [isOpen, setIsOpen] = useState(false)
@@ -48,6 +50,7 @@ export default function AddProductFormDialog({
                 title="Tambah Produk"
                 icon={AddCircleIcon}
                 color="success"
+                disabled={disabled}
                 onClick={() => setIsOpen(true)}
             />
 
@@ -146,7 +149,7 @@ export default function AddProductFormDialog({
 
                             axios
                                 .post(
-                                    OpnameApiUrl.ADD_PRODUCT.replace(
+                                    OpnameApiUrl.ADD_PRODUCTS.replace(
                                         '$',
                                         productMovementUuid,
                                     ),

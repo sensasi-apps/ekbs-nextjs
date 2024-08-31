@@ -14,6 +14,7 @@ type ProductMovement = {
     warehouse: Warehouse
     note: string | null
     by_user_uuid: UUID
+    finished_at: string | null
 
     // getter
     short_uuid: string

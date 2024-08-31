@@ -82,170 +82,29 @@ const columns: MUIDataTableColumn[] = [
     {
         name: 'at',
         label: 'Tanggal',
+        options: {
+            customBodyRender: value => dayjs(value).format('DD-MM-YYYY'),
+        },
     },
 
-    // {
-    //     name: 'code',
-    //     label: 'Kode',
-    //     options: {
-    //         customBodyRenderLite: dataIndex => {
-    //             const data = getRowData(dataIndex)
-    //             if (!data) return
+    {
+        name: 'short_uuid',
+        label: 'Kode',
+        options: {
+            searchable: false,
+        },
+    },
 
-    //             const { id, code } = data
+    {
+        name: 'n_items',
+        label: 'Jumlah Produk',
+        options: {
+            searchable: false,
+        },
+    },
 
-    //             return (
-    //                 <Typography
-    //                     variant="overline"
-    //                     fontFamily="monospace"
-    //                     lineHeight="inherit">
-    //                     {code ?? id}
-    //                 </Typography>
-    //             )
-    //         },
-    //     },
-    // },
-    // {
-    //     name: 'name',
-    //     label: 'Nama',
-    // },
-    // {
-    //     name: 'category_name',
-    //     label: 'Kategori',
-    //     options: {
-    //         customBodyRender: text =>
-    //             text ? <ChipSmall label={text} variant="outlined" /> : '',
-    //     },
-    // },
-    // {
-    //     name: 'description',
-    //     label: 'Deskripsi',
-    //     options: {
-    //         display: false,
-    //     },
-    // },
-    // {
-    //     name: 'warehouses.warehouse',
-    //     label: 'Gudang',
-    //     options: {
-    //         customBodyRenderLite(dataIndex) {
-    //             const warehouses = getRowData(dataIndex)?.warehouses
-    //             if (!warehouses) return
-
-    //             return (
-    //                 <ul
-    //                     style={{
-    //                         margin: 0,
-    //                         padding: 0,
-    //                     }}>
-    //                     {warehouses.map(({ warehouse }, i) => (
-    //                         <li key={i}>{warehouse}</li>
-    //                     ))}
-    //                 </ul>
-    //             )
-    //         },
-    //     },
-    // },
-    // {
-    //     name: 'warehouses.qty',
-    //     label: 'QTY',
-    //     options: {
-    //         customBodyRenderLite(dataIndex) {
-    //             const data = getRowData(dataIndex)
-
-    //             if (!data) return
-
-    //             const { low_number, warehouses } = data
-
-    //             return (
-    //                 <ul
-    //                     style={{
-    //                         margin: 0,
-    //                         padding: 0,
-    //                     }}>
-    //                     {warehouses.map(({ qty }, i) => {
-    //                         const content =
-    //                             low_number !== null && qty <= low_number ? (
-    //                                 <FarmInputsProductsLowQty>
-    //                                     {formatNumber(qty)}
-    //                                 </FarmInputsProductsLowQty>
-    //                             ) : (
-    //                                 formatNumber(qty)
-    //                             )
-
-    //                         return <li key={i}>{content}</li>
-    //                     })}
-    //                 </ul>
-    //             )
-    //         },
-    //     },
-    // },
-    // {
-    //     name: 'unit',
-    //     label: 'Satuan',
-    // },
-    // {
-    //     name: 'warehouses.base_cost_rp_per_unit',
-    //     label: 'Biaya Dasar',
-    //     options: {
-    //         customBodyRenderLite(dataIndex) {
-    //             const warehouses = getRowData(dataIndex)?.warehouses
-    //             if (!warehouses) return
-
-    //             return (
-    //                 <ul
-    //                     style={{
-    //                         margin: 0,
-    //                         padding: 0,
-    //                     }}>
-    //                     {warehouses.map(({ cost_rp_per_unit }, i) => (
-    //                         <li key={i}>
-    //                             {numberToCurrency(cost_rp_per_unit)}
-    //                         </li>
-    //                     ))}
-    //                 </ul>
-    //             )
-    //         },
-    //     },
-    // },
-    // {
-    //     name: 'warehouses.default_sell_price',
-    //     label: 'Harga Jual Default',
-    //     options: {
-    //         customBodyRenderLite(dataIndex) {
-    //             const warehouses = getRowData(dataIndex)?.warehouses
-    //             if (!warehouses) return
-
-    //             return (
-    //                 <ul
-    //                     style={{
-    //                         margin: 0,
-    //                         padding: 0,
-    //                     }}>
-    //                     {warehouses.map(({ default_sell_price, margin }, i) => (
-    //                         <li key={i}>
-    //                             {numberToCurrency(default_sell_price)}
-
-    //                             {margin && (
-    //                                 <ChipSmall
-    //                                     variant="outlined"
-    //                                     sx={{
-    //                                         ml: 2,
-    //                                     }}
-    //                                     label={
-    //                                         Math.round((margin - 1) * 100) +
-    //                                         ' %'
-    //                                     }
-    //                                     color={
-    //                                         margin - 1 < 0 ? 'error' : 'success'
-    //                                     }
-    //                                 />
-    //                             )}
-    //                         </li>
-    //                     ))}
-    //                 </ul>
-    //             )
-    //         },
-    //     },
-    // },
+    {
+        name: 'note',
+        label: 'Catatan',
+    },
 ]

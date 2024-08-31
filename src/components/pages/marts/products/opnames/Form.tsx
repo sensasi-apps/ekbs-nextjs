@@ -9,7 +9,6 @@ import TextFieldDefault from '@/components/TextField'
 export default function Form({
     isSubmitting,
     dirty,
-    values,
     status,
 }: FormikProps<CreateFormValues>) {
     const dataFromDb: ProductMovement = status

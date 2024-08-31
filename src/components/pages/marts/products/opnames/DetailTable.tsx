@@ -10,16 +10,24 @@ import {
     TableBody,
     TableCell,
     TableContainer,
+    TableFooter,
     TableHead,
     TableRow,
 } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 
 export default function DetailTable({
     data,
+    onValueChange,
+    disabled,
+    finished,
 }: {
+    finished: boolean
     data: ProductMovementDetail[]
+    disabled?: boolean
+    onValueChange?: (id: number, value: number) => void
 }) {
     const { refresh } = useRouter()
     const [isLoading, setIsLoading] = useState(false)
@@ -34,12 +42,19 @@ export default function DetailTable({
             .then(() => refresh())
     }
 
+    const onValueChangeDebounced = useDebouncedCallback(
+        (id: number, value: number) => onValueChange?.(id, value),
+        300,
+    )
+
     return (
         <TableContainer>
             <Table
                 size="small"
                 sx={{
-                    whiteSpace: 'nowrap',
+                    '& th, & td': {
+                        px: 1,
+                    },
                 }}>
                 <TableHead>
                     <TableRow>
@@ -47,15 +62,30 @@ export default function DetailTable({
                         <TableCell>ID</TableCell>
                         <TableCell>Kategori</TableCell>
                         <TableCell>Nama</TableCell>
-                        <TableCell>HPP Satuan</TableCell>
-                        <TableCell>QTY Tercatat</TableCell>
-                        <TableCell>QTY Fisik</TableCell>
-                        <TableCell>Selisih (QTY)</TableCell>
-                        <TableCell>Selisih (HPP)</TableCell>
+                        <TableCell align="right">HPP Satuan</TableCell>
+                        <TableCell align="right">QTY Sistem</TableCell>
+                        <TableCell align="right">QTY Fisik</TableCell>
+                        <TableCell
+                            sx={{
+                                displayPrint: finished ? undefined : 'none',
+                            }}
+                            align="right">
+                            Selisih (QTY)
+                        </TableCell>
+                        <TableCell
+                            align="right"
+                            sx={{
+                                displayPrint: finished ? undefined : 'none',
+                            }}>
+                            Selisih (HPP)
+                        </TableCell>
                     </TableRow>
                 </TableHead>
 
-                <TableBody>
+                <TableBody
+                    sx={{
+                        whiteSpace: 'nowrap',
+                    }}>
                     {data.length === 0 && (
                         <TableRow>
                             <TableCell colSpan={9} align="center">
@@ -75,27 +105,45 @@ export default function DetailTable({
                             },
                             i,
                         ) => (
-                            <TableRow key={i}>
+                            <TableRow
+                                key={i}
+                                sx={{
+                                    '& > td': {
+                                        py: 0.3,
+                                    },
+                                }}>
                                 <TableCell>
-                                    <IconButton
-                                        disabled={isLoading}
-                                        icon={RemoveCircle}
-                                        title="Hapus dari opname"
-                                        color="error"
-                                        onClick={() => handleRemove(id)}
-                                        slotProps={{
-                                            tooltip: {
-                                                placement: 'left',
-                                            },
-                                        }}
-                                    />
+                                    {!finished && (
+                                        <IconButton
+                                            disabled={isLoading || disabled}
+                                            icon={RemoveCircle}
+                                            title="Hapus dari opname"
+                                            color="error"
+                                            onClick={() => handleRemove(id)}
+                                            tabIndex={-1}
+                                            sx={{
+                                                displayPrint: 'none',
+                                            }}
+                                            slotProps={{
+                                                tooltip: {
+                                                    placement: 'left',
+                                                },
+                                            }}
+                                        />
+                                    )}
+
                                     {formatNumber(i + 1)}
                                 </TableCell>
                                 <TableCell>{product_id}</TableCell>
                                 <TableCell>
                                     {product_state?.category_name}
                                 </TableCell>
-                                <TableCell>{product_state?.name}</TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: 'auto',
+                                    }}>
+                                    {product_state?.name}
+                                </TableCell>
 
                                 <TableCell align="right">
                                     {warehouse_state?.cost_rp_per_unit
@@ -108,31 +156,84 @@ export default function DetailTable({
                                     {warehouse_state?.qty}
                                 </TableCell>
                                 <TableCell align="right">
-                                    <NumericFormat
-                                        value={qty}
-                                        margin="none"
-                                        inputProps={{
-                                            sx: {
-                                                width: '4em',
-                                                py: 0,
-                                                px: 1,
-                                                textAlign: 'right',
-                                            },
-                                        }}
-                                    />
+                                    {finished ? (
+                                        (warehouse_state?.qty ?? 0) + qty
+                                    ) : (
+                                        <NumericFormat
+                                            value={
+                                                (warehouse_state?.qty ?? 0) +
+                                                qty
+                                            }
+                                            margin="none"
+                                            sx={{
+                                                displayPrint: 'none',
+                                            }}
+                                            disabled={isLoading || disabled}
+                                            onValueChange={({ floatValue }) =>
+                                                onValueChangeDebounced(
+                                                    id,
+                                                    floatValue ?? 0,
+                                                )
+                                            }
+                                            inputProps={{
+                                                sx: {
+                                                    width: '4em',
+                                                    py: 0,
+                                                    px: 1,
+                                                    textAlign: 'right',
+                                                },
+                                            }}
+                                        />
+                                    )}
                                 </TableCell>
-                                <TableCell align="right">
-                                    {qty - (warehouse_state?.qty ?? 0)}
+                                <TableCell
+                                    align="right"
+                                    sx={{
+                                        displayPrint: finished
+                                            ? undefined
+                                            : 'none',
+                                    }}>
+                                    {formatNumber(qty)}
                                 </TableCell>
-                                <TableCell align="right">
-                                    {(qty - (warehouse_state?.qty ?? 0)) *
-                                        (warehouse_state?.cost_rp_per_unit ??
-                                            0)}
+                                <TableCell
+                                    align="right"
+                                    sx={{
+                                        displayPrint: finished
+                                            ? undefined
+                                            : 'none',
+                                    }}>
+                                    {formatNumber(
+                                        qty *
+                                            (warehouse_state?.cost_rp_per_unit ??
+                                                0),
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ),
                     )}
                 </TableBody>
+                <TableFooter
+                    sx={{
+                        displayPrint: finished ? undefined : 'none',
+                    }}>
+                    <TableRow>
+                        <TableCell colSpan={8} align="right">
+                            TOTAL
+                        </TableCell>
+                        <TableCell colSpan={9} align="right">
+                            {formatNumber(
+                                data.reduce(
+                                    (acc, { qty, warehouse_state }) =>
+                                        acc +
+                                        qty *
+                                            (warehouse_state?.cost_rp_per_unit ??
+                                                0),
+                                    0,
+                                ),
+                            )}
+                        </TableCell>
+                    </TableRow>
+                </TableFooter>
             </Table>
         </TableContainer>
     )

@@ -43,7 +43,7 @@ const PrintHandler = memo(function PrintHandler({
 
     return (
         <Tooltip {...tooltipProps}>
-            <div>
+            <span>
                 <ReactToPrint
                     {...props}
                     pageStyle="@print media { margin: auto; }"
@@ -52,15 +52,15 @@ const PrintHandler = memo(function PrintHandler({
                         <IconButton size="small" {...printButtonProps} />
                     )}
                 />
-                <div
+                <span
                     style={{
                         display: 'none',
                     }}>
-                    <div ref={toPrintContentRef}>
+                    <span ref={toPrintContentRef}>
                         <PrintLayout>{content ?? children}</PrintLayout>
-                    </div>
-                </div>
-            </div>
+                    </span>
+                </span>
+            </span>
         </Tooltip>
     )
 })
