@@ -2,10 +2,11 @@
 import type NavItem from './NavItem.type'
 // icons
 import AllInboxIcon from '@mui/icons-material/AllInbox'
-import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import InventoryIcon from '@mui/icons-material/Inventory'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+// icons
+import QueryStatsIcon from '@mui/icons-material/QueryStats'
 // page components
 import GroupTitle from './GroupTitle'
 // enums
@@ -16,10 +17,16 @@ const martNavItems: NavItem[] = [
         children: <GroupTitle>Belayan Mart</GroupTitle>,
         forPermission: [Mart.READ_PRODUCT, Mart.READ_PURCHASE, Mart.READ_SALE],
     },
+    // {
+    //     label: 'Kas',
+    //     href: '/marts/cashes',
+    //     icon: <AutoStoriesIcon />,
+    //     forPermission: Mart.READ_SALE_REPORT,
+    // },
     {
-        label: 'Kas',
-        href: '/marts/cashes',
-        icon: <AutoStoriesIcon />,
+        label: 'Statistik',
+        href: '/marts/statistics',
+        icon: <QueryStatsIcon />,
         forPermission: Mart.READ_SALE_REPORT,
     },
     {
