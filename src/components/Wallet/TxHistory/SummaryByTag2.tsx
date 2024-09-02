@@ -14,7 +14,6 @@ import Typography from '@mui/material/Typography'
 import TransactionTag from '@/enums/TransactionTag'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
 
 type TxsGroup = { name: string; data: Transaction[] }
 
@@ -129,7 +128,10 @@ export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
 function ItemRow({ name, data }: TxsGroup) {
     const rpTotal = data.reduce((acc, tx) => acc + tx.amount, 0)
 
-    const details = data
+    const details: {
+        kg: number
+        rp_per_kg: number
+    }[] = data
         .filter(tx =>
             [
                 TransactionTag.PELUNASAN_BIAYA_ANGKUT.toString(),
@@ -170,7 +172,10 @@ function ItemRow({ name, data }: TxsGroup) {
             ) {
                 return {
                     kg: tx.transactionable?.n_kg,
-                    rp_per_kg: tx.transactionable?.rate?.rp_per_kg,
+                    rp_per_kg:
+                    tx.transactionable?.determined_rate_rp_per_kg ??    
+                    tx.transactionable?.rate?.rp_per_kg
+                        ,
                 }
             }
         })
@@ -211,10 +216,10 @@ function ItemRow({ name, data }: TxsGroup) {
                             style={{
                                 margin: 0,
                             }}>
-                            {details.map((d, i) => (
+                            {details.map(({ kg, rp_per_kg }, i) => (
                                 <li key={i}>
-                                    {formatNumber(d.kg)} kg &times;{' '}
-                                    {numberToCurrency(d.rp_per_kg)}
+                                    {formatNumber(kg)} kg &times; Rp{' '}
+                                    {formatNumber(rp_per_kg)}
                                 </li>
                             ))}
                         </ul>
