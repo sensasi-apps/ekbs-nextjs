@@ -173,9 +173,8 @@ function ItemRow({ name, data }: TxsGroup) {
                 return {
                     kg: tx.transactionable?.n_kg,
                     rp_per_kg:
-                    tx.transactionable?.determined_rate_rp_per_kg ??    
-                    tx.transactionable?.rate?.rp_per_kg
-                        ,
+                        tx.transactionable?.determined_rate_rp_per_kg ??
+                        tx.transactionable?.rate?.rp_per_kg,
                 }
             }
         })
