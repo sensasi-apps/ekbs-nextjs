@@ -293,8 +293,10 @@ function calculateTotalRp({
 }: HeavyEquipmentRentFormValues) {
     const { start_hm = 0, end_hm = 0 } = heavy_equipment_rent ?? {}
 
+    const diffHm = end_hm - start_hm
+
     const baseRp: number =
-        (end_hm - start_hm ?? for_n_units ?? 0) * (rate_rp_per_unit ?? 0)
+        (diffHm ?? for_n_units ?? 0) * (rate_rp_per_unit ?? 0)
 
     const ifInstallmentRp =
         payment_method === 'installment'
