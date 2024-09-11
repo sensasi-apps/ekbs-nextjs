@@ -113,7 +113,6 @@ const UserForm = () => {
                 disabled={isLoading}
                 defaultValue={name || ''}
                 fullWidth
-                required
                 margin="dense"
                 onChange={clearValidationErrors}
                 {...errorsToHelperTextObj(validationErrors?.name)}
@@ -124,6 +123,7 @@ const UserForm = () => {
                 label="Nama Panggilan"
                 disabled={isLoading}
                 defaultValue={nickname || ''}
+                required={false}
                 fullWidth
                 margin="dense"
                 onChange={clearValidationErrors}
@@ -134,6 +134,7 @@ const UserForm = () => {
                 name="email"
                 label="Email"
                 type="email"
+                required={false}
                 disabled={isLoading}
                 defaultValue={email || ''}
                 onChange={e => {
