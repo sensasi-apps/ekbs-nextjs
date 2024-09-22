@@ -30,7 +30,7 @@ export function useHooks() {
 
             try {
                 temp = JSON.parse(atob(response as string))
-            } catch (error) {
+            } catch {
                 temp = { status: 500, message: 'Terjadi kesalahan' }
             }
 

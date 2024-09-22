@@ -2,8 +2,9 @@ import type { Ymd } from '@/types/DateString'
 import Warehouse from '../enums/MartDB/ProductWarehouses/Warehouse'
 
 type Product = {
-    id: number
+    id: Readonly<number>
     code?: string
+    barcode_reg_id?: string
     name: string
     unit: string
     category_name: string

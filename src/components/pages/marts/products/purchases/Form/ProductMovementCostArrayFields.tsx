@@ -1,5 +1,6 @@
 // types
 import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
+import type { FormValues } from '../Form'
 // vendors
 import { FieldArrayRenderProps } from 'formik'
 // materials
@@ -14,7 +15,6 @@ import formatNumber from '@/utils/formatNumber'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import AutoFixHigh from '@mui/icons-material/AutoFixHigh'
-import ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 
 export default function ProductMovementCostArrayFields({
     push,
@@ -76,14 +76,21 @@ export default function ProductMovementCostArrayFields({
                                 disabled={disabled}
                                 onClick={() => {
                                     const { value } =
-                                        getFieldMeta<ProductMovementDetail[]>(
+                                        getFieldMeta<FormValues['details']>(
                                             'details',
                                         )
 
+                                    const qtyTotal = value?.reduce(
+                                        (acc, curr) => acc + (curr.qty ?? 0),
+                                        0,
+                                    )
+
+                                    const costRpPerUnit =
+                                        costsTotal / (qtyTotal ?? 1)
+
                                     const newDetails = value?.map(detail => ({
                                         ...detail,
-                                        cost_rp_total:
-                                            costsTotal / (value.length ?? 1),
+                                        cost_rp_per_unit: costRpPerUnit,
                                     }))
 
                                     setFieldValue('details', newDetails)

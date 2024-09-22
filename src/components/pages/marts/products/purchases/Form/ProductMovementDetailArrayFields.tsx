@@ -57,8 +57,8 @@ export default function ProductMovementDetailArrayFields({
 
             {value?.map((detail, index: number) => {
                 const subtotal =
-                    detail.qty * detail.rp_per_unit +
-                    (detail.cost_rp_total ?? 0)
+                    detail.qty *
+                    (detail.rp_per_unit + (detail.cost_rp_per_unit ?? 0))
 
                 return (
                     <Grid2
@@ -131,13 +131,6 @@ export default function ProductMovementDetailArrayFields({
                             />
                         </Grid2>
 
-                        <Grid2 xs={1.5}>
-                            <NumericField
-                                disabled={disabled}
-                                name={`${name}.${index}.qty`}
-                            />
-                        </Grid2>
-
                         <Grid2 xs={2}>
                             <NumericField
                                 disabled={disabled}
@@ -146,8 +139,15 @@ export default function ProductMovementDetailArrayFields({
                                     InputProps: {
                                         startAdornment: <RpInputAdornment />,
                                     },
-                                    value: detail.cost_rp_total,
+                                    value: detail.cost_rp_per_unit,
                                 }}
+                            />
+                        </Grid2>
+
+                        <Grid2 xs={1.5}>
+                            <NumericField
+                                disabled={disabled}
+                                name={`${name}.${index}.qty`}
                             />
                         </Grid2>
 
@@ -183,6 +183,8 @@ export default function ProductMovementDetailArrayFields({
 function HeaderGrids() {
     return (
         <Grid2 container columnSpacing={1} alignItems="center">
+            <Grid2 xs={0.5} />
+
             <Grid2 xs={3} textAlign="center">
                 <Typography variant="overline">Barang</Typography>
             </Grid2>
@@ -191,17 +193,19 @@ function HeaderGrids() {
                 <Typography variant="overline">Harga Satuan</Typography>
             </Grid2>
 
-            <Grid2 xs={1.5} textAlign="center">
-                <Typography variant="overline">Qty</Typography>
+            <Grid2 xs={2} textAlign="center">
+                <Typography variant="overline">Biaya Satuan</Typography>
             </Grid2>
 
-            <Grid2 xs={2} textAlign="center">
-                <Typography variant="overline">Biaya Lain</Typography>
+            <Grid2 xs={1.5} textAlign="center">
+                <Typography variant="overline">Qty</Typography>
             </Grid2>
 
             <Grid2 xs={2.5} textAlign="center">
                 <Typography variant="overline">Subtotal</Typography>
             </Grid2>
+
+            <Grid2 xs={0.5} textAlign="center" />
         </Grid2>
     )
 }
@@ -209,7 +213,7 @@ function HeaderGrids() {
 function FooterGrids({ value }: { value: FormValues['details'] }) {
     const totalCost =
         value?.reduce(
-            (acc, { cost_rp_total }) => acc + (cost_rp_total ?? 0),
+            (acc, { cost_rp_per_unit }) => acc + (cost_rp_per_unit ?? 0),
             0,
         ) ?? 0
 
@@ -222,20 +226,8 @@ function FooterGrids({ value }: { value: FormValues['details'] }) {
 
     return (
         <Grid2 container columnSpacing={1} alignItems="center">
-            <Grid2 xs={7} textAlign="right">
+            <Grid2 xs={9} textAlign="right">
                 <Typography variant="overline">Total</Typography>
-            </Grid2>
-
-            <Grid2
-                xs={2}
-                textAlign="center"
-                display="flex"
-                justifyContent="space-between"
-                px={1}>
-                <Typography variant="overline">Rp</Typography>
-                <Typography variant="overline">
-                    {formatNumber(totalCost)}
-                </Typography>
             </Grid2>
 
             <Grid2
@@ -250,7 +242,7 @@ function FooterGrids({ value }: { value: FormValues['details'] }) {
                 </Typography>
             </Grid2>
 
-            <Grid2 xs={1} />
+            <Grid2 xs={0.5} />
         </Grid2>
     )
 }

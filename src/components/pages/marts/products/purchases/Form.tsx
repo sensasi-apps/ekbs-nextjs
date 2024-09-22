@@ -2,6 +2,7 @@
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 import type Transaction from '@/dataTypes/Transaction'
 import type ProductMovementPurchase from '@/dataTypes/mart/ProductMovementPurchase'
+import ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 // vendors
 import { Field, FieldArray, FieldProps, type FormikProps } from 'formik'
 // materials
@@ -11,11 +12,12 @@ import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import TextFieldDefault from '@/components/TextField'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // local components
+import { PmdsTable } from './Form/PmdsTable'
+import { CostsTable } from './Form/CostsTable'
 import ProductMovementDetailArrayFields from './Form/ProductMovementDetailArrayFields'
 import ProductMovementCostArrayFields from './Form/ProductMovementCostArrayFields'
 // enums
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 
 export default function Form({
     isSubmitting,
@@ -27,12 +29,13 @@ export default function Form({
 
     const isDisabled =
         isSubmitting ||
+        !!dataFromDb?.finished_at ||
         !!dataFromDb?.purchase?.received ||
         !!dataFromDb?.purchase?.paid
 
     return (
         <FormikForm
-            id="product-form"
+            id="product-purchase-form"
             dirty={dirty}
             submitting={isSubmitting}
             processing={isSubmitting}
@@ -133,31 +136,39 @@ export default function Form({
                 </Grid2>
 
                 <Grid2 xs={12} sm={9} smOffset={3}>
-                    <FieldArray
-                        name="costs"
-                        render={props => (
-                            <ProductMovementCostArrayFields
-                                disabled={
-                                    isDisabled ||
-                                    Boolean(values.paid || values.received)
-                                }
-                                {...props}
-                            />
-                        )}
-                    />
+                    {dataFromDb?.finished_at ? (
+                        <CostsTable data={dataFromDb.costs} />
+                    ) : (
+                        <FieldArray
+                            name="costs"
+                            render={props => (
+                                <ProductMovementCostArrayFields
+                                    disabled={
+                                        isDisabled ||
+                                        Boolean(values.paid || values.received)
+                                    }
+                                    {...props}
+                                />
+                            )}
+                        />
+                    )}
 
-                    <FieldArray
-                        name="details"
-                        render={props => (
-                            <ProductMovementDetailArrayFields
-                                disabled={
-                                    isDisabled ||
-                                    Boolean(values.paid || values.received)
-                                }
-                                {...props}
-                            />
-                        )}
-                    />
+                    {dataFromDb?.finished_at ? (
+                        <PmdsTable data={dataFromDb.details} />
+                    ) : (
+                        <FieldArray
+                            name="details"
+                            render={props => (
+                                <ProductMovementDetailArrayFields
+                                    disabled={
+                                        isDisabled ||
+                                        Boolean(values.paid || values.received)
+                                    }
+                                    {...props}
+                                />
+                            )}
+                        />
+                    )}
                 </Grid2>
             </Grid2>
         </FormikForm>
@@ -177,7 +188,7 @@ export type FormValues = Partial<{
     details: {
         qty: ProductMovementDetail['qty']
         rp_per_unit: ProductMovementDetail['rp_per_unit']
-        cost_rp_total: number
+        cost_rp_per_unit: ProductMovementDetail['cost_rp_per_unit']
     }[]
 
     costs: ProductMovement['costs']

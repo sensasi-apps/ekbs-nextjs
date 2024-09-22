@@ -18,7 +18,9 @@ const __ = (
     if (!cache[locale]) cache[locale] = {}
 
     if (!cache[locale][scope])
-        cache[locale][scope] = require(`./${locale}/${scope}.json`)
+        import(`./${locale}/${scope}.json`).then(data => {
+            cache[locale][scope] = data
+        })
 
     return cache[locale][scope][key] || key
 }

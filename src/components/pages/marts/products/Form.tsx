@@ -89,6 +89,16 @@ export default function ProductForm({
             </Grid2>
 
             <TextField
+                name="barcode_reg_id"
+                label="Barcode"
+                disabled={isDisabled}
+                textFieldProps={{
+                    variant: 'standard',
+                    required: false,
+                }}
+            />
+
+            <TextField
                 name="category_name"
                 label="Kategori"
                 disabled={isDisabled}
