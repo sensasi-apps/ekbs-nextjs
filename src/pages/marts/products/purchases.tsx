@@ -162,17 +162,42 @@ const columns: MUIDataTableColumn[] = [
         name: 'details.product_state',
         label: 'Produk',
         options: {
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'normal',
+                },
+            }),
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
 
                 if (!data) return
 
-                return data.details.map(({ product_state, product }, i) => (
-                    <ChipSmall
-                        key={i}
-                        label={(product_state ?? product)?.name}
-                    />
-                ))
+                const productPreviews = data.details
+                    .slice(0, 10)
+                    .map(({ product_state, product }, i) => (
+                        <ChipSmall
+                            key={i}
+                            sx={{
+                                m: 0.3,
+                            }}
+                            label={(product_state ?? product)?.name}
+                        />
+                    ))
+
+                if (data.details.length > 10) {
+                    productPreviews.push(
+                        <ChipSmall
+                            key="more"
+                            disabled
+                            sx={{
+                                m: 0.3,
+                            }}
+                            label={`+${data.details.length - 10} lainnya`}
+                        />,
+                    )
+                }
+
+                return productPreviews
             },
         },
     },
