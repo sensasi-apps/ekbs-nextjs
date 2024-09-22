@@ -66,8 +66,7 @@ export default function ProductPurchases() {
                                 product: detail.product_state ?? detail.product,
                                 product_id: detail.product_id,
                                 rp_per_unit: detail.rp_per_unit,
-                                cost_rp_total:
-                                    detail.cost_rp_per_unit * detail.qty,
+                                cost_rp_per_unit: detail.cost_rp_per_unit,
                             })),
 
                             costs: data.costs,
@@ -76,8 +75,7 @@ export default function ProductPurchases() {
                         setSelectedRow(data)
                     }
                 }}
-                tableId="products-table"
-                title="Daftar Produk"
+                tableId="product-purchase-table"
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
                 columns={columns}
