@@ -1,7 +1,7 @@
 {
     "name": "ekbs",
-    "version": "0.11.5",
-    "versionDate": "2024-09-24",
+    "version": "0.11.6",
+    "versionDate": "2024-09-25",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -46,6 +46,7 @@
         "swr": "^2.2.5",
         "ua-parser-js": "^1.0.39",
         "use-debounce": "^10.0.3",
+        "uuid": "^10.0.0",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
@@ -54,9 +55,9 @@
         "@testing-library/user-event": "^14.5.2",
         "@types/jest": "^29.5.13",
         "@types/mui-datatables": "^4.3.12",
-        "@types/node": "^22.6.1",
+        "@types/node": "^22.7.0",
         "@types/qs": "^6.9.16",
-        "@types/react": "^18.3.8",
+        "@types/react": "^18.3.9",
         "@types/react-virtualized": "^9.21.30",
         "@types/ua-parser-js": "^0.7.39",
         "eslint": "^8.57.1",
