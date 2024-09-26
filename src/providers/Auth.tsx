@@ -1,17 +1,21 @@
 // types
-import { AxiosError } from 'axios'
 import type { AuthInfo } from '@/dataTypes/User'
 // vendors
-import { createContext, useContext, ReactNode } from 'react'
-import axios from '@/lib/axios'
-import useSWR from 'swr'
+import {
+    createContext,
+    useContext,
+    ReactNode,
+    useState,
+    useEffect,
+} from 'react'
 // functions
-import logout from './Auth/logout'
-import login from './Auth/login'
 import userHasRole from './Auth/userHasRole'
 import userHasPermission from './Auth/userHasPermission'
+import { login } from './Auth/login'
+import { logout } from './Auth/logout'
+import { getCurrentAuthInfo } from './Auth/functions/getCurrentAuthInfo'
 
-type AuthContextType = {
+interface AuthContextType {
     user: AuthInfo | null | undefined
     onAgreeTncp: () => void
     userHasPermission: (
@@ -19,8 +23,8 @@ type AuthContextType = {
         userParam?: AuthInfo,
     ) => boolean
     userHasRole: (roleName: string | string[], userParam?: AuthInfo) => boolean
-    logout: () => Promise<void>
     login: (email: string, password: string) => Promise<void>
+    logout: () => void
 }
 
 const DEFAULT_CONTEXT_VALUE: AuthContextType = {
@@ -28,33 +32,45 @@ const DEFAULT_CONTEXT_VALUE: AuthContextType = {
     onAgreeTncp: () => {},
     userHasPermission: () => false,
     userHasRole: () => false,
-    logout: async () => {},
     login: async () => {},
+    logout: () => {},
 }
 
 const AuthContext = createContext<AuthContextType>(DEFAULT_CONTEXT_VALUE)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const { data: user, mutate } = useSWR('/api/user', fetcher, SWR_CONFIG)
+    const [user, setUser] = useState<AuthInfo | null | undefined>(undefined)
+
+    useEffect(() => {
+        setUser(getCurrentAuthInfo())
+    }, [])
 
     return (
         <AuthContext.Provider
             value={{
                 user,
+
                 onAgreeTncp: () => {
                     if (user) {
-                        mutate({ ...user, is_agreed_tncp: true })
+                        setUser({
+                            ...user,
+                            is_agreed_tncp: true,
+                        })
                     }
                 },
+
                 userHasPermission: (permissionName, userParam) =>
                     userHasPermission(
                         permissionName,
                         userParam ?? user ?? undefined,
                     ),
+
                 userHasRole: (roleName, userParam) =>
                     userHasRole(roleName, userParam ?? user ?? undefined),
-                login: (email, password) => login(email, password, mutate),
-                logout: () => logout(mutate),
+
+                login: (email, password) => login(email, password, setUser),
+
+                logout: () => logout(setUser),
             }}>
             {children}
         </AuthContext.Provider>
@@ -63,27 +79,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export default function useAuth(): AuthContextType {
     return useContext(AuthContext)
-}
-
-const SWR_CONFIG = {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    shouldRetryOnError: false,
-    keepPreviousData: true,
-}
-
-async function fetcher(arg: string) {
-    return axios
-        .get<AuthInfo | null>(arg)
-        .then(res => res.data)
-        .catch((error: AxiosError) => {
-            if (
-                error.response?.status === 401 ||
-                error.code === AxiosError.ERR_NETWORK
-            ) {
-                return null
-            }
-
-            return Promise.reject(error)
-        })
 }

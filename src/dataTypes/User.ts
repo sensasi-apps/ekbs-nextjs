@@ -60,7 +60,8 @@ export type AuthInfo = {
     uuid: User['uuid']
     name: User['name']
     is_agreed_tncp: User['is_agreed_tncp']
-    accessToken: string
+    is_active: User['is_active']
+    access_token: string
     permission_names: User['permission_names']
     role_names: User['role_names']
 

@@ -1,34 +1,78 @@
-import { AuthInfo } from '@/dataTypes/User'
-import axios from '@/lib/axios'
+import type { AuthInfo } from '@/dataTypes/User'
 import { AxiosError } from 'axios'
-import { sha3_256 } from 'js-sha3'
-import { KeyedMutator } from 'swr'
+import axios from '@/lib/axios'
+import { getUserHashKey } from './functions/getUserHashKey'
+import { getDeviceId } from '@/functions/getDeviceId'
 
-export default async function login(
+export async function login(
     email: string,
     password: string,
-    mutate: KeyedMutator<AuthInfo | null>,
+    setUser: (user: AuthInfo | null) => void,
 ) {
-    const hash = sha3_256(email.split('@')[0] + password)
+    const hashKey = getUserHashKey(email, password)
 
-    return axios
-        .post<undefined>('/login', { email, password })
-        .then(() =>
-            mutate().then(authInfo => {
-                localStorage.setItem(hash, JSON.stringify(authInfo))
+    const storedAuthInfoJson = localStorage.getItem(hashKey)
+    const storedAuthInfo = storedAuthInfoJson
+        ? (JSON.parse(storedAuthInfoJson) as AuthInfo)
+        : null
+
+    setUser(storedAuthInfo)
+
+    const headers = storedAuthInfo
+        ? { Authorization: `Bearer ${storedAuthInfo.access_token}` }
+        : {}
+
+    /**
+     * TODO: NOT USING `location` FOR MORE SMOOTH UX
+     */
+    function unauthRedirectWithResponse(status: number, message: string) {
+        setUser(null)
+
+        const base64Response = btoa(
+            JSON.stringify({
+                status,
+                message,
             }),
         )
-        .catch((error: AxiosError) => {
-            const localData = localStorage.getItem(hash)
 
-            if (error.code === AxiosError.ERR_NETWORK && localData) {
-                const authInfo = JSON.parse(localData) as AuthInfo
+        location.replace('/login?response=' + base64Response)
+    }
 
-                mutate(authInfo).catch(() => authInfo)
+    function handleFail(
+        err: AxiosError<{
+            message?: string
+        }>,
+    ) {
+        if (err.code === AxiosError.ERR_NETWORK && storedAuthInfoJson) {
+            localStorage.setItem('currentAuthInfo', storedAuthInfoJson)
+        } else {
+            unauthRedirectWithResponse(
+                err.response?.status ?? err.status ?? 401,
+                err.response?.data?.message ?? err.message,
+            )
+        }
+    }
 
-                return
+    return axios
+        .post<AuthInfo>(
+            '/login',
+            {
+                email,
+                password,
+                device_id: getDeviceId(),
+            },
+            { headers },
+        )
+        .then(res => {
+            if (res.data.is_active) {
+                setUser(res.data)
+
+                const authInfoJson = JSON.stringify(res.data)
+                localStorage.setItem(hashKey, authInfoJson)
+                localStorage.setItem('currentAuthInfo', authInfoJson)
+            } else {
+                unauthRedirectWithResponse(403, 'Akun anda belum aktif')
             }
-
-            return Promise.reject(error)
         })
+        .catch(handleFail)
 }
