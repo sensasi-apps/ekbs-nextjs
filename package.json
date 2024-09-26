@@ -1,7 +1,7 @@
 {
     "name": "ekbs",
-    "version": "0.11.5",
-    "versionDate": "2024-09-24",
+    "version": "0.11.6",
+    "versionDate": "2024-09-26",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -24,7 +24,7 @@
         "@mui/lab": "^5.0.0-alpha.173",
         "@mui/material": "^5.16.7",
         "@mui/x-date-pickers": "^6.20.2",
-        "@sentry/nextjs": "^8.31.0",
+        "@sentry/nextjs": "^8.32.0",
         "@serwist/next": "^9.0.8",
         "axios": "^1.7.7",
         "dayjs": "^1.11.13",
@@ -46,6 +46,7 @@
         "swr": "^2.2.5",
         "ua-parser-js": "^1.0.39",
         "use-debounce": "^10.0.3",
+        "uuid": "^10.0.0",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
@@ -54,11 +55,12 @@
         "@testing-library/user-event": "^14.5.2",
         "@types/jest": "^29.5.13",
         "@types/mui-datatables": "^4.3.12",
-        "@types/node": "^22.6.1",
+        "@types/node": "^22.7.2",
         "@types/qs": "^6.9.16",
-        "@types/react": "^18.3.8",
+        "@types/react": "^18.3.9",
         "@types/react-virtualized": "^9.21.30",
         "@types/ua-parser-js": "^0.7.39",
+        "@types/uuid": "^10.0.0",
         "eslint": "^8.57.1",
         "eslint-config-next": "^14.2.13",
         "eslint-config-prettier": "^9.1.0",

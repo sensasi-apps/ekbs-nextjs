@@ -3,11 +3,27 @@ import { enqueueSnackbar } from 'notistack'
 import Axios, { AxiosError } from 'axios'
 // utils
 import handleServerError from './axios/handleServerError'
+import { getCurrentAuthToken } from './axios/getCurrentAuthToken'
 
+/**
+ * TODO: REDUCE `csrf-cookie` REQUEST IF POSSIBLE.
+ */
 const axios = Axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
     withXSRFToken: true,
     withCredentials: true,
+})
+
+axios.get('/sanctum/csrf-cookie')
+
+axios.interceptors.request.use(config => {
+    const token = getCurrentAuthToken()
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+
+    return config
 })
 
 axios.interceptors.response.use(undefined, (error: AxiosError) => {
