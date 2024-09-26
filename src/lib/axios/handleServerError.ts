@@ -34,14 +34,15 @@ export default function handleServerError({ status, data }: AxiosResponse) {
 
         case 403:
             enqueueSnackbar(
-                'Anda tidak memiliki akses untuk halaman ini',
+                data.message ?? 'Anda tidak memiliki akses untuk halaman ini',
                 SNACKBAR_OPTIONS,
             )
             break
 
         case 500:
             enqueueSnackbar(
-                'Server bermasalah, silahkan menghubungi pengurus',
+                'Server bermasalah, silahkan menghubungi pengurus. Pesan error: ' +
+                    data.message,
                 SNACKBAR_OPTIONS,
             )
             break
