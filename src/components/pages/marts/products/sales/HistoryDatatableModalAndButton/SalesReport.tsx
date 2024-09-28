@@ -202,8 +202,7 @@ function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
                                     (acc, { details }) =>
                                         acc +
                                         details.reduce(
-                                            (acc, { qty }) =>
-                                                acc + Math.abs(qty),
+                                            (acc, { qty }) => acc - qty,
                                             0,
                                         ),
                                     0,
@@ -245,7 +244,7 @@ function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
                                                 acc +
                                                 (cost_rp_per_unit +
                                                     rp_per_unit) *
-                                                    Math.abs(qty),
+                                                    -qty,
                                             0,
                                         ),
                                     0,
@@ -269,7 +268,7 @@ function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
                                                 },
                                             ) =>
                                                 acc +
-                                                Math.abs(qty) *
+                                                -qty *
                                                     (cost_rp_per_unit +
                                                         rp_per_unit -
                                                         (warehouse_state?.cost_rp_per_unit ??
@@ -340,7 +339,7 @@ function ItemTableRow({
                         listStyle: 'none',
                     }}>
                     {details.map(({ qty }, i) => (
-                        <li key={i}>{formatNumber(Math.abs(qty))}</li>
+                        <li key={i}>{formatNumber(-qty)}</li>
                     ))}
                 </ul>
             </TableCell>
@@ -372,8 +371,7 @@ function ItemTableRow({
                             listStyle: 'none',
                         }}>
                         {formatNumber(
-                            Math.abs(qty) *
-                                (warehouse_state?.cost_rp_per_unit ?? 0),
+                            -qty * (warehouse_state?.cost_rp_per_unit ?? 0),
                         )}
                     </li>
                 ))}
@@ -405,8 +403,7 @@ function ItemTableRow({
                         ({ qty, cost_rp_per_unit, rp_per_unit }, i) => (
                             <li key={i}>
                                 {formatNumber(
-                                    Math.abs(qty) *
-                                        (cost_rp_per_unit + rp_per_unit),
+                                    -qty * (cost_rp_per_unit + rp_per_unit),
                                 )}
                             </li>
                         ),
@@ -432,10 +429,10 @@ function ItemTableRow({
                             i,
                         ) => {
                             const totalCost =
-                                Math.abs(qty) *
-                                (warehouse_state?.cost_rp_per_unit ?? 0)
+                                -qty * (warehouse_state?.cost_rp_per_unit ?? 0)
+
                             const totalSale =
-                                qty * (cost_rp_per_unit + rp_per_unit)
+                                -qty * (cost_rp_per_unit + rp_per_unit)
 
                             const margin = totalSale - totalCost
 
@@ -452,34 +449,13 @@ function ItemTableRow({
                         margin: 0,
                         listStyle: 'none',
                     }}>
-                    {details.map(
-                        (
-                            {
-                                qty,
-                                cost_rp_per_unit,
-                                rp_per_unit,
-                                warehouse_state,
-                            },
-                            i,
-                        ) => {
-                            const totalCost =
-                                Math.abs(qty) *
-                                (warehouse_state?.cost_rp_per_unit ?? 1)
-
-                            const totalSale =
-                                Math.abs(qty) * (cost_rp_per_unit + rp_per_unit)
-
-                            const margin = (totalSale / totalCost) * 100
-
-                            return (
-                                <li key={i}>
-                                    {formatNumber(margin, {
-                                        maximumFractionDigits: 0,
-                                    })}
-                                </li>
-                            )
-                        },
-                    )}
+                    {details.map((item, i) => (
+                        <li key={i}>
+                            {formatNumber(getMarginPercentage(item), {
+                                maximumFractionDigits: 0,
+                            })}
+                        </li>
+                    ))}
                 </ul>
             </TableCell>
         </TableRow>
@@ -492,8 +468,8 @@ function getMarginPercentage({
     rp_per_unit,
     warehouse_state,
 }: ProductMovementWithSale['details'][0]) {
-    const totalCost = Math.abs(qty) * (warehouse_state?.cost_rp_per_unit ?? 1)
-    const totalSale = Math.abs(qty) * (cost_rp_per_unit + rp_per_unit)
+    const totalCost = -qty * (warehouse_state?.cost_rp_per_unit ?? 1)
+    const totalSale = -qty * (cost_rp_per_unit + rp_per_unit)
 
-    return (totalSale / totalCost) * 100
+    return totalCost ? (totalSale / totalCost) * 100 - 100 : totalSale
 }
