@@ -16,7 +16,17 @@ export default function NotFoundPage() {
 
     const isAuthenticated = Boolean(user)
 
-    const mainContent = (
+    return isAuthenticated ? (
+        <AuthLayout title="Halaman tidak ditemukan">
+            <MainContent isAuthenticated={isAuthenticated} />
+        </AuthLayout>
+    ) : (
+        <MainContent isAuthenticated={isAuthenticated} />
+    )
+}
+
+function MainContent({ isAuthenticated }: { isAuthenticated: boolean }) {
+    return (
         <Container
             style={{
                 minHeight: isAuthenticated ? 'unset' : '100vh',
@@ -55,13 +65,7 @@ export default function NotFoundPage() {
                 )}
             </div>
 
-            <FooterBox />
+            {!isAuthenticated && <FooterBox />}
         </Container>
-    )
-
-    return isAuthenticated ? (
-        <AuthLayout title="Halaman tidak ditemukan">{mainContent}</AuthLayout>
-    ) : (
-        mainContent
     )
 }
