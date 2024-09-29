@@ -1,0 +1,150 @@
+import type { Ymd } from '@/types/DateString'
+// vendors
+import { Box, Divider, Fade, LinearProgress } from '@mui/material'
+import { Download, Refresh } from '@mui/icons-material'
+import dayjs from 'dayjs'
+import useSWR from 'swr'
+// global components
+import { toYmd } from '@/functions/toYmd'
+import DatePicker from '@/components/DatePicker'
+import IconButton from '@/components/IconButton'
+import AuthLayout from '@/components/Layouts/AuthLayout'
+// page components
+import { AoaTable } from '@/components/aoa-table'
+import { useRouter } from 'next/router'
+import { aoaToXlsx, AoaRows } from '@/functions/aoaToXlsx'
+import { useEffect, useState } from 'react'
+import BackButton from '@/components/BackButton'
+import useAuth from '@/providers/Auth'
+import PalmBunch from '@/enums/permissions/PalmBunch'
+
+export default function Page() {
+    const { userHasPermission } = useAuth()
+
+    const {
+        query: { from_date, till_date },
+        replace,
+    } = useRouter()
+
+    const {
+        data = [],
+        isLoading,
+        mutate,
+    } = useSWR<AoaRows>(
+        from_date && till_date
+            ? [
+                  '/palm-bunches/rea-tickets/get-export-data',
+                  { from_date, till_date },
+              ]
+            : null,
+    )
+
+    if (!userHasPermission(PalmBunch.READ_STATISTIC)) {
+        return null
+    }
+
+    return (
+        <AuthLayout title="Unduh data tiket">
+            <BackButton />
+
+            <Box display="flex" gap={2} alignItems="center" my={2}>
+                <Filters
+                    disabled={isLoading}
+                    onRefresh={(from_date, till_date) => {
+                        replace({ query: { from_date, till_date } })
+                        mutate()
+                    }}
+                    onDownload={() =>
+                        aoaToXlsx(`Tiket TBS ${from_date}-${till_date}`, data)
+                    }
+                />
+            </Box>
+
+            <Fade in={isLoading}>
+                <LinearProgress />
+            </Fade>
+
+            {data.length === 0 && (
+                <Divider
+                    variant="middle"
+                    sx={{
+                        mt: 2,
+                    }}>
+                    Tidak ada data
+                </Divider>
+            )}
+
+            {data.length > 0 && (
+                <AoaTable
+                    headers={data[0] as string[]}
+                    dataRows={data.slice(1)}
+                />
+            )}
+        </AuthLayout>
+    )
+}
+
+function Filters({
+    onRefresh,
+    onDownload,
+    disabled,
+}: {
+    onRefresh: (from_date: Ymd, till_date: Ymd) => void
+    onDownload: () => void
+    disabled: boolean
+}) {
+    const {
+        query: { from_date, till_date },
+    } = useRouter()
+
+    const [fromDate, setFromDate] = useState<Ymd | null>(
+        from_date ? (from_date as Ymd) : null,
+    )
+    const [tillDate, setTillDate] = useState<Ymd | null>(
+        till_date ? (till_date as Ymd) : null,
+    )
+
+    useEffect(() => {
+        if (from_date) {
+            setFromDate(from_date as Ymd)
+        }
+
+        if (till_date) {
+            setTillDate(till_date as Ymd)
+        }
+    }, [from_date, till_date])
+
+    return (
+        <>
+            <DatePicker
+                label="Dari Tanggal"
+                disabled={disabled}
+                value={fromDate ? dayjs(fromDate) : null}
+                onChange={value => setFromDate(value ? toYmd(value) : null)}
+            />
+
+            <DatePicker
+                label="Hingga Tanggal"
+                disabled={disabled}
+                value={tillDate ? dayjs(tillDate) : null}
+                onChange={value => setTillDate(value ? toYmd(value) : null)}
+            />
+
+            <IconButton
+                disabled={disabled || !fromDate || !tillDate}
+                icon={Refresh}
+                title="Segarkan"
+                onClick={() =>
+                    fromDate && tillDate && onRefresh(fromDate, tillDate)
+                }
+            />
+
+            <IconButton
+                disabled={disabled || !fromDate || !tillDate}
+                icon={Download}
+                title="Unduh"
+                onClick={onDownload}
+            />
+        </>
+    )
+}
