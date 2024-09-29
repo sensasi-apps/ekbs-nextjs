@@ -116,29 +116,7 @@ export default function FiltersBox({
 }
 
 function handleDownloadExcel(data: ProductSaleType[]) {
-    const header = [
-        'Tanggal',
-        'Kode',
-        'Gudang',
-        'Pengguna',
-        'Metode Pembayaran',
-
-        'Barang',
-        'QTY',
-        'Satuan',
-
-        'Biaya Dasar (Rp)',
-        'Total Biaya Dasar (Rp)',
-
-        'Harga Jual (Rp)',
-        'Subtotal Penjualan (Rp)',
-        'Penyesuaian/Jasa (Rp)',
-
-        'Total Penjualan (Rp)',
-        'Marjin (Rp)',
-    ]
-
-    const body = data.flatMap(item => {
+    const rows = data.flatMap(item => {
         const adjustedTotalRp = item.total_rp - item.total_base_rp
 
         return item.product_movement_details.map(detail => {
@@ -155,7 +133,7 @@ function handleDownloadExcel(data: ProductSaleType[]) {
                 item.at,
                 item.short_uuid,
                 item.product_movement.warehouse,
-                item.buyer_user?.name,
+                item.buyer_user?.name ?? null,
                 item.payment_method_id,
 
                 detail.product_state.name,
@@ -176,5 +154,27 @@ function handleDownloadExcel(data: ProductSaleType[]) {
         })
     })
 
-    aoaToXlsx('Laporan Penjualan SAPRODI', header, body)
+    aoaToXlsx('Laporan Penjualan SAPRODI', rows, HEADERS)
 }
+
+const HEADERS = [
+    'Tanggal',
+    'Kode',
+    'Gudang',
+    'Pengguna',
+    'Metode Pembayaran',
+
+    'Barang',
+    'QTY',
+    'Satuan',
+
+    'Biaya Dasar (Rp)',
+    'Total Biaya Dasar (Rp)',
+
+    'Harga Jual (Rp)',
+    'Subtotal Penjualan (Rp)',
+    'Penyesuaian/Jasa (Rp)',
+
+    'Total Penjualan (Rp)',
+    'Marjin (Rp)',
+]

@@ -2,16 +2,15 @@ import dayjs from 'dayjs'
 import { utils, writeFileXLSX } from 'xlsx'
 import packageJson from '@/../package.json'
 
-export function aoaToXlsx(
-    fileName: string,
-    header: string[],
-    body: (string | number | undefined)[][],
-) {
-    const generatedAt = dayjs().format('YYYY-MM-DD HH:mm:ss')
+export function aoaToXlsx(fileName: string, rows: AoaRows, header?: string[]) {
+    const generatedAt = ' — ' + dayjs().format('YYYY-MM-DD HH:mm:ss')
     const finalFileName = fileName + ' ' + generatedAt + '.xlsx'
 
     const workbook = utils.book_new()
-    const worksheet = utils.aoa_to_sheet([header, ...body])
+    const worksheet = header
+        ? utils.aoa_to_sheet([header, ...rows])
+        : utils.aoa_to_sheet(rows)
+
     utils.book_append_sheet(workbook, worksheet)
 
     writeFileXLSX(workbook, finalFileName, {
@@ -22,3 +21,5 @@ export function aoaToXlsx(
         },
     })
 }
+
+export type AoaRows = (string | number | null)[][]
