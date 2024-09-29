@@ -62,6 +62,10 @@ const palmBunchNavItems: NavItem[] = [
     },
     {
         href: '/palm-bunches/rea-tickets',
+        pathname: [
+            '/palm-bunches/rea-tickets',
+            '/palm-bunches/rea-tickets/export',
+        ],
         label: 'Tiket REA',
         icon: <BalanceIcon />,
         forPermission: PalmBunch.READ_TICKET,

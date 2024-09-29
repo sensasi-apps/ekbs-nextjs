@@ -33,10 +33,25 @@ import Role from '@/enums/Role'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import blinkSxValue from '@/utils/blinkSxValue'
+import { Button } from '@mui/material'
+import { Download } from '@mui/icons-material'
 
-export default function PalmBuncesReaTickets() {
+export default function Page() {
+    const { userHasPermission } = useAuth()
+
     return (
         <AuthLayout title="Daftar Tiket REA">
+            {userHasPermission(PalmBunch.READ_STATISTIC) && (
+                <Button
+                    startIcon={<Download />}
+                    href="rea-tickets/export"
+                    sx={{
+                        mb: 4,
+                    }}>
+                    Unduh Data
+                </Button>
+            )}
+
             <FormDataProvider>
                 <Crud />
             </FormDataProvider>
