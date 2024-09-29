@@ -141,7 +141,7 @@ export default function Debts() {
 
             <Fab
                 in={userHasPermission(Finance.CREATE_DEBT)}
-                disabled={!formValues}
+                disabled={!!formValues}
                 onClick={() => {
                     setFormValues({
                         is_final: false,
