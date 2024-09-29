@@ -43,6 +43,7 @@ export default function FarmInputProductSalesReport() {
             />
 
             <FiltersBox
+                data={data}
                 disabled={isLoading || isValidating}
                 onRefresh={() => {
                     mutate()
