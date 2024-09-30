@@ -249,6 +249,7 @@ export default function TransactionForm({
                             })
                         }>
                         <FormControlLabel
+                            disabled={isDisabled}
                             control={<Checkbox checked={isBuTx} />}
                             label="Transaksi Unit Bisnis"
                         />
