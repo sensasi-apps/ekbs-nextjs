@@ -1,14 +1,14 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
 
-type PalmBunchesReaPaymentDetail = {
+interface PalmBunchesReaPaymentDetail {
     palm_bunches_rea_payment_uuid: UUID
     weighting_at: Ymd
     oil_mill_code: string
     ticket_no: string
     wb_ticket_no: string
     vehicle_no: string
-    farmer_name: string
+    farmer_name: string | null
     gross_bunches: number
     gross_kg: number
     deduction_kg: number
