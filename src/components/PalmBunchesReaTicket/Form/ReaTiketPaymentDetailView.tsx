@@ -76,7 +76,7 @@ export default function ReaTiketPaymentDetailView({
 
             <Row
                 label="Nama Petani"
-                value={data.payment_detail.farmer_name}
+                value={data.payment_detail?.farmer_name ?? ''}
                 comparationValue={data.delivery.palm_bunches
                     .map(palmBunch => palmBunch.owner_user?.name)
                     .join(', ')}
@@ -85,7 +85,7 @@ export default function ReaTiketPaymentDetailView({
     )
 }
 
-const Row = ({
+function Row({
     label,
     value,
     comparationValue,
@@ -93,7 +93,7 @@ const Row = ({
     label: string
     value: string | number
     comparationValue: string | number
-}) => {
+}) {
     const isEqual =
         comparationValue.toString().toLowerCase() ===
         value.toString().toLowerCase()
