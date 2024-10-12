@@ -1,7 +1,5 @@
 /**
- * *_MANAGER
- *
- * *_ADMIN
+ * Enum for user roles
  */
 enum Role {
     // general
@@ -45,6 +43,10 @@ enum Role {
     USER_ADMIN = 'users admin',
     SYSTEM_CONFIGURATOR = 'system configurator',
     SUPERMAN = 'superman',
+
+    // mart
+    MART_MANAGER = 'mart manager',
+    MART_CASHIER = 'mart cashier',
 }
 
 export default Role
