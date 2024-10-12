@@ -33,7 +33,6 @@ import CompleteCenter from '@/components/Statuses/CompleteCenter'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import ErrorCenter from '@/components/Statuses/ErrorCenter'
 // utils
-import __ from '@/locales/__'
 import { getRoleIconByIdName } from '../RoleChips'
 
 export default function RolesAndPermissionButtonAndDialogForm({
@@ -202,6 +201,20 @@ const ROLE_GROUPS = [
     'system',
 ]
 
+const ROLE_GROUPS_ID: {
+    [key: string]: string
+} = {
+    basic: 'identifikasi dasar',
+    finance: 'keuangan',
+    loan: 'pinjaman',
+    system: 'sistem',
+    'palm bunch': 'TBS',
+    'farm inputs': 'SAPRODI',
+    inventory: 'inventaris',
+    'heavy equipment rent': 'sewa alat berat',
+    mart: 'Belayan Mart',
+}
+
 function CheckboxesByGroupName({
     groupName,
     user,
@@ -215,7 +228,7 @@ function CheckboxesByGroupName({
         <>
             <Divider textAlign="left">
                 <Typography variant="caption" color="primary">
-                    {__(groupName, 'role-group-names')}
+                    {ROLE_GROUPS_ID[groupName]}
                 </Typography>
             </Divider>
 
