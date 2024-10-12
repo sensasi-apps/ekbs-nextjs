@@ -16,6 +16,7 @@ export function CostsTable({ data }: { data: ProductMovementCost[] }) {
             <Typography gutterBottom fontWeight="bold" fontSize="1.3em">
                 Biaya
             </Typography>
+
             <Table
                 size="small"
                 sx={{
@@ -37,7 +38,21 @@ export function CostsTable({ data }: { data: ProductMovementCost[] }) {
                             </TableCell>
                         </TableRow>
                     ))}
+
+                    {data.length === 0 && (
+                        <TableRow>
+                            <TableCell colSpan={2} align="center">
+                                <Typography
+                                    fontStyle="italic"
+                                    variant="body2"
+                                    color="textSecondary">
+                                    Tidak ada biaya
+                                </Typography>
+                            </TableCell>
+                        </TableRow>
+                    )}
                 </TableBody>
+
                 <TableFooter>
                     <TableRow>
                         <TableCell align="right">TOTAL</TableCell>
