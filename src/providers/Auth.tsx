@@ -14,6 +14,7 @@ import userHasPermission from './Auth/userHasPermission'
 import { login } from './Auth/login'
 import { logout } from './Auth/logout'
 import { getCurrentAuthInfo } from './Auth/functions/getCurrentAuthInfo'
+import Role from '@/enums/Role'
 
 interface AuthContextType {
     user: AuthInfo | null | undefined
@@ -22,7 +23,7 @@ interface AuthContextType {
         permissionName: string | string[],
         userParam?: AuthInfo,
     ) => boolean
-    userHasRole: (roleName: string | string[], userParam?: AuthInfo) => boolean
+    userHasRole: (roleName: Role | Role[], userParam?: AuthInfo) => boolean
     login: (email: string, password: string) => Promise<void>
     logout: () => void
 }

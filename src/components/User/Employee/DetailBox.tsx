@@ -1,22 +1,21 @@
 // types
 import type { BoxProps } from '@mui/material/Box'
+import type User from '@/dataTypes/User'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
-// providers
-import useFormData from '@/providers/FormData'
-import useUserWithDetails from '@/providers/UserWithDetails'
 // utils
 import toDmy from '@/utils/toDmy'
 
-export default function EmployeeBox() {
-    const { data: userWithDetails = {} } = useUserWithDetails()
-    const { handleEdit } = useFormData()
-
-    const { employee } = userWithDetails
-
+export default function EmployeeDetailBox({
+    data: employee,
+    onClickEdit,
+}: {
+    data: User['employee']
+    onClickEdit: () => void
+}) {
     const {
         joined_at,
         unjoined_at,
@@ -24,16 +23,15 @@ export default function EmployeeBox() {
         note,
         employee_status,
         position,
-    } = employee || {}
+        business_unit,
+    } = employee ?? {}
 
-    const getStatus = () => {
+    function getStatus() {
         if (unjoined_at) return 'Berhenti / Keluar'
         if (!joined_at) return '-'
 
         return 'Aktif'
     }
-
-    const handleEditClick = () => handleEdit(employee || {})
 
     return (
         <div>
@@ -44,10 +42,13 @@ export default function EmployeeBox() {
                     component="div">
                     {getStatus()}
                 </Typography>
+
                 <Typography>{employee_status?.name}</Typography>
             </Row>
 
-            <Row title="Jabatan">{position || '-'}</Row>
+            <Row title="Jabatan">{position ?? '-'}</Row>
+
+            <Row title="Unit Usaha">{business_unit?.name ?? '-'}</Row>
 
             <Row title="Tanggal Bergabung">
                 {joined_at ? toDmy(joined_at) : '-'}
@@ -56,23 +57,23 @@ export default function EmployeeBox() {
             {unjoined_at && (
                 <>
                     <Row title="Tanggal Berhenti/Keluar">
-                        {unjoined_at ? toDmy(joined_at) : '-'}
+                        {toDmy(unjoined_at)}
                     </Row>
 
                     <Row title="Alasan Berhenti/Keluar">
-                        {unjoined_reason || '-'}
+                        {unjoined_reason ?? '-'}
                     </Row>
                 </>
             )}
 
-            <Row title="Catatan tambahan">{note || '-'}</Row>
+            <Row title="Catatan tambahan">{note ?? '-'}</Row>
 
             <Button
                 size="small"
                 variant="outlined"
                 color="info"
                 startIcon={<EditIcon />}
-                onClick={handleEditClick}>
+                onClick={onClickEdit}>
                 Perbaharui data
             </Button>
         </div>

@@ -1,6 +1,7 @@
 import { Button } from '@mui/material'
 import useAuth from '@/providers/Auth'
 import { useRouter } from 'next/router'
+import Role from '@/enums/Role'
 
 export default function SentryIntegrationTestPage() {
     const { user, userHasRole } = useAuth()
@@ -10,11 +11,11 @@ export default function SentryIntegrationTestPage() {
         return ''
     }
 
-    if (!userHasRole('superman')) {
+    if (!userHasRole(Role.SUPERMAN)) {
         return back()
     }
 
-    return userHasRole('superman') ? (
+    return userHasRole(Role.SUPERMAN) ? (
         <Button
             size="large"
             variant="contained"

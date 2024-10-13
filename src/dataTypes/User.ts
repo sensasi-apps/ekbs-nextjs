@@ -1,6 +1,7 @@
-import type { Ymd } from '@/types/DateString'
+import type { Employee } from '@/@types/Data/Employee'
 import type { UUID } from 'crypto'
-import Installment from './Installment'
+import type { Ymd } from '@/types/DateString'
+import type Installment from './Installment'
 
 interface User {
     id: number
@@ -32,28 +33,6 @@ interface User {
 }
 
 export default User
-
-enum EmployeeStatusId {
-    MAGANG = 1,
-    KONTRAK = 2,
-    TETAP = 3,
-    PENGURUS = 4,
-}
-
-type Employee = {
-    employee_status_id: EmployeeStatusId
-    joined_at: Ymd
-    unjoined_at: Ymd | null
-    unjoined_reason: string | null
-    position: string
-    note: string | null
-
-    // relations
-    employee_status?: {
-        id: EmployeeStatusId
-        name: string
-    }
-}
 
 export type AuthInfo = {
     id: User['id']
