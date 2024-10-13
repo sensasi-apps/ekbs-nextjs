@@ -20,6 +20,7 @@ export default function SelectFromApi({
     onChange,
     onValueChange,
     renderOption,
+    margin,
     dataKey = 'uuid',
     ...rest
 }: {
@@ -43,6 +44,7 @@ export default function SelectFromApi({
     return (
         <FormControl
             fullWidth
+            margin={margin}
             {...rest}
             error={rest.error || data.length === 0}>
             {isLoading ? (
