@@ -5,7 +5,7 @@ enum BusinessUnit {
     ALAT_BERAT = 4,
     SERTIFIKASI_DAN_PENGELOLAAN_KEBUN = 5,
     COFFEESHOP_DEPAN_KANTOR = 6,
-    BELYAN_MART = 7,
+    BELAYAN_MART = 7,
     BENGKEL = 8,
 }
 
