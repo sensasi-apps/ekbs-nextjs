@@ -42,6 +42,7 @@ import UserLoanInstallmentDialog from './InstallmentDialog'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import Role from '@/enums/Role'
 
 export default function LoanForm({
     errors,
@@ -67,7 +68,7 @@ export default function LoanForm({
     )
 
     const isApplierMode = mode === 'applier'
-    const isManager = userHasRole('user loans manager') && !isApplierMode
+    const isManager = userHasRole(Role.USER_LOAN_MANAGER) && !isApplierMode
 
     const { handleSubmit: handleDelete, isSubmitting: isDeleting } = useFormik({
         initialValues: {},
@@ -297,7 +298,7 @@ export default function LoanForm({
 
                 <NumericFormat
                     label={'Persentase Jasa per ' + values.term_unit}
-                    disabled={isDisabled || !userHasRole('employee')}
+                    disabled={isDisabled || !userHasRole(Role.EMPLOYEE)}
                     decimalScale={1}
                     value={values.interest_percent}
                     name={'interest_percent'}

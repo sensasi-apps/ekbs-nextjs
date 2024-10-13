@@ -2,8 +2,8 @@ import type { AuthInfo } from '@/dataTypes/User'
 import Role from '@/enums/Role'
 
 export default function userHasRole(
-    roleName: string | string[],
-    userParam?: AuthInfo,
+    roleName: Role | Role[],
+    userParam: AuthInfo | undefined = undefined,
 ) {
     if (!userParam) return false
 
@@ -12,11 +12,9 @@ export default function userHasRole(
     }
 
     if (roleName instanceof Array) {
-        return Boolean(
+        return (
             roleName.findIndex(r => userParam.role_names?.includes(r)) !== -1 ||
-                roleName.findIndex(r =>
-                    userParam.role_names_id?.includes(r),
-                ) !== -1,
+            roleName.findIndex(r => userParam.role_names_id?.includes(r)) !== -1
         )
     }
 
