@@ -1,12 +1,15 @@
 // vendors
 import { useRouter } from 'next/router'
 // materials
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader, { CardHeaderProps } from '@mui/material/CardHeader'
-import Fade from '@mui/material/Fade'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardHeaderProps,
+    Fade,
+    Grid,
+    Typography,
+} from '@mui/material'
 // mui labs
 import Masonry from '@mui/lab/Masonry'
 // components
@@ -25,34 +28,17 @@ import UserSocialsCrudBox from '@/components/User/Socials/CrudBox'
 import UserVehiclesCrudBox from '@/components/User/Vehicles/CrudBox'
 import UsersSummaryBox from '@/components/Users/SummaryBox'
 // utils
-import useUserWithDetails, {
-    UserWithDetailsProvider,
-} from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/providers/UserWithDetails'
 import useAuth from '@/providers/Auth'
+import Role from '@/enums/Role'
 
-const GRID_CONTAINER_SX = {
-    flexDirection: {
-        xs: 'column-reverse',
-        sm: 'column-reverse',
-        md: 'row',
-    },
-}
-
-const TITLE_TYPORAPHY_PROPS: CardHeaderProps['titleTypographyProps'] = {
-    variant: 'body1',
-    fontWeight: 'bold',
-}
-
-const PT_0_SX = { pt: 0 }
-
-const Component = () => {
-    const { push, replace } = useRouter()
+export default function UsersMainPageContent() {
+    const { push, replace, query } = useRouter()
     const { userHasRole } = useAuth()
 
     const {
         data: userWithDetails = {},
         error,
-        isReady,
         isLoading,
     } = useUserWithDetails()
 
@@ -60,38 +46,30 @@ const Component = () => {
         replace('/users')
     }
 
-    // ########## NON HOOKS ##########
-
     const {
         addresses,
         uuid,
         socials,
         employee,
-        member,
+        // member,
         driver,
 
-        lands,
+        // lands,
         drivers,
         vehicles,
     } = userWithDetails
 
-    const isShowEmployeeCard =
-        isReady && Boolean(employee || userHasRole('karyawan', userWithDetails))
-    const isShowMemberCard =
-        isReady && Boolean(member || userHasRole('anggota', userWithDetails))
-    const isShowDriverCard =
-        isReady && Boolean(driver || userHasRole('pengemudi', userWithDetails))
-    const isShowDriversCard =
-        isReady &&
-        (drivers?.length > 0 || userHasRole('pengangkut', userWithDetails))
-    const isShowLandsCard =
-        isReady && (lands?.length > 0 || userHasRole('petani', userWithDetails))
-    const isShowVehiclesCard =
-        isReady &&
-        (vehicles?.length > 0 || userHasRole('pengangkut', userWithDetails))
-
     return (
-        <Grid container spacing={3} sx={GRID_CONTAINER_SX}>
+        <Grid
+            container
+            spacing={3}
+            sx={{
+                flexDirection: {
+                    xs: 'column-reverse',
+                    sm: 'column-reverse',
+                    md: 'row',
+                },
+            }}>
             <Grid
                 item
                 sm={12}
@@ -115,136 +93,169 @@ const Component = () => {
                     }}
                 />
 
-                <Fade in={isReady} exit={false}>
-                    <UserCrud />
-                </Fade>
+                {Boolean(query.uuid) && (
+                    <>
+                        <UserCrud />
 
-                <Fade in={isReady} unmountOnExit exit={false}>
-                    <UserDetailCrud />
-                </Fade>
+                        <UserDetailCrud />
 
-                <Masonry
-                    sx={{
-                        m: 0,
-                    }}
-                    columns={{
-                        md: 2,
-                        sm: 1,
-                        xs: 1,
-                    }}
-                    spacing={2}>
-                    <Fade in={isReady} exit={false}>
-                        <Card>
-                            <CardContent>
-                                <UserSocialsCrudBox
-                                    userUuid={uuid}
-                                    data={socials}
-                                    isLoading={isLoading}
-                                />
-                            </CardContent>
-                        </Card>
-                    </Fade>
+                        <Masonry
+                            sx={{
+                                m: 0,
+                            }}
+                            columns={{
+                                md: 2,
+                                sm: 1,
+                                xs: 1,
+                            }}
+                            spacing={2}>
+                            <Card>
+                                <CardContent>
+                                    <UserSocialsCrudBox
+                                        userUuid={uuid}
+                                        data={socials}
+                                        isLoading={isLoading}
+                                    />
+                                </CardContent>
+                            </Card>
 
-                    <Fade in={isReady} unmountOnExit exit={false}>
-                        <Card>
-                            <CardContent>
-                                <UserAddressesCrudBox
-                                    userUuid={uuid}
-                                    data={addresses}
-                                    isLoading={isLoading}
-                                />
-                            </CardContent>
-                        </Card>
-                    </Fade>
+                            <Card>
+                                <CardContent>
+                                    <UserAddressesCrudBox
+                                        userUuid={uuid}
+                                        data={addresses}
+                                        isLoading={isLoading}
+                                    />
+                                </CardContent>
+                            </Card>
 
-                    <Fade in={isReady} unmountOnExit exit={false}>
-                        <Card>
-                            <CardContent>
-                                <UserBankAccsCrudBox />
-                            </CardContent>
-                        </Card>
-                    </Fade>
+                            <Card>
+                                <CardContent>
+                                    <UserBankAccsCrudBox />
+                                </CardContent>
+                            </Card>
 
-                    <Fade in={isShowEmployeeCard} unmountOnExit exit={false}>
-                        <Card>
-                            <CardHeader
-                                avatar={getRoleIconByIdName('karyawan')}
-                                title="Kepegawaian"
-                                titleTypographyProps={TITLE_TYPORAPHY_PROPS}
-                            />
-                            <CardContent sx={PT_0_SX}>
-                                <UserEmployeeCrud />
-                            </CardContent>
-                        </Card>
-                    </Fade>
+                            <Fade
+                                in={userHasRole(Role.EMPLOYEE, userWithDetails)}
+                                unmountOnExit
+                                exit={false}>
+                                <Card>
+                                    <CardHeader
+                                        avatar={getRoleIconByIdName('karyawan')}
+                                        title="Kepegawaian"
+                                        titleTypographyProps={
+                                            TITLE_TYPORAPHY_PROPS
+                                        }
+                                    />
+                                    <CardContent sx={PT_0_SX}>
+                                        <UserEmployeeCrud
+                                            userUuid={uuid}
+                                            data={employee}
+                                        />
+                                    </CardContent>
+                                </Card>
+                            </Fade>
 
-                    <Fade in={isShowMemberCard} unmountOnExit exit={false}>
-                        <UserMemberCrudCard />
-                    </Fade>
+                            <Fade
+                                in={userHasRole(Role.MEMBER, userWithDetails)}
+                                unmountOnExit
+                                exit={false}>
+                                <UserMemberCrudCard />
+                            </Fade>
 
-                    <Fade in={isShowLandsCard} unmountOnExit exit={false}>
-                        <Card>
-                            <CardHeader
-                                avatar={getRoleIconByIdName('petani')}
-                                title="Daftar Kebun"
-                                titleTypographyProps={TITLE_TYPORAPHY_PROPS}
-                            />
-                            <CardContent sx={PT_0_SX}>
-                                <UserLandsCrud />
-                            </CardContent>
-                        </Card>
-                    </Fade>
+                            <Fade
+                                in={userHasRole(Role.FARMER, userWithDetails)}
+                                unmountOnExit
+                                exit={false}>
+                                <Card>
+                                    <CardHeader
+                                        avatar={getRoleIconByIdName('petani')}
+                                        title="Daftar Kebun"
+                                        titleTypographyProps={
+                                            TITLE_TYPORAPHY_PROPS
+                                        }
+                                    />
+                                    <CardContent sx={PT_0_SX}>
+                                        <UserLandsCrud />
+                                    </CardContent>
+                                </Card>
+                            </Fade>
 
-                    <Fade in={isShowDriversCard} unmountOnExit exit={false}>
-                        <Card>
-                            <CardHeader
-                                avatar={getRoleIconByIdName('pengangkut')}
-                                title="Daftar Pengemudi"
-                                titleTypographyProps={TITLE_TYPORAPHY_PROPS}
-                            />
-                            <CardContent sx={PT_0_SX}>
-                                <UserDriversCrudBox
-                                    courierUserUuid={uuid}
-                                    data={drivers}
-                                />
-                            </CardContent>
-                        </Card>
-                    </Fade>
+                            <Fade
+                                in={userHasRole(Role.DRIVER, userWithDetails)}
+                                unmountOnExit
+                                exit={false}>
+                                <Card>
+                                    <CardHeader
+                                        avatar={getRoleIconByIdName(
+                                            'pengangkut',
+                                        )}
+                                        title="Daftar Pengemudi"
+                                        titleTypographyProps={
+                                            TITLE_TYPORAPHY_PROPS
+                                        }
+                                    />
+                                    <CardContent sx={PT_0_SX}>
+                                        <UserDriversCrudBox
+                                            courierUserUuid={uuid}
+                                            data={drivers}
+                                        />
+                                    </CardContent>
+                                </Card>
+                            </Fade>
 
-                    <Fade in={isShowVehiclesCard} unmountOnExit exit={false}>
-                        <Card>
-                            <CardHeader
-                                avatar={getRoleIconByIdName('pengangkut')}
-                                title="Daftar Kendaraan Pengangkut"
-                                titleTypographyProps={TITLE_TYPORAPHY_PROPS}
-                            />
-                            <CardContent sx={PT_0_SX}>
-                                <UserVehiclesCrudBox
-                                    data={vehicles}
-                                    courierUserUuid={uuid}
-                                />
-                            </CardContent>
-                        </Card>
-                    </Fade>
+                            <Fade
+                                in={userHasRole(Role.DRIVER, userWithDetails)}
+                                unmountOnExit
+                                exit={false}>
+                                <Card>
+                                    <CardHeader
+                                        avatar={getRoleIconByIdName(
+                                            'pengangkut',
+                                        )}
+                                        title="Daftar Kendaraan Pengangkut"
+                                        titleTypographyProps={
+                                            TITLE_TYPORAPHY_PROPS
+                                        }
+                                    />
+                                    <CardContent sx={PT_0_SX}>
+                                        <UserVehiclesCrudBox
+                                            data={vehicles}
+                                            courierUserUuid={uuid}
+                                        />
+                                    </CardContent>
+                                </Card>
+                            </Fade>
 
-                    <Fade in={isShowDriverCard} unmountOnExit exit={false}>
-                        <Card>
-                            <CardHeader
-                                avatar={getRoleIconByIdName('pengemudi')}
-                                title="Informasi Pengemudi"
-                                titleTypographyProps={TITLE_TYPORAPHY_PROPS}
-                            />
-                            <CardContent sx={PT_0_SX}>
-                                <Typography variant="caption" color="GrayText">
-                                    No. SIM:
-                                </Typography>
-                                <Typography>
-                                    {driver?.license_number}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Fade>
-                </Masonry>
+                            <Fade
+                                in={userHasRole(Role.DRIVER, userWithDetails)}
+                                unmountOnExit
+                                exit={false}>
+                                <Card>
+                                    <CardHeader
+                                        avatar={getRoleIconByIdName(
+                                            'pengemudi',
+                                        )}
+                                        title="Informasi Pengemudi"
+                                        titleTypographyProps={
+                                            TITLE_TYPORAPHY_PROPS
+                                        }
+                                    />
+                                    <CardContent sx={PT_0_SX}>
+                                        <Typography
+                                            variant="caption"
+                                            color="GrayText">
+                                            No. SIM:
+                                        </Typography>
+                                        <Typography>
+                                            {driver?.license_number}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Fade>
+                        </Masonry>
+                    </>
+                )}
             </Grid>
 
             <Grid item sm={12} md={4} width="100%">
@@ -254,10 +265,9 @@ const Component = () => {
     )
 }
 
-const UsersMainPageContent = () => (
-    <UserWithDetailsProvider>
-        <Component />
-    </UserWithDetailsProvider>
-)
+const TITLE_TYPORAPHY_PROPS: CardHeaderProps['titleTypographyProps'] = {
+    variant: 'body1',
+    fontWeight: 'bold',
+}
 
-export default UsersMainPageContent
+const PT_0_SX = { pt: 0 }
