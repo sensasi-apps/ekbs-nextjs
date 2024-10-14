@@ -1,6 +1,6 @@
 // vendors
 import { useRouter } from 'next/router'
-import { memo, useState } from 'react'
+import { useState } from 'react'
 import {
     Chip,
     Divider,
@@ -29,7 +29,7 @@ import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuth from '@/providers/Auth'
 
-function AccountButton({
+export default function AccountButton({
     color = 'inherit',
 }: {
     color?:
@@ -137,11 +137,6 @@ function AccountButton({
                     </ListItemText>
                 </MenuItem>
 
-                <TncpDialog
-                    open={isOpenTncp}
-                    handleClose={() => setIsOpenTncp(false)}
-                />
-
                 <Divider />
 
                 <MenuItem onClick={() => router.push('/logout')}>
@@ -153,8 +148,11 @@ function AccountButton({
 
                 <FooterBox mt={2} mb={1} component="div" />
             </Menu>
+
+            <TncpDialog
+                open={isOpenTncp}
+                handleClose={() => setIsOpenTncp(false)}
+            />
         </>
     )
 }
-
-export default memo(AccountButton)
