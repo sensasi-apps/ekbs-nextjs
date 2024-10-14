@@ -1,5 +1,6 @@
 // types
-import type { AuthInfo } from '@/dataTypes/User'
+import type { AuthInfo } from '@/@types/Data/auth-info'
+import type Role from '@/enums/Role'
 // vendors
 import {
     createContext,
@@ -14,7 +15,6 @@ import userHasPermission from './Auth/userHasPermission'
 import { login } from './Auth/login'
 import { logout } from './Auth/logout'
 import { getCurrentAuthInfo } from './Auth/functions/getCurrentAuthInfo'
-import Role from '@/enums/Role'
 
 interface AuthContextType {
     user: AuthInfo | null | undefined

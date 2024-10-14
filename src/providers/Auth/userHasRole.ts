@@ -1,4 +1,4 @@
-import type { AuthInfo } from '@/dataTypes/User'
+import type { AuthInfo } from '@/@types/Data/auth-info'
 import Role from '@/enums/Role'
 
 export default function userHasRole(
