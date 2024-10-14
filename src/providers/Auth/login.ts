@@ -1,8 +1,12 @@
-import type { AuthInfo } from '@/dataTypes/User'
+// types
+import type { AuthInfo } from '@/@types/Data/auth-info'
+// vendors
 import { AxiosError } from 'axios'
 import axios from '@/lib/axios'
+// functions
 import { getUserHashKey } from './functions/getUserHashKey'
 import { getDeviceId } from '@/functions/getDeviceId'
+import { setCurrentAuthInfo } from './functions/setCurrentAuthInfo'
 
 export async function login(
     email: string,
@@ -69,7 +73,7 @@ export async function login(
 
                 const authInfoJson = JSON.stringify(res.data)
                 localStorage.setItem(hashKey, authInfoJson)
-                localStorage.setItem('currentAuthInfo', authInfoJson)
+                setCurrentAuthInfo(res.data)
             } else {
                 unauthRedirectWithResponse(403, 'Akun anda belum aktif')
             }
