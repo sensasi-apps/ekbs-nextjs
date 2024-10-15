@@ -1,60 +1,118 @@
 // types
-import type File from '@/dataTypes/File'
+import type FileFromDb from '@/dataTypes/File'
 // vendors
-import { useState } from 'react'
-import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import axios from '@/lib/axios'
 // materials
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import IconButton from '@mui/material/IconButton'
+import { Box, Button, Dialog, IconButton, Skeleton } from '@mui/material'
 // icons
-import CloseIcon from '@mui/icons-material/Close'
+import { Close as CloseIcon } from '@mui/icons-material'
 
 export default function ImageButtonAndModal({
     alt,
     file,
+    disabled,
 }: {
-    alt?: string
-    file: File
+    alt: string
+    file: FileFromDb | File
+    disabled?: boolean
 }) {
     const [open, setOpen] = useState(false)
+    const [fileCreatedUrl, setFileCreatedUrl] = useState<string | null>(null)
 
-    const handleClose = () => setOpen(false)
+    function handleClose() {
+        setOpen(false)
+    }
+
+    useEffect(() => {
+        if (file instanceof File) {
+            setFileCreatedUrl(prev => {
+                if (prev) {
+                    URL.revokeObjectURL(prev)
+                }
+
+                return URL.createObjectURL(file)
+            })
+        } else {
+            axios
+                .get(`file/${file.uuid}.${file.extension}`, {
+                    responseType: 'blob',
+                })
+                .then(res =>
+                    setFileCreatedUrl(prev => {
+                        if (prev) {
+                            URL.revokeObjectURL(prev)
+                        }
+
+                        return URL.createObjectURL(res.data)
+                    }),
+                )
+        }
+    }, [file])
+
+    useEffect(() => {
+        return () => {
+            if (fileCreatedUrl) {
+                URL.revokeObjectURL(fileCreatedUrl)
+            }
+        }
+    }, [fileCreatedUrl])
 
     return (
         <>
-            <Button onClick={() => setOpen(true)} size="small" color="inherit">
-                <Image
-                    unoptimized
-                    width={0}
-                    height={0}
-                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${file.uuid}.${file.extension}`}
-                    style={{ width: '100%', height: 'auto' }}
-                    alt={alt ?? 'Gambar'}
-                />
-            </Button>
+            <Box display="flex" justifyContent="center">
+                {fileCreatedUrl ? (
+                    <Button
+                        disabled={disabled}
+                        onClick={() => setOpen(true)}
+                        size="small"
+                        color="inherit"
+                        sx={{
+                            p: 0,
+                        }}>
+                        <img
+                            src={fileCreatedUrl}
+                            alt={alt}
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                borderRadius: '4px',
+                                maxHeight: '200px',
+                            }}
+                        />
+                    </Button>
+                ) : (
+                    <Skeleton variant="rounded" width={160} height={90} />
+                )}
+            </Box>
 
             <Dialog open={open} onClose={handleClose}>
-                <IconButton
-                    onClick={handleClose}
-                    size="small"
-                    color="error"
-                    sx={{
-                        position: 'absolute',
-                        top: '0',
-                        right: '0',
-                    }}>
-                    <CloseIcon />
-                </IconButton>
-                <Image
-                    unoptimized
-                    width={0}
-                    height={0}
-                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${file.uuid}.${file.extension}`}
-                    style={{ width: '100%', height: 'auto' }}
-                    alt={alt ?? 'Gambar'}
-                />
+                <CloseIiconButton onClick={handleClose} />
+
+                {fileCreatedUrl && (
+                    <img
+                        src={fileCreatedUrl}
+                        alt={alt}
+                        style={{ width: '100%', height: 'auto' }}
+                    />
+                )}
             </Dialog>
         </>
+    )
+}
+
+function CloseIiconButton({ onClick }: { onClick: () => void }) {
+    return (
+        <IconButton
+            onClick={onClick}
+            size="small"
+            color="error"
+            sx={{
+                position: 'absolute',
+                top: '0',
+                right: '0',
+            }}>
+            <CloseIcon />
+        </IconButton>
     )
 }

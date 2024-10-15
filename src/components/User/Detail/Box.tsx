@@ -3,12 +3,11 @@ import type { BoxProps } from '@mui/material/Box'
 import type File from '@/dataTypes/File'
 import type { UserDetailDBTypeWithRelations } from '@/dataTypes/UserDetail'
 // vendors
-import Image from 'next/image'
 import { PatternFormat } from 'react-number-format'
 // materials
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Tooltip from '@mui/material/Tooltip'
+import { Box, Typography, Tooltip } from '@mui/material'
+// components
+import ImageButtonAndModal from '@/components/ImageButtonAndModal'
 // utils
 import toDmy from '@/utils/toDmy'
 
@@ -43,19 +42,7 @@ export default function UserDetailBox({
             <Row title="Foto Diri">
                 <div>
                     {pasFoto?.uuid ? (
-                        <Image
-                            unoptimized
-                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}.${pasFoto.extension}`}
-                            alt="Foto Diri"
-                            sizes="100vw"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                maxWidth: '320px',
-                            }}
-                            width={320}
-                            height={320}
-                        />
+                        <ImageButtonAndModal file={pasFoto} alt="Pas Foto" />
                     ) : (
                         <i>Foto Diri tidak ditemukan</i>
                     )}
@@ -75,19 +62,7 @@ export default function UserDetailBox({
             <Row title="Foto KTP">
                 <div>
                     {fotoKtp?.uuid ? (
-                        <Image
-                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}.${fotoKtp.extension}`}
-                            unoptimized
-                            alt="Foto KTP"
-                            sizes="100vw"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                maxWidth: '320px',
-                            }}
-                            width={320}
-                            height={320}
-                        />
+                        <ImageButtonAndModal file={fotoKtp} alt="Foto KTP" />
                     ) : (
                         <i>Foto KTP tidak ditemukan</i>
                     )}

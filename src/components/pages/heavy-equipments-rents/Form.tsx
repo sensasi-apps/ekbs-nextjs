@@ -227,6 +227,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                             </Typography>
                             <ImageButtonAndModal
                                 file={heavy_equipment_rent.file}
+                                alt="Foto H.M Akhir"
                             />
                         </Box>
                     )}

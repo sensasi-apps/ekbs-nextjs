@@ -11,20 +11,22 @@ import { PatternFormat } from 'react-number-format'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormHelperText from '@mui/material/FormHelperText'
-import FormLabel from '@mui/material/FormLabel'
-import Grid from '@mui/material/Grid'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
+import {
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    Radio,
+    RadioGroup,
+    FormHelperText,
+    Grid,
+} from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import DatePicker from '@/components/DatePicker'
-import DeprecatedImageInput from '@/components/DeprecatedImageInput'
+import ImageInput from '@/components/image-input'
 import TextField from '@/components/TextField'
 // providers
 import useFormData from '@/providers/FormData'
@@ -39,11 +41,11 @@ import RegencyType from '@/dataTypes/Regency'
 import VillageType from '@/dataTypes/Village'
 import NumericFormat from '@/components/NumericFormat'
 
-const getBirthRegion = (userDetail?: UserDetailRelationsType) => {
+function getBirthRegion(userDetail?: UserDetailRelationsType) {
     return (
-        userDetail?.birth_village ||
-        userDetail?.birth_district ||
-        userDetail?.birth_regency ||
+        userDetail?.birth_village ??
+        userDetail?.birth_district ??
+        userDetail?.birth_regency ??
         null
     )
 }
@@ -64,12 +66,12 @@ export default function UserDetailForm() {
     const { validationErrors, setValidationErrors, clearByEvent, clearByName } =
         useValidationErrors()
 
-    const { user_uuid, files = [] } = userDetail || {}
+    const { user_uuid, files = [] } = userDetail ?? {}
 
     const pasFoto = files.find(file => file.alias === 'Pas Foto')
     const fotoKtp = files.find(file => file.alias === 'Foto KTP')
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
         const formEl = event.currentTarget
@@ -92,11 +94,11 @@ export default function UserDetailForm() {
 
         return axios
             .post(
-                `/users/${user_uuid || userWithDetails.uuid}/detail`,
+                `/users/${user_uuid ?? userWithDetails.uuid}/detail`,
                 formData,
             )
             .then(() => {
-                mutate(`/users/${user_uuid || userWithDetails.uuid}`)
+                mutate(`/users/${user_uuid ?? userWithDetails.uuid}`)
                 handleClose()
             })
             .catch(error => {
@@ -110,24 +112,16 @@ export default function UserDetailForm() {
 
     return (
         <form onSubmit={handleSubmit} autoComplete="off">
-            <DeprecatedImageInput
+            <ImageInput
                 name="pas_foto"
                 label="Pas Foto"
                 disabled={isLoading}
                 onChange={clearByEvent}
-                defaultValue={
-                    pasFoto?.uuid
-                        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${pasFoto.uuid}.${pasFoto.extension}`
-                        : undefined
-                }
-                error={Boolean(
-                    validationErrors.pas_foto ||
+                value={pasFoto}
+                {...errorsToHelperTextObj(
+                    validationErrors.pas_foto ??
                         validationErrors.pas_foto_capture,
                 )}
-                helperText={
-                    validationErrors.pas_foto ||
-                    validationErrors.pas_foto_capture
-                }
             />
 
             <PatternFormat
@@ -139,21 +133,19 @@ export default function UserDetailForm() {
                 disabled={isLoading}
                 label="Nomor Induk Kependudukan"
                 name="citizen_id"
-                defaultValue={userDetail?.citizen_id || ''}
-                error={Boolean(validationErrors.citizen_id)}
-                helperText={validationErrors.citizen_id}
+                defaultValue={userDetail?.citizen_id ?? ''}
+                {...errorsToHelperTextObj(validationErrors.citizen_id)}
             />
 
-            <DeprecatedImageInput
-                my={1}
+            <ImageInput
                 disabled={isLoading}
-                defaultValue={
-                    fotoKtp?.uuid
-                        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fotoKtp.uuid}.${fotoKtp.extension}`
-                        : undefined
-                }
+                value={fotoKtp}
+                onChange={clearByEvent}
                 name="foto_ktp"
                 label="Foto KTP"
+                sx={{
+                    mt: 2,
+                }}
                 {...errorsToHelperTextObj(
                     validationErrors.foto_ktp ??
                         validationErrors.foto_ktp_capture,
@@ -169,7 +161,7 @@ export default function UserDetailForm() {
 
                 <RadioGroup
                     name="gender_id"
-                    value={gender || userDetail?.gender_id || null}
+                    value={gender ?? userDetail?.gender_id ?? null}
                     onChange={event => {
                         const { value } = event.target
 
@@ -196,7 +188,7 @@ export default function UserDetailForm() {
             <input
                 type="hidden"
                 name="birth_region_id"
-                defaultValue={birthRegion?.id || ''}
+                defaultValue={birthRegion?.id ?? ''}
             />
 
             <Autocomplete
@@ -232,7 +224,7 @@ export default function UserDetailForm() {
                 label="Nomor BPJS Kesehatan"
                 name="bpjs_kesehatan_no"
                 onChange={clearByEvent}
-                defaultValue={userDetail?.bpjs_kesehatan_no || ''}
+                defaultValue={userDetail?.bpjs_kesehatan_no ?? ''}
                 {...errorsToHelperTextObj(validationErrors.bpjs_kesehatan_no)}
             />
 
@@ -242,7 +234,7 @@ export default function UserDetailForm() {
                 label="Pekerjaan"
                 name="job_title"
                 onChange={clearByEvent}
-                defaultValue={userDetail?.job_title || ''}
+                defaultValue={userDetail?.job_title ?? ''}
                 {...errorsToHelperTextObj(validationErrors.job_title)}
             />
 
@@ -254,7 +246,7 @@ export default function UserDetailForm() {
                 label="Deskripsi Pekerjaan"
                 name="job_desc"
                 onChange={clearByEvent}
-                defaultValue={userDetail?.job_desc || ''}
+                defaultValue={userDetail?.job_desc ?? ''}
                 {...errorsToHelperTextObj(validationErrors.job_desc)}
             />
 
@@ -313,7 +305,7 @@ export default function UserDetailForm() {
                         inputProps={{}}
                         maxLength={2}
                         decimalScale={0}
-                        defaultValue={userDetail?.n_children || ''}
+                        defaultValue={userDetail?.n_children ?? ''}
                         {...errorsToHelperTextObj(validationErrors.n_children)}
                     />
                 </Grid>
