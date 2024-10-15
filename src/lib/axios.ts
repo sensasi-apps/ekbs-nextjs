@@ -23,6 +23,8 @@ axios.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${token}`
     }
 
+    config.baseURL += '/api'
+
     return config
 })
 
