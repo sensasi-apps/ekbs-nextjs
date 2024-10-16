@@ -21,7 +21,7 @@ export default function AuthLayout({
     title: string
     children: ReactNode
 }) {
-    const { replace } = useRouter()
+    const { replace, pathname } = useRouter()
     const { user } = useAuth()
 
     // disabling this case for now 2024-08-16
@@ -34,15 +34,13 @@ export default function AuthLayout({
 
     useEffect(() => {
         if (user === null) {
-            const redirectTo = location.pathname
-
-            if (redirectTo === '/logout') {
+            if (pathname === '/logout') {
                 replace(`/login`)
             } else {
-                replace(`/login?redirectTo=${redirectTo}`)
+                replace(`/login?redirectTo=${pathname}`)
             }
         }
-    }, [user, replace])
+    }, [user, replace, pathname])
 
     return (
         <div

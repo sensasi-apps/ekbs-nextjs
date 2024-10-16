@@ -22,61 +22,38 @@ export async function login(
 
     setUser(storedAuthInfo)
 
-    const headers = storedAuthInfo
-        ? { Authorization: `Bearer ${storedAuthInfo.access_token}` }
-        : {}
-
-    /**
-     * TODO: NOT USING `location` FOR MORE SMOOTH UX
-     */
-    function unauthRedirectWithResponse(status: number, message: string) {
-        setUser(null)
-
-        const base64Response = btoa(
-            JSON.stringify({
-                status,
-                message,
-            }),
-        )
-
-        location.replace('/login?response=' + base64Response)
-    }
-
-    function handleFail(
-        err: AxiosError<{
-            message?: string
-        }>,
-    ) {
-        if (err.code === AxiosError.ERR_NETWORK && storedAuthInfoJson) {
-            localStorage.setItem('currentAuthInfo', storedAuthInfoJson)
-        } else {
-            unauthRedirectWithResponse(
-                err.response?.status ?? err.status ?? 401,
-                err.response?.data?.message ?? err.message,
-            )
-        }
+    if (storedAuthInfo) {
+        setCurrentAuthInfo(storedAuthInfo)
     }
 
     return axios
-        .post<AuthInfo>(
-            '/login',
-            {
-                email,
-                password,
-                device_id: getDeviceId(),
-            },
-            { headers },
-        )
-        .then(res => {
-            if (res.data.is_active) {
-                setUser(res.data)
+        .post<AuthInfo>('/login', {
+            email,
+            password,
+            device_id: getDeviceId(),
+        })
+        .then(({ data: authInfo }) => {
+            const authInfoJson = JSON.stringify(authInfo)
 
-                const authInfoJson = JSON.stringify(res.data)
+            if (storedAuthInfoJson !== authInfoJson) {
+                setUser(authInfo)
+                setCurrentAuthInfo(authInfo)
                 localStorage.setItem(hashKey, authInfoJson)
-                setCurrentAuthInfo(res.data)
-            } else {
-                unauthRedirectWithResponse(403, 'Akun anda belum aktif')
             }
         })
-        .catch(handleFail)
+        .catch(
+            (
+                err: AxiosError<{
+                    message?: string
+                }>,
+            ) => {
+                if (err.code === AxiosError.ERR_NETWORK && storedAuthInfo) {
+                    return
+                }
+
+                setUser(null)
+                localStorage.removeItem('currentAuthInfo')
+                return Promise.reject(err)
+            },
+        )
 }

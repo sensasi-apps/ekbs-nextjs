@@ -8,7 +8,7 @@ import useAuth from '@/providers/Auth'
 
 export function useHooks() {
     const { login } = useAuth()
-    const { query } = useRouter()
+    const { query, replace } = useRouter()
     const { response } = query
 
     const [isError, setIsError] = useState(false)
@@ -63,25 +63,29 @@ export function useHooks() {
 
             const formData = new FormData(formEl)
 
-            const email = formData.get('email') as string
-            const password = formData.get('password') as string
-
-            login(email, password).catch(
+            login(
+                formData.get('email') as string,
+                formData.get('password') as string,
+            ).catch(
                 ({
                     response,
                     message,
                 }: AxiosError<{
-                    // php / laravel exception
                     message?: string
                 }>) => {
-                    setMessage(
-                        response?.data.message ??
+                    const errorResponse = {
+                        status: response?.status,
+                        message:
+                            response?.data.message ??
                             response?.statusText ??
                             message,
-                    )
+                    }
 
-                    setIsError(true)
                     setIsLoading(false)
+
+                    replace(
+                        `/login?response=${btoa(JSON.stringify(errorResponse))}`,
+                    )
                 },
             )
         },
