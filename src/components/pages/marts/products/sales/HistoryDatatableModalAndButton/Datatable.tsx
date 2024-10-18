@@ -49,11 +49,13 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Waktu',
     },
     {
-        name: 'logs.user.name',
+        name: 'byUser.name',
         label: 'Kasir',
         options: {
             customBodyRenderLite: dataIndex =>
                 getRowData(dataIndex)?.by_user?.name,
+            searchable: false,
+            sort: false,
         },
     },
     {
@@ -62,6 +64,8 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             customBodyRenderLite: dataIndex =>
                 getRowData(dataIndex)?.sale?.buyer_user?.name,
+            searchable: false,
+            sort: false,
         },
     },
 
@@ -82,6 +86,8 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
 
                 if (cashable && 'name' in cashable) return cashable.name
             },
+            searchable: false,
+            sort: false,
         },
     },
     {
