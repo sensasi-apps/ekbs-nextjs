@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 import SignalWifiStatusbarConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiStatusbarConnectedNoInternet4'
 // components
-import { DRAWER_WIDTH } from '../../MenuList'
+import { DRAWER_WIDTH } from '../menu-list'
 // utils
 import blinkSxValue from '@/utils/blinkSxValue'
 import AccountButton from './components/AccountButton'

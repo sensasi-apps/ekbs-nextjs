@@ -1,7 +1,7 @@
 import { useState, memo } from 'react'
 
 import TopBar from './components/TopBar'
-import MenuList from './MenuList'
+import MenuList from './components/menu-list'
 
 const TopBarAndMenuList = memo(function TopBarAndMenuList({
     title,

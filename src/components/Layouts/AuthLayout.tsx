@@ -10,7 +10,7 @@ import Toolbar from '@mui/material/Toolbar'
 // providers
 import useAuth from '@/providers/Auth'
 // components
-import { DRAWER_WIDTH } from './MenuList'
+import { DRAWER_WIDTH } from './components/menu-list'
 import TopBarAndMenuList from './TopBarAndMenuList'
 import FooterBox from './FooterBox'
 
