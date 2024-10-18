@@ -1,9 +1,16 @@
-import { FormHelperText } from '@mui/material'
+import {
+    Card,
+    CardActionArea,
+    CardContent,
+    FormHelperText,
+} from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import { FieldProps } from 'formik'
+import { memo, useState } from 'react'
+// subcomponents
 import DetailItem from './DetailItem'
-import { memo } from 'react'
 import { FormikStatusType, FormValuesType } from '../FormikComponent'
+import { DetailItemFormDialog } from './detail-item-form-dialog'
 
 function DetailsFieldComponent({
     field: { value, name },
@@ -11,35 +18,65 @@ function DetailsFieldComponent({
 }: FieldProps<FormValuesType['details']>) {
     const typedStatus: FormikStatusType = status
     const { error } = getFieldMeta(name)
+    const [selectedDetail, setSelectedDetail] = useState<
+        FormValuesType['details'][0] | null
+    >(null)
+
+    function closeDialog() {
+        setSelectedDetail(null)
+    }
 
     return (
         <>
-            <Grid2 container alignItems="center">
-                {value.map((detail, i) => (
-                    <DetailItem
-                        key={i}
-                        data={detail}
+            {value.map((detail, i) => (
+                <Card key={i}>
+                    <CardActionArea
                         disabled={isSubmitting || !!typedStatus?.isDisabled}
-                        onDecreaseQtyItem={() => {
-                            const detailItem = value[i]
+                        onClick={() => {
+                            setSelectedDetail(detail)
+                        }}>
+                        <CardContent
+                            sx={{
+                                py: 1.2,
+                            }}>
+                            <Grid2 container alignItems="center">
+                                <DetailItem
+                                    key={i}
+                                    data={detail}
+                                    disabled={
+                                        isSubmitting ||
+                                        !!typedStatus?.isDisabled
+                                    }
+                                    onDecreaseQtyItem={() => {
+                                        const detailItem = value[i]
 
-                            const newValue =
-                                value[i].qty === 1
-                                    ? value.filter((_, idx) => idx !== i)
-                                    : [
-                                          ...value.slice(0, i),
-                                          {
-                                              ...detailItem,
-                                              qty: Math.abs(detailItem.qty) - 1,
-                                          },
-                                          ...value.slice(i + 1),
-                                      ]
+                                        const newValue =
+                                            value[i].qty === 1
+                                                ? value.filter(
+                                                      (_, idx) => idx !== i,
+                                                  )
+                                                : [
+                                                      ...value.slice(0, i),
+                                                      {
+                                                          ...detailItem,
+                                                          qty:
+                                                              Math.abs(
+                                                                  detailItem.qty,
+                                                              ) - 1,
+                                                      },
+                                                      ...value.slice(i + 1),
+                                                  ]
 
-                            setFieldValue('details', newValue)
-                        }}
-                    />
-                ))}
-            </Grid2>
+                                        setFieldValue('details', newValue)
+                                    }}
+                                />
+                            </Grid2>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            ))}
+
+            <DetailItemFormDialog data={selectedDetail} onClose={closeDialog} />
 
             <FormHelperText
                 error

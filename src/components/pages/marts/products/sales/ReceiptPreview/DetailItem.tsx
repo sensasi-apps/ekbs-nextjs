@@ -23,7 +23,11 @@ function DetailItem({
                     size="small"
                     disabled={disabled}
                     icon={RemoveCircleIcon}
-                    onClick={onDecreaseQtyItem}
+                    tabIndex={-1}
+                    onClick={ev => {
+                        ev.stopPropagation()
+                        onDecreaseQtyItem()
+                    }}
                     sx={{
                         p: 0,
                     }}
@@ -35,8 +39,8 @@ function DetailItem({
                 xs={7}
                 component={Typography}
                 variant="overline"
-                lineHeight="2em"
-                fontSize="1em"
+                lineHeight="1.5rem"
+                fontSize="1.1em"
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
                 overflow="hidden"
@@ -54,7 +58,7 @@ function DetailItem({
                 component={Typography}
                 variant="overline"
                 lineHeight="unset"
-                fontSize="1em">
+                fontSize="1.1em">
                 Rp
             </Grid2>
 
@@ -64,7 +68,7 @@ function DetailItem({
                 component={Typography}
                 variant="overline"
                 lineHeight="unset"
-                fontSize="1em">
+                fontSize="1.1em">
                 {formatNumber(qty * rp_per_unit)}
             </Grid2>
         </>
