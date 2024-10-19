@@ -43,9 +43,11 @@ function TableRow({
             <TableCell>{no}</TableCell>
             <TableCell>{toDmy(at)}</TableCell>
             <TableCell>{ucWords(product_movement.warehouse)}</TableCell>
-            <TableCell>
-                {buyer_user ? `#${buyer_user.id} ${buyer_user.name}` : '-'}
-            </TableCell>
+
+            <TableCell>{buyer_user ? buyer_user.id : '-'}</TableCell>
+
+            <TableCell>{buyer_user ? buyer_user.name : '-'}</TableCell>
+
             <TableCell>{payment_method_id}</TableCell>
 
             <TableCell>

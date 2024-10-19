@@ -133,6 +133,8 @@ function handleDownloadExcel(data: ProductSaleType[]) {
                 item.at,
                 item.short_uuid,
                 item.product_movement.warehouse,
+
+                item.buyer_user?.id ?? null,
                 item.buyer_user?.name ?? null,
                 item.payment_method_id,
 
@@ -161,6 +163,8 @@ const HEADERS = [
     'Tanggal',
     'Kode',
     'Gudang',
+
+    'ID',
     'Pengguna',
     'Metode Pembayaran',
 

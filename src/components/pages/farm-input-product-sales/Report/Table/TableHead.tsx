@@ -17,6 +17,7 @@ function TableHead() {
                 <TableCell>#</TableCell>
                 <TableCell>Tanggal</TableCell>
                 <TableCell>Gudang</TableCell>
+                <TableCell>ID</TableCell>
                 <TableCell>Pengguna</TableCell>
                 <TableCell>Metode Pembayaran</TableCell>
                 <TableCell>Barang</TableCell>
