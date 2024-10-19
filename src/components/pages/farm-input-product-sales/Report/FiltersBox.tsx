@@ -108,14 +108,17 @@ export default function FiltersBox({
                 title="Unduh Excel"
                 icon={BackupTableIcon}
                 onClick={() => {
-                    handleDownloadExcel(data)
+                    handleDownloadExcel(
+                        data,
+                        `Laporan Penjualan SAPRODI ${from_date} s.d. ${till_date}`,
+                    )
                 }}
             />
         </Box>
     )
 }
 
-function handleDownloadExcel(data: ProductSaleType[]) {
+function handleDownloadExcel(data: ProductSaleType[], fileName: string) {
     const rows = data.flatMap(item => {
         const adjustedTotalRp = item.total_rp - item.total_base_rp
 
@@ -156,7 +159,7 @@ function handleDownloadExcel(data: ProductSaleType[]) {
         })
     })
 
-    aoaToXlsx('Laporan Penjualan SAPRODI', rows, HEADERS)
+    aoaToXlsx(fileName, rows, HEADERS)
 }
 
 const HEADERS = [
