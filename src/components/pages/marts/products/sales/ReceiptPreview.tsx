@@ -1,21 +1,26 @@
 // vendors
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import { Box, Collapse, Fade, IconButton, Paper, Tooltip } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { useFormikContext } from 'formik'
-// locals
+import {
+    Save as SaveIcon,
+    AddBox as AddBoxIcon,
+    Close as CloseIcon,
+} from '@mui/icons-material'
+import useSWR from 'swr'
+// global components
 import {
     FormikStatusType,
     type FormValuesType,
 } from '@/components/pages/marts/products/sales/FormikComponent'
-// icons
-import SaveIcon from '@mui/icons-material/Save'
-import AddBoxIcon from '@mui/icons-material/AddBox'
-import CloseIcon from '@mui/icons-material/Close'
 import PrintHandler from '@/components/PrintHandler'
+// subcomponents
 import CreateSaleForm from './ReceiptPreview/CreateSaleForm'
 import Receipt from './ReceiptPreview/Receipt'
+// utils
 import useAuth from '@/providers/Auth'
+import ApiUrl from './ApiUrl'
 
 function ReceiptPreview() {
     const {
@@ -30,6 +35,13 @@ function ReceiptPreview() {
     } = useFormikContext<FormValuesType>()
     const { user } = useAuth()
     const { isDisabled, isFormOpen, submittedData } = status as FormikStatusType
+    const { mutate } = useSWR(ApiUrl.NEW_SALE_NUMBER)
+
+    useEffect(() => {
+        if (isFormOpen) {
+            mutate()
+        }
+    }, [isFormOpen, mutate])
 
     const isError = Object.keys(errors).length > 0
     const isSubmitted = Boolean(submittedData)
