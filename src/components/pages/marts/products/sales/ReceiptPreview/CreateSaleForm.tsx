@@ -1,17 +1,23 @@
-import { memo, useEffect } from 'react'
-import DefaultItemDesc from './DefaultItemDesc'
-import { Box, Divider, Typography } from '@mui/material'
-import ApiUrl from '../ApiUrl'
-import useSWR from 'swr'
-import useAuth from '@/providers/Auth'
+// types
+import type { FormikStatusType, FormValuesType } from '../FormikComponent'
+// vendors
 import { Field, FieldProps, useFormikContext } from 'formik'
-import CostsFieldComponent from './CostsFieldComponent'
-import CashableUuidFieldComponent from './CashableUuidFieldComponent'
-import BuyerUserUuidFieldComponent from './BuyerUserUuidFieldComponent'
-import DetailsFieldComponent from './DetailsFieldComponent'
+import { memo, useEffect } from 'react'
+import { Box, Divider, Typography } from '@mui/material'
+import dayjs from 'dayjs'
 import Grid2 from '@mui/material/Unstable_Grid2'
+import useSWR from 'swr'
+// subcomponents
+import BuyerUserUuidFieldComponent from './BuyerUserUuidFieldComponent'
+import CashableUuidFieldComponent from './CashableUuidFieldComponent'
+import CostsFieldComponent from './CostsFieldComponent'
+import DefaultItemDesc from './DefaultItemDesc'
+import DetailsFieldComponent from './DetailsFieldComponent'
+// utils
+import { toYmd } from '@/functions/toYmd'
+import ApiUrl from '../ApiUrl'
 import formatNumber from '@/utils/formatNumber'
-import { FormikStatusType, FormValuesType } from '../FormikComponent'
+import useAuth from '@/providers/Auth'
 
 function CreateSaleForm() {
     const { user } = useAuth()
@@ -30,12 +36,16 @@ function CreateSaleForm() {
         <>
             <DefaultItemDesc
                 desc="TGL"
-                value={typedStatus?.submittedData?.at}
+                value={typedStatus?.submittedData?.at ?? toYmd(dayjs())}
             />
 
             <DefaultItemDesc
                 desc="NO. Nota"
-                value={typedStatus?.submittedData?.no.toString() ?? ''}
+                value={
+                    typedStatus?.submittedData?.no.toString() ??
+                    newNumber?.toString() ??
+                    ''
+                }
             />
 
             <DefaultItemDesc desc="Kasir" value={user?.name ?? ''} />
