@@ -42,7 +42,7 @@ export const accountings: NavItemGroup = {
             href: '/cashes',
             label: 'Kas',
             icon: AutoStories,
-            forPermission: [Cash.READ, Transaction.READ],
+            forPermission: Transaction.READ,
         },
         {
             href: '/wallets',
