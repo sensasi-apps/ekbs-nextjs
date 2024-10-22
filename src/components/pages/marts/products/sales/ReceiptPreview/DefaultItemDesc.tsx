@@ -12,7 +12,6 @@ function DefaultItemDesc({
         <Box display="flex" gap={0.75}>
             <Typography
                 variant="caption"
-                color="GrayText"
                 component="div"
                 sx={{
                     ':after': {
@@ -21,7 +20,8 @@ function DefaultItemDesc({
                 }}>
                 {desc}
             </Typography>
-            <Typography variant="caption" component="div">
+
+            <Typography variant="caption" component="div" fontWeight="bold">
                 {value ?? ''}
             </Typography>
         </Box>

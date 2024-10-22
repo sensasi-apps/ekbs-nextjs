@@ -49,8 +49,15 @@ export default function Receipt({
         : '-'
 
     return (
-        <>
-            <Typography gutterBottom>Struk Penjualan Belayan Mart</Typography>
+        <Box
+            sx={{
+                px: 3,
+                color: 'black !important',
+                textTransform: 'uppercase',
+            }}>
+            <Typography gutterBottom fontWeight="bold">
+                Struk Penjualan Belayan Mart
+            </Typography>
 
             <Box display="flex" gap={2} alignItems="center">
                 <Image
@@ -81,7 +88,7 @@ export default function Receipt({
                 </Box>
             </Box>
 
-            <Grid2 container mt={3} alignItems="center" spacing={4}>
+            <Grid2 container mt={2} alignItems="center" rowSpacing={1.5}>
                 {details.map((detail, index) => (
                     <DetailItem key={index} data={detail} />
                 ))}
@@ -106,6 +113,7 @@ export default function Receipt({
             <Divider
                 sx={{
                     my: 1,
+                    bgcolor: 'black',
                 }}
             />
 
@@ -117,8 +125,7 @@ export default function Receipt({
                     lineHeight="unset"
                     fontSize="1em"
                     whiteSpace="nowrap"
-                    textOverflow="ellipsis"
-                    pl={1}>
+                    textOverflow="ellipsis">
                     Total
                 </Grid2>
 
@@ -142,7 +149,7 @@ export default function Receipt({
                     {formatNumber(totalDetails + totalCosts)}
                 </Grid2>
             </Grid2>
-        </>
+        </Box>
     )
 }
 
@@ -159,8 +166,7 @@ function CostItem({
                 lineHeight="unset"
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
-                variant="caption"
-                pl={1}>
+                variant="caption">
                 {name}
             </Grid2>
 
@@ -170,8 +176,7 @@ function CostItem({
                 lineHeight="unset"
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
-                variant="caption"
-                pl={1}>
+                variant="caption">
                 Rp
             </Grid2>
 
@@ -196,16 +201,17 @@ function DetailItem({
 
     return (
         <>
-            <Grid2 xs={8} pl={1}>
+            <Grid2 xs={8}>
                 <Typography
                     variant="overline"
                     fontSize="1em"
                     whiteSpace="nowrap"
                     textOverflow="ellipsis"
-                    lineHeight="normal">
+                    lineHeight="1em">
                     {printedProduct?.name}
                 </Typography>
-                <Typography variant="caption" component="div">
+
+                <Typography variant="caption" component="div" lineHeight="1em">
                     {formatNumber(Math.abs(qty))} {printedProduct?.unit} &times;
                     RP {formatNumber(rp_per_unit)}
                 </Typography>
