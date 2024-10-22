@@ -14,9 +14,9 @@ import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import Tooltip from '@mui/material/Tooltip'
+// import Tooltip from '@mui/material/Tooltip'
 // icons
-import BackupTableIcon from '@mui/icons-material/BackupTable'
+// import BackupTableIcon from '@mui/icons-material/BackupTable'
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
 // components
@@ -97,11 +97,14 @@ export default function TxHistory({
         isWalletDataLoading ||
         isWalletDataValidating
 
-    const excelExportUrl = `${
-        process.env.NEXT_PUBLIC_BACKEND_URL
-    }/wallets/transactions/${walletData.uuid}?fromDate=${fromDate.format(
-        'YYYY-MM-DD',
-    )}&toDate=${toDate.format('YYYY-MM-DD')}&download=true`
+    /**
+     * unused: deactived for now
+     */
+    // const excelExportUrl = `${
+    //     process.env.NEXT_PUBLIC_BACKEND_URL
+    // }/wallets/transactions/${walletData.uuid}?fromDate=${fromDate.format(
+    //     'YYYY-MM-DD',
+    // )}&toDate=${toDate.format('YYYY-MM-DD')}&download=true`
 
     return (
         <FlexColumnBox>
@@ -151,7 +154,12 @@ export default function TxHistory({
                         </PrintHandler>
                     )}
 
-                    {canExportExcel && false && (
+                    {/**
+                     * unused: deactived for now
+                     */}
+
+                    {/* 
+                    {canExportExcel && (
                         <Tooltip title="Ekspor Excel" placement="top" arrow>
                             <span>
                                 <IconButton
@@ -164,7 +172,7 @@ export default function TxHistory({
                                 </IconButton>
                             </span>
                         </Tooltip>
-                    )}
+                    )} */}
                 </Box>
             )}
 

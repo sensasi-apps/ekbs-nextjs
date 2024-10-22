@@ -46,7 +46,7 @@ export default function UserLoanInstallmentForm({
     return (
         <FormikForm
             id="user-loan-installment-form"
-            dirty={true && !isPaid}
+            dirty={!isPaid}
             submitting={isSubmitting}
             processing={isProcessing}
             isNew={false}

@@ -210,7 +210,7 @@ function FiltersBox({
                 label="Kecepatan Minimum"
                 disabled={disabled}
                 allowNegative={false}
-                value={Number(min_qty_speed) ?? DEFAULT_SPEED}
+                value={Number(min_qty_speed ?? DEFAULT_SPEED)}
                 onValueChange={({ floatValue }) =>
                     onQtySpeedChange(floatValue ?? DEFAULT_SPEED)
                 }
