@@ -5,7 +5,6 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableContainer,
     TableFooter,
     TableHead,
     TableRow,
@@ -67,26 +66,41 @@ export default function BalanceInSummary() {
                 handleRefresh={() => mutate(rows)}
                 downloadButton={
                     <PrintHandler
+                        documentTitle="Rangkuman Saldo Masuk — Belayan Mart"
                         slotProps={{
                             printButton: {
                                 size: 'small',
                                 disabled:
                                     !isParamsValid || isLoading || isValidating,
                             },
-                        }}
-                        content={
-                            <>
-                                <Typography>
-                                    Rangkuman Saldo Masuk — Belayan Mart
-                                </Typography>
-                                <Typography variant="caption" gutterBottom>
-                                    {fromAt?.format('YYYY-MM-DD HH:mm')} -{' '}
-                                    {toAt?.format('YYYY-MM-DD HH:mm')}
-                                </Typography>
-                                <MainTable data={rows} />
-                            </>
-                        }
-                    />
+                        }}>
+                        <Box
+                            sx={{
+                                px: 3,
+                                textTransform: 'uppercase !important',
+                                '*': {
+                                    color: 'black !important',
+                                },
+                                '& td, & th': {
+                                    borderBottom: '1px solid',
+                                },
+                                '& tfoot td': {
+                                    fontWeight: 'bold',
+                                    borderBottom: 'unset',
+                                },
+                            }}>
+                            <Typography>
+                                Rangkuman Saldo Masuk — Belayan Mart
+                            </Typography>
+
+                            <Typography variant="caption">
+                                {fromAt?.format('YYYY-MM-DD HH:mm')} -{' '}
+                                {toAt?.format('YYYY-MM-DD HH:mm')}
+                            </Typography>
+
+                            <MainTable data={rows} />
+                        </Box>
+                    </PrintHandler>
                 }
             />
 
@@ -142,40 +156,48 @@ function FiltersBox({
 
 function MainTable({ data: rows }: { data: BalanceInSummaryRow[] }) {
     return (
-        <TableContainer>
-            <Table size="small" aria-label="sales report">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Kas</TableCell>
-                        <TableCell align="right">Jumlah (RP)</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map(({ cash_name, summary_rp }) => (
-                        <TableRow key={cash_name}>
-                            <TableCell component="th" scope="row">
-                                {cash_name}
-                            </TableCell>
-                            <TableCell align="right">
-                                {formatNumber(summary_rp)}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TableCell align="right">Total</TableCell>
+        <Table
+            size="small"
+            aria-label="sales report"
+            sx={{
+                mt: 2,
+                '& td, & th': {
+                    p: 0.5,
+                },
+            }}>
+            <TableHead>
+                <TableRow>
+                    <TableCell>Kas</TableCell>
+                    <TableCell align="right">Jumlah (RP)</TableCell>
+                </TableRow>
+            </TableHead>
+
+            <TableBody>
+                {rows.map(({ cash_name, summary_rp }) => (
+                    <TableRow key={cash_name}>
+                        <TableCell component="th" scope="row">
+                            {cash_name}
+                        </TableCell>
                         <TableCell align="right">
-                            {formatNumber(
-                                rows.reduce(
-                                    (acc, { summary_rp }) => acc + summary_rp,
-                                    0,
-                                ),
-                            )}
+                            {formatNumber(summary_rp)}
                         </TableCell>
                     </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
+                ))}
+            </TableBody>
+
+            <TableFooter>
+                <TableRow>
+                    <TableCell align="right">Total</TableCell>
+                    <TableCell align="right">
+                        {formatNumber(
+                            rows.reduce(
+                                (acc, { summary_rp }) => acc + summary_rp,
+                                0,
+                            ),
+                        )}
+                    </TableCell>
+                </TableRow>
+            </TableFooter>
+        </Table>
     )
 }
