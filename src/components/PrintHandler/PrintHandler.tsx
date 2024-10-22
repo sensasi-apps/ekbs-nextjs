@@ -4,7 +4,7 @@ import type { IconButtonProps } from '@mui/material/IconButton'
 import type { TooltipProps } from '@mui/material/Tooltip'
 // vendors
 import { memo, useRef } from 'react'
-import { ReactToPrint, IReactToPrintProps } from 'react-to-print'
+import { useReactToPrint, UseReactToPrintOptions } from 'react-to-print'
 import PrintLayout from '@/components/Layouts/PrintLayout'
 // materials
 import IconButton from '@mui/material/IconButton'
@@ -17,7 +17,7 @@ const PrintHandler = memo(function PrintHandler({
     children,
     slotProps,
     ...props
-}: Omit<IReactToPrintProps, 'content'> & {
+}: Omit<UseReactToPrintOptions, 'content'> & {
     slotProps?: {
         printButton?: IconButtonProps
         tooltip?: Omit<TooltipProps, 'children'>
@@ -40,17 +40,18 @@ const PrintHandler = memo(function PrintHandler({
     }
 
     const toPrintContentRef = useRef(null)
+    const reactToPrintFn = useReactToPrint({
+        contentRef: toPrintContentRef,
+        ...props,
+    })
 
     return (
         <Tooltip {...tooltipProps}>
             <span>
-                <ReactToPrint
-                    {...props}
-                    pageStyle="@print media { margin: auto; }"
-                    content={() => toPrintContentRef.current}
-                    trigger={() => (
-                        <IconButton size="small" {...printButtonProps} />
-                    )}
+                <IconButton
+                    size="small"
+                    onClick={() => reactToPrintFn()}
+                    {...printButtonProps}
                 />
                 <span
                     style={{

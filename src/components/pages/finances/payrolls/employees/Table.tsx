@@ -187,7 +187,7 @@ export default function PayrollsEmployeesTable({
                                                         'YYYYMMDDHHmmss',
                                                     )
                                                 }
-                                                onBeforePrint={() => {
+                                                onBeforePrint={async () => {
                                                     history.pushState(
                                                         null,
                                                         '',
