@@ -32,6 +32,7 @@ function DetailItem({
                         p: 0,
                     }}
                     color="error"
+                    component="div"
                 />
             </Grid2>
 
