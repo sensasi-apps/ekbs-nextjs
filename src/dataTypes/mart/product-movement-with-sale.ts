@@ -1,5 +1,5 @@
 import type ProductMovement from './ProductMovement'
-import type ProductMovementSale from './ProductMovementSale'
+import type ProductMovementSale from './product-movement-sale'
 
 type ProductMovementWithSale = ProductMovement & {
     sale: ProductMovementSale

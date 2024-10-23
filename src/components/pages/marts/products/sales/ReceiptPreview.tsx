@@ -101,6 +101,7 @@ function ReceiptPreview() {
                                         name: cost.name,
                                         rp: cost.rp ?? 0,
                                     })),
+                                    totalPayment: submittedData.total_payment,
                                 }}
                             />
                         )}

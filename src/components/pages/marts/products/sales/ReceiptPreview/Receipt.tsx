@@ -1,9 +1,9 @@
 // types
-import type ProductMovementSale from '@/dataTypes/mart/ProductMovementSale'
+import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 import type ActivityLogType from '@/dataTypes/ActivityLog'
 import type CashType from '@/dataTypes/Cash'
-import type ProductMovementWithSale from '@/dataTypes/mart/ProductMovementWithSale'
+import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
 // vendors
 import { Box, Divider, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
@@ -24,6 +24,7 @@ export default function Receipt({
         costs,
         transactionCashName,
         servedByUserName,
+        totalPayment,
     },
 }: {
     data: {
@@ -32,6 +33,7 @@ export default function Receipt({
         details: Omit<ProductMovementDetail, 'id'>[]
         costs: ProductMovement['costs']
         transactionCashName: CashType['name']
+        totalPayment: ProductMovementSale['total_payment']
 
         saleBuyerUser: ProductMovementSale['buyer_user']
         servedByUserName: ActivityLogType['user']['name']
@@ -147,6 +149,68 @@ export default function Receipt({
                     lineHeight="unset"
                     fontSize="1em">
                     {formatNumber(totalDetails + totalCosts)}
+                </Grid2>
+
+                <Grid2
+                    xs={8}
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em"
+                    whiteSpace="nowrap"
+                    textOverflow="ellipsis">
+                    Bayar
+                </Grid2>
+
+                <Grid2
+                    xs={1}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em">
+                    Rp
+                </Grid2>
+
+                <Grid2
+                    xs={3}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em">
+                    {formatNumber(totalPayment)}
+                </Grid2>
+
+                <Grid2
+                    xs={8}
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em"
+                    whiteSpace="nowrap"
+                    textOverflow="ellipsis">
+                    Kembalian
+                </Grid2>
+
+                <Grid2
+                    xs={1}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em">
+                    Rp
+                </Grid2>
+
+                <Grid2
+                    xs={3}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em">
+                    {formatNumber(totalPayment - totalDetails + totalCosts)}
                 </Grid2>
             </Grid2>
         </Box>

@@ -1,7 +1,7 @@
 // types
 import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
 import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
-import type ProductMovementSale from '@/dataTypes/mart/ProductMovementSale'
+import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 import type CashType from '@/dataTypes/Cash'
 // vendors
@@ -91,6 +91,7 @@ export type FormValuesType = {
     buyer_user_uuid?: ProductMovementSale['buyer_user_uuid']
     buyer_user?: ProductMovementSale['buyer_user']
     no?: ProductMovementSale['no']
+    total_payment?: ProductMovementSale['total_payment']
     details: {
         product: ProductMovementDetail['product']
         product_id: ProductMovementDetail['product_id']
