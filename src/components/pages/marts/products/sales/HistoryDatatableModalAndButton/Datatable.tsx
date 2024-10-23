@@ -1,5 +1,5 @@
 // types
-import type ProductMovementWithSale from '@/dataTypes/mart/ProductMovementWithSale'
+import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
 import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 // components
 import DefaultDatatable, { GetRowDataType } from '@/components/Datatable'
@@ -114,6 +114,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                                 transactionCashName: transactionCashName,
                                 details: data.details,
                                 costs: data.costs,
+                                totalPayment: data.sale.total_payment,
                             }}
                         />
                     </PrintHandler>

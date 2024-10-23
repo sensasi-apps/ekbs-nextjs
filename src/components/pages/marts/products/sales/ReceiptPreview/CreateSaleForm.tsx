@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import useSWR from 'swr'
 // subcomponents
+import { NumericField } from '@/components/FormikForm'
 import BuyerUserUuidFieldComponent from './BuyerUserUuidFieldComponent'
 import CashableUuidFieldComponent from './CashableUuidFieldComponent'
 import CostsFieldComponent from './CostsFieldComponent'
@@ -131,7 +132,111 @@ function CreateSaleForm() {
                                 0,
                             )
 
-                            return formatNumber(totalDetails + totalCosts)
+                            const grandTotalSale = totalDetails + totalCosts
+
+                            return formatNumber(grandTotalSale)
+                        }}
+                    />
+                </Grid2>
+
+                <Grid2
+                    xs={7}
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em"
+                    whiteSpace="nowrap"
+                    textOverflow="ellipsis"
+                    pl={1}>
+                    BAYAR
+                </Grid2>
+
+                <Grid2
+                    xs={1}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em">
+                    Rp
+                </Grid2>
+
+                <Grid2
+                    xs={4}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em"
+                    paddingLeft={2}>
+                    <NumericField
+                        name="total_payment"
+                        disabled={typedStatus.isDisabled}
+                        numericFormatProps={{
+                            inputProps: {
+                                sx: {
+                                    py: 0.5,
+                                    px: 0.75,
+                                    textAlign: 'right',
+                                    autocomplete: 'off',
+                                },
+                            },
+                        }}
+                    />
+                </Grid2>
+
+                <Grid2
+                    xs={7}
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em"
+                    whiteSpace="nowrap"
+                    textOverflow="ellipsis"
+                    pl={1}>
+                    Kembalian
+                </Grid2>
+
+                <Grid2
+                    xs={1}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em">
+                    Rp
+                </Grid2>
+
+                <Grid2
+                    xs={4}
+                    textAlign="end"
+                    component={Typography}
+                    variant="overline"
+                    lineHeight="unset"
+                    fontSize="1em"
+                    paddingLeft={2}>
+                    <Field
+                        component={({ form: { values } }: FieldProps) => {
+                            const formValues = values as FormValuesType
+
+                            if (!values?.total_payment) return 0
+
+                            const totalDetails = formValues.details.reduce(
+                                (acc, { qty, rp_per_unit }) =>
+                                    acc + Math.abs(qty) * rp_per_unit,
+                                0,
+                            )
+
+                            const totalCosts = formValues.costs.reduce(
+                                (acc, { rp }) => acc + (rp ?? 0),
+                                0,
+                            )
+
+                            return formatNumber(
+                                values.total_payment -
+                                    totalDetails +
+                                    totalCosts,
+                            )
                         }}
                     />
                 </Grid2>

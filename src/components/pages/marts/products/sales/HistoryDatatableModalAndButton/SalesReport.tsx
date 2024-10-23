@@ -22,7 +22,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import ApiUrl from '../ApiUrl'
 import formatNumber from '@/utils/formatNumber'
 import PrintHandler from '@/components/PrintHandler'
-import ProductMovementWithSale from '@/dataTypes/mart/ProductMovementWithSale'
+import ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
 
 export default function SalesReport() {
     const [fromAt, setFromAt] = useState<Dayjs>()
