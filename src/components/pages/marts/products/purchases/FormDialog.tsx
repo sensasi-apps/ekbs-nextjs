@@ -3,7 +3,9 @@ import { Formik } from 'formik'
 import Form, { FormValues } from './Form'
 import ProductMovement from '@/dataTypes/mart/ProductMovement'
 import getAxiosRequest from './getAxiosRequest'
-import handle422 from '@/utils/errorCatcher'
+import { AxiosError } from 'axios'
+import LaravelValidationException from '@/types/LaravelValidationException'
+import { transformToFormikErrors } from '@/functions/transform-to-formik-errors'
 
 export default function FormDialog({
     formValues,
@@ -33,7 +35,23 @@ export default function FormDialog({
                             values,
                         )
                             .then(onSumbitted)
-                            .catch(error => handle422(error, setErrors))
+                            .catch(
+                                (
+                                    error: AxiosError<LaravelValidationException>,
+                                ) => {
+                                    if (error.response) {
+                                        const { status, data } = error.response
+
+                                        if (status === 422) {
+                                            return setErrors(
+                                                transformToFormikErrors<FormValues>(
+                                                    data.errors,
+                                                ),
+                                            )
+                                        }
+                                    }
+                                },
+                            )
                     }
                     onReset={handleClose}
                     component={Form}

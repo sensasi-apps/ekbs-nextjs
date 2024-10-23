@@ -39,7 +39,7 @@ export default function ProductMovementCostArrayFields({
                     <AddCircleIcon />
                 </IconButton>
             </Box>
-            <FormHelperText error>{error}</FormHelperText>
+            <FormHelperText error>{JSON.stringify(error)}</FormHelperText>
 
             <Grid2 container columnSpacing={1} alignItems="center">
                 {value?.length > 0 && <HeaderGrid />}
