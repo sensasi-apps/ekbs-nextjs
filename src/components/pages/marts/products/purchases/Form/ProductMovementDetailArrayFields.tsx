@@ -51,7 +51,7 @@ export default function ProductMovementDetailArrayFields({
                     <AddCircleIcon />
                 </IconButton>
             </Box>
-            <FormHelperText error>{error}</FormHelperText>
+            <FormHelperText error>{JSON.stringify(error)}</FormHelperText>
 
             {value && <HeaderGrids />}
 
