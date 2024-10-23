@@ -22,8 +22,7 @@ import useAuth from '@/providers/Auth'
 
 function CreateSaleForm() {
     const { user } = useAuth()
-    const { setFieldValue, status, isSubmitting } =
-        useFormikContext<FormValuesType>()
+    const { setFieldValue, status } = useFormikContext<FormValuesType>()
     const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER)
 
     useEffect(() => {
