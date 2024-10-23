@@ -10,17 +10,17 @@ export function StateFilterChips() {
     const { state } = query
 
     useEffect(() => {
-        if (!isReady) return
+        if (isReady && query.state === undefined) {
+            replace({
+                query: {
+                    ...query,
+                    state: 'due',
+                },
+            })
+        }
+    }, [isReady, query, replace])
 
-        replace({
-            query: {
-                ...query,
-                state: 'due',
-            },
-        })
-    }, [isReady])
-
-    function handleStateChange(value?: string) {
+    function handleStateChange(value: string | null) {
         replace({
             query: {
                 ...query,
@@ -33,7 +33,7 @@ export function StateFilterChips() {
         <ScrollableXBox>
             <ChipSmall
                 label="Semua"
-                onClick={() => handleStateChange(undefined)}
+                onClick={() => handleStateChange(null)}
                 color={state ? undefined : 'success'}
             />
 
