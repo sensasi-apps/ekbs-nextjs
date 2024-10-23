@@ -134,7 +134,7 @@ export default function ProductMovementDetailArrayFields({
                         <Grid2 xs={2}>
                             <NumericField
                                 disabled={disabled}
-                                name={`${name}.${index}.cost_rp_total`}
+                                name={`${name}.${index}.cost_rp_per_unit`}
                                 numericFormatProps={{
                                     InputProps: {
                                         startAdornment: <RpInputAdornment />,
