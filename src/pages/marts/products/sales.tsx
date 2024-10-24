@@ -10,8 +10,11 @@ import AccountButton from '@/components/Layouts/components/TopBar/components/Acc
 import FormikComponent from '@/components/pages/marts/products/sales/FormikComponent'
 import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/HistoryDatatableModalAndButton'
 import UserAccountAlert from '@/components/pages/marts/products/sales/UserAccountAlert'
+import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
 
 export default function SalesPage() {
+    useRedirectIfUnauth()
+
     return (
         <Box
             component="main"
