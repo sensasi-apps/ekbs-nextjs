@@ -76,7 +76,6 @@ export default function BalanceInSummary() {
                         }}>
                         <Box
                             sx={{
-                                px: 3,
                                 textTransform: 'uppercase !important',
                                 '*': {
                                     color: 'black !important',

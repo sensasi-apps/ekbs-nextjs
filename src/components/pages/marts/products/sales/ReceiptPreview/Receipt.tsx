@@ -53,7 +53,6 @@ export default function Receipt({
     return (
         <Box
             sx={{
-                px: 3,
                 color: 'black !important',
                 textTransform: 'uppercase',
             }}>
