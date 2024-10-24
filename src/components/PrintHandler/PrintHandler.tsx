@@ -41,6 +41,8 @@ const PrintHandler = memo(function PrintHandler({
 
     const toPrintContentRef = useRef(null)
     const reactToPrintFn = useReactToPrint({
+        pageStyle: '@media print { body { margin: auto; } }',
+        // pageStyle: '@page { size: auto; margin: auto; }',
         contentRef: toPrintContentRef,
         ...props,
     })
