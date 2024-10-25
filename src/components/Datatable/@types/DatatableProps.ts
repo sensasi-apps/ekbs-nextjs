@@ -1,6 +1,6 @@
 import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 import type { SWRConfiguration } from 'swr'
-import type { OnRowClick } from './OnRowClick'
+import type { OnRowClick } from './'
 import type { Mutate } from './Mutate'
 import type { GetRowData } from './GetRowData'
 

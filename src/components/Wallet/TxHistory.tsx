@@ -30,9 +30,7 @@ import DatePickers, {
     DEFAULT_END_DATE,
     DEFAULT_START_DATE,
 } from './TxHistory/DatePickers'
-// unused: deactived for now
-// import SummaryByTag from './TxHistory/SummaryByTag'
-import SummaryByTag2 from './TxHistory/SummaryByTag2'
+import SummaryByTag from './TxHistory/summary-by-tag'
 import TxHistoryItem from './TxHistory/Item'
 import WalletTxButtonAndForm from './TxButtonAndForm'
 // utils
@@ -264,16 +262,12 @@ function Body({
 
     return (
         <>
-            {/* unused: deactived for now */}
-            {/* <Fade in={activeTab === 'rangkuman'} unmountOnExit exit={false}>
-                <span>
-                    <SummaryByTag data={txs} />
-                </span>
-            </Fade> */}
-
+            {/**
+             * TODO: rename 'rangkumanV2' to 'rangkuman'
+             */}
             <Fade in={activeTab === 'rangkumanV2'} unmountOnExit exit={false}>
                 <span>
-                    <SummaryByTag2 data={txs} />
+                    <SummaryByTag data={txs} />
                 </span>
             </Fade>
 

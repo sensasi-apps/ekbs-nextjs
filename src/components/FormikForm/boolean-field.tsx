@@ -25,7 +25,7 @@ type BooleanFieldProps = {
       }
 )
 
-export default function BooleanField(props: BooleanFieldProps) {
+export function BooleanField(props: BooleanFieldProps) {
     return <Field component={InnerComponent} {...props} />
 }
 

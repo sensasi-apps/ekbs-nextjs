@@ -4,4 +4,6 @@ export { default as DateField } from './DateField'
 export { default as NumericField } from './NumericField'
 export { default as TextField } from './TextField'
 export { default as TxTagField } from './TxTagField'
-export { default as BooleanField } from './BooleanField'
+
+// eslint-disable-next-line import/no-unused-modules
+export { BooleanField } from './boolean-field'
