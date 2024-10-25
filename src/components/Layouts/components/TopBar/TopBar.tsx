@@ -1,23 +1,16 @@
-// vendor
-import { useIsOnline } from 'react-use-is-online'
-import dynamic from 'next/dynamic'
 // materials
 import AppBar from '@mui/material/AppBar'
-import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
-// import Tooltip from '@mui/material/Tooltip'
-const Tooltip = dynamic(() => import('@mui/material/Tooltip'))
 import Typography from '@mui/material/Typography'
 // icons
 import MenuIcon from '@mui/icons-material/Menu'
-import SignalWifiStatusbarConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiStatusbarConnectedNoInternet4'
 // components
 import { DRAWER_WIDTH } from '../menu-list'
 // utils
-import blinkSxValue from '@/utils/blinkSxValue'
 import AccountButton from './components/AccountButton'
+import NoInternetIndicator from '@/components/no-internet-indicator'
 
 export function TopBar({
     title,
@@ -26,8 +19,6 @@ export function TopBar({
     title: string
     toggleDrawer: () => void
 }) {
-    const { isOffline } = useIsOnline()
-
     return (
         <AppBar
             position="fixed"
@@ -54,29 +45,8 @@ export function TopBar({
                     {title}
                 </Typography>
 
-                <Box>
-                    {isOffline && (
-                        <Tooltip
-                            title={
-                                <Alert severity="error" variant="filled">
-                                    Perangkat anda sedang tidak terhubung ke
-                                    internet, data yang anda lihat mungkin tidak
-                                    muthakir.
-                                </Alert>
-                            }
-                            arrow
-                            placement="left">
-                            <IconButton
-                                size="small"
-                                color="error"
-                                disableTouchRipple>
-                                <SignalWifiStatusbarConnectedNoInternet4Icon
-                                    sx={blinkSxValue}
-                                />
-                            </IconButton>
-                        </Tooltip>
-                    )}
-
+                <Box display="flex" alignItems="center" gap={1}>
+                    <NoInternetIndicator />
                     <AccountButton />
                 </Box>
             </Toolbar>
