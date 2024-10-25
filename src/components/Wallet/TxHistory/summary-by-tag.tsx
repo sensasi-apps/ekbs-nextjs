@@ -32,7 +32,7 @@ const TBS_STRING_TAGS = [
     TransactionTag.POTONGAN_BIAYA_ANGKUT,
 ].map(tag => tag.toString())
 
-export default function SummaryByTag2({ data }: { data: ApiResponseType }) {
+export default function SummaryByTag({ data }: { data: ApiResponseType }) {
     if (data.data.length === 0) {
         return (
             <Typography

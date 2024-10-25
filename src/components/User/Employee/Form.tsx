@@ -180,7 +180,7 @@ export default function EmployeeForm({
     )
 }
 
-export type FormValues = Partial<Omit<Employee, 'employee_status'>>
+type FormValues = Partial<Omit<Employee, 'employee_status'>>
 
 const BUSINESS_UNIT_OPTIONS: {
     value: BusinessUnit
