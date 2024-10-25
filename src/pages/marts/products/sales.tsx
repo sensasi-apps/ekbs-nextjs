@@ -11,6 +11,7 @@ import FormikComponent from '@/components/pages/marts/products/sales/FormikCompo
 import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/HistoryDatatableModalAndButton'
 import UserAccountAlert from '@/components/pages/marts/products/sales/UserAccountAlert'
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
+import NoInternetIndicator from '@/components/no-internet-indicator'
 
 export default function SalesPage() {
     useRedirectIfUnauth()
@@ -61,8 +62,9 @@ function Top() {
 
             <UserAccountAlert />
 
-            <Box>
+            <Box display="flex" alignItems="center" gap={1}>
                 <AccountButton color="success" />
+                <NoInternetIndicator />
             </Box>
         </Box>
     )
