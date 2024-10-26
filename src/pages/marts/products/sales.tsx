@@ -8,7 +8,7 @@ import NoInternetIndicator from '@/components/no-internet-indicator'
 // page components
 import AccountButton from '@/components/Layouts/components/TopBar/components/AccountButton'
 import FormikComponent from '@/components/pages/marts/products/sales/formik-component'
-import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/HistoryDatatableModalAndButton'
+import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/history-datatable-modal-and-button'
 import UserAccountAlert from '@/components/pages/marts/products/sales/UserAccountAlert'
 // hooks
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'

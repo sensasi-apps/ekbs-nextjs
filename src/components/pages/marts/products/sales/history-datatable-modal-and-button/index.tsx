@@ -3,11 +3,11 @@ import { Box, Dialog, Tab, Tabs } from '@mui/material'
 import { useState } from 'react'
 // components
 import IconButton from '@/components/IconButton'
-import Datatable from './HistoryDatatableModalAndButton/Datatable'
+import Datatable from './components/datatable'
 // icons
 import HistoryIcon from '@mui/icons-material/History'
-import BalanceInSummary from './HistoryDatatableModalAndButton/BalanceInSummary'
-import SalesReport from './HistoryDatatableModalAndButton/SalesReport'
+import BalanceInSummary from './components/balance-in-summary'
+import SalesReport from './components/sales-report'
 import useAuth from '@/providers/Auth'
 import Mart from '@/enums/permissions/Mart'
 
