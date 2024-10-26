@@ -6,7 +6,7 @@ import { FieldProps } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
 import ApiUrl from '../ApiUrl'
-import { FormikStatusType } from '../FormikComponent'
+import { FormikStatusType } from '../formik-component'
 
 function CashableUuidFieldComponent({
     field: { name: fieldName, value },

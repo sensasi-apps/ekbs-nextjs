@@ -1,14 +1,15 @@
-import Grid2 from '@mui/material/Unstable_Grid2'
+// types
+import type { FormikStatusType, FormValuesType } from '../formik-component'
+// vendors
+import { Button, Unstable_Grid2 as Grid2 } from '@mui/material'
 import { FieldProps } from 'formik'
 import { memo } from 'react'
-import CostItem from './CostItem'
-import { Button } from '@mui/material'
-import AddCircle from '@mui/icons-material/AddCircle'
 import { useDebouncedCallback } from 'use-debounce'
-import { FormikStatusType, FormValuesType } from '../FormikComponent'
+import CostItem from './CostItem'
+import { AddCircle } from '@mui/icons-material'
 
 function CostFieldComponent({
-    form: { setFieldValue, errors, isSubmitting, status },
+    form: { setFieldValue, isSubmitting, errors, status, getFieldMeta },
     field: { value, name },
 }: FieldProps<FormValuesType['costs']>) {
     const typedStatus: FormikStatusType = status
@@ -22,6 +23,8 @@ function CostFieldComponent({
         500,
     )
 
+    const { error } = getFieldMeta(name)
+
     return (
         <>
             <Grid2 container alignItems="center" spacing={1}>
@@ -32,7 +35,11 @@ function CostFieldComponent({
                         disabled={isSubmitting || !!typedStatus?.isDisabled}
                         data={cost}
                         setFieldValue={setFieldValue}
+                        /**
+                         * @todo remove errors prop
+                         */
                         errors={errors}
+                        error={error?.[i] as { name?: string; rp?: string }}
                         onRemove={() =>
                             setFieldValue(name, [
                                 ...value.slice(0, i),

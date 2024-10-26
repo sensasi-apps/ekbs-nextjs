@@ -9,7 +9,7 @@ import { FieldProps } from 'formik'
 import { memo, useState } from 'react'
 // subcomponents
 import DetailItem from './DetailItem'
-import { FormikStatusType, FormValuesType } from '../FormikComponent'
+import { FormikStatusType, FormValuesType } from '../formik-component'
 import { DetailItemFormDialog } from './detail-item-form-dialog'
 
 function DetailsFieldComponent({
@@ -28,6 +28,20 @@ function DetailsFieldComponent({
 
     return (
         <>
+            <FormHelperText
+                error
+                sx={{
+                    mt: -2,
+                }}>
+                {renderError(error)}
+            </FormHelperText>
+
+            {value.length === 0 && (
+                <FormHelperText error>
+                    Silahkan memilih produk yang terdapat pada bilah di samping
+                </FormHelperText>
+            )}
+
             {value.map((detail, i) => (
                 <Card key={i}>
                     <CardActionArea
@@ -77,16 +91,27 @@ function DetailsFieldComponent({
             ))}
 
             <DetailItemFormDialog data={selectedDetail} onClose={closeDialog} />
-
-            <FormHelperText
-                error
-                sx={{
-                    mt: -2,
-                }}>
-                {error}
-            </FormHelperText>
         </>
     )
 }
 
 export default memo(DetailsFieldComponent)
+
+function renderError(
+    error?:
+        | string
+        | {
+              product?: string
+              qty?: string
+              rp_per_unit?: string
+              product_id?: string
+          }[],
+) {
+    if (!error) return null
+
+    if (typeof error === 'string') return error
+
+    return error
+        .flatMap(err => Array.from(Object.values(err)))
+        .map((err, i) => <div key={i}>{err}</div>)
+}

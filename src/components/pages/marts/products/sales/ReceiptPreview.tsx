@@ -1,3 +1,7 @@
+import type {
+    FormikStatusType,
+    FormValuesType,
+} from '@/components/pages/marts/products/sales/formik-component'
 // vendors
 import { memo, useEffect } from 'react'
 import { Box, Collapse, Fade, IconButton, Paper, Tooltip } from '@mui/material'
@@ -10,10 +14,6 @@ import {
 } from '@mui/icons-material'
 import useSWR from 'swr'
 // global components
-import {
-    FormikStatusType,
-    type FormValuesType,
-} from '@/components/pages/marts/products/sales/FormikComponent'
 import PrintHandler from '@/components/PrintHandler'
 // subcomponents
 import CreateSaleForm from './ReceiptPreview/CreateSaleForm'
@@ -28,7 +28,6 @@ function ReceiptPreview() {
         handleReset,
         setStatus,
         isSubmitting,
-        errors,
         dirty,
         status,
         values,
@@ -43,7 +42,6 @@ function ReceiptPreview() {
         }
     }, [isFormOpen, mutate])
 
-    const isError = Object.keys(errors).length > 0
     const isSubmitted = Boolean(submittedData)
 
     return (
@@ -64,7 +62,7 @@ function ReceiptPreview() {
                         }
                         disabled={
                             isSubmitted ||
-                            (isFormOpen && (!dirty || isError || isDisabled))
+                            (isFormOpen && (!dirty || isDisabled))
                         }
                         loading={isSubmitting}>
                         {isFormOpen ? 'Simpan' : 'Penjualan Baru'}

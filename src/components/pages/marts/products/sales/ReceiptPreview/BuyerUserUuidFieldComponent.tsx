@@ -1,6 +1,6 @@
 import type User from '@/dataTypes/User'
 import type { FieldProps } from 'formik'
-import type { FormikStatusType } from '../FormikComponent'
+import type { FormikStatusType } from '../formik-component'
 import {
     Children,
     cloneElement,

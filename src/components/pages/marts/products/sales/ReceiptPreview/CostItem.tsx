@@ -14,7 +14,7 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import { FieldProps, FormikErrors } from 'formik'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import LaravelValidationException from '@/types/LaravelValidationException'
-import { FormValuesType } from '../FormikComponent'
+import { FormValuesType } from '../formik-component'
 
 function CostItem({
     index,
@@ -22,6 +22,7 @@ function CostItem({
     onDataChange,
     data: { name: costName, rp: costRp },
     errors,
+    error,
     disabled,
 }: {
     index: number
@@ -30,7 +31,8 @@ function CostItem({
     onDataChange: (data: FormValuesType['costs'][0]) => void
     data: FormValuesType['costs'][0]
     setFieldValue: FieldProps['form']['setFieldValue']
-    errors?: FormikErrors<LaravelValidationException['errors']>
+    errors: FormikErrors<LaravelValidationException['errors']> | undefined
+    error: { name?: string; rp?: string } | undefined
 }) {
     const [name, setName] = useState(costName)
     const [rp, setRp] = useState(costRp)
@@ -81,7 +83,9 @@ function CostItem({
                             fontFamily: 'Roboto',
                         },
                     }}
-                    {...errorsToHelperTextObj(errors?.[`costs.${index}.rp`])}
+                    {...errorsToHelperTextObj(
+                        errors?.[`costs.${index}.name`] ?? error?.name,
+                    )}
                 />
             </Grid2>
 
@@ -125,7 +129,9 @@ function CostItem({
                             />
                         ),
                     }}
-                    {...errorsToHelperTextObj(errors?.[`costs.${index}.rp`])}
+                    {...errorsToHelperTextObj(
+                        errors?.[`costs.${index}.rp`] ?? error?.rp,
+                    )}
                 />
             </Grid2>
         </>

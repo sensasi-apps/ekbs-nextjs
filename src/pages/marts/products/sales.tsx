@@ -1,17 +1,17 @@
 // vendors
-import { Box } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import { Box, Unstable_Grid2 as Grid2 } from '@mui/material'
 import Head from 'next/head'
-// components
+// global components
 import BackButton from '@/components/BackButton'
 import FooterBox from '@/components/Layouts/FooterBox'
+import NoInternetIndicator from '@/components/no-internet-indicator'
+// page components
 import AccountButton from '@/components/Layouts/components/TopBar/components/AccountButton'
-// utils
-import FormikComponent from '@/components/pages/marts/products/sales/FormikComponent'
+import FormikComponent from '@/components/pages/marts/products/sales/formik-component'
 import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/HistoryDatatableModalAndButton'
 import UserAccountAlert from '@/components/pages/marts/products/sales/UserAccountAlert'
+// hooks
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
-import NoInternetIndicator from '@/components/no-internet-indicator'
 
 export default function SalesPage() {
     useRedirectIfUnauth()

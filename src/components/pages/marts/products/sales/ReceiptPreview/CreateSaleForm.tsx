@@ -1,5 +1,5 @@
 // types
-import type { FormikStatusType, FormValuesType } from '../FormikComponent'
+import type { FormikStatusType, FormValuesType } from '../formik-component'
 // vendors
 import { Field, FieldProps, useFormikContext } from 'formik'
 import { memo, useEffect } from 'react'
@@ -22,7 +22,8 @@ import useAuth from '@/providers/Auth'
 
 function CreateSaleForm() {
     const { user } = useAuth()
-    const { setFieldValue, status } = useFormikContext<FormValuesType>()
+    const { setFieldValue, status, isSubmitting } =
+        useFormikContext<FormValuesType>()
     const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER)
 
     useEffect(() => {
@@ -171,7 +172,7 @@ function CreateSaleForm() {
                     paddingLeft={2}>
                     <NumericField
                         name="total_payment"
-                        disabled={typedStatus.isDisabled}
+                        disabled={typedStatus.isDisabled || isSubmitting}
                         numericFormatProps={{
                             inputProps: {
                                 sx: {
