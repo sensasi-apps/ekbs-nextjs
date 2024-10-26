@@ -20,7 +20,7 @@ import CreateSaleForm from './ReceiptPreview/CreateSaleForm'
 import Receipt from './ReceiptPreview/Receipt'
 // utils
 import useAuth from '@/providers/Auth'
-import ApiUrl from './ApiUrl'
+import ApiUrl from './@enums/api-url'
 
 function ReceiptPreview() {
     const {

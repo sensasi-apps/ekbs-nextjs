@@ -16,7 +16,7 @@ import DefaultItemDesc from './DefaultItemDesc'
 import DetailsFieldComponent from './DetailsFieldComponent'
 // utils
 import { toYmd } from '@/functions/toYmd'
-import ApiUrl from '../ApiUrl'
+import ApiUrl from '../@enums/api-url'
 import formatNumber from '@/utils/formatNumber'
 import useAuth from '@/providers/Auth'
 

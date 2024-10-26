@@ -20,7 +20,7 @@ import TextField from '@/components/TextField'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
 import { List, ListRowProps } from 'react-virtualized'
-import ApiUrl from '../ApiUrl'
+import ApiUrl from '../@enums/api-url'
 
 type UserSelectItemData = {
     id: User['id']

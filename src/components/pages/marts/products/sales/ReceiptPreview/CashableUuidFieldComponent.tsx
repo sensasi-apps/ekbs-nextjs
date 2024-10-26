@@ -5,7 +5,7 @@ import { FormHelperText } from '@mui/material'
 import { FieldProps } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
-import ApiUrl from '../ApiUrl'
+import ApiUrl from '../@enums/api-url'
 import { FormikStatusType } from '../formik-component'
 
 function CashableUuidFieldComponent({

@@ -1,4 +1,4 @@
-import ApiUrl from '@/components/pages/marts/products/sales/ApiUrl'
+import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
 import { RuntimeCaching, StaleWhileRevalidate } from 'serwist'
 
 const SWR_ENDPOINTS = ['/api' + ApiUrl.PRODUCTS, '/api' + ApiUrl.USERS]
