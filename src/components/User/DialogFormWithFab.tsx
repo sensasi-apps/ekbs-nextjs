@@ -29,7 +29,9 @@ const UserDialogFormWithFab = () => {
             <Box position="fixed" bottom={16} right={16}>
                 <Fab
                     disabled={isDataNotUndefined || isLoading}
-                    onClick={handleCreate}
+                    onClick={() => {
+                        handleCreate()
+                    }}
                     color="success"
                     aria-label="buat akun baru">
                     <PersonAddIcon />

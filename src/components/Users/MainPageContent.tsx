@@ -18,7 +18,6 @@ import UserAutocomplete from '@/components/UserAutocomplete'
 import { getRoleIconByIdName } from '@/components/User/RoleChips'
 import UserAddressesCrudBox from '@/components/User/Address/CrudBox'
 import UserBankAccsCrudBox from '@/components/User/BankAccs/CrudBox'
-import UserCrud from '@/components/User/Crud'
 import UserDetailCrud from '@/components/User/Detail/Crud'
 import UserDriversCrudBox from '@/components/User/Drivers/CrudBox'
 import UserEmployeeCrud from '@/components/User/Employee/Crud'
@@ -31,6 +30,9 @@ import UsersSummaryBox from '@/components/Users/SummaryBox'
 import useUserWithDetails from '@/providers/UserWithDetails'
 import useAuth from '@/providers/Auth'
 import Role from '@/enums/Role'
+import { FormDataProvider } from '@/providers/FormData'
+import UserCard from '../User/Card'
+import UserDialogFormWithFab from '../User/DialogFormWithFab'
 
 export default function UsersMainPageContent() {
     const { push, replace, query } = useRouter()
@@ -93,10 +95,18 @@ export default function UsersMainPageContent() {
                     }}
                 />
 
+                <FormDataProvider>
+                    <Fade in={Boolean(query.uuid)} exit={false}>
+                        <div>
+                            <UserCard />
+                        </div>
+                    </Fade>
+
+                    <UserDialogFormWithFab />
+                </FormDataProvider>
+
                 {Boolean(query.uuid) && (
                     <>
-                        <UserCrud />
-
                         <UserDetailCrud />
 
                         <Masonry
