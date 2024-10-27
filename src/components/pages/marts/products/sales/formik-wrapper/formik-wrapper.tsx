@@ -11,7 +11,7 @@ import LaravelValidationException from '@/types/LaravelValidationException'
 import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
 import ReceiptPreview from './components/receipt-preview'
 import handle422 from '@/utils/errorCatcher'
-import ProductPicker from '../ProductPicker'
+import ProductPicker from '../product-picker'
 import { VALIDATION_SCHEMA } from './statics/validation-scheme'
 
 export function FormikWrapper() {

@@ -17,7 +17,7 @@ import ChipSmall from '@/components/ChipSmall'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import { useFormikContext } from 'formik'
-import { FormikStatusType } from '../formik-wrapper'
+import { FormikStatusType } from '../../formik-wrapper'
 
 const WAREHOUSE = 'main'
 

@@ -1,7 +1,7 @@
 // types
 import type { FieldProps } from 'formik'
 import type Product from '@/dataTypes/mart/Product'
-import type { FormikStatusType, FormValuesType } from './formik-wrapper'
+import type { FormikStatusType, FormValuesType } from '../formik-wrapper'
 // vendors
 import { Box, Paper, Typography } from '@mui/material'
 import { memo, useEffect, useState } from 'react'
@@ -9,13 +9,13 @@ import { useDebouncedCallback } from 'use-debounce'
 import { Masonry } from '@mui/lab'
 import useSWR from 'swr'
 // subcomponents
-import CategoryChips from './ProductPicker/CategoryChips'
-import ProductCard from './ProductPicker/ProductCard'
-import SearchTextField from './ProductPicker/SearchTextField'
-import ApiUrl from './@enums/api-url'
+import CategoryChips from './components/category-chips'
+import ProductCard from './components/product-card'
+import SearchTextField from './components/search-text-field'
+import ApiUrl from '../@enums/api-url'
 import BarcodeReader from 'react-barcode-reader'
 import ScrollableXBox from '@/components/ScrollableXBox'
-import ResultNav from './ProductPicker/ResultNav'
+import ResultNav from './components/result-nav'
 
 const WAREHOUSE = 'main'
 let detailsTemp: FormValuesType['details'] = []
