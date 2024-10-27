@@ -9,7 +9,7 @@ import { Box, Divider, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import Image from 'next/image'
 // components
-import DefaultItemDesc from './DefaultItemDesc'
+import DefaultItemDesc from './default-item-desc'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import LogoImage from '@/../public/assets/images/belayan-mart-logo.jpg'

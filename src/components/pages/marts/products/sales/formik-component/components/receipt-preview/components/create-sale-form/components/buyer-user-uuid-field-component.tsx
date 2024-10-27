@@ -1,6 +1,6 @@
 import type User from '@/dataTypes/User'
 import type { FieldProps } from 'formik'
-import type { FormikStatusType } from '../formik-component'
+import type { FormikStatusType } from '../../../../..'
 import {
     Children,
     cloneElement,
@@ -20,7 +20,7 @@ import TextField from '@/components/TextField'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
 import { List, ListRowProps } from 'react-virtualized'
-import ApiUrl from '../@enums/api-url'
+import ApiUrl from '../../../../../../@enums/api-url'
 
 type UserSelectItemData = {
     id: User['id']

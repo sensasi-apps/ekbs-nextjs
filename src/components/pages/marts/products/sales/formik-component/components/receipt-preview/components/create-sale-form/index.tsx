@@ -1,5 +1,5 @@
 // types
-import type { FormikStatusType, FormValuesType } from '../formik-component'
+import type { FormikStatusType, FormValuesType } from '../../../..'
 // vendors
 import { Field, FieldProps, useFormikContext } from 'formik'
 import { memo, useEffect } from 'react'
@@ -9,14 +9,14 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 import useSWR from 'swr'
 // subcomponents
 import { NumericField } from '@/components/FormikForm'
-import BuyerUserUuidFieldComponent from './BuyerUserUuidFieldComponent'
-import CashableUuidFieldComponent from './CashableUuidFieldComponent'
-import CostsFieldComponent from './CostsFieldComponent'
-import DefaultItemDesc from './DefaultItemDesc'
-import DetailsFieldComponent from './DetailsFieldComponent'
+import BuyerUserUuidFieldComponent from './components/buyer-user-uuid-field-component'
+import CashableUuidFieldComponent from './components/cashable-uuid-field-component'
+import CostsFieldComponent from './components/costs-field-component'
+import DefaultItemDesc from '../../../../../@shared-subcomponents/default-item-desc'
+import DetailsFieldComponent from './components/details-field-component'
 // utils
 import { toYmd } from '@/functions/toYmd'
-import ApiUrl from '../@enums/api-url'
+import ApiUrl from '../../../../../@enums/api-url'
 import formatNumber from '@/utils/formatNumber'
 import useAuth from '@/providers/Auth'
 

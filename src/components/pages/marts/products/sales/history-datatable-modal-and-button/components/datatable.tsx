@@ -7,7 +7,7 @@ import DefaultDatatable, { GetRowDataType } from '@/components/Datatable'
 import numberToCurrency from '@/utils/numberToCurrency'
 import ApiUrl from '../../@enums/api-url'
 import PrintHandler from '@/components/PrintHandler'
-import Receipt from '../../ReceiptPreview/Receipt'
+import Receipt from '../../@shared-subcomponents/receipt'
 
 let getRowData: GetRowDataType<ProductMovementWithSale>
 

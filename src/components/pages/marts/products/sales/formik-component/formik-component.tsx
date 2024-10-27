@@ -9,7 +9,7 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 // etc
 import LaravelValidationException from '@/types/LaravelValidationException'
 import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
-import ReceiptPreview from '../ReceiptPreview'
+import ReceiptPreview from './components/receipt-preview'
 import handle422 from '@/utils/errorCatcher'
 import ProductPicker from '../ProductPicker'
 import { VALIDATION_SCHEMA } from './statics/validation-scheme'

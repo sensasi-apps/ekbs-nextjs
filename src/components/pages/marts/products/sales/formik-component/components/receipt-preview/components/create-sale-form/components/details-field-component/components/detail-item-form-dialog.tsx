@@ -1,5 +1,5 @@
 import NumericFormat from '@/components/NumericFormat'
-import type { FormValuesType } from '../formik-component'
+import type { FormValuesType } from '../../../../../../..'
 import {
     Box,
     Button,
