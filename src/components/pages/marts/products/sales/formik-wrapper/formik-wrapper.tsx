@@ -1,5 +1,5 @@
 // types
-import type { FormValuesType, FormikStatusType } from './'
+import type { FormValuesType, FormikStatusType } from '.'
 import type { AxiosError } from 'axios'
 // vendors
 import { Field, Formik } from 'formik'
@@ -8,13 +8,13 @@ import dayjs from 'dayjs'
 import Grid2 from '@mui/material/Unstable_Grid2'
 // etc
 import LaravelValidationException from '@/types/LaravelValidationException'
-import ApiUrl from '@/components/pages/marts/products/sales/ApiUrl'
-import ReceiptPreview from '../ReceiptPreview'
+import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
+import ReceiptPreview from './components/receipt-preview'
 import handle422 from '@/utils/errorCatcher'
-import ProductPicker from '../ProductPicker'
+import ProductPicker from '../product-picker'
 import { VALIDATION_SCHEMA } from './statics/validation-scheme'
 
-export function FormikComponent() {
+export function FormikWrapper() {
     return (
         <Formik<FormValuesType>
             initialValues={JSON.parse(JSON.stringify(DEFAULT_FORM_VALUES))}

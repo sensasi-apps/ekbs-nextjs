@@ -8,9 +8,9 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 import { FieldProps } from 'formik'
 import { memo, useState } from 'react'
 // subcomponents
-import DetailItem from './DetailItem'
-import { FormikStatusType, FormValuesType } from '../formik-component'
-import { DetailItemFormDialog } from './detail-item-form-dialog'
+import DetailItem from '../../../../../../../@shared-subcomponents/detail-item'
+import { FormikStatusType, FormValuesType } from '../../../../../..'
+import { DetailItemFormDialog } from './components/detail-item-form-dialog'
 
 function DetailsFieldComponent({
     field: { value, name },

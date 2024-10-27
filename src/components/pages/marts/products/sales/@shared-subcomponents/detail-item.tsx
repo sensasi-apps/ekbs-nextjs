@@ -1,4 +1,4 @@
-import type { FormValuesType } from '../formik-component'
+import type { FormValuesType } from '../formik-wrapper'
 import { memo } from 'react'
 import { Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'

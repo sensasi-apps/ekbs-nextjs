@@ -19,7 +19,7 @@ import IconButton from '@/components/IconButton'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
 // utils
-import ApiUrl from '../ApiUrl'
+import ApiUrl from '../../@enums/api-url'
 import formatNumber from '@/utils/formatNumber'
 import PrintHandler from '@/components/PrintHandler'
 import ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'

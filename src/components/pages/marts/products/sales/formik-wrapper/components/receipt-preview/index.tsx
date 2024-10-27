@@ -1,7 +1,7 @@
 import type {
     FormikStatusType,
     FormValuesType,
-} from '@/components/pages/marts/products/sales/formik-component'
+} from '@/components/pages/marts/products/sales/formik-wrapper'
 // vendors
 import { memo, useEffect } from 'react'
 import { Box, Collapse, Fade, IconButton, Paper, Tooltip } from '@mui/material'
@@ -16,11 +16,11 @@ import useSWR from 'swr'
 // global components
 import PrintHandler from '@/components/PrintHandler'
 // subcomponents
-import CreateSaleForm from './ReceiptPreview/CreateSaleForm'
-import Receipt from './ReceiptPreview/Receipt'
+import CreateSaleForm from './components/create-sale-form'
+import Receipt from '../../../@shared-subcomponents/receipt'
 // utils
 import useAuth from '@/providers/Auth'
-import ApiUrl from './ApiUrl'
+import ApiUrl from '../../../@enums/api-url'
 
 function ReceiptPreview() {
     const {

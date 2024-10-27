@@ -1,11 +1,11 @@
 // types
-import type { FormikStatusType, FormValuesType } from '../formik-component'
+import type { FormikStatusType, FormValuesType } from '../../../../..'
 // vendors
 import { Button, Unstable_Grid2 as Grid2 } from '@mui/material'
 import { FieldProps } from 'formik'
 import { memo } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import CostItem from './CostItem'
+import CostItem from '../../../../../../@shared-subcomponents/cost-item'
 import { AddCircle } from '@mui/icons-material'
 
 function CostFieldComponent({
