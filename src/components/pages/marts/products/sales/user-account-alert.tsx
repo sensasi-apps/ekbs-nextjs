@@ -2,7 +2,7 @@ import { Alert, Fade, Typography } from '@mui/material'
 import blinkSxValue from '@/utils/blinkSxValue'
 import { useState } from 'react'
 
-export default function UserAccountAlert() {
+export function UserAccountAlert() {
     const [showWarning, setShowWarning] = useState(true)
 
     return (
