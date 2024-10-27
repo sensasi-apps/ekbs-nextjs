@@ -7,7 +7,7 @@ import FooterBox from '@/components/Layouts/FooterBox'
 import NoInternetIndicator from '@/components/no-internet-indicator'
 // page components
 import AccountButton from '@/components/Layouts/components/TopBar/components/AccountButton'
-import FormikComponent from '@/components/pages/marts/products/sales/formik-component'
+import FormikWrapper from '@/components/pages/marts/products/sales/formik-wrapper'
 import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/history-datatable-modal-and-button'
 import UserAccountAlert from '@/components/pages/marts/products/sales/UserAccountAlert'
 // hooks
@@ -40,7 +40,7 @@ export default function SalesPage() {
                         transition: 'all 0.1s',
                     },
                 }}>
-                <FormikComponent />
+                <FormikWrapper />
             </Grid2>
 
             <FooterBox />

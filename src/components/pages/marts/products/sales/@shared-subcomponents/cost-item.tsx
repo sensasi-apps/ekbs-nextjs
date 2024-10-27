@@ -14,7 +14,7 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import { FieldProps, FormikErrors } from 'formik'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import LaravelValidationException from '@/types/LaravelValidationException'
-import { FormValuesType } from '../formik-component'
+import { FormValuesType } from '../formik-wrapper'
 
 function CostItem({
     index,

@@ -1,5 +1,5 @@
 // types
-import type { FormValuesType, FormikStatusType } from './'
+import type { FormValuesType, FormikStatusType } from '.'
 import type { AxiosError } from 'axios'
 // vendors
 import { Field, Formik } from 'formik'
@@ -14,7 +14,7 @@ import handle422 from '@/utils/errorCatcher'
 import ProductPicker from '../ProductPicker'
 import { VALIDATION_SCHEMA } from './statics/validation-scheme'
 
-export function FormikComponent() {
+export function FormikWrapper() {
     return (
         <Formik<FormValuesType>
             initialValues={JSON.parse(JSON.stringify(DEFAULT_FORM_VALUES))}

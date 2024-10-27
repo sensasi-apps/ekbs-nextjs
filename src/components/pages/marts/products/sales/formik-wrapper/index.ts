@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import { FormikComponent } from './formik-component'
+import { FormikWrapper } from './formik-wrapper'
 
-export default memo(FormikComponent)
+export default memo(FormikWrapper)
 
 export type { FormValuesType } from './@types/form-values-type'
 export type { FormikStatusType } from './@types/formik-status-type'

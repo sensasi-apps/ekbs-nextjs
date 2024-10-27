@@ -1,7 +1,7 @@
 import type {
     FormikStatusType,
     FormValuesType,
-} from '@/components/pages/marts/products/sales/formik-component'
+} from '@/components/pages/marts/products/sales/formik-wrapper'
 // vendors
 import { memo, useEffect } from 'react'
 import { Box, Collapse, Fade, IconButton, Paper, Tooltip } from '@mui/material'

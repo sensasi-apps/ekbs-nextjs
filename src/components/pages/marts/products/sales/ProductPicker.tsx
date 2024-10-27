@@ -1,7 +1,7 @@
 // types
 import type { FieldProps } from 'formik'
 import type Product from '@/dataTypes/mart/Product'
-import type { FormikStatusType, FormValuesType } from './formik-component'
+import type { FormikStatusType, FormValuesType } from './formik-wrapper'
 // vendors
 import { Box, Paper, Typography } from '@mui/material'
 import { memo, useEffect, useState } from 'react'
