@@ -11,21 +11,24 @@ export const supermans: NavItemGroup = {
         {
             href: '/roles',
             label: 'Peran',
-            pathname: '/roles',
             icon: SupervisedUserCircle,
             forRole: Role.SUPERMAN,
         },
         {
             href: '/acting-as',
             label: 'Acting As',
-            pathname: '/acting-as',
             icon: Group,
             forRole: Role.SUPERMAN,
         },
         {
             href: '/_/logs',
             label: 'Logs',
-            pathname: '/_/logs',
+            icon: Note,
+            forRole: Role.SUPERMAN,
+        },
+        {
+            href: '/_/be-request-test',
+            label: 'BE Request Test',
             icon: Note,
             forRole: Role.SUPERMAN,
         },
