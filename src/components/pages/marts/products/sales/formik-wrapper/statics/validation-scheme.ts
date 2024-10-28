@@ -29,7 +29,7 @@ export const VALIDATION_SCHEMA = yup.object().shape({
 
     buyer_user_uuid: yup.string().uuid(),
 
-    // no: yup.number().required('Nomor penjualan tidak boleh kosong'),
+    no: yup.number().required('Nomor penjualan tidak boleh kosong'),
 
     total_payment: yup
         .number()
