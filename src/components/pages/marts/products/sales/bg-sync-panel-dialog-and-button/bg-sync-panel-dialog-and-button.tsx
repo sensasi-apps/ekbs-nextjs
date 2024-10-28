@@ -36,7 +36,7 @@ export function BgSyncPanelDialogAndButton() {
 
     return (
         <>
-            <Tooltip title="Sinkronisasi Latar Belakang">
+            <Tooltip title="Sinkronisasi Latar Belakang" arrow placement="top">
                 <IconButton onClick={() => setOpen(true)}>
                     <Refresh />
                 </IconButton>
@@ -92,6 +92,19 @@ export function BgSyncPanelDialogAndButton() {
                         </TableHead>
 
                         <TableBody>
+                            {!bgSyncQueues?.length && (
+                                <TableRow>
+                                    <TableCell colSpan={5}>
+                                        <Typography
+                                            align="center"
+                                            variant="body2"
+                                            color="textSecondary">
+                                            Tidak ada data
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            )}
+
                             {bgSyncQueues?.map((queue, i) => (
                                 <TableRow key={i}>
                                     <TableCell>{queue.body.no}</TableCell>
