@@ -3,7 +3,7 @@ import type {
     FormValuesType,
 } from '@/components/pages/marts/products/sales/formik-wrapper'
 // vendors
-import { memo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Box, Collapse, Fade, IconButton, Paper, Tooltip } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { useFormikContext } from 'formik'
@@ -22,11 +22,12 @@ import Receipt from '../../../@shared-subcomponents/receipt'
 import useAuth from '@/providers/Auth'
 import ApiUrl from '../../../@enums/api-url'
 
-function ReceiptPreview() {
+export function CreateSaleFormWrapper() {
     const {
         handleSubmit,
         handleReset,
         setStatus,
+        setFieldValue,
         isSubmitting,
         dirty,
         status,
@@ -34,11 +35,15 @@ function ReceiptPreview() {
     } = useFormikContext<FormValuesType>()
     const { user } = useAuth()
     const { isDisabled, isFormOpen, submittedData } = status as FormikStatusType
-    const { mutate } = useSWR(ApiUrl.NEW_SALE_NUMBER)
+    const { mutate } = useSWR(ApiUrl.NEW_SALE_NUMBER, {
+        keepPreviousData: true,
+    })
 
     useEffect(() => {
         if (isFormOpen) {
-            mutate()
+            mutate().then(newNumber => {
+                setFieldValue('no', newNumber)
+            })
         }
     }, [isFormOpen, mutate])
 
@@ -130,5 +135,3 @@ function ReceiptPreview() {
         </Paper>
     )
 }
-
-export default memo(ReceiptPreview)

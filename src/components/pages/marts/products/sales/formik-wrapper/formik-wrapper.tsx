@@ -1,17 +1,18 @@
 // types
 import type { FormValuesType, FormikStatusType } from '.'
 import type { AxiosError } from 'axios'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
 import { Field, Formik } from 'formik'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 import Grid2 from '@mui/material/Unstable_Grid2'
-// etc
-import LaravelValidationException from '@/types/LaravelValidationException'
+// local components
 import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
-import ReceiptPreview from './components/receipt-preview'
-import handle422 from '@/utils/errorCatcher'
 import ProductPicker from '../product-picker'
+import CreateSaleFormWrapper from './components/create-sale-form-wrapper'
+// etc
+import handle422 from '@/utils/errorCatcher'
 import { VALIDATION_SCHEMA } from './statics/validation-scheme'
 
 export function FormikWrapper() {
@@ -54,7 +55,7 @@ export function FormikWrapper() {
                 </Grid2>
 
                 <Grid2 xs={12} md={4}>
-                    <ReceiptPreview />
+                    <CreateSaleFormWrapper />
                 </Grid2>
             </>
         </Formik>
