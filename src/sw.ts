@@ -2,9 +2,11 @@
 import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist'
 // vendors
 import { defaultCache } from '@serwist/next/worker'
-import { BackgroundSyncQueue, Serwist } from 'serwist'
+import { Serwist } from 'serwist'
 import { customCachingStrategies } from './sw/statics/custom-caching-strategies'
-import { isBackgroundSyncable } from './sw/functions/is-background-syncable'
+// locals
+import { handleMessage } from './sw/functions/handle-message'
+import { handleFetch } from './sw/functions/handle-fetch'
 
 // This declares the value of `injectionPoint` to TypeScript.
 // `injectionPoint` is the string that will be replaced by the
@@ -27,33 +29,8 @@ const serwist = new Serwist({
     runtimeCaching: [...customCachingStrategies, ...defaultCache],
 })
 
-const queue = new BackgroundSyncQueue('myQueueName')
+self.addEventListener('fetch', handleFetch)
 
-self.addEventListener('fetch', event => {
-    if (!isBackgroundSyncable(event)) {
-        return
-    }
-
-    queue.pushRequest({ request: event.request })
-
-    event.respondWith(
-        new Response(
-            JSON.stringify({
-                message: 'Request queued for background sync',
-            }),
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            },
-        ),
-    )
-})
-
-self.addEventListener('message', event => {
-    if (event.data.action === 'force-sync') {
-        return queue.replayRequests()
-    }
-})
+self.addEventListener('message', handleMessage)
 
 serwist.addEventListeners()
