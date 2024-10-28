@@ -45,7 +45,7 @@ export function CreateSaleFormWrapper() {
                 setFieldValue('no', newNumber)
             })
         }
-    }, [isFormOpen, mutate])
+    }, [isFormOpen, mutate, setFieldValue])
 
     const isSubmitted = Boolean(submittedData)
 
