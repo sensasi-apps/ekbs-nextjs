@@ -25,6 +25,7 @@ export const customCachingStrategies: RuntimeCaching[] = [
     {
         matcher: ({ url }) => CACHE_ENDPOINTS.includes(url.pathname),
         handler: new CacheFirst({
+            cacheName: 'api-cache',
             plugins: [
                 new ExpirationPlugin({
                     maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
