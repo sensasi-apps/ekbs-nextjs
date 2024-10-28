@@ -26,6 +26,7 @@ export default function HistoryDatatableModalAndButton() {
             <IconButton
                 title="Riwayat"
                 icon={HistoryIcon}
+                size="medium"
                 onClick={() => setOpen(true)}
             />
 
