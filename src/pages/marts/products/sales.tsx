@@ -56,7 +56,7 @@ function Top() {
             display="flex"
             justifyContent="space-between"
             alignItems="center">
-            <Box display="flex" gap={2}>
+            <Box display="flex" gap={1} alignItems="center">
                 <BackButton />
 
                 <HistoryDatatableModalAndButton />
