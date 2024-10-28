@@ -24,7 +24,9 @@ function CreateSaleForm() {
     const { user } = useAuth()
     const { setFieldValue, status, isSubmitting } =
         useFormikContext<FormValuesType>()
-    const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER)
+    const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER, {
+        keepPreviousData: true,
+    })
 
     useEffect(() => {
         if (!newNumber) return
@@ -174,6 +176,9 @@ function CreateSaleForm() {
                         name="total_payment"
                         disabled={typedStatus.isDisabled || isSubmitting}
                         numericFormatProps={{
+                            InputProps: {
+                                autoComplete: 'off',
+                            },
                             inputProps: {
                                 sx: {
                                     py: 0.5,
