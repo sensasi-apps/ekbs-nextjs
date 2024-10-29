@@ -4,7 +4,6 @@ import {
     Box,
     Dialog,
     DialogContent,
-    DialogTitle,
     IconButton,
     Table,
     TableBody,
@@ -22,6 +21,7 @@ import { FormValuesType } from '../formik-wrapper'
 import dayjs from 'dayjs'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
+import { enqueueSnackbar } from 'notistack'
 
 export function BgSyncPanelDialogAndButton() {
     const [open, setOpen] = useState(false)
@@ -29,9 +29,13 @@ export function BgSyncPanelDialogAndButton() {
         useState<BgSyncQueue<Required<FormValuesType>>[]>()
 
     useEffect(() => {
-        postMessageToSW<BgSyncQueue<Required<FormValuesType>>[]>({
-            action: 'GET_SALES',
-        }).then(data => setBgSyncQueues(data))
+        getSalesBgSyncData()
+            .then(data => setBgSyncQueues(data))
+            .catch(msg => {
+                enqueueSnackbar(msg, {
+                    variant: 'warning',
+                })
+            })
     }, [])
 
     return (
@@ -43,29 +47,35 @@ export function BgSyncPanelDialogAndButton() {
             </Tooltip>
 
             <Dialog open={open} maxWidth="md" fullWidth>
-                <DialogTitle
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}>
+                <Box
+                    display="flex"
+                    py={2}
+                    px={3}
+                    justifyContent="space-between">
                     <Box display="flex" gap={1}>
-                        Sinkronisasi Latar Belakang
+                        <Typography variant="h6">
+                            Sinkronisasi Latar Belakang
+                        </Typography>
+
                         <IconButton
                             size="small"
                             color="success"
                             onClick={() => {
-                                postMessageToSW<
-                                    BgSyncQueue<Required<FormValuesType>>[]
-                                >({
-                                    action: 'FORCE_SYNC',
-                                }).then(() => {
-                                    postMessageToSW<
-                                        BgSyncQueue<Required<FormValuesType>>[]
-                                    >({
-                                        action: 'GET_SALES',
-                                    }).then(data => setBgSyncQueues(data))
-                                })
+                                forceSync()
+                                    .then(() => {
+                                        getSalesBgSyncData()
+                                            .then(data => setBgSyncQueues(data))
+                                            .catch(msg => {
+                                                enqueueSnackbar(msg, {
+                                                    variant: 'warning',
+                                                })
+                                            })
+                                    })
+                                    .catch(msg => {
+                                        enqueueSnackbar(msg, {
+                                            variant: 'warning',
+                                        })
+                                    })
                             }}>
                             <Refresh />
                         </IconButton>
@@ -77,7 +87,7 @@ export function BgSyncPanelDialogAndButton() {
                         color="error">
                         <Close />
                     </IconButton>
-                </DialogTitle>
+                </Box>
 
                 <DialogContent>
                     <Table size="small">
@@ -225,4 +235,16 @@ function Values({
             </Typography>
         </>
     )
+}
+
+function getSalesBgSyncData() {
+    return postMessageToSW<BgSyncQueue<Required<FormValuesType>>[]>({
+        action: 'GET_SALES',
+    })
+}
+
+async function forceSync() {
+    return postMessageToSW<BgSyncQueue<Required<FormValuesType>>[]>({
+        action: 'FORCE_SYNC',
+    })
 }
