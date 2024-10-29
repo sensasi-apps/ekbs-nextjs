@@ -4,7 +4,6 @@ import {
     Box,
     Dialog,
     DialogContent,
-    DialogTitle,
     IconButton,
     Table,
     TableBody,
@@ -43,14 +42,16 @@ export function BgSyncPanelDialogAndButton() {
             </Tooltip>
 
             <Dialog open={open} maxWidth="md" fullWidth>
-                <DialogTitle
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}>
+                <Box
+                    display="flex"
+                    py={2}
+                    px={3}
+                    justifyContent="space-between">
                     <Box display="flex" gap={1}>
-                        Sinkronisasi Latar Belakang
+                        <Typography variant="h6">
+                            Sinkronisasi Latar Belakang
+                        </Typography>
+
                         <IconButton
                             size="small"
                             color="success"
@@ -77,7 +78,7 @@ export function BgSyncPanelDialogAndButton() {
                         color="error">
                         <Close />
                     </IconButton>
-                </DialogTitle>
+                </Box>
 
                 <DialogContent>
                     <Table size="small">
