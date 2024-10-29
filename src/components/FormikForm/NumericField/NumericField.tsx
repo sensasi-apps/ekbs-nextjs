@@ -21,9 +21,15 @@ export default function NumericFormikField({
     return <Field name={name} component={InnerComponent} {...restProps} />
 }
 
+/**
+ * InnerComponent is a functional component that integrates with Formik to handle numeric input fields.
+ * It uses a debounced callback to update the Formik field value, minimizing the number of updates.
+ *
+ * @bug The `value` prop is not being updated when the field value changes.
+ */
 function InnerComponent({
     // formik props
-    field: { name },
+    field: { name, value },
     form: { setFieldValue, getFieldMeta },
 
     // additional props
@@ -31,7 +37,7 @@ function InnerComponent({
     label,
     numericFormatProps,
 }: Omit<FieldProps<number>, 'meta'> & Omit<NumericFieldProps, 'name'>) {
-    const { error, value } = getFieldMeta<number>(name)
+    const { error } = getFieldMeta<number>(name)
     const [innerValue, setInnerValue] = useState<number | undefined>(value)
 
     const setFieldValueDebounced = useDebouncedCallback(
