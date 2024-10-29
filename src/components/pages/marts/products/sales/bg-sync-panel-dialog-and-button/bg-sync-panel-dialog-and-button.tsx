@@ -21,6 +21,7 @@ import { FormValuesType } from '../formik-wrapper'
 import dayjs from 'dayjs'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
+import { enqueueSnackbar } from 'notistack'
 
 export function BgSyncPanelDialogAndButton() {
     const [open, setOpen] = useState(false)
@@ -28,9 +29,13 @@ export function BgSyncPanelDialogAndButton() {
         useState<BgSyncQueue<Required<FormValuesType>>[]>()
 
     useEffect(() => {
-        postMessageToSW<BgSyncQueue<Required<FormValuesType>>[]>({
-            action: 'GET_SALES',
-        }).then(data => setBgSyncQueues(data))
+        getSalesBgSyncData()
+            .then(data => setBgSyncQueues(data))
+            .catch(msg => {
+                enqueueSnackbar(msg, {
+                    variant: 'warning',
+                })
+            })
     }, [])
 
     return (
@@ -56,17 +61,21 @@ export function BgSyncPanelDialogAndButton() {
                             size="small"
                             color="success"
                             onClick={() => {
-                                postMessageToSW<
-                                    BgSyncQueue<Required<FormValuesType>>[]
-                                >({
-                                    action: 'FORCE_SYNC',
-                                }).then(() => {
-                                    postMessageToSW<
-                                        BgSyncQueue<Required<FormValuesType>>[]
-                                    >({
-                                        action: 'GET_SALES',
-                                    }).then(data => setBgSyncQueues(data))
-                                })
+                                forceSync()
+                                    .then(() => {
+                                        getSalesBgSyncData()
+                                            .then(data => setBgSyncQueues(data))
+                                            .catch(msg => {
+                                                enqueueSnackbar(msg, {
+                                                    variant: 'warning',
+                                                })
+                                            })
+                                    })
+                                    .catch(msg => {
+                                        enqueueSnackbar(msg, {
+                                            variant: 'warning',
+                                        })
+                                    })
                             }}>
                             <Refresh />
                         </IconButton>
@@ -226,4 +235,16 @@ function Values({
             </Typography>
         </>
     )
+}
+
+function getSalesBgSyncData() {
+    return postMessageToSW<BgSyncQueue<Required<FormValuesType>>[]>({
+        action: 'GET_SALES',
+    })
+}
+
+async function forceSync() {
+    return postMessageToSW<BgSyncQueue<Required<FormValuesType>>[]>({
+        action: 'FORCE_SYNC',
+    })
 }
