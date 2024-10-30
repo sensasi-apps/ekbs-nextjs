@@ -2,7 +2,6 @@ import { postMessageToSW } from '@/functions/post-message-to-sw'
 import { Close, Refresh } from '@mui/icons-material'
 import {
     Box,
-    Dialog,
     DialogContent,
     IconButton,
     Table,
@@ -10,10 +9,10 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Tooltip,
     Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { BgSyncQueue } from '@/@types/bg-sync-queue'
 import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../@shared-subcomponents/receipt'
@@ -22,6 +21,14 @@ import dayjs from 'dayjs'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
 import { enqueueSnackbar } from 'notistack'
+
+const Tooltip = dynamic(() => import('@mui/material/Tooltip'), {
+    ssr: false,
+})
+
+const Dialog = dynamic(() => import('@mui/material/Dialog'), {
+    ssr: false,
+})
 
 export function BgSyncPanelDialogAndButton() {
     const [open, setOpen] = useState(false)
