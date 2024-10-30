@@ -1,11 +1,6 @@
-import { Alert, Typography } from '@mui/material'
+import { Alert, Fade, Typography } from '@mui/material'
 import blinkSxValue from '@/utils/blinkSxValue'
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
-
-const Fade = dynamic(() => import('@mui/material/Fade'), {
-    ssr: false,
-})
 
 export function UserAccountAlert() {
     const [showWarning, setShowWarning] = useState(true)
