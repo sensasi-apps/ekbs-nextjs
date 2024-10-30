@@ -24,6 +24,7 @@ function CreateSaleForm() {
     const { user } = useAuth()
     const { setFieldValue, status, isSubmitting } =
         useFormikContext<FormValuesType>()
+
     const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER, {
         keepPreviousData: true,
     })
@@ -172,23 +173,25 @@ function CreateSaleForm() {
                     lineHeight="unset"
                     fontSize="1em"
                     paddingLeft={2}>
-                    <NumericField
-                        name="total_payment"
-                        disabled={typedStatus.isDisabled || isSubmitting}
-                        numericFormatProps={{
-                            InputProps: {
-                                autoComplete: 'off',
-                            },
-                            inputProps: {
-                                sx: {
-                                    py: 0.5,
-                                    px: 0.75,
-                                    textAlign: 'right',
-                                    autocomplete: 'off',
+                    {typedStatus.isFormOpen && (
+                        <NumericField
+                            name="total_payment"
+                            disabled={typedStatus.isDisabled || isSubmitting}
+                            numericFormatProps={{
+                                InputProps: {
+                                    autoComplete: 'off',
                                 },
-                            },
-                        }}
-                    />
+                                inputProps: {
+                                    sx: {
+                                        py: 0.5,
+                                        px: 0.75,
+                                        textAlign: 'right',
+                                        autocomplete: 'off',
+                                    },
+                                },
+                            }}
+                        />
+                    )}
                 </Grid2>
 
                 <Grid2

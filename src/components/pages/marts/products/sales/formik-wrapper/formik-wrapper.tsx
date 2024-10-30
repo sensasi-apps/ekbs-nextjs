@@ -28,7 +28,7 @@ export function FormikWrapper() {
                 }
 
                 return axios
-                    .post(ApiUrl.STORE, submittedData)
+                    .post<null>(ApiUrl.STORE, submittedData)
                     .then(() => {
                         setStatus({
                             isDisabled: true,
@@ -62,7 +62,7 @@ export function FormikWrapper() {
     )
 }
 
-export const DEFAULT_FORM_VALUES: FormValuesType = {
+const DEFAULT_FORM_VALUES: FormValuesType = {
     details: [],
     costs: [],
 }

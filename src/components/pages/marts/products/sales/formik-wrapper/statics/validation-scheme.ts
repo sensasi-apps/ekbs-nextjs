@@ -2,10 +2,20 @@ import type { FormValuesType } from '../@types/form-values-type'
 import * as yup from 'yup'
 
 export const VALIDATION_SCHEMA = yup.object().shape({
+    // at: // no need to validate this field because it's auto-generated when submitting form
+    // paid: // no need to validate this field because it's auto-generated when submitting form
+
     cashable_uuid: yup
         .string()
         .uuid()
         .required('Metode pembayaran tidak boleh kosong'),
+
+    costs: yup.array().of(
+        yup.object().shape({
+            name: yup.string().required('Biaya tidak boleh kosong'),
+            rp: yup.number().required('Jumlah biaya tidak boleh kosong'),
+        }),
+    ),
 
     details: yup
         .array()
@@ -20,16 +30,7 @@ export const VALIDATION_SCHEMA = yup.object().shape({
         )
         .min(1, 'Barang tidak boleh kosong'),
 
-    costs: yup.array().of(
-        yup.object().shape({
-            name: yup.string().required('Biaya tidak boleh kosong'),
-            rp: yup.number().required('Jumlah biaya tidak boleh kosong'),
-        }),
-    ),
-
     buyer_user_uuid: yup.string().uuid(),
-
-    no: yup.number().required('Nomor penjualan tidak boleh kosong'),
 
     total_payment: yup
         .number()
@@ -49,8 +50,4 @@ export const VALIDATION_SCHEMA = yup.object().shape({
                 'Total pembayaran tidak boleh kurang dari total belanja',
             )
         }),
-
-    cashable_name: yup
-        .string()
-        .required('Metode pembayaran tidak boleh kosong'),
 })
