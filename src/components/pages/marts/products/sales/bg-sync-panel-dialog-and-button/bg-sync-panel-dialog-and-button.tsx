@@ -36,13 +36,18 @@ export function BgSyncPanelDialogAndButton() {
         useState<BgSyncQueue<Required<FormValuesType>>[]>()
 
     useEffect(() => {
-        getSalesBgSyncData()
-            .then(data => setBgSyncQueues(data))
-            .catch(msg => {
-                enqueueSnackbar(msg, {
-                    variant: 'warning',
+        if (
+            typeof window !== 'undefined' &&
+            typeof window.navigator !== 'undefined'
+        ) {
+            getSalesBgSyncData()
+                .then(data => setBgSyncQueues(data))
+                .catch(msg => {
+                    enqueueSnackbar(msg, {
+                        variant: 'warning',
+                    })
                 })
-            })
+        }
     }, [])
 
     return (
