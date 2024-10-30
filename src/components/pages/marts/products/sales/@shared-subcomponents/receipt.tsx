@@ -71,7 +71,7 @@ export default function Receipt({
                 />
 
                 <Box>
-                    <DefaultItemDesc desc="TGL" value={at} />
+                    <DefaultItemDesc desc="Pada" value={at} />
 
                     <DefaultItemDesc
                         desc="NO. Nota"
