@@ -49,7 +49,7 @@ export default function SalesPage() {
 
                     <HistoryDatatableModalAndButton />
 
-                    {/* <BgSyncPanelDialogAndButton /> */}
+                    <BgSyncPanelDialogAndButton />
                 </Box>
 
                 <UserAccountAlert />
