@@ -1,5 +1,6 @@
 // vendors
 import { Box, Unstable_Grid2 as Grid2 } from '@mui/material'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 // global components
 import BackButton from '@/components/BackButton'
@@ -12,7 +13,14 @@ import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sa
 import { UserAccountAlert } from '@/components/pages/marts/products/sales/user-account-alert'
 // hooks
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
-import BgSyncPanelDialogAndButton from '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
+
+const BgSyncPanelDialogAndButton = dynamic(
+    () =>
+        import(
+            '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
+        ),
+    { ssr: false },
+)
 
 export default function SalesPage() {
     useRedirectIfUnauth()
@@ -31,7 +39,26 @@ export default function SalesPage() {
                 <title>{`Kasir Belayan Mart — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
-            <Top />
+            <Box
+                my={2}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center">
+                <Box display="flex" gap={1} alignItems="center">
+                    <BackButton />
+
+                    <HistoryDatatableModalAndButton />
+
+                    {/* <BgSyncPanelDialogAndButton /> */}
+                </Box>
+
+                <UserAccountAlert />
+
+                <Box display="flex" alignItems="center" gap={1}>
+                    <AccountButton color="success" />
+                    <NoInternetIndicator />
+                </Box>
+            </Box>
 
             <Grid2
                 container
@@ -45,31 +72,6 @@ export default function SalesPage() {
             </Grid2>
 
             <FooterBox />
-        </Box>
-    )
-}
-
-function Top() {
-    return (
-        <Box
-            my={2}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center">
-            <Box display="flex" gap={1} alignItems="center">
-                <BackButton />
-
-                <HistoryDatatableModalAndButton />
-
-                <BgSyncPanelDialogAndButton />
-            </Box>
-
-            <UserAccountAlert />
-
-            <Box display="flex" alignItems="center" gap={1}>
-                <AccountButton color="success" />
-                <NoInternetIndicator />
-            </Box>
         </Box>
     )
 }
