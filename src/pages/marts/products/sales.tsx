@@ -1,6 +1,5 @@
 // vendors
 import { Box, Unstable_Grid2 as Grid2 } from '@mui/material'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
 // global components
 import BackButton from '@/components/BackButton'
@@ -10,17 +9,10 @@ import NoInternetIndicator from '@/components/no-internet-indicator'
 import AccountButton from '@/components/Layouts/components/TopBar/components/AccountButton'
 import FormikWrapper from '@/components/pages/marts/products/sales/formik-wrapper'
 import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/history-datatable-modal-and-button'
-import { UserAccountAlert } from '@/components/pages/marts/products/sales/user-account-alert'
 // hooks
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
-
-const BgSyncPanelDialogAndButton = dynamic(
-    () =>
-        import(
-            '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
-        ),
-    { ssr: false },
-)
+import { UserAccountAlert } from '@/components/pages/marts/products/sales/user-account-alert'
+import BgSyncPanelDialogAndButton from '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
 
 export default function SalesPage() {
     useRedirectIfUnauth()
