@@ -4,7 +4,6 @@ import type { FormikStatusType, FormValuesType } from '../../../..'
 import { Field, FieldProps, useFormikContext } from 'formik'
 import { memo, useEffect } from 'react'
 import { Box, Divider, Typography } from '@mui/material'
-import dayjs from 'dayjs'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import useSWR from 'swr'
 // subcomponents
@@ -15,7 +14,6 @@ import CostsFieldComponent from './components/costs-field-component'
 import DefaultItemDesc from '../../../../../@shared-subcomponents/default-item-desc'
 import DetailsFieldComponent from './components/details-field-component'
 // utils
-import { toYmd } from '@/functions/toYmd'
 import ApiUrl from '../../../../../@enums/api-url'
 import formatNumber from '@/utils/formatNumber'
 import useAuth from '@/providers/Auth'
@@ -41,7 +39,7 @@ function CreateSaleForm() {
         <>
             <DefaultItemDesc
                 desc="TGL"
-                value={typedStatus?.submittedData?.at ?? toYmd(dayjs())}
+                value={typedStatus?.submittedData?.at}
             />
 
             <DefaultItemDesc
