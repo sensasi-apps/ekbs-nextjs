@@ -47,7 +47,7 @@ function TableFooter({ data }: { data: ProductSaleType[] }) {
                         whiteSpace: 'nowrap',
                     },
                 }}>
-                <TableCell colSpan={10}>GRAND TOTAL</TableCell>
+                <TableCell colSpan={11}>GRAND TOTAL</TableCell>
 
                 <TableCell align="right">
                     {formatNumber(baseCostTotalRp)}

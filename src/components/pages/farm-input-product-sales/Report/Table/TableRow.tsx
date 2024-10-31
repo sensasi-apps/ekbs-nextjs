@@ -12,6 +12,7 @@ const LEFT_BORDER_STYLE = {
 
 function TableRow({
     data: {
+        short_uuid,
         product_movement_details,
         product_movement,
         at,
@@ -42,6 +43,7 @@ function TableRow({
         <MuiTableRow>
             <TableCell>{no}</TableCell>
             <TableCell>{toDmy(at)}</TableCell>
+            <TableCell>{short_uuid}</TableCell>
             <TableCell>{ucWords(product_movement.warehouse)}</TableCell>
 
             <TableCell>{buyer_user ? buyer_user.id : '-'}</TableCell>

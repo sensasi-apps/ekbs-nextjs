@@ -16,6 +16,7 @@ function TableHead() {
             <TableRow>
                 <TableCell>#</TableCell>
                 <TableCell>Tanggal</TableCell>
+                <TableCell>Kode</TableCell>
                 <TableCell>Gudang</TableCell>
                 <TableCell>ID</TableCell>
                 <TableCell>Pengguna</TableCell>
