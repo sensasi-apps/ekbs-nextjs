@@ -40,7 +40,9 @@ function ProductPicker({
     }, [value])
 
     const [query, setQuery] = useState<string>('')
-    const [selectedCategory, setSelectedCategory] = useState<string>()
+    const [selectedCategory, setSelectedCategory] = useState<
+        string | undefined
+    >()
 
     const debounceSetQuery = useDebouncedCallback(setQuery, 250)
     const debounceSetFieldValue = useDebouncedCallback(
@@ -102,9 +104,10 @@ function ProductPicker({
                     }
                 }}
             />
+
             <SearchTextField
                 value={query ?? ''}
-                onChange={({ target: { value } }) => debounceSetQuery(value)}
+                onValueChange={debounceSetQuery}
             />
 
             <CategoryChips

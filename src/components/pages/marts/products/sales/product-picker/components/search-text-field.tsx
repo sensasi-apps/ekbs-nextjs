@@ -1,14 +1,15 @@
 import { memo, useEffect, useState } from 'react'
 // icons
 import SearchIcon from '@mui/icons-material/Search'
-import { InputAdornment, TextField, TextFieldProps } from '@mui/material'
+import { Fade, IconButton, InputAdornment, TextField } from '@mui/material'
+import { Close } from '@mui/icons-material'
 
 function SearchTextField({
-    onChange,
     value: valueProp,
+    onValueChange,
 }: {
-    onChange: TextFieldProps['onChange']
     value: string
+    onValueChange: (value: string) => void
 }) {
     const [value, setValue] = useState<string>(valueProp)
 
@@ -26,12 +27,26 @@ function SearchTextField({
             value={value}
             onChange={e => {
                 setValue(e.target.value)
-                onChange?.(e)
+                onValueChange(e.target.value)
             }}
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">
                         <SearchIcon fontSize="small" color="disabled" />
+                    </InputAdornment>
+                ),
+                endAdornment: (
+                    <InputAdornment position="end">
+                        <Fade in={Boolean(value)}>
+                            <IconButton
+                                size="small"
+                                onClick={() => {
+                                    setValue('')
+                                    onValueChange('')
+                                }}>
+                                <Close />
+                            </IconButton>
+                        </Fade>
                     </InputAdornment>
                 ),
             }}
