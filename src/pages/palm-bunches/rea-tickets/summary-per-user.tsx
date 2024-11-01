@@ -33,7 +33,7 @@ export default function Page() {
     } = useSWR<AoaRows>(
         from_date && till_date
             ? [
-                  '/palm-bunches/rea-tickets/get-export-data',
+                  '/palm-bunches/rea-tickets/get-summary-per-user-data',
                   { from_date, till_date },
               ]
             : null,
@@ -44,7 +44,7 @@ export default function Page() {
     }
 
     return (
-        <AuthLayout title="Data tiket">
+        <AuthLayout title="Rangkuman Per Pengguna">
             <BackButton />
 
             <Box display="flex" gap={2} alignItems="center" my={2}>
@@ -55,10 +55,7 @@ export default function Page() {
                         mutate()
                     }}
                     onDownload={() =>
-                        aoaToXlsx(
-                            `Rangkuman Tiket per Pengguna ${from_date}-${till_date}`,
-                            data,
-                        )
+                        aoaToXlsx(`Tiket TBS ${from_date}-${till_date}`, data)
                     }
                 />
             </Box>
