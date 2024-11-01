@@ -59,6 +59,7 @@ export const palmBunches: NavItemGroup = {
             pathname: [
                 '/palm-bunches/rea-tickets',
                 '/palm-bunches/rea-tickets/export',
+                '/palm-bunches/rea-tickets/summary-per-user',
             ],
             label: 'Tiket REA',
             icon: Balance,

@@ -4,12 +4,10 @@ import type PalmBunchType from '@/dataTypes/PalmBunch'
 import type Land from '@/types/Land'
 // vendors
 import { useRouter } from 'next/router'
+import { Box, Button, Chip, Collapse, Typography } from '@mui/material'
+import { BackupTable } from '@mui/icons-material'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
-// materials
-import Chip from '@mui/material/Chip'
-import Collapse from '@mui/material/Collapse'
-import Typography from '@mui/material/Typography'
 // icons
 import ReceiptIcon from '@mui/icons-material/Receipt'
 // components
@@ -33,8 +31,7 @@ import Role from '@/enums/Role'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import blinkSxValue from '@/utils/blinkSxValue'
-import { Button } from '@mui/material'
-import { Download } from '@mui/icons-material'
+import Link from 'next/link'
 
 export default function Page() {
     const { userHasPermission } = useAuth()
@@ -42,14 +39,21 @@ export default function Page() {
     return (
         <AuthLayout title="Daftar Tiket REA">
             {userHasPermission(PalmBunch.READ_STATISTIC) && (
-                <Button
-                    startIcon={<Download />}
-                    href="rea-tickets/export"
-                    sx={{
-                        mb: 4,
-                    }}>
-                    Unduh Data
-                </Button>
+                <Box mb={4} display="flex" gap={1}>
+                    <Button
+                        startIcon={<BackupTable />}
+                        href="rea-tickets/export"
+                        LinkComponent={Link}>
+                        Data Tiket
+                    </Button>
+
+                    <Button
+                        startIcon={<BackupTable />}
+                        href="rea-tickets/summary-per-user"
+                        LinkComponent={Link}>
+                        Data Per Pengguna
+                    </Button>
+                </Box>
             )}
 
             <FormDataProvider>
