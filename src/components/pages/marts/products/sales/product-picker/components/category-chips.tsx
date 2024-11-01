@@ -33,7 +33,7 @@ function CategoryChips({
                     setValue(undefined)
                     onSelect(undefined)
                 }}
-                variant="outlined"
+                variant={value === undefined ? 'filled' : 'outlined'}
                 color={value === undefined ? 'success' : undefined}
             />
 
@@ -42,7 +42,7 @@ function CategoryChips({
                     key={i}
                     label={category ?? 'Tanpa Kategori'}
                     color={value === category ? 'success' : undefined}
-                    variant="outlined"
+                    variant={value === category ? 'filled' : 'outlined'}
                     onClick={() => {
                         setValue(category)
                         onSelect(category)

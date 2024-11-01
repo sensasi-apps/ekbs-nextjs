@@ -18,6 +18,7 @@ import ChipSmall from '@/components/ChipSmall'
 import numberToCurrency from '@/utils/numberToCurrency'
 import { useFormikContext } from 'formik'
 import { FormikStatusType } from '../../formik-wrapper'
+import formatNumber from '@/utils/formatNumber'
 
 const WAREHOUSE = 'main'
 
@@ -40,17 +41,22 @@ function ProductCard({
     const { status } = useFormikContext()
     const typedStatus = status as FormikStatusType
 
-    const { default_sell_price } =
+    const { default_sell_price, qty = 0 } =
         warehouses.find(warehouse => warehouse.warehouse === WAREHOUSE) ?? {}
 
+    /**
+     * @todo Enable `qty <= 0` condition to disable product card when qty is less than or equal to 0
+     * @see https://github.com/sensasi-apps/ekbs-nextjs/issues/444
+     */
     const isDisabled =
-        !typedStatus?.isFormOpen || !!deleted_at || typedStatus.isDisabled
+        !typedStatus?.isFormOpen || !!deleted_at || typedStatus.isDisabled // || qty <= 0
 
     return (
         <Zoom in>
             <Card
                 component="span"
-                variant="outlined"
+                variant={isDisabled ? 'elevation' : 'outlined'}
+                elevation={0}
                 sx={{
                     borderRadius: 4,
                     textDecoration: deleted_at ? 'line-through' : 'none',
@@ -85,7 +91,21 @@ function ProductCard({
                             {code ? ` / ${code}` : ''}
                         </Typography>
 
-                        <Typography>{name}</Typography>
+                        <Typography component="div">
+                            {name}
+
+                            <Typography
+                                mt={-1}
+                                color="text.disabled"
+                                sx={{
+                                    verticalAlign: 'middle',
+                                }}
+                                variant="caption"
+                                component="span">
+                                {' '}
+                                {formatNumber(qty)}
+                            </Typography>
+                        </Typography>
 
                         <Typography
                             variant="h5"
