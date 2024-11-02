@@ -9,20 +9,19 @@ import {
     TableFooter,
     TableHead,
     TableRow,
-    Typography,
 } from '@mui/material'
+import { Download, Refresh as RefreshIcon } from '@mui/icons-material'
 import dayjs, { Dayjs } from 'dayjs'
 import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
-// icons
-import RefreshIcon from '@mui/icons-material/Refresh'
 // utils
 import ApiUrl from '../../@enums/api-url'
 import formatNumber from '@/utils/formatNumber'
-import PrintHandler from '@/components/PrintHandler'
 import ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
+import toDmy from '@/utils/toDmy'
+import { aoaToXlsx } from '@/functions/aoaToXlsx'
 
 export default function SalesReport() {
     const [fromAt, setFromAt] = useState<Dayjs>()
@@ -62,28 +61,18 @@ export default function SalesReport() {
                 handleDateChange={handleDateChange}
                 handleRefresh={() => mutate(rows)}
                 downloadButton={
-                    <PrintHandler
-                        slotProps={{
-                            printButton: {
-                                size: 'small',
-                                disabled:
-                                    !isParamsValid || isLoading || isValidating,
-                            },
+                    <IconButton
+                        title="Unduh"
+                        icon={Download}
+                        onClick={() => {
+                            if (fromAt && toAt) {
+                                handleDownloadExcel(
+                                    rows,
+                                    `Laporan Penjualan Belayan Mart — ${toDmy(fromAt)} s/d ${toDmy(toAt)} — ${dayjs().format('YYYYMMDDHHmmss')}`,
+                                )
+                            }
                         }}
-                        content={
-                            <>
-                                <Typography>
-                                    Rincian Penjualan — Belayan Mart
-                                </Typography>
-
-                                <Typography variant="caption" gutterBottom>
-                                    {fromAt?.format('YYYY-MM-DD')} -{' '}
-                                    {toAt?.format('YYYY-MM-DD')}
-                                </Typography>
-
-                                <MainTable data={rows} />
-                            </>
-                        }
+                        disabled={!isParamsValid || isLoading || isValidating}
                     />
                 }
             />
@@ -91,6 +80,35 @@ export default function SalesReport() {
             <MainTable data={rows} />
         </>
     )
+}
+
+function handleDownloadExcel(
+    data: ProductMovementWithSale[],
+    fileName: string,
+) {
+    let rowNo = 1
+    const rows = data.flatMap(({ details, sale: { no }, at }) => [
+        ...details.map(item => {
+            const { qty, product_state, warehouse_state, rp_per_unit } = item
+
+            return [
+                rowNo++,
+                no,
+                toDmy(at),
+                dayjs(at).format('HH:mm'),
+                product_state?.name ?? '',
+                -qty,
+                warehouse_state?.cost_rp_per_unit ?? 0,
+                -qty * (warehouse_state?.cost_rp_per_unit ?? 0),
+                rp_per_unit,
+                -qty * rp_per_unit,
+                -qty * (rp_per_unit - (warehouse_state?.cost_rp_per_unit ?? 0)),
+                getMarginPercentage(item),
+            ]
+        }),
+    ])
+
+    return aoaToXlsx(fileName, rows, TABLE_HEADRES)
 }
 
 const FROM_DATE = dayjs('2024-01-01').startOf('month')
@@ -138,19 +156,22 @@ function FiltersBox({
     )
 }
 
+const TABLE_HEADRES = [
+    '#',
+    'NO. Struk',
+    'TGL',
+    'Waktu',
+    'Produk',
+    'Qty',
+    'HPP (RP)',
+    'Total HPP (RP)',
+    'Harga Jual (RP)',
+    'Total Penjualan (RP)',
+    'Marjin (RP)',
+    'Marjin (%)',
+]
+
 function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
-    const marginPercentages = rows.map(row =>
-        row.details.map(getMarginPercentage),
-    )
-
-    const marginPercentageAvg =
-        marginPercentages.reduce(
-            (acc, percentages) =>
-                acc +
-                percentages.reduce((acc, percentage) => acc + percentage, 0),
-            0,
-        ) / marginPercentages.flat().length
-
     return (
         <TableContainer>
             <Table
@@ -165,18 +186,9 @@ function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
                 }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell>#</TableCell>
-                        <TableCell>NO. Struk</TableCell>
-                        <TableCell>TGL</TableCell>
-                        <TableCell>Waktu</TableCell>
-                        <TableCell>Produk</TableCell>
-                        <TableCell>Qty</TableCell>
-                        <TableCell>HPP (RP)</TableCell>
-                        <TableCell>Total HPP (RP)</TableCell>
-                        <TableCell>Harga Jual (RP)</TableCell>
-                        <TableCell>Total Penjualan (RP)</TableCell>
-                        <TableCell>Marjin (RP)</TableCell>
-                        <TableCell>Marjin (%)</TableCell>
+                        {TABLE_HEADRES.map((header, i) => (
+                            <TableCell key={i}>{header}</TableCell>
+                        ))}
                     </TableRow>
                 </TableHead>
 
@@ -186,113 +198,122 @@ function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
                     ))}
                 </TableBody>
 
-                <TableFooter>
-                    <TableRow>
-                        <TableCell
-                            align="right"
-                            colSpan={5}
-                            sx={{
-                                textTransform: 'uppercase',
-                            }}>
-                            Total
-                        </TableCell>
-                        <TableCell align="right">
-                            {formatNumber(
-                                rows.reduce(
-                                    (acc, { details }) =>
-                                        acc +
-                                        details.reduce(
-                                            (acc, { qty }) => acc - qty,
-                                            0,
-                                        ),
-                                    0,
-                                ),
-                            )}
-                        </TableCell>
-
-                        <TableCell align="right" colSpan={2}>
-                            {formatNumber(
-                                rows.reduce(
-                                    (acc, { details }) =>
-                                        acc +
-                                        details.reduce(
-                                            (acc, { warehouse_state }) =>
-                                                acc +
-                                                (warehouse_state?.cost_rp_per_unit ??
-                                                    0),
-                                            0,
-                                        ),
-                                    0,
-                                ),
-                            )}
-                        </TableCell>
-
-                        <TableCell align="right" colSpan={2}>
-                            {formatNumber(
-                                rows.reduce(
-                                    (acc, { details }) =>
-                                        acc +
-                                        details.reduce(
-                                            (
-                                                acc,
-                                                {
-                                                    qty,
-                                                    cost_rp_per_unit,
-                                                    rp_per_unit,
-                                                },
-                                            ) =>
-                                                acc +
-                                                (cost_rp_per_unit +
-                                                    rp_per_unit) *
-                                                    -qty,
-                                            0,
-                                        ),
-                                    0,
-                                ),
-                            )}
-                        </TableCell>
-
-                        <TableCell align="right">
-                            {formatNumber(
-                                rows.reduce(
-                                    (acc, { details }) =>
-                                        acc +
-                                        details.reduce(
-                                            (
-                                                acc,
-                                                {
-                                                    qty,
-                                                    cost_rp_per_unit,
-                                                    rp_per_unit,
-                                                    warehouse_state,
-                                                },
-                                            ) =>
-                                                acc +
-                                                -qty *
-                                                    (cost_rp_per_unit +
-                                                        rp_per_unit -
-                                                        (warehouse_state?.cost_rp_per_unit ??
-                                                            0)),
-                                            0,
-                                        ),
-                                    0,
-                                ),
-                            )}
-                        </TableCell>
-                        <TableCell align="right">
-                            {formatNumber(
-                                isNaN(marginPercentageAvg)
-                                    ? 0
-                                    : marginPercentageAvg,
-                                {
-                                    maximumFractionDigits: 0,
-                                },
-                            )}
-                        </TableCell>
-                    </TableRow>
-                </TableFooter>
+                <TheFooter rows={rows} />
             </Table>
         </TableContainer>
+    )
+}
+
+function TheFooter({ rows }: { rows: ProductMovementWithSale[] }) {
+    const marginPercentages = rows.map(row =>
+        row.details.map(getMarginPercentage),
+    )
+
+    const marginPercentageAvg =
+        marginPercentages.reduce(
+            (acc, percentages) =>
+                acc +
+                percentages.reduce((acc, percentage) => acc + percentage, 0),
+            0,
+        ) / marginPercentages.flat().length
+
+    return (
+        <TableFooter>
+            <TableRow>
+                <TableCell
+                    align="right"
+                    colSpan={5}
+                    sx={{
+                        textTransform: 'uppercase',
+                    }}>
+                    Total
+                </TableCell>
+
+                <TableCell align="right">
+                    {formatNumber(
+                        rows.reduce(
+                            (acc, { details }) =>
+                                acc +
+                                details.reduce((acc, { qty }) => acc - qty, 0),
+                            0,
+                        ),
+                    )}
+                </TableCell>
+
+                <TableCell align="right" colSpan={2}>
+                    {formatNumber(
+                        rows.reduce(
+                            (acc, { details }) =>
+                                acc +
+                                details.reduce(
+                                    (acc, { warehouse_state, qty }) =>
+                                        acc +
+                                        -qty *
+                                            (warehouse_state?.cost_rp_per_unit ??
+                                                0),
+                                    0,
+                                ),
+                            0,
+                        ),
+                    )}
+                </TableCell>
+
+                <TableCell align="right" colSpan={2}>
+                    {formatNumber(
+                        rows.reduce(
+                            (acc, { details }) =>
+                                acc +
+                                details.reduce(
+                                    (
+                                        acc,
+                                        { qty, cost_rp_per_unit, rp_per_unit },
+                                    ) =>
+                                        acc +
+                                        (cost_rp_per_unit + rp_per_unit) * -qty,
+                                    0,
+                                ),
+                            0,
+                        ),
+                    )}
+                </TableCell>
+
+                <TableCell align="right">
+                    {formatNumber(
+                        rows.reduce(
+                            (acc, { details }) =>
+                                acc +
+                                details.reduce(
+                                    (
+                                        acc,
+                                        {
+                                            qty,
+                                            cost_rp_per_unit,
+                                            rp_per_unit,
+                                            warehouse_state,
+                                        },
+                                    ) =>
+                                        acc +
+                                        -qty *
+                                            (cost_rp_per_unit +
+                                                rp_per_unit -
+                                                (warehouse_state?.cost_rp_per_unit ??
+                                                    0)),
+                                    0,
+                                ),
+                            0,
+                        ),
+                    )}
+                </TableCell>
+                <TableCell align="right">
+                    {formatNumber(
+                        isNaN(marginPercentageAvg) ? 0 : marginPercentageAvg,
+                        {
+                            maximumFractionDigits: 0,
+                        },
+                    )}
+                </TableCell>
+            </TableRow>
+        </TableFooter>
     )
 }
 
@@ -318,7 +339,7 @@ function ItemTableRow({
             <TableCell>{dayjs(at).format('YYYY-MM-DD')}</TableCell>
             <TableCell>{dayjs(at).format('HH:mm')}</TableCell>
 
-            <TableCell align="right">
+            <TableCell align="left">
                 <ul
                     style={{
                         padding: 0,
