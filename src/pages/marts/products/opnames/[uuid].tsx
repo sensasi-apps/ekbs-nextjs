@@ -1,4 +1,5 @@
 import ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
+import BackButton from '@/components/BackButton'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import AddProductFormDialog from '@/components/pages/marts/products/opnames/AddProductsFormDialog'
 import DetailTable from '@/components/pages/marts/products/opnames/DetailTable'
@@ -69,6 +70,8 @@ export default function OpnameDetail() {
                     sedang diopname hingga proses opname selesai.
                 </Alert>
             </Fade>
+
+            <BackButton />
 
             <Box display="flex" gap={2}>
                 <Typography variant="h6" component="p">
