@@ -46,6 +46,7 @@ export default function ProductPurchases() {
     return (
         <AuthLayout title="Pembelian">
             <Datatable
+                title="Dafar Pembelian"
                 apiUrl={ApiUrl.GET_DATATABLE_DATA}
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 onRowClick={(_, { dataIndex }, event) => {
