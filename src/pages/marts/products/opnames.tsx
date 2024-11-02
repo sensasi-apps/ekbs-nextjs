@@ -45,7 +45,7 @@ export default function Opnames() {
                     }
                 }}
                 tableId="opnames-table"
-                title="Opname"
+                title="Daftar Opname Stok"
                 columns={columns}
             />
 
