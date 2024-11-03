@@ -60,6 +60,10 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
     } = getTotalAndData(data, 'delivery')
 
     const { txses: etcData, rpTotal: etcRpTotal } = getTotalAndData(data, 'etc')
+    const { txses: gajians, rpTotal: gajianRpTotal } = getTotalAndData(
+        data,
+        'gajian_tbs',
+    )
 
     return (
         <TableContainer>
@@ -108,6 +112,20 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
                                 ))}
 
                             <TotalRow total={etcRpTotal} />
+                        </>
+                    )}
+
+                    {gajianRpTotal != 0 && (
+                        <>
+                            <HeadingRow>Gajian TBS</HeadingRow>
+
+                            {gajians
+                                .filter(d => d.data.length > 0)
+                                .map((data, i) => (
+                                    <ItemRow key={i} {...data} />
+                                ))}
+
+                            <TotalRow total={gajianRpTotal} />
                         </>
                     )}
 
@@ -302,7 +320,7 @@ function TotalRow({
 
 function getTotalAndData(
     data: ApiResponseType,
-    section: 'tbs' | 'delivery' | 'etc',
+    section: 'tbs' | 'delivery' | 'gajian_tbs' | 'etc',
 ) {
     let txs: Transaction[] = []
     let kgTotal = 0
@@ -340,24 +358,34 @@ function getTotalAndData(
                 .reduce((acc, tx) => acc + (tx?.transactionable?.n_kg ?? 0), 0)
             break
 
+        case 'gajian_tbs':
+            txs = data.data.filter(tx =>
+                tx.tags.find(tag => tag.name.id === TransactionTag.GAJIAN_TBS),
+            )
+            break
+
         default:
             txs = data.data.filter(
                 tx =>
                     !tx.tags.find(
                         tag =>
                             TBS_STRING_TAGS.includes(tag.name.id) ||
-                            TRANSPORT_STRING_TAGS.includes(tag.name.id),
+                            TRANSPORT_STRING_TAGS.includes(tag.name.id) ||
+                            tag.name.id === TransactionTag.GAJIAN_TBS,
                     ),
             )
             break
     }
 
     const txses = txs.reduce<TxsGroup[]>((acc, tx) => {
-        const tag = tx.tags[0]?.name.id ?? 'Lain-lain'
+        const tag =
+            tx.tags[0]?.name.id === TransactionTag.GAJIAN_TBS
+                ? tx.cash_transfer_origin?.transaction_destination?.cash?.name
+                : tx.tags[0]?.name.id
         const index = acc.findIndex(d => d.name === tag)
 
         if (index === -1) {
-            acc.push({ name: tag, data: [tx] })
+            acc.push({ name: tag ?? 'Lain-lain', data: [tx] })
         } else {
             acc[index].data.push(tx)
         }

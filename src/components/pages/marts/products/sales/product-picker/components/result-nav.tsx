@@ -39,7 +39,9 @@ function ResultNav({
             </IconButton>
 
             <Typography variant="caption">
-                Menampilkan {productPerPage} dari {itemTotal} barang
+                Menampilkan{' '}
+                {productPerPage > itemTotal ? itemTotal : productPerPage} dari{' '}
+                {itemTotal} barang
             </Typography>
         </Box>
     )

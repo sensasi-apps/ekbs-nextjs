@@ -124,8 +124,13 @@ function FiltersBox({
     return (
         <Box display="flex" gap={1} alignItems="center" mb={4}>
             <DateTimePicker
+                slotProps={{
+                    textField: {
+                        id: 'fromAt',
+                    },
+                }}
                 label="Dari"
-                format="YYYY-MM-DD HH:mm"
+                format="DD-MM-YYYY HH:mm"
                 disabled={disabled}
                 minDate={FROM_DATE}
                 maxDate={dayjs().endOf('month')}
@@ -133,8 +138,13 @@ function FiltersBox({
             />
 
             <DateTimePicker
+                slotProps={{
+                    textField: {
+                        id: 'toAt',
+                    },
+                }}
                 label="Hingga"
-                format="YYYY-MM-DD HH:mm"
+                format="DD-MM-YYYY HH:mm"
                 disabled={disabled}
                 minDate={FROM_DATE}
                 maxDate={dayjs().endOf('month')}

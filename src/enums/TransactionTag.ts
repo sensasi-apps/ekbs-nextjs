@@ -1,10 +1,11 @@
 enum TransactionTag {
     // general
     ARISAN = 'Arisan',
-    KOREKSI = 'Koreksi',
-
-    TARIK_TUNAI = 'Tarik Tunai',
+    BENGKEL = 'Bengkel',
+    EXCAVATOR = 'Excavator',
     GAJIAN_TBS = 'Gajian TBS',
+    KOREKSI = 'Koreksi',
+    TARIK_TUNAI = 'Tarik Tunai',
 
     // palm bunch / TBS
     PELUNASAN_TBS = 'Pelunasan TBS',

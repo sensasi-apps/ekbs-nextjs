@@ -21,12 +21,16 @@ const WAREHOUSE = 'main'
 let detailsTemp: FormValuesType['details'] = []
 const PRODUCT_PER_PAGE = 8
 
+type ApiResponseType = (Product & {
+    is_in_opname: boolean
+})[]
+
 function ProductPicker({
     field: { name, value },
     form: { setFieldValue, status },
 }: FieldProps<FormValuesType['details']>) {
     const typedStatus = status as FormikStatusType
-    const { data: products = [], isLoading } = useSWR<Product[]>(
+    const { data: products = [], isLoading } = useSWR<ApiResponseType>(
         ApiUrl.PRODUCTS,
         {
             keepPreviousData: true,
@@ -163,6 +167,7 @@ function ProductPicker({
                         </Masonry>
 
                         <ScrollableXBox
+                            display="flex"
                             sx={{
                                 display: { xs: 'flex', sm: 'none' },
                                 '& > .MuiPaper-root': {
