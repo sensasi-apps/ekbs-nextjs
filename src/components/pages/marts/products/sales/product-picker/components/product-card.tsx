@@ -83,7 +83,7 @@ function ProductCard({
                         {qty <= 0 && (
                             <ChipSmall
                                 component="div"
-                                label="HABIS"
+                                label="KOSONG"
                                 variant="filled"
                                 color="error"
                             />
