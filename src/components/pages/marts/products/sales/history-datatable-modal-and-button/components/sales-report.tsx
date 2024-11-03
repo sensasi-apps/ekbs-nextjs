@@ -127,8 +127,13 @@ function FiltersBox({
     return (
         <Box display="flex" gap={1} alignItems="center" mb={4}>
             <DatePicker
+                slotProps={{
+                    textField: {
+                        id: 'fromAt',
+                    },
+                }}
                 label="Dari"
-                format="YYYY-MM-DD"
+                format="DD-MM-YYYY"
                 disabled={disabled}
                 minDate={FROM_DATE}
                 maxDate={dayjs().endOf('month')}
@@ -136,8 +141,13 @@ function FiltersBox({
             />
 
             <DatePicker
+                slotProps={{
+                    textField: {
+                        id: 'toAt',
+                    },
+                }}
                 label="Hingga"
-                format="YYYY-MM-DD"
+                format="DD-MM-YYYY"
                 disabled={disabled}
                 minDate={FROM_DATE}
                 maxDate={dayjs().endOf('month')}
@@ -383,19 +393,26 @@ function ItemTableRow({
             </TableCell>
 
             <TableCell align="right">
-                {details.map(({ qty, warehouse_state }, i) => (
-                    <li
-                        key={i}
-                        style={{
-                            padding: 0,
-                            margin: 0,
-                            listStyle: 'none',
-                        }}>
-                        {formatNumber(
-                            -qty * (warehouse_state?.cost_rp_per_unit ?? 0),
-                        )}
-                    </li>
-                ))}
+                <ul
+                    style={{
+                        padding: 0,
+                        margin: 0,
+                        listStyle: 'none',
+                    }}>
+                    {details.map(({ qty, warehouse_state }, i) => (
+                        <li
+                            key={i}
+                            style={{
+                                padding: 0,
+                                margin: 0,
+                                listStyle: 'none',
+                            }}>
+                            {formatNumber(
+                                -qty * (warehouse_state?.cost_rp_per_unit ?? 0),
+                            )}
+                        </li>
+                    ))}
+                </ul>
             </TableCell>
 
             <TableCell align="right">
@@ -405,8 +422,8 @@ function ItemTableRow({
                         margin: 0,
                         listStyle: 'none',
                     }}>
-                    {details.map(({ cost_rp_per_unit, rp_per_unit }) => (
-                        <li key={cost_rp_per_unit}>
+                    {details.map(({ cost_rp_per_unit, rp_per_unit }, i) => (
+                        <li key={i}>
                             {formatNumber(cost_rp_per_unit + rp_per_unit)}
                         </li>
                     ))}
@@ -455,9 +472,9 @@ function ItemTableRow({
                             const totalSale =
                                 -qty * (cost_rp_per_unit + rp_per_unit)
 
-                            const margin = totalSale - totalCost
+                            const marginRp = totalSale - totalCost
 
-                            return <li key={i}>{formatNumber(margin)}</li>
+                            return <li key={i}>{formatNumber(marginRp)}</li>
                         },
                     )}
                 </ul>
