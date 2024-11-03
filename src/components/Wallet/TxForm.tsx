@@ -210,11 +210,13 @@ export default function WalletTxForm({
                 disabled={disabled}
                 options={[
                     TransactionTag.ARISAN,
+                    TransactionTag.BENGKEL,
+                    TransactionTag.EXCAVATOR,
                     TransactionTag.GAJIAN_TBS,
                     TransactionTag.KOREKSI,
-                    TransactionTag.TARIK_TUNAI,
                     TransactionTag.POTONGAN_JASA_PANEN,
                     TransactionTag.POTONGAN_JASA_PERAWATAN,
+                    TransactionTag.TARIK_TUNAI,
                 ]}
                 onChange={(_, value) => setFieldValue('tag', value)}
                 renderInput={params => (
