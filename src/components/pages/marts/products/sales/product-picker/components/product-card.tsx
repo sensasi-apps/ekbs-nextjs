@@ -32,10 +32,13 @@ function ProductCard({
         unit,
         warehouses,
         deleted_at,
+        is_in_opname,
     },
     onClick,
 }: {
-    data: Product
+    data: Product & {
+        is_in_opname: boolean
+    }
     onClick: CardActionAreaProps['onClick']
 }) {
     const { status } = useFormikContext()
@@ -44,12 +47,12 @@ function ProductCard({
     const { default_sell_price, qty = 0 } =
         warehouses.find(warehouse => warehouse.warehouse === WAREHOUSE) ?? {}
 
-    /**
-     * @todo Enable `qty <= 0` condition to disable product card when qty is less than or equal to 0
-     * @see https://github.com/sensasi-apps/ekbs-nextjs/issues/444
-     */
     const isDisabled =
-        !typedStatus?.isFormOpen || !!deleted_at || typedStatus.isDisabled // || qty <= 0
+        !typedStatus?.isFormOpen ||
+        !!deleted_at ||
+        typedStatus.isDisabled ||
+        qty <= 0 ||
+        is_in_opname
 
     return (
         <Zoom in>
@@ -68,12 +71,29 @@ function ProductCard({
                             flexDirection: 'column',
                             gap: 1,
                         }}>
+                        {is_in_opname && (
+                            <ChipSmall
+                                component="div"
+                                label="OPNAME"
+                                variant="filled"
+                                color="warning"
+                            />
+                        )}
+
+                        {qty <= 0 && (
+                            <ChipSmall
+                                component="div"
+                                label="HABIS"
+                                variant="filled"
+                                color="error"
+                            />
+                        )}
+
                         <Box
                             display="flex"
                             justifyContent="space-between"
                             gap={1}>
                             <ChipSmall
-                                component="div"
                                 label={category_name ?? 'Tanpa Kategori'}
                                 variant="outlined"
                             />
