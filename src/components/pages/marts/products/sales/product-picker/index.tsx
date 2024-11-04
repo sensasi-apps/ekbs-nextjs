@@ -103,14 +103,23 @@ function ProductPicker({
                     if (typedStatus?.isFormOpen) {
                         const filteredProducts =
                             products?.data.filter(product =>
-                                product.code
+                                product.barcode_reg_id
                                     ?.toLowerCase()
                                     .includes(data.toLowerCase()),
                             ) ?? []
 
                         if (filteredProducts.length === 1) {
-                            handleAddProduct(filteredProducts[0])
-                            debounceSetFieldValue()
+                            const isProductCanBeAdded =
+                                !filteredProducts[0].is_in_opname &&
+                                (filteredProducts[0].warehouses.find(
+                                    warehouse =>
+                                        warehouse?.warehouse === WAREHOUSE,
+                                )?.qty ?? 0) > 0
+
+                            if (isProductCanBeAdded) {
+                                handleAddProduct(filteredProducts[0])
+                                debounceSetFieldValue()
+                            }
                         }
                     }
                 }}
@@ -220,8 +229,13 @@ function isProductMatch(
         ?.toLowerCase()
         .includes(query.toLowerCase())
     const isIdMatch = product.id.toString().includes(query.toLowerCase())
+    const isBarcodeMatch =
+        product.barcode_reg_id?.includes(query.toLowerCase()) ?? false
 
-    return isCategoryMatch && (isNameMatch || isCodeMatch || isIdMatch)
+    return (
+        isCategoryMatch &&
+        (isNameMatch || isCodeMatch || isIdMatch || isBarcodeMatch)
+    )
 }
 
 function handleAddProduct(product: Product) {
