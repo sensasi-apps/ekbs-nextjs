@@ -278,7 +278,7 @@ const columns: MUIDataTableColumn[] = [
         label: 'Satuan',
     },
     {
-        name: 'warehouses.base_cost_rp_per_unit',
+        name: 'warehouses.cost_rp_per_unit',
         label: 'Biaya Dasar',
         options: {
             searchable: false,
