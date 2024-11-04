@@ -21,21 +21,25 @@ const WAREHOUSE = 'main'
 let detailsTemp: FormValuesType['details'] = []
 const PRODUCT_PER_PAGE = 8
 
-type ApiResponseType = (Product & {
-    is_in_opname: boolean
-})[]
+type ApiResponseType = {
+    fetched_at: string
+    data: (Product & {
+        is_in_opname: boolean
+    })[]
+}
 
 function ProductPicker({
     field: { name, value },
     form: { setFieldValue, status },
 }: FieldProps<FormValuesType['details']>) {
     const typedStatus = status as FormikStatusType
-    const { data: products = [], isLoading } = useSWR<ApiResponseType>(
-        ApiUrl.PRODUCTS,
-        {
-            keepPreviousData: true,
-        },
-    )
+    const {
+        data: products,
+        isLoading,
+        mutate,
+    } = useSWR<ApiResponseType>(ApiUrl.PRODUCTS, {
+        keepPreviousData: true,
+    })
 
     const [currentSearchPageNo, setCurrentSearchPageNo] = useState(1)
 
@@ -56,15 +60,17 @@ function ProductPicker({
 
     const filteredProducts = []
 
-    const itemTotal = products.reduce(
-        (acc, product) =>
-            acc + (isProductMatch(product, query, selectedCategory) ? 1 : 0),
-        0,
-    )
+    const itemTotal =
+        products?.data.reduce(
+            (acc, product) =>
+                acc +
+                (isProductMatch(product, query, selectedCategory) ? 1 : 0),
+            0,
+        ) ?? 0
 
     let skipCount = 0
 
-    for (const product of products) {
+    for (const product of products?.data ?? []) {
         if (filteredProducts.length >= PRODUCT_PER_PAGE) break
 
         if (isProductMatch(product, query, selectedCategory)) {
@@ -95,11 +101,12 @@ function ProductPicker({
                     setQuery(data)
 
                     if (typedStatus?.isFormOpen) {
-                        const filteredProducts = products.filter(product =>
-                            product.code
-                                ?.toLowerCase()
-                                .includes(data.toLowerCase()),
-                        )
+                        const filteredProducts =
+                            products?.data.filter(product =>
+                                product.code
+                                    ?.toLowerCase()
+                                    .includes(data.toLowerCase()),
+                            ) ?? []
 
                         if (filteredProducts.length === 1) {
                             handleAddProduct(filteredProducts[0])
@@ -115,7 +122,7 @@ function ProductPicker({
             />
 
             <CategoryChips
-                data={products}
+                data={products?.data ?? []}
                 onSelect={category => {
                     setSelectedCategory(category)
                     setCurrentSearchPageNo(1)
@@ -126,6 +133,10 @@ function ProductPicker({
                 currentSearchPageNo={currentSearchPageNo}
                 itemTotal={itemTotal}
                 productPerPage={PRODUCT_PER_PAGE}
+                fetchedAt={products?.fetched_at}
+                onRefresh={() => {
+                    mutate()
+                }}
                 onPrev={() =>
                     setCurrentSearchPageNo(prev =>
                         prev - 1 === 0 ? maxPage : prev - 1,
