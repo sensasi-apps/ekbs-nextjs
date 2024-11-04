@@ -2,6 +2,8 @@
 import React, { ReactNode, useState } from 'react'
 import {
     Box,
+    Fade,
+    LinearProgress,
     Table,
     TableBody,
     TableCell,
@@ -22,12 +24,22 @@ import formatNumber from '@/utils/formatNumber'
 import ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
 import toDmy from '@/utils/toDmy'
 import { aoaToXlsx } from '@/functions/aoaToXlsx'
+import { useRouter } from 'next/router'
 
 export default function SalesReport() {
-    const [fromAt, setFromAt] = useState<Dayjs>()
-    const [toAt, setToAt] = useState<Dayjs>()
+    const {
+        replace,
+        query: { fromAt: fromAtQuery, toAt: toAtQuery },
+    } = useRouter()
 
-    const isParamsValid = fromAt && toAt
+    const [fromAt, setFromAt] = useState<Dayjs | undefined>(
+        fromAtQuery ? dayjs(fromAtQuery as string) : undefined,
+    )
+    const [toAt, setToAt] = useState<Dayjs | undefined>(
+        toAtQuery ? dayjs(toAtQuery as string) : undefined,
+    )
+
+    const isParamsValid = fromAtQuery && fromAtQuery
 
     const {
         data: rows = [],
@@ -39,11 +51,15 @@ export default function SalesReport() {
             ? [
                   ApiUrl.SALES_REPORT,
                   {
-                      from_at: fromAt?.format('YYYY-MM-DD'),
-                      to_at: toAt?.format('YYYY-MM-DD'),
+                      from_at: fromAtQuery,
+                      to_at: toAtQuery,
                   },
               ]
             : undefined,
+        null,
+        {
+            revalidateOnMount: false,
+        },
     )
 
     function handleDateChange(
@@ -57,9 +73,32 @@ export default function SalesReport() {
     return (
         <>
             <FiltersBox
-                disabled={false}
+                fromAt={fromAt}
+                toAt={toAt}
+                disabled={isLoading || isValidating}
                 handleDateChange={handleDateChange}
-                handleRefresh={() => mutate(rows)}
+                refreshButton={
+                    <IconButton
+                        title="Segarkan"
+                        icon={RefreshIcon}
+                        onClick={() => {
+                            if (
+                                fromAt?.format('YYYY-MM-DD') !== fromAtQuery ||
+                                toAt?.format('YYYY-MM-DD') !== toAtQuery
+                            ) {
+                                replace({
+                                    query: {
+                                        fromAt: fromAt?.format('YYYY-MM-DD'),
+                                        toAt: toAt?.format('YYYY-MM-DD'),
+                                    },
+                                })
+                            } else {
+                                mutate()
+                            }
+                        }}
+                        disabled={isLoading || isValidating || !fromAt || !toAt}
+                    />
+                }
                 downloadButton={
                     <IconButton
                         title="Unduh"
@@ -72,10 +111,14 @@ export default function SalesReport() {
                                 )
                             }
                         }}
-                        disabled={!isParamsValid || isLoading || isValidating}
+                        disabled={isLoading || isValidating || !rows.length}
                     />
                 }
             />
+
+            <Fade in={isLoading || isValidating}>
+                <LinearProgress />
+            </Fade>
 
             <MainTable data={rows} />
         </>
@@ -114,55 +157,62 @@ function handleDownloadExcel(
 const FROM_DATE = dayjs('2024-01-01').startOf('month')
 
 function FiltersBox({
+    fromAt,
+    toAt,
     disabled,
     handleDateChange,
-    handleRefresh,
+    refreshButton,
     downloadButton,
 }: {
+    fromAt: Dayjs | undefined
+    toAt: Dayjs | undefined
     disabled: boolean
     handleDateChange: (name: 'fromAt' | 'toAt', date: Dayjs | undefined) => void
-    handleRefresh: () => void
+    refreshButton: ReactNode
     downloadButton: ReactNode
 }) {
     return (
-        <Box display="flex" gap={1} alignItems="center" mb={4}>
-            <DatePicker
-                slotProps={{
-                    textField: {
-                        id: 'fromAt',
-                    },
-                }}
-                label="Dari"
-                format="DD-MM-YYYY"
-                disabled={disabled}
-                minDate={FROM_DATE}
-                maxDate={dayjs().endOf('month')}
-                onChange={date => handleDateChange('fromAt', date ?? undefined)}
-            />
+        <>
+            <Box display="flex" gap={1} alignItems="center" mb={4}>
+                <DatePicker
+                    slotProps={{
+                        textField: {
+                            id: 'fromAt',
+                        },
+                    }}
+                    value={fromAt ?? null}
+                    label="Dari"
+                    format="DD-MM-YYYY"
+                    disabled={disabled}
+                    minDate={FROM_DATE}
+                    maxDate={dayjs().endOf('month')}
+                    onChange={date =>
+                        handleDateChange('fromAt', date ?? undefined)
+                    }
+                />
 
-            <DatePicker
-                slotProps={{
-                    textField: {
-                        id: 'toAt',
-                    },
-                }}
-                label="Hingga"
-                format="DD-MM-YYYY"
-                disabled={disabled}
-                minDate={FROM_DATE}
-                maxDate={dayjs().endOf('month')}
-                onChange={date => handleDateChange('toAt', date ?? undefined)}
-            />
+                <DatePicker
+                    slotProps={{
+                        textField: {
+                            id: 'toAt',
+                        },
+                    }}
+                    value={toAt ?? null}
+                    label="Hingga"
+                    format="DD-MM-YYYY"
+                    disabled={disabled}
+                    minDate={FROM_DATE}
+                    maxDate={dayjs().endOf('month')}
+                    onChange={date =>
+                        handleDateChange('toAt', date ?? undefined)
+                    }
+                />
 
-            <IconButton
-                title="Segarkan"
-                icon={RefreshIcon}
-                onClick={() => handleRefresh()}
-                disabled={disabled}
-            />
+                {refreshButton}
 
-            {downloadButton}
-        </Box>
+                {downloadButton}
+            </Box>
+        </>
     )
 }
 
