@@ -36,7 +36,8 @@ export default function ProductMovementDetailArrayFields({
     const { value, error } = getFieldMeta<FormValues['details']>(name)
 
     const { data: products, isLoading } = useSWR<Product[]>(
-        'data/marts/products',
+        // TODO: change this to the Enum
+        'marts/products',
     )
 
     return (
