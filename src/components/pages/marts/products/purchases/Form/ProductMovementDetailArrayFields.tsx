@@ -35,7 +35,12 @@ export default function ProductMovementDetailArrayFields({
 }) {
     const { value, error } = getFieldMeta<FormValues['details']>(name)
 
-    const { data: products, isLoading } = useSWR<Product[]>(
+    const { data: products, isLoading } = useSWR<{
+        fetched_at: string
+        data: (Product & {
+            is_in_opname: boolean
+        })[]
+    }>(
         // TODO: change this to the Enum
         'marts/products',
     )
@@ -85,7 +90,7 @@ export default function ProductMovementDetailArrayFields({
                                         isOptionEqualToValue={(option, value) =>
                                             option.id === value.id
                                         }
-                                        options={products ?? []}
+                                        options={products?.data ?? []}
                                         disabled={disabled}
                                         getOptionLabel={({ id, code, name }) =>
                                             `${code ?? id} - ${name}`
