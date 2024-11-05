@@ -264,6 +264,13 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         },
     },
     {
+        name: 'delivery.courierUser.nickname',
+        options: {
+            sort: false,
+            display: 'excluded',
+        },
+    },
+    {
         name: 'delivery.palmBunches.ownerUser.name',
         label: 'Pemilik TBS',
         options: {
@@ -284,6 +291,13 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                     )}
                 />
             ),
+        },
+    },
+    {
+        name: 'delivery.palmBunches.ownerUser.nickname',
+        options: {
+            sort: false,
+            display: 'excluded',
         },
     },
     {
