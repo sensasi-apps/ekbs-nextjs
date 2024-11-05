@@ -40,11 +40,9 @@ export function handleServerError({ status, data }: AxiosResponse) {
             break
 
         case 500:
-            const additionalMsg =
-                data.message === 'Server Error' ? '' : ' ' + data.message + '.'
-
             enqueueSnackbar(
-                'Terjadi eror pada server.' + additionalMsg,
+                'Terjadi eror pada server.' +
+                    (data.message === 'Server Error' ? '' : ` ${data.message}`),
                 SNACKBAR_OPTIONS,
             )
             break
