@@ -176,6 +176,7 @@ function ProductPicker({
                             spacing={2}>
                             {filteredProducts.map(product => (
                                 <ProductCard
+                                    searchText={query}
                                     key={product.id}
                                     data={product}
                                     onClick={() => {
@@ -198,6 +199,7 @@ function ProductPicker({
                             }}>
                             {filteredProducts.map(product => (
                                 <ProductCard
+                                    searchText={query}
                                     key={product.id}
                                     data={product}
                                     onClick={() => {

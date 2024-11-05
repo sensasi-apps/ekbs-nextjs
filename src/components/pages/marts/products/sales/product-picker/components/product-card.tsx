@@ -27,6 +27,7 @@ function ProductCard({
         id,
         code,
         name,
+        barcode_reg_id,
         description,
         category_name,
         unit,
@@ -34,11 +35,13 @@ function ProductCard({
         deleted_at,
         is_in_opname,
     },
+    searchText,
     onClick,
 }: {
     data: Product & {
         is_in_opname: boolean
     }
+    searchText: string
     onClick: CardActionAreaProps['onClick']
 }) {
     const { status } = useFormikContext()
@@ -107,12 +110,30 @@ function ProductCard({
                             component="div"
                             variant="caption"
                             color="text.disabled">
-                            #{id}
-                            {code ? ` / ${code}` : ''}
+                            #{getHighlightedText(id.toString(), searchText)}
+                            {code ? (
+                                <>
+                                    {' / '}
+                                    {getHighlightedText(code, searchText)}
+                                </>
+                            ) : (
+                                ''
+                            )}
+                            {barcode_reg_id ? (
+                                <>
+                                    {' / '}
+                                    {getHighlightedText(
+                                        barcode_reg_id,
+                                        searchText,
+                                    )}
+                                </>
+                            ) : (
+                                ''
+                            )}
                         </Typography>
 
                         <Typography component="div">
-                            {name}
+                            {getHighlightedText(name, searchText)}
 
                             <Typography
                                 mt={-1}
@@ -154,3 +175,24 @@ function ProductCard({
 }
 
 export default memo(ProductCard)
+
+function getHighlightedText(text: string, highlight: string) {
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'))
+
+    return (
+        <>
+            {parts.map((part, i) => (
+                <Box
+                    component="span"
+                    key={i}
+                    color={
+                        part.toLowerCase() === highlight.toLowerCase()
+                            ? 'warning.main'
+                            : undefined
+                    }>
+                    {part}
+                </Box>
+            ))}
+        </>
+    )
+}
