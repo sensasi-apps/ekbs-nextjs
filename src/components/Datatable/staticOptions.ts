@@ -1,4 +1,4 @@
-import type { MUIDataTableOptions } from 'mui-datatables'
+import { debounceSearchRender, type MUIDataTableOptions } from 'mui-datatables'
 
 const staticOptions: MUIDataTableOptions = {
     filter: false,
@@ -8,6 +8,7 @@ const staticOptions: MUIDataTableOptions = {
     print: false,
     jumpToPage: true,
     rowsPerPageOptions: [10, 25, 50, 100, 0],
+    customSearchRender: debounceSearchRender(100),
 }
 
 export default staticOptions
