@@ -2,10 +2,9 @@
 import type { FormikStatusType, FormValuesType } from '../../../..'
 // vendors
 import { Field, FieldProps, useFormikContext } from 'formik'
-import { memo, useEffect } from 'react'
+import { memo } from 'react'
 import { Box, Divider, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
-import useSWR from 'swr'
 // subcomponents
 import { NumericField } from '@/components/FormikForm'
 import BuyerUserUuidFieldComponent from './components/buyer-user-uuid-field-component'
@@ -14,41 +13,20 @@ import CostsFieldComponent from './components/costs-field-component'
 import DefaultItemDesc from '../../../../../@shared-subcomponents/default-item-desc'
 import DetailsFieldComponent from './components/details-field-component'
 // utils
-import ApiUrl from '../../../../../@enums/api-url'
 import formatNumber from '@/utils/formatNumber'
 import useAuth from '@/providers/Auth'
 
 function CreateSaleForm() {
     const { user } = useAuth()
-    const { setFieldValue, status, isSubmitting } =
-        useFormikContext<FormValuesType>()
-
-    const { data: newNumber } = useSWR<number>(ApiUrl.NEW_SALE_NUMBER, {
-        keepPreviousData: true,
-    })
-
-    useEffect(() => {
-        if (!newNumber) return
-
-        setFieldValue('no', newNumber)
-    }, [newNumber, setFieldValue])
+    const { status, isSubmitting } = useFormikContext<FormValuesType>()
 
     const typedStatus = status as FormikStatusType
 
     return (
         <>
             <DefaultItemDesc
-                desc="TGL"
-                value={typedStatus?.submittedData?.at}
-            />
-
-            <DefaultItemDesc
-                desc="NO. Nota"
-                value={
-                    typedStatus?.submittedData?.no.toString() ??
-                    newNumber?.toString() ??
-                    ''
-                }
+                desc="Pada"
+                value={typedStatus?.submittedData?.at ?? '-'}
             />
 
             <DefaultItemDesc desc="Kasir" value={user?.name ?? ''} />

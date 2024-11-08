@@ -98,7 +98,7 @@ export function BgSyncPanelDialogAndButton() {
                     <Table size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell>NO</TableCell>
+                                <TableCell>#</TableCell>
                                 <TableCell>Barang</TableCell>
                                 <TableCell>Total</TableCell>
                                 <TableCell>Waktu kirim data</TableCell>
@@ -122,7 +122,7 @@ export function BgSyncPanelDialogAndButton() {
 
                             {bgSyncQueues?.map((queue, i) => (
                                 <TableRow key={i}>
-                                    <TableCell>{queue.body.no}</TableCell>
+                                    <TableCell>{i + 1}</TableCell>
 
                                     <TableCell>
                                         <Values data={queue.body} />
@@ -155,7 +155,6 @@ export function BgSyncPanelDialogAndButton() {
                                             <Receipt
                                                 data={{
                                                     at: queue.body.at,
-                                                    saleNo: queue.body.no,
                                                     servedByUserName:
                                                         queue.body.buyer_user
                                                             ?.name ?? '-',

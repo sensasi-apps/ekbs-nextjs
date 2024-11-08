@@ -6,7 +6,7 @@ function DefaultItemDesc({
     value,
 }: {
     desc: string
-    value: string | undefined
+    value: number | string
 }) {
     return (
         <Box display="flex" gap={0.75}>
@@ -22,7 +22,7 @@ function DefaultItemDesc({
             </Typography>
 
             <Typography variant="caption" component="div" fontWeight="bold">
-                {value ?? ''}
+                {value}
             </Typography>
         </Box>
     )
