@@ -11,7 +11,6 @@ export interface FormValuesType {
     cashable_name?: CashType['name']
     buyer_user_uuid?: ProductMovementSale['buyer_user_uuid']
     buyer_user?: ProductMovementSale['buyer_user']
-    no?: ProductMovementSale['no']
     total_payment?: ProductMovementSale['total_payment']
     details: {
         product: ProductMovementDetail['product']

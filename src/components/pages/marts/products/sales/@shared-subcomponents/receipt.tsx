@@ -29,7 +29,7 @@ export default function Receipt({
 }: {
     data: {
         at: ProductMovement['at']
-        saleNo: ProductMovementSale['no']
+        saleNo?: ProductMovementSale['no']
         details: Omit<ProductMovementDetail, 'id'>[]
         costs: ProductMovement['costs']
         transactionCashName: CashType['name']
@@ -73,10 +73,7 @@ export default function Receipt({
                 <Box>
                     <DefaultItemDesc desc="Pada" value={at} />
 
-                    <DefaultItemDesc
-                        desc="NO. Nota"
-                        value={saleNo.toString()}
-                    />
+                    <DefaultItemDesc desc="NO. Nota" value={saleNo ?? '-'} />
 
                     <DefaultItemDesc desc="Kasir" value={servedByUserName} />
 

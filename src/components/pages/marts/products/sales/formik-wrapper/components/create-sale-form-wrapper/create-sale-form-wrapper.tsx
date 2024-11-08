@@ -3,7 +3,6 @@ import type {
     FormValuesType,
 } from '@/components/pages/marts/products/sales/formik-wrapper'
 // vendors
-import { useEffect } from 'react'
 import { Box, Collapse, Fade, IconButton, Paper, Tooltip } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { useFormikContext } from 'formik'
@@ -12,7 +11,6 @@ import {
     AddBox as AddBoxIcon,
     Close as CloseIcon,
 } from '@mui/icons-material'
-import useSWR from 'swr'
 // global components
 import PrintHandler from '@/components/PrintHandler'
 // subcomponents
@@ -20,14 +18,12 @@ import CreateSaleForm from './components/create-sale-form'
 import Receipt from '../../../@shared-subcomponents/receipt'
 // utils
 import useAuth from '@/providers/Auth'
-import ApiUrl from '../../../@enums/api-url'
 
 export function CreateSaleFormWrapper() {
     const {
         handleSubmit,
         handleReset,
         setStatus,
-        setFieldValue,
         isSubmitting,
         dirty,
         status,
@@ -35,17 +31,6 @@ export function CreateSaleFormWrapper() {
     } = useFormikContext<FormValuesType>()
     const { user } = useAuth()
     const { isDisabled, isFormOpen, submittedData } = status as FormikStatusType
-    const { mutate } = useSWR(ApiUrl.NEW_SALE_NUMBER, {
-        keepPreviousData: true,
-    })
-
-    useEffect(() => {
-        if (isFormOpen) {
-            mutate().then(newNumber => {
-                setFieldValue('no', newNumber)
-            })
-        }
-    }, [isFormOpen, mutate, setFieldValue])
 
     const isSubmitted = Boolean(submittedData)
 
@@ -86,7 +71,6 @@ export function CreateSaleFormWrapper() {
                             <Receipt
                                 data={{
                                     at: submittedData.at,
-                                    saleNo: submittedData.no,
                                     servedByUserName: user?.name ?? '-',
                                     saleBuyerUser: submittedData.buyer_user,
                                     transactionCashName:
