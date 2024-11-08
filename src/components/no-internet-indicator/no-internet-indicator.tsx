@@ -10,7 +10,6 @@ import { useIsOnline } from 'react-use-is-online'
 export function NoInternetIndicator() {
     const { isOnline } = useIsOnline()
 
-    if (typeof window === 'undefined') return null
     if (isOnline) return null
 
     return (
