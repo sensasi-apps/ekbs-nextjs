@@ -71,9 +71,14 @@ export default function Receipt({
                 />
 
                 <Box>
-                    <DefaultItemDesc desc="Pada" value={at} />
+                    {saleNo && (
+                        <DefaultItemDesc
+                            desc="NO. Nota"
+                            value={saleNo ?? '-'}
+                        />
+                    )}
 
-                    <DefaultItemDesc desc="NO. Nota" value={saleNo ?? '-'} />
+                    <DefaultItemDesc desc="Pada" value={at} />
 
                     <DefaultItemDesc desc="Kasir" value={servedByUserName} />
 
