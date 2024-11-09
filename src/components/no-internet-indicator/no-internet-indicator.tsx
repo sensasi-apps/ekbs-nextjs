@@ -1,6 +1,7 @@
 import blinkSxValue from '@/utils/blinkSxValue'
 import { SignalWifiStatusbarConnectedNoInternet4 } from '@mui/icons-material'
 import { Alert, Tooltip } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useIsOnline } from 'react-use-is-online'
 
 /**
@@ -8,8 +9,14 @@ import { useIsOnline } from 'react-use-is-online'
  * It uses a tooltip to show an error message and an icon to indicate the lack of internet connection.
  */
 export function NoInternetIndicator() {
+    const [isClient, setIsClient] = useState(false)
     const { isOnline } = useIsOnline()
 
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+    if (!isClient) return null
     if (isOnline) return null
 
     return (
