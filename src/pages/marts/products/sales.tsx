@@ -12,7 +12,7 @@ import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sa
 // hooks
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
 import { UserAccountAlert } from '@/components/pages/marts/products/sales/user-account-alert'
-// import BgSyncPanelDialogAndButton from '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
+import BgSyncPanelDialogAndButton from '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
 
 export default function SalesPage() {
     useRedirectIfUnauth()
@@ -41,7 +41,7 @@ export default function SalesPage() {
 
                     <HistoryDatatableModalAndButton />
 
-                    {/* <BgSyncPanelDialogAndButton /> */}
+                    <BgSyncPanelDialogAndButton />
                 </Box>
 
                 <UserAccountAlert />

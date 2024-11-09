@@ -36,7 +36,13 @@ export function handleBgSyncRequest(event: FetchEvent) {
     let response: Response | null = null
 
     if (isEndpointMatch(event, MartEndpoint.STORE_SALE)) {
-        martSales.pushRequest({ request: event.request })
+        martSales.pushRequest({
+            request: event.request,
+            metadata: {
+                status: 'baru diantrekan',
+                lastAttemptAt: null,
+            },
+        })
 
         response = constructJsonResponse({
             message: 'Request queued for background sync',

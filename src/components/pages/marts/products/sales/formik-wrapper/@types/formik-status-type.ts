@@ -1,7 +1,7 @@
-import { FormValuesType } from './form-values-type'
+import { SubmittedData } from './submitted-data'
 
 export interface FormikStatusType {
     isDisabled: boolean
     isFormOpen: boolean
-    submittedData?: Required<FormValuesType>
+    submittedData?: SubmittedData
 }
