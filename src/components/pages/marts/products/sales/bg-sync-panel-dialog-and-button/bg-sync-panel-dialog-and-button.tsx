@@ -1,57 +1,76 @@
-import { postMessageToSW } from '@/functions/post-message-to-sw'
-import { Close, Refresh } from '@mui/icons-material'
+import { postToSw } from '@/functions/post-to-sw'
+import { Close, Sync } from '@mui/icons-material'
 import {
+    Badge,
     Box,
     Dialog,
     DialogContent,
     IconButton,
+    LinearProgress,
     Table,
     TableBody,
     TableCell,
+    TableContainer,
     TableHead,
     TableRow,
     Tooltip,
     Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { BgSyncQueue } from '@/@types/bg-sync-queue'
 import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../@shared-subcomponents/receipt'
-import { FormValuesType } from '../formik-wrapper'
 import dayjs from 'dayjs'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
-import { enqueueSnackbar } from 'notistack'
+import { SubmittedData } from '../formik-wrapper/@types/submitted-data'
+import { FormattedEntry } from '@/sw/functions/handle-message'
 
 export function BgSyncPanelDialogAndButton() {
     const [open, setOpen] = useState(false)
-    const [bgSyncQueues, setBgSyncQueues] =
-        useState<BgSyncQueue<Required<FormValuesType>>[]>()
+    const [isLoading, setIsLoading] = useState(true)
+    const [entries, setEntries] = useState<FormattedEntry<SubmittedData>[]>()
+
+    function handleGetSales() {
+        setIsLoading(true)
+
+        postToSw('GET_SALES')
+            .then(data => {
+                setEntries(data)
+            })
+            .finally(() => setIsLoading(false))
+    }
+
+    function handleSync() {
+        setIsLoading(true)
+
+        postToSw('FORCE_SYNC').finally(() =>
+            setTimeout(() => handleGetSales(), 1000),
+        )
+    }
 
     useEffect(() => {
         if (
+            open &&
             typeof window !== 'undefined' &&
             typeof window.navigator !== 'undefined'
         ) {
-            getSalesBgSyncData()
-                .then(data => setBgSyncQueues(data))
-                .catch(msg => {
-                    enqueueSnackbar(msg, {
-                        variant: 'warning',
-                    })
-                })
+            handleGetSales()
         }
-    }, [])
+    }, [open])
 
     return (
         <>
             <Tooltip title="Sinkronisasi Latar Belakang" arrow placement="top">
                 <IconButton onClick={() => setOpen(true)}>
-                    <Refresh />
+                    <Badge badgeContent={entries?.length} color="error">
+                        <Sync />
+                    </Badge>
                 </IconButton>
             </Tooltip>
 
             <Dialog open={open} maxWidth="md" fullWidth>
+                {isLoading && <LinearProgress />}
+
                 <Box
                     display="flex"
                     py={2}
@@ -62,152 +81,136 @@ export function BgSyncPanelDialogAndButton() {
                             Sinkronisasi Latar Belakang
                         </Typography>
 
-                        <IconButton
-                            size="small"
-                            color="success"
-                            onClick={() => {
-                                forceSync()
-                                    .then(() => {
-                                        getSalesBgSyncData()
-                                            .then(data => setBgSyncQueues(data))
-                                            .catch(msg => {
-                                                enqueueSnackbar(msg, {
-                                                    variant: 'warning',
-                                                })
-                                            })
-                                    })
-                                    .catch(msg => {
-                                        enqueueSnackbar(msg, {
-                                            variant: 'warning',
-                                        })
-                                    })
-                            }}>
-                            <Refresh />
-                        </IconButton>
+                        <Tooltip title="Sinkronkan ulang" arrow placement="top">
+                            <span>
+                                <IconButton
+                                    size="small"
+                                    color="success"
+                                    disabled={isLoading}
+                                    onClick={() => handleSync()}>
+                                    <Sync />
+                                </IconButton>
+                            </span>
+                        </Tooltip>
                     </Box>
 
-                    <IconButton
-                        size="small"
-                        onClick={() => setOpen(false)}
-                        color="error">
-                        <Close />
-                    </IconButton>
+                    <Tooltip title="Tutup" arrow placement="top">
+                        <IconButton
+                            size="small"
+                            onClick={() => setOpen(false)}
+                            color="error">
+                            <Close />
+                        </IconButton>
+                    </Tooltip>
                 </Box>
 
                 <DialogContent>
-                    <Table size="small">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>#</TableCell>
-                                <TableCell>Barang</TableCell>
-                                <TableCell>Total</TableCell>
-                                <TableCell>Waktu kirim data</TableCell>
-                                <TableCell>Cetak</TableCell>
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {!bgSyncQueues?.length && (
+                    <TableContainer>
+                        <Table size="small">
+                            <TableHead>
                                 <TableRow>
-                                    <TableCell colSpan={5}>
-                                        <Typography
-                                            align="center"
-                                            variant="body2"
-                                            color="textSecondary">
-                                            Tidak ada data
-                                        </Typography>
-                                    </TableCell>
+                                    <TableCell>Pada</TableCell>
+                                    <TableCell>Barang</TableCell>
+                                    <TableCell>Total</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Cetak</TableCell>
                                 </TableRow>
-                            )}
+                            </TableHead>
 
-                            {bgSyncQueues?.map((queue, i) => (
-                                <TableRow key={i}>
-                                    <TableCell>{i + 1}</TableCell>
+                            <TableBody>
+                                {!entries?.length && (
+                                    <TableRow>
+                                        <TableCell colSpan={5}>
+                                            <Typography
+                                                align="center"
+                                                variant="body2">
+                                                Tidak ada data
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                )}
 
-                                    <TableCell>
-                                        <Values data={queue.body} />
-                                    </TableCell>
-
-                                    <TableCell>
-                                        {numberToCurrency(
-                                            queue.body.details.reduce(
-                                                (acc, detail) =>
-                                                    acc +
-                                                    detail.rp_per_unit *
-                                                        detail.qty,
-                                                0,
-                                            ) +
-                                                queue.body.costs.reduce(
-                                                    (acc, cost) =>
-                                                        acc + (cost?.rp ?? 0),
-                                                    0,
-                                                ),
-                                        )}
-                                    </TableCell>
-
-                                    <TableCell>
-                                        {dayjs(queue.timestamp).format(
-                                            'DD-MM-YYYY HH:mm:ss',
-                                        )}
-                                    </TableCell>
-                                    <TableCell>
-                                        <PrintHandler>
-                                            <Receipt
-                                                data={{
-                                                    at: queue.body.at,
-                                                    servedByUserName:
-                                                        queue.body.buyer_user
-                                                            ?.name ?? '-',
-                                                    saleBuyerUser:
-                                                        queue.body.buyer_user,
-                                                    transactionCashName:
-                                                        queue.body
-                                                            .cashable_name,
-                                                    details:
-                                                        queue.body.details.map(
-                                                            detail => ({
-                                                                product:
-                                                                    detail.product,
-                                                                product_id:
-                                                                    detail.product_id,
-                                                                qty: detail.qty,
-                                                                rp_per_unit:
-                                                                    detail.rp_per_unit,
-                                                                cost_rp_per_unit: 0,
-                                                                product_state:
-                                                                    null,
-                                                                warehouse_state:
-                                                                    null,
-                                                            }),
-                                                        ),
-                                                    costs: queue.body.costs.map(
-                                                        cost => ({
-                                                            name: cost.name,
-                                                            rp: cost.rp ?? 0,
-                                                        }),
-                                                    ),
-                                                    totalPayment:
-                                                        queue.body
-                                                            .total_payment,
-                                                }}
-                                            />
-                                        </PrintHandler>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                                {entries?.map((entry, i) => (
+                                    <Row key={i} data={entry} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </DialogContent>
             </Dialog>
         </>
     )
 }
 
-function Values({
-    data: { buyer_user, details },
+function Row({
+    data: { body: formData, status, lastAttemptAt },
 }: {
-    data: Required<FormValuesType>
+    data: FormattedEntry<SubmittedData>
 }) {
+    return (
+        <TableRow>
+            <TableCell>
+                {dayjs(formData.at).format('DD-MM-YYYY HH:mm:ss')}
+            </TableCell>
+
+            <TableCell>
+                <Values data={formData} />
+            </TableCell>
+
+            <TableCell>
+                {numberToCurrency(
+                    formData.details.reduce(
+                        (acc, detail) => acc + detail.rp_per_unit * detail.qty,
+                        0,
+                    ) +
+                        formData.costs.reduce(
+                            (acc, cost) => acc + (cost?.rp ?? 0),
+                            0,
+                        ),
+                )}
+            </TableCell>
+
+            <TableCell>
+                {status}
+
+                {lastAttemptAt && (
+                    <Typography variant="caption" component="div">
+                        {dayjs(lastAttemptAt).format('YYYY-MM-DD HH:mm:ss')}
+                    </Typography>
+                )}
+            </TableCell>
+
+            <TableCell>
+                <PrintHandler>
+                    <Receipt
+                        data={{
+                            at: formData.at,
+                            servedByUserName: formData.buyer_user?.name ?? '-',
+                            saleBuyerUser: formData.buyer_user,
+                            transactionCashName: formData.cashable_name,
+                            details: formData.details.map(detail => ({
+                                product: detail.product,
+                                product_id: detail.product_id,
+                                qty: detail.qty,
+                                rp_per_unit: detail.rp_per_unit,
+                                cost_rp_per_unit: 0,
+                                product_state: null,
+                                warehouse_state: null,
+                            })),
+                            costs: formData.costs.map(cost => ({
+                                name: cost.name,
+                                rp: cost.rp ?? 0,
+                            })),
+                            totalPayment: formData.total_payment,
+                        }}
+                    />
+                </PrintHandler>
+            </TableCell>
+        </TableRow>
+    )
+}
+
+function Values({ data: { buyer_user, details } }: { data: SubmittedData }) {
     return (
         <>
             <Typography>{buyer_user?.name}</Typography>
@@ -239,16 +242,4 @@ function Values({
             </Typography>
         </>
     )
-}
-
-function getSalesBgSyncData() {
-    return postMessageToSW<BgSyncQueue<Required<FormValuesType>>[]>({
-        action: 'GET_SALES',
-    })
-}
-
-async function forceSync() {
-    return postMessageToSW<BgSyncQueue<Required<FormValuesType>>[]>({
-        action: 'FORCE_SYNC',
-    })
 }
