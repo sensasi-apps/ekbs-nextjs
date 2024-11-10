@@ -50,6 +50,19 @@ export function BgSyncPanelDialogAndButton() {
 
     useEffect(() => {
         if (
+            typeof window !== 'undefined' &&
+            typeof window.navigator !== 'undefined'
+        ) {
+            addEventListener('mart-sale-queued', handleGetSales)
+
+            handleGetSales()
+        }
+
+        return () => removeEventListener('mart-sale-queued', handleGetSales)
+    }, [])
+
+    useEffect(() => {
+        if (
             open &&
             typeof window !== 'undefined' &&
             typeof window.navigator !== 'undefined'
