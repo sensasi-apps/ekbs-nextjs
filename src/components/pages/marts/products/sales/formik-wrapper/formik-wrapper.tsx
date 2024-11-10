@@ -37,6 +37,8 @@ export function FormikWrapper() {
                                 ...submittedData,
                             },
                         })
+
+                        dispatchEvent(new CustomEvent('mart-sale-queued'))
                     })
                     .catch((err: AxiosError<LaravelValidationException>) =>
                         handle422(err, setErrors),
