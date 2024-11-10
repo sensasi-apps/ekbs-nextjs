@@ -20,9 +20,9 @@ import { useFormikContext } from 'formik'
 import { FormikStatusType } from '../../formik-wrapper'
 import formatNumber from '@/utils/formatNumber'
 
-const WAREHOUSE = 'main'
-
 function ProductCard({
+    qty,
+    defaultSellPrice,
     data: {
         id,
         code,
@@ -31,13 +31,14 @@ function ProductCard({
         description,
         category_name,
         unit,
-        warehouses,
         deleted_at,
         is_in_opname,
     },
     searchText,
     onClick,
 }: {
+    qty: number
+    defaultSellPrice: number
     data: Product & {
         is_in_opname: boolean
     }
@@ -46,9 +47,6 @@ function ProductCard({
 }) {
     const { status } = useFormikContext()
     const typedStatus = status as FormikStatusType
-
-    const { default_sell_price, qty = 0 } =
-        warehouses.find(warehouse => warehouse.warehouse === WAREHOUSE) ?? {}
 
     const isDisabled =
         !typedStatus?.isFormOpen ||
@@ -152,7 +150,7 @@ function ProductCard({
                             variant="h5"
                             component="div"
                             color="success.main">
-                            {numberToCurrency(default_sell_price ?? 0)}
+                            {numberToCurrency(defaultSellPrice)}
                         </Typography>
 
                         <Typography

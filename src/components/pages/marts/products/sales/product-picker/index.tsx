@@ -2,6 +2,8 @@
 import type { FieldProps } from 'formik'
 import type Product from '@/dataTypes/mart/Product'
 import type { FormikStatusType, FormValuesType } from '../formik-wrapper'
+import type { FormattedEntry } from '@/sw/functions/handle-message'
+import type { SubmittedData } from '../formik-wrapper/@types/submitted-data'
 // vendors
 import { Box, Paper, Typography } from '@mui/material'
 import { memo, useEffect, useState } from 'react'
@@ -16,9 +18,12 @@ import ApiUrl from '../@enums/api-url'
 import BarcodeReader from 'react-barcode-reader'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import ResultNav from './components/result-nav'
+import { postToSw } from '@/functions/post-to-sw'
+
+let detailsTemp: FormValuesType['details'] = []
+let entries: FormattedEntry<SubmittedData>[] = []
 
 const WAREHOUSE = 'main'
-let detailsTemp: FormValuesType['details'] = []
 const PRODUCT_PER_PAGE = 8
 
 type ApiResponseType = {
@@ -37,8 +42,9 @@ function ProductPicker({
         data: products,
         isLoading,
         mutate,
-    } = useSWR<ApiResponseType>(ApiUrl.PRODUCTS, {
-        keepPreviousData: true,
+    } = useSWR<ApiResponseType>(ApiUrl.PRODUCTS, null, {
+        revalidateOnReconnect: true,
+        refreshInterval: 15 * 60 * 1000, // 15 minutes
     })
 
     const [currentSearchPageNo, setCurrentSearchPageNo] = useState(1)
@@ -57,6 +63,23 @@ function ProductPicker({
         () => setFieldValue(name, [...detailsTemp]),
         100,
     )
+
+    useEffect(() => {
+        if (
+            typeof window !== 'undefined' &&
+            typeof window.navigator !== 'undefined'
+        ) {
+            function updateEntries() {
+                postToSw('GET_SALES').then(data => (entries = data))
+            }
+
+            addEventListener('mart-sale-queued', updateEntries)
+
+            updateEntries()
+
+            return () => removeEventListener('mart-sale-queued', updateEntries)
+        }
+    }, [])
 
     const filteredProducts = []
 
@@ -176,8 +199,13 @@ function ProductPicker({
                             spacing={2}>
                             {filteredProducts.map(product => (
                                 <ProductCard
-                                    searchText={query}
                                     key={product.id}
+                                    qty={getQty(product)}
+                                    defaultSellPrice={
+                                        getWarehouse(product)
+                                            ?.default_sell_price ?? 0
+                                    }
+                                    searchText={query}
                                     data={product}
                                     onClick={() => {
                                         handleAddProduct(product)
@@ -199,8 +227,13 @@ function ProductPicker({
                             }}>
                             {filteredProducts.map(product => (
                                 <ProductCard
-                                    searchText={query}
                                     key={product.id}
+                                    qty={getQty(product)}
+                                    defaultSellPrice={
+                                        getWarehouse(product)
+                                            ?.default_sell_price ?? 0
+                                    }
+                                    searchText={query}
                                     data={product}
                                     onClick={() => {
                                         handleAddProduct(product)
@@ -240,6 +273,12 @@ function isProductMatch(
     )
 }
 
+function getWarehouse(product: Product) {
+    return product.warehouses.find(
+        warehouse => warehouse.warehouse === WAREHOUSE,
+    )
+}
+
 function handleAddProduct(product: Product) {
     const existingIndex = detailsTemp.findIndex(
         ({ product_id }) => product_id === product.id,
@@ -262,4 +301,25 @@ function handleAddProduct(product: Product) {
             rp_per_unit: warehouse?.default_sell_price ?? 0,
         })
     }
+}
+
+function getQty(product: Product) {
+    const warehouseQty = getWarehouse(product)?.qty ?? 0
+
+    const queuedQty = entries.reduce(
+        (acc, entry) =>
+            acc +
+            entry.body.details.reduce(
+                (acc2, detail) =>
+                    detail.product_id === product.id ? acc2 + detail.qty : acc2,
+                0,
+            ),
+        0,
+    )
+
+    const selectedQty =
+        detailsTemp.find(({ product_id }) => product_id === product.id)?.qty ??
+        0
+
+    return warehouseQty - queuedQty - selectedQty
 }
