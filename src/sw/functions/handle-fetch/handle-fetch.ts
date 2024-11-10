@@ -10,9 +10,6 @@ import {
  * @param event - The fetch event to handle.
  */
 export function handleFetch(event: FetchEvent) {
-    return
-
-    // TODO: Implement this function
     if (!isBgSyncRequest(event)) {
         return
     }
