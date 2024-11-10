@@ -181,7 +181,7 @@ export default function PalmBuncesReaPaymentForm({
                                     .then(res =>
                                         fileDownload(
                                             res.data,
-                                            `${file?.name || excel_file?.alias}.${excel_file?.extension}`,
+                                            `${file?.name || excel_file?.alias}`,
                                         ),
                                     )
                             }
