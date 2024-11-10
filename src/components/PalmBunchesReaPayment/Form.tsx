@@ -39,6 +39,7 @@ import toDmy from '@/utils/toDmy'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
+import fileDownload from 'js-file-download'
 
 export default function PalmBuncesReaPaymentForm({
     data: dataProp = {} as PalmBunchesReaPaymentDataType,
@@ -162,10 +163,6 @@ export default function PalmBuncesReaPaymentForm({
         }
     }
 
-    const fileUrl = excel_file
-        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${excel_file?.uuid}.${excel_file?.extension}`
-        : '#'
-
     return (
         <form
             id="palm-bunches-rea-payment-form"
@@ -175,9 +172,20 @@ export default function PalmBuncesReaPaymentForm({
                 <Grid item xs={12} sm={8}>
                     <Typography variant="caption">
                         <Button
+                            onClick={() =>
+                                axios
+                                    .get<Blob>(
+                                        `file/${excel_file?.uuid}.${excel_file?.extension}`,
+                                        { responseType: 'blob' },
+                                    )
+                                    .then(res =>
+                                        fileDownload(
+                                            res.data,
+                                            `${file?.name || excel_file?.alias}.${excel_file?.extension}`,
+                                        ),
+                                    )
+                            }
                             disabled={loading || !excel_file}
-                            target="_blank"
-                            href={fileUrl}
                             startIcon={<BackupTableIcon />}>
                             {file?.name || excel_file?.alias || (
                                 <i>silakan unggah file excel</i>
