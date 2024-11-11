@@ -81,7 +81,7 @@ export function BgSyncPanelDialogAndButton() {
                 </IconButton>
             </Tooltip>
 
-            <Dialog open={open} maxWidth="md" fullWidth>
+            <Dialog open={open} maxWidth="md" fullWidth aria-modal="true">
                 {isLoading && <LinearProgress />}
 
                 <Box

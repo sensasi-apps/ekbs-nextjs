@@ -31,6 +31,7 @@ export default function HistoryDatatableModalAndButton() {
             />
 
             <Dialog
+                aria-modal="true"
                 maxWidth="md"
                 fullWidth
                 open={open}
