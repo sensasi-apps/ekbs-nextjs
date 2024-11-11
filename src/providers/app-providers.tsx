@@ -8,9 +8,6 @@ import type { ReactNode } from 'react'
 // vendors
 import { closeSnackbar, SnackbarProvider } from 'notistack'
 import { locale } from 'dayjs'
-import { stringify } from 'qs'
-import { SWRConfig } from 'swr'
-import axios from '@/lib/axios'
 import Head from 'next/head'
 import 'dayjs/locale/id'
 // materials
@@ -20,13 +17,28 @@ import GlobalStyles from '@mui/material/GlobalStyles'
 import IconButton from '@mui/material/IconButton'
 // icons
 import CloseIcon from '@mui/icons-material/Close'
-// utils
+// providers
 import { AuthProvider } from '@/providers/Auth'
+import { SWRProvider } from './swr'
+// utils
 import getTheme from '@/lib/getTheme'
 import useRedirectIfBrowserIsUnsupported from '@/hooks/useRedirectIfBrowserIsUnsupported'
 
 locale('id')
 
+/**
+ * AppProviders component is a wrapper that provides various context providers and global styles
+ * for the application. It includes:
+ *
+ * - `useRedirectIfBrowserIsUnsupported`: A hook to redirect if the browser is unsupported.
+ * - `CssVarsProvider`: Provides CSS variables for theming.
+ * - `GlobalStyles`: Applies global CSS styles, including custom scrollbar styles.
+ * - `CssBaseline`: Provides a consistent baseline for CSS.
+ * - `Head`: Sets meta tags and the title for the application.
+ * - `SnackbarProvider`: Provides a context for displaying snackbars with a maximum of 7 snackbars.
+ * - `AuthProvider`: Provides authentication context.
+ * - `SWRProvider`: Provides SWR context for data fetching.
+ */
 export function AppProviders({ children }: { children: ReactNode }) {
     useRedirectIfBrowserIsUnsupported()
 
@@ -81,37 +93,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
             />
 
             <AuthProvider>
-                <SWRConfig
-                    value={{
-                        fetcher: (
-                            endpointPassed: [string, object] | string,
-                        ) => {
-                            // TODO: apply global swr
-
-                            let endpoint: string
-                            let params: object
-
-                            if (endpointPassed instanceof Array) {
-                                ;[endpoint, params] = endpointPassed
-                            } else {
-                                endpoint = endpointPassed
-                                params = {}
-                            }
-
-                            return axios
-                                .get(endpoint, {
-                                    params: params,
-                                    paramsSerializer: params =>
-                                        stringify(params),
-                                })
-                                .then(res => res.data)
-                        },
-                        shouldRetryOnError: false,
-                        revalidateOnFocus: false,
-                        keepPreviousData: true,
-                    }}>
-                    {children}
-                </SWRConfig>
+                <SWRProvider>{children}</SWRProvider>
             </AuthProvider>
         </CssVarsProvider>
     )
