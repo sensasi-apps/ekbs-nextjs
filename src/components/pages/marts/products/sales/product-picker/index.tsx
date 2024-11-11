@@ -81,6 +81,24 @@ function ProductPicker({
         }
     }, [])
 
+    useEffect(() => {
+        if (
+            typeof window !== 'undefined' &&
+            typeof window.navigator !== 'undefined'
+        ) {
+            function updateProductData() {
+                setTimeout(() => {
+                    mutate()
+                }, 7000) // 7 seconds
+            }
+
+            addEventListener('mart-sale-queued', updateProductData)
+
+            return () =>
+                removeEventListener('mart-sale-queued', updateProductData)
+        }
+    }, [mutate])
+
     const filteredProducts = []
 
     const itemTotal =
@@ -166,9 +184,6 @@ function ProductPicker({
                 itemTotal={itemTotal}
                 productPerPage={PRODUCT_PER_PAGE}
                 fetchedAt={products?.fetched_at}
-                onRefresh={() => {
-                    mutate()
-                }}
                 onPrev={() =>
                     setCurrentSearchPageNo(prev =>
                         prev - 1 === 0 ? maxPage : prev - 1,

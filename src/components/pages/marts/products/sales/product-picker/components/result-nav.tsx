@@ -1,8 +1,7 @@
-import { Box, Fade, IconButton, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { memo, useEffect, useState } from 'react'
-import { Refresh } from '@mui/icons-material'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -15,7 +14,6 @@ function ResultNav({
     fetchedAt,
     onNext,
     onPrev,
-    onRefresh,
 }: {
     itemTotal: number
     currentSearchPageNo: number
@@ -23,23 +21,8 @@ function ResultNav({
     fetchedAt?: string
     onNext: () => void
     onPrev: () => void
-    onRefresh: () => void
 }) {
-    const [cooldown, setCooldown] = useState(true)
     const maxPage = Math.ceil(itemTotal / 8)
-
-    useEffect(() => {
-        if (cooldown) {
-            const timeout = setTimeout(
-                () => {
-                    setCooldown(false)
-                },
-                1000 * 5 * 60, // 5 minutes
-            )
-
-            return () => clearTimeout(timeout)
-        }
-    }, [cooldown])
 
     return (
         <Box
@@ -68,26 +51,31 @@ function ResultNav({
                 </Typography>
             </Box>
 
-            <Box display="flex" gap={1} alignItems="center">
-                {fetchedAt && (
-                    <Typography variant="caption">
-                        terakhir disinkronkan: {dayjs(fetchedAt).fromNow()}
-                    </Typography>
-                )}
-
-                <Fade in={!cooldown} unmountOnExit>
-                    <IconButton
-                        size="small"
-                        onClick={() => {
-                            onRefresh()
-                            setCooldown(true)
-                        }}>
-                        <Refresh color="disabled" />
-                    </IconButton>
-                </Fade>
-            </Box>
+            {fetchedAt && <FetchedAtInfo fetchedAt={fetchedAt} />}
         </Box>
     )
 }
 
 export default memo(ResultNav)
+
+function FetchedAtInfo({ fetchedAt }: { fetchedAt: string }) {
+    const [fetchedAtDiff, setFetchedAtDiff] = useState<string>(
+        dayjs(fetchedAt).fromNow(),
+    )
+
+    useEffect(() => {
+        setFetchedAtDiff(dayjs(fetchedAt).fromNow())
+
+        const interval = setInterval(() => {
+            setFetchedAtDiff(dayjs(fetchedAt).fromNow())
+        }, 1000 * 60) // 1 minute
+
+        return () => clearInterval(interval)
+    }, [fetchedAt])
+
+    return (
+        <Typography variant="caption">
+            terakhir disinkronkan: {fetchedAtDiff}
+        </Typography>
+    )
+}
