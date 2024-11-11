@@ -1,7 +1,7 @@
 {
     "name": "ekbs",
-    "version": "0.11.11",
-    "versionDate": "2024-11-03",
+    "version": "0.11.12",
+    "versionDate": "2024-11-11",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -12,9 +12,9 @@
         "test": "jest",
         "test:watch": "jest --watch",
         "check:update": "ncu",
-        "update": "ncu -u -t patch && npm install",
-        "update:minor": "ncu -u -t minor && npm install",
-        "update:major": "ncu -u && npm install"
+        "update": "ncu -u -t patch && npm update",
+        "update:minor": "ncu -u -t minor && npm update",
+        "update:major": "ncu -u && npm update"
     },
     "dependencies": {
         "@emotion/react": "^11.13.3",
@@ -47,7 +47,7 @@
         "swr": "^2.2.5",
         "ua-parser-js": "^1.0.39",
         "use-debounce": "^10.0.4",
-        "uuid": "^11.0.2",
+        "uuid": "^11.0.3",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
         "yup": "^1.4.0"
     },

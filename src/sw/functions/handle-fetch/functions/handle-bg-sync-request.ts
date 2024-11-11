@@ -1,5 +1,5 @@
 import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
-import { martSales } from '@/sw/statics/bg-sync-queue-instance/mart-sales'
+import { martSales } from '@/sw/statics/bg-sync-queue-instances/mart-sales'
 
 /**
  * Enum representing various endpoints for Mart API.
@@ -8,7 +8,7 @@ import { martSales } from '@/sw/statics/bg-sync-queue-instance/mart-sales'
  * @property {string} STORE_SALE - Endpoint for store sales, constructed using the base API URL and the store path.
  */
 enum MartEndpoint {
-    STORE_SALE = '/api' + ApiUrl.STORE,
+    STORE_SALE = '/api/' + ApiUrl.STORE,
 }
 
 /**

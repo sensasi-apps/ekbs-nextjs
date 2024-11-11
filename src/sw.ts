@@ -3,7 +3,6 @@ import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist'
 // vendors
 import { defaultCache } from '@serwist/next/worker'
 import { Serwist } from 'serwist'
-import { customCachingStrategies } from './sw/statics/custom-caching-strategies'
 // locals
 import { handleMessage } from './sw/functions/handle-message'
 import { handleFetch } from './sw/functions/handle-fetch'
@@ -26,7 +25,7 @@ const serwist = new Serwist({
     clientsClaim: true,
     navigationPreload: true,
     disableDevLogs: true,
-    runtimeCaching: [...customCachingStrategies, ...defaultCache],
+    runtimeCaching: defaultCache,
 })
 
 self.addEventListener('fetch', handleFetch)

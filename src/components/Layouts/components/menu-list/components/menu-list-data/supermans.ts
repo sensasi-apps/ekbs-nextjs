@@ -1,7 +1,7 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
 // icons
-import { Group, Note, SupervisedUserCircle } from '@mui/icons-material'
+import { Biotech, Group, Note, SupervisedUserCircle } from '@mui/icons-material'
 // enums
 import Role from '@/enums/Role'
 
@@ -27,9 +27,9 @@ export const supermans: NavItemGroup = {
             forRole: Role.SUPERMAN,
         },
         {
-            href: '/_/be-request-test',
-            label: 'BE Request Test',
-            icon: Note,
+            href: '/_/test',
+            label: 'Test',
+            icon: Biotech,
             forRole: Role.SUPERMAN,
         },
     ],
