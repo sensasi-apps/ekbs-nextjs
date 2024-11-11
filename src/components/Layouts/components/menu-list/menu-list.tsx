@@ -52,6 +52,7 @@ export function MenuList({
                 {currentUser ? (
                     <List
                         sx={{
+                            mb: 16,
                             '& .MuiListItemIcon-root': {
                                 justifyContent: 'center',
                             },
