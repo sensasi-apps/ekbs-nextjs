@@ -23,6 +23,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import formatNumber from '@/utils/formatNumber'
 import useSWR from 'swr'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import ApiUrl from '../../sales/@enums/api-url'
 
 export default function ProductMovementDetailArrayFields({
     push,
@@ -40,10 +41,7 @@ export default function ProductMovementDetailArrayFields({
         data: (Product & {
             is_in_opname: boolean
         })[]
-    }>(
-        // TODO: change this to the Enum
-        'marts/products',
-    )
+    }>(ApiUrl.PRODUCTS)
 
     return (
         <Box mb={4}>
