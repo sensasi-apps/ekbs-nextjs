@@ -20,12 +20,14 @@ axios.get('/sanctum/csrf-cookie').catch((error: AxiosError) => {
     if (response) {
         handleServerError(response)
     } else if (code !== AxiosError.ERR_NETWORK) {
-        enqueueSnackbar(message ?? 'Terjadi kesalahan pada server.', {
+        enqueueSnackbar(message ?? 'Terjadi kesalahan.', {
             variant: 'error',
             persist: true,
         })
+    }
 
-        Promise.reject(error)
+    if (response || code !== AxiosError.ERR_NETWORK) {
+        throw error
     }
 })
 
@@ -45,20 +47,21 @@ axios.interceptors.response.use(undefined, (error: AxiosError) => {
     const { response, code } = error
 
     if (response) {
-        return handleServerError(response)
+        handleServerError(response)
     }
 
     if (code === AxiosError.ERR_NETWORK) {
-        return enqueueSnackbar(
+        enqueueSnackbar(
             'Permintaan gagal dikirimkan, mohon periksa kembali koneksi internet anda.',
             {
                 variant: 'error',
+
                 persist: true,
             },
         )
     }
 
-    return Promise.reject(error)
+    throw error
 })
 
 export default axios
