@@ -1,19 +1,17 @@
 // types
-import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'
-import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 import type ActivityLogType from '@/dataTypes/ActivityLog'
 import type CashType from '@/dataTypes/Cash'
+import type ProductMovement from '@/dataTypes/mart/ProductMovement'
+import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
+import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'
 import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
 // vendors
 import { Box, Divider, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
-import Image from 'next/image'
 // components
 import DefaultItemDesc from './default-item-desc'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import LogoImage from '@/../public/assets/images/belayan-mart-logo.jpg'
-import ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 
 export default function Receipt({
     data: {
@@ -61,11 +59,8 @@ export default function Receipt({
             </Typography>
 
             <Box display="flex" gap={2} alignItems="center">
-                <Image
-                    src={LogoImage}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
+                <img
+                    src="/assets/images/belayan-mart-logo.jpg"
                     style={{ width: '6em', height: '6em' }}
                     alt="logo"
                 />
