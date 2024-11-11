@@ -12,9 +12,9 @@
         "test": "jest",
         "test:watch": "jest --watch",
         "check:update": "ncu",
-        "update": "ncu -u -t patch && npm install",
-        "update:minor": "ncu -u -t minor && npm install",
-        "update:major": "ncu -u && npm install"
+        "update": "ncu -u -t patch && npm update",
+        "update:minor": "ncu -u -t minor && npm update",
+        "update:major": "ncu -u && npm update"
     },
     "dependencies": {
         "@emotion/react": "^11.13.3",
