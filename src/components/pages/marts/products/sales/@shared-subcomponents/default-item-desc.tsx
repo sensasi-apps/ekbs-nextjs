@@ -9,7 +9,7 @@ function DefaultItemDesc({
     value: number | string
 }) {
     return (
-        <Box display="flex" gap={0.75}>
+        <Box display="flex" gap={1}>
             <Typography
                 variant="caption"
                 component="div"
