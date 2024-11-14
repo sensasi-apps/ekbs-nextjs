@@ -40,9 +40,10 @@ export default function AddProductFormDialog({
     const { data: productCategories = [], isLoading: isCategoriesLoading } =
         useSWR<string[]>(OpnameApiUrl.CATEGORIES_DATA)
 
-    const { data: products = [], isLoading: isProductsLoading } = useSWR<
-        Product[]
-    >(OpnameApiUrl.PRODUCTS_DATA)
+    const { data: products, isLoading: isProductsLoading } = useSWR<{
+        fetched_at: string
+        data: Product[]
+    }>(OpnameApiUrl.PRODUCTS_DATA)
 
     return (
         <>
@@ -56,6 +57,7 @@ export default function AddProductFormDialog({
 
             <Dialog fullWidth maxWidth="sm" open={isOpen}>
                 <DialogTitle>Tambah Produk untuk Opname</DialogTitle>
+
                 <DialogContent>
                     {!isAddByCategory
                         ? 'Berdasarkan ID/Nama'
@@ -71,6 +73,7 @@ export default function AddProductFormDialog({
                             setIsAddByCategory(prev => !prev)
                         }}
                     />
+
                     <Fade
                         in={isAddByCategory}
                         timeout={{
@@ -81,18 +84,28 @@ export default function AddProductFormDialog({
                         <Autocomplete
                             disabled={isCategoriesLoading || isLoading}
                             multiple
-                            options={productCategories}
+                            options={productCategories.map(
+                                category => category ?? 'Tanpa Kategori',
+                            )}
                             size="small"
                             onChange={(_, categories) => {
                                 setError(undefined)
+
                                 setSelectedProductIds(
-                                    products
+                                    products?.data
                                         .filter(product =>
-                                            categories.includes(
-                                                product.category_name,
-                                            ),
+                                            categories
+                                                .map(category =>
+                                                    category ===
+                                                    'Tanpa Kategori'
+                                                        ? null
+                                                        : category,
+                                                )
+                                                .includes(
+                                                    product.category_name,
+                                                ),
                                         )
-                                        .map(product => product.id),
+                                        .map(product => product.id) ?? [],
                                 )
                             }}
                             renderInput={params => (
@@ -100,6 +113,7 @@ export default function AddProductFormDialog({
                             )}
                         />
                     </Fade>
+
                     <Fade
                         in={!isAddByCategory}
                         timeout={{
@@ -110,9 +124,9 @@ export default function AddProductFormDialog({
                         <Autocomplete
                             disabled={isProductsLoading || isLoading}
                             multiple
-                            options={products}
-                            getOptionLabel={option =>
-                                `${option.id} • ${option.name}`
+                            options={products?.data ?? []}
+                            getOptionLabel={({ id, barcode_reg_id, name }) =>
+                                `${barcode_reg_id ?? id} • ${name}`
                             }
                             size="small"
                             onChange={(_, products) => {

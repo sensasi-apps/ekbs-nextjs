@@ -90,8 +90,12 @@ export default function ProductMovementDetailArrayFields({
                                         }
                                         options={products?.data ?? []}
                                         disabled={disabled}
-                                        getOptionLabel={({ id, code, name }) =>
-                                            `${code ?? id} - ${name}`
+                                        getOptionLabel={({
+                                            id,
+                                            barcode_reg_id,
+                                            name,
+                                        }) =>
+                                            `${barcode_reg_id ?? id} - ${name}`
                                         }
                                         value={value ?? null}
                                         onChange={(_, product) => {
