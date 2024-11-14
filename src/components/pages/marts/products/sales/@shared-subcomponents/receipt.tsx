@@ -53,17 +53,26 @@ export default function Receipt({
             sx={{
                 color: 'black !important',
                 textTransform: 'uppercase',
+                maxWidth: '80mm',
+                '& > *': {
+                    fontSize: '0.7em',
+                },
             }}>
             <Typography gutterBottom fontWeight="bold">
                 Struk Penjualan Belayan Mart
             </Typography>
 
             <Box display="flex" gap={2} alignItems="center">
-                <img
-                    src="/assets/images/belayan-mart-logo.jpg"
-                    style={{ width: '6em', height: '6em' }}
-                    alt="logo"
-                />
+                <Box>
+                    <img
+                        src="/assets/images/belayan-mart-logo.jpg"
+                        style={{
+                            aspectRatio: '1/1',
+                            maxHeight: '6rem',
+                        }}
+                        alt="logo"
+                    />
+                </Box>
 
                 <Box>
                     {saleNo && (
@@ -110,7 +119,7 @@ export default function Receipt({
 
             <Divider
                 sx={{
-                    my: 1,
+                    mb: 1,
                     bgcolor: 'black',
                 }}
             />
@@ -121,8 +130,6 @@ export default function Receipt({
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
-                    fontSize="1em"
-                    whiteSpace="nowrap"
                     textOverflow="ellipsis">
                     Total
                 </Grid2>
@@ -132,8 +139,7 @@ export default function Receipt({
                     textAlign="end"
                     component={Typography}
                     variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    lineHeight="unset">
                     Rp
                 </Grid2>
 
@@ -142,8 +148,7 @@ export default function Receipt({
                     textAlign="end"
                     component={Typography}
                     variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    lineHeight="unset">
                     {formatNumber(totalDetails + totalCosts)}
                 </Grid2>
 
@@ -152,8 +157,6 @@ export default function Receipt({
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
-                    fontSize="1em"
-                    whiteSpace="nowrap"
                     textOverflow="ellipsis">
                     Bayar
                 </Grid2>
@@ -163,8 +166,7 @@ export default function Receipt({
                     textAlign="end"
                     component={Typography}
                     variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    lineHeight="unset">
                     Rp
                 </Grid2>
 
@@ -173,8 +175,7 @@ export default function Receipt({
                     textAlign="end"
                     component={Typography}
                     variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    lineHeight="unset">
                     {formatNumber(totalPayment)}
                 </Grid2>
 
@@ -183,8 +184,6 @@ export default function Receipt({
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
-                    fontSize="1em"
-                    whiteSpace="nowrap"
                     textOverflow="ellipsis">
                     Kembalian
                 </Grid2>
@@ -194,8 +193,7 @@ export default function Receipt({
                     textAlign="end"
                     component={Typography}
                     variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    lineHeight="unset">
                     Rp
                 </Grid2>
 
@@ -204,8 +202,7 @@ export default function Receipt({
                     textAlign="end"
                     component={Typography}
                     variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    lineHeight="unset">
                     {formatNumber(totalPayment - totalDetails + totalCosts)}
                 </Grid2>
             </Grid2>
@@ -224,7 +221,6 @@ function CostItem({
                 xs={8}
                 component={Typography}
                 lineHeight="unset"
-                whiteSpace="nowrap"
                 textOverflow="ellipsis"
                 variant="caption">
                 {name}
@@ -234,7 +230,6 @@ function CostItem({
                 xs={1}
                 component={Typography}
                 lineHeight="unset"
-                whiteSpace="nowrap"
                 textOverflow="ellipsis"
                 variant="caption">
                 Rp
@@ -262,16 +257,14 @@ function DetailItem({
     return (
         <>
             <Grid2 xs={8}>
-                <Typography
-                    variant="overline"
-                    fontSize="1em"
-                    whiteSpace="nowrap"
-                    textOverflow="ellipsis"
-                    lineHeight="1em">
+                <Typography variant="overline" lineHeight="unset">
                     {printedProduct?.name}
                 </Typography>
 
-                <Typography variant="caption" component="div" lineHeight="1em">
+                <Typography
+                    variant="caption"
+                    component="div"
+                    lineHeight="unset">
                     {formatNumber(Math.abs(qty))} {printedProduct?.unit} &times;
                     RP {formatNumber(rp_per_unit)}
                 </Typography>
@@ -282,8 +275,7 @@ function DetailItem({
                 textAlign="end"
                 component={Typography}
                 variant="overline"
-                lineHeight="unset"
-                fontSize="1em">
+                lineHeight="unset">
                 Rp
             </Grid2>
 
@@ -292,8 +284,7 @@ function DetailItem({
                 textAlign="end"
                 component={Typography}
                 variant="overline"
-                lineHeight="unset"
-                fontSize="1em">
+                lineHeight="unset">
                 {formatNumber(Math.abs(qty) * rp_per_unit)}
             </Grid2>
         </>
