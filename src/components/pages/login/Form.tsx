@@ -1,7 +1,6 @@
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 
 export function Form({
@@ -42,10 +41,6 @@ export function Form({
                 sx={{ mt: 3, mb: 2 }}>
                 Sign In
             </Button>
-
-            <Link href="/forgot-password" variant="body2">
-                Lupa password?
-            </Link>
         </Box>
     )
 }

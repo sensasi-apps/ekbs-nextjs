@@ -5,7 +5,6 @@ import { AxiosError } from 'axios'
 import axios from '@/lib/axios'
 // functions
 import { getUserHashKey } from './functions/getUserHashKey'
-import { getDeviceId } from '@/functions/getDeviceId'
 import { setCurrentAuthInfo } from './functions/setCurrentAuthInfo'
 
 export async function login(
@@ -30,7 +29,6 @@ export async function login(
         .post<AuthInfo>('/login', {
             email,
             password,
-            device_id: getDeviceId(),
         })
         .then(({ data: authInfo }) => {
             const authInfoJson = JSON.stringify(authInfo)

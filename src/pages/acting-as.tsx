@@ -6,7 +6,6 @@ import { useState } from 'react'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import UserAutocomplete from '@/components/UserAutocomplete'
 import axios from '@/lib/axios'
-import { getDeviceId } from '@/functions/getDeviceId'
 import { useRouter } from 'next/navigation'
 import { setCurrentAuthInfo } from '@/providers/Auth/functions/setCurrentAuthInfo'
 
@@ -25,9 +24,7 @@ export default function ActingAs() {
                     setLoading(true)
 
                     axios
-                        .post<AuthInfo>(`/acting-as/${user.uuid}`, {
-                            device_id: getDeviceId(),
-                        })
+                        .post<AuthInfo>(`/acting-as/${user.uuid}`)
                         .then(res => {
                             setCurrentAuthInfo(res.data)
                             router.push('/')

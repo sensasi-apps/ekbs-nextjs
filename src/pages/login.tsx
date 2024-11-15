@@ -1,6 +1,5 @@
 // materials
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
+import { Box, Divider, Link } from '@mui/material'
 // icons
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // components
@@ -26,6 +25,10 @@ export default function LoginPage() {
             />
 
             <Form handleSubmit={handleSubmit} />
+
+            <Link href="/forgot-password" variant="body2">
+                Lupa kata sandi?
+            </Link>
 
             <Divider
                 sx={{
