@@ -1,15 +1,15 @@
+import type { AxiosError } from 'axios'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 // vandors
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 // materials
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+import { Box, Button, TextField, Typography } from '@mui/material'
 // icons
 import LockResetIcon from '@mui/icons-material/LockReset'
 // components
 import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
-import useValidationErrors from '@/hooks/useValidationErrors'
 
 export default function PasswordReset() {
     const {
@@ -18,10 +18,10 @@ export default function PasswordReset() {
     } = useRouter()
 
     const [isLoading, setIsLoading] = useState(false)
-    const { validationErrors, setValidationErrors, clearByEvent } =
-        useValidationErrors()
+    const [validationErrors, setValidationErrors] =
+        useState<LaravelValidationException>()
 
-    const submitForm = (event: FormEvent<HTMLFormElement>) => {
+    function submitForm(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
         const formEl = event.currentTarget
@@ -34,20 +34,36 @@ export default function PasswordReset() {
 
         const formData = new FormData(formEl)
 
-        return axios
-            .post<string>('/reset-password', formData)
-            .then(({ data }) => push('/login?response=' + btoa(data)))
-            .catch(error => {
-                if (error.response.status !== 422) throw error
+        axios
+            .post('reset-password', formData)
+            .then(() =>
+                push(
+                    '/login?response=' +
+                        btoa(
+                            JSON.stringify({
+                                status: 201,
+                                message:
+                                    'Kata sandi berhasil diatur ulang. Silakan melakukan login dengan kata sandi baru Anda.',
+                            }),
+                        ),
+                ),
+            )
+            .catch((err: AxiosError<LaravelValidationException>) => {
+                const { response } = err
 
-                setValidationErrors(error.response.data.errors)
+                if (!response || response.status !== 422) throw err
+
+                setValidationErrors(response.data)
             })
+            .finally(() => setIsLoading(false))
     }
 
     return (
         <GuestFormLayout
             title="Atur kata sandi"
             icon={<LockResetIcon />}
+            isError={Boolean(validationErrors?.message)}
+            message={validationErrors?.message.toString()}
             isLoading={isLoading}>
             <form
                 onSubmit={submitForm}
@@ -59,21 +75,18 @@ export default function PasswordReset() {
                     value={token ?? ''}
                     readOnly
                 />
-                <TextField
-                    autoFocus
-                    required
-                    fullWidth
-                    margin="normal"
-                    label="Email Address"
-                    type="email"
+
+                <input
+                    type="hidden"
                     name="email"
                     value={email ?? ''}
-                    inputProps={{
-                        readOnly: true,
-                    }}
-                    error={Boolean(validationErrors.email)}
-                    helperText={validationErrors.password}
+                    readOnly
                 />
+
+                <Box mb={2}>
+                    <Typography variant="body2">Alamat email:</Typography>
+                    <Typography variant="h6">{email}</Typography>
+                </Box>
 
                 <TextField
                     required
@@ -82,14 +95,15 @@ export default function PasswordReset() {
                     label="Kata sandi baru"
                     type="password"
                     name="password"
-                    onChange={clearByEvent}
-                    error={Boolean(validationErrors.password)}
-                    helperText={validationErrors.password}
+                    onChange={() => setValidationErrors(undefined)}
+                    error={Boolean(validationErrors?.errors?.password)}
+                    helperText={validationErrors?.errors?.password}
                 />
 
                 <TextField
                     required
                     fullWidth
+                    margin="dense"
                     label="Ulangi kata sandi baru"
                     type="password"
                     name="password_confirmation"

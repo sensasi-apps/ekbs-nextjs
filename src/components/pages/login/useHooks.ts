@@ -38,7 +38,7 @@ export function useHooks() {
                 setIsLoading(true)
             } else {
                 setMessage(temp.message)
-                setIsError(true)
+                setIsError(temp.status >= 400)
             }
         }
     }, [response])
