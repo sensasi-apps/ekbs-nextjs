@@ -17,6 +17,8 @@ import useAuth from '@/providers/Auth'
 import InventoryIcon from '@mui/icons-material/Inventory'
 import FormDialog from '@/components/pages/marts/products/opnames/FormDialog'
 import { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
+import ChipSmall from '@/components/ChipSmall'
+import { Box } from '@mui/material'
 
 let getRowData: GetRowDataType<ProductMovementOpname>
 
@@ -92,6 +94,32 @@ const columns: MUIDataTableColumn[] = [
         label: 'Kode',
         options: {
             searchable: false,
+        },
+    },
+
+    {
+        name: 'details.product_state.category_name',
+        label: 'Katagori',
+        options: {
+            customBodyRenderLite(dataIndex, rowIndex) {
+                const data = getRowData(rowIndex)
+
+                return (
+                    <Box display="flex" gap={0.5} flexShrink={0}>
+                        {data?.details
+                            .map(detail => detail.product_state?.category_name)
+                            .filter((value, index, array) => {
+                                return array.indexOf(value) === index
+                            })
+                            .map(category_name => (
+                                <ChipSmall
+                                    key={category_name}
+                                    label={category_name}
+                                />
+                            ))}
+                    </Box>
+                )
+            },
         },
     },
 

@@ -59,7 +59,7 @@ export default function DetailTable({
                 <TableHead>
                     <TableRow>
                         <TableCell>#</TableCell>
-                        <TableCell>ID</TableCell>
+                        <TableCell>Barcode</TableCell>
                         <TableCell>Kategori</TableCell>
                         <TableCell>Nama</TableCell>
                         <TableCell align="right">HPP Satuan</TableCell>
@@ -82,10 +82,7 @@ export default function DetailTable({
                     </TableRow>
                 </TableHead>
 
-                <TableBody
-                    sx={{
-                        whiteSpace: 'nowrap',
-                    }}>
+                <TableBody>
                     {data.length === 0 && (
                         <TableRow>
                             <TableCell colSpan={9} align="center">
@@ -134,7 +131,9 @@ export default function DetailTable({
 
                                     {formatNumber(i + 1)}
                                 </TableCell>
-                                <TableCell>{product_id}</TableCell>
+                                <TableCell>
+                                    {product_state?.barcode_reg_id}
+                                </TableCell>
                                 <TableCell>
                                     {product_state?.category_name}
                                 </TableCell>

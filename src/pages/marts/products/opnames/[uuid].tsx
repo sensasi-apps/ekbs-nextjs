@@ -26,7 +26,7 @@ export default function OpnameDetail() {
         query: { uuid },
     } = useRouter()
 
-    const { data, isLoading } = useSWR<ProductMovementOpname>(
+    const { data, isLoading, isValidating } = useSWR<ProductMovementOpname>(
         uuid ? OpnameApiUrl.GET_DETAIL.replace('$', uuid as string) : undefined,
     )
 
@@ -82,7 +82,12 @@ export default function OpnameDetail() {
                     <Button
                         startIcon={<LockIcon />}
                         variant="outlined"
-                        disabled={isSubmitting || isLoading || isQtyChanged}
+                        disabled={
+                            isSubmitting ||
+                            isLoading ||
+                            isValidating ||
+                            isQtyChanged
+                        }
                         color="warning"
                         size="small"
                         onClick={() => {
@@ -111,7 +116,7 @@ export default function OpnameDetail() {
 
                 {!data?.finished_at && (
                     <AddProductFormDialog
-                        disabled={isSubmitting || isLoading}
+                        disabled={isSubmitting || isLoading || isValidating}
                         productMovementUuid={uuid as string}
                     />
                 )}
@@ -120,7 +125,8 @@ export default function OpnameDetail() {
                     <PrintHandler
                         slotProps={{
                             printButton: {
-                                disabled: isSubmitting || isLoading,
+                                disabled:
+                                    isSubmitting || isLoading || isValidating,
                             },
                         }}>
                         <Typography gutterBottom fontWeight="bold">
@@ -151,7 +157,12 @@ export default function OpnameDetail() {
                             ml: 4,
                         }}
                         size="small"
-                        disabled={isSubmitting || isLoading || !isQtyChanged}
+                        disabled={
+                            isSubmitting ||
+                            isLoading ||
+                            !isQtyChanged ||
+                            isValidating
+                        }
                         onClick={() => {
                             setIsSubmitting(true)
 
@@ -166,7 +177,7 @@ export default function OpnameDetail() {
                 )}
             </Box>
 
-            <Fade in={isLoading || isSubmitting} unmountOnExit>
+            <Fade in={isLoading || isSubmitting || isValidating} unmountOnExit>
                 <LinearProgress />
             </Fade>
 
