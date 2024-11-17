@@ -39,7 +39,14 @@ export default function Form({
                 />
             )}
 
-            <DateField name="at" label="Tanggal" disabled={true} />
+            <DateField
+                name="at"
+                label="Tanggal"
+                disabled
+                datePickerProps={{
+                    format: 'YYYY-MM-DD HH:mm',
+                }}
+            />
 
             <TextField
                 name="note"

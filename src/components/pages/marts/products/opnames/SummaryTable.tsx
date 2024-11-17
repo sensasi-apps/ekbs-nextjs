@@ -1,13 +1,30 @@
 // types
 import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
 // vendors
-import { Table, TableBody, TableCell, TableRow } from '@mui/material'
-import { memo } from 'react'
+import {
+    IconButton,
+    Table,
+    TableBody,
+    TableCell,
+    TableRow,
+} from '@mui/material'
+import { memo, useState } from 'react'
+import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 // utils
 import formatNumber from '@/utils/formatNumber'
+import FormDialog from './FormDialog'
+import { CreateFormValues } from './Form'
+import { Edit } from '@mui/icons-material'
 
 function SummaryTable({ data }: { data: ProductMovementOpname }) {
+    const { reload } = useRouter()
+    const [formValues, setFormValues] = useState<CreateFormValues>()
+
+    function handleClose() {
+        setFormValues(undefined)
+    }
+
     return (
         <Table
             size="small"
@@ -35,6 +52,19 @@ function SummaryTable({ data }: { data: ProductMovementOpname }) {
                     <TableCell>Dibuat oleh</TableCell>
                     <TableCell>
                         : #{data.by_user?.id} — {data.by_user?.name}
+                    </TableCell>
+                </TableRow>
+
+                <TableRow>
+                    <TableCell>Kategori Produk</TableCell>
+                    <TableCell>
+                        :{' '}
+                        {data.details
+                            .map(detail => detail.product_state?.category_name)
+                            .filter((value, index, array) => {
+                                return array.indexOf(value) === index
+                            })
+                            .join(', ')}
                     </TableCell>
                 </TableRow>
 
@@ -136,6 +166,29 @@ function SummaryTable({ data }: { data: ProductMovementOpname }) {
                                 0,
                             ),
                         )}
+                    </TableCell>
+                </TableRow>
+
+                <TableRow>
+                    <TableCell>Catatan</TableCell>
+                    <TableCell>
+                        : {data.note}
+                        <IconButton
+                            size="small"
+                            sx={{
+                                ml: 1,
+                            }}
+                            onClick={() =>
+                                setFormValues({ at: data.at, note: data.note })
+                            }>
+                            <Edit />
+                        </IconButton>
+                        <FormDialog
+                            formValues={formValues}
+                            selectedRow={data}
+                            onSubmitted={() => reload()}
+                            onClose={handleClose}
+                        />
                     </TableCell>
                 </TableRow>
             </TableBody>
