@@ -1,7 +1,9 @@
 // types
 import type Product from '@/dataTypes/mart/Product'
 // vendors
-import { FieldArray, type FormikProps } from 'formik'
+import { FastField, FieldArray, FieldProps, type FormikProps } from 'formik'
+import { Autocomplete, TextField as MuiTextField } from '@mui/material'
+import useSWR from 'swr'
 // materials
 import Alert from '@mui/material/Alert'
 import Grid2 from '@mui/material/Unstable_Grid2'
@@ -24,6 +26,10 @@ export default function ProductForm({
         product: Product | undefined
         handleDelete: () => Promise<void>
     } = status
+
+    const { data: categoryNames = [] } = useSWR<string[]>(
+        'marts/products/categories-data',
+    )
 
     const isDisabled = isSubmitting
 
@@ -75,6 +81,7 @@ export default function ProductForm({
                         }}
                     />
                 </Grid2>
+
                 <Grid2 xs={12} sm={6}>
                     <TextField
                         name="code"
@@ -98,15 +105,26 @@ export default function ProductForm({
                 }}
             />
 
-            <TextField
-                name="category_name"
-                label="Kategori"
-                disabled={isDisabled}
-                textFieldProps={{
-                    variant: 'standard',
-                    required: false,
-                }}
-            />
+            <FastField name="category_name">
+                {({ field }: FieldProps<string>) => (
+                    <Autocomplete
+                        freeSolo
+                        options={categoryNames ?? []}
+                        value={field.value}
+                        renderInput={params => (
+                            <MuiTextField
+                                {...params}
+                                {...field}
+                                required
+                                margin="normal"
+                                label="Kategori"
+                                disabled={isDisabled}
+                                variant="standard"
+                            />
+                        )}
+                    />
+                )}
+            </FastField>
 
             <TextField
                 name="description"
