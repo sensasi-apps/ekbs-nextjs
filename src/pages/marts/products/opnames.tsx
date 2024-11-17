@@ -2,6 +2,7 @@
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
 // vendors
+import { Box } from '@mui/material'
 import { useState } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
@@ -18,7 +19,6 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 import FormDialog from '@/components/pages/marts/products/opnames/FormDialog'
 import { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
 import ChipSmall from '@/components/ChipSmall'
-import { Box } from '@mui/material'
 
 let getRowData: GetRowDataType<ProductMovementOpname>
 
@@ -33,7 +33,7 @@ export default function Opnames() {
     }
 
     return (
-        <AuthLayout title="Produk">
+        <AuthLayout title="Opname">
             <Datatable
                 apiUrl={OpnameApiUrl.DATATABLE}
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
@@ -54,7 +54,7 @@ export default function Opnames() {
             <FormDialog
                 formValues={formValues}
                 onSubmitted={uuid => push('opnames/' + uuid)}
-                handleClose={handleClose}
+                onClose={handleClose}
             />
 
             <Fab
@@ -62,7 +62,7 @@ export default function Opnames() {
                 disabled={!!formValues}
                 onClick={() =>
                     setFormValues({
-                        at: dayjs().format('YYYY-MM-DD'),
+                        at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                     })
                 }
                 title="Tambah Produk">
@@ -85,7 +85,7 @@ const columns: MUIDataTableColumn[] = [
         name: 'at',
         label: 'Tanggal',
         options: {
-            customBodyRender: value => dayjs(value).format('DD-MM-YYYY'),
+            customBodyRender: value => dayjs(value).format('YYYY-MM-DD HH:mm'),
         },
     },
 

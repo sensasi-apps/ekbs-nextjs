@@ -92,16 +92,7 @@ export default function DetailTable({
                     )}
 
                     {data.map(
-                        (
-                            {
-                                id,
-                                product_id,
-                                product_state,
-                                warehouse_state,
-                                qty,
-                            },
-                            i,
-                        ) => (
+                        ({ id, product_state, warehouse_state, qty }, i) => (
                             <TableRow
                                 key={i}
                                 sx={{

@@ -27,7 +27,9 @@ export default function OpnameDetail() {
     } = useRouter()
 
     const { data, isLoading, isValidating } = useSWR<ProductMovementOpname>(
-        uuid ? OpnameApiUrl.GET_DETAIL.replace('$', uuid as string) : undefined,
+        uuid
+            ? OpnameApiUrl.UPDATE_OR_GET_DETAIL.replace('$', uuid as string)
+            : undefined,
     )
 
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -54,6 +56,8 @@ export default function OpnameDetail() {
             data?.details.find(({ id }) => id === detail.id)?.qty !==
             detail.qty,
     )
+
+    const mainIsLoading = isLoading || isValidating || isSubmitting
 
     if (uuid === undefined) return null
 
@@ -82,12 +86,7 @@ export default function OpnameDetail() {
                     <Button
                         startIcon={<LockIcon />}
                         variant="outlined"
-                        disabled={
-                            isSubmitting ||
-                            isLoading ||
-                            isValidating ||
-                            isQtyChanged
-                        }
+                        disabled={mainIsLoading || isQtyChanged}
                         color="warning"
                         size="small"
                         onClick={() => {
@@ -116,7 +115,7 @@ export default function OpnameDetail() {
 
                 {!data?.finished_at && (
                     <AddProductFormDialog
-                        disabled={isSubmitting || isLoading || isValidating}
+                        disabled={mainIsLoading}
                         productMovementUuid={uuid as string}
                     />
                 )}
@@ -125,8 +124,7 @@ export default function OpnameDetail() {
                     <PrintHandler
                         slotProps={{
                             printButton: {
-                                disabled:
-                                    isSubmitting || isLoading || isValidating,
+                                disabled: mainIsLoading,
                             },
                         }}>
                         <Typography gutterBottom fontWeight="bold">
@@ -157,12 +155,7 @@ export default function OpnameDetail() {
                             ml: 4,
                         }}
                         size="small"
-                        disabled={
-                            isSubmitting ||
-                            isLoading ||
-                            !isQtyChanged ||
-                            isValidating
-                        }
+                        disabled={mainIsLoading || !isQtyChanged}
                         onClick={() => {
                             setIsSubmitting(true)
 
@@ -177,7 +170,7 @@ export default function OpnameDetail() {
                 )}
             </Box>
 
-            <Fade in={isLoading || isSubmitting || isValidating} unmountOnExit>
+            <Fade in={mainIsLoading} unmountOnExit>
                 <LinearProgress />
             </Fade>
 
