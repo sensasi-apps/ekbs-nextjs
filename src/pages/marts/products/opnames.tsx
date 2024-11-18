@@ -83,7 +83,7 @@ const columns: MUIDataTableColumn[] = [
 
     {
         name: 'at',
-        label: 'Tanggal',
+        label: 'Waktu Mulai',
         options: {
             customBodyRender: value => dayjs(value).format('YYYY-MM-DD HH:mm'),
         },
@@ -98,7 +98,7 @@ const columns: MUIDataTableColumn[] = [
     },
 
     {
-        name: 'details.product_state.category_name',
+        name: 'details.product_state',
         label: 'Katagori',
         options: {
             customBodyRenderLite(dataIndex, rowIndex) {
@@ -134,5 +134,17 @@ const columns: MUIDataTableColumn[] = [
     {
         name: 'note',
         label: 'Catatan',
+    },
+
+    {
+        name: 'finished_at',
+        label: 'Waktu Selesai',
+        options: {
+            customBodyRender: value =>
+                value ? dayjs(value).format('YYYY-MM-DD HH:mm') : null,
+            setCellProps: () => ({
+                sx: { color: 'success.main' },
+            }),
+        },
     },
 ]

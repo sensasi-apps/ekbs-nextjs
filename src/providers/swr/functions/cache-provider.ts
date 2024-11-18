@@ -10,8 +10,22 @@ export function cacheProvider() {
     )
 
     window.addEventListener('beforeunload', () => {
-        const appCache = JSON.stringify(Array.from(map.entries()))
-        localStorage.setItem('app-cache', appCache)
+        let isSuccessful = false
+
+        while (!isSuccessful) {
+            const appCache = JSON.stringify(Array.from(map.entries()))
+
+            try {
+                localStorage.setItem('app-cache', appCache)
+                isSuccessful = true
+            } catch {
+                const firstKey = map.keys().next().value
+
+                if (firstKey) {
+                    map.delete(firstKey)
+                }
+            }
+        }
     })
 
     return map
