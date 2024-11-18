@@ -1,24 +1,25 @@
 // types
+import type { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
 // vendors
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { useState } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
+import { BackupTable } from '@mui/icons-material'
+import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import Datatable, { GetRowDataType } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 // layouts
 import AuthLayout from '@/components/Layouts/AuthLayout'
-
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
 import Mart from '@/enums/permissions/Mart'
 import useAuth from '@/providers/Auth'
-import InventoryIcon from '@mui/icons-material/Inventory'
 import FormDialog from '@/components/pages/marts/products/opnames/FormDialog'
-import { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
 import ChipSmall from '@/components/ChipSmall'
+import formatNumber from '@/utils/formatNumber'
 
 let getRowData: GetRowDataType<ProductMovementOpname>
 
@@ -34,6 +35,12 @@ export default function Opnames() {
 
     return (
         <AuthLayout title="Opname">
+            <Box mb={2}>
+                <Button startIcon={<BackupTable />} href="opnames/reports">
+                    Laporan
+                </Button>
+            </Box>
+
             <Datatable
                 apiUrl={OpnameApiUrl.DATATABLE}
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
@@ -99,7 +106,7 @@ const columns: MUIDataTableColumn[] = [
 
     {
         name: 'details.product_state',
-        label: 'Katagori',
+        label: 'Kategori',
         options: {
             customBodyRenderLite(dataIndex, rowIndex) {
                 const data = getRowData(rowIndex)
@@ -128,12 +135,42 @@ const columns: MUIDataTableColumn[] = [
         label: 'Jumlah Produk',
         options: {
             searchable: false,
+            sort: false,
+            setCellProps: () => ({
+                sx: { textAlign: 'right' },
+            }),
+            customBodyRender: value => formatNumber(value),
         },
     },
 
     {
         name: 'note',
         label: 'Catatan',
+    },
+
+    {
+        name: '',
+        label: 'Selisih (Rp)',
+        options: {
+            searchable: false,
+            sort: false,
+            setCellProps: () => ({
+                sx: { textAlign: 'right' },
+            }),
+            customBodyRenderLite(dataIndex, rowIndex) {
+                const data = getRowData(rowIndex)
+
+                return formatNumber(
+                    data?.details.reduce(
+                        (acc, detail) =>
+                            acc +
+                            detail.qty *
+                                (detail.warehouse_state?.cost_rp_per_unit ?? 0),
+                        0,
+                    ) ?? 0,
+                )
+            },
+        },
     },
 
     {

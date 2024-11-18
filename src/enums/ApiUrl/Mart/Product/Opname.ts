@@ -11,6 +11,8 @@ enum OpnameApiUrl {
     REMOVE_PRODUCT = 'marts/products/opnames/$pmdId/remove-product',
     FINISH = 'marts/products/opnames/$/finish',
     UPDATE_DETAIL_QTYS = 'marts/products/opnames/update-detail-qtys',
+
+    REPORTS = 'marts/products/opnames/reports',
 }
 
 export default OpnameApiUrl

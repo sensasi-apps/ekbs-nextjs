@@ -111,6 +111,14 @@ export default function ProductForm({
                         freeSolo
                         options={categoryNames ?? []}
                         value={field.value}
+                        onChange={(_, value) =>
+                            field.onChange({
+                                target: {
+                                    name: field.name,
+                                    value,
+                                },
+                            })
+                        }
                         renderInput={params => (
                             <MuiTextField
                                 {...params}
