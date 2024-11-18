@@ -202,15 +202,43 @@ export default function DetailTable({
                         ),
                     )}
                 </TableBody>
+
                 <TableFooter
                     sx={{
                         displayPrint: finished ? undefined : 'none',
                     }}>
                     <TableRow>
-                        <TableCell colSpan={8} align="right">
+                        <TableCell colSpan={5} align="right">
                             TOTAL
                         </TableCell>
-                        <TableCell colSpan={9} align="right">
+
+                        <TableCell align="right">
+                            {formatNumber(
+                                data.reduce(
+                                    (acc, { warehouse_state }) =>
+                                        acc + (warehouse_state?.qty ?? 0),
+                                    0,
+                                ),
+                            )}
+                        </TableCell>
+
+                        <TableCell align="right">
+                            {formatNumber(
+                                data.reduce(
+                                    (acc, { qty, warehouse_state }) =>
+                                        acc + qty + (warehouse_state?.qty ?? 0),
+                                    0,
+                                ),
+                            )}
+                        </TableCell>
+
+                        <TableCell align="right">
+                            {formatNumber(
+                                data.reduce((acc, { qty }) => acc + qty, 0),
+                            )}
+                        </TableCell>
+
+                        <TableCell align="right">
                             {formatNumber(
                                 data.reduce(
                                     (acc, { qty, warehouse_state }) =>
