@@ -18,9 +18,11 @@ import ProductMovementDetailArrayFields from './Form/ProductMovementDetailArrayF
 import ProductMovementCostArrayFields from './Form/ProductMovementCostArrayFields'
 // enums
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import { FormHelperText } from '@mui/material'
 
 export default function Form({
     isSubmitting,
+    errors,
     dirty,
     values,
     status,
@@ -133,6 +135,12 @@ export default function Form({
                             )
                         }}
                     </Field>
+
+                    {JSON.stringify(errors) !== '{}' && (
+                        <FormHelperText error>
+                            {JSON.stringify(errors)}
+                        </FormHelperText>
+                    )}
                 </Grid2>
 
                 <Grid2 xs={12} sm={9} smOffset={3}>
@@ -186,6 +194,8 @@ export type FormValues = Partial<{
     cashable_uuid: Transaction['cashable_uuid']
 
     details: {
+        product: ProductMovementDetail['product']
+        product_id: ProductMovementDetail['product_id']
         qty: ProductMovementDetail['qty']
         rp_per_unit: ProductMovementDetail['rp_per_unit']
         cost_rp_per_unit: ProductMovementDetail['cost_rp_per_unit']
