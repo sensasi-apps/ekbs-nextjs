@@ -9,6 +9,7 @@ import {
     Box,
     FormHelperText,
     IconButton,
+    InputAdornment,
     TextField,
     Typography,
 } from '@mui/material'
@@ -36,17 +37,11 @@ export default function ProductMovementDetailArrayFields({
 }) {
     const { value, error } = getFieldMeta<FormValues['details']>(name)
 
-    const { data: products, isLoading } = useSWR<{
-        fetched_at: string
-        data: (Product & {
-            is_in_opname: boolean
-        })[]
-    }>(ApiUrl.PRODUCTS)
-
     return (
         <Box mb={4}>
             <Box display="flex" alignItems="center">
                 <Typography>Daftar Barang</Typography>
+
                 <IconButton
                     size="small"
                     color="success"
@@ -55,9 +50,8 @@ export default function ProductMovementDetailArrayFields({
                     <AddCircleIcon />
                 </IconButton>
             </Box>
-            <FormHelperText error>{JSON.stringify(error)}</FormHelperText>
 
-            {value && <HeaderGrids />}
+            <FormHelperText error>{JSON.stringify(error)}</FormHelperText>
 
             {value?.map((detail, index: number) => {
                 const subtotal =
@@ -69,6 +63,7 @@ export default function ProductMovementDetailArrayFields({
                         container
                         columnSpacing={1}
                         alignItems="center"
+                        mb={1}
                         key={index}>
                         <Grid2
                             xs={0.5}
@@ -77,96 +72,85 @@ export default function ProductMovementDetailArrayFields({
                             {index + 1}
                         </Grid2>
 
-                        <Grid2 xs={3}>
-                            <Field name={`${name}.${index}.product`}>
-                                {({
-                                    field: { name },
-                                    meta: { error, value },
-                                    form: { setFieldValue },
-                                }: FieldProps) => (
-                                    <Autocomplete<Product>
-                                        isOptionEqualToValue={(option, value) =>
-                                            option.id === value.id
-                                        }
-                                        options={products?.data ?? []}
-                                        disabled={disabled}
-                                        getOptionLabel={({
-                                            id,
-                                            barcode_reg_id,
-                                            name,
-                                        }) =>
-                                            `${barcode_reg_id ?? id} - ${name}`
-                                        }
-                                        value={value ?? null}
-                                        onChange={(_, product) => {
-                                            setFieldValue(name, product)
-                                            setFieldValue(
-                                                name + '_id',
-                                                product?.id,
-                                            )
-                                        }}
-                                        loading={isLoading}
-                                        renderInput={params => (
-                                            <TextField
-                                                {...params}
-                                                size="small"
-                                                margin="dense"
-                                                required
-                                                disabled={
-                                                    disabled ||
-                                                    isLoading ||
-                                                    !products
-                                                }
-                                                {...errorsToHelperTextObj(
-                                                    error,
-                                                )}
-                                            />
-                                        )}
-                                    />
-                                )}
-                            </Field>
+                        <Grid2 xs={8.5} container>
+                            <Grid2 xs={12}>
+                                <ProductPicker
+                                    name={`${name}.${index}.product`}
+                                    disabled={disabled}
+                                />
+                            </Grid2>
+
+                            <Grid2 xs={4}>
+                                <NumericField
+                                    label="Harga Satuan"
+                                    disabled={disabled}
+                                    name={`${name}.${index}.rp_per_unit`}
+                                    numericFormatProps={{
+                                        InputProps: {
+                                            startAdornment: (
+                                                <RpInputAdornment />
+                                            ),
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    /{detail.product?.unit}
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
+                                />
+                            </Grid2>
+
+                            <Grid2 xs={4}>
+                                <NumericField
+                                    label="Biaya Satuan"
+                                    disabled={disabled}
+                                    name={`${name}.${index}.cost_rp_per_unit`}
+                                    numericFormatProps={{
+                                        InputProps: {
+                                            startAdornment: (
+                                                <RpInputAdornment />
+                                            ),
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    /{detail.product?.unit}
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                        value: detail.cost_rp_per_unit,
+                                    }}
+                                />
+                            </Grid2>
+
+                            <Grid2 xs={4}>
+                                <NumericField
+                                    label="Qty"
+                                    disabled={disabled}
+                                    name={`${name}.${index}.qty`}
+                                    numericFormatProps={{
+                                        InputProps: {
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    {detail.product?.unit}
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
+                                />
+                            </Grid2>
                         </Grid2>
 
-                        <Grid2 xs={2}>
-                            <NumericField
-                                disabled={disabled}
-                                name={`${name}.${index}.rp_per_unit`}
-                                numericFormatProps={{
-                                    InputProps: {
-                                        startAdornment: <RpInputAdornment />,
-                                    },
-                                }}
-                            />
-                        </Grid2>
+                        <Grid2 xs={2.5} px={2}>
+                            <Typography variant="overline">subtotal</Typography>
 
-                        <Grid2 xs={2}>
-                            <NumericField
-                                disabled={disabled}
-                                name={`${name}.${index}.cost_rp_per_unit`}
-                                numericFormatProps={{
-                                    InputProps: {
-                                        startAdornment: <RpInputAdornment />,
-                                    },
-                                    value: detail.cost_rp_per_unit,
-                                }}
-                            />
-                        </Grid2>
-
-                        <Grid2 xs={1.5}>
-                            <NumericField
-                                disabled={disabled}
-                                name={`${name}.${index}.qty`}
-                            />
-                        </Grid2>
-
-                        <Grid2
-                            xs={2.5}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            px={2}>
-                            <Box>Rp</Box>
-                            <Box>{subtotal ? formatNumber(subtotal) : ''}</Box>
+                            <Box
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center">
+                                <Box>Rp</Box>
+                                <Box>
+                                    {subtotal ? formatNumber(subtotal) : ''}
+                                </Box>
+                            </Box>
                         </Grid2>
 
                         <Grid2 xs={0.5}>
@@ -188,33 +172,75 @@ export default function ProductMovementDetailArrayFields({
     )
 }
 
-function HeaderGrids() {
+function ProductPicker({
+    name,
+    disabled,
+}: {
+    name: string
+    disabled: boolean
+}) {
+    const { data: products, isLoading } = useSWR<{
+        fetched_at: string
+        data: (Product & {
+            is_in_opname: boolean
+        })[]
+    }>(ApiUrl.PRODUCTS)
+
     return (
-        <Grid2 container columnSpacing={1} alignItems="center">
-            <Grid2 xs={0.5} />
-
-            <Grid2 xs={3} textAlign="center">
-                <Typography variant="overline">Barang</Typography>
-            </Grid2>
-
-            <Grid2 xs={2} textAlign="center">
-                <Typography variant="overline">Harga Satuan</Typography>
-            </Grid2>
-
-            <Grid2 xs={2} textAlign="center">
-                <Typography variant="overline">Biaya Satuan</Typography>
-            </Grid2>
-
-            <Grid2 xs={1.5} textAlign="center">
-                <Typography variant="overline">Qty</Typography>
-            </Grid2>
-
-            <Grid2 xs={2.5} textAlign="center">
-                <Typography variant="overline">Subtotal</Typography>
-            </Grid2>
-
-            <Grid2 xs={0.5} textAlign="center" />
-        </Grid2>
+        <Field name={name}>
+            {({
+                field: { name },
+                meta: { error, value },
+                form: { setFieldValue },
+            }: FieldProps) => (
+                <Autocomplete<Product>
+                    getOptionDisabled={({ deleted_at }) => Boolean(deleted_at)}
+                    isOptionEqualToValue={(option, value) =>
+                        option.id === value.id
+                    }
+                    options={products?.data ?? []}
+                    disabled={disabled}
+                    getOptionLabel={({ id, barcode_reg_id, name }) =>
+                        `${barcode_reg_id ?? id} - ${name}`
+                    }
+                    value={value ?? null}
+                    onChange={(_, product) => {
+                        setFieldValue(name, product)
+                        setFieldValue(name + '_id', product?.id)
+                    }}
+                    loading={isLoading}
+                    renderOption={(
+                        props,
+                        { id, barcode_reg_id, name, deleted_at },
+                    ) => {
+                        return (
+                            <li
+                                {...props}
+                                key={id}
+                                style={{
+                                    ...props.style,
+                                    textDecoration: deleted_at
+                                        ? 'line-through'
+                                        : 'none',
+                                }}>
+                                {barcode_reg_id ?? id} - {name}
+                            </li>
+                        )
+                    }}
+                    renderInput={params => (
+                        <TextField
+                            {...params}
+                            label="Produk"
+                            size="small"
+                            margin="dense"
+                            required
+                            disabled={disabled || isLoading || !products}
+                            {...errorsToHelperTextObj(error)}
+                        />
+                    )}
+                />
+            )}
+        </Field>
     )
 }
 
