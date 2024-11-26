@@ -1,5 +1,4 @@
 // type
-import type StatDataCache from '@/dataTypes/StatDataCache'
 import type { ReactNode } from 'react'
 // vendors
 import useSWR from 'swr'
@@ -15,38 +14,48 @@ import Diversity3Icon from '@mui/icons-material/Diversity3'
 import ForestIcon from '@mui/icons-material/Forest'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WorkIcon from '@mui/icons-material/Work'
+import { BikeScooter, Coffee, ShoppingCart } from '@mui/icons-material'
 // components
 import LineChart from '@/components/Chart/Line'
-// page components
-import StatCard from '@/components/StatCard'
-// layout
-import PublicLayout from '@/components/Layouts/PublicLayout'
-import toDmy from '@/utils/toDmy'
 import BigNumber from '@/components/StatCard/BigNumber'
+import PublicLayout from '@/components/Layouts/PublicLayout'
+import StatCard, { type StatCardProps } from '@/components/StatCard'
+// utils
+import toDmy from '@/utils/toDmy'
 
 export default function Stat() {
-    const { data, isLoading } = useSWR<PerformanceDataType>('/performance-data')
-
     const {
-        farmInputSaleRp,
-        loanDisburseRp,
-        memberTotal,
-        memberParticipationTotal,
-        palmBunchKg,
-        rentIncomeRp,
-    } = data ?? {}
-
-    const totalMember =
-        typeof memberTotal?.value === 'number' ? memberTotal?.value : ''
-
-    const currentTotalParticipation =
-        typeof memberParticipationTotal?.value === 'object'
-            ? memberParticipationTotal?.value.slice(-1)[0].value
-            : 0
-
-    const dataDate = memberTotal?.updated_at
-        ? toDmy(memberTotal.updated_at)
-        : '-'
+        data: {
+            lastGeneratedAt,
+            data: {
+                currentMemberTotal,
+                // monthlyCafeIncomeRps,
+                monthlyFarmInputIncomeRps,
+                monthlyLoanDisburseRps,
+                monthlyMartIncomeRps,
+                monthlyMemberParticipations,
+                monthlyPalmBunchKgs,
+                monthlyRentIncomeRps,
+                // monthlyRepairShopIncomeRps,
+            },
+        } = {
+            data: {},
+        },
+        isLoading,
+    } = useSWR<{
+        lastGeneratedAt: string
+        data: {
+            currentMemberTotal: number
+            monthlyCafeIncomeRps: StatDataItem[]
+            monthlyFarmInputIncomeRps: StatDataItem[]
+            monthlyLoanDisburseRps: StatDataItem[]
+            monthlyMartIncomeRps: StatDataItem[]
+            monthlyMemberParticipations: StatDataItem[]
+            monthlyPalmBunchKgs: StatDataItem[]
+            monthlyRentIncomeRps: StatDataItem[]
+            monthlyRepairShopIncomeRps: StatDataItem[]
+        }
+    }>('performance-data')
 
     return (
         <PublicLayout
@@ -68,11 +77,13 @@ export default function Stat() {
                     gap={0.5}
                     color="GrayText"
                     alignItems="center">
-                    Tanggal:
+                    Pengikinian terakhir tanggal:
                     {isLoading ? (
                         <Skeleton variant="rounded" width="8em" />
                     ) : (
-                        <span>{dataDate}</span>
+                        <span>
+                            {lastGeneratedAt ? toDmy(lastGeneratedAt) : '-'}
+                        </span>
                     )}
                 </Typography>
             </Box>
@@ -80,29 +91,17 @@ export default function Stat() {
             <Box display="flex" gap={4} flexDirection="column">
                 <Box>
                     <Heading2 startIcon={<Diversity3Icon />}>Anggota</Heading2>
+
                     <Grid2 container spacing={2}>
                         <Grid2 xs={12} sm={4}>
-                            <BigNumber
-                                title="Partisipasi — Bulan Ini"
+                            <CurrentParticipation
+                                currentMemberTotal={currentMemberTotal}
+                                currentMonthTotalParticipation={
+                                    monthlyMemberParticipations?.[
+                                        monthlyMemberParticipations.length - 1
+                                    ].value
+                                }
                                 isLoading={isLoading}
-                                primary={
-                                    !isLoading &&
-                                    totalMember &&
-                                    memberParticipationTotal
-                                        ? (
-                                              (currentTotalParticipation /
-                                                  totalMember) *
-                                              100
-                                          ).toFixed(0) + ' %'
-                                        : ''
-                                }
-                                secondary={
-                                    !isLoading &&
-                                    totalMember &&
-                                    memberParticipationTotal
-                                        ? `${currentTotalParticipation}/${totalMember} org`
-                                        : ''
-                                }
                             />
                         </Grid2>
 
@@ -112,7 +111,7 @@ export default function Stat() {
                                 isLoading={isLoading}>
                                 <LineChart
                                     prefix="org"
-                                    data={memberParticipationTotal?.value}
+                                    data={monthlyMemberParticipations}
                                 />
                             </StatCard>
                         </Grid2>
@@ -121,72 +120,103 @@ export default function Stat() {
 
                 <Box display="flex" gap={3} flexDirection="column">
                     <Heading2 startIcon={<WorkIcon />}>Unit Bisnis</Heading2>
-                    <Box>
-                        <Heading3 startIcon={<ForestIcon />}>TBS</Heading3>
-                        <StatCard title="Bobot — Bulanan" isLoading={isLoading}>
-                            <LineChart prefix="kg" data={palmBunchKg?.value} />
-                        </StatCard>
-                    </Box>
 
-                    <Box>
-                        <Heading3 startIcon={<WarehouseIcon />}>
-                            SAPRODI
-                        </Heading3>
-                        <StatCard
-                            title="Penjualan — Bulanan"
-                            isLoading={isLoading}>
-                            <LineChart
-                                currency
-                                data={farmInputSaleRp?.value}
-                                lines={[
-                                    {
-                                        type: 'monotone',
-                                        dataKey: 'total',
-                                        name: 'Total',
-                                        stroke: 'var(--mui-palette-success-main)',
-                                    },
-                                    {
-                                        type: 'monotone',
-                                        dataKey: 'cash',
-                                        name: 'Tunai',
-                                        stroke: 'var(--mui-palette-primary-main)',
-                                    },
-                                    {
-                                        type: 'monotone',
-                                        dataKey: 'installment1',
-                                        name: 'Angsur 1x',
-                                        stroke: 'var(--mui-palette-warning-main)',
-                                    },
-                                    {
-                                        type: 'monotone',
-                                        dataKey: 'installment2',
-                                        name: 'Angsur 2x',
-                                        stroke: 'var(--mui-palette-error-main)',
-                                    },
-                                ]}
-                            />
-                        </StatCard>
-                    </Box>
+                    <StatCardBox
+                        bussinesUnitName="TBS"
+                        statName="Bobot — Bulanan"
+                        icon={<ForestIcon />}
+                        isLoading={isLoading}>
+                        <LineChart prefix="kg" data={monthlyPalmBunchKgs} />
+                    </StatCardBox>
 
-                    <Box>
-                        <Heading3 startIcon={<AgricultureIcon />}>
-                            Penyewaan Alat Berat
-                        </Heading3>
-                        <StatCard title="Omzet — Bulanan" isLoading={isLoading}>
-                            <LineChart currency data={rentIncomeRp?.value} />
-                        </StatCard>
-                    </Box>
+                    <StatCardBox
+                        bussinesUnitName="SAPRODI"
+                        statName="Omzet — Bulanan"
+                        icon={<WarehouseIcon />}
+                        isLoading={isLoading}>
+                        <LineChart
+                            currency
+                            data={monthlyFarmInputIncomeRps}
+                            lines={[
+                                {
+                                    type: 'monotone',
+                                    dataKey: 'total',
+                                    name: 'Total',
+                                    stroke: 'var(--mui-palette-success-main)',
+                                },
+                                {
+                                    type: 'monotone',
+                                    dataKey: 'cash',
+                                    name: 'Tunai',
+                                    stroke: 'var(--mui-palette-primary-main)',
+                                },
+                                {
+                                    type: 'monotone',
+                                    dataKey: 'installment1',
+                                    name: 'Angsur 1x',
+                                    stroke: 'var(--mui-palette-warning-main)',
+                                },
+                                {
+                                    type: 'monotone',
+                                    dataKey: 'installment2',
+                                    name: 'Angsur 2x',
+                                    stroke: 'var(--mui-palette-error-main)',
+                                },
+                            ]}
+                        />
+                    </StatCardBox>
 
-                    <Box>
-                        <Heading3 startIcon={<CurrencyExchangeIcon />}>
-                            Simpan Pinjam
-                        </Heading3>
-                        <StatCard
-                            title="Pencairan — Bulanan"
-                            isLoading={isLoading}>
-                            <LineChart currency data={loanDisburseRp?.value} />
-                        </StatCard>
-                    </Box>
+                    <StatCardBox
+                        bussinesUnitName="Penyewaan Alat Berat"
+                        statName="Omzet — Bulanan"
+                        icon={<AgricultureIcon />}
+                        isLoading={isLoading}>
+                        <LineChart currency data={monthlyRentIncomeRps} />
+                    </StatCardBox>
+
+                    <StatCardBox
+                        bussinesUnitName="Simpan Pinjam"
+                        statName="Pencairan — Bulanan"
+                        icon={<CurrencyExchangeIcon />}
+                        isLoading={isLoading}>
+                        <LineChart currency data={monthlyLoanDisburseRps} />
+                    </StatCardBox>
+
+                    <StatCardBox
+                        bussinesUnitName="Belayan Mart"
+                        statName="Omzet — Bulanan"
+                        icon={<ShoppingCart />}
+                        isLoading={isLoading}>
+                        <LineChart currency data={monthlyMartIncomeRps} />
+                    </StatCardBox>
+
+                    <StatCardBox
+                        bussinesUnitName="Belayan Spare Part"
+                        statName="Omzet — Bulanan"
+                        icon={<BikeScooter />}
+                        color="warning"
+                        isLoading={isLoading}>
+                        <Typography
+                            variant="body1"
+                            color="text.secondary"
+                            textAlign="center">
+                            Akan segera hadir
+                        </Typography>
+                    </StatCardBox>
+
+                    <StatCardBox
+                        bussinesUnitName="Kopi Depan Kantor"
+                        statName="Omzet — Bulanan"
+                        color="warning"
+                        icon={<Coffee />}
+                        isLoading={isLoading}>
+                        <Typography
+                            variant="body1"
+                            color="text.secondary"
+                            textAlign="center">
+                            Akan segera hadir
+                        </Typography>
+                    </StatCardBox>
                 </Box>
             </Box>
         </PublicLayout>
@@ -234,11 +264,58 @@ function Heading3({
     )
 }
 
-type PerformanceDataType = {
-    farmInputSaleRp: StatDataCache
-    loanDisburseRp: StatDataCache
-    memberTotal: StatDataCache
-    memberParticipationTotal: StatDataCache
-    palmBunchKg: StatDataCache
-    rentIncomeRp: StatDataCache
+function StatCardBox({
+    statName,
+    bussinesUnitName,
+    icon,
+    isLoading,
+    children,
+    color,
+}: {
+    statName: string
+    icon: ReactNode
+    bussinesUnitName: string
+    isLoading: boolean
+    children: ReactNode
+    color?: StatCardProps['color']
+}) {
+    return (
+        <Box>
+            <Heading3 startIcon={icon}>{bussinesUnitName}</Heading3>
+
+            <StatCard title={statName} isLoading={isLoading} color={color}>
+                {children}
+            </StatCard>
+        </Box>
+    )
+}
+
+interface StatDataItem {
+    label: string
+    value: number
+}
+
+function CurrentParticipation({
+    currentMemberTotal = 0,
+    currentMonthTotalParticipation = 0,
+    isLoading,
+}: {
+    currentMemberTotal?: number
+    currentMonthTotalParticipation?: number
+    isLoading: boolean
+}) {
+    const percentage = currentMemberTotal
+        ? (currentMonthTotalParticipation / currentMemberTotal) * 100
+        : 0
+
+    const detail = `${currentMonthTotalParticipation}/${currentMemberTotal} org`
+
+    return (
+        <BigNumber
+            title="Partisipasi — Bulan Ini"
+            isLoading={isLoading}
+            primary={percentage.toFixed(0) + ' %'}
+            secondary={detail}
+        />
+    )
 }
