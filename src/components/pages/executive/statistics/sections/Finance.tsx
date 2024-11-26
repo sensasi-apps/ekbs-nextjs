@@ -40,7 +40,6 @@ const FinanceSection = memo(function FinanceSection() {
                     ...SX_SCROLL_MARGIN_TOP,
                     overflow: 'unset',
                 }}
-                disableAutoScrollLeft
             />
 
             <Heading3

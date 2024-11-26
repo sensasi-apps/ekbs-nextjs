@@ -1,6 +1,5 @@
 // types
 import type { TooltipProps } from 'recharts'
-import type StatDataCache from '@/dataTypes/StatDataCache'
 // vendors
 import {
     LineChart as RechartsLineChart,
@@ -25,7 +24,7 @@ export default function LineChart({
     currency,
     slotsProps,
 }: {
-    data: unknown[] | StatDataCache['value'] | undefined
+    data: unknown[] | undefined
     prefix?: string
     lines?: Omit<LineProps, 'ref'>[]
     xAxisDataKey?: string
@@ -35,7 +34,7 @@ export default function LineChart({
         tooltip?: TooltipProps<number, string>
     }
 }) {
-    if (!data || typeof data === 'number') {
+    if (!data) {
         return (
             <Typography
                 variant="body1"
@@ -58,6 +57,7 @@ export default function LineChart({
     }
 
     const proccessedPrefix = prefix ? ' ' + prefix : ''
+
     const {
         type = 'monotone',
         dataKey = 'value',
@@ -67,16 +67,12 @@ export default function LineChart({
     } = lineProps ?? {}
 
     return (
-        <ResponsiveContainer
-            minHeight={200}
-            minWidth={600}
-            style={{
-                overflow: 'hidden',
-            }}>
+        <ResponsiveContainer minHeight={250}>
             <RechartsLineChart
                 data={data}
                 margin={{
-                    left: -10,
+                    left: -20,
+                    right: 20,
                 }}>
                 <XAxis dataKey="label" />
 
