@@ -1,53 +1,100 @@
 // vendors
-import { memo, useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 // materials
-import Box from '@mui/material/Box'
-import MuiCard, { CardProps } from '@mui/material/Card'
-import CardActionArea from '@mui/material/CardActionArea'
-import CardContent from '@mui/material/CardContent'
-import Collapse from '@mui/material/Collapse'
+import MuiCard, { type CardProps } from '@mui/material/Card'
 import LinearProgress, {
     LinearProgressProps,
 } from '@mui/material/LinearProgress'
-import Skeleton from '@mui/material/Skeleton'
-import Typography from '@mui/material/Typography'
+import {
+    Box,
+    CardActionArea,
+    CardContent,
+    Collapse,
+    Dialog,
+    DialogContent,
+    IconButton,
+    Skeleton,
+    Typography,
+} from '@mui/material'
 // icons
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import { Close, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
 
-const StatCard = memo(function StatCard({
+/**
+ * A component that displays a card with a title, optional collapsible content, and a loading state.
+ */
+export default function StatCard({
     children,
     title,
     isLoading,
-    disableAutoScrollLeft,
     collapsible = false,
-    color,
+    color = 'success',
     ...rest
 }: StatCardProps) {
     const [isCollapse, setIsCollapse] = useState(collapsible)
-    const contentRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        if (!disableAutoScrollLeft && !isLoading && contentRef.current) {
-            contentRef.current.scrollLeft = contentRef.current.scrollWidth
-        }
-    }, [isLoading, disableAutoScrollLeft])
+    const [isFullscreen, setIsFullscreen] = useState(false)
 
     return (
-        <MuiCard {...rest}>
-            <LinearProgress
-                variant="determinate"
-                value={100}
-                color={color ?? 'success'}
-            />
+        <>
+            <MuiCard {...rest}>
+                <CardActionArea onClick={() => setIsFullscreen(true)}>
+                    <LinearProgress
+                        variant="determinate"
+                        value={100}
+                        color={color}
+                    />
 
-            <CardActionArea
-                disabled={!collapsible}
-                onClick={() => setIsCollapse(prev => !prev)}>
+                    <Box
+                        px={2.5}
+                        py={2}
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center">
+                        <Typography textTransform="capitalize" variant="body1">
+                            {title}
+                        </Typography>
+
+                        {collapsible && (
+                            <IconButton
+                                size="small"
+                                disabled={!collapsible}
+                                onClick={() => setIsCollapse(prev => !prev)}>
+                                {isCollapse ? (
+                                    <KeyboardArrowDown />
+                                ) : (
+                                    <KeyboardArrowUp />
+                                )}
+                            </IconButton>
+                        )}
+                    </Box>
+
+                    <Collapse in={!isCollapse} unmountOnExit>
+                        <CardContent
+                            sx={{
+                                pt: 1.5,
+                                px: 2.5,
+                                overflowX: 'auto',
+                            }}>
+                            {isLoading ? <Skeletons /> : children}
+                        </CardContent>
+                    </Collapse>
+                </CardActionArea>
+            </MuiCard>
+
+            <Dialog
+                fullScreen
+                open={isFullscreen}
+                onClose={() => setIsFullscreen(false)}>
+                <LinearProgress
+                    variant="determinate"
+                    value={100}
+                    color={color}
+                />
+
                 <Box
-                    p={2}
+                    px={2.5}
+                    py={1.5}
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center">
@@ -55,37 +102,23 @@ const StatCard = memo(function StatCard({
                         {title}
                     </Typography>
 
-                    {collapsible ? (
-                        isCollapse ? (
-                            <KeyboardArrowDownIcon />
-                        ) : (
-                            <KeyboardArrowUpIcon />
-                        )
-                    ) : null}
+                    <IconButton
+                        size="small"
+                        onClick={() => setIsFullscreen(false)}>
+                        <Close />
+                    </IconButton>
                 </Box>
-            </CardActionArea>
 
-            <Collapse in={!isCollapse} unmountOnExit>
-                <CardContent
-                    ref={contentRef}
-                    sx={{
-                        pt: 0,
-                        overflowX: 'auto',
-                    }}>
-                    {isLoading ? <Skeletons /> : children}
-                </CardContent>
-            </Collapse>
-        </MuiCard>
+                <DialogContent>{children}</DialogContent>
+            </Dialog>
+        </>
     )
-})
-
-export default StatCard
+}
 
 export type StatCardProps = CardProps & {
     title: string
     isLoading?: boolean
     collapsible?: boolean
-    disableAutoScrollLeft?: boolean
     color?: LinearProgressProps['color']
 }
 
