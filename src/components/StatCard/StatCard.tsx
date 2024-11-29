@@ -30,6 +30,7 @@ export default function StatCard({
     isLoading,
     collapsible = false,
     color = 'success',
+    disableFullscreen,
     ...rest
 }: StatCardProps) {
     const [isCollapse, setIsCollapse] = useState(collapsible)
@@ -38,7 +39,9 @@ export default function StatCard({
     return (
         <>
             <MuiCard {...rest}>
-                <CardActionArea onClick={() => setIsFullscreen(true)}>
+                <CardActionArea
+                    disabled={disableFullscreen}
+                    onClick={() => setIsFullscreen(true)}>
                     <LinearProgress
                         variant="determinate"
                         value={100}
@@ -72,7 +75,7 @@ export default function StatCard({
                     <Collapse in={!isCollapse} unmountOnExit>
                         <CardContent
                             sx={{
-                                pt: 1.5,
+                                pt: 0,
                                 px: 2.5,
                                 overflowX: 'auto',
                             }}>
@@ -120,6 +123,7 @@ export type StatCardProps = CardProps & {
     isLoading?: boolean
     collapsible?: boolean
     color?: LinearProgressProps['color']
+    disableFullscreen?: boolean
 }
 
 function Skeletons() {
