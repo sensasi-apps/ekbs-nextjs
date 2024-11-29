@@ -11,7 +11,7 @@ import {
     Savings,
 } from '@mui/icons-material'
 // enums
-import Role from '@/enums/Role'
+// import Role from '@/enums/Role'
 import Cash from '@/enums/permissions/Cash'
 import Finance from '@/enums/permissions/Finance'
 import Transaction from '@/enums/permissions/Transaction'
@@ -26,12 +26,15 @@ export const accountings: NavItemGroup = {
             icon: Payments,
             forPermission: Finance.PAYROLL_EMPLOYEE,
         },
-        {
-            href: '/wallet',
-            label: 'Wallet',
-            icon: AccountBalanceWallet,
-            forRole: [Role.MEMBER, Role.EMPLOYEE],
-        },
+        /**
+         * Disabled by request from JAMALUDDIN (2024-11-29)
+         */
+        // {
+        //     href: '/wallet',
+        //     label: 'Wallet',
+        //     icon: AccountBalanceWallet,
+        //     forRole: [Role.MEMBER, Role.EMPLOYEE],
+        // },
         {
             href: '/bills',
             label: 'Tagihan',
