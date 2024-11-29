@@ -5,7 +5,7 @@ import {
     AlignHorizontalLeft,
     AutoStories,
     FormatAlignJustify,
-    Assessment,
+    // Assessment,
     Grass,
     FireTruck,
     Balance,
@@ -36,12 +36,12 @@ export const palmBunches: NavItemGroup = {
             icon: FormatAlignJustify,
             forPermission: PalmBunch.READ_STATISTIC,
         },
-        {
-            href: '/palm-bunches/performances',
-            label: 'Performa Anda',
-            icon: Assessment,
-            forRole: [Role.FARMER, Role.COURIER],
-        },
+        // {
+        //     href: '/palm-bunches/performances',
+        //     label: 'Performa Anda',
+        //     icon: Assessment,
+        //     forRole: [Role.FARMER, Role.COURIER],
+        // },
         {
             href: '/palm-bunches/rates',
             label: 'Harga TBS',
