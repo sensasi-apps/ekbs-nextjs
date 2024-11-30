@@ -118,8 +118,8 @@ export default function StatCard({
     )
 }
 
-export type StatCardProps = CardProps & {
-    title: string
+export type StatCardProps = Omit<CardProps, 'title'> & {
+    title: string | JSX.Element
     isLoading?: boolean
     collapsible?: boolean
     color?: LinearProgressProps['color']
