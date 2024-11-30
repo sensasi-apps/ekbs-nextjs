@@ -39,40 +39,40 @@ export default function StatCard({
     return (
         <>
             <MuiCard {...rest}>
-                <CardActionArea
-                    disabled={disableFullscreen}
-                    onClick={() => setIsFullscreen(true)}>
-                    <LinearProgress
-                        variant="determinate"
-                        value={100}
-                        color={color}
-                    />
+                <LinearProgress
+                    variant="determinate"
+                    value={100}
+                    color={color}
+                />
 
-                    <Box
-                        px={2.5}
-                        py={2}
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center">
-                        <Typography textTransform="capitalize" variant="body1">
-                            {title}
-                        </Typography>
+                <Box
+                    px={2.5}
+                    py={2}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center">
+                    <Typography textTransform="capitalize" variant="body1">
+                        {title}
+                    </Typography>
 
-                        {collapsible && (
-                            <IconButton
-                                size="small"
-                                disabled={!collapsible}
-                                onClick={() => setIsCollapse(prev => !prev)}>
-                                {isCollapse ? (
-                                    <KeyboardArrowDown />
-                                ) : (
-                                    <KeyboardArrowUp />
-                                )}
-                            </IconButton>
-                        )}
-                    </Box>
+                    {collapsible && (
+                        <IconButton
+                            size="small"
+                            disabled={!collapsible}
+                            onClick={() => setIsCollapse(prev => !prev)}>
+                            {isCollapse ? (
+                                <KeyboardArrowDown />
+                            ) : (
+                                <KeyboardArrowUp />
+                            )}
+                        </IconButton>
+                    )}
+                </Box>
 
-                    <Collapse in={!isCollapse} unmountOnExit>
+                <Collapse in={!isCollapse} unmountOnExit>
+                    <CardActionArea
+                        disabled={disableFullscreen}
+                        onClick={() => setIsFullscreen(true)}>
                         <CardContent
                             sx={{
                                 pt: 0,
@@ -81,8 +81,8 @@ export default function StatCard({
                             }}>
                             {isLoading ? <Skeletons /> : children}
                         </CardContent>
-                    </Collapse>
-                </CardActionArea>
+                    </CardActionArea>
+                </Collapse>
             </MuiCard>
 
             <Dialog
