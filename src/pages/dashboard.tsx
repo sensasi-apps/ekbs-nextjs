@@ -23,7 +23,9 @@ export default function Page() {
 
     const { data: { palmBunchesDelivery, palmBunches } = {} } =
         useSWR<ApiResponseType>(
-            userHasRole(Role.MEMBER) ? 'me/participations' : null,
+            userHasRole([Role.FARMER, Role.COURIER])
+                ? 'me/participations'
+                : null,
         )
 
     return (
@@ -53,7 +55,7 @@ export default function Page() {
                     },
                 }}
                 mb={6}>
-                {userHasRole([Role.MEMBER, Role.FARMER]) && palmBunches && (
+                {userHasRole(Role.FARMER) && palmBunches && (
                     <BigNumberCard
                         {...palmBunches.bigNumber1}
                         title={
@@ -65,18 +67,17 @@ export default function Page() {
                     />
                 )}
 
-                {userHasRole([Role.MEMBER, Role.COURIER]) &&
-                    palmBunchesDelivery && (
-                        <BigNumberCard
-                            {...palmBunchesDelivery.bigNumber1}
-                            title={
-                                <>
-                                    <FireTruck sx={{ mr: 1 }} /> Pengangkutan
-                                    TBS bulan ini
-                                </>
-                            }
-                        />
-                    )}
+                {userHasRole(Role.COURIER) && palmBunchesDelivery && (
+                    <BigNumberCard
+                        {...palmBunchesDelivery.bigNumber1}
+                        title={
+                            <>
+                                <FireTruck sx={{ mr: 1 }} /> Pengangkutan TBS
+                                bulan ini
+                            </>
+                        }
+                    />
+                )}
             </ScrollableXBox>
 
             <Grid2 container spacing={2}>
