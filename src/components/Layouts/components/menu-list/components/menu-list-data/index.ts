@@ -1,7 +1,7 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
 // icons
-import { Assessment, Dashboard } from '@mui/icons-material'
+import { Assessment, Dashboard, VolunteerActivism } from '@mui/icons-material'
 // nav items
 import { accountings } from './accountings'
 import { executives } from './executives'
@@ -13,6 +13,7 @@ import { palmBunches } from './palm-bunches'
 import { supermans } from './supermans'
 import { systems } from './systems'
 import { marts } from './marts'
+import Role from '@/enums/Role'
 
 export const NAV_ITEM_GROUPS: NavItemGroup[] = [
     {
@@ -20,14 +21,18 @@ export const NAV_ITEM_GROUPS: NavItemGroup[] = [
             {
                 href: '/dashboard',
                 label: 'Dasbor',
-                pathname: '/dashboard',
                 icon: Dashboard,
             },
             {
                 href: '/laporan-performa',
                 label: 'Performa Koperasi',
-                pathname: '/laporan-performa',
                 icon: Assessment,
+            },
+            {
+                href: '/me/participations',
+                label: 'Partisipasi Anda',
+                icon: VolunteerActivism,
+                forRole: Role.MEMBER,
             },
         ],
     },

@@ -16,16 +16,29 @@ import Typography from '@mui/material/Typography'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 
+/**
+ * LineChart component renders a line chart using Recharts library.
+ * It displays a message if there is an error or no data available.
+ */
 export default function LineChart({
     data,
     prefix = '',
+    suffix,
     lines,
     lineProps,
     currency,
     slotsProps,
 }: {
     data: unknown[] | undefined
+
+    /**
+     * WRONG: Use `suffix` instead.
+     *
+     * @deprecated Use `suffix` instead.
+     */
     prefix?: string
+
+    suffix?: string
     lines?: Omit<LineProps, 'ref'>[]
     xAxisDataKey?: string
     lineProps?: Omit<LineProps, 'ref'>
@@ -56,7 +69,7 @@ export default function LineChart({
         )
     }
 
-    const proccessedPrefix = prefix ? ' ' + prefix : ''
+    const proccessedPrefix = (prefix ?? suffix) ? ' ' + (prefix ?? suffix) : ''
 
     const {
         type = 'monotone',
@@ -70,8 +83,12 @@ export default function LineChart({
         <ResponsiveContainer minHeight={250}>
             <RechartsLineChart
                 data={data}
+                style={{
+                    margin: '0 auto',
+                }}
                 margin={{
-                    left: -20,
+                    left: -10,
+                    top: 5,
                     right: 20,
                 }}>
                 <XAxis dataKey="label" />

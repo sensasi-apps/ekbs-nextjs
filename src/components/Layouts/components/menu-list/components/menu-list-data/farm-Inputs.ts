@@ -90,5 +90,12 @@ export const farmInputs: NavItemGroup = {
             label: 'Katalog',
             icon: Warehouse,
         },
+
+        // ################# USER CONTEXT SECTION #################
+        {
+            href: '/farm-inputs/purchases/me',
+            label: 'Pembelian',
+            icon: ShoppingCart,
+        },
     ],
 }

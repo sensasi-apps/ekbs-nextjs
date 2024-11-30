@@ -41,13 +41,8 @@ const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
                     border: 'none',
                     fontSize: '0.8em',
                 },
-                '& td': {
-                    color: 'grey',
-                    textAlign: 'right',
-                },
                 '& th': {
                     fontWeight: 'bold',
-                    color: 'black',
                 },
             }}>
             <TableHead>
@@ -57,24 +52,24 @@ const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
                             textTransform: 'capitalize',
                         },
                     }}>
-                    <TableCell>{n_term_unit} ke-</TableCell>
-                    <TableCell>Tanggal</TableCell>
-                    <TableCell>Sisa (Rp)</TableCell>
-                    <TableCell>Pokok (Rp)</TableCell>
-                    <TableCell>Jasa {interest_percent}% (Rp)</TableCell>
-                    <TableCell>Potongan (Rp)</TableCell>
+                    <TableCell align="center">{n_term_unit} ke-</TableCell>
+                    <TableCell align="center">TGL</TableCell>
+                    <TableCell align="right">Sisa (Rp)</TableCell>
+                    <TableCell align="right">Pokok (Rp)</TableCell>
+                    <TableCell align="right">
+                        Jasa {interest_percent}% (Rp)
+                    </TableCell>
+                    <TableCell align="right">Potongan (Rp)</TableCell>
                 </TableRow>
             </TableHead>
+
             <TableBody>
                 <TableRow>
-                    <TableCell
-                        style={{
-                            textAlign: 'center',
-                        }}>
-                        0
+                    <TableCell align="center">0</TableCell>
+                    <TableCell align="center">{toDmy(at)}</TableCell>
+                    <TableCell align="right">
+                        {formatNumber(total_base_rp)}
                     </TableCell>
-                    <TableCell>{toDmy(at)}</TableCell>
-                    <TableCell>{formatNumber(total_base_rp)}</TableCell>
                     <TableCell />
                     <TableCell />
                     <TableCell />
@@ -98,6 +93,7 @@ const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
                 <TableRow
                     sx={{
                         '& th': {
+                            color: 'text.primary',
                             textAlign: 'right',
                         },
                     }}>
@@ -136,19 +132,14 @@ function InstallmentTableRow({
 
     return (
         <TableRow>
-            <TableCell
-                style={{
-                    textAlign: 'center',
-                }}>
-                {n_th}
-            </TableCell>
-            <TableCell>{toDmy(should_be_paid_at)}</TableCell>
-            <TableCell>
+            <TableCell align="center">{n_th}</TableCell>
+            <TableCell align="center">{toDmy(should_be_paid_at)}</TableCell>
+            <TableCell align="right">
                 {formatNumber(remaining_rp < 0 ? 0 : remaining_rp)}
             </TableCell>
-            <TableCell>{formatNumber(base_rp)}</TableCell>
-            <TableCell>{formatNumber(interest_rp)}</TableCell>
-            <TableCell>{formatNumber(amount_rp)}</TableCell>
+            <TableCell align="right">{formatNumber(base_rp)}</TableCell>
+            <TableCell align="right">{formatNumber(interest_rp)}</TableCell>
+            <TableCell align="right">{formatNumber(amount_rp)}</TableCell>
         </TableRow>
     )
 }

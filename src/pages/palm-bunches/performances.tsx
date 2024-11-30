@@ -12,8 +12,16 @@ import StatCard from '@/components/StatCard'
 // etc
 import useAuth from '@/providers/Auth'
 import Role from '@/enums/Role'
+import useDisablePage from '@/hooks/useDisablePage'
 
+/**
+ * Palm bunches performances page for farmer and courier
+ * WILL BE REMOVED SOON
+ *
+ * @deprecated - because it's moved to the /me/participations
+ */
 export default function PalmBunchesPerformances() {
+    useDisablePage()
     const { userHasRole } = useAuth()
     const { replace, query } = useRouter()
     const { dataUnit = 'weeks' } = query

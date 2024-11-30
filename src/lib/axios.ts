@@ -1,6 +1,6 @@
 // vendors
 import { enqueueSnackbar } from 'notistack'
-import Axios, { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 // utils
 import { handleServerError } from './axios/functions/handle-server-error'
 import { getCurrentAuthToken } from './axios/getCurrentAuthToken'
@@ -8,13 +8,13 @@ import { getCurrentAuthToken } from './axios/getCurrentAuthToken'
 /**
  * @todo REDUCE `csrf-cookie` REQUEST IF POSSIBLE.
  */
-const axios = Axios.create({
+const myAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
     withXSRFToken: true,
     withCredentials: true,
 })
 
-axios.get('/sanctum/csrf-cookie').catch((error: AxiosError) => {
+myAxios.get('/sanctum/csrf-cookie').catch((error: AxiosError) => {
     const { response, code, message } = error
 
     if (response) {
@@ -31,7 +31,7 @@ axios.get('/sanctum/csrf-cookie').catch((error: AxiosError) => {
     }
 })
 
-axios.interceptors.request.use(config => {
+myAxios.interceptors.request.use(config => {
     const token = getCurrentAuthToken()
 
     if (token) {
@@ -43,7 +43,7 @@ axios.interceptors.request.use(config => {
     return config
 })
 
-axios.interceptors.response.use(undefined, (error: AxiosError) => {
+myAxios.interceptors.response.use(undefined, (error: AxiosError) => {
     const { response, code } = error
 
     if (response) {
@@ -64,4 +64,4 @@ axios.interceptors.response.use(undefined, (error: AxiosError) => {
     throw error
 })
 
-export default axios
+export default myAxios
