@@ -22,6 +22,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
 }) {
     const {
         uuid,
+        short_uuid,
         at,
         payment_method,
         buyer_user,
@@ -71,11 +72,13 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
             </Box>
 
             <Grid2 container columnSpacing={1} mb={2.5}>
+                <RowTextGrids title="Kode" value={short_uuid} />
+
                 <RowTextGrids
                     title="Pelanggan"
                     value={
                         buyer_user
-                            ? `#${buyer_user.id} ${buyer_user.name}`
+                            ? `#${buyer_user.id} — ${buyer_user.name}`
                             : '-'
                     }
                 />
@@ -250,12 +253,13 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                         mb={0.5}>
                         RINCIAN POTONGAN TBS
                     </Typography>
+
                     <ReceiptInstalmentTable data={data} />
                 </>
             )}
 
             <Box
-                mt={2}
+                mt={4}
                 sx={{
                     '*': {
                         lineHeight: '1em',
