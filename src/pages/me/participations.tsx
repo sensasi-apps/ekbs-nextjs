@@ -64,7 +64,7 @@ export default function Page() {
                 title="SAPRODI"
                 iconTitle={<Warehouse />}
                 data={farmInputs}
-                detailHref="/me/farm-inputs/purchases"
+                detailHref="/farm-inputs/purchases/me"
             />
 
             <ComingSoonSection title="Alat Berat" iconTitle={<Agriculture />} />
