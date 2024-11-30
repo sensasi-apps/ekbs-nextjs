@@ -1,26 +1,38 @@
-// materials
-import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import Skeleton from '@mui/material/Skeleton'
-import Typography from '@mui/material/Typography'
+import type { SectionData } from './me/participations'
+// vendors
+import { FireTruck, Forest } from '@mui/icons-material'
+import { Skeleton, Typography, Unstable_Grid2 as Grid2 } from '@mui/material'
+import useSWR from 'swr'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import useAuth from '@/providers/Auth'
-// enums
+import ScrollableXBox from '@/components/ScrollableXBox'
+import BigNumberCard from '@/components/big-number-card'
 import AlertListCard from '@/components/pages/dashboard/AlertListCard'
+// enums
+import Role from '@/enums/Role'
 
-export default function Dashboard() {
-    const { user } = useAuth()
+/**
+ * The `Page` component represents the dashboard page of the application.
+ * It fetches user-specific data and displays various sections based on the user's role.
+ *
+ * @todo Add total participation (RP) section
+ */
+export default function Page() {
+    const { user, userHasRole } = useAuth()
+
+    const { data: { palmBunchesDelivery, palmBunches } = {} } = useSWR<{
+        palmBunches: SectionData
+        palmBunchesDelivery: SectionData
+        farmInputs: SectionData
+    }>(userHasRole(Role.MEMBER) ? 'me/participations' : null)
 
     return (
         <AuthLayout title="Dasbor">
-            <Box display="inline-flex" gap={1} mb={6} flexWrap="wrap">
-                <Typography variant="h5" component="div">
-                    Selamat datang,
-                </Typography>
-
+            <Typography variant="h5" component="div" mb={4}>
+                Selamat datang,{' '}
                 {user?.name ? (
-                    <Typography color="info.main" variant="h5" component="div">
+                    <Typography color="info.main" variant="h5" component="span">
                         {user?.name}
                     </Typography>
                 ) : (
@@ -31,7 +43,42 @@ export default function Dashboard() {
                         height="2rem"
                     />
                 )}
-            </Box>
+            </Typography>
+
+            <ScrollableXBox
+                gap={3}
+                flex="1 1 0"
+                sx={{
+                    '& > *': {
+                        flex: '0 0 auto',
+                    },
+                }}
+                mb={6}>
+                {userHasRole([Role.MEMBER, Role.FARMER]) && palmBunches && (
+                    <BigNumberCard
+                        {...palmBunches.bigNumber1}
+                        title={
+                            <>
+                                <Forest sx={{ mr: 1 }} /> Penjualan TBS bulan
+                                ini
+                            </>
+                        }
+                    />
+                )}
+
+                {userHasRole([Role.MEMBER, Role.COURIER]) &&
+                    palmBunchesDelivery && (
+                        <BigNumberCard
+                            {...palmBunchesDelivery.bigNumber1}
+                            title={
+                                <>
+                                    <FireTruck sx={{ mr: 1 }} /> Pengangkutan
+                                    TBS bulan ini
+                                </>
+                            }
+                        />
+                    )}
+            </ScrollableXBox>
 
             <Grid2 container spacing={2}>
                 <Grid2 xs={12} md={4}>
