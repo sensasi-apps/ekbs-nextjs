@@ -3,6 +3,7 @@ import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
 import {
+    Box,
     Button,
     Chip,
     Dialog,
@@ -18,6 +19,10 @@ import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Rece
 import toDmy from '@/utils/toDmy'
 import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
 import formatNumber from '@/utils/formatNumber'
+import BigNumberCard from '@/components/big-number-card'
+import Grid2 from '@mui/material/Unstable_Grid2'
+import { ApiResponseType, LineChartCard } from '@/pages/me/participations'
+import useSWR from 'swr'
 
 let getRowData: GetRowDataType<ProductSaleType>
 
@@ -25,8 +30,38 @@ export default function Page() {
     const [receiptDialogData, setReceiptDialogData] =
         useState<ProductSaleType>()
 
+    const {
+        data: { farmInputs: { bigNumber1, bigNumber2, lineChart } } = {
+            farmInputs: {},
+        },
+    } = useSWR<ApiResponseType>('me/participations')
+
     return (
         <AuthLayout title="Pembelian Anda">
+            <Box mb={2}>
+                <Grid2 container spacing={2} mb={1}>
+                    <Grid2 xs={12} md={6}>
+                        {bigNumber1 && (
+                            <BigNumberCard {...bigNumber1} collapsible />
+                        )}
+                    </Grid2>
+
+                    <Grid2 xs={12} md={6}>
+                        {bigNumber2 && (
+                            <BigNumberCard {...bigNumber2} collapsible />
+                        )}
+                    </Grid2>
+                </Grid2>
+
+                {lineChart && (
+                    <LineChartCard
+                        collapsible
+                        prefix={bigNumber1?.number1Suffix}
+                        {...lineChart}
+                    />
+                )}
+            </Box>
+
             <Datatable
                 title="Riwayat"
                 tableId="farm-input-my-purchases-table"

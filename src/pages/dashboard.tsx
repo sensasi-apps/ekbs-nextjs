@@ -1,4 +1,4 @@
-import type { SectionData } from './me/participations'
+import type { ApiResponseType } from './me/participations'
 // vendors
 import { FireTruck, Forest } from '@mui/icons-material'
 import { Skeleton, Typography, Unstable_Grid2 as Grid2 } from '@mui/material'
@@ -21,11 +21,10 @@ import Role from '@/enums/Role'
 export default function Page() {
     const { user, userHasRole } = useAuth()
 
-    const { data: { palmBunchesDelivery, palmBunches } = {} } = useSWR<{
-        palmBunches: SectionData
-        palmBunchesDelivery: SectionData
-        farmInputs: SectionData
-    }>(userHasRole(Role.MEMBER) ? 'me/participations' : null)
+    const { data: { palmBunchesDelivery, palmBunches } = {} } =
+        useSWR<ApiResponseType>(
+            userHasRole(Role.MEMBER) ? 'me/participations' : null,
+        )
 
     return (
         <AuthLayout title="Dasbor">

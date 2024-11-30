@@ -24,6 +24,12 @@ import BigNumberCard, {
     type BigNumberCardProps,
 } from '@/components/big-number-card'
 
+export interface ApiResponseType {
+    palmBunches: SectionData
+    palmBunchesDelivery: SectionData
+    farmInputs: SectionData
+}
+
 /**
  * Page component that displays user participations based on their roles.
  * Participations mean the user's activities in the cooperative's business units.
@@ -32,11 +38,9 @@ export default function Page() {
     const { userHasRole } = useAuth()
 
     const { data: { farmInputs, palmBunchesDelivery, palmBunches } = {} } =
-        useSWR<{
-            palmBunches: SectionData
-            palmBunchesDelivery: SectionData
-            farmInputs: SectionData
-        }>(userHasRole(Role.MEMBER) ? 'me/participations' : null)
+        useSWR<ApiResponseType>(
+            userHasRole(Role.MEMBER) ? 'me/participations' : null,
+        )
 
     if (!userHasRole(Role.MEMBER)) return <NonMemberPage />
 
@@ -97,7 +101,7 @@ function NonMemberPage() {
     )
 }
 
-export interface SectionData {
+interface SectionData {
     bigNumber1: BigNumberCardProps
     bigNumber2: BigNumberCardProps
     lineChart: {
@@ -213,17 +217,19 @@ function Section({
     )
 }
 
-function LineChartCard({
+export function LineChartCard({
     title,
     data,
+    collapsible,
     ...rest
-}: SectionData['lineChart'] & { prefix?: string }) {
+}: SectionData['lineChart'] & { prefix?: string; collapsible?: boolean }) {
     const isHigherThanPrevious =
         data[data.length - 1].value > data[data.length - 2].value
 
     return (
         <StatCard
             title={title}
+            collapsible={collapsible}
             color={isHigherThanPrevious ? 'success' : 'error'}>
             <LineChart
                 {...rest}
