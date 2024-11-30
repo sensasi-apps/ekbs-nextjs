@@ -14,7 +14,8 @@ export default function BigNumberCard({
     sx,
 }: BigNumberCardProps) {
     const isHigher = number1 > number2
-    const diffPercentage = Math.abs((number1 - number2) / number2) * 100
+    const diffPercentage =
+        number2 > 0 ? Math.abs((number1 - number2) / number2) * 100 : 0
 
     return (
         <StatCard
