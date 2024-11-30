@@ -8,8 +8,6 @@ import {
     CurrencyExchange,
     Forest,
     ShoppingCart,
-    TrendingDown,
-    TrendingUp,
     Warehouse,
 } from '@mui/icons-material'
 import { Box, Button, Typography } from '@mui/material'
@@ -19,11 +17,17 @@ import LineChart from '@/components/Chart/Line'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import StatCard from '@/components/StatCard'
 // utils
-import formatNumber from '@/utils/formatNumber'
 import useSWR from 'swr'
 import useAuth from '@/providers/Auth'
 import Role from '@/enums/Role'
+import BigNumberCard, {
+    type BigNumberCardProps,
+} from '@/components/big-number-card'
 
+/**
+ * Page component that displays user participations based on their roles.
+ * Participations mean the user's activities in the cooperative's business units.
+ */
 export default function Page() {
     const { userHasRole } = useAuth()
 
@@ -93,7 +97,7 @@ function NonMemberPage() {
     )
 }
 
-interface SectionData {
+export interface SectionData {
     bigNumber1: BigNumberCardProps
     bigNumber2: BigNumberCardProps
     lineChart: {
@@ -206,70 +210,6 @@ function Section({
                 />
             )}
         </Box>
-    )
-}
-
-interface BigNumberCardProps {
-    title: string
-    number1: number
-    number2: number
-    timeUnit: string
-    number1Suffix?: string
-    number1Prefix?: string
-}
-
-function BigNumberCard({
-    title,
-    number1,
-    number2,
-    number1Suffix,
-    number1Prefix,
-    timeUnit,
-}: BigNumberCardProps) {
-    const isHigher = number1 > number2
-    const diffPercentage = Math.abs((number1 - number2) / number2) * 100
-
-    return (
-        <StatCard
-            disableFullscreen
-            title={title}
-            color={isHigher ? 'success' : 'error'}>
-            <Typography variant="h3" mb={1} component="div">
-                {number1Prefix}
-                {formatNumber(number1, {
-                    maximumFractionDigits: 2,
-                    minimumFractionDigits: 0,
-                    notation: 'compact',
-                })}
-                {number1Suffix}
-            </Typography>
-
-            <Typography
-                variant="subtitle1"
-                component="div"
-                color="grey"
-                display="flex"
-                lineHeight="unset"
-                alignItems="center"
-                gap={1}>
-                <Box
-                    lineHeight="unset"
-                    component="span"
-                    sx={{
-                        fontWeight: 'bold',
-                        color: isHigher ? 'success.dark' : 'error.dark',
-                    }}
-                    display="flex"
-                    alignItems="center"
-                    gap={0.5}>
-                    {formatNumber(diffPercentage, {
-                        maximumFractionDigits: 1,
-                    })}
-                    % {isHigher ? <TrendingUp /> : <TrendingDown />}
-                </Box>
-                lebih {isHigher ? 'tinggi' : 'rendah'} dari {timeUnit} lalu
-            </Typography>
-        </StatCard>
     )
 }
 
