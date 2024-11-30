@@ -10,6 +10,7 @@ export default function BigNumberCard({
     number1Suffix,
     number1Prefix,
     timeUnit,
+    collapsible,
     sx,
 }: BigNumberCardProps) {
     const isHigher = number1 > number2
@@ -17,6 +18,7 @@ export default function BigNumberCard({
 
     return (
         <StatCard
+            collapsible={collapsible}
             disableFullscreen
             title={title}
             color={isHigher ? 'success' : 'error'}
@@ -67,5 +69,6 @@ export interface BigNumberCardProps {
     timeUnit: string
     number1Suffix?: string
     number1Prefix?: string
+    collapsible?: boolean
     sx?: CardProps['sx']
 }
