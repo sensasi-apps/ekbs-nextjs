@@ -7,8 +7,9 @@ const staticOptions: MUIDataTableOptions = {
     selectableRows: 'none',
     print: false,
     jumpToPage: true,
-    rowsPerPageOptions: [10, 25, 50, 100, 0],
-    customSearchRender: debounceSearchRender(100),
+    rowsPerPage: 15,
+    rowsPerPageOptions: [15, 30, 50, 100, 0],
+    customSearchRender: debounceSearchRender(1000),
 }
 
 export default staticOptions

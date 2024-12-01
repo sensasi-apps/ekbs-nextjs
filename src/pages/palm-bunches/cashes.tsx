@@ -6,7 +6,7 @@ import BusinessUnit from '@/enums/BusinessUnit'
 
 export default function Cashes() {
     return (
-        <AuthLayout title="">
+        <AuthLayout title="Kas Unit TBS">
             <UnitTxs businessUnit={BusinessUnit.TBS} />
         </AuthLayout>
     )

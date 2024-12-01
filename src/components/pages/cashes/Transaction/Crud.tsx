@@ -5,12 +5,12 @@ import type { OnRowClickType } from '@/components/Datatable'
 import type { GetRowData } from '@/components/Datatable/@types'
 import type Transaction from '@/dataTypes/Transaction'
 // vendors
-import { useCallback, useState } from 'react'
+import { Chip } from '@mui/material'
 import { Formik } from 'formik'
+import { green } from '@mui/material/colors'
+import { useCallback, useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
-// materials
-import { green } from '@mui/material/colors'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
@@ -25,8 +25,8 @@ import TransactionForm, {
 import { mutate as mutateCashlist } from '../Cash/List'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
-import numberToCurrency from '@/utils/numberToCurrency'
 import toDmy from '@/utils/toDmy'
+import formatNumber from '@/utils/formatNumber'
 
 let getRowData: GetRowData<Transaction>
 
@@ -107,7 +107,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'uuid',
         label: 'UUID',
         options: {
-            display: false,
+            display: 'excluded',
         },
     },
     {
@@ -120,33 +120,34 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
     {
         name: 'at',
-        label: 'Tanggal',
+        label: 'TGL',
         options: {
             setCellProps: getNoWrapCellProps,
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'cash.code',
-        label: 'Kode Kas',
+        name: 'cash.name',
+        label: 'Kas',
         options: {
             customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.cash?.code,
+                getRowData(dataIndex)?.cash?.name,
         },
     },
     {
         name: 'tags.name',
         label: 'Akun',
         options: {
+            sort: false,
             customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)
-                    ?.tags.map(tag => tag.name.id)
-                    .join(', '),
+                getRowData(dataIndex)?.tags.map(tag => (
+                    <Chip key={tag.id} label={tag.name.id} size="small" />
+                )),
         },
     },
     {
         name: 'amount',
-        label: 'Nilai',
+        label: 'Nilai (Rp)',
         options: {
             customBodyRender: (value: number) => (
                 <span
@@ -154,7 +155,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                         whiteSpace: 'nowrap',
                         color: value <= 0 ? 'inherit' : green[500],
                     }}>
-                    {numberToCurrency(value)}
+                    {formatNumber(value)}
                 </span>
             ),
         },
@@ -162,12 +163,21 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'desc',
         label: 'Perihal',
+        options: {
+            sort: false,
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'pre',
+                },
+            }),
+        },
     },
 
     {
         name: 'userActivityLogs.user.name',
         label: 'Oleh',
         options: {
+            sort: false,
             customBodyRenderLite: dataIndex =>
                 getRowData(dataIndex)?.user_activity_logs?.[0]?.user.name,
         },

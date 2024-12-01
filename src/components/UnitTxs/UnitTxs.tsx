@@ -8,10 +8,8 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import useSWR from 'swr'
 // materials
+import { Box, Chip, Unstable_Grid2 as Grid2, Tooltip } from '@mui/material'
 import { green } from '@mui/material/colors'
-import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import Tooltip from '@mui/material/Tooltip'
 // components
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
@@ -25,9 +23,10 @@ import InOutLineChart, {
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // utils
-import toDmy from '@/utils/toDmy'
-import numberToCurrency from '@/utils/numberToCurrency'
+import formatNumber from '@/utils/formatNumber'
 import handle422 from '@/utils/errorCatcher'
+import numberToCurrency from '@/utils/numberToCurrency'
+import toDmy from '@/utils/toDmy'
 // enums
 import BusinessUnit from '@/enums/BusinessUnit'
 
@@ -92,35 +91,13 @@ export default function UnitTxs({
                 title="Riwayat Transaksi"
                 tableId="transaction-datatable"
                 apiUrl={`/transactions/${businessUnit}/datatable`}
-                // onRowClick={(_, { dataIndex }, event) => {
-                //     if (event.detail === 2) {
-                //         const data = getRowData(dataIndex)
-
-                //         if (data) {
-                //             const {
-                //                 uuid,
-                //                 at,
-                //                 amount,
-                //                 desc,
-                //                 to_cash_uuid,
-                //                 cashable_uuid,
-                //                 type,
-                //             } = data
-
-                //             setFormValues({
-                //                 uuid,
-                //                 at,
-                //                 amount,
-                //                 desc,
-                //                 to_cash_uuid,
-                //                 cashable_uuid,
-                //                 type,
-                //             })
-                //             setFormikStatus(data)
-                //         }
-                //     }
-                // }}
-                columns={DATATABLE_COLUMNS}
+                columns={
+                    businessUnit
+                        ? DATATABLE_COLUMNS.filter(
+                              col => col.name !== 'cash.name',
+                          )
+                        : DATATABLE_COLUMNS
+                }
                 defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
@@ -164,7 +141,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'uuid',
         label: 'UUID',
         options: {
-            display: false,
+            display: 'excluded',
         },
     },
     {
@@ -177,36 +154,39 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
     {
         name: 'at',
-        label: 'Tanggal',
+        label: 'TGL',
         options: {
             setCellProps: getNoWrapCellProps,
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'cash.code',
-        label: 'Kode Kas',
+        name: 'tags.name',
+        label: 'Akun',
         options: {
-            customBodyRenderLite: dataIndex => {
-                const cashable = getRowData(dataIndex)?.cashable
-
-                if (!cashable || !('code' in cashable)) return null
-
-                return cashable.code
-            },
+            sort: false,
+            customBodyRenderLite: (dataIndex: number) =>
+                getRowData(dataIndex)?.tags.map(tag => (
+                    <Chip size="small" label={tag.name.id} key={tag.id} />
+                )),
         },
     },
     {
         name: 'amount',
-        label: 'Nilai',
+        label: 'Nilai (Rp)',
         options: {
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                },
+            }),
             customBodyRender: (value: number) => (
                 <span
                     style={{
                         whiteSpace: 'nowrap',
                         color: value <= 0 ? 'inherit' : green[500],
                     }}>
-                    {numberToCurrency(value)}
+                    {formatNumber(value)}
                 </span>
             ),
         },
@@ -214,8 +194,14 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'desc',
         label: 'Keterangan',
+        options: {
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'pre',
+                },
+            }),
+        },
     },
-
     {
         name: 'userActivityLogs.user.name',
         label: 'Oleh',
