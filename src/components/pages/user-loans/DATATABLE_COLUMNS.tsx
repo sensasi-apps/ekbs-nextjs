@@ -1,25 +1,34 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
-import type LoanType from '@/dataTypes/Loan'
-// materials
-import Typography from '@mui/material/Typography'
+import type UserLoan from '@/dataTypes/Loan'
+// vendors
+import { Chip, Typography } from '@mui/material'
 // utils
 import { getRowData } from '@/components/Datatable'
-import numberToCurrency from '@/utils/numberToCurrency'
 import toDmy from '@/utils/toDmy'
 import getLoanStatusColor from '@/utils/getLoanStatusColor'
+import formatNumber from '@/utils/formatNumber'
 
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
         label: 'uuid',
         options: {
-            display: false,
+            sort: false,
+            display: 'excluded',
+        },
+    },
+    {
+        name: 'short_uuid',
+        label: 'Kode',
+        options: {
+            sort: false,
+            searchable: false,
         },
     },
     {
         name: 'proposed_at',
-        label: 'Tanggal Pengajuan',
+        label: 'Diajukan TGL',
         options: {
             customBodyRender: toDmy,
         },
@@ -29,31 +38,38 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Nama',
         options: {
             customBodyRenderLite: dataIndex => {
-                const user = getRowData<LoanType>(dataIndex)?.user
+                const user = getRowData<UserLoan>(dataIndex)?.user
 
                 if (!user) return ''
 
                 const { id, name } = user
 
-                return `#${id} ${name}`
+                return `#${id} — ${name}`
             },
         },
     },
     {
         name: 'proposed_rp',
-        label: 'Jumlah Pengajuan',
+        label: 'Jumlah Pengajuan (Rp)',
         options: {
             setCellProps: () => ({
                 style: {
                     whiteSpace: 'nowrap',
+                    textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: number) => numberToCurrency(value),
+            customBodyRender: (value: UserLoan['proposed_rp']) =>
+                formatNumber(value),
         },
     },
     {
         name: 'type',
         label: 'Jenis',
+        options: {
+            customBodyRender: (value: UserLoan['type']) => (
+                <Chip label={value} size="small" />
+            ),
+        },
     },
 
     {
@@ -66,7 +82,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (value: LoanType['status']) => (
+            customBodyRender: (value: UserLoan['status']) => (
                 <Typography
                     variant="body2"
                     color={getLoanStatusColor(value, '.main')}
