@@ -95,7 +95,8 @@ export default function LoanForm({
     const isNew = !userLoanFromDb?.uuid
     const isCreatedByCurrentUser = isNew
         ? true
-        : userLoanFromDb?.activity_logs[0].user_uuid === currentUser?.uuid
+        : userLoanFromDb?.activity_logs.length &&
+          userLoanFromDb.activity_logs[0].user_uuid === currentUser?.uuid
 
     const {
         data: userDefaultTermUnit = loanValues.term_unit ?? 'bulan',
