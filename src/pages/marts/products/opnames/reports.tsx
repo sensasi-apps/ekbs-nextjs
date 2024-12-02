@@ -85,19 +85,7 @@ export default function Opnames() {
                     onClick={() =>
                         aoaToXlsx(
                             `Laporan Opname per Kategori — ${from_at} s.d ${to_at}`,
-                            data.map(
-                                ({
-                                    category_name,
-                                    system_qty,
-                                    found_qty,
-                                    rp_total_diff,
-                                }) => [
-                                    category_name,
-                                    system_qty,
-                                    found_qty,
-                                    rp_total_diff,
-                                ],
-                            ),
+                            data.map(item => Object.values(item)),
                             [
                                 'Kategori',
                                 'Qty Sistem',
@@ -121,8 +109,9 @@ export default function Opnames() {
 interface OpnameReportItem {
     category_name: string
     system_qty: number
-    found_qty: number
-    rp_total_diff: number
+    physical_qty: number
+    rp_total_found: number
+    rp_total_lost: number
 }
 
 function FiltersBox({
@@ -193,14 +182,16 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                         <TableCell>Kategori Produk</TableCell>
                         <TableCell>Qty Sistem</TableCell>
                         <TableCell>Qty Fisik</TableCell>
-                        <TableCell>Nilai Selisih (Rp)</TableCell>
+                        <TableCell>Nilai Ditemukan (Rp)</TableCell>
+                        <TableCell>Nilai Hilang (Rp)</TableCell>
+                        <TableCell>Total Selisih (Rp)</TableCell>
                     </TableRow>
                 </TableHead>
 
                 <TableBody>
                     {data.length === 0 && (
                         <TableRow>
-                            <TableCell colSpan={5} align="center">
+                            <TableCell colSpan={7} align="center">
                                 Tidak ada data
                             </TableCell>
                         </TableRow>
@@ -211,8 +202,9 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                             {
                                 category_name,
                                 system_qty,
-                                found_qty,
-                                rp_total_diff,
+                                physical_qty,
+                                rp_total_found,
+                                rp_total_lost,
                             },
                             index,
                         ) => (
@@ -223,10 +215,18 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                                     {formatNumber(system_qty)}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {formatNumber(found_qty)}
+                                    {formatNumber(physical_qty)}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {formatNumber(rp_total_diff)}
+                                    {formatNumber(rp_total_found)}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {formatNumber(rp_total_lost)}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {formatNumber(
+                                        rp_total_found - rp_total_lost,
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ),
@@ -242,7 +242,7 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                         <TableCell align="right">
                             {formatNumber(
                                 data.reduce(
-                                    (acc, item) => acc + item.system_qty,
+                                    (acc, { system_qty }) => acc + system_qty,
                                     0,
                                 ),
                             )}
@@ -251,7 +251,8 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                         <TableCell align="right">
                             {formatNumber(
                                 data.reduce(
-                                    (acc, item) => acc + item.found_qty,
+                                    (acc, { physical_qty }) =>
+                                        acc + physical_qty,
                                     0,
                                 ),
                             )}
@@ -260,7 +261,28 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                         <TableCell align="right">
                             {formatNumber(
                                 data.reduce(
-                                    (acc, item) => acc + item.rp_total_diff,
+                                    (acc, { rp_total_found }) =>
+                                        acc + rp_total_found,
+                                    0,
+                                ),
+                            )}
+                        </TableCell>
+
+                        <TableCell align="right">
+                            {formatNumber(
+                                data.reduce(
+                                    (acc, { rp_total_lost }) =>
+                                        acc + rp_total_lost,
+                                    0,
+                                ),
+                            )}
+                        </TableCell>
+
+                        <TableCell align="right">
+                            {formatNumber(
+                                data.reduce(
+                                    (acc, { rp_total_found, rp_total_lost }) =>
+                                        acc + rp_total_found - rp_total_lost,
                                     0,
                                 ),
                             )}

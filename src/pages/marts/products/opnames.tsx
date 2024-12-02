@@ -150,6 +150,56 @@ const columns: MUIDataTableColumn[] = [
 
     {
         name: '',
+        label: 'Ditemukan (Rp)',
+        options: {
+            searchable: false,
+            sort: false,
+            setCellProps: () => ({
+                sx: { textAlign: 'right' },
+            }),
+            customBodyRenderLite(dataIndex) {
+                const data = getRowData(dataIndex)
+
+                return formatNumber(
+                    data?.details.reduce(
+                        (acc, detail) =>
+                            acc +
+                            (detail.qty >= 0 ? detail.qty : 0) *
+                                (detail.warehouse_state?.cost_rp_per_unit ?? 0),
+                        0,
+                    ) ?? 0,
+                )
+            },
+        },
+    },
+
+    {
+        name: '',
+        label: 'Hilang (Rp)',
+        options: {
+            searchable: false,
+            sort: false,
+            setCellProps: () => ({
+                sx: { textAlign: 'right' },
+            }),
+            customBodyRenderLite(dataIndex) {
+                const data = getRowData(dataIndex)
+
+                return formatNumber(
+                    data?.details.reduce(
+                        (acc, detail) =>
+                            acc +
+                            (detail.qty < 0 ? detail.qty : 0) *
+                                (detail.warehouse_state?.cost_rp_per_unit ?? 0),
+                        0,
+                    ) ?? 0,
+                )
+            },
+        },
+    },
+
+    {
+        name: '',
         label: 'Selisih (Rp)',
         options: {
             searchable: false,
@@ -157,8 +207,8 @@ const columns: MUIDataTableColumn[] = [
             setCellProps: () => ({
                 sx: { textAlign: 'right' },
             }),
-            customBodyRenderLite(dataIndex, rowIndex) {
-                const data = getRowData(rowIndex)
+            customBodyRenderLite(dataIndex) {
+                const data = getRowData(dataIndex)
 
                 return formatNumber(
                     data?.details.reduce(
