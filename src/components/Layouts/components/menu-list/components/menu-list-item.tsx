@@ -8,6 +8,7 @@ import {
     ListItemText,
 } from '@mui/material'
 import { useRouter } from 'next/router'
+import { useEffect, useRef } from 'react'
 
 export function MenuListItem({
     data,
@@ -17,6 +18,7 @@ export function MenuListItem({
     onClick: () => void
 }) {
     const { pathname: currPathname } = useRouter()
+    const myRef = useRef<HTMLLIElement>()
 
     const { href, icon: Icon, label, pathname } = data
 
@@ -26,6 +28,14 @@ export function MenuListItem({
         typeof pathnameOrHref === 'string'
             ? pathnameOrHref === currPathname
             : pathnameOrHref.includes(currPathname)
+
+    const executeScroll = () => myRef.current?.scrollIntoView()
+
+    useEffect(() => {
+        if (isActive) {
+            executeScroll()
+        }
+    })
 
     return (
         <ListItem disablePadding>
