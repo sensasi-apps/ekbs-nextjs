@@ -44,6 +44,10 @@ export const marts: NavItemGroup = {
             label: 'Opname',
             icon: AllInbox,
             forPermission: Mart.READ_OPNAME,
+            pathname: [
+                '/marts/products/opnames',
+                '/marts/products/opnames/reports',
+            ],
         },
         {
             href: '/marts/products/sales',
