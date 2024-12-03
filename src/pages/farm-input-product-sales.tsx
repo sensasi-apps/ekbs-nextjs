@@ -39,7 +39,6 @@ import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Rece
 // enums
 import Role from '@/enums/Role'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
-import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
 import { CashableClassname } from '@/dataTypes/Transaction'
 import Warehouse from '@/enums/Warehouse'
 
@@ -264,14 +263,23 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'uuid',
         label: 'UUID',
         options: {
-            display: false,
+            sort: false,
+            display: 'excluded',
         },
     },
     {
         name: 'at',
-        label: 'Tanggal',
+        label: 'TGL',
         options: {
             customBodyRender: toDmy,
+        },
+    },
+    {
+        name: 'short_uuid',
+        label: 'Kode',
+        options: {
+            sort: false,
+            searchable: false,
         },
     },
     {
@@ -318,9 +326,14 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
     {
         name: 'total_base_rp',
-        label: 'Penyesuaian/Jasa',
+        label: 'Penyesuaian/Jasa (Rp)',
         options: {
-            setCellProps: nowrapMuiDatatableCellPropsFn,
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                    whiteSpace: 'nowrap',
+                },
+            }),
             sort: false,
             searchable: false,
             customBodyRenderLite: dataIndex => {
@@ -328,19 +341,24 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                 if (!data) return ''
 
                 return data.total_rp - data.total_base_rp
-                    ? numberToCurrency(data.total_rp - data.total_base_rp)
+                    ? formatNumber(data.total_rp - data.total_base_rp)
                     : ''
             },
         },
     },
     {
         name: 'total_rp',
-        label: 'Total Penjualan',
+        label: 'Total (Rp)',
         options: {
-            setCellProps: nowrapMuiDatatableCellPropsFn,
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                    whiteSpace: 'nowrap',
+                },
+            }),
             sort: false,
             searchable: false,
-            customBodyRender: value => numberToCurrency(value ?? 0),
+            customBodyRender: value => formatNumber(value ?? 0),
         },
     },
     {
