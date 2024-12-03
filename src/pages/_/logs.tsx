@@ -29,7 +29,7 @@ const DEFAULT_SORT_ORDER: MUISortOptions = {
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'at',
-        label: 'Tanggal',
+        label: 'TGL',
         options: {
             customBodyRender: value =>
                 dayjs(value).format('YYYY-MM-DD HH:mm:ss'),

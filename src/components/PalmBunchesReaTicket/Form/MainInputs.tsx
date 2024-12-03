@@ -7,11 +7,13 @@ import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import { useEffect, memo, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
-// materials
-import Autocomplete from '@mui/material/Autocomplete'
-import Grid from '@mui/material/Grid'
-import InputAdornment from '@mui/material/InputAdornment'
-import Typography from '@mui/material/Typography'
+import {
+    Autocomplete,
+    Box,
+    Grid,
+    InputAdornment,
+    Typography,
+} from '@mui/material'
 // components
 import DatePicker from '@/components/DatePicker'
 import UserAutocomplete from '@/components/UserAutocomplete'
@@ -25,6 +27,8 @@ import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
 //libs
 import { wholeNumber } from '@/utils/RegExps'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import userHasPermission from '@/providers/Auth/userHasPermission'
+import PalmBunch from '@/enums/permissions/PalmBunch'
 
 interface MainInputProps {
     clearByName: (name: string) => void
@@ -173,7 +177,7 @@ function PalmBunchesReaDeliveryMainInputs({
                 slotProps={{
                     textField: {
                         name: 'at',
-                        label: 'Tanggal',
+                        label: 'TGL',
                         error: Boolean(validationErrors.at),
                         helperText: validationErrors.at,
                     },
@@ -380,24 +384,36 @@ function PalmBunchesReaDeliveryMainInputs({
                 value={courierUser?.uuid || ''}
             />
 
-            <UserAutocomplete
-                label="Pengangkut"
-                disabled={disabled}
-                showNickname
-                fullWidth
-                onChange={(_, user) => {
-                    setCourierUser(user ?? undefined)
-                    handleDeliveryChange('courier_user', user ?? undefined)
-                }}
-                onBlur={handleBlur}
-                value={courierUser ?? null}
-                size="small"
-                textFieldProps={{
-                    required: true,
-                    margin: 'dense',
-                }}
-                {...errorsToHelperTextObj(validationErrors.courier_user_uuid)}
-            />
+            {userHasPermission(PalmBunch.SEARCH_USER) ? (
+                <UserAutocomplete
+                    label="Pengangkut"
+                    disabled={disabled}
+                    showNickname
+                    fullWidth
+                    onChange={(_, user) => {
+                        setCourierUser(user ?? undefined)
+                        handleDeliveryChange('courier_user', user ?? undefined)
+                    }}
+                    onBlur={handleBlur}
+                    value={courierUser ?? null}
+                    size="small"
+                    textFieldProps={{
+                        required: true,
+                        margin: 'dense',
+                    }}
+                    {...errorsToHelperTextObj(
+                        validationErrors.courier_user_uuid,
+                    )}
+                />
+            ) : (
+                <Box my={1}>
+                    <Typography variant="caption" component="div">
+                        Pengangkut:
+                    </Typography>
+                    #{data.delivery?.courier_user?.id} —{' '}
+                    {data.delivery?.courier_user?.name}
+                </Box>
+            )}
 
             <TextField
                 disabled={disabled}

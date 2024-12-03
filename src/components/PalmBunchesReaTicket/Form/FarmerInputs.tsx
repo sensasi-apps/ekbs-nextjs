@@ -3,7 +3,7 @@ import type PalmBunchDataType from '@/dataTypes/PalmBunch'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type ValidationErrorsType from '@/types/ValidationErrors'
 // vendors
-import { FC, useEffect, useState, memo } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { NumericFormat } from 'react-number-format'
 // materials
 import Box from '@mui/material/Box'
@@ -21,12 +21,20 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/UserAutocomplete'
 // providers
 import useFormData from '@/providers/useFormData'
+import useAuth from '@/providers/Auth'
+import PalmBunch from '@/enums/permissions/PalmBunch'
 
-const PalmBunchesReaDeliveryFarmerInputs: FC<{
+function PalmBunchesReaDeliveryFarmerInputs({
+    disabled,
+    validationErrors,
+    clearByName,
+}: {
     disabled: boolean
     validationErrors: ValidationErrorsType
     clearByName: (name: string) => void
-}> = ({ disabled, validationErrors, clearByName }) => {
+}) {
+    const { userHasPermission } = useAuth()
+
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
 
     const [palmBunches, setPalmBunches] = useState<PalmBunchDataType[]>(
@@ -112,38 +120,48 @@ const PalmBunchesReaDeliveryFarmerInputs: FC<{
                                     value={palmBunch.owner_user_uuid || ''}
                                 />
 
-                                <UserAutocomplete
-                                    label="Nama"
-                                    showNickname
-                                    disabled={disabled}
-                                    fullWidth
-                                    onChange={(_, user) => {
-                                        clearByName(
-                                            `palm_bunches.${index}.owner_user_uuid`,
-                                        )
+                                {userHasPermission(PalmBunch.SEARCH_USER) ? (
+                                    <UserAutocomplete
+                                        label="Nama"
+                                        showNickname
+                                        disabled={disabled}
+                                        fullWidth
+                                        onChange={(_, user) => {
+                                            clearByName(
+                                                `palm_bunches.${index}.owner_user_uuid`,
+                                            )
 
-                                        handleChange(index, {
-                                            ...palmBunch,
-                                            owner_user: user || undefined,
-                                            owner_user_uuid:
-                                                user?.uuid || undefined,
-                                        })
-                                    }}
-                                    value={palmBunch.owner_user || null}
-                                    size="small"
-                                    onBlur={handleBlur}
-                                    error={Boolean(
-                                        validationErrors[
+                                            handleChange(index, {
+                                                ...palmBunch,
+                                                owner_user: user || undefined,
+                                                owner_user_uuid:
+                                                    user?.uuid || undefined,
+                                            })
+                                        }}
+                                        value={palmBunch.owner_user || null}
+                                        size="small"
+                                        onBlur={handleBlur}
+                                        error={Boolean(
+                                            validationErrors[
+                                                `palm_bunches.${index}.owner_user_uuid`
+                                            ],
+                                        )}
+                                        helperText={validationErrors[
                                             `palm_bunches.${index}.owner_user_uuid`
-                                        ],
-                                    )}
-                                    helperText={validationErrors[
-                                        `palm_bunches.${index}.owner_user_uuid`
-                                    ]?.join(', ')}
-                                    textFieldProps={{
-                                        required: true,
-                                    }}
-                                />
+                                        ]?.join(', ')}
+                                        textFieldProps={{
+                                            required: true,
+                                        }}
+                                    />
+                                ) : (
+                                    <Box>
+                                        <Typography variant="caption" mr={1}>
+                                            Pemilik:
+                                        </Typography>
+                                        #{palmBunch.owner_user?.id} —{' '}
+                                        {palmBunch.owner_user?.name}
+                                    </Box>
+                                )}
                             </Grid>
                             <Grid item xs={12} sm>
                                 <TextField

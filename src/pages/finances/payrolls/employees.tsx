@@ -94,7 +94,7 @@ function DetailButton({ uuid: payrollUuid }: { uuid: UUID }) {
 const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'at',
-        label: 'Tanggal',
+        label: 'TGL',
         options: {
             customBodyRender: toDmy,
         },
