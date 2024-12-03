@@ -61,7 +61,7 @@ export default function UserAutocomplete<
         debouncedInputValue &&
             isSearchTermPassedTheRequirements(debouncedInputValue)
             ? [
-                  '/users/search',
+                  'users/search',
                   {
                       query: debouncedInputValue,
                   },

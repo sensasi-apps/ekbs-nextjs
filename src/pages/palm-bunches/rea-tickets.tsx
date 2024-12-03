@@ -1,3 +1,4 @@
+import type { UUID } from 'crypto'
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type PalmBunchType from '@/dataTypes/PalmBunch'
@@ -6,6 +7,7 @@ import type Land from '@/types/Land'
 import { useRouter } from 'next/router'
 import { Box, Button, Chip, Collapse, Typography } from '@mui/material'
 import { BackupTable } from '@mui/icons-material'
+import Link from 'next/link'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // icons
@@ -31,10 +33,13 @@ import Role from '@/enums/Role'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import blinkSxValue from '@/utils/blinkSxValue'
-import Link from 'next/link'
+
+let currentUserUuid: UUID | undefined
 
 export default function Page() {
-    const { userHasPermission } = useAuth()
+    const { userHasPermission, user } = useAuth()
+
+    currentUserUuid = user?.uuid
 
     return (
         <AuthLayout title="Daftar Tiket REA">
@@ -203,7 +208,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
     {
         name: 'at',
-        label: 'Tanggal',
+        label: 'TGL',
         options: {
             setCellProps: () => ({
                 style: {
@@ -246,11 +251,19 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'delivery.courierUser.name',
         label: 'Pengangkut',
         options: {
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'nowrap',
-                },
-            }),
+            setCellProps: (_, rowIndex) => {
+                const isCurrentUserData =
+                    getRowData<PalmBunchesReaTicketType>(rowIndex)?.delivery
+                        .courier_user?.uuid === currentUserUuid
+
+                return {
+                    sx: {
+                        whiteSpace: 'nowrap',
+                        color: isCurrentUserData ? 'success.main' : undefined,
+                        fontWeight: isCurrentUserData ? 'bold' : undefined,
+                    },
+                }
+            },
 
             customBodyRenderLite: dataIndex => {
                 const courier_user =
@@ -258,7 +271,7 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
                         .courier_user
 
                 return courier_user
-                    ? `#${courier_user.id} ${courier_user.name}`
+                    ? `#${courier_user.id} — ${courier_user.name}`
                     : ''
             },
         },
@@ -275,19 +288,38 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Pemilik TBS',
         options: {
             sort: false,
+            setCellProps: () => {
+                return {
+                    sx: {
+                        whiteSpace: 'nowrap',
+                    },
+                }
+            },
             customBodyRenderLite: dataIndex => (
                 <ListInsideMuiDatatableCell
                     listItems={
                         getRowData<PalmBunchesReaTicketType>(dataIndex)
-                            ?.delivery?.palm_bunches
+                            ?.delivery?.palm_bunches ?? []
                     }
-                    // @ts-expect-error - TODO: remove ignore
                     renderItem={(palmBunch: PalmBunchType) => (
-                        <>
-                            #{palmBunch.owner_user?.id + ' '}
-                            {palmBunch.owner_user?.name + ' '}({palmBunch.n_kg}{' '}
-                            kg)
-                        </>
+                        <Box
+                            component="span"
+                            sx={() => ({
+                                color:
+                                    palmBunch.owner_user?.uuid ===
+                                    currentUserUuid
+                                        ? 'success.main'
+                                        : undefined,
+                                fontWeight:
+                                    palmBunch.owner_user?.uuid ===
+                                    currentUserUuid
+                                        ? 'bold'
+                                        : undefined,
+                            })}>
+                            #{palmBunch.owner_user?.id + ' — '}
+                            {palmBunch.owner_user?.name + ' '}(
+                            {formatNumber(palmBunch.n_kg ?? 0)} kg)
+                        </Box>
                     )}
                 />
             ),
@@ -304,6 +336,11 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'delivery.n_bunches',
         label: 'Janjang',
         options: {
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                },
+            }),
             customBodyRenderLite: dataIndex => {
                 const data = getRowData<PalmBunchesReaTicketType>(dataIndex)
 
@@ -317,15 +354,21 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
     {
         name: 'delivery.n_kg',
-        label: 'Bobot',
+        label: 'Bobot (kg)',
         options: {
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'nowrap',
+                    textAlign: 'right',
+                },
+            }),
             customBodyRenderLite: dataIndex => {
                 const data = getRowData<PalmBunchesReaTicketType>(dataIndex)
 
                 if (!data) return ''
 
                 return data.delivery.n_kg
-                    ? `${formatNumber(data.delivery.n_kg)} kg`
+                    ? `${formatNumber(data.delivery.n_kg)}`
                     : ''
             },
         },
