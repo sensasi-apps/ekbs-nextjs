@@ -86,7 +86,7 @@ export default function TbsPayrollList() {
                                         mb={2}
                                         data={[
                                             {
-                                                label: 'Tanggal',
+                                                label: 'TGL',
                                                 value: at
                                                     ? toDmy(at as Ymd)
                                                     : '',
