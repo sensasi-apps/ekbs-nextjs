@@ -6,6 +6,8 @@ enum PalmBunch {
     VALIDATE_TICKET = 'validate palm bunch ticket',
 
     READ_STATISTIC = 'read palm bunch statistic',
+
+    SEARCH_USER = 'search user',
 }
 
 export default PalmBunch
