@@ -1,5 +1,5 @@
 // types
-import type { MUIDataTableState } from 'mui-datatables'
+import type { MUIDataTableOptions, MUIDataTableState } from 'mui-datatables'
 import type { DatatableProps } from '../@types'
 // vendors
 import { useEffect, useState } from 'react'
@@ -9,6 +9,7 @@ import { useSwr } from './useSwr'
 import downloadXlsx from '../functions/downloadXlsx'
 import formatToDatatableParams from '../utils/formatToDatatableParams'
 import dayjs from 'dayjs'
+import staticOptions from '../staticOptions'
 
 export function useHooks(
     tableId: DatatableProps['tableId'],
@@ -18,6 +19,9 @@ export function useHooks(
     apiUrlParams: DatatableProps['apiUrlParams'],
     swrOptions: DatatableProps['swrOptions'],
 ) {
+    const [rowsPerPage, setRowsPerPage] = useState<number>(
+        staticOptions.rowsPerPageOptions?.[0] ?? 10,
+    )
     const [columns, setColumns] =
         useState<DatatableProps['columns']>(columnDefs)
     const [sortOrder, setSortOrder] =
@@ -29,18 +33,18 @@ export function useHooks(
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
 
-    const [
-        isDownloadConfirmationDialogOpen,
-        setIsDownloadConfirmationDialogOpen,
-    ] = useState<boolean>(false)
+    // PENDING: Uncomment this line when the DownloadConfirmationDialog component is ready
+    // const [
+    //     isDownloadConfirmationDialogOpen,
+    //     setIsDownloadConfirmationDialogOpen,
+    // ] = useState<boolean>(false)
 
-    const swr = useSwr(
-        apiUrl,
-        apiUrlParams,
-        swrOptions,
-        datatableSentRequestParamsJson,
-    )
-    const { isLoading: swrIsLoading, isValidating } = swr
+    const {
+        data: { data = [], recordsTotal, recordsFiltered } = {},
+        mutate,
+        isLoading: swrIsLoading,
+        isValidating,
+    } = useSwr(apiUrl, apiUrlParams, swrOptions, datatableSentRequestParamsJson)
 
     useEffect(() => {
         setIsLoading(swrIsLoading || isValidating)
@@ -48,16 +52,34 @@ export function useHooks(
 
     let timerId: NodeJS.Timeout
 
-    return {
-        state: {
-            columns,
-            sortOrder,
-            MuiDatatableState,
-            isDownloadConfirmationDialogOpen,
-            isLoading,
-        },
-        swr,
-        handleColumnSortChange: (
+    const handleTableChangeOrInit:
+        | MUIDataTableOptions['onTableChange']
+        | MUIDataTableOptions['onTableInit'] = (
+        action: string,
+        tableState: MUIDataTableState,
+    ) => {
+        if (JSON.stringify(MuiDatatableState) !== JSON.stringify(tableState)) {
+            clearTimeout(timerId)
+            timerId = setTimeout(() => {
+                setMuiDatatableState(tableState)
+
+                const newRequestParamsJson = JSON.stringify(
+                    formatToDatatableParams(tableState),
+                )
+                if (datatableSentRequestParamsJson !== newRequestParamsJson) {
+                    setDatatableSentRequestParamJson(newRequestParamsJson)
+                }
+            }, 350)
+        }
+    }
+
+    const options: MUIDataTableOptions = {
+        ...staticOptions,
+        rowsPerPage,
+        sortOrder: sortOrder,
+        onTableChange: handleTableChangeOrInit,
+        onTableInit: handleTableChangeOrInit,
+        onColumnSortChange: (
             changedColumn: string,
             direction: 'asc' | 'desc',
         ) => {
@@ -66,7 +88,8 @@ export function useHooks(
                 direction,
             })
         },
-        handleViewColumnsChange: (changedColumn: string, action: string) => {
+        onChangeRowsPerPage: setRowsPerPage,
+        onViewColumnsChange: (changedColumn: string, action: string) => {
             if (action === 'add') {
                 setColumns(prev => {
                     const col = prev.find(col => col.name === changedColumn)
@@ -89,7 +112,7 @@ export function useHooks(
                 })
             }
         },
-        handleOnDownload: () => {
+        onDownload: () => {
             if (!MuiDatatableState) {
                 return false
             }
@@ -104,7 +127,10 @@ export function useHooks(
                 estimatedB >
                 100 * 1024 * 1024 // 100 MB
             ) {
-                setIsDownloadConfirmationDialogOpen(true)
+                /**
+                 * PENDING: Uncomment this line when the DownloadConfirmationDialog component is ready
+                 */
+                // setIsDownloadConfirmationDialogOpen(true)
             } else if (estimatedB) {
                 downloadXlsx(
                     apiUrl,
@@ -120,28 +146,43 @@ export function useHooks(
 
             return false
         },
-        handleTableChange: (action: string, tableState: MUIDataTableState) => {
-            if (
-                JSON.stringify(MuiDatatableState) !== JSON.stringify(tableState)
-            ) {
-                clearTimeout(timerId)
-                timerId = setTimeout(() => {
-                    setMuiDatatableState(tableState)
-
-                    const newRequestParamsJson = JSON.stringify(
-                        formatToDatatableParams(tableState),
-                    )
-                    if (
-                        datatableSentRequestParamsJson !== newRequestParamsJson
-                    ) {
-                        setDatatableSentRequestParamJson(newRequestParamsJson)
-                    }
-                }, 350)
-            }
+        textLabels: {
+            ...STATIC_TEXT_LABLES,
+            body: {
+                noMatch: isLoading
+                    ? 'Memuat data...'
+                    : 'Tidak ada data yang tersedia',
+                toolTip: 'Urutkan',
+            },
         },
+        count: recordsFiltered ?? recordsTotal ?? 0,
+    }
+
+    return {
+        data,
+        mutate,
+        columns,
+        isLoading,
+        // isDownloadConfirmationDialogOpen,
+        options,
     }
 }
 
 function estimateDownloadSizeInB(sampleData: object, count: number) {
     return JSON.stringify(sampleData).length * 4 * count
+}
+
+const STATIC_TEXT_LABLES = {
+    pagination: {
+        next: 'Selanjutnya',
+        previous: 'Sebelumnya',
+        rowsPerPage: 'Baris per halaman:',
+        jumpToPage: 'Pergi ke halaman:',
+    },
+    toolbar: {
+        search: 'Cari',
+        downloadCsv: 'Unduh',
+        print: 'Cetak',
+        viewColumns: 'Tampilkan kolom',
+    },
 }
