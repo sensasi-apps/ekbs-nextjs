@@ -225,7 +225,7 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                                 </TableCell>
                                 <TableCell align="right">
                                     {formatNumber(
-                                        rp_total_found - rp_total_lost,
+                                        rp_total_found + rp_total_lost,
                                     )}
                                 </TableCell>
                             </TableRow>
@@ -282,7 +282,7 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                             {formatNumber(
                                 data.reduce(
                                     (acc, { rp_total_found, rp_total_lost }) =>
-                                        acc + rp_total_found - rp_total_lost,
+                                        acc + rp_total_found + rp_total_lost,
                                     0,
                                 ),
                             )}
