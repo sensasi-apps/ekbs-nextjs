@@ -42,17 +42,15 @@ export default function LoanDatatable({
 
     const TITLE = mode === 'manager' ? 'Daftar Pinjaman' : 'Riwayat'
 
-    const columns = [...DATATABLE_COLUMNS]
-
-    if (mode === 'applier') {
-        columns.splice(2, 1)
-    }
-
     return (
         <Datatable
             apiUrl={API_URL}
             apiUrlParams={apiUrlParams}
-            columns={columns}
+            columns={
+                mode === 'applier'
+                    ? DATATABLE_COLUMNS.splice(3, 1)
+                    : DATATABLE_COLUMNS
+            }
             defaultSortOrder={DEFAULT_SORT_ORDER}
             onRowClick={handleRowClick}
             tableId="loans-table"
