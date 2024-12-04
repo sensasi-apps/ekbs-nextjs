@@ -27,8 +27,8 @@ import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
 //libs
 import { wholeNumber } from '@/utils/RegExps'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import userHasPermission from '@/providers/Auth/userHasPermission'
 import PalmBunch from '@/enums/permissions/PalmBunch'
+import useAuth from '@/providers/Auth'
 
 interface MainInputProps {
     clearByName: (name: string) => void
@@ -46,6 +46,7 @@ function PalmBunchesReaDeliveryMainInputs({
     validationErrors,
     disabled,
 }: MainInputProps) {
+    const { userHasPermission } = useAuth()
     const { data, setData } = useFormData<PalmBunchesReaTicketType>()
 
     // ticket props
