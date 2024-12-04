@@ -1,3 +1,4 @@
+import { getCurrentAuthInfo } from '@/providers/Auth/functions/getCurrentAuthInfo'
 import * as Sentry from '@sentry/nextjs'
 
 if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
@@ -15,4 +16,15 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
         // `release` value here - use the environment variable `SENTRY_RELEASE`, so
         // that it will also get attached to your source maps
     })
+
+    const user = getCurrentAuthInfo()
+
+    Sentry.setUser(
+        user
+            ? {
+                  id: user.id,
+                  username: user.name,
+              }
+            : null,
+    )
 }
