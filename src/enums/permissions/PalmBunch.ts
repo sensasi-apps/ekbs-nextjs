@@ -7,7 +7,7 @@ enum PalmBunch {
 
     READ_STATISTIC = 'read palm bunch statistic',
 
-    SEARCH_USER = 'search user',
+    SEARCH_USER = 'users search',
 }
 
 export default PalmBunch
