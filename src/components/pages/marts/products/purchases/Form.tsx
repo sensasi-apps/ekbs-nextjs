@@ -18,7 +18,7 @@ import ProductMovementDetailArrayFields from './Form/ProductMovementDetailArrayF
 import ProductMovementCostArrayFields from './Form/ProductMovementCostArrayFields'
 // enums
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import { FormHelperText } from '@mui/material'
+import { Box, FormHelperText } from '@mui/material'
 
 export default function Form({
     isSubmitting,
@@ -137,8 +137,15 @@ export default function Form({
                     </Field>
 
                     {JSON.stringify(errors) !== '{}' && (
-                        <FormHelperText error>
-                            {JSON.stringify(errors)}
+                        <FormHelperText error component="ul">
+                            {Object.values(errors)
+                                .flatMap(v => v)
+                                .filter(Boolean)
+                                .map((v, i) => (
+                                    <Box component="li" key={i}>
+                                        {JSON.stringify(v)}
+                                    </Box>
+                                ))}
                         </FormHelperText>
                     )}
                 </Grid2>

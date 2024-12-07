@@ -39,7 +39,19 @@ export default function ProductMovementCostArrayFields({
                     <AddCircleIcon />
                 </IconButton>
             </Box>
-            <FormHelperText error>{JSON.stringify(error)}</FormHelperText>
+
+            {error && JSON.stringify(error) !== '{}' && (
+                <FormHelperText error component="ul">
+                    {Object.values(error as unknown as object)
+                        .flatMap(v => v)
+                        .filter(Boolean)
+                        .map((v, i) => (
+                            <Box component="li" key={i}>
+                                {JSON.stringify(v)}
+                            </Box>
+                        ))}
+                </FormHelperText>
+            )}
 
             <Grid2 container columnSpacing={1} alignItems="center">
                 {value?.length > 0 && <HeaderGrid />}
