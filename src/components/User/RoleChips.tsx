@@ -27,20 +27,16 @@ const UserRoleChips = memo(function UserRoleChips({
 
     const roleNames = sortData(data)
 
-    return (
-        <Box display="inline-flex" gap={0.5} textTransform="capitalize">
-            {roleNames.map(roleName => (
-                <Chip
-                    variant={variant}
-                    key={roleName}
-                    size={size}
-                    label={roleName}
-                    icon={getRoleIconByIdName(roleName)}
-                    color={getRoleColor(roleName)}
-                />
-            ))}
-        </Box>
-    )
+    return roleNames.map(roleName => (
+        <Chip
+            variant={variant}
+            key={roleName}
+            size={size}
+            label={roleName}
+            icon={getRoleIconByIdName(roleName)}
+            color={getRoleColor(roleName)}
+        />
+    ))
 })
 
 export default UserRoleChips

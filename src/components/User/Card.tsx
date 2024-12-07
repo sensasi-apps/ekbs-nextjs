@@ -1,19 +1,19 @@
 // materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Skeleton from '@mui/material/Skeleton'
-import Typography from '@mui/material/Typography'
-// icons
-import EditIcon from '@mui/icons-material/Edit'
-// components
-import ScrollableXBox from '@/components/ScrollableXBox'
-// etc
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Skeleton,
+    Typography,
+} from '@mui/material'
+import { Edit } from '@mui/icons-material'
+// local components
 import RolesAndPermissionButtonAndDialogForm from './RolesAndPermissions/ButtonAndDialogForm'
 import SetPasswordButtonAndDialogForm from './SetPasswordButtonAndDialogForm'
 import IsActiveDisplay from './IsActiveDisplay'
 import UserRoleChips from './RoleChips'
+// providers
 import useFormData from '@/providers/FormData'
 import useUserWithDetails from '@/providers/UserWithDetails'
 
@@ -62,9 +62,15 @@ export default function UserCard() {
                             </Box>
                         </Typography>
 
-                        <ScrollableXBox>
+                        <Box
+                            sx={{
+                                '& > *': {
+                                    mr: 0.3,
+                                    mb: 0.3,
+                                },
+                            }}>
                             <UserRoleChips data={role_names_id} size="small" />
-                        </ScrollableXBox>
+                        </Box>
                     </Box>
 
                     <IsActiveDisplay isActive={userWithDetails?.is_active} />
@@ -80,7 +86,7 @@ export default function UserCard() {
                         size="small"
                         color="info"
                         variant="outlined"
-                        startIcon={<EditIcon />}
+                        startIcon={<Edit />}
                         onClick={handleEditClick}>
                         Perbaharui data akun
                     </Button>
