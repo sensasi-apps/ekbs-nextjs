@@ -51,7 +51,18 @@ export default function ProductMovementDetailArrayFields({
                 </IconButton>
             </Box>
 
-            <FormHelperText error>{JSON.stringify(error)}</FormHelperText>
+            {error && JSON.stringify(error) !== '{}' && (
+                <FormHelperText error component="ul">
+                    {Object.values(error as unknown as object)
+                        .flatMap(v => v)
+                        .filter(Boolean)
+                        .map((v, i) => (
+                            <Box component="li" key={i}>
+                                {JSON.stringify(v)}
+                            </Box>
+                        ))}
+                </FormHelperText>
+            )}
 
             {value?.map((detail, index: number) => {
                 const subtotal =
