@@ -19,7 +19,7 @@ import myAxios from '@/lib/axios'
 
 const CURR_YEAR = dayjs().format('YYYY')
 
-let isClearCache = false
+let isRecache = false
 
 export default function ProfitLoss() {
     const { query } = useRouter()
@@ -52,7 +52,7 @@ export default function ProfitLoss() {
             <TabChips
                 disabled={isLoading || isValidating}
                 onRefreshClick={() => {
-                    isClearCache = true
+                    isRecache = true
                     mutate()
                 }}
             />
@@ -71,18 +71,18 @@ export default function ProfitLoss() {
                         subtables={[
                             {
                                 header: 'Pendapatan (I)',
-                                data: general?.incomes ?? [],
+                                data: general?.incomes,
                                 footer: 'Total (I)',
                             },
                             {
                                 header: 'Beban (II)',
-                                data: general?.outcomes ?? [],
+                                data: general?.outcomes,
                                 footer: 'Total (II)',
                             },
                         ]}
                         footer={{
-                            incomes: general?.incomes ?? [],
-                            outcomes: general?.outcomes ?? [],
+                            incomes: general?.incomes,
+                            outcomes: general?.outcomes,
                         }}
                     />
                 </div>
@@ -90,116 +90,112 @@ export default function ProfitLoss() {
 
             <Fade in={activeTab === 'alat-berat'} unmountOnExit>
                 <div>
-                    {heavyEquipmentRent && (
-                        <Table
-                            subtables={[
-                                {
-                                    header: 'Pendapatan (I)',
-                                    data: heavyEquipmentRent.incomes,
-                                    footer: 'Total (I)',
-                                },
-                                {
-                                    header: 'Beban (II)',
-                                    data: heavyEquipmentRent.outcomes,
-                                    footer: 'Total (II)',
-                                },
-                            ]}
-                            footer={{
-                                incomes: heavyEquipmentRent.incomes,
-                                outcomes: heavyEquipmentRent.outcomes,
-                            }}
-                        />
-                    )}
+                    <Table
+                        subtables={[
+                            {
+                                header: 'Pendapatan (I)',
+                                data: heavyEquipmentRent?.incomes,
+                                footer: 'Total (I)',
+                            },
+                            {
+                                header: 'Beban (II)',
+                                data: heavyEquipmentRent?.outcomes,
+                                footer: 'Total (II)',
+                            },
+                        ]}
+                        footer={{
+                            incomes: heavyEquipmentRent?.incomes,
+                            outcomes: heavyEquipmentRent?.outcomes,
+                        }}
+                    />
                 </div>
             </Fade>
 
-            {farmInput && (
-                <Fade in={activeTab === 'saprodi'} unmountOnExit>
-                    <div>
-                        <Table
-                            subtables={[
-                                {
-                                    header: 'Penjualan (I)',
-                                    data: farmInput.sales,
-                                    footer: 'Total (I)',
-                                },
-                                {
-                                    header: 'Pembelian (II)',
-                                    data: farmInput.purchases,
-                                    footer: 'Total (II)',
-                                },
-                                {
-                                    header: 'Persediaan',
-                                    data: [
-                                        ...farmInput.stock_ins,
-                                        ...farmInput.stock_outs,
-                                    ],
-                                    footer: 'Stok Akhir',
-                                },
-                                {
-                                    header: 'Beban (III)',
-                                    data: farmInput.outcomes,
-                                    footer: 'Total (III)',
-                                },
-                            ]}
-                            footer={{
-                                incomes: farmInput.sales,
-                                outcomes: farmInput.outcomes,
-                            }}
-                        />
-                    </div>
-                </Fade>
-            )}
+            <Fade in={activeTab === 'saprodi'} unmountOnExit>
+                <div>
+                    <Table
+                        subtables={[
+                            {
+                                header: 'Penjualan (I)',
+                                data: farmInput?.sales,
+                                footer: 'Total (I)',
+                            },
+                            {
+                                header: 'Pembelian (II)',
+                                data: farmInput?.purchases,
+                                footer: 'Total (II)',
+                            },
+                            {
+                                header: 'Persediaan',
+                                data:
+                                    farmInput?.stock_ins &&
+                                    farmInput?.stock_outs
+                                        ? [
+                                              ...farmInput.stock_ins,
+                                              ...farmInput.stock_outs,
+                                          ]
+                                        : undefined,
+                                footer: 'Stok Akhir',
+                            },
+                            {
+                                header: 'Beban (III)',
+                                data: farmInput?.outcomes,
+                                footer: 'Total (III)',
+                            },
+                        ]}
+                        footer={{
+                            incomes: farmInput?.sales,
+                            outcomes: farmInput?.outcomes,
+                        }}
+                    />
+                </div>
+            </Fade>
 
-            {userLoan && (
-                <Fade in={activeTab === 'spp'} unmountOnExit>
-                    <div>
-                        <Table
-                            subtables={[
-                                {
-                                    header: 'Pendapatan (I)',
-                                    data: userLoan.incomes,
-                                    footer: 'Total (I)',
-                                },
-                                {
-                                    header: 'Beban (II)',
-                                    data: userLoan.outcomes,
-                                    footer: 'Total (II)',
-                                },
-                            ]}
-                            footer={{
-                                incomes: userLoan.incomes,
-                                outcomes: userLoan.outcomes,
-                            }}
-                        />
-                    </div>
-                </Fade>
-            )}
+            <Fade in={activeTab === 'spp'} unmountOnExit>
+                <div>
+                    <Table
+                        subtables={[
+                            {
+                                header: 'Pendapatan (I)',
+                                data: userLoan?.incomes,
+                                footer: 'Total (I)',
+                            },
+                            {
+                                header: 'Beban (II)',
+                                data: userLoan?.outcomes,
+                                footer: 'Total (II)',
+                            },
+                        ]}
+                        footer={{
+                            incomes: userLoan?.incomes,
+                            outcomes: userLoan?.outcomes,
+                        }}
+                    />
+                </div>
+            </Fade>
 
-            {palmBunch && (
-                <Fade in={activeTab === 'tbs'} unmountOnExit>
-                    <div>
-                        <Table
-                            subtables={[
-                                {
-                                    header: 'Pendapatan (I)',
-                                    data: palmBunch.incomes,
-                                    footer: 'Total (I)',
-                                },
-                                {
-                                    header: 'Beban (II)',
-                                    data: palmBunch.outcomes,
-                                    footer: 'Total (II)',
-                                },
-                            ]}
-                            footer={{
-                                incomes: palmBunch.incomes,
-                                outcomes: palmBunch.outcomes,
-                            }}
-                        />
-                    </div>
-                </Fade>
-            )}
+            <Fade in={activeTab === 'tbs'} unmountOnExit>
+                <div>
+                    <Table
+                        subtables={[
+                            {
+                                header: 'Pendapatan (I)',
+                                data: palmBunch?.incomes,
+                                footer: 'Total (I)',
+                            },
+                            {
+                                header: 'Beban (II)',
+                                data: palmBunch?.outcomes,
+                                footer: 'Total (II)',
+                            },
+                        ]}
+                        footer={{
+                            incomes: palmBunch?.incomes,
+                            outcomes: palmBunch?.outcomes,
+                        }}
+                    />
+                </div>
+            </Fade>
         </AuthLayout>
     )
 }
@@ -209,7 +205,7 @@ async function fetcher(url: string, params: { year: string }) {
         .get(url, {
             params: {
                 ...params,
-                'clear-cache': isClearCache ? 1 : 0,
+                recache: isRecache,
             },
         })
         .then(res => res.data)
