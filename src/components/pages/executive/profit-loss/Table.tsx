@@ -1,24 +1,24 @@
 // types
 import type { TableCellProps } from '@mui/material/TableCell'
-
 // vendors
+import {
+    Box,
+    Table as MuiTable,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableFooter,
+    TableHead,
+    TableRow,
+    Tooltip,
+} from '@mui/material'
 import dayjs from 'dayjs'
-// materials
-import Box from '@mui/material/Box'
-import MuiTable from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableFooter from '@mui/material/TableFooter'
-import TableRow from '@mui/material/TableRow'
-import Tooltip from '@mui/material/Tooltip'
 // utils
 import formatNumber from '@/utils/formatNumber'
 
 export type ItemRow = {
     name: string
-    data: number[]
+    data?: number[]
     info?: string
 }
 
@@ -33,18 +33,16 @@ for (let i = 0; i < 12; i++) {
     monthNames.push(dayjs().month(i).format('MMMM'))
 }
 
+const emptyData = monthNames.map(() => 0)
+
 export default function Table({
     subtables,
     footer,
 }: {
-    subtables: {
-        header: string
-        data: ItemRow[]
-        footer: string
-    }[]
+    subtables: SubTableProps[]
     footer: {
-        incomes: ItemRow[]
-        outcomes: ItemRow[]
+        incomes?: ItemRow[]
+        outcomes?: ItemRow[]
     }
 }) {
     return (
@@ -76,18 +74,17 @@ export default function Table({
     )
 }
 
-function SubTable({
-    header,
-    data,
-    footer,
-}: {
+interface SubTableProps {
     header: string
-    data: ItemRow[]
+    data: ItemRow[] | undefined
     footer: string
-}) {
-    const sums = data[0].data.map((_, i) =>
-        data.reduce((acc, item) => acc + item.data[i], 0),
-    )
+}
+
+function SubTable({ header, data, footer }: SubTableProps) {
+    const sums: number[] =
+        data?.[0].data?.map((_, i) =>
+            data.reduce((acc, item) => acc + (item.data?.[i] ?? 0), 0),
+        ) ?? emptyData
 
     return (
         <>
@@ -99,9 +96,7 @@ function SubTable({
                 </TableCell>
             </TableRow>
 
-            {data.map((item, i) => (
-                <CustomRow key={i} {...item} />
-            ))}
+            {data?.map((item, i) => <CustomRow key={i} {...item} />)}
 
             <TableRow>
                 <TableCell sx={HEADER_SX}>{footer}</TableCell>
@@ -132,7 +127,7 @@ function CustomRow({ name, data, info }: ItemRow) {
                 )}
             </TableCell>
 
-            {data.map((subItem, i) => (
+            {data?.map((subItem, i) => (
                 <RpItemCell key={i} data={subItem} sx={SX_CELL_DATA} />
             ))}
         </TableRow>
@@ -143,15 +138,23 @@ function CustomTableFooter({
     incomes,
     outcomes,
 }: {
-    incomes: ItemRow[]
-    outcomes: ItemRow[]
+    incomes?: ItemRow[]
+    outcomes?: ItemRow[]
 }) {
-    const incomeSums: number[] = monthNames.map((_, i) =>
-        incomes.reduce((acc, itemRow) => acc + itemRow.data[i], 0),
+    const incomeSums: number[] = monthNames.map(
+        (_, i) =>
+            incomes?.reduce(
+                (acc, itemRow) => acc + (itemRow.data?.[i] ?? 0),
+                0,
+            ) ?? 0,
     )
 
-    const outcomeSums = monthNames.map((_, i) =>
-        outcomes.reduce((acc, itemRow) => acc + itemRow.data[i], 0),
+    const outcomeSums: number[] = monthNames.map(
+        (_, i) =>
+            outcomes?.reduce(
+                (acc, itemRow) => acc + (itemRow.data?.[i] ?? 0),
+                0,
+            ) ?? 0,
     )
 
     const diffs = incomeSums.map((iSum, i) => iSum - outcomeSums[i])
