@@ -139,11 +139,18 @@ export default function Form({
                     {JSON.stringify(errors) !== '{}' && (
                         <FormHelperText error component="ul">
                             {Object.values(errors)
-                                .flatMap(v => v)
+                                .flatMap(
+                                    (v: string | object | Array<object>) =>
+                                        typeof v === 'string'
+                                            ? [v]
+                                            : Object.values(v).flatMap(v =>
+                                                  Object.values(v),
+                                              ),
+                                )
                                 .filter(Boolean)
                                 .map((v, i) => (
                                     <Box component="li" key={i}>
-                                        {JSON.stringify(v)}
+                                        {v as string}
                                     </Box>
                                 ))}
                         </FormHelperText>

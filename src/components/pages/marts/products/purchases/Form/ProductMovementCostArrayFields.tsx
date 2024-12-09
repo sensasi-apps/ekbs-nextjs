@@ -42,12 +42,18 @@ export default function ProductMovementCostArrayFields({
 
             {error && JSON.stringify(error) !== '{}' && (
                 <FormHelperText error component="ul">
-                    {Object.values(error as unknown as object)
-                        .flatMap(v => v)
+                    {Object.values(error)
+                        .flatMap((v: string | object | Array<object>) =>
+                            typeof v === 'string'
+                                ? [v]
+                                : Object.values(v).flatMap(v =>
+                                      Object.values(v),
+                                  ),
+                        )
                         .filter(Boolean)
                         .map((v, i) => (
                             <Box component="li" key={i}>
-                                {JSON.stringify(v)}
+                                {v as string}
                             </Box>
                         ))}
                 </FormHelperText>
