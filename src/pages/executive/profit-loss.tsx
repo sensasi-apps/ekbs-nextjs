@@ -33,6 +33,7 @@ export default function ProfitLoss() {
             heavyEquipmentRent,
             farmInput,
             userLoan,
+            [BusinessUnit.BELAYAN_MART]: belayanMart,
         } = {},
         isLoading,
         isValidating,
@@ -106,6 +107,47 @@ export default function ProfitLoss() {
                         footer={{
                             incomes: heavyEquipmentRent?.incomes,
                             outcomes: heavyEquipmentRent?.outcomes,
+                        }}
+                    />
+                </div>
+            </Fade>
+
+            <Fade in={activeTab === BusinessUnit.BELAYAN_MART.toString()} unmountOnExit>
+                <div>
+                    test
+                    <Table
+                        subtables={[
+                            {
+                                header: 'Penjualan (I)',
+                                data: belayanMart?.sales,
+                                footer: 'Total (I)',
+                            },
+                            {
+                                header: 'Pembelian (II)',
+                                data: belayanMart?.purchases,
+                                footer: 'Total (II)',
+                            },
+                            {
+                                header: 'Persediaan',
+                                data:
+                                    belayanMart?.stock_ins &&
+                                    belayanMart?.stock_outs
+                                        ? [
+                                              ...belayanMart.stock_ins,
+                                              ...belayanMart.stock_outs,
+                                          ]
+                                        : undefined,
+                                footer: 'Stok Akhir',
+                            },
+                            {
+                                header: 'Beban (III)',
+                                data: belayanMart?.outcomes,
+                                footer: 'Total (III)',
+                            },
+                        ]}
+                        footer={{
+                            incomes: belayanMart?.sales,
+                            outcomes: belayanMart?.outcomes,
                         }}
                     />
                 </div>
@@ -236,7 +278,10 @@ interface ApiResponseType {
     }
 
     [BusinessUnit.BELAYAN_MART]: {
-        incomes: ItemRow[]
+        sales: ItemRow[]
+        purchases: ItemRow[]
+        stock_ins: ItemRow[]
+        stock_outs: ItemRow[]
         outcomes: ItemRow[]
     }
 
