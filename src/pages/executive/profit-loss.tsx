@@ -112,7 +112,9 @@ export default function ProfitLoss() {
                 </div>
             </Fade>
 
-            <Fade in={activeTab === BusinessUnit.BELAYAN_MART.toString()} unmountOnExit>
+            <Fade
+                in={activeTab === BusinessUnit.BELAYAN_MART.toString()}
+                unmountOnExit>
                 <div>
                     test
                     <Table
