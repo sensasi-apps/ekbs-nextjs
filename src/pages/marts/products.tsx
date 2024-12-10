@@ -1,12 +1,13 @@
 // types
-import type Product from '@/dataTypes/mart/Product'
 import type { MUIDataTableColumn } from 'mui-datatables'
+import type Product from '@/dataTypes/mart/Product'
+import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
 import { useState } from 'react'
+import { Fade, LinearProgress, Typography } from '@mui/material'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
-// materials
-import Typography from '@mui/material/Typography'
+import dayjs from 'dayjs'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
@@ -24,13 +25,15 @@ import ProductForm, { FormValues } from '@/components/pages/marts/products/Form'
 // utils
 import handle422 from '@/utils/errorCatcher'
 import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
+import numberToCurrency from '@/utils/numberToCurrency'
 // etc
 import useAuth from '@/providers/Auth'
 // enums
-import Warehouse from '@/dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
 import Mart from '@/enums/permissions/Mart'
+import Warehouse from '@/dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
+// utils
+import { aoaToXlsx } from '@/functions/aoaToXlsx'
 
 let mutate: MutateType<Product>
 let getRowData: GetRowDataType<Product>
@@ -40,6 +43,7 @@ export default function Products() {
 
     const [selectedRow, setSelectedRow] = useState<Product>()
     const [formValues, setFormValues] = useState<FormValues>()
+    const [isDownloading, setIsDownloading] = useState(false)
 
     function handleClose() {
         setSelectedRow(undefined)
@@ -53,6 +57,14 @@ export default function Products() {
 
     return (
         <AuthLayout title="Produk">
+            <Fade in={isDownloading}>
+                <LinearProgress
+                    sx={{
+                        transform: 'translateY(0.2em)',
+                    }}
+                />
+            </Fade>
+
             <Datatable
                 apiUrl={ApiUrl.GET_DATATABLE_DATA}
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
@@ -67,11 +79,21 @@ export default function Products() {
                 }}
                 tableId="products-table"
                 title="Daftar Produk"
-                getRowDataCallback={fn => (getRowData = fn)}
                 columns={columns}
                 mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => (getRowData = fn)}
                 swrOptions={{
                     revalidateOnMount: true,
+                }}
+                download={isDownloading ? 'disabled' : true}
+                onDownload={() => {
+                    if (isDownloading) return false
+
+                    setIsDownloading(true)
+
+                    downloadXlsx().then(() => setIsDownloading(false))
+
+                    return false
                 }}
                 setRowProps={(_, dataIndex) =>
                     getRowData(dataIndex)?.deleted_at
@@ -343,3 +365,53 @@ const columns: MUIDataTableColumn[] = [
         },
     },
 ]
+
+async function downloadXlsx() {
+    return axios
+        .get<YajraDatatable<Product>>(ApiUrl.GET_DATATABLE_DATA, {
+            params: {
+                length: undefined,
+                columns,
+                order: [{ column: 2, dir: 'asc' }],
+            },
+        })
+        .then(response => {
+            const data = response.data.data
+            const aoa: (string | number)[][] = data.flatMap(
+                ({ code, name, category_name, unit, warehouses, deleted_at }) =>
+                    warehouses.map(
+                        ({
+                            warehouse,
+                            qty,
+                            cost_rp_per_unit,
+                            default_sell_price,
+                        }) => [
+                            code ?? '',
+                            name,
+                            category_name,
+                            warehouse,
+                            qty,
+                            unit,
+                            cost_rp_per_unit,
+                            default_sell_price,
+                            deleted_at ?? '',
+                        ],
+                    ),
+            )
+
+            aoaToXlsx(
+                `Daftar Produk Belayan Mart — ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
+                aoa,
+                [
+                    ...columns
+                        .filter(
+                            ({ options }) =>
+                                options?.display === undefined ||
+                                options.display === true,
+                        )
+                        .map(col => col.label ?? col.name),
+                    'Dihapus TGL',
+                ],
+            )
+        })
+}

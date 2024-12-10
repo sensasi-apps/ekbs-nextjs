@@ -45,7 +45,7 @@ export function Datatable({
     swrOptions,
     download = false,
     ...props
-}: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick' | 'onDownload'>) {
+}: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick'>) {
     const {
         data,
         mutate,
@@ -74,7 +74,12 @@ export function Datatable({
 
     const options: MUIDataTableOptions = {
         rowHover: isRowClickable,
-        download: download ? (isLoading ? 'disabled' : true) : false,
+        download:
+            download || props.onDownload
+                ? isLoading
+                    ? 'disabled'
+                    : download
+                : false,
         customToolbar: () => (
             <CustomHeadButton
                 aria-label="Refresh"
