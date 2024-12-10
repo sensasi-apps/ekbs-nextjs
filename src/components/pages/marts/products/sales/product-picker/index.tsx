@@ -129,6 +129,10 @@ function ProductPicker({
 
     const maxPage = Math.ceil(itemTotal / PRODUCT_PER_PAGE)
 
+    if (currentSearchPageNo > maxPage) {
+        setCurrentSearchPageNo(maxPage)
+    }
+
     return (
         <Paper
             sx={{
