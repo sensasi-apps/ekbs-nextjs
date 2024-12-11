@@ -49,7 +49,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
 
     return (
         <Box>
-            <Box display="flex" my={2} gap={3} alignItems="center">
+            <Box display="flex" gap={3} alignItems="center">
                 <Image
                     src="/assets/pwa-icons/green-transparent.svg"
                     width={0}
