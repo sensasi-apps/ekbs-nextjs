@@ -14,22 +14,24 @@ const myAxios = axios.create({
     withCredentials: true,
 })
 
-myAxios.get('/sanctum/csrf-cookie').catch((error: AxiosError) => {
-    const { response, code, message } = error
+if (typeof window !== 'undefined') {
+    myAxios.get('/sanctum/csrf-cookie').catch((error: AxiosError) => {
+        const { response, code, message } = error
 
-    if (response) {
-        handleServerError(response)
-    } else if (code !== AxiosError.ERR_NETWORK) {
-        enqueueSnackbar(message ?? 'Terjadi kesalahan.', {
-            variant: 'error',
-            persist: true,
-        })
-    }
+        if (response) {
+            handleServerError(response)
+        } else if (code !== AxiosError.ERR_NETWORK) {
+            enqueueSnackbar(message ?? 'Terjadi kesalahan.', {
+                variant: 'error',
+                persist: true,
+            })
+        }
 
-    if (response || code !== AxiosError.ERR_NETWORK) {
-        throw error
-    }
-})
+        if (response || code !== AxiosError.ERR_NETWORK) {
+            throw error
+        }
+    })
+}
 
 myAxios.interceptors.request.use(config => {
     const token = getCurrentAuthToken()
