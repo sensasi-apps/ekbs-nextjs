@@ -18,11 +18,7 @@ const UserRoleChips = memo(function UserRoleChips({
     data,
     size,
     variant,
-}: {
-    data: string[]
-    size?: ChipProps['size']
-    variant?: ChipProps['variant']
-}) {
+}: UserRoleChipsProps) {
     if (!data) return <Skeletons />
 
     const roleNames = sortData(data)
@@ -90,3 +86,13 @@ const Skeletons = () => (
         <Skeleton variant="rounded" width="3em" />
     </Box>
 )
+
+interface UserRoleChipsProps {
+    /**
+     * Role names in ID language
+     */
+    data: string[]
+
+    size?: ChipProps['size']
+    variant?: ChipProps['variant']
+}

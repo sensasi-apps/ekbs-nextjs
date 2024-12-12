@@ -7,7 +7,7 @@ const staticOptions: MUIDataTableOptions = {
     selectableRows: 'none',
     print: false,
     jumpToPage: true,
-    rowsPerPageOptions: [15, 30, 50, 100, 0],
+    rowsPerPageOptions: [15, 30, 50, 100],
 }
 
 export default staticOptions

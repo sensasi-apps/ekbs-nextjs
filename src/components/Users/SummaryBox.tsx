@@ -1,36 +1,44 @@
 // vendors
+import { useRouter } from 'next/router'
+import {
+    Box,
+    Card,
+    CardActionArea,
+    CardContent,
+    Skeleton,
+    Tooltip,
+    Typography,
+} from '@mui/material'
 import useSWR from 'swr'
-// materials
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Skeleton from '@mui/material/Skeleton'
-import Typography from '@mui/material/Typography'
 // etc
 import { getRoleIconByIdName } from '../User/RoleChips'
-import Tooltip from '../Tooltip'
+import formatNumber from '@/utils/formatNumber'
 
-type ApiResponseItemType = {
+interface ApiResponseItemType {
     role_name_id: string
+    role_name?: string
     qty: number
     user_names: string[]
 }
 
-type ApiResponseType = ApiResponseItemType[]
-
 export default function UsersSummaryBox() {
-    const { data, isLoading } = useSWR<ApiResponseType>('/users/summary')
+    const { data, isLoading } = useSWR<ApiResponseItemType[]>(
+        'users/get-summary-data',
+    )
 
     return (
         <Box
             display="flex"
             gap={2}
-            textTransform="capitalize"
             sx={{
+                alignItems: {
+                    sm: 'center',
+                    md: 'stretch',
+                },
                 overflowX: 'auto',
                 flexDirection: {
                     md: 'column',
                 },
-                whiteSpace: 'pre-line',
             }}>
             {isLoading && (
                 <>
@@ -46,43 +54,72 @@ export default function UsersSummaryBox() {
 }
 
 function SummaryCard({
-    data: { role_name_id, qty, user_names },
+    data: { role_name_id, qty, user_names, role_name },
 }: {
     data: ApiResponseItemType
 }) {
+    const { replace, query } = useRouter()
+
     return (
-        <Tooltip
-            title={
-                <>
-                    {user_names.map((name, i) => (
-                        <div key={i}>{name}</div>
-                    ))}
+        <Card
+            variant={query.role === role_name ? 'outlined' : 'elevation'}
+            sx={{
+                minWidth: {
+                    sm: 300,
+                    md: undefined,
+                },
+                borderColor:
+                    query.role === role_name ? 'success.main' : undefined,
+                color: query.role === role_name ? 'success.main' : undefined,
+            }}>
+            <CardActionArea
+                disabled={!qty}
+                onClick={() =>
+                    replace({
+                        query: {
+                            role: query.role === role_name ? '' : role_name,
+                        },
+                    })
+                }>
+                <Tooltip
+                    arrow
+                    placement="left"
+                    title={
+                        <>
+                            {user_names.map((name, i) => (
+                                <div key={i}>{name}</div>
+                            ))}
 
-                    {user_names.length < qty && <div>....</div>}
-                </>
-            }>
-            <Card>
-                <Box p={3} display="flex" alignItems="center">
-                    {getRoleIconByIdName(
-                        role_name_id.toLowerCase(),
-                        { fontSize: 64, mr: 3 },
-                        true,
-                    )}
+                            {user_names.length < qty && <div>....</div>}
+                        </>
+                    }>
+                    <CardContent
+                        sx={{
+                            p: 3,
+                        }}>
+                        <Box display="flex" gap={2} alignItems="center">
+                            {getRoleIconByIdName(
+                                role_name_id.toLowerCase(),
+                                { fontSize: 64 },
+                                true,
+                            )}
 
-                    <Box>
-                        <Typography
-                            fontSize={14}
-                            color="text.secondary"
-                            gutterBottom>
-                            {role_name_id}
-                        </Typography>
+                            <Box>
+                                <Typography
+                                    fontSize={14}
+                                    gutterBottom
+                                    textTransform="capitalize">
+                                    {role_name_id}
+                                </Typography>
 
-                        <Typography variant="h4" component="div">
-                            {qty}
-                        </Typography>
-                    </Box>
-                </Box>
-            </Card>
-        </Tooltip>
+                                <Typography variant="h4" component="div">
+                                    {formatNumber(qty)}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </CardContent>
+                </Tooltip>
+            </CardActionArea>
+        </Card>
     )
 }

@@ -7,7 +7,10 @@ import {
     Skeleton,
     Typography,
 } from '@mui/material'
-import { Edit } from '@mui/icons-material'
+import { Close, Edit } from '@mui/icons-material'
+import { useRouter } from 'next/router'
+// global components
+import IconButton from '../IconButton'
 // local components
 import RolesAndPermissionButtonAndDialogForm from './RolesAndPermissions/ButtonAndDialogForm'
 import SetPasswordButtonAndDialogForm from './SetPasswordButtonAndDialogForm'
@@ -18,6 +21,7 @@ import useFormData from '@/providers/FormData'
 import useUserWithDetails from '@/providers/UserWithDetails'
 
 export default function UserCard() {
+    const { push } = useRouter()
     const { handleEdit } = useFormData()
     const { data: userWithDetails, isLoading } = useUserWithDetails()
 
@@ -28,7 +32,7 @@ export default function UserCard() {
     return (
         <Card>
             <CardContent>
-                <Box>
+                <Box display="flex" justifyContent="space-between">
                     <Typography variant="h5" component="div">
                         {isLoading ? <Skeleton /> : name}
 
@@ -43,38 +47,47 @@ export default function UserCard() {
                         )}
                     </Typography>
 
-                    <Typography variant="caption" color="GrayText">
-                        {isLoading ? (
-                            <Skeleton />
-                        ) : (
-                            email || <i>E-mail untuk akun belum ditambahkan</i>
-                        )}
+                    <IconButton
+                        title="Tutup"
+                        icon={Close}
+                        color="warning"
+                        onClick={() => {
+                            push('/users')
+                        }}
+                    />
+                </Box>
+
+                <Typography variant="caption" color="GrayText">
+                    {isLoading ? (
+                        <Skeleton />
+                    ) : (
+                        email || <i>E-mail untuk akun belum ditambahkan</i>
+                    )}
+                </Typography>
+
+                <Box mt={2} mb={1}>
+                    <Typography variant="body2" color="GrayText">
+                        Peran:
+                        <Box component="span" ml={1}>
+                            <RolesAndPermissionButtonAndDialogForm
+                                isLoading={!userWithDetails}
+                                data={userWithDetails}
+                            />
+                        </Box>
                     </Typography>
 
-                    <Box mt={2} mb={1}>
-                        <Typography variant="body2" color="GrayText">
-                            Peran:
-                            <Box component="span" ml={1}>
-                                <RolesAndPermissionButtonAndDialogForm
-                                    isLoading={!userWithDetails}
-                                    data={userWithDetails}
-                                />
-                            </Box>
-                        </Typography>
-
-                        <Box
-                            sx={{
-                                '& > *': {
-                                    mr: 0.3,
-                                    mb: 0.3,
-                                },
-                            }}>
-                            <UserRoleChips data={role_names_id} size="small" />
-                        </Box>
+                    <Box
+                        sx={{
+                            '& > *': {
+                                mr: 0.3,
+                                mb: 0.3,
+                            },
+                        }}>
+                        <UserRoleChips data={role_names_id} size="small" />
                     </Box>
-
-                    <IsActiveDisplay isActive={userWithDetails?.is_active} />
                 </Box>
+
+                <IsActiveDisplay isActive={userWithDetails?.is_active} />
 
                 <Box
                     mt={2}
