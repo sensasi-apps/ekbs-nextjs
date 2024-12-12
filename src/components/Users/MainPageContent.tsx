@@ -2,18 +2,17 @@
 import { useRouter } from 'next/router'
 // materials
 import {
+    Box,
     Card,
     CardContent,
     CardHeader,
     CardHeaderProps,
+    Collapse,
     Fade,
-    Grid,
     Typography,
 } from '@mui/material'
 // mui labs
 import Masonry from '@mui/lab/Masonry'
-// components
-import UserAutocomplete from '@/components/UserAutocomplete'
 // page components
 import { getRoleIconByIdName } from '@/components/User/RoleChips'
 import UserAddressesCrudBox from '@/components/User/Address/CrudBox'
@@ -25,7 +24,6 @@ import UserLandsCrud from '@/components/User/Lands/Crud'
 import UserMemberCrudCard from '@/components/User/Member/CrudCard'
 import UserSocialsCrudBox from '@/components/User/Socials/CrudBox'
 import UserVehiclesCrudBox from '@/components/User/Vehicles/CrudBox'
-import UsersSummaryBox from '@/components/Users/SummaryBox'
 // utils
 import useUserWithDetails from '@/providers/UserWithDetails'
 import useAuth from '@/providers/Auth'
@@ -35,7 +33,7 @@ import UserCard from '../User/Card'
 import UserDialogFormWithFab from '../User/DialogFormWithFab'
 
 export default function UsersMainPageContent() {
-    const { push, replace, query } = useRouter()
+    const { replace, query } = useRouter()
     const { userHasRole } = useAuth()
 
     const {
@@ -62,45 +60,10 @@ export default function UsersMainPageContent() {
     } = userWithDetails
 
     return (
-        <Grid
-            container
-            spacing={3}
-            sx={{
-                flexDirection: {
-                    xs: 'column-reverse',
-                    sm: 'column-reverse',
-                    md: 'row',
-                },
-            }}>
-            <Grid
-                item
-                sm={12}
-                md={8}
-                display="flex"
-                flexDirection="column"
-                gap={3}>
-                <UserAutocomplete
-                    showNickname
-                    showRole
-                    label="Cari Pengguna"
-                    textFieldProps={{
-                        margin: 'none',
-                        required: false,
-                        size: 'medium',
-                    }}
-                    onChange={(_, value) => {
-                        if (!value) return push('/users')
-
-                        return push(`/users/${value.uuid}`)
-                    }}
-                />
-
+        <Collapse in={Boolean(query.uuid)} unmountOnExit>
+            <Box display="flex" flexDirection="column" gap={3}>
                 <FormDataProvider>
-                    <Fade in={Boolean(query.uuid)} exit={false}>
-                        <div>
-                            <UserCard />
-                        </div>
-                    </Fade>
+                    <UserCard />
 
                     <UserDialogFormWithFab />
                 </FormDataProvider>
@@ -266,12 +229,8 @@ export default function UsersMainPageContent() {
                         </Masonry>
                     </>
                 )}
-            </Grid>
-
-            <Grid item sm={12} md={4} width="100%">
-                <UsersSummaryBox />
-            </Grid>
-        </Grid>
+            </Box>
+        </Collapse>
     )
 }
 
