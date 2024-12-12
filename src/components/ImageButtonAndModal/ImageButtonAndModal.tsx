@@ -1,6 +1,8 @@
+import type { AxiosError } from 'axios'
 // types
 import type FileFromDb from '@/dataTypes/File'
 // vendors
+import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 // materials
@@ -47,6 +49,13 @@ export default function ImageButtonAndModal({
                         return URL.createObjectURL(res.data)
                     }),
                 )
+                .catch(({ status }: AxiosError) => {
+                    if (status === 422) {
+                        enqueueSnackbar('Gagal memuat gambar: ' + file.alias, {
+                            variant: 'error',
+                        })
+                    }
+                })
         }
     }, [file])
 
