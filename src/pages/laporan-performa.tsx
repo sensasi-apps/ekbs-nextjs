@@ -126,7 +126,13 @@ export default function Stat() {
                         statName="Bobot — Bulanan"
                         icon={<ForestIcon />}
                         isLoading={isLoading}>
-                        <LineChart suffix="kg" data={monthlyPalmBunchKgs} />
+                        <LineChart
+                            suffix="ton"
+                            data={monthlyPalmBunchKgs?.map(item => ({
+                                ...item,
+                                value: item.value / 1000,
+                            }))}
+                        />
                     </StatCardBox>
 
                     <StatCardBox
