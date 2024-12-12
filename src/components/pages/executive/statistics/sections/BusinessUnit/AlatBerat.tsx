@@ -88,7 +88,7 @@ function OmzetChartCard({
 }) {
     return (
         <StatCard title="Omzet — Bulanan" isLoading={isLoading}>
-            <LineChart currency data={data} />
+            <LineChart prefix="Rp" data={data} />
         </StatCard>
     )
 }

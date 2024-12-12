@@ -86,7 +86,7 @@ function TbsWeightChartCard({
     return (
         <StatCard title="Bobot TBS" isLoading={isLoading}>
             <LineChart
-                prefix="kg"
+                suffix="kg"
                 data={data}
                 lines={[
                     {

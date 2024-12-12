@@ -14,7 +14,6 @@ import {
 import Typography from '@mui/material/Typography'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
 
 /**
  * LineChart component renders a line chart using Recharts library.
@@ -22,27 +21,18 @@ import numberToCurrency from '@/utils/numberToCurrency'
  */
 export default function LineChart({
     data,
-    prefix = '',
-    suffix,
     lines,
     lineProps,
-    currency,
+    prefix = '',
+    suffix = '',
     slotsProps,
 }: {
     data: unknown[] | undefined
-
-    /**
-     * WRONG: Use `suffix` instead.
-     *
-     * @deprecated Use `suffix` instead.
-     */
     prefix?: string
-
     suffix?: string
     lines?: Omit<LineProps, 'ref'>[]
     xAxisDataKey?: string
     lineProps?: Omit<LineProps, 'ref'>
-    currency?: boolean
     slotsProps?: {
         tooltip?: TooltipProps<number, string>
     }
@@ -68,8 +58,6 @@ export default function LineChart({
             </Typography>
         )
     }
-
-    const proccessedPrefix = (prefix ?? suffix) ? ' ' + (prefix ?? suffix) : ''
 
     const {
         type = 'monotone',
@@ -109,9 +97,9 @@ export default function LineChart({
                         backgroundColor: 'var(--mui-palette-background-paper)',
                     }}
                     formatter={(value: number) =>
-                        currency
-                            ? numberToCurrency(value)
-                            : formatNumber(value) + proccessedPrefix
+                        (prefix ? prefix + ' ' : '') +
+                        formatNumber(value).toString() +
+                        (suffix ? ' ' + suffix : '')
                     }
                     {...(slotsProps?.tooltip ?? {})}
                 />

@@ -18,7 +18,7 @@ const MonthlyTotalMemberParticipationChartCard = memo(
                             labelFormatter: value => `Bulan ${value}`,
                         },
                     }}
-                    prefix="org"
+                    suffix="org"
                     data={data}
                 />
             </StatCard>
