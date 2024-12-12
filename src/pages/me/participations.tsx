@@ -106,7 +106,6 @@ interface SectionData {
     bigNumber2: BigNumberCardProps
     lineChart: {
         title: string
-        currency?: boolean
         data: { label: string; value: number }[]
     }
 }
@@ -209,7 +208,7 @@ function Section({
 
             {lineChart && (
                 <LineChartCard
-                    prefix={bigNumber1?.number1Suffix}
+                    suffix={bigNumber1?.number1Suffix}
                     {...lineChart}
                 />
             )}
@@ -222,7 +221,7 @@ export function LineChartCard({
     data,
     collapsible,
     ...rest
-}: SectionData['lineChart'] & { prefix?: string; collapsible?: boolean }) {
+}: SectionData['lineChart'] & { suffix?: string; collapsible?: boolean }) {
     const isHigherThanPrevious =
         data[data.length - 1].value > data[data.length - 2].value
 

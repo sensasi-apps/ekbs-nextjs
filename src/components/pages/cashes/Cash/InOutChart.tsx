@@ -36,7 +36,7 @@ export default function InOutCashChart({
             isLoading={isLoading || isLoadingProp}
             {...props}>
             <LineChart
-                currency
+                prefix="Rp"
                 data={disableAutoFetch ? dataProp : data}
                 slotsProps={{
                     tooltip: {

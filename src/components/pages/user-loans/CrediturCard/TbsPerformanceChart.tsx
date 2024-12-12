@@ -107,7 +107,7 @@ function PalmBunchWeightChart({ userUuid }: { userUuid: UUID }) {
     return (
         <StatCard title="Bobot TBS" isLoading={isLoading}>
             <LineChart
-                prefix="kg"
+                suffix="kg"
                 data={data}
                 slotsProps={{
                     tooltip: {
@@ -155,7 +155,7 @@ function PalmBunchDeliveryChart({ userUuid }: { userUuid: UUID }) {
     return (
         <StatCard title="Bobot Angkut TBS" isLoading={isLoading}>
             <LineChart
-                prefix="kg"
+                suffix="kg"
                 data={data}
                 slotsProps={{
                     tooltip: {

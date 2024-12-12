@@ -56,7 +56,7 @@ export default function Page() {
                 {lineChart && (
                     <LineChartCard
                         collapsible
-                        prefix={bigNumber1?.number1Suffix}
+                        suffix={bigNumber1?.number1Suffix}
                         {...lineChart}
                     />
                 )}

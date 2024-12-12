@@ -126,7 +126,7 @@ const PalmBunchWeightChart = () => {
     return (
         <StatCard title="Bobot Jual TBS" isLoading={isLoading}>
             <LineChart
-                prefix="kg"
+                suffix="kg"
                 data={data}
                 slotsProps={{
                     tooltip: {
@@ -179,7 +179,7 @@ const PalmBunchDeliveryChart = () => {
     return (
         <StatCard title="Bobot Angkut TBS" isLoading={isLoading}>
             <LineChart
-                prefix="kg"
+                suffix="kg"
                 data={data}
                 slotsProps={{
                     tooltip: {

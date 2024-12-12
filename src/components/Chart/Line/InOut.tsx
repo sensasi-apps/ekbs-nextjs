@@ -3,13 +3,12 @@ import LineChart from './Line'
 
 const InOutLineChart = memo(function InOutLineChart({
     data,
-    currency,
     inboundAlias = 'Masuk',
     outboundAlias = 'Keluar',
 }: InOutLineChartProps) {
     return (
         <LineChart
-            currency={currency}
+            prefix="Rp"
             data={data}
             lines={[
                 {

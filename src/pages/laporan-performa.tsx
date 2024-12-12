@@ -110,7 +110,7 @@ export default function Stat() {
                                 title="Partisipasi — Bulanan"
                                 isLoading={isLoading}>
                                 <LineChart
-                                    prefix="org"
+                                    suffix="org"
                                     data={monthlyMemberParticipations}
                                 />
                             </StatCard>
@@ -126,7 +126,7 @@ export default function Stat() {
                         statName="Bobot — Bulanan"
                         icon={<ForestIcon />}
                         isLoading={isLoading}>
-                        <LineChart prefix="kg" data={monthlyPalmBunchKgs} />
+                        <LineChart suffix="kg" data={monthlyPalmBunchKgs} />
                     </StatCardBox>
 
                     <StatCardBox
@@ -135,7 +135,7 @@ export default function Stat() {
                         icon={<WarehouseIcon />}
                         isLoading={isLoading}>
                         <LineChart
-                            currency
+                            prefix="Rp"
                             data={monthlyFarmInputIncomeRps}
                             lines={[
                                 {
@@ -171,7 +171,7 @@ export default function Stat() {
                         statName="Omzet — Bulanan"
                         icon={<AgricultureIcon />}
                         isLoading={isLoading}>
-                        <LineChart currency data={monthlyRentIncomeRps} />
+                        <LineChart prefix="Rp" data={monthlyRentIncomeRps} />
                     </StatCardBox>
 
                     <StatCardBox
@@ -179,7 +179,7 @@ export default function Stat() {
                         statName="Pencairan — Bulanan"
                         icon={<CurrencyExchangeIcon />}
                         isLoading={isLoading}>
-                        <LineChart currency data={monthlyLoanDisburseRps} />
+                        <LineChart prefix="Rp" data={monthlyLoanDisburseRps} />
                     </StatCardBox>
 
                     <StatCardBox
@@ -187,7 +187,7 @@ export default function Stat() {
                         statName="Omzet — Bulanan"
                         icon={<ShoppingCart />}
                         isLoading={isLoading}>
-                        <LineChart currency data={monthlyMartIncomeRps} />
+                        <LineChart prefix="Rp" data={monthlyMartIncomeRps} />
                     </StatCardBox>
 
                     <StatCardBox
