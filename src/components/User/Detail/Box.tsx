@@ -38,63 +38,67 @@ export default function UserDetailBox({
     const fotoKtp = files.find(file => file.alias === 'Foto KTP')
 
     return (
-        <Box>
+        <Box display="flex" flexDirection="column" gap={2}>
             <Row title="Foto Diri">
-                <div>
-                    {pasFoto?.uuid ? (
-                        <ImageButtonAndModal file={pasFoto} alt="Pas Foto" />
-                    ) : (
-                        <i>Foto Diri tidak ditemukan</i>
-                    )}
-                </div>
+                {pasFoto?.uuid ? (
+                    <ImageButtonAndModal file={pasFoto} alt="Pas Foto" />
+                ) : (
+                    <Typography color="GrayText" fontStyle="italic">
+                        Foto Diri belum diunggah
+                    </Typography>
+                )}
             </Row>
 
             <Row title="NIK">
-                <div>
-                    <PatternFormat
-                        format="#### #### #### ####"
-                        displayType="text"
-                        value={citizen_id}
-                    />
-                </div>
+                <PatternFormat
+                    format="#### #### #### ####"
+                    displayType="text"
+                    value={citizen_id}
+                />
             </Row>
 
             <Row title="Foto KTP">
-                <div>
-                    {fotoKtp?.uuid ? (
-                        <ImageButtonAndModal file={fotoKtp} alt="Foto KTP" />
-                    ) : (
-                        <i>Foto KTP tidak ditemukan</i>
-                    )}
-                </div>
+                {fotoKtp?.uuid ? (
+                    <ImageButtonAndModal file={fotoKtp} alt="Foto KTP" />
+                ) : (
+                    <Typography color="GrayText" fontStyle="italic">
+                        Foto KTP belum diunggah
+                    </Typography>
+                )}
             </Row>
 
             <Row title="Jenis Kelamin">{gender?.name || '-'}</Row>
 
             <Row title="Tempat dan Tanggal Lahir">
-                <Typography>
-                    <Tooltip
-                        placement="top-start"
-                        title={
-                            <>
-                                <Typography component="p">
-                                    {getBirthRegion(userDetail)?.id}
-                                </Typography>
-                                <Typography component="p">
-                                    {birth_regency?.name}
-                                </Typography>
-                                <Typography component="p">
-                                    {birth_district?.name}
-                                </Typography>
-                            </>
-                        }>
-                        <u>{getBirthRegion(userDetail)?.name}</u>
-                    </Tooltip>
+                {getBirthRegion(userDetail) ? (
+                    <div>
+                        <Tooltip
+                            placement="top-start"
+                            title={
+                                <>
+                                    <Typography>
+                                        {getBirthRegion(userDetail)?.id}
+                                    </Typography>
+                                    <Typography>
+                                        {birth_regency?.name}
+                                    </Typography>
+                                    <Typography>
+                                        {birth_district?.name}
+                                    </Typography>
+                                </>
+                            }>
+                            <u>{getBirthRegion(userDetail)?.name}</u>
+                        </Tooltip>
 
-                    <i>{getBirthRegion(userDetail) ? '' : 'belum diisi'}</i>
+                        <i></i>
 
-                    {birth_at ? ', ' + toDmy(birth_at) : '-'}
-                </Typography>
+                        {birth_at ? ', ' + toDmy(birth_at) : '-'}
+                    </div>
+                ) : (
+                    <Typography color="GrayText" fontStyle="italic">
+                        Belum diisi
+                    </Typography>
+                )}
             </Row>
 
             <Row title="Nomor BPJS Kesehatan">{bpjs_kesehatan_no || '-'}</Row>
@@ -130,10 +134,11 @@ const Row = ({
     children: React.ReactNode
     helperText?: string
 } & BoxProps) => (
-    <Box {...props} mb={1}>
-        <Typography variant="caption" color="text.secondary">
+    <Box {...props}>
+        <Typography variant="caption" color="text.secondary" component="div">
             {title}
         </Typography>
+
         {typeof children === 'string' && <Typography>{children}</Typography>}
 
         {typeof children !== 'string' && children}
