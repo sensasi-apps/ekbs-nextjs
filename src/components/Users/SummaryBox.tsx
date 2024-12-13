@@ -32,7 +32,7 @@ export default function UsersSummaryBox() {
             gap={2}
             sx={{
                 alignItems: {
-                    sm: 'center',
+                    xs: 'center',
                     md: 'stretch',
                 },
                 overflowX: 'auto',
@@ -65,7 +65,7 @@ function SummaryCard({
             variant={query.role === role_name ? 'outlined' : 'elevation'}
             sx={{
                 minWidth: {
-                    sm: 300,
+                    xs: 300,
                     md: undefined,
                 },
                 borderColor:
