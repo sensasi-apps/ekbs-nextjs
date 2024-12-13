@@ -154,7 +154,13 @@ export default function PayrollEmployeeDetailsForm({
                                                         size="small"
                                                         options={[
                                                             'Gaji Pokok',
-                                                            'Tunjangan',
+                                                            'T. Jabatan',
+                                                            'T. Transportasi',
+                                                            'T. Makan',
+                                                            'T. Komunikasi',
+                                                            'SPP',
+                                                            'Arisan',
+                                                            'PPh 21',
                                                             'Lembur',
                                                         ]}
                                                         value={value}
