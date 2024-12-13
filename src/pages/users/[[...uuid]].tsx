@@ -23,11 +23,10 @@ export default function Page() {
                 sx={{
                     flexDirection: {
                         xs: 'column-reverse',
-                        sm: 'column-reverse',
                         md: 'row',
                     },
                 }}>
-                <Grid2 sm={12} md={8}>
+                <Grid2 xs={12} md={8}>
                     <UserWithDetailsProvider>
                         <UsersMainPageContent />
                     </UserWithDetailsProvider>
@@ -48,7 +47,7 @@ export default function Page() {
                     />
                 </Grid2>
 
-                <Grid2 sm={12} md={4} width="100%">
+                <Grid2 xs={12} md={4}>
                     <UsersSummaryBox />
                 </Grid2>
             </Grid2>
