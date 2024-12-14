@@ -56,7 +56,7 @@ export default function MemberForm() {
                 return axios
                     .post(`/users/${userUuid}/member`, formData)
                     .then(() => {
-                        mutate(`/users/${userUuid}`)
+                        mutate(`users/${userUuid}`)
                         handleClose()
                     })
                     .catch(error => errorCatcher(error, setValidationErrors))

@@ -33,7 +33,7 @@ const ListItem = ({
         await axios.delete(
             `/users/${courierUserUuid}/courier/drivers/${driverUuid}`,
         )
-        await mutate(`/users/${courierUserUuid}`)
+        await mutate(`users/${courierUserUuid}`)
 
         setIsDeleting(false)
     }

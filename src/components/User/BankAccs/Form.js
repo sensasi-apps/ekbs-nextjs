@@ -27,7 +27,7 @@ export default function UserBankAccForm({
             const formData = new FormData(e.target)
 
             await axios.post(`/users/${userUuid}/bank-accs`, formData)
-            await mutate(`/users/${userUuid}`)
+            await mutate(`users/${userUuid}`)
 
             if (onSubmitted) {
                 onSubmitted()

@@ -98,7 +98,7 @@ export default function UserDetailForm() {
                 formData,
             )
             .then(() => {
-                mutate(`/users/${user_uuid ?? userWithDetails.uuid}`)
+                mutate(`users/${user_uuid ?? userWithDetails.uuid}`)
                 handleClose()
             })
             .catch(error => {

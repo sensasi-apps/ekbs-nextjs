@@ -31,7 +31,7 @@ const AddressListItem = ({
         setIsDeleting(true)
 
         await axios.delete(`/users/${userUuid}/addresses/${userAddressUuid}`)
-        await mutate(`/users/${userUuid}`)
+        await mutate(`users/${userUuid}`)
 
         setIsDeleting(false)
     }

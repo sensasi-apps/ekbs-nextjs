@@ -29,7 +29,7 @@ const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
                 `/users/${courierUserUuid}/courier/vehicles`,
                 formData,
             )
-            await mutate(`/users/${courierUserUuid}`)
+            await mutate(`users/${courierUserUuid}`)
 
             if (onClose) {
                 formEl.reset()

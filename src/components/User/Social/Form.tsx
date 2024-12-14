@@ -45,7 +45,7 @@ export default function SocialForm({
         return axios
             .post(`/users/${userUuid}/socials`, formData)
             .then(() => {
-                mutate(`/users/${userUuid}`)
+                mutate(`users/${userUuid}`)
                 if (onSubmitted) {
                     onSubmitted()
                 }

@@ -26,7 +26,7 @@ const ListItem = ({ data: { uuid, no_decrypted, name }, userUuid }) => {
     const handleDelete = async () => {
         setIsDeleting(true)
         await axios.delete(`/users/${userUuid}/bank-accs/${uuid}`)
-        await mutate(`/users/${userUuid}`)
+        await mutate(`users/${userUuid}`)
         setIsDeleting(false)
     }
 
