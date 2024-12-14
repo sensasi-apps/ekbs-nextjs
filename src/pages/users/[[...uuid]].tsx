@@ -48,7 +48,13 @@ export default function Page() {
                         defaultSortOrder={DEFAULT_SORT_ORDER}
                         viewColumns={false}
                         onRowClick={(data, _, { detail }) =>
-                            detail === 2 && push(`/users/${data[1]}`)
+                            detail === 2 &&
+                            push({
+                                pathname: `/users/${data[1]}`,
+                                query: {
+                                    role: query.role,
+                                },
+                            })
                         }
                         tableId="users-table"
                         title="Daftar Pengguna"

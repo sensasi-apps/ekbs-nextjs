@@ -21,7 +21,7 @@ import useFormData from '@/providers/FormData'
 import useUserWithDetails from '@/providers/UserWithDetails'
 
 export default function UserCard() {
-    const { push } = useRouter()
+    const { push, query } = useRouter()
     const { handleEdit } = useFormData()
     const { data: userWithDetails, isLoading } = useUserWithDetails()
 
@@ -52,7 +52,10 @@ export default function UserCard() {
                         icon={Close}
                         color="warning"
                         onClick={() => {
-                            push('/users')
+                            push({
+                                pathname: '/users',
+                                query: { role: query.role },
+                            })
                         }}
                     />
                 </Box>
