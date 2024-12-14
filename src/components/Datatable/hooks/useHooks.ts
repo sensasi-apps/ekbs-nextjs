@@ -11,7 +11,7 @@ import formatToDatatableParams from '../utils/formatToDatatableParams'
 import dayjs from 'dayjs'
 import staticOptions from '../staticOptions'
 
-export function useHooks(
+export function useHooks<T>(
     tableId: DatatableProps['tableId'],
     columnDefs: DatatableProps['columns'],
     defaultSortOrder: DatatableProps['defaultSortOrder'],
@@ -44,7 +44,12 @@ export function useHooks(
         mutate,
         isLoading: swrIsLoading,
         isValidating,
-    } = useSwr(apiUrl, apiUrlParams, swrOptions, datatableSentRequestParamsJson)
+    } = useSwr<T>(
+        apiUrl,
+        apiUrlParams,
+        swrOptions,
+        datatableSentRequestParamsJson,
+    )
 
     useEffect(() => {
         setIsLoading(swrIsLoading || isValidating)
