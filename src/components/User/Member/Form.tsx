@@ -120,7 +120,7 @@ export default function MemberForm() {
             <Box display="flex" mt={2} justifyContent="end">
                 <Button
                     disabled={isLoading}
-                    onClick={e => handleClose(e)}
+                    onClick={() => handleClose()}
                     color="info">
                     Batal
                 </Button>

@@ -14,9 +14,9 @@ import {
 import Masonry from '@mui/lab/Masonry'
 // page components
 import { getRoleIconByIdName } from '@/components/User/RoleChips'
+import { UserDetailCrud } from '@/components/User/Detail/Crud'
 import UserAddressesCrudBox from '@/components/User/Address/CrudBox'
 import UserBankAccsCrudBox from '@/components/User/BankAccs/CrudBox'
-import UserDetailCrud from '@/components/User/Detail/Crud'
 import UserDriversCrudBox from '@/components/User/Drivers/CrudBox'
 import UserEmployeeCrud from '@/components/User/Employee/Crud'
 import UserLandsCrud from '@/components/User/Lands/Crud'
