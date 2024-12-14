@@ -1,3 +1,4 @@
+import type { DataTableRequest } from '@/@types/request/datatable'
 import type { MUIDataTableColumnState, MUIDataTableState } from 'mui-datatables'
 
 /**
@@ -6,9 +7,10 @@ import type { MUIDataTableColumnState, MUIDataTableState } from 'mui-datatables'
  * @returns datatable params
  *
  * @see https://datatables.net/manual/server-side
- *
  */
-export default function formatToDatatableParams(tableState: MUIDataTableState) {
+export default function formatToDatatableParams(
+    tableState: MUIDataTableState,
+): DataTableRequest {
     const orderIndex = tableState.columns.findIndex(
         column => column.name === tableState.sortOrder.name,
     )
@@ -31,15 +33,13 @@ export default function formatToDatatableParams(tableState: MUIDataTableState) {
     }
 }
 
-function formatColumns(columns: MUIDataTableColumnState[]) {
-    return columns.map(column => ({
-        data: column.name,
-        name: column.name,
-        searchable: column.searchable,
-        orderable: column.sort,
-        search: {
-            value: column.filterList?.[0],
-            regex: false,
-        },
+function formatColumns(
+    columns: MUIDataTableColumnState[],
+): DataTableRequest['columns'] {
+    return columns.map(({ name, label, searchable, sort }) => ({
+        data: name,
+        name: label ?? name,
+        searchable: searchable ?? true,
+        orderable: sort ?? true,
     }))
 }

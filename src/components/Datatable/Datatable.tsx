@@ -31,8 +31,9 @@ let mutatorForExport: Mutate
  * @todo Add large data download confirmation dialog
  * @todo Don't make `getRowData` global, it will cause bugs when datatable instance is more than one
  * @todo table state always restart when data changed
+ * @todo remove `unknown` type from main `Datatable` component
  */
-export function Datatable({
+export function Datatable<T = unknown>({
     apiUrl,
     apiUrlParams,
     columns: defaultColumns,
@@ -53,7 +54,7 @@ export function Datatable({
         columns,
         // isDownloadConfirmationDialogOpen,
         options: optionsFromHook,
-    } = useHooks(
+    } = useHooks<T>(
         tableId,
         defaultColumns,
         defaultSortOrder,
