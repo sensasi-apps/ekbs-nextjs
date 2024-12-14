@@ -26,7 +26,7 @@ const UserDialogFormWithFab = () => {
                 </DialogContent>
             </Dialog>
 
-            <Box position="fixed" bottom={16} right={16}>
+            <Box position="fixed" bottom={16} right={16} zIndex={1}>
                 <Fab
                     disabled={isDataNotUndefined || isLoading}
                     onClick={() => {

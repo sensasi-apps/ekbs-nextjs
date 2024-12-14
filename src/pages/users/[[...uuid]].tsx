@@ -1,7 +1,7 @@
 // types
 import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 // vendors
-import { Box } from '@mui/material'
+import { Box, Collapse } from '@mui/material'
 import { useRouter } from 'next/router'
 import Grid2 from '@mui/material/Unstable_Grid2'
 // components
@@ -11,6 +11,8 @@ import Datatable from '@/components/Datatable'
 import UserRoleChips from '@/components/User/RoleChips'
 import UsersMainPageContent from '@/components/Users/MainPageContent'
 import UsersSummaryBox from '@/components/Users/SummaryBox'
+import { FormDataProvider } from '@/providers/FormData'
+import UserDialogFormWithFab from '@/components/User/DialogFormWithFab'
 
 export default function Page() {
     const { push, query } = useRouter()
@@ -28,7 +30,13 @@ export default function Page() {
                 }}>
                 <Grid2 xs={12} md={8}>
                     <UserWithDetailsProvider>
-                        <UsersMainPageContent />
+                        <FormDataProvider>
+                            <Collapse in={Boolean(query.uuid)} unmountOnExit>
+                                <UsersMainPageContent />
+                            </Collapse>
+
+                            <UserDialogFormWithFab />
+                        </FormDataProvider>
                     </UserWithDetailsProvider>
 
                     <Datatable
