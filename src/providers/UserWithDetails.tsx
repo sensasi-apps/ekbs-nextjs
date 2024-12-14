@@ -14,7 +14,7 @@ export function UserWithDetailsProvider({ children }: { children: ReactNode }) {
     const uuid = router.query.uuid
 
     const swr = useSWR<User>(
-        uuid ? `/users/${uuid}` : null,
+        uuid ? `users/${uuid}` : null,
         userWithDetailsFetcher,
     )
 

@@ -28,7 +28,7 @@ function ListItem({
         await axios.delete(
             `/users/${courierUserUuid}/courier/vehicles/${vehicleUuid}`,
         )
-        await mutate(`/users/${courierUserUuid}`)
+        await mutate(`users/${courierUserUuid}`)
 
         setIsDeleting(false)
     }

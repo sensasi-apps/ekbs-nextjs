@@ -48,7 +48,7 @@ export default function UserDriverForm({
                         formValues,
                     )
                     .then(() => {
-                        mutate(`/users/${courierUserUuid}`).then(() => {
+                        mutate(`users/${courierUserUuid}`).then(() => {
                             onClose?.()
                         })
                     })

@@ -53,7 +53,7 @@ const ContactListItem = ({
         setIsDeleting(true)
 
         await axios.delete(`/users/${user_uuid}/socials/${uuid}`)
-        await mutate(`/users/${user_uuid}`)
+        await mutate(`users/${user_uuid}`)
 
         setIsDeleting(false)
     }

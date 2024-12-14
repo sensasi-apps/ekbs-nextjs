@@ -44,7 +44,7 @@ export default function AddressForm({
         return axios
             .post(`/users/${userUuid}/addresses`, formData)
             .then(async () => {
-                await mutate(`/users/${userUuid}`)
+                await mutate(`users/${userUuid}`)
 
                 if (onSubmitted) {
                     onSubmitted()

@@ -75,11 +75,10 @@ const UserForm = () => {
                     .post<UUID>('/users' + (uuid ? `/${uuid}` : ''), formData)
                     .then(res => {
                         if (uuid) {
-                            mutate(`/users/${uuid}`)
+                            mutate(`users/${uuid}`)
                         } else {
                             router.push('/users/' + res.data)
                         }
-                        mutate('/users')
                         handleClose()
                     })
                     .catch(error => {

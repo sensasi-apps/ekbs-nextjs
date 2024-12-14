@@ -49,7 +49,7 @@ export default function UserEmployeeCrud({
                         axios
                             .post(`/users/${userUuid}/employee`, formValues)
                             .then(() => {
-                                mutate(`/users/${userUuid}`)
+                                mutate(`users/${userUuid}`)
                                 handleFormClose()
                             })
                             .catch(

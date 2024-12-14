@@ -64,7 +64,7 @@ export default function RolesAndPermissionButtonAndDialogForm({
                 roles: roles,
             })
             .then(() => {
-                mutate(`/users/${user.uuid}`)
+                mutate(`users/${user.uuid}`)
                 setIsComplete(true)
                 setIsLoading(false)
             })
