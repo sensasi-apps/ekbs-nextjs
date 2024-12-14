@@ -1,4 +1,5 @@
-import { getInitColorSchemeScript } from '@mui/material'
+// import { getInitColorSchemeScript } from '@mui/material'
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
 import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
@@ -33,7 +34,7 @@ export default function Document() {
             </Head>
 
             <body>
-                {getInitColorSchemeScript()}
+                <InitColorSchemeScript attribute="data-mui-color-scheme" />
                 <Main />
                 <NextScript />
             </body>

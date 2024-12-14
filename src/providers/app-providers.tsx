@@ -7,22 +7,23 @@ import '@fontsource/roboto/700.css'
 import type { ReactNode } from 'react'
 // vendors
 import { closeSnackbar, SnackbarProvider } from 'notistack'
+import {
+    CssBaseline,
+    GlobalStyles,
+    IconButton,
+    ThemeProvider,
+} from '@mui/material'
+import { Close } from '@mui/icons-material'
 import { locale } from 'dayjs'
 import Head from 'next/head'
 import 'dayjs/locale/id'
-// materials
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import GlobalStyles from '@mui/material/GlobalStyles'
-import IconButton from '@mui/material/IconButton'
-// icons
-import CloseIcon from '@mui/icons-material/Close'
 // providers
 import { AuthProvider } from '@/providers/Auth'
 import { SWRProvider } from './swr'
 // utils
-import getTheme from '@/lib/getTheme'
 import useRedirectIfBrowserIsUnsupported from '@/hooks/useRedirectIfBrowserIsUnsupported'
+// statics
+import THEME from '@/providers/@statics/theme'
 
 locale('id')
 
@@ -43,7 +44,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
     useRedirectIfBrowserIsUnsupported()
 
     return (
-        <CssVarsProvider theme={getTheme()}>
+        <ThemeProvider theme={THEME}>
             <GlobalStyles
                 styles={{
                     '::-webkit-scrollbar': {
@@ -86,7 +87,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
                 }}
                 action={key => (
                     <IconButton size="small" onClick={() => closeSnackbar(key)}>
-                        <CloseIcon />
+                        <Close />
                     </IconButton>
                 )}
                 maxSnack={7}
@@ -95,6 +96,6 @@ export function AppProviders({ children }: { children: ReactNode }) {
             <AuthProvider>
                 <SWRProvider>{children}</SWRProvider>
             </AuthProvider>
-        </CssVarsProvider>
+        </ThemeProvider>
     )
 }
