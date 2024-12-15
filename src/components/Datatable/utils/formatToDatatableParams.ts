@@ -36,9 +36,9 @@ export default function formatToDatatableParams(
 function formatColumns(
     columns: MUIDataTableColumnState[],
 ): DataTableRequest['columns'] {
-    return columns.map(({ name, label, searchable, sort }) => ({
+    return columns.map(({ name, searchable, sort }) => ({
         data: name,
-        name: label ?? name,
+        name: name,
         searchable: searchable ?? true,
         orderable: sort ?? true,
     }))
