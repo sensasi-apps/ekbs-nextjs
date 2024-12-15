@@ -33,11 +33,17 @@ export function useHooks<T>(
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
 
-    // PENDING: Uncomment this line when the DownloadConfirmationDialog component is ready
-    // const [
-    //     isDownloadConfirmationDialogOpen,
-    //     setIsDownloadConfirmationDialogOpen,
-    // ] = useState<boolean>(false)
+    const [
+        /**
+         * @deprecated not implemented yet
+         */
+        isDownloadConfirmationDialogOpen,
+
+        /**
+         * @deprecated not implemented yet
+         */
+        // setIsDownloadConfirmationDialogOpen,
+    ] = useState<boolean>(false)
 
     const {
         data: { data = [], recordsTotal, recordsFiltered } = {},
@@ -168,7 +174,11 @@ export function useHooks<T>(
         mutate,
         columns,
         isLoading,
-        // isDownloadConfirmationDialogOpen,
+
+        /**
+         * @deprecated not implemented yet
+         */
+        isDownloadConfirmationDialogOpen,
         options,
     }
 }
@@ -179,10 +189,10 @@ function estimateDownloadSizeInB(sampleData: object, count: number) {
 
 const STATIC_TEXT_LABLES = {
     pagination: {
-        next: 'Selanjutnya',
-        previous: 'Sebelumnya',
-        rowsPerPage: 'Baris per halaman:',
-        jumpToPage: 'Pergi ke halaman:',
+        next: 'selanjutnya',
+        previous: 'sebelumnya',
+        rowsPerPage: 'data/halaman:',
+        jumpToPage: 'halaman:',
     },
     toolbar: {
         search: 'Cari',

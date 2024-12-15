@@ -6,6 +6,9 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Button from '@mui/material/Button'
 import { DownloadDialogProps } from './@types/DownloadDialogProps'
 
+/**
+ * @deprecated not implemented yet
+ */
 export function DownloadConfirmationDialog({
     open,
     nData,

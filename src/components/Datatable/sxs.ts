@@ -1,4 +1,8 @@
-const sxs = {
+import type { SxProps } from '@mui/material'
+
+const sxs: {
+    [key: string]: SxProps
+} = {
     loadingTop: {
         borderTopLeftRadius: 11,
         borderTopRightRadius: 11,
