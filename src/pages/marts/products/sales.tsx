@@ -19,7 +19,6 @@ export default function SalesPage() {
 
     return (
         <Box
-            component="main"
             px={2}
             sx={{
                 userSelect: 'none',
@@ -53,6 +52,7 @@ export default function SalesPage() {
             </Box>
 
             <Grid2
+                component="main"
                 container
                 spacing={2}
                 sx={{

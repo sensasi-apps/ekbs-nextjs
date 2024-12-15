@@ -45,7 +45,6 @@ export default function GuestFormLayout({
 
     return (
         <Container
-            component="main"
             maxWidth="xs"
             sx={{
                 display: 'flex',
