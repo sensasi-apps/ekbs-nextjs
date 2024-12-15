@@ -31,14 +31,14 @@ locale('id')
  * AppProviders component is a wrapper that provides various context providers and global styles
  * for the application. It includes:
  *
- * - `useRedirectIfBrowserIsUnsupported`: A hook to redirect if the browser is unsupported.
- * - `CssVarsProvider`: Provides CSS variables for theming.
- * - `GlobalStyles`: Applies global CSS styles, including custom scrollbar styles.
+ * - `AuthProvider`: Provides authentication context.
  * - `CssBaseline`: Provides a consistent baseline for CSS.
+ * - `GlobalStyles`: Applies global CSS styles, including custom scrollbar styles.
  * - `Head`: Sets meta tags and the title for the application.
  * - `SnackbarProvider`: Provides a context for displaying snackbars with a maximum of 7 snackbars.
- * - `AuthProvider`: Provides authentication context.
  * - `SWRProvider`: Provides SWR context for data fetching.
+ * - `ThemeProvider`: Provides a theme for the application.
+ * - `useRedirectIfBrowserIsUnsupported`: A hook to redirect if the browser is unsupported.
  */
 export function AppProviders({ children }: { children: ReactNode }) {
     useRedirectIfBrowserIsUnsupported()
