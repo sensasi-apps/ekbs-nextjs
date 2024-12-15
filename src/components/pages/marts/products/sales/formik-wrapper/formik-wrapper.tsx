@@ -6,7 +6,7 @@ import type LaravelValidationException from '@/types/LaravelValidationException'
 import { Field, Formik } from 'formik'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // local components
 import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
 import ProductPicker from '../product-picker'
@@ -52,11 +52,19 @@ export function FormikWrapper() {
             validateOnBlur={false}
             validateOnChange={false}>
             <>
-                <Grid2 xs={12} md={8}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        md: 8,
+                    }}>
                     <Field name="details" component={ProductPicker} />
                 </Grid2>
 
-                <Grid2 xs={12} md={4}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        md: 4,
+                    }}>
                     <CreateSaleFormWrapper />
                 </Grid2>
             </>

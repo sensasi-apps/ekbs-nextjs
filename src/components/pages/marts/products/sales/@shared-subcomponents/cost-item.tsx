@@ -1,20 +1,18 @@
+// types
+import type { FormValuesType } from '../formik-wrapper'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
+import { FieldProps, FormikErrors } from 'formik'
+import { Grid2, Typography } from '@mui/material'
 import { memo, useState } from 'react'
-import { Typography } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
-
+import { RemoveCircle } from '@mui/icons-material'
 // components
 import IconButton from '@/components/IconButton'
-// icons
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-// utils
-import TextField from '@/components/TextField'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
-import { FieldProps, FormikErrors } from 'formik'
+import TextField from '@/components/TextField'
+// utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import LaravelValidationException from '@/types/LaravelValidationException'
-import { FormValuesType } from '../formik-wrapper'
 
 function CostItem({
     index,
@@ -39,14 +37,14 @@ function CostItem({
 
     return (
         <>
-            <Grid2 xs={1}>
+            <Grid2 size={{ xs: 1 }}>
                 <IconButton
                     sx={{
                         p: 0,
                     }}
                     title="hapus"
                     size="small"
-                    icon={RemoveCircleIcon}
+                    icon={RemoveCircle}
                     color="error"
                     onClick={onRemove}
                     disabled={disabled}
@@ -54,7 +52,7 @@ function CostItem({
             </Grid2>
 
             <Grid2
-                xs={6}
+                size={{ xs: 6 }}
                 component={Typography}
                 lineHeight="unset"
                 whiteSpace="nowrap"
@@ -90,7 +88,7 @@ function CostItem({
             </Grid2>
 
             <Grid2
-                xs={5}
+                size={{ xs: 5 }}
                 textAlign="end"
                 component={Typography}
                 variant="caption"

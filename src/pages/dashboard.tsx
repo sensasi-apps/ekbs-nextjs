@@ -1,7 +1,7 @@
 import type { ApiResponseType } from './me/participations'
 // vendors
 import { FireTruck, Forest } from '@mui/icons-material'
-import { Skeleton, Typography, Unstable_Grid2 as Grid2 } from '@mui/material'
+import { Skeleton, Typography, Grid2 } from '@mui/material'
 import useSWR from 'swr'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -81,7 +81,7 @@ export default function Page() {
             </ScrollableXBox>
 
             <Grid2 container spacing={2}>
-                <Grid2 xs={12} md={4}>
+                <Grid2 size={{ xs: 12, md: 4 }}>
                     <AlertListCard />
                 </Grid2>
             </Grid2>

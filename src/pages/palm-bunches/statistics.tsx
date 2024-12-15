@@ -1,7 +1,4 @@
-// materials
-import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import Tooltip from '@mui/material/Tooltip'
+// vendors
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import BigNumber from '@/components/StatCard/BigNumber'
@@ -14,6 +11,7 @@ import TbsSubsection from '@/components/pages/executive/statistics/sections/Busi
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import useSWR from 'swr'
+import { Box, Grid2, Tooltip } from '@mui/material'
 
 export default function FarmInputsStatistics() {
     const { data, isLoading } = useSWR<{
@@ -24,11 +22,13 @@ export default function FarmInputsStatistics() {
         <AuthLayout title="Statistik Unit Bisnis TBS">
             <Grid2 container mb={1} spacing={1.5}>
                 <Grid2
-                    xs={12}
-                    sm={4}
                     display="flex"
                     flexDirection="column"
-                    gap={1.5}>
+                    gap={1.5}
+                    size={{
+                        xs: 12,
+                        sm: 4,
+                    }}>
                     <BigNumber
                         title="Saldo Unit"
                         primary={
@@ -47,7 +47,11 @@ export default function FarmInputsStatistics() {
                     />
                 </Grid2>
 
-                <Grid2 xs={12} sm={8}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        sm: 8,
+                    }}>
                     <StatCard
                         title="Saldo Keluar-Masuk — Bulanan"
                         isLoading={isLoading}>
@@ -55,7 +59,6 @@ export default function FarmInputsStatistics() {
                     </StatCard>
                 </Grid2>
             </Grid2>
-
             <TbsSubsection />
         </AuthLayout>
     )

@@ -2,7 +2,7 @@
 import { memo } from 'react'
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // components
 import LineChart from '@/components/Chart/Line/Line'
 import StatCard from '@/components/StatCard'
@@ -20,13 +20,16 @@ const TbsSubsection = memo(function TbsSubsection() {
 
     return (
         <Grid2 container spacing={1.5}>
-            <Grid2 xs={12} id="bobot" sx={SX_SCROLL_MARGIN_TOP}>
+            <Grid2 size={{ xs: 12 }} id="bobot" sx={SX_SCROLL_MARGIN_TOP}>
                 <TbsWeightChartCard
                     data={data?.palm_bunch_weight_monthly_total}
                     isLoading={isLoading}
                 />
             </Grid2>
-            <Grid2 xs={12} id="penjualan-pelunasan" sx={SX_SCROLL_MARGIN_TOP}>
+            <Grid2
+                size={{ xs: 12 }}
+                id="penjualan-pelunasan"
+                sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard
                     title="penjualan-pelunasan — Bulanan"
                     isLoading={isLoading}>
@@ -40,7 +43,7 @@ const TbsSubsection = memo(function TbsSubsection() {
             </Grid2>
 
             <Grid2
-                xs={12}
+                size={{ xs: 12 }}
                 id="kontribusi-kelompok-tani"
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard

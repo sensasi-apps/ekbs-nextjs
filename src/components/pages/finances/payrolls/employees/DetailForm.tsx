@@ -1,6 +1,7 @@
 // types
-import type PayrollUser from '@/dataTypes/PayrollUser'
 import type { FastFieldProps, FieldProps, FormikProps } from 'formik'
+import type PayrollUser from '@/dataTypes/PayrollUser'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
 import { FastField, Field, FieldArray } from 'formik'
 // materials
@@ -8,7 +9,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import IconButton from '@mui/material/IconButton'
 // icons
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
@@ -26,7 +27,6 @@ import TextField from '@/components/TextField'
 import numberToCurrency from '@/utils/numberToCurrency'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import debounce from '@/utils/debounce'
-import LaravelValidationException from '@/types/LaravelValidationException'
 
 export default function PayrollEmployeeDetailsForm({
     values: { details },
@@ -142,7 +142,7 @@ export default function PayrollEmployeeDetailsForm({
                                         spacing={1}
                                         alignItems="center"
                                         flexGrow="1">
-                                        <Grid2 xs={6}>
+                                        <Grid2 size={{ xs: 6 }}>
                                             <FastField
                                                 name={`details.${index}.name`}>
                                                 {({
@@ -201,7 +201,7 @@ export default function PayrollEmployeeDetailsForm({
                                             </FastField>
                                         </Grid2>
 
-                                        <Grid2 xs={6}>
+                                        <Grid2 size={{ xs: 6 }}>
                                             <Field
                                                 name={`details.${index}.amount_rp`}>
                                                 {({

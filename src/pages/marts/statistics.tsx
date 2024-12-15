@@ -28,7 +28,7 @@ import {
     Typography,
 } from '@mui/material'
 import dayjs, { Dayjs } from 'dayjs'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import useSWR from 'swr'
 import formatNumber from '@/utils/formatNumber'
@@ -267,13 +267,28 @@ function FSNCardsGrid({
 
     return (
         <Grid2 container spacing={3}>
-            <Grid2 sm={12} xs={12} md={4}>
+            <Grid2
+                size={{
+                    xs: 12,
+                    sm: 12,
+                    md: 4,
+                }}>
                 <FSNCard title="Pergerakan Cepat" data={fastData} />
             </Grid2>
-            <Grid2 sm={12} xs={12} md={4}>
+            <Grid2
+                size={{
+                    xs: 12,
+                    sm: 12,
+                    md: 4,
+                }}>
                 <FSNCard title="Pergerakan Lambat" data={slowData} />
             </Grid2>
-            <Grid2 sm={12} xs={12} md={4}>
+            <Grid2
+                size={{
+                    xs: 12,
+                    sm: 12,
+                    md: 4,
+                }}>
                 <FSNCard title="Tidak Bergerak" data={noData} />
             </Grid2>
         </Grid2>

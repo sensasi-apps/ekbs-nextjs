@@ -5,7 +5,7 @@ import type { FormValues } from '../Form'
 import { FieldArrayRenderProps } from 'formik'
 // materials
 import { Box, FormHelperText, IconButton, Typography } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // components
 import { NumericField, TextField } from '@/components/FormikForm'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
@@ -39,7 +39,6 @@ export default function ProductMovementCostArrayFields({
                     <AddCircleIcon />
                 </IconButton>
             </Box>
-
             {error && JSON.stringify(error) !== '{}' && (
                 <FormHelperText error component="ul">
                     {Object.values(error)
@@ -58,7 +57,6 @@ export default function ProductMovementCostArrayFields({
                         ))}
                 </FormHelperText>
             )}
-
             <Grid2 container columnSpacing={1} alignItems="center">
                 {value?.length > 0 && <HeaderGrid />}
 
@@ -74,11 +72,11 @@ export default function ProductMovementCostArrayFields({
 
                 {value?.length > 0 && (
                     <>
-                        <Grid2 xs={3} xsOffset={1} textAlign="right">
+                        <Grid2 textAlign="right" size={3} offset={1}>
                             <Typography variant="overline">Total</Typography>
                         </Grid2>
 
-                        <Grid2 xs={2.5} justifyContent="space-between" px={2}>
+                        <Grid2 justifyContent="space-between" px={2} size={2.5}>
                             <Box display="flex" justifyContent="space-between">
                                 <Typography variant="overline">Rp</Typography>
                                 <Typography variant="overline">
@@ -87,7 +85,7 @@ export default function ProductMovementCostArrayFields({
                             </Box>
                         </Grid2>
 
-                        <Grid2 xs={5.5}>
+                        <Grid2 size={5.5}>
                             <IconButton
                                 color="warning"
                                 size="small"
@@ -126,15 +124,13 @@ export default function ProductMovementCostArrayFields({
 function HeaderGrid() {
     return (
         <>
-            <Grid2 xs={3} xsOffset={1} textAlign="center">
+            <Grid2 textAlign="center" size={3} offset={1}>
                 <Typography variant="overline">Nama</Typography>
             </Grid2>
-
-            <Grid2 xs={2.5} textAlign="center">
+            <Grid2 textAlign="center" size={2.5}>
                 <Typography variant="overline">Nilai</Typography>
             </Grid2>
-
-            <Grid2 xs={5.5} />
+            <Grid2 size={5.5} />
         </>
     )
 }
@@ -152,14 +148,13 @@ function Row({
 }) {
     return (
         <>
-            <Grid2 xs={1} textAlign="center">
+            <Grid2 size={{ xs: 1 }} textAlign="center">
                 <Typography variant="overline">{index + 1}</Typography>
             </Grid2>
-            <Grid2 xs={3}>
+            <Grid2 size={3}>
                 <TextField name={`${name}.${index}.name`} disabled={disabled} />
             </Grid2>
-
-            <Grid2 xs={2.5}>
+            <Grid2 size={2.5}>
                 <NumericField
                     disabled={disabled}
                     name={`${name}.${index}.rp`}
@@ -170,8 +165,7 @@ function Row({
                     }}
                 />
             </Grid2>
-
-            <Grid2 xs={5.5}>
+            <Grid2 size={5.5}>
                 <IconButton
                     disabled={disabled}
                     tabIndex={-1}

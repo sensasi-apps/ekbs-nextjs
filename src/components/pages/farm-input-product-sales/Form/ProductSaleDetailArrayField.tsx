@@ -8,7 +8,7 @@ import axios from '@/lib/axios'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
@@ -83,8 +83,10 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
 
                             <Grid2 container spacing={1}>
                                 <Grid2
-                                    xs={12}
-                                    sm={8}
+                                    size={{
+                                        xs: 12,
+                                        sm: 8,
+                                    }}
                                     display="flex"
                                     flexDirection="column"
                                     gap={1}>
@@ -143,7 +145,11 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
 
                                     <Box>
                                         <Grid2 container spacing={1}>
-                                            <Grid2 xs={12} sm={4}>
+                                            <Grid2
+                                                size={{
+                                                    xs: 12,
+                                                    sm: 4,
+                                                }}>
                                                 <NumericFormat
                                                     min="1"
                                                     margin="none"
@@ -186,7 +192,11 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                 />
                                             </Grid2>
 
-                                            <Grid2 xs={12} sm={8}>
+                                            <Grid2
+                                                size={{
+                                                    xs: 12,
+                                                    sm: 4,
+                                                }}>
                                                 <NumericFormat
                                                     min="1"
                                                     margin="none"
@@ -221,8 +231,10 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                 </Grid2>
 
                                 <Grid2
-                                    xs={12}
-                                    sm={4}
+                                    size={{
+                                        xs: 12,
+                                        sm: 4,
+                                    }}
                                     sx={{
                                         '& .MuiInputBase-root': {
                                             height: '100%',

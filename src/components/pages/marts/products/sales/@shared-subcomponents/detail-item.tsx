@@ -1,7 +1,7 @@
 import type { FormValuesType } from '../formik-wrapper'
 import { memo } from 'react'
 import { Typography } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import IconButton from '@/components/IconButton'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import formatNumber from '@/utils/formatNumber'
@@ -17,7 +17,7 @@ function DetailItem({
 }) {
     return (
         <>
-            <Grid2 xs={1}>
+            <Grid2 size={{ xs: 1 }}>
                 <IconButton
                     title="Kurangi jumlah"
                     size="small"
@@ -35,9 +35,7 @@ function DetailItem({
                     component="div"
                 />
             </Grid2>
-
             <Grid2
-                xs={7}
                 component={Typography}
                 variant="overline"
                 lineHeight="1.5rem"
@@ -45,16 +43,16 @@ function DetailItem({
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
                 overflow="hidden"
-                pl={1}>
+                pl={1}
+                size={7}>
                 {product?.name}
                 <Typography variant="caption" component="div">
                     {formatNumber(Math.abs(qty))} {product?.unit} &times; RP{' '}
                     {formatNumber(rp_per_unit)}
                 </Typography>
             </Grid2>
-
             <Grid2
-                xs={1}
+                size={{ xs: 1 }}
                 textAlign="end"
                 component={Typography}
                 variant="overline"
@@ -62,14 +60,13 @@ function DetailItem({
                 fontSize="1.1em">
                 Rp
             </Grid2>
-
             <Grid2
-                xs={3}
                 textAlign="end"
                 component={Typography}
                 variant="overline"
                 lineHeight="unset"
-                fontSize="1.1em">
+                fontSize="1.1em"
+                size={3}>
                 {formatNumber(qty * rp_per_unit)}
             </Grid2>
         </>

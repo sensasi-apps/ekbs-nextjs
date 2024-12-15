@@ -4,7 +4,7 @@ import type Installment from '@/dataTypes/Installment'
 import { memo } from 'react'
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // icons
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 // components
@@ -50,8 +50,10 @@ const ReceivableSection = memo(function ReceivableSection() {
 
             <Grid2 container spacing={1.5}>
                 <Grid2
-                    xs={12}
-                    md={6}
+                    size={{
+                        xs: 12,
+                        md: 6,
+                    }}
                     display="flex"
                     flexDirection="column"
                     gap={1.5}>
@@ -97,8 +99,10 @@ const ReceivableSection = memo(function ReceivableSection() {
                 </Grid2>
 
                 <Grid2
-                    xs={12}
-                    md={6}
+                    size={{
+                        xs: 12,
+                        md: 6,
+                    }}
                     display="flex"
                     flexDirection="column"
                     gap={1.5}>

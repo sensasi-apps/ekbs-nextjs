@@ -6,12 +6,9 @@ import type { GetRowDataType, MutateType } from '@/components/Datatable'
 import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
 // vendors
 import axios from '@/lib/axios'
-import { useRouter } from 'next/router'
 import useSWR from 'swr'
-// materials
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import { useRouter } from 'next/router'
+import { Card, CardContent, Grid2 } from '@mui/material'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable from '@/components/Datatable'
@@ -65,7 +62,11 @@ export default function InventoryItemDetail() {
                         xs: 'column-reverse',
                         sm: 'row',
                     }}>
-                    <Grid2 xs={12} sm={8}>
+                    <Grid2
+                        size={{
+                            xs: 12,
+                            sm: 8,
+                        }}>
                         <ChekupButtonAndDialogForm
                             uuid={inventoryItem.uuid}
                             onSubmit={() => checkupMutator()}
@@ -96,7 +97,11 @@ export default function InventoryItemDetail() {
                             />
                         </FlexColumnBox>
                     </Grid2>
-                    <Grid2 xs={12} sm={4}>
+                    <Grid2
+                        size={{
+                            xs: 12,
+                            sm: 4,
+                        }}>
                         <AssignPicButtonAndDialogForm
                             uuid={inventoryItem.uuid}
                             latestPic={inventoryItem.latest_pic}

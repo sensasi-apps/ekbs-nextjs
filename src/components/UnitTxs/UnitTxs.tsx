@@ -8,7 +8,7 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import useSWR from 'swr'
 // materials
-import { Box, Chip, Unstable_Grid2 as Grid2, Tooltip } from '@mui/material'
+import { Box, Chip, Grid2, Tooltip } from '@mui/material'
 import { green } from '@mui/material/colors'
 // components
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
@@ -55,11 +55,13 @@ export default function UnitTxs({
         <>
             <Grid2 container mb={1} spacing={1.5}>
                 <Grid2
-                    xs={12}
-                    sm={4}
                     display="flex"
                     flexDirection="column"
-                    gap={1.5}>
+                    gap={1.5}
+                    size={{
+                        xs: 12,
+                        sm: 4,
+                    }}>
                     <BigNumber
                         title="Saldo Unit"
                         primary={
@@ -78,7 +80,11 @@ export default function UnitTxs({
                     />
                 </Grid2>
 
-                <Grid2 xs={12} sm={8}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        sm: 8,
+                    }}>
                     <StatCard
                         title="Saldo Keluar-Masuk — Bulanan"
                         isLoading={isLoading}>
@@ -86,7 +92,6 @@ export default function UnitTxs({
                     </StatCard>
                 </Grid2>
             </Grid2>
-
             <Datatable
                 title="Riwayat Transaksi"
                 tableId="transaction-datatable"
@@ -102,7 +107,6 @@ export default function UnitTxs({
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
             />
-
             <DialogWithTitle title="Tambah Transaksi" open={isOpenDialog}>
                 <Formik
                     initialValues={{}}
@@ -125,7 +129,6 @@ export default function UnitTxs({
                     component={UnitTxForm}
                 />
             </DialogWithTitle>
-
             <Fab
                 onClick={() => setIsOpenDialog(true)}
                 disabled={isOpenDialog}

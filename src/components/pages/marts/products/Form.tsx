@@ -6,7 +6,7 @@ import { Autocomplete, TextField as MuiTextField } from '@mui/material'
 import useSWR from 'swr'
 // materials
 import Alert from '@mui/material/Alert'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // components
 import FormikForm, { NumericField, TextField } from '@/components/FormikForm'
 import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'
@@ -71,7 +71,7 @@ export default function ProductForm({
             )}
 
             <Grid2 container columnSpacing={1.5}>
-                <Grid2 xs={12} sm={6}>
+                <Grid2 size={{ xs: 12, sm: 6 }}>
                     <TextField
                         name="name"
                         label="Nama"
@@ -82,7 +82,7 @@ export default function ProductForm({
                     />
                 </Grid2>
 
-                <Grid2 xs={12} sm={6}>
+                <Grid2 size={{ xs: 12, sm: 6 }}>
                     <TextField
                         name="code"
                         label="Kode"
@@ -146,7 +146,7 @@ export default function ProductForm({
             />
 
             <Grid2 container columnSpacing={1.5} mb={2}>
-                <Grid2 xs={12} sm={8}>
+                <Grid2 size={{ xs: 12, sm: 8 }}>
                     <NumericField
                         name="low_number"
                         label="Persediaan Menipis Pada"
@@ -161,7 +161,7 @@ export default function ProductForm({
                         }}
                     />
                 </Grid2>
-                <Grid2 xs={12} sm={4}>
+                <Grid2 size={{ xs: 12, sm: 4 }}>
                     <TextField
                         name="unit"
                         label="Satuan"

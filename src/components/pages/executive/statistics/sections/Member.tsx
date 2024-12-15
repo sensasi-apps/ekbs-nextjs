@@ -1,7 +1,7 @@
 // vendors
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // icons
 import Diversity3Icon from '@mui/icons-material/Diversity3'
 // components
@@ -38,8 +38,7 @@ export default function MemberSection() {
             <Grid2 container spacing={2}>
                 <Grid2
                     id="total-anggota"
-                    xs={12}
-                    sm={4}
+                    size={{ xs: 12, sm: 4 }}
                     display="flex"
                     flexDirection="column"
                     gap={2}
@@ -62,8 +61,7 @@ export default function MemberSection() {
 
                 <Grid2
                     id="total-partisipasi"
-                    xs={12}
-                    sm={8}
+                    size={{ xs: 12, sm: 8 }}
                     display="flex"
                     flexDirection="column"
                     gap={2}

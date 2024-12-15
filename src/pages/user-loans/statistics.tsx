@@ -1,7 +1,5 @@
-// materials
-import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import Tooltip from '@mui/material/Tooltip'
+// vendors
+import { Box, Grid2, Tooltip } from '@mui/material'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import BigNumber from '@/components/StatCard/BigNumber'
@@ -26,11 +24,13 @@ export default function UserLoansStatistics() {
         <AuthLayout title="Statistik Unit Bisnis SPP">
             <Grid2 container mb={1} spacing={1.5}>
                 <Grid2
-                    xs={12}
-                    sm={4}
                     display="flex"
                     flexDirection="column"
-                    gap={1.5}>
+                    gap={1.5}
+                    size={{
+                        xs: 12,
+                        sm: 4,
+                    }}>
                     <BigNumber
                         title="Saldo Unit"
                         primary={
@@ -83,7 +83,11 @@ export default function UserLoansStatistics() {
                     />
                 </Grid2>
 
-                <Grid2 xs={12} sm={8}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        sm: 8,
+                    }}>
                     <StatCard
                         title="Saldo Keluar-Masuk — Bulanan"
                         isLoading={isLoading}>
@@ -91,7 +95,6 @@ export default function UserLoansStatistics() {
                     </StatCard>
                 </Grid2>
             </Grid2>
-
             <SppSubsection />
         </AuthLayout>
     )

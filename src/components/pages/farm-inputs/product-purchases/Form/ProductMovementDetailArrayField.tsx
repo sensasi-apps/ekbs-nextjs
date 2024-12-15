@@ -8,7 +8,7 @@ import axios from '@/lib/axios'
 import useSWR from 'swr'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
@@ -130,7 +130,10 @@ export default function ProductMovementDetailArrayField({
                             sm: 'initial',
                         },
                     }}>
-                    <Grid2 xs={2} sm={1} alignSelf="center" textAlign="center">
+                    <Grid2
+                        size={{ xs: 2, sm: 1 }}
+                        alignSelf="center"
+                        textAlign="center">
                         <Tooltip placement="top" arrow title="Hapus">
                             <span>
                                 <IconButton
@@ -157,7 +160,11 @@ export default function ProductMovementDetailArrayField({
                     </Grid2>
 
                     {/* QTY */}
-                    <Grid2 xs={10} sm={1.5}>
+                    <Grid2
+                        size={{
+                            xs: 10,
+                            sm: 1.5,
+                        }}>
                         <NumericFormat
                             min="1"
                             disabled={disabled}
@@ -193,7 +200,11 @@ export default function ProductMovementDetailArrayField({
                     </Grid2>
 
                     {/* PRODUCTS */}
-                    <Grid2 xs={12} sm={2.5}>
+                    <Grid2
+                        size={{
+                            xs: 12,
+                            sm: 2.5,
+                        }}>
                         {isLoading ? (
                             <Skeleton variant="rounded" />
                         ) : (
@@ -232,7 +243,11 @@ export default function ProductMovementDetailArrayField({
                     </Grid2>
 
                     {/* PRICE */}
-                    <Grid2 xs={12} sm={2.5}>
+                    <Grid2
+                        size={{
+                            xs: 12,
+                            sm: 2.5,
+                        }}>
                         <NumericFormat
                             decimalScale={4}
                             min="1"
@@ -263,7 +278,11 @@ export default function ProductMovementDetailArrayField({
                     </Grid2>
 
                     {/* SUBTOTAL */}
-                    <Grid2 xs={12} sm={2.5}>
+                    <Grid2
+                        size={{
+                            xs: 12,
+                            sm: 2.5,
+                        }}>
                         <NumericFormat
                             min="1"
                             disabled={disabled}
@@ -302,7 +321,11 @@ export default function ProductMovementDetailArrayField({
                     </Grid2>
 
                     {/* OTHER COST */}
-                    <Grid2 xs={12} sm={2}>
+                    <Grid2
+                        size={{
+                            xs: 12,
+                            sm: 2,
+                        }}>
                         <NumericFormat
                             decimalScale={4}
                             min="1"

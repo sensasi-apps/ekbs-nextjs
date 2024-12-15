@@ -6,7 +6,7 @@ import ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 // vendors
 import { Field, FieldArray, FieldProps, type FormikProps } from 'formik'
 // materials
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // components
 import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import TextFieldDefault from '@/components/TextField'
@@ -49,8 +49,10 @@ export default function Form({
             }}>
             <Grid2 container spacing={4}>
                 <Grid2
-                    xs={12}
-                    sm={3}
+                    size={{
+                        xs: 12,
+                        sm: 3,
+                    }}
                     sx={{
                         position: {
                             sm: 'absolute',
@@ -157,7 +159,14 @@ export default function Form({
                     )}
                 </Grid2>
 
-                <Grid2 xs={12} sm={9} smOffset={3}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        sm: 9,
+                    }}
+                    offset={{
+                        sm: 3,
+                    }}>
                     {dataFromDb?.finished_at ? (
                         <CostsTable data={dataFromDb.costs} />
                     ) : (
