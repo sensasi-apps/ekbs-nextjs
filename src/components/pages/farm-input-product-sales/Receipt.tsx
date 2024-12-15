@@ -6,7 +6,7 @@ import { memo } from 'react'
 import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import Typography from '@mui/material/Typography'
 // components
 import ReceiptInstalmentTable from '@/components/pages/farm-input-product-sales/Receipt/InstallmentTable'
@@ -113,7 +113,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                         mb={0.5}
                         alignItems="center">
                         <Grid2
-                            xs={2}
+                            size={{ xs: 2 }}
                             textAlign="center"
                             textTransform="uppercase"
                             component={Typography}
@@ -124,7 +124,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                         </Grid2>
 
                         <Grid2
-                            xs={6}
+                            size={{ xs: 6 }}
                             component={Typography}
                             variant="overline"
                             lineHeight="unset"
@@ -138,7 +138,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                         </Grid2>
 
                         <Grid2
-                            xs={1}
+                            size={{ xs: 1 }}
                             textAlign="end"
                             component={Typography}
                             variant="overline"
@@ -148,7 +148,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                         </Grid2>
 
                         <Grid2
-                            xs={3}
+                            size={{ xs: 3 }}
                             textAlign="end"
                             component={Typography}
                             variant="overline"
@@ -163,14 +163,17 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
             <Grid2 container rowSpacing={0.5} alignItems="center">
                 {Boolean(adjustment_rp) && (
                     <>
-                        <Grid2 xs={2} />
+                        <Grid2 size={{ xs: 2 }} />
 
-                        <Grid2 xs={6} component={Typography} variant="caption">
+                        <Grid2
+                            size={{ xs: 6 }}
+                            component={Typography}
+                            variant="caption">
                             PENYESUAIAN
                         </Grid2>
 
                         <Grid2
-                            xs={1}
+                            size={{ xs: 1 }}
                             textAlign="end"
                             component={Typography}
                             variant="caption">
@@ -178,7 +181,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                         </Grid2>
 
                         <Grid2
-                            xs={3}
+                            size={{ xs: 3 }}
                             textAlign="end"
                             component={Typography}
                             variant="caption">
@@ -189,15 +192,18 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
 
                 {payment_method === 'installment' && (
                     <>
-                        <Grid2 xs={2} />
+                        <Grid2 size={{ xs: 2 }} />
 
-                        <Grid2 xs={6} component={Typography} variant="caption">
+                        <Grid2
+                            size={{ xs: 6 }}
+                            component={Typography}
+                            variant="caption">
                             Jasa ({interest_percent}% &times; {n_term}{' '}
                             {n_term_unit})
                         </Grid2>
 
                         <Grid2
-                            xs={1}
+                            size={{ xs: 1 }}
                             textAlign="end"
                             component={Typography}
                             variant="caption">
@@ -205,7 +211,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                         </Grid2>
 
                         <Grid2
-                            xs={3}
+                            size={{ xs: 3 }}
                             textAlign="end"
                             component={Typography}
                             variant="caption">
@@ -215,14 +221,14 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                 )}
 
                 {/* footer */}
-                <Grid2 xs={8} textAlign="center">
+                <Grid2 size={{ xs: 8 }} textAlign="center">
                     <Typography variant="caption" fontWeight="bold">
                         TOTAL KESELURUHAN
                     </Typography>
                 </Grid2>
 
                 <Grid2
-                    xs={1}
+                    size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -232,7 +238,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                 </Grid2>
 
                 <Grid2
-                    xs={3}
+                    size={{ xs: 3 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -291,19 +297,19 @@ const RowTextGrids = ({
     value: ReactNode
 }) => (
     <>
-        <Grid2 xs={2}>
+        <Grid2 size={{ xs: 2 }}>
             <Typography variant="caption" component="div">
                 {title}
             </Typography>
         </Grid2>
 
-        <Grid2 xs={1} textAlign="end">
+        <Grid2 size={{ xs: 1 }} textAlign="end">
             <Typography variant="caption" component="div">
                 :
             </Typography>
         </Grid2>
 
-        <Grid2 xs={9}>
+        <Grid2 size={{ xs: 9 }}>
             <Typography fontWeight="bold">{value}</Typography>
         </Grid2>
     </>

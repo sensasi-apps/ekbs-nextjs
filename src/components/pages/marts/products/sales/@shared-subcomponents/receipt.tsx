@@ -7,7 +7,7 @@ import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'
 import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
 // vendors
 import { Box, Divider, Typography } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // components
 import DefaultItemDesc from './default-item-desc'
 // utils
@@ -126,7 +126,9 @@ export default function Receipt({
 
             <Grid2 container alignItems="center">
                 <Grid2
-                    xs={8}
+                    size={{
+                        xs: 8,
+                    }}
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
@@ -135,7 +137,7 @@ export default function Receipt({
                 </Grid2>
 
                 <Grid2
-                    xs={1}
+                    size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -144,7 +146,9 @@ export default function Receipt({
                 </Grid2>
 
                 <Grid2
-                    xs={3}
+                    size={{
+                        xs: 3,
+                    }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -153,7 +157,9 @@ export default function Receipt({
                 </Grid2>
 
                 <Grid2
-                    xs={8}
+                    size={{
+                        xs: 8,
+                    }}
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
@@ -162,7 +168,7 @@ export default function Receipt({
                 </Grid2>
 
                 <Grid2
-                    xs={1}
+                    size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -171,7 +177,9 @@ export default function Receipt({
                 </Grid2>
 
                 <Grid2
-                    xs={3}
+                    size={{
+                        xs: 3,
+                    }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -180,7 +188,9 @@ export default function Receipt({
                 </Grid2>
 
                 <Grid2
-                    xs={8}
+                    size={{
+                        xs: 8,
+                    }}
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
@@ -189,7 +199,7 @@ export default function Receipt({
                 </Grid2>
 
                 <Grid2
-                    xs={1}
+                    size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -198,7 +208,9 @@ export default function Receipt({
                 </Grid2>
 
                 <Grid2
-                    xs={3}
+                    size={{
+                        xs: 3,
+                    }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -218,7 +230,9 @@ function CostItem({
     return (
         <>
             <Grid2
-                xs={8}
+                size={{
+                    xs: 8,
+                }}
                 component={Typography}
                 lineHeight="unset"
                 textOverflow="ellipsis"
@@ -227,7 +241,7 @@ function CostItem({
             </Grid2>
 
             <Grid2
-                xs={1}
+                size={{ xs: 1 }}
                 component={Typography}
                 lineHeight="unset"
                 textOverflow="ellipsis"
@@ -236,7 +250,9 @@ function CostItem({
             </Grid2>
 
             <Grid2
-                xs={3}
+                size={{
+                    xs: 3,
+                }}
                 textAlign="end"
                 component={Typography}
                 variant="caption"
@@ -256,7 +272,10 @@ function DetailItem({
 
     return (
         <>
-            <Grid2 xs={8}>
+            <Grid2
+                size={{
+                    xs: 8,
+                }}>
                 <Typography variant="overline" lineHeight="unset">
                     {printedProduct?.name}
                 </Typography>
@@ -271,7 +290,7 @@ function DetailItem({
             </Grid2>
 
             <Grid2
-                xs={1}
+                size={{ xs: 1 }}
                 textAlign="end"
                 component={Typography}
                 variant="overline"
@@ -280,7 +299,9 @@ function DetailItem({
             </Grid2>
 
             <Grid2
-                xs={3}
+                size={{
+                    xs: 3,
+                }}
                 textAlign="end"
                 component={Typography}
                 variant="overline"

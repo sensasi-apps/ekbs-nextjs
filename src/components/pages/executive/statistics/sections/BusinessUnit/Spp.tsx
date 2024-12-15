@@ -2,7 +2,7 @@
 import { memo } from 'react'
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // components
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
@@ -19,7 +19,7 @@ const SppSubsection = memo(function SppSubsection() {
     return (
         <Grid2 container spacing={1.5}>
             <Grid2
-                xs={12}
+                size={{ xs: 12 }}
                 id="pencairan-pengembalian"
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard
@@ -35,7 +35,7 @@ const SppSubsection = memo(function SppSubsection() {
             </Grid2>
 
             <Grid2
-                xs={12}
+                size={{ xs: 12 }}
                 id="jasa-berdasarkan-bulan-pinjam"
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard

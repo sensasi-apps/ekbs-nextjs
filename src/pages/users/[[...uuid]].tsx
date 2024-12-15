@@ -1,9 +1,8 @@
 // types
 import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 // vendors
-import { Box, Collapse } from '@mui/material'
+import { Box, Collapse, Grid2 } from '@mui/material'
 import { useRouter } from 'next/router'
-import Grid2 from '@mui/material/Unstable_Grid2'
 // components
 import { UserWithDetailsProvider } from '@/providers/UserWithDetails'
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -28,7 +27,7 @@ export default function Page() {
                         md: 'row',
                     },
                 }}>
-                <Grid2 xs={12} md={8}>
+                <Grid2 size={{ xs: 12, md: 8 }}>
                     <UserWithDetailsProvider>
                         <FormDataProvider>
                             <Collapse in={Boolean(query.uuid)} unmountOnExit>
@@ -61,7 +60,7 @@ export default function Page() {
                     />
                 </Grid2>
 
-                <Grid2 xs={12} md={4}>
+                <Grid2 size={{ xs: 12, md: 4 }}>
                     <UsersSummaryBox />
                 </Grid2>
             </Grid2>

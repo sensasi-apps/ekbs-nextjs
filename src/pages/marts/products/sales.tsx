@@ -1,5 +1,5 @@
 // vendors
-import { Box, Unstable_Grid2 as Grid2 } from '@mui/material'
+import { Box, Grid2 } from '@mui/material'
 import Head from 'next/head'
 // global components
 import BackButton from '@/components/BackButton'
@@ -19,7 +19,6 @@ export default function SalesPage() {
 
     return (
         <Box
-            component="main"
             px={2}
             sx={{
                 userSelect: 'none',
@@ -53,6 +52,7 @@ export default function SalesPage() {
             </Box>
 
             <Grid2
+                component="main"
                 container
                 spacing={2}
                 sx={{

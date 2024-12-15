@@ -36,13 +36,13 @@ export default function AuthLayout({
             <Box
                 flexGrow="1"
                 p={3}
-                component="main"
                 width={{
                     xs: '100%',
                     sm: `calc(100% - ${DRAWER_WIDTH}px)`,
                 }}>
                 <Toolbar />
-                {children}
+
+                <main>{children}</main>
 
                 <FooterBox mt={10} mb={0} />
             </Box>

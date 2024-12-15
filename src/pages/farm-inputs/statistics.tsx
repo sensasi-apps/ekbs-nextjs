@@ -1,6 +1,6 @@
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import Tooltip from '@mui/material/Tooltip'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -26,8 +26,10 @@ export default function FarmInputsStatistics() {
         <AuthLayout title="Statistik Unit Bisnis SAPRODI">
             <Grid2 container mb={1} spacing={1.5}>
                 <Grid2
-                    xs={12}
-                    sm={4}
+                    size={{
+                        xs: 12,
+                        sm: 4,
+                    }}
                     display="flex"
                     flexDirection="column"
                     gap={1.5}>
@@ -83,7 +85,11 @@ export default function FarmInputsStatistics() {
                     />
                 </Grid2>
 
-                <Grid2 xs={12} sm={8}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        sm: 8,
+                    }}>
                     <StatCard
                         title="Saldo Keluar-Masuk — Bulanan"
                         isLoading={isLoading}>

@@ -16,7 +16,7 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -234,7 +234,10 @@ export default function FarmInputHeGasSaleForm({
             )}
 
             <Grid2 container spacing={1}>
-                <Grid2 xs={6}>
+                <Grid2
+                    size={{
+                        xs: 6,
+                    }}>
                     <NumericFormat
                         min="1"
                         disabled={isDisabled}
@@ -256,7 +259,7 @@ export default function FarmInputHeGasSaleForm({
                     />
                 </Grid2>
 
-                <Grid2 xs={6}>
+                <Grid2 size={{ xs: 6 }}>
                     <NumericFormat
                         min="1"
                         disabled={isDisabled}

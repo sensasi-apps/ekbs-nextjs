@@ -3,8 +3,8 @@ import {
     CardActionArea,
     CardContent,
     FormHelperText,
+    Grid2,
 } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
 import { FieldProps } from 'formik'
 import { memo, useState } from 'react'
 // subcomponents

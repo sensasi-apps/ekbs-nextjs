@@ -1,15 +1,10 @@
 // types
 import type { StatCardProps } from '@/components/StatCard/StatCard'
 import type CashType from '@/dataTypes/Cash'
+import type { ButtonProps } from '@mui/material/Button'
 // vendors
+import { Box, Button, Divider, Grid2, Tooltip, Typography } from '@mui/material'
 import useSWR from 'swr'
-// materials
-import Button, { ButtonProps } from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
 // components
 import StatCard from '@/components/StatCard'
 // utils
@@ -75,8 +70,8 @@ export default function AllCashChart({
             {...props}>
             <Box minWidth={MIN_WIDTH}>
                 <Grid2 container spacing={0.5}>
-                    <Grid2 container xs={(maxPositive / max) * 12}>
-                        <Grid2 xs={(totalCash / maxPositive) * 12}>
+                    <Grid2 container size={{ xs: (maxPositive / max) * 12 }}>
+                        <Grid2 size={{ xs: (totalCash / maxPositive) * 12 }}>
                             <Box display="flex" gap={0.5}>
                                 {cashData?.map(({ uuid, name, balance }) =>
                                     balance < 0 ? null : (
@@ -113,7 +108,7 @@ export default function AllCashChart({
                             </Divider>
                         </Grid2>
 
-                        <Grid2 xs={(totalWallet / maxPositive) * 12}>
+                        <Grid2 size={{ xs: (totalWallet / maxPositive) * 12 }}>
                             <Box display="flex" gap={0.5}>
                                 {walletData?.map(({ value, label }, index) =>
                                     value < 0 ? null : (
@@ -151,11 +146,14 @@ export default function AllCashChart({
                         </Grid2>
                     </Grid2>
 
-                    <Grid2 container xs={(maxNegative / max) * 12}>
+                    <Grid2 container size={{ xs: (maxNegative / max) * 12 }}>
                         <Grid2
-                            xs={
-                                (Math.abs(totalNegativeCash) / maxNegative) * 12
-                            }
+                            size={{
+                                xs:
+                                    (Math.abs(totalNegativeCash) /
+                                        maxNegative) *
+                                    12,
+                            }}
                             height="50%">
                             {totalNegativeCash < 0 && (
                                 <>
@@ -215,10 +213,12 @@ export default function AllCashChart({
                         </Grid2>
 
                         <Grid2
-                            xs={
-                                (Math.abs(totalNegativeWallet) / maxNegative) *
-                                12
-                            }
+                            size={{
+                                xs:
+                                    (Math.abs(totalNegativeWallet) /
+                                        maxNegative) *
+                                    12,
+                            }}
                             height="50%">
                             {totalNegativeWallet < 0 && (
                                 <>

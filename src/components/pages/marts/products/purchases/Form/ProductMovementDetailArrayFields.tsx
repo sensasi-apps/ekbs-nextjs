@@ -13,7 +13,7 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // components
 import { NumericField } from '@/components/FormikForm'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
@@ -50,7 +50,6 @@ export default function ProductMovementDetailArrayFields({
                     <AddCircleIcon />
                 </IconButton>
             </Box>
-
             {error && JSON.stringify(error) !== '{}' && (
                 <FormHelperText error component="ul">
                     {Object.values(error)
@@ -69,7 +68,6 @@ export default function ProductMovementDetailArrayFields({
                         ))}
                 </FormHelperText>
             )}
-
             {value?.map((detail, index: number) => {
                 const subtotal =
                     detail.qty *
@@ -83,21 +81,20 @@ export default function ProductMovementDetailArrayFields({
                         mb={1}
                         key={index}>
                         <Grid2
-                            xs={0.5}
                             component={Typography}
-                            variant="overline">
+                            variant="overline"
+                            size={0.5}>
                             {index + 1}
                         </Grid2>
-
-                        <Grid2 xs={8.5} container>
-                            <Grid2 xs={12}>
+                        <Grid2 container size={8.5}>
+                            <Grid2 size={12}>
                                 <ProductPicker
                                     name={`${name}.${index}.product`}
                                     disabled={disabled}
                                 />
                             </Grid2>
 
-                            <Grid2 xs={4}>
+                            <Grid2 size={4}>
                                 <NumericField
                                     label="Harga Satuan"
                                     disabled={disabled}
@@ -117,7 +114,7 @@ export default function ProductMovementDetailArrayFields({
                                 />
                             </Grid2>
 
-                            <Grid2 xs={4}>
+                            <Grid2 size={4}>
                                 <NumericField
                                     label="Biaya Satuan"
                                     disabled={disabled}
@@ -138,7 +135,7 @@ export default function ProductMovementDetailArrayFields({
                                 />
                             </Grid2>
 
-                            <Grid2 xs={4}>
+                            <Grid2 size={4}>
                                 <NumericField
                                     label="Qty"
                                     disabled={disabled}
@@ -155,8 +152,7 @@ export default function ProductMovementDetailArrayFields({
                                 />
                             </Grid2>
                         </Grid2>
-
-                        <Grid2 xs={2.5} px={2}>
+                        <Grid2 px={2} size={2.5}>
                             <Typography variant="overline">subtotal</Typography>
 
                             <Box
@@ -169,8 +165,7 @@ export default function ProductMovementDetailArrayFields({
                                 </Box>
                             </Box>
                         </Grid2>
-
-                        <Grid2 xs={0.5}>
+                        <Grid2 size={0.5}>
                             <IconButton
                                 tabIndex={-1}
                                 onClick={() => remove(index)}
@@ -183,7 +178,6 @@ export default function ProductMovementDetailArrayFields({
                     </Grid2>
                 )
             })}
-
             {value && <FooterGrids value={value} />}
         </Box>
     )
@@ -277,23 +271,21 @@ function FooterGrids({ value }: { value: FormValues['details'] }) {
 
     return (
         <Grid2 container columnSpacing={1} alignItems="center">
-            <Grid2 xs={9} textAlign="right">
+            <Grid2 textAlign="right" size={9}>
                 <Typography variant="overline">Total</Typography>
             </Grid2>
-
             <Grid2
-                xs={2.5}
                 textAlign="center"
                 display="flex"
                 justifyContent="space-between"
-                px={2}>
+                px={2}
+                size={2.5}>
                 <Typography variant="overline">Rp</Typography>
                 <Typography variant="overline">
                     {formatNumber(purchaseRpTotal)}
                 </Typography>
             </Grid2>
-
-            <Grid2 xs={0.5} />
+            <Grid2 size={0.5} />
         </Grid2>
     )
 }

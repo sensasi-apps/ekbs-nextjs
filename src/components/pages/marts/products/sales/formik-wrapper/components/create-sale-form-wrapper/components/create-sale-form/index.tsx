@@ -4,7 +4,7 @@ import type { FormikStatusType, FormValuesType } from '../../../..'
 import { Field, FieldProps, useFormikContext } from 'formik'
 import { memo } from 'react'
 import { Box, Divider, Typography } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // subcomponents
 import { NumericField } from '@/components/FormikForm'
 import BuyerUserUuidFieldComponent from './components/buyer-user-uuid-field-component'
@@ -69,7 +69,9 @@ function CreateSaleForm() {
 
             <Grid2 container alignItems="center">
                 <Grid2
-                    xs={7}
+                    size={{
+                        xs: 7,
+                    }}
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
@@ -81,7 +83,7 @@ function CreateSaleForm() {
                 </Grid2>
 
                 <Grid2
-                    xs={1}
+                    size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -91,7 +93,7 @@ function CreateSaleForm() {
                 </Grid2>
 
                 <Grid2
-                    xs={4}
+                    size={{ xs: 4 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -120,7 +122,9 @@ function CreateSaleForm() {
                 </Grid2>
 
                 <Grid2
-                    xs={7}
+                    size={{
+                        xs: 7,
+                    }}
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
@@ -132,7 +136,7 @@ function CreateSaleForm() {
                 </Grid2>
 
                 <Grid2
-                    xs={1}
+                    size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -142,7 +146,7 @@ function CreateSaleForm() {
                 </Grid2>
 
                 <Grid2
-                    xs={4}
+                    size={{ xs: 4 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -171,7 +175,9 @@ function CreateSaleForm() {
                 </Grid2>
 
                 <Grid2
-                    xs={7}
+                    size={{
+                        xs: 7,
+                    }}
                     component={Typography}
                     variant="overline"
                     lineHeight="unset"
@@ -183,7 +189,7 @@ function CreateSaleForm() {
                 </Grid2>
 
                 <Grid2
-                    xs={1}
+                    size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
@@ -193,7 +199,7 @@ function CreateSaleForm() {
                 </Grid2>
 
                 <Grid2
-                    xs={4}
+                    size={{ xs: 4 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"

@@ -6,7 +6,7 @@ import {
 } from 'formik'
 import type Product from '@/dataTypes/Product'
 // materials
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
@@ -33,7 +33,7 @@ export default function ProductWarehouseArrayFields({
 
         return (
             <Grid2 key={index} container columnSpacing={1}>
-                <Grid2 xs={2}>
+                <Grid2 size={2}>
                     <FastField
                         name={`warehouses.${index}.warehouse`}
                         label="Gudang"
@@ -43,8 +43,7 @@ export default function ProductWarehouseArrayFields({
                         variant="standard"
                     />
                 </Grid2>
-
-                <Grid2 xs={2}>
+                <Grid2 size={2}>
                     <NumericFormat
                         disabled={true}
                         required={false}
@@ -62,8 +61,7 @@ export default function ProductWarehouseArrayFields({
                         }
                     />
                 </Grid2>
-
-                <Grid2 xs={4}>
+                <Grid2 size={4}>
                     <NumericFormat
                         disabled={true}
                         required={false}
@@ -83,8 +81,7 @@ export default function ProductWarehouseArrayFields({
                         }
                     />
                 </Grid2>
-
-                <Grid2 xs={4}>
+                <Grid2 size={4}>
                     <NumericFormat
                         required={false}
                         disabled={disabled}

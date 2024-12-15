@@ -10,14 +10,13 @@ import {
     ShoppingCart,
     Warehouse,
 } from '@mui/icons-material'
-import { Box, Button, Typography } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import { Box, Button, Grid2, Typography } from '@mui/material'
+import useSWR from 'swr'
 // components
 import LineChart from '@/components/Chart/Line'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import StatCard from '@/components/StatCard'
 // utils
-import useSWR from 'swr'
 import useAuth from '@/providers/Auth'
 import Role from '@/enums/Role'
 import BigNumberCard, {
@@ -195,17 +194,23 @@ function Section({
                 iconTitle={iconTitle}
                 detailHref={detailHref}
             />
-
             <Grid2 container spacing={2} mb={1}>
-                <Grid2 xs={12} md={6}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        md: 6,
+                    }}>
                     {bigNumber1 && <BigNumberCard {...bigNumber1} />}
                 </Grid2>
 
-                <Grid2 xs={12} md={6}>
+                <Grid2
+                    size={{
+                        xs: 12,
+                        md: 6,
+                    }}>
                     {bigNumber2 && <BigNumberCard {...bigNumber2} />}
                 </Grid2>
             </Grid2>
-
             {lineChart && (
                 <LineChartCard
                     suffix={bigNumber1?.number1Suffix}

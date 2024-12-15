@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
@@ -112,7 +112,7 @@ export default function FinancesDebtForm({
             />
 
             <Grid2 container>
-                <Grid2 xs={6}>
+                <Grid2 size={{ xs: 6 }}>
                     <NumericField
                         name="term"
                         label="Tenor"
@@ -120,7 +120,7 @@ export default function FinancesDebtForm({
                     />
                 </Grid2>
 
-                <Grid2 xs={6}>
+                <Grid2 size={{ xs: 6 }}>
                     <Field name="term_unit">
                         {({ field }: FieldProps<string>) => (
                             <FormControl
@@ -153,7 +153,7 @@ export default function FinancesDebtForm({
             </Grid2>
 
             <Grid2 container>
-                <Grid2 xs={6}>
+                <Grid2 size={{ xs: 6 }}>
                     <NumericField
                         name="interest"
                         label="Bunga"
@@ -161,7 +161,7 @@ export default function FinancesDebtForm({
                     />
                 </Grid2>
 
-                <Grid2 xs={6}>
+                <Grid2 size={{ xs: 6 }}>
                     <Field name="interest_unit">
                         {({ field }: FieldProps<string>) => (
                             <FormControl

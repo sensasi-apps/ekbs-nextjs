@@ -1,7 +1,7 @@
 // types
 import type { FormikStatusType, FormValuesType } from '../../../../..'
 // vendors
-import { Button, Unstable_Grid2 as Grid2 } from '@mui/material'
+import { Button, Grid2 } from '@mui/material'
 import { FieldProps } from 'formik'
 import { memo } from 'react'
 import { useDebouncedCallback } from 'use-debounce'

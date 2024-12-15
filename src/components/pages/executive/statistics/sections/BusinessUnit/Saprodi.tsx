@@ -6,7 +6,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid2 from '@mui/material/Grid2'
 import Skeleton from '@mui/material/Skeleton'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
@@ -35,7 +35,10 @@ const SaprodiSubsection = memo(function SaprodiSubsection() {
 
     return (
         <Grid2 container spacing={1.5}>
-            <Grid2 xs={12} id="penjualan-pembelian" sx={SX_SCROLL_MARGIN_TOP}>
+            <Grid2
+                size={{ xs: 12 }}
+                id="penjualan-pembelian"
+                sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard
                     title="Penjualan-Pembelian — Bulanan"
                     isLoading={isLoading}>
@@ -47,7 +50,10 @@ const SaprodiSubsection = memo(function SaprodiSubsection() {
                 </StatCard>
             </Grid2>
 
-            <Grid2 xs={12} id="barang-keluar-masuk" sx={SX_SCROLL_MARGIN_TOP}>
+            <Grid2
+                size={{ xs: 12 }}
+                id="barang-keluar-masuk"
+                sx={SX_SCROLL_MARGIN_TOP}>
                 <ProductMovementTableStatCard
                     isLoading={isLoading}
                     data={data?.product_movements}

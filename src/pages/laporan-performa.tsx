@@ -1,12 +1,8 @@
 // type
 import type { ReactNode } from 'react'
 // vendors
+import { Box, Grid2, Skeleton, Typography } from '@mui/material'
 import useSWR from 'swr'
-// materials
-import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import Skeleton from '@mui/material/Skeleton'
-import Typography from '@mui/material/Typography'
 // icons
 import AgricultureIcon from '@mui/icons-material/Agriculture'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
@@ -87,13 +83,16 @@ export default function Stat() {
                     )}
                 </Typography>
             </Box>
-
             <Box display="flex" gap={4} flexDirection="column">
                 <Box>
                     <Heading2 startIcon={<Diversity3Icon />}>Anggota</Heading2>
 
                     <Grid2 container spacing={2}>
-                        <Grid2 xs={12} sm={4}>
+                        <Grid2
+                            size={{
+                                xs: 12,
+                                sm: 4,
+                            }}>
                             <CurrentParticipation
                                 currentMemberTotal={currentMemberTotal}
                                 currentMonthTotalParticipation={
@@ -105,7 +104,11 @@ export default function Stat() {
                             />
                         </Grid2>
 
-                        <Grid2 xs={12} sm={8}>
+                        <Grid2
+                            size={{
+                                xs: 12,
+                                sm: 8,
+                            }}>
                             <StatCard
                                 title="Partisipasi — Bulanan"
                                 isLoading={isLoading}>

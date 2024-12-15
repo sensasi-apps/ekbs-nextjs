@@ -9,7 +9,9 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
+    Grid2,
 } from '@mui/material'
+import useSWR from 'swr'
 import { useState } from 'react'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -20,9 +22,7 @@ import toDmy from '@/utils/toDmy'
 import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
 import formatNumber from '@/utils/formatNumber'
 import BigNumberCard from '@/components/big-number-card'
-import Grid2 from '@mui/material/Unstable_Grid2'
 import { ApiResponseType, LineChartCard } from '@/pages/me/participations'
-import useSWR from 'swr'
 
 let getRowData: GetRowDataType<ProductSaleType>
 
@@ -40,13 +40,21 @@ export default function Page() {
         <AuthLayout title="Pembelian Anda">
             <Box mb={2}>
                 <Grid2 container spacing={2} mb={1}>
-                    <Grid2 xs={12} md={6}>
+                    <Grid2
+                        size={{
+                            xs: 12,
+                            md: 6,
+                        }}>
                         {bigNumber1 && (
                             <BigNumberCard {...bigNumber1} collapsible />
                         )}
                     </Grid2>
 
-                    <Grid2 xs={12} md={6}>
+                    <Grid2
+                        size={{
+                            xs: 12,
+                            md: 6,
+                        }}>
                         {bigNumber2 && (
                             <BigNumberCard {...bigNumber2} collapsible />
                         )}
@@ -61,7 +69,6 @@ export default function Page() {
                     />
                 )}
             </Box>
-
             <Datatable
                 title="Riwayat"
                 tableId="farm-input-my-purchases-table"
@@ -78,7 +85,6 @@ export default function Page() {
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 getRowDataCallback={fn => (getRowData = fn)}
             />
-
             <Dialog
                 open={Boolean(receiptDialogData)}
                 onClose={() => setReceiptDialogData(undefined)}>
