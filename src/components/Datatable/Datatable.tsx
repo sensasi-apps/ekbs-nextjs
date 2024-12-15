@@ -1,22 +1,17 @@
 // types
 import type { MUIDataTableOptions } from 'mui-datatables'
 import type { Mutate, DatatableProps } from './@types'
+import type { ReactNode } from 'react'
 // vendors
 import dynamic from 'next/dynamic'
-// materials
-import Box from '@mui/material/Box'
-import Fade from '@mui/material/Fade'
-import LinearProgress from '@mui/material/LinearProgress'
-// icons
-import DownloadIcon from '@mui/icons-material/Download'
-import RefreshIcon from '@mui/icons-material/Refresh'
+import { Box, Fade, IconButton, LinearProgress, Tooltip } from '@mui/material'
+import { Download, Refresh } from '@mui/icons-material'
 // locals
-import sxs from './sxs'
 import { useHooks } from './hooks'
+import DownloadConfirmationDialog from './components/DownloadConfirmationDialog'
+import sxs from './sxs'
 // utils
-// import DownloadConfirmationDialog from './components/DownloadConfirmationDialog'
 import { CLICKABLE_INFO } from './statics'
-import CustomHeadButton from './components/CustomHeadButton'
 
 const MUIDataTable = dynamic(() => import('mui-datatables'), {
     ssr: false,
@@ -33,7 +28,7 @@ let mutatorForExport: Mutate
  * @todo table state always restart when data changed
  * @todo remove `unknown` type from main `Datatable` component
  */
-export function Datatable<T = unknown>({
+export function Datatable<T>({
     apiUrl,
     apiUrlParams,
     columns: defaultColumns,
@@ -52,7 +47,7 @@ export function Datatable<T = unknown>({
         mutate,
         isLoading,
         columns,
-        // isDownloadConfirmationDialogOpen,
+        isDownloadConfirmationDialogOpen,
         options: optionsFromHook,
     } = useHooks<T>(
         tableId,
@@ -82,12 +77,13 @@ export function Datatable<T = unknown>({
                     : download
                 : false,
         customToolbar: () => (
-            <CustomHeadButton
-                aria-label="Refresh"
-                disabled={isLoading}
-                onClick={() => mutate()}>
-                <RefreshIcon />
-            </CustomHeadButton>
+            <Tooltip arrow title="Segarkan">
+                <span>
+                    <IconButton disabled={isLoading} onClick={() => mutate()}>
+                        <Refresh />
+                    </IconButton>
+                </span>
+            </Tooltip>
         ),
         onRowClick: onRowClick as MUIDataTableOptions['onRowClick'],
         ...optionsFromHook,
@@ -107,8 +103,7 @@ export function Datatable<T = unknown>({
                 options={options}
                 components={{
                     icons: {
-                        // @ts-expect-error - MuiDatatable kocak tipenya salah
-                        DownloadIcon: DownloadIcon,
+                        DownloadIcon: Download as unknown as ReactNode,
                     },
                 }}
             />
@@ -120,14 +115,14 @@ export function Datatable<T = unknown>({
             {/**
              * PENDING
              */}
-            {/* {download && (
+            {download && (
                 <DownloadConfirmationDialog
                     open={isDownloadConfirmationDialogOpen}
                     nData={10}
                     onAgree={() => {}}
                     onDisagree={() => {}}
                 />
-            )} */}
+            )}
 
             {isRowClickable && CLICKABLE_INFO}
         </Box>
