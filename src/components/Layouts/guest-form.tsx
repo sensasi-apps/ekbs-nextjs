@@ -26,7 +26,7 @@ export default function GuestForm({
     message?: string
     title: string
 }) {
-    const { replace, pathname, query, back } = useRouter()
+    const { replace, pathname, query, back, push } = useRouter()
     const { user } = useAuth()
 
     useEffect(() => {
@@ -64,7 +64,9 @@ export default function GuestForm({
                 <Fab
                     variant="extended"
                     color="warning"
-                    onClick={() => back()}
+                    onClick={() =>
+                        window.history.length > 1 ? back() : push('/')
+                    }
                     sx={{
                         display: {
                             xs: 'none',
