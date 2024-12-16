@@ -1,12 +1,12 @@
 // materials
-import { Box, Divider, Link } from '@mui/material'
+import { Button, Divider } from '@mui/material'
 // icons
+import { ArrowBack } from '@mui/icons-material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // components
 import { Form } from '../components/pages/login/Form'
-import { OtherButtons } from '@/components/pages/login/OtherButtons'
 import { useHooks } from '@/components/pages/login/useHooks'
-import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
+import GuestFormLayout from '@/components/Layouts/guest-form'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 
 export default function LoginPage() {
@@ -26,10 +26,6 @@ export default function LoginPage() {
 
             <Form handleSubmit={handleSubmit} />
 
-            <Link href="/forgot-password" variant="body2">
-                Lupa kata sandi?
-            </Link>
-
             <Divider
                 sx={{
                     my: 2,
@@ -37,9 +33,26 @@ export default function LoginPage() {
                 Atau
             </Divider>
 
-            <Box display="flex" flexDirection="column" gap={2}>
-                <OtherButtons />
-            </Box>
+            {/* <Box display="flex" flexDirection="column" gap={2}> */}
+            {/* disable google login for now due to offline auth */}
+            {/* <Button
+                href="/api/oauth/google"
+                fullWidth
+                color="inherit"
+                variant="contained"
+                startIcon={<GoogleIcon />}>
+                Login dengan Google
+            </Button> */}
+
+            <Button
+                href="/"
+                fullWidth
+                variant="text"
+                color="info"
+                startIcon={<ArrowBack />}>
+                Kembali ke halaman depan
+            </Button>
+            {/* </Box> */}
         </GuestFormLayout>
     )
 }

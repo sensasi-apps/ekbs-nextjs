@@ -4,13 +4,13 @@ import { AxiosError } from 'axios'
 import { useState, FormEvent } from 'react'
 import axios from '@/lib/axios'
 // materials
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, Fab, TextField } from '@mui/material'
 // icons
 import SyncLockIcon from '@mui/icons-material/SyncLock'
 // components
 import BackButton from '@/components/BackButton'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
-import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
+import GuestFormLayout from '@/components/Layouts/guest-form'
 
 export default function ForgotPassword() {
     // form data
@@ -92,13 +92,13 @@ export default function ForgotPassword() {
                             onChange={event => setEmail(event.target.value)}
                         />
 
-                        <Button
+                        <Fab
                             type="submit"
-                            fullWidth
-                            variant="contained"
+                            variant="extended"
+                            color="primary"
                             sx={{ mt: 3, mb: 1 }}>
-                            Kirim tautan pengaturan ulang kata sandi
-                        </Button>
+                            Atur ulang kata sandi
+                        </Fab>
                     </form>
                 </>
             )}

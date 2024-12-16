@@ -9,7 +9,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 // icons
 import LockResetIcon from '@mui/icons-material/LockReset'
 // components
-import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
+import GuestFormLayout from '@/components/Layouts/guest-form'
 
 export default function PasswordReset() {
     const {
