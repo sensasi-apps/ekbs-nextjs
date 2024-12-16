@@ -33,17 +33,13 @@ export function useHooks<T>(
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
 
-    const [
-        /**
-         * @deprecated not implemented yet
-         */
-        isDownloadConfirmationDialogOpen,
-
-        /**
-         * @deprecated not implemented yet
-         */
-        // setIsDownloadConfirmationDialogOpen,
-    ] = useState<boolean>(false)
+    /**
+     * @deprecated not implemented yet
+     */
+    // const [
+    //     isDownloadConfirmationDialogOpen,
+    //     setIsDownloadConfirmationDialogOpen,
+    // ] = useState<boolean>(false)
 
     const {
         data: { data = [], recordsTotal, recordsFiltered } = {},
@@ -178,7 +174,7 @@ export function useHooks<T>(
         /**
          * @deprecated not implemented yet
          */
-        isDownloadConfirmationDialogOpen,
+        // isDownloadConfirmationDialogOpen,
         options,
     }
 }

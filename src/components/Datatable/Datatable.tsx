@@ -8,7 +8,7 @@ import { Box, Fade, IconButton, LinearProgress, Tooltip } from '@mui/material'
 import { Download, Refresh } from '@mui/icons-material'
 // locals
 import { useHooks } from './hooks'
-import DownloadConfirmationDialog from './components/DownloadConfirmationDialog'
+// import { DownloadConfirmationDialog } from './components/DownloadConfirmationDialog'
 import sxs from './sxs'
 // utils
 import { CLICKABLE_INFO } from './statics'
@@ -47,7 +47,7 @@ export function Datatable<T>({
         mutate,
         isLoading,
         columns,
-        isDownloadConfirmationDialogOpen,
+        // isDownloadConfirmationDialogOpen,
         options: optionsFromHook,
     } = useHooks<T>(
         tableId,
@@ -115,14 +115,14 @@ export function Datatable<T>({
             {/**
              * PENDING
              */}
-            {download && (
+            {/* {download && (
                 <DownloadConfirmationDialog
                     open={isDownloadConfirmationDialogOpen}
                     nData={10}
                     onAgree={() => {}}
                     onDisagree={() => {}}
                 />
-            )}
+            )} */}
 
             {isRowClickable && CLICKABLE_INFO}
         </Box>
