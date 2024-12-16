@@ -36,3 +36,5 @@ export const LogoLoadingBox = ({
         />
     </Box>
 )
+
+export default LogoLoadingBox
