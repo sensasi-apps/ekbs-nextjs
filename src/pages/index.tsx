@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Landing } from '@/components/pages/index/landing'
 // providers
 import useAuth from '@/providers/Auth'
-import LogoLoadingBox from '@/components/LogoLoadingBox'
+import { LogoLoadingBox } from '@/components/LogoLoadingBox'
 
 let timeout: NodeJS.Timeout
 
