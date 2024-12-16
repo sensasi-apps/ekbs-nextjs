@@ -37,4 +37,7 @@ const LogoLoadingBox = ({
     </Box>
 )
 
+/**
+ * @deprecated perfectly working fine but not found the cases when to use it
+ */
 export default LogoLoadingBox
