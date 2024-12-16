@@ -52,12 +52,25 @@ export default function GuestForm({
                 <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
-            <Box display="flex" justifyContent="space-between" width="100%">
+            <Box
+                display="flex"
+                width="100%"
+                sx={{
+                    justifyContent: {
+                        sm: 'end',
+                        md: 'space-between',
+                    },
+                }}>
                 <Fab
                     variant="extended"
                     color="warning"
                     onClick={() => back()}
                     sx={{
+                        display: {
+                            xs: 'none',
+                            sm: 'none',
+                            md: 'inline-flex',
+                        },
                         backgroundColor:
                             'hsl(from var(--mui-palette-warning-dark) h s l / 20%)',
                         '&:hover': {
