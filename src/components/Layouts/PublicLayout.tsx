@@ -1,90 +1,54 @@
 // types
 import type { ReactNode } from 'react'
 //vendors
+import { Box, Container, ContainerProps } from '@mui/material'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
-// materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Container, { ContainerProps } from '@mui/material/Container'
-import FooterBox from '@/components/Layouts/FooterBox'
-// icons
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import FooterBoxWithLogo from './FooterBox/WithLogo'
-
-const DarkModeToggle = dynamic(() => import('@/components/DarkModeToggle'), {
-    ssr: false,
-})
+// components
+import { Footer } from './components/footer'
+import BackButton from '../BackButton'
+import DarkModeSwitch from './components/TopBar/components/DarkModeSwitch'
 
 export default function PublicLayout({
     children,
     title,
-    backButton = false,
-    loginButton = false,
-    footerTextOnly = false,
     maxWidth = 'md',
 }: {
     title: string
     children: ReactNode
-    backButton?: boolean
-    loginButton?: boolean
-    footerTextOnly?: boolean
     maxWidth?: ContainerProps['maxWidth']
 }) {
-    const { push, back } = useRouter()
-
     return (
         <Container
             maxWidth={maxWidth}
             sx={{
-                py: 3,
+                // py: 3,
+                p: 4,
             }}>
             <Head>
                 <title>{title}</title>
             </Head>
 
-            {(backButton || loginButton) && (
-                <Box
-                    display="flex"
-                    justifyContent={
-                        backButton && loginButton
-                            ? 'space-between'
-                            : loginButton
-                              ? 'flex-end'
-                              : undefined
-                    }>
-                    {backButton && (
-                        <Button
-                            startIcon={<ArrowBackIcon />}
-                            sx={{
-                                alignSelf: 'flex-end',
-                            }}
-                            onClick={() =>
-                                window.history.length > 1 ? back() : push('/')
-                            }>
-                            Kembali
-                        </Button>
-                    )}
+            <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                mb={4}>
+                <BackButton />
 
-                    {loginButton && (
-                        <Button
-                            href="dashboard"
-                            endIcon={<ArrowForwardIcon />}
-                            sx={{
-                                alignSelf: 'flex-end',
-                            }}>
-                            Masuk
-                        </Button>
-                    )}
+                <DarkModeSwitch disablePm />
+            </Box>
+
+            <Box
+                display="flex"
+                flexDirection="column"
+                gap={16}
+                justifyContent="space-between">
+                <main>{children}</main>
+
+                <Box color="grey.500">
+                    <Footer />
                 </Box>
-            )}
-
-            <main>{children}</main>
-
-            {footerTextOnly ? <FooterBox /> : <FooterBoxWithLogo />}
-            <DarkModeToggle />
+            </Box>
         </Container>
     )
 }

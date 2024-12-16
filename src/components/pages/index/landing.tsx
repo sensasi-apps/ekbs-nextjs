@@ -22,8 +22,9 @@ export function Landing() {
 const FAB_DEFAULT_PROPS: FabProps = {
     color: 'warning',
     variant: 'extended',
+    size: 'small',
     sx: {
-        px: 3,
+        px: 2,
     },
 }
 

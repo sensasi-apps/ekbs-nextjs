@@ -26,7 +26,7 @@ export default function GuestForm({
     message?: string
     title: string
 }) {
-    const { replace, pathname, query, back } = useRouter()
+    const { replace, pathname, query, back, push } = useRouter()
     const { user } = useAuth()
 
     useEffect(() => {
@@ -52,12 +52,27 @@ export default function GuestForm({
                 <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
-            <Box display="flex" justifyContent="space-between" width="100%">
+            <Box
+                display="flex"
+                width="100%"
+                sx={{
+                    justifyContent: {
+                        sm: 'end',
+                        md: 'space-between',
+                    },
+                }}>
                 <Fab
                     variant="extended"
                     color="warning"
-                    onClick={() => back()}
+                    onClick={() =>
+                        window.history.length > 1 ? back() : push('/')
+                    }
                     sx={{
+                        display: {
+                            xs: 'none',
+                            sm: 'none',
+                            md: 'inline-flex',
+                        },
                         backgroundColor:
                             'hsl(from var(--mui-palette-warning-dark) h s l / 20%)',
                         '&:hover': {
@@ -78,7 +93,7 @@ export default function GuestForm({
                     }}>
                     <CardContent
                         sx={{
-                            p: 6,
+                            p: 3,
                         }}>
                         <Box display="flex" gap={3} alignItems="center">
                             <Avatar

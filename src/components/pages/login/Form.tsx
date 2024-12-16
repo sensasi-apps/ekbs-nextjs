@@ -40,6 +40,7 @@ export function Form({
                 <Fab
                     variant="extended"
                     color="success"
+                    type="submit"
                     sx={{
                         px: 3,
                     }}>

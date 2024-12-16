@@ -47,14 +47,14 @@ export function Background({
                 sx={{
                     color: 'grey.500',
 
-                    minHeight: '100dvh',
+                    minHeight: '100svh',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
 
                     gap: 10,
 
-                    p: 6,
+                    p: 4,
                     pb: 4,
 
                     backgroundPosition: 'center',

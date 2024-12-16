@@ -4,11 +4,18 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Switch from '@mui/material/Switch'
 
-export default function DarkModeSwitch() {
+export default function DarkModeSwitch({
+    disablePm = false,
+}: {
+    disablePm?: boolean
+}) {
     const { mode, setMode } = useColorScheme()
 
     return (
         <MenuItem
+            sx={{
+                p: disablePm ? 0 : undefined,
+            }}
             onClick={event => {
                 event.preventDefault()
 
@@ -16,6 +23,9 @@ export default function DarkModeSwitch() {
             }}>
             <FormControlLabel
                 label="Mode Gelap"
+                sx={{
+                    m: disablePm ? 0 : undefined,
+                }}
                 control={<Switch checked={mode === 'dark'} />}
             />
         </MenuItem>

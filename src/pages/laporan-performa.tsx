@@ -55,7 +55,6 @@ export default function Stat() {
 
     return (
         <PublicLayout
-            backButton
             title={`Laporan Performa Koperasi Belayan Sejahtera —
         ${process.env.NEXT_PUBLIC_APP_NAME}`}>
             <Box mb={3}>

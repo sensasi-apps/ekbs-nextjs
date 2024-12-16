@@ -33,7 +33,6 @@ export default function KatalogProdukSaprodi() {
 
     return (
         <PublicLayout
-            backButton
             title={`${pageTitle} — ${process.env.NEXT_PUBLIC_APP_NAME}`}>
             <Box mb={2}>
                 <Typography variant="h4" component="h1">
