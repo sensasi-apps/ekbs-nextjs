@@ -91,7 +91,7 @@ export default function GuestForm({
                     }}>
                     <CardContent
                         sx={{
-                            p: 6,
+                            p: 3,
                         }}>
                         <Box display="flex" gap={3} alignItems="center">
                             <Avatar
