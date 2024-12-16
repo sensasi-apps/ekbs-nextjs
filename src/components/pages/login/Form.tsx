@@ -1,7 +1,5 @@
 // materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+import { Box, Fab, Link, TextField } from '@mui/material'
 
 export function Form({
     handleSubmit,
@@ -34,13 +32,24 @@ export function Form({
                 autoComplete="off"
             />
 
-            <Button
-                type="submit"
-                fullWidth
-                variant="contained"
+            <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
                 sx={{ mt: 3, mb: 2 }}>
-                Sign In
-            </Button>
+                <Fab
+                    variant="extended"
+                    color="success"
+                    sx={{
+                        px: 3,
+                    }}>
+                    Masuk
+                </Fab>
+
+                <Link href="/forgot-password" variant="body2" color="info">
+                    Lupa kata sandi?
+                </Link>
+            </Box>
         </Box>
     )
 }

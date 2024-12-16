@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import ConstructionIcon from '@mui/icons-material/Construction'
 import RefreshIcon from '@mui/icons-material/Refresh'
 
-import GuestFormLayout from '@/components/Layouts/GuestFormLayout'
+import GuestFormLayout from '@/components/Layouts/guest-form'
 
 export default function Maintenance() {
     const router = useRouter()
