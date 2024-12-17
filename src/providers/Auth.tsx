@@ -18,6 +18,11 @@ import { getCurrentAuthInfo } from './Auth/functions/getCurrentAuthInfo'
 import { useRouter } from 'next/router'
 
 interface AuthContextType {
+    /**
+     * `undefined` mean user data is not retrived yet
+     *
+     * @default undefined
+     */
     user: AuthInfo | null | undefined
     onAgreeTncp: () => void
     userHasPermission: (
