@@ -1,30 +1,37 @@
 // vendors
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+// import { useEffect, useState } from 'react'
 // component
 import { Landing } from '@/components/pages/index/landing'
 // providers
-import useAuth from '@/providers/Auth'
-import { LogoLoadingBox } from '@/components/LogoLoadingBox'
+// import useAuth from '@/providers/Auth'
+// import LogoLoadingBox from '@/components/LogoLoadingBox'
+// import { useDebouncedCallback } from 'use-debounce'
+import { useGuestOnly } from '@/components/Layouts/@hooks/use-guest-only'
 
-let timeout: NodeJS.Timeout
+// let isDelayingShowContent = false
 
 export default function Index() {
-    const { replace } = useRouter()
-    const { user } = useAuth()
-    const [showContent, setShowContent] = useState(false)
+    useGuestOnly()
 
-    useEffect(() => {
-        clearTimeout(timeout)
+    // const { user } = useAuth()
+    // const [showContent, setShowContent] = useState(!isDelayingShowContent)
 
-        timeout = setTimeout(() => {
-            if (user) {
-                replace('/dashboard')
-            } else {
-                setShowContent(true)
-            }
-        }, 3000)
-    }, [user, replace])
+    // if (user === undefined) {
+    //     isDelayingShowContent = true
+    // }
 
-    return showContent ? <Landing /> : <LogoLoadingBox />
+    // const showContentDebounce = useDebouncedCallback(() => {
+    //     setShowContent(true)
+    //     isDelayingShowContent = false
+    // }, 2000)
+
+    // useEffect(() => {
+    //     if (isDelayingShowContent) {
+    //         showContentDebounce()
+    //     }
+    // }, [showContentDebounce])
+
+    // return user === null && showContent ? <Landing /> : <LogoLoadingBox />
+
+    return <Landing />
 }
