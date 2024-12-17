@@ -78,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
                 login: (email, password) => login(email, password, setUser),
 
-                logout: () => logout(setUser).then(() => push('/')),
+                logout: () => logout(setUser),
             }}>
             {children}
         </AuthContext.Provider>
