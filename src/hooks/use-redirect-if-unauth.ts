@@ -9,7 +9,7 @@ export function useRedirectIfUnauth() {
     useEffect(() => {
         if (user === null) {
             if (pathname === '/logout') {
-                replace(`/login`)
+                replace(`/`)
             } else {
                 replace(`/login?redirectTo=${pathname}`)
             }
