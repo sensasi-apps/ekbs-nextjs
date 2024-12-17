@@ -1,1 +1,1 @@
-export { LogoLoadingBox } from './LogoLoadingBox'
+export { default } from './LogoLoadingBox'
