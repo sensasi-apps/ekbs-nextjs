@@ -2,7 +2,7 @@ import Box, { BoxProps } from '@mui/material/Box'
 import Image from 'next/image'
 import CircularProgress from '@mui/material/CircularProgress'
 
-export const LogoLoadingBox = ({
+const LogoLoadingBox = ({
     display = 'flex',
     justifyContent = 'center',
     alignItems = 'center',
