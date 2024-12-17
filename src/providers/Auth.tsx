@@ -15,7 +15,6 @@ import userHasPermission from './Auth/userHasPermission'
 import { login } from './Auth/login'
 import { logout } from './Auth/logout'
 import { getCurrentAuthInfo } from './Auth/functions/getCurrentAuthInfo'
-import { useRouter } from 'next/router'
 
 interface AuthContextType {
     /**
@@ -46,7 +45,6 @@ const DEFAULT_CONTEXT_VALUE: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(DEFAULT_CONTEXT_VALUE)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const { push } = useRouter()
     const [user, setUser] = useState<AuthInfo | null | undefined>(undefined)
 
     useEffect(() => {
