@@ -1,15 +1,15 @@
+// types
+import type { ReactNode } from 'react'
 // vendors
+import { ArrowBack } from '@mui/icons-material'
 import { Avatar, Box, Card, CardContent, Fab, Typography } from '@mui/material'
-import { useEffect, ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 // components
 import { Background } from './background'
+import { useGuestOnly } from './@hooks/use-guest-only'
 import ErrorCenter from '../Statuses/ErrorCenter'
 import LoadingCenter from '../Statuses/LoadingCenter'
-// providers
-import useAuth from '@/providers/Auth'
-import { ArrowBack } from '@mui/icons-material'
 
 export default function GuestForm({
     children,
@@ -26,20 +26,8 @@ export default function GuestForm({
     message?: string
     title: string
 }) {
-    const { replace, pathname, query, back, push } = useRouter()
-    const { user } = useAuth()
-
-    useEffect(() => {
-        if (user && pathname !== '/maintenance') {
-            const redirectTo = query.redirectTo
-
-            if (redirectTo) {
-                replace(redirectTo.toString())
-            } else {
-                replace('/dashboard')
-            }
-        }
-    }, [user, replace, pathname, query])
+    useGuestOnly()
+    const { back, push } = useRouter()
 
     return (
         <Background
