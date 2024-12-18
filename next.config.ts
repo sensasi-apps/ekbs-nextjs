@@ -1,20 +1,21 @@
+import type { NextConfig } from 'next'
+
 import { withSentryConfig } from '@sentry/nextjs'
 import withSerwistInit from '@serwist/next'
 
-/**
- * @type {import('next').NextConfig}
- */
-const nextConfig = {
+const nextConfig: NextConfig = {
     reactStrictMode: true,
-    rewrites() {
-        return [
-            {
-                source: '/api/oauth/:path*',
-                destination:
-                    process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
-            },
-        ]
-    },
+
+    /** DISABLED DUE #328 changes */
+    // rewrites() {
+    //     return [
+    //         {
+    //             source: '/api/oauth/:path*',
+    //             destination:
+    //                 process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
+    //         },
+    //     ]
+    // },
 }
 
 const withSerwist = withSerwistInit({
