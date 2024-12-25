@@ -19,7 +19,7 @@ const FormSubmitButton = memo(function FormSubmitButton({
             title="Konfirmasi Perubahan"
             shouldConfirm={oldDirty}
             onConfirm={() => {}}
-            color="info"
+            color="success"
             buttonProps={{
                 type: oldDirty ? 'button' : 'submit',
                 form: form,
