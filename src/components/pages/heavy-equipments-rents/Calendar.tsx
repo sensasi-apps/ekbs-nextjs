@@ -4,19 +4,13 @@ import type RentItemRent from '@/dataTypes/RentItemRent'
 import type { KeyedMutator } from 'swr'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
+import { Box, Fade, IconButton, LinearProgress } from '@mui/material'
 import { memo } from 'react'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
-// materials
-import Box from '@mui/material/Box'
-import Fade from '@mui/material/Fade'
-import IconButton from '@mui/material/IconButton'
-import LinearProgress from '@mui/material/LinearProgress'
-import Typography from '@mui/material/Typography'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 // components
 import DatePicker from '@/components/DatePicker'
 import CalendarTable from '@/components/CalendarTable'
@@ -58,7 +52,7 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
 
     return (
         <>
-            <Box display="flex">
+            <Box display="flex" py={3}>
                 <DatePicker
                     label="Bulan"
                     openTo="month"
@@ -86,7 +80,7 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
                 </IconButton>
             </Box>
 
-            <Fade in={isProcessing} unmountOnExit>
+            <Fade in={isProcessing}>
                 <LinearProgress />
             </Fade>
 
@@ -98,7 +92,6 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
                     onEventClick,
                 )}
             />
-            <InfoBox />
         </>
     )
 })
@@ -117,49 +110,15 @@ function rentsToEventButtons(
         if (!eventButtons[date]) eventButtons[date] = []
 
         eventButtons[date].push({
-            children: rent.short_uuid,
-            color: !rent.finished_at ? 'warning' : 'success',
-            endIcon: rent.is_paid ? <MonetizationOnIcon /> : undefined,
             onClick: () => onEventClick(rent),
+            isPaid: rent.is_paid,
+            isDone: Boolean(rent.finished_at),
+            renterId: rent.by_user?.id,
+            unitName: rent.inventory_item.name,
+            shortUuid: rent.short_uuid,
+            rentFor: rent.for_n_units,
         })
     })
 
     return eventButtons
 }
-
-const InfoBox = memo(function InfoBox() {
-    return (
-        <Box mt={1}>
-            <Typography variant="caption">Informasi:</Typography>
-            <Box component="ul" m={0}>
-                <Typography variant="caption" component="li">
-                    Tombol berwarna{' '}
-                    <Typography
-                        variant="caption"
-                        color="success.main"
-                        component="span">
-                        hijau
-                    </Typography>{' '}
-                    menandakan bahwa pekerjaan telah dilaksanakan.
-                </Typography>
-                <Typography variant="caption" component="li">
-                    Tombol berwarna{' '}
-                    <Typography
-                        variant="caption"
-                        color="warning.main"
-                        component="span">
-                        kuning
-                    </Typography>{' '}
-                    menandaan bahwa pembayaran atau pekerjaan belum
-                    selesai/diinputkan.
-                </Typography>
-                <Typography variant="caption" component="li">
-                    <Box display="flex" gap={0.5} alignItems="center">
-                        Ikon <MonetizationOnIcon /> menandakan bahwa pembayaran
-                        telah dilakukan.
-                    </Box>
-                </Typography>
-            </Box>
-        </Box>
-    )
-})

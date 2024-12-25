@@ -65,7 +65,7 @@ export default function HeavyEquipmentRentsTasks() {
 
     return (
         <AuthLayout title="Tugas Alat Berat">
-            <Box display="flex" gap={1} mb={4}>
+            <Box display="flex" gap={1}>
                 <Chip
                     color={activeTab === 'all' ? 'success' : undefined}
                     label="Semua"
