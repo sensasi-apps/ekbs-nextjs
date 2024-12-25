@@ -50,7 +50,6 @@ function getBirthRegion(userDetail?: UserDetailRelationsType) {
     )
 }
 
-// eslint-disable-next-line import/no-unused-modules
 export default function UserDetailForm() {
     const { data: userWithDetails } = useUserWithDetails()
     const { data, handleClose } = useFormData()

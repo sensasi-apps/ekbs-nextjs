@@ -9,6 +9,7 @@ import axios from '@/lib/axios'
 import { Box, Button, Dialog, IconButton, Skeleton } from '@mui/material'
 // icons
 import { Close as CloseIcon } from '@mui/icons-material'
+import Image from 'next/image'
 
 export default function ImageButtonAndModal({
     alt,
@@ -79,7 +80,8 @@ export default function ImageButtonAndModal({
                         sx={{
                             p: 0,
                         }}>
-                        <img
+                        <Image
+                            unoptimized
                             src={fileCreatedUrl}
                             alt={alt}
                             style={{
@@ -99,7 +101,8 @@ export default function ImageButtonAndModal({
                 <CloseIiconButton onClick={handleClose} />
 
                 {fileCreatedUrl && (
-                    <img
+                    <Image
+                        unoptimized
                         src={fileCreatedUrl}
                         alt={alt}
                         style={{ width: '100%', height: 'auto' }}
