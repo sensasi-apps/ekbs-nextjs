@@ -19,7 +19,7 @@ const FormResetButton = memo(function FormResetButton({
     }
 }) {
     const {
-        color = 'info',
+        color = 'success',
         children = dirty ? 'Batal' : 'Tutup',
         ...buttonProps
     } = slotProps?.button ?? {}

@@ -95,7 +95,7 @@ export default function HeavyEquipmentRent() {
 
     return (
         <AuthLayout title="Penyewaan Alat Berat">
-            <Box display="flex" gap={1} mb={4}>
+            <Box display="flex" gap={1}>
                 <Chip
                     color={activeTab === 'calendar' ? 'success' : undefined}
                     label="Kalender"

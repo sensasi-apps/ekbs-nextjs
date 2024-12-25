@@ -1,7 +1,6 @@
 // vendors
+import { Box, Typography } from '@mui/material'
 import { memo } from 'react'
-// materials
-import Typography from '@mui/material/Typography'
 // utils
 import toDmy from '@/utils/toDmy'
 import RentItemRent from '@/dataTypes/RentItemRent'
@@ -33,13 +32,21 @@ const HerTaskDetail = memo(function HerTaskDetail({
             </Typography>
 
             <Row label="Jenis" value={typeId} />
-            <Row label="Penyewa/PJ" value={by_user?.name ?? ''} />
+
+            <Row
+                label="Penyewa/PJ"
+                value={by_user ? `${by_user.id} — ${by_user.name}` : ''}
+            />
             <Row label="HP/Telp" value={by_user?.phone_no ?? ''} />
             <Row label="Tanggal" value={for_at ? toDmy(for_at) : ''} />
             <Row label="Unit Alat Berat" value={inventory_item?.name} />
             <Row
                 label="Operator"
-                value={heavy_equipment_rent?.operated_by_user.name ?? ''}
+                value={
+                    heavy_equipment_rent?.operated_by_user
+                        ? `${heavy_equipment_rent.operated_by_user.id} — ${heavy_equipment_rent.operated_by_user.name}`
+                        : ''
+                }
             />
             <Row label="Pesan Untuk" value={`${for_n_units} H.M`} />
             <Row label="Tarif" value={`${rate_rp_per_unit}/H.M`} />
@@ -52,6 +59,9 @@ export default HerTaskDetail
 
 const Row = ({ label, value }: { label: string; value: string | number }) => (
     <Typography variant="body2" component="div" width="fit-content">
-        {label}: <b>{value}</b>
+        {label}{' '}
+        <Box component="span" ml={1}>
+            : <b>{value}</b>
+        </Box>
     </Typography>
 )

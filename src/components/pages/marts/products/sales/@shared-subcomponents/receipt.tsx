@@ -8,6 +8,7 @@ import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with
 // vendors
 import { Box, Divider, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Grid2'
+import Image from 'next/image'
 // components
 import DefaultItemDesc from './default-item-desc'
 // utils
@@ -64,7 +65,8 @@ export default function Receipt({
 
             <Box display="flex" gap={2} alignItems="center">
                 <Box>
-                    <img
+                    <Image
+                        unoptimized
                         src="/assets/images/belayan-mart-logo.jpg"
                         style={{
                             aspectRatio: '1/1',

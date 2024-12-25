@@ -1,17 +1,26 @@
 // types
 import type { Dayjs } from 'dayjs'
-import type { ButtonProps } from '@mui/material/Button'
 // vendors
-import { memo } from 'react'
+import { memo, ReactElement } from 'react'
 // materials
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
+import {
+    Alert,
+    Avatar,
+    Card,
+    CardActionArea,
+    Paper,
+    Tooltip,
+    Typography,
+} from '@mui/material'
+import { DoneAll, MonetizationOn, WorkHistory } from '@mui/icons-material'
+import formatNumber from '@/utils/formatNumber'
 
 const CalendarTable = memo(function CalendarTable({
     anchorDate,
@@ -21,51 +30,50 @@ const CalendarTable = memo(function CalendarTable({
     view: 'month'
     anchorDate: Dayjs
     eventButtons: {
-        [key: string]: ButtonProps[]
+        [key: string]: Array<Parameters<typeof RentInfoCard>[0]>
     }
 }) {
     return (
-        <TableContainer>
-            <Table
-                sx={{
-                    '& .MuiTableCell-root': {
-                        border: '1px solid var(--mui-palette-TableCell-border)',
-                    },
-                }}>
-                <TableHead>{view === 'month' && <FullMonthHead />}</TableHead>
+        <Paper>
+            <TableContainer sx={{ maxHeight: '75svh' }}>
+                <Table stickyHeader aria-label="sticky table">
+                    {view === 'month' && <FullMonthHead />}
 
-                <TableBody>
-                    {view === 'month' && (
-                        <FullMonthTableRows
-                            anchorDate={anchorDate}
-                            eventButtons={eventButtons}
-                        />
-                    )}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    <TableBody>
+                        {view === 'month' && (
+                            <FullMonthTableRows
+                                anchorDate={anchorDate}
+                                eventButtons={eventButtons}
+                            />
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Paper>
     )
 })
 
 export default CalendarTable
 
 const FullMonthHead = () => (
-    <TableRow>
-        <TableCell align="center">Senin</TableCell>
-        <TableCell align="center">Selasa</TableCell>
-        <TableCell align="center">Rabu</TableCell>
-        <TableCell align="center">Kamis</TableCell>
-        <TableCell align="center">Jumat</TableCell>
-        <TableCell align="center">Sabtu</TableCell>
-        <TableCell
-            align="center"
-            sx={{
-                bgcolor: 'var(--mui-palette-Alert-errorStandardBg)',
-            }}
-            className="MuiAlert-standardError">
-            Minggu
-        </TableCell>
-    </TableRow>
+    <TableHead>
+        <TableRow>
+            <TableCell align="center">Senin</TableCell>
+            <TableCell align="center">Selasa</TableCell>
+            <TableCell align="center">Rabu</TableCell>
+            <TableCell align="center">Kamis</TableCell>
+            <TableCell align="center">Jumat</TableCell>
+            <TableCell align="center">Sabtu</TableCell>
+            <TableCell
+                align="center"
+                sx={{
+                    bgcolor: 'var(--mui-palette-Alert-errorStandardBg)',
+                }}
+                className="MuiAlert-standardError">
+                Minggu
+            </TableCell>
+        </TableRow>
+    </TableHead>
 )
 
 const FullMonthTableRows = ({
@@ -74,7 +82,7 @@ const FullMonthTableRows = ({
 }: {
     anchorDate: Dayjs
     eventButtons: {
-        [key: string]: ButtonProps[]
+        [key: string]: Array<Parameters<typeof RentInfoCard>[0]>
     }
 }) => {
     const nDays = anchorDate.daysInMonth()
@@ -89,10 +97,7 @@ const FullMonthTableRows = ({
                     verticalAlign: 'top',
                 }}>
                 {[1, 2, 3, 4, 5, 6, 7].map(dayId => {
-                    const bgColor =
-                        dayId === 7
-                            ? 'var(--mui-palette-Alert-errorStandardBg)'
-                            : undefined
+                    const bgColor = dayId === 7 ? 'Background' : undefined
                     const dayOfTheMonth =
                         dayId + weekIndex * 7 - startDate.day() + 1
                     const isOutsideMonth =
@@ -103,18 +108,45 @@ const FullMonthTableRows = ({
                         <TableCell
                             key={dayId}
                             sx={{
+                                pt: 0,
+                                px: 1.25,
                                 bgcolor: bgColor,
                             }}>
                             {isOutsideMonth ? null : (
                                 <>
-                                    <Box textAlign="center" mb={1}>
-                                        {dayOfTheMonth}
-                                    </Box>
+                                    <Paper
+                                        sx={{
+                                            position: 'sticky',
+                                            top: '3.9em',
+                                            zIndex: '1',
+                                            py: 2,
+                                            px: 1.5,
+                                            boxShadow: 'none',
+                                            bgcolor: bgColor,
+                                            backgroundImage:
+                                                dayId === 7
+                                                    ? 'none'
+                                                    : undefined,
+                                        }}>
+                                        <Avatar
+                                            sx={{
+                                                width: 24,
+                                                height: 24,
+                                                bgcolor:
+                                                    dayId === 7
+                                                        ? undefined
+                                                        : 'success.main',
+                                                fontWeight: 'bold',
+                                                fontSize: '1em',
+                                            }}>
+                                            {dayOfTheMonth}
+                                        </Avatar>
+                                    </Paper>
 
                                     <Box
                                         display="flex"
                                         flexDirection="column"
-                                        gap={0.5}
+                                        gap={1}
                                         sx={{
                                             '& > *': {
                                                 mb: 0.5,
@@ -124,11 +156,8 @@ const FullMonthTableRows = ({
                                             startDate
                                                 .add(dayOfTheMonth - 1, 'day')
                                                 .format('YYYY-MM-DD')
-                                        ]?.map((buttonProps, i) => (
-                                            <EventButton
-                                                key={i}
-                                                {...buttonProps}
-                                            />
+                                        ]?.map((props, i) => (
+                                            <RentInfoCard key={i} {...props} />
                                         ))}
                                     </Box>
                                 </>
@@ -141,18 +170,86 @@ const FullMonthTableRows = ({
     })
 }
 
-const EventButton = (props: ButtonProps) => (
-    <Button
-        size="small"
-        sx={{
-            lineHeight: 1,
-            px: 0.6,
-        }}
-        fullWidth
-        variant="contained"
-        color="success"
-        {...props}
-    />
-)
+function RentInfoCard({
+    rentFor,
+    renterId,
+    unitName,
+    shortUuid,
+    onClick,
+    isDone,
+    isPaid,
+}: {
+    rentFor: number
+    renterId?: number
+    unitName: string
+    shortUuid: string
+    onClick: () => void
+    isDone: boolean
+    isPaid: boolean
+}) {
+    return (
+        <Card
+            sx={{
+                minWidth: '10em',
+            }}>
+            <CardActionArea onClick={onClick}>
+                <Alert
+                    severity={isDone && isPaid ? 'success' : 'warning'}
+                    variant={isDone && isPaid ? 'standard' : 'outlined'}
+                    icon={
+                        <div>
+                            {isPaid && (
+                                <CustomTooltip title="Lunas">
+                                    <MonetizationOn />
+                                </CustomTooltip>
+                            )}
+
+                            {isDone ? (
+                                <CustomTooltip title="Pekerjaan Selesai">
+                                    <DoneAll />
+                                </CustomTooltip>
+                            ) : (
+                                <CustomTooltip title="Terjadwal">
+                                    <WorkHistory />
+                                </CustomTooltip>
+                            )}
+                        </div>
+                    }>
+                    {[
+                        shortUuid,
+                        renterId ? `#${renterId} ` : '',
+                        formatNumber(rentFor) + ' H.M',
+                        unitName,
+                    ].map((text, i) => (
+                        <Typography
+                            key={i}
+                            lineHeight="1.3em"
+                            variant="caption"
+                            fontFamily="monospace"
+                            component="div"
+                            gutterBottom
+                            textTransform="uppercase">
+                            {text}
+                        </Typography>
+                    ))}
+                </Alert>
+            </CardActionArea>
+        </Card>
+    )
+}
+
+function CustomTooltip({
+    children,
+    title,
+}: {
+    children: ReactElement
+    title: string
+}) {
+    return (
+        <Tooltip title={title} arrow placement="right">
+            {children}
+        </Tooltip>
+    )
+}
 
 export type CalendarTableProps = Parameters<typeof CalendarTable>[0]
