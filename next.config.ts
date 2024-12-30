@@ -32,4 +32,8 @@ export default withSentryConfig(withSerwist(nextConfig), {
     authToken: process.env.SENTRY_AUTH_TOKEN,
 
     silent: false, // Can be used to suppress logs
+
+    sourcemaps: {
+        disable: process.env.VERCEL_ENV !== `production`,
+    },
 })
