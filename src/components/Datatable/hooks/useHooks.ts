@@ -1,5 +1,6 @@
 // types
-import type { MUIDataTableOptions, MUIDataTableState } from 'mui-datatables'
+import type { DataTableOptions } from 'mui-datatable-delight'
+import type { MUIDataTableState } from 'mui-datatables'
 import type { DatatableProps } from '../@types'
 // vendors
 import { useEffect, useState } from 'react'
@@ -60,8 +61,8 @@ export function useHooks<T>(
     let timerId: NodeJS.Timeout
 
     const handleTableChangeOrInit:
-        | MUIDataTableOptions['onTableChange']
-        | MUIDataTableOptions['onTableInit'] = (
+        | DataTableOptions['onTableChange']
+        | DataTableOptions['onTableInit'] = (
         action: string,
         tableState: MUIDataTableState,
     ) => {
@@ -80,7 +81,7 @@ export function useHooks<T>(
         }
     }
 
-    const options: MUIDataTableOptions = {
+    const options: DataTableOptions = {
         ...staticOptions,
         rowsPerPage,
         sortOrder: sortOrder,
@@ -153,15 +154,6 @@ export function useHooks<T>(
 
             return false
         },
-        textLabels: {
-            ...STATIC_TEXT_LABLES,
-            body: {
-                noMatch: isLoading
-                    ? 'Memuat data...'
-                    : 'Tidak ada data yang tersedia',
-                toolTip: 'Urutkan',
-            },
-        },
         count: recordsFiltered ?? recordsTotal ?? 0,
     }
 
@@ -181,19 +173,4 @@ export function useHooks<T>(
 
 function estimateDownloadSizeInB(sampleData: object, count: number) {
     return JSON.stringify(sampleData).length * 4 * count
-}
-
-const STATIC_TEXT_LABLES = {
-    pagination: {
-        next: 'selanjutnya',
-        previous: 'sebelumnya',
-        rowsPerPage: 'data/halaman:',
-        jumpToPage: 'halaman:',
-    },
-    toolbar: {
-        search: 'Cari',
-        downloadCsv: 'Unduh',
-        print: 'Cetak',
-        viewColumns: 'Tampilkan kolom',
-    },
 }

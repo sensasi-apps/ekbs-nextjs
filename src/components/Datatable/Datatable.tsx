@@ -1,9 +1,11 @@
 // types
-import type { MUIDataTableOptions } from 'mui-datatables'
 import type { Mutate, DatatableProps } from './@types'
 import type { ReactNode } from 'react'
 // vendors
-import dynamic from 'next/dynamic'
+import type {
+    DataTableOptions as VendorDatatableOptions,
+    DataTableProps as VendorDatatableProps,
+} from 'mui-datatable-delight'
 import { Box, Fade, IconButton, LinearProgress, Tooltip } from '@mui/material'
 import { Download, Refresh } from '@mui/icons-material'
 // locals
@@ -12,13 +14,17 @@ import { useHooks } from './hooks'
 import sxs from './sxs'
 // utils
 import { CLICKABLE_INFO } from './statics'
-
-const MUIDataTable = dynamic(() => import('mui-datatables'), {
-    ssr: false,
-})
+import dynamic from 'next/dynamic'
 
 let getRowData: <T = unknown>(index: number) => T | undefined
 let mutatorForExport: Mutate
+
+const VendorDataTable = dynamic<VendorDatatableProps>(
+    () => import('mui-datatable-delight'),
+    {
+        ssr: false,
+    },
+)
 
 /**
  * Datatable component
@@ -41,7 +47,7 @@ export function Datatable<T>({
     swrOptions,
     download = false,
     ...props
-}: DatatableProps & Omit<MUIDataTableOptions, 'onRowClick'>) {
+}: DatatableProps & Omit<VendorDatatableOptions, 'onRowClick'>) {
     const {
         data,
         mutate,
@@ -68,7 +74,7 @@ export function Datatable<T>({
 
     const isRowClickable = Boolean(onRowClick)
 
-    const options: MUIDataTableOptions = {
+    const options: VendorDatatableOptions = {
         rowHover: isRowClickable,
         download:
             download || props.onDownload
@@ -85,7 +91,7 @@ export function Datatable<T>({
                 </span>
             </Tooltip>
         ),
-        onRowClick: onRowClick as MUIDataTableOptions['onRowClick'],
+        onRowClick: onRowClick as VendorDatatableOptions['onRowClick'],
         ...optionsFromHook,
         ...props,
     }
@@ -96,7 +102,7 @@ export function Datatable<T>({
                 <LinearProgress sx={sxs.loadingTop} />
             </Fade>
 
-            <MUIDataTable
+            <VendorDataTable
                 title={title}
                 data={data as object[]}
                 columns={columns}

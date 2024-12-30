@@ -44,3 +44,5 @@ public/swe-worker*
 
 # build info
 tsconfig.tsbuildinfo
+
+.vscode
