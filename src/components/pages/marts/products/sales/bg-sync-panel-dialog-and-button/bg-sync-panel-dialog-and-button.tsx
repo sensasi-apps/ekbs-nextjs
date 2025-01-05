@@ -1,6 +1,7 @@
 import { postToSw } from '@/functions/post-to-sw'
 import { Close, Sync } from '@mui/icons-material'
 import {
+    Alert,
     Badge,
     Box,
     Dialog,
@@ -24,6 +25,7 @@ import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
 import { SubmittedData } from '../formik-wrapper/@types/submitted-data'
 import { FormattedEntry } from '@/sw/functions/handle-message'
+import blinkSxValue from '@/utils/blinkSxValue'
 
 export function BgSyncPanelDialogAndButton() {
     const [open, setOpen] = useState(false)
@@ -74,12 +76,25 @@ export function BgSyncPanelDialogAndButton() {
     return (
         <>
             <Tooltip title="Sinkronisasi Latar Belakang" arrow placement="top">
-                <IconButton onClick={() => setOpen(true)}>
+                <IconButton
+                    onClick={() => setOpen(true)}
+                    color={entries?.length ? 'error' : undefined}
+                    sx={entries?.length ? blinkSxValue : undefined}>
                     <Badge badgeContent={entries?.length} color="error">
-                        <Sync />
+                        <Sync
+                            sx={{
+                                fontSize: entries?.length ? 48 : undefined,
+                            }}
+                        />
                     </Badge>
                 </IconButton>
             </Tooltip>
+
+            {(entries?.length ?? 0) > 0 && (
+                <Alert variant="filled" severity="error" sx={blinkSxValue}>
+                    {entries?.length} Nota belum disinkronkan
+                </Alert>
+            )}
 
             <Dialog open={open} maxWidth="md" fullWidth aria-modal="true">
                 {isLoading && <LinearProgress />}

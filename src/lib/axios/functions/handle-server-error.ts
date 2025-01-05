@@ -23,8 +23,10 @@ export function handleServerError({ status, data }: AxiosResponse) {
 
     switch (status) {
         case 401:
-            // disabling this case for now 2024-08-16
-            // dispatchEvent(new CustomEvent('401Error'))
+            /**
+             * Handled at 'layout/auth-layout.401-protection.tsx`
+             */
+            dispatchEvent(new CustomEvent('401Error'))
             break
 
         case 422:

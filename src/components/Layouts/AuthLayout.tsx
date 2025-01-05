@@ -10,6 +10,7 @@ import { DRAWER_WIDTH } from './components/menu-list'
 import TopBarAndMenuList from './TopBarAndMenuList'
 import FooterBox from './FooterBox'
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
+import { The401Protection } from './auth-layout.401-protection'
 
 export default function AuthLayout({
     title,
@@ -41,6 +42,8 @@ export default function AuthLayout({
                     sm: `calc(100% - ${DRAWER_WIDTH}px)`,
                 }}>
                 <Toolbar />
+
+                <The401Protection hasMenu />
 
                 <main>{children}</main>
 
