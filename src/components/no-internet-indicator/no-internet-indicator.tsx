@@ -1,3 +1,4 @@
+import { useIsCanReachItself } from '@/hooks/use-is-can-reach-itself'
 import blinkSxValue from '@/utils/blinkSxValue'
 import { SignalWifiStatusbarConnectedNoInternet4 } from '@mui/icons-material'
 import { Alert, Tooltip } from '@mui/material'
@@ -11,13 +12,13 @@ import { useIsOnline } from 'react-use-is-online'
 export function NoInternetIndicator() {
     const [isClient, setIsClient] = useState(false)
     const { isOnline } = useIsOnline()
+    const isCanReach = useIsCanReachItself(60)
 
     useEffect(() => {
         setIsClient(true)
     }, [])
 
-    if (!isClient) return null
-    if (isOnline) return null
+    if (!isClient || !(isOnline && isCanReach)) return null
 
     return (
         <Tooltip
