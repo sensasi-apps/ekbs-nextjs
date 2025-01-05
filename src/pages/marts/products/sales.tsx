@@ -13,6 +13,7 @@ import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sa
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
 import { UserAccountAlert } from '@/components/pages/marts/products/sales/user-account-alert'
 import BgSyncPanelDialogAndButton from '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
+import { The401Protection } from '@/components/Layouts/auth-layout.401-protection'
 
 export default function SalesPage() {
     useRedirectIfUnauth()
@@ -29,6 +30,8 @@ export default function SalesPage() {
             <Head>
                 <title>{`Kasir Belayan Mart — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
+
+            <The401Protection />
 
             <Box
                 my={2}
