@@ -18,7 +18,7 @@ export function NoInternetIndicator() {
         setIsClient(true)
     }, [])
 
-    if (!isClient || !(isOnline && isCanReach)) return null
+    if (!isClient || (isOnline && isCanReach)) return null
 
     return (
         <Tooltip
