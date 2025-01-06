@@ -1,17 +1,16 @@
 import { useIdle } from '@uidotdev/usehooks'
 import { useEffect, useState } from 'react'
 
-let isStillFetching = false
 let lastResponseAt: number = 0
 
 /**
- * @param interval in seconds (default: 60 secs)
+ * @param interval in seconds
  */
 export function useIsCanReachItself(interval: number): boolean {
     const intervalInMs = interval * 1000
     const isIdle = useIdle(intervalInMs)
 
-    const [isCanReactItself, setIsCanReachItself] = useState<boolean>(false)
+    const [isCanReactItself, setIsCanReachItself] = useState<boolean>(true)
 
     useEffect(() => {
         if (isIdle) {
@@ -21,27 +20,27 @@ export function useIsCanReachItself(interval: number): boolean {
             function handleFetch() {
                 const diff = Date.now() - lastResponseAt
 
-                if (!isStillFetching && diff > intervalInMs) {
+                if (diff > intervalInMs) {
                     /**
                      * Set lastResponseAt immediately to prevent isCanFetchItself to be called again before promise resolve
                      */
                     lastResponseAt = Date.now()
 
-                    isStillFetching = true
-
                     isCanFetchItself().then(isSuccess => {
                         setIsCanReachItself(isSuccess)
-                        isStillFetching = false
                         lastResponseAt = Date.now()
                     })
                 }
             }
 
-            handleFetch()
+            /**
+             * set timeout to prevent throttle recalls
+             */
+            const timeout = setTimeout(handleFetch, 2000)
 
-            const intervalId = setInterval(handleFetch, intervalInMs)
-
-            return () => clearInterval(intervalId)
+            return () => {
+                clearTimeout(timeout)
+            }
         }
     }, [isIdle, intervalInMs])
 
