@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
 const withSerwist = withSerwistInit({
     swSrc: 'src/sw.ts',
     swDest: 'public/sw.js',
+    exclude: [/public\/sw.js/, /dynamic-css-manifest.json/], // explicitly excluding the file causing problem
     reloadOnOnline: false,
 })
 
