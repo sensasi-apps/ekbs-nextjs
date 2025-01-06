@@ -13,6 +13,8 @@ import Image from 'next/image'
 import DefaultItemDesc from './default-item-desc'
 // utils
 import formatNumber from '@/utils/formatNumber'
+// assets
+import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
 
 export default function Receipt({
     data: {
@@ -64,17 +66,12 @@ export default function Receipt({
             </Typography>
 
             <Box display="flex" gap={2} alignItems="center">
-                <Box>
-                    <Image
-                        unoptimized
-                        src="/assets/images/belayan-mart-logo.jpg"
-                        style={{
-                            aspectRatio: '1/1',
-                            maxHeight: '6rem',
-                        }}
-                        alt="logo"
-                    />
-                </Box>
+                <Image
+                    width={96} // 6 rem
+                    height={96} // 6 rem
+                    src={martLogo}
+                    alt="logo"
+                />
 
                 <Box>
                     {saleNo && (
