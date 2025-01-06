@@ -4,7 +4,6 @@ import { useState } from 'react'
 import {
     Chip,
     Divider,
-    Fade,
     IconButton,
     ListItemIcon,
     ListItemText,
@@ -28,6 +27,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuth from '@/providers/Auth'
+import dynamic from 'next/dynamic'
+
+const Fade = dynamic(() => import('@mui/material/Fade'), {
+    ssr: false,
+})
 
 export default function AccountButton({
     color = 'inherit',
