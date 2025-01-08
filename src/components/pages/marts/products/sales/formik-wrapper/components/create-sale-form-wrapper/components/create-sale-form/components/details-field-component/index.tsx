@@ -29,6 +29,7 @@ function DetailsFieldComponent({
     return (
         <>
             <FormHelperText
+                component="div"
                 error
                 sx={{
                     mt: -2,
