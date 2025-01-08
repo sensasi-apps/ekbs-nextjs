@@ -12,8 +12,8 @@ export const VALIDATION_SCHEMA = yup.object().shape({
 
     costs: yup.array().of(
         yup.object().shape({
-            name: yup.string().required('Biaya tidak boleh kosong'),
-            rp: yup.number().required('Jumlah biaya tidak boleh kosong'),
+            name: yup.string().required('Nama tidak boleh kosong'),
+            rp: yup.number().required('Jumlah tidak boleh kosong'),
         }),
     ),
 
@@ -21,11 +21,12 @@ export const VALIDATION_SCHEMA = yup.object().shape({
         .array()
         .of(
             yup.object().shape({
-                product_id: yup.number().min(1, 'Barang tidak boleh kosong'),
+                product_id: yup.number().required('Barang tidak boleh kosong'),
                 qty: yup.number().required('Jumlah barang tidak boleh kosong'),
                 rp_per_unit: yup
                     .number()
-                    .required('Harga barang tidak boleh kosong'),
+                    .min(1, 'Harga jual tidak boleh nol')
+                    .required('Harga jual tidak boleh kosong'),
             }),
         )
         .min(1, 'Barang tidak boleh kosong'),
