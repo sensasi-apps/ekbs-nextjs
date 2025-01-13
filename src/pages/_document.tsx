@@ -1,11 +1,23 @@
-// import { getInitColorSchemeScript } from '@mui/material'
+import {
+    type DocumentHeadTagsProps,
+    DocumentHeadTags,
+    documentGetInitialProps,
+} from '@mui/material-nextjs/v15-pagesRouter'
+import {
+    type DocumentProps,
+    type DocumentContext,
+    Html,
+    Head,
+    Main,
+    NextScript,
+} from 'next/document'
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
-import { Html, Head, Main, NextScript } from 'next/document'
 
-export default function Document() {
+export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
     return (
         <Html lang="id" data-mui-color-scheme="light">
             <Head>
+                <DocumentHeadTags {...props} />
                 <meta charSet="utf8" />
 
                 <meta
@@ -87,3 +99,9 @@ const FacebookMetaTags = () => (
         />
     </>
 )
+
+Document.getInitialProps = async (ctx: DocumentContext) => {
+    const finalProps = await documentGetInitialProps(ctx)
+
+    return finalProps
+}
