@@ -3,8 +3,8 @@ import { forwardRef } from 'react'
 import { createTheme } from '@mui/material'
 import Link from 'next/link'
 
-const LinkBehavior = forwardRef<HTMLAnchorElement, LinkProps>(
-    function LinkBehavior(props, ref) {
+const LinkBehaviour = forwardRef<HTMLAnchorElement, LinkProps>(
+    function LinkBehaviour(props, ref) {
         return <Link {...props} ref={ref} />
     },
 )
@@ -26,17 +26,14 @@ const THEME = createTheme({
     components: {
         MuiLink: {
             defaultProps: {
-                component: LinkBehavior,
+                component: LinkBehaviour,
             },
         },
         MuiButtonBase: {
             defaultProps: {
-                LinkComponent: LinkBehavior,
+                LinkComponent: LinkBehaviour,
             },
         },
-    },
-    typography: {
-        fontFamily: 'var(--font-roboto)',
     },
 })
 

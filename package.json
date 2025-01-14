@@ -21,14 +21,12 @@
     "update:major": "ncu -u && npm update"
   },
   "dependencies": {
-    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
-    "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.14.0",
+    "@fontsource/roboto": "^5.1.1",
     "@mui/icons-material": "^6.3.1",
     "@mui/lab": "^6.0.0-beta.22",
     "@mui/material": "^6.3.1",
-    "@mui/material-nextjs": "^6.3.1",
     "@mui/x-date-pickers": "^7.23.3",
     "@sentry/nextjs": "^8.48.0",
     "@serwist/next": "^9.0.11",
