@@ -128,7 +128,14 @@ function CustomRow({ name, data, info }: ItemRow) {
             </TableCell>
 
             {data?.map((subItem, i) => (
-                <RpItemCell key={i} data={subItem} sx={SX_CELL_DATA} />
+                <RpItemCell
+                    key={i}
+                    data={subItem}
+                    sx={{
+                        ...SX_CELL_DATA,
+                        color: subItem < 0 ? 'error.light' : undefined,
+                    }}
+                />
             ))}
         </TableRow>
     )
