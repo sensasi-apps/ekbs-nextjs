@@ -131,15 +131,13 @@ export default function ProfitLoss() {
                             },
                             {
                                 header: 'Persediaan',
-                                data:
-                                    belayanMart?.stock_ins &&
-                                    belayanMart?.stock_outs
-                                        ? [
-                                              ...belayanMart.stock_ins,
-                                              ...belayanMart.stock_outs,
-                                          ]
-                                        : undefined,
-                                footer: 'Stok Akhir',
+                                data: belayanMart?.stock_ins,
+                                footer: 'Total',
+                            },
+                            {
+                                header: 'HPP',
+                                data: belayanMart?.hpp,
+                                footer: 'Total',
                             },
                             {
                                 header: 'Beban (III)',
@@ -171,15 +169,13 @@ export default function ProfitLoss() {
                             },
                             {
                                 header: 'Persediaan',
-                                data:
-                                    farmInput?.stock_ins &&
-                                    farmInput?.stock_outs
-                                        ? [
-                                              ...farmInput.stock_ins,
-                                              ...farmInput.stock_outs,
-                                          ]
-                                        : undefined,
-                                footer: 'Stok Akhir',
+                                data: farmInput?.stock_ins,
+                                footer: 'Total',
+                            },
+                            {
+                                header: 'HPP',
+                                data: farmInput?.hpp,
+                                footer: 'Total',
                             },
                             {
                                 header: 'Beban (III)',
@@ -265,7 +261,7 @@ interface ApiResponseType {
         sales: ItemRow[]
         purchases: ItemRow[]
         stock_ins: ItemRow[]
-        stock_outs: ItemRow[]
+        hpp: ItemRow[]
         outcomes: ItemRow[]
     }
 
@@ -283,7 +279,7 @@ interface ApiResponseType {
         sales: ItemRow[]
         purchases: ItemRow[]
         stock_ins: ItemRow[]
-        stock_outs: ItemRow[]
+        hpp: ItemRow[]
         outcomes: ItemRow[]
     }
 
