@@ -1,5 +1,5 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
+import type { DataTableColumnObject } from 'mui-datatable-delight'
 import type UserLoan from '@/dataTypes/Loan'
 // vendors
 import { Chip, Typography } from '@mui/material'
@@ -9,7 +9,7 @@ import toDmy from '@/utils/toDmy'
 import getLoanStatusColor from '@/utils/getLoanStatusColor'
 import formatNumber from '@/utils/formatNumber'
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DataTableColumnObject[] = [
     {
         name: 'uuid',
         label: 'uuid',

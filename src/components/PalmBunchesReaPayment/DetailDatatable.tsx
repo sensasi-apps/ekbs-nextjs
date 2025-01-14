@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type { UUID } from 'crypto'
 // vendors
 import Button from '@mui/material/Button'
@@ -14,6 +13,7 @@ import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'
 // utils
 import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
+import { DataTableColumnObject } from 'mui-datatable-delight'
 
 export default function PalmBuncesReaPaymentDetailDatatableModal({
     uuid,
@@ -65,7 +65,7 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DataTableColumnObject[] = [
     {
         name: 'weighting_at',
         label: 'Weighting Date',

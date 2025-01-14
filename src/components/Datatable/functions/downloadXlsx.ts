@@ -1,6 +1,7 @@
 // types
 import type { DatatableProps } from '../@types'
-import type { MUIDataTableMeta, MUIDataTableState } from 'mui-datatables'
+import type { DataTableState } from 'mui-datatable-delight'
+import type { MUIDataTableMeta } from 'mui-datatables'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
 import dayjs from 'dayjs'
@@ -14,7 +15,7 @@ import packageJson from '@/../package.json'
 export default async function downloadXlsx(
     apiUrl: DatatableProps['apiUrl'],
     apiUrlParams: DatatableProps['apiUrlParams'] | undefined,
-    tableState: MUIDataTableState,
+    tableState: DataTableState,
     filename: string,
 ) {
     const headerCols = tableState.columns.filter(col => col.download)

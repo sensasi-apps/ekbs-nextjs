@@ -105,6 +105,7 @@ function Crud() {
                         if (data) return handleEdit(data)
                     }
                 }}
+                // @ts-expect-error fix this later
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
             />

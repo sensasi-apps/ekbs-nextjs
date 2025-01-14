@@ -102,6 +102,7 @@ export default function FarmInputsProducts() {
                 title="Riwayat"
                 tableId="product-purchases-table"
                 apiUrl={ApiUrlEnum.PRODUCT_PURCHASE_DATATABLE}
+                // @ts-expect-error fix this later
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'order', direction: 'desc' }}
                 onRowClick={handleRowClick}

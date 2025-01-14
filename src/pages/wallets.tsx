@@ -1,7 +1,6 @@
 // types
 import type { Dayjs } from 'dayjs'
 import type { GetRowDataType } from '@/components/Datatable'
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import type Wallet from '@/dataTypes/Wallet'
 // vendors
@@ -24,6 +23,7 @@ import Dialog from '@/components/Global/Dialog'
 import TxHistory from '@/components/Wallet/TxHistory'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
+import { DataTableColumnObject } from 'mui-datatable-delight'
 
 // let mutate: MutateType<Wallet>
 let getRowData: GetRowDataType<Wallet>
@@ -74,7 +74,7 @@ export default function WalletsPage() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DataTableColumnObject[] = [
     {
         name: 'uuid',
         label: 'UUID',
