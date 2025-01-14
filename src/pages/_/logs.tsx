@@ -4,7 +4,8 @@ import Role from '@/enums/Role'
 import { useRoleChecker } from '@/hooks/use-role-checker'
 import { Typography } from '@mui/material'
 import dayjs from 'dayjs'
-import { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
+import { DataTableColumnObject } from 'mui-datatable-delight'
+import { MUISortOptions } from 'mui-datatables'
 
 export default function Page() {
     if (!useRoleChecker(Role.SUPERMAN)) return null
@@ -26,7 +27,7 @@ const DEFAULT_SORT_ORDER: MUISortOptions = {
     direction: 'desc',
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DataTableColumnObject[] = [
     {
         name: 'at',
         label: 'TGL',

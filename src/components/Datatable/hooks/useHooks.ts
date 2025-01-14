@@ -1,6 +1,5 @@
 // types
-import type { DataTableOptions } from 'mui-datatable-delight'
-import type { MUIDataTableState } from 'mui-datatables'
+import type { DataTableOptions, DataTableState } from 'mui-datatable-delight'
 import type { DatatableProps } from '../@types'
 // vendors
 import { useEffect, useState } from 'react'
@@ -27,8 +26,7 @@ export function useHooks<T>(
         useState<DatatableProps['columns']>(columnDefs)
     const [sortOrder, setSortOrder] =
         useState<DatatableProps['defaultSortOrder']>(defaultSortOrder)
-    const [MuiDatatableState, setMuiDatatableState] =
-        useState<MUIDataTableState>()
+    const [MuiDatatableState, setMuiDatatableState] = useState<DataTableState>()
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
@@ -62,10 +60,7 @@ export function useHooks<T>(
 
     const handleTableChangeOrInit:
         | DataTableOptions['onTableChange']
-        | DataTableOptions['onTableInit'] = (
-        action: string,
-        tableState: MUIDataTableState,
-    ) => {
+        | DataTableOptions['onTableInit'] = (_, tableState) => {
         if (JSON.stringify(MuiDatatableState) !== JSON.stringify(tableState)) {
             clearTimeout(timerId)
             timerId = setTimeout(() => {
@@ -87,10 +82,7 @@ export function useHooks<T>(
         sortOrder: sortOrder,
         onTableChange: handleTableChangeOrInit,
         onTableInit: handleTableChangeOrInit,
-        onColumnSortChange: (
-            changedColumn: string,
-            direction: 'asc' | 'desc',
-        ) => {
+        onColumnSortChange: (changedColumn, direction) => {
             setSortOrder({
                 name: changedColumn,
                 direction,

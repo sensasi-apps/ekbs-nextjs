@@ -1,6 +1,5 @@
 // types
 import type { Ymd } from '@/types/DateString'
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type { OnRowClickType } from '@/components/Datatable'
 import type { GetRowData } from '@/components/Datatable/@types'
 import type Transaction from '@/dataTypes/Transaction'
@@ -27,6 +26,7 @@ import { mutate as mutateCashlist } from '../Cash/List'
 import errorCatcher from '@/utils/errorCatcher'
 import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
+import { DataTableColumnObject } from 'mui-datatable-delight'
 
 let getRowData: GetRowData<Transaction>
 
@@ -102,7 +102,7 @@ export default function TransactionCrud() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DataTableColumnObject[] = [
     {
         name: 'uuid',
         label: 'UUID',

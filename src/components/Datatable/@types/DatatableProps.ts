@@ -1,14 +1,17 @@
-import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 import type { SWRConfiguration } from 'swr'
 import type { OnRowClick } from './'
 import type { Mutate } from './Mutate'
 import type { GetRowData } from './GetRowData'
+import type {
+    DataTableColumnObject,
+    DataTableSortOrderOption,
+} from 'mui-datatable-delight'
 
 export type DatatableProps = {
     apiUrl: string
     apiUrlParams?: { [key: string]: string | number | undefined }
-    columns: MUIDataTableColumn[]
-    defaultSortOrder: MUISortOptions
+    columns: DataTableColumnObject[]
+    defaultSortOrder: DataTableSortOrderOption
     tableId: string
     title?: string
     onRowClick?: OnRowClick

@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type { OnRowClickType } from '@/components/Datatable'
 import type ProductSaleType from '@/dataTypes/ProductSale'
 import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
@@ -29,6 +28,7 @@ import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 import handle422 from '@/utils/errorCatcher'
+import { DataTableColumnObject } from 'mui-datatable-delight'
 
 /**
  * gas sales to heavy equipment rental unit
@@ -186,7 +186,7 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
     </ul>
 )
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DataTableColumnObject[] = [
     {
         name: 'uuid',
         label: 'UUID',

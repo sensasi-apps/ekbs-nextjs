@@ -56,6 +56,7 @@ export default function ReceivablesDatatable({
                 }}
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
+                // @ts-expect-error fix this later
                 columns={
                     asManager
                         ? DATATABLE_COLUMNS

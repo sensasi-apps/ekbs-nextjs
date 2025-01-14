@@ -1,5 +1,5 @@
 // types
-import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
+import type { MUISortOptions } from 'mui-datatables'
 // vendors
 import { Box, Collapse, Grid2 } from '@mui/material'
 import { useRouter } from 'next/router'
@@ -12,6 +12,7 @@ import UsersMainPageContent from '@/components/Users/MainPageContent'
 import UsersSummaryBox from '@/components/Users/SummaryBox'
 import { FormDataProvider } from '@/providers/FormData'
 import UserDialogFormWithFab from '@/components/User/DialogFormWithFab'
+import { DataTableColumnObject } from 'mui-datatable-delight'
 
 export default function Page() {
     const { push, query } = useRouter()
@@ -73,7 +74,7 @@ const DEFAULT_SORT_ORDER: MUISortOptions = {
     direction: 'asc',
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DataTableColumnObject[] = [
     {
         name: 'id',
         label: 'ID',

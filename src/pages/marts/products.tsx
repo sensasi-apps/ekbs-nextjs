@@ -79,6 +79,7 @@ export default function Products() {
                 }}
                 tableId="products-table"
                 title="Daftar Produk"
+                // @ts-expect-error fix this later
                 columns={columns}
                 mutateCallback={fn => (mutate = fn)}
                 getRowDataCallback={fn => (getRowData = fn)}

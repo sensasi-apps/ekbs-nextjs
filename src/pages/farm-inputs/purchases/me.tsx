@@ -81,6 +81,7 @@ export default function Page() {
                         setReceiptDialogData(data)
                     }
                 }}
+                // @ts-expect-error fix this later
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 getRowDataCallback={fn => (getRowData = fn)}
