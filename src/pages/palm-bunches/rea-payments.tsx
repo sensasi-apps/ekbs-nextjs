@@ -1,4 +1,5 @@
 // types
+import type { MUIDataTableColumn } from 'mui-datatables'
 import type { UUID } from 'crypto'
 import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
 // vendors
@@ -24,7 +25,6 @@ import toDmy from '@/utils/toDmy'
 import ApiUrlEnum from '../../components/PalmBunchesReaPayment/ApiUrlEnum'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
-import { DataTableColumnObject } from 'mui-datatable-delight'
 
 let getRowData: GetRowDataType<PalmBunchesReaPaymentDataType>
 let mutate: MutateType<PalmBunchesReaPaymentDataType>
@@ -341,7 +341,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
     )
 }
 
-const DATATABLE_COLUMNS: DataTableColumnObject[] = [
+const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
         label: 'uuid',

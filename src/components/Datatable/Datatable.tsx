@@ -1,10 +1,10 @@
 // types
 import type { Mutate, DatatableProps } from './@types'
+import type { ReactNode } from 'react'
 // vendors
-import {
-    // VendorDataTable,
-    type DataTableOptions as VendorDatatableOptions,
-    type DataTableProps as VendorDatatableProps,
+import type {
+    DataTableOptions as VendorDatatableOptions,
+    DataTableProps as VendorDatatableProps,
 } from 'mui-datatable-delight'
 import { Box, Fade, IconButton, LinearProgress, Tooltip } from '@mui/material'
 import { Download, Refresh } from '@mui/icons-material'
@@ -103,14 +103,15 @@ export function Datatable<T>({
             </Fade>
 
             <VendorDataTable
-                columns={columns}
-                data={data as object[]}
-                options={options}
-                icons={{
-                    DownloadIcon: Download,
-                }}
-                textLabels={STATIC_TEXT_LABELS}
                 title={title}
+                data={data as object[]}
+                columns={columns}
+                options={options}
+                components={{
+                    icons: {
+                        DownloadIcon: Download as unknown as ReactNode,
+                    },
+                }}
             />
 
             <Fade in={isLoading}>
@@ -135,22 +136,3 @@ export function Datatable<T>({
 }
 
 export { getRowData, mutatorForExport as mutate }
-
-const STATIC_TEXT_LABELS = {
-    pagination: {
-        next: 'selanjutnya',
-        previous: 'sebelumnya',
-        rowsPerPage: 'data/halaman:',
-        jumpToPage: 'halaman:',
-    },
-    toolbar: {
-        search: 'Cari',
-        downloadCsv: 'Unduh',
-        print: 'Cetak',
-        viewColumns: 'Tampilkan kolom',
-    },
-    body: {
-        noMatch: 'Tidak ada data yang tersedia',
-        toolTip: 'Urutkan',
-    },
-}

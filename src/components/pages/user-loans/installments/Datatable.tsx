@@ -69,7 +69,6 @@ const UserLoanInstallmentDatatable = memo(
                             }
                         }
                     }}
-                    //@ts-expect-error fix this later
                     columns={DATATABLE_COLUMNS}
                     defaultSortOrder={DEFAULT_SORT_ORDER}
                 />

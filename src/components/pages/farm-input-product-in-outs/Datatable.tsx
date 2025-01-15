@@ -1,4 +1,5 @@
 // types
+import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductMovement from '@/dataTypes/ProductMovement'
 // vendors
 import { memo, useState } from 'react'
@@ -18,7 +19,6 @@ import formatNumber from '@/utils/formatNumber'
 // enums
 import { ApiUrlEnum } from './Datatable.type'
 import { ProductMovementTypeEnum } from '@/dataTypes/ProductMovement'
-import { DataTableColumnObject } from 'mui-datatable-delight'
 
 let getRowData: GetRowDataType<ProductMovement>
 
@@ -142,7 +142,7 @@ const detailsProductStateCustomBodyRenderLite = (dataIndex: number) => {
     )
 }
 
-export const DATATABLE_COLUMNS: DataTableColumnObject[] = [
+export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
         label: 'UUID',

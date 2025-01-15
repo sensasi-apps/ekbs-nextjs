@@ -1,6 +1,6 @@
 // types
 import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
-import type { MUISortOptions } from 'mui-datatables'
+import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 // components
 import DefaultDatatable, { GetRowDataType } from '@/components/Datatable'
 // utils
@@ -8,7 +8,6 @@ import numberToCurrency from '@/utils/numberToCurrency'
 import ApiUrl from '../../@enums/api-url'
 import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../../@shared-subcomponents/receipt'
-import { DataTableColumnObject } from 'mui-datatable-delight'
 
 let getRowData: GetRowDataType<ProductMovementWithSale>
 
@@ -30,7 +29,7 @@ const DEFAULT_SORT_ORDER: MUISortOptions = {
     direction: 'desc',
 }
 
-const DATATABLE_COLUMNS: DataTableColumnObject[] = [
+const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'sale.no',
         label: 'NO Struk',

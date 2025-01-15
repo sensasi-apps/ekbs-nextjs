@@ -48,7 +48,6 @@ export default function KatalogProdukSaprodi() {
 
             <Datatable
                 apiUrl={'/public/produk-saprodi/datatable/' + warehouse}
-                // @ts-expect-error fix this later
                 columns={columns}
                 defaultSortOrder={{
                     name: 'category_name',

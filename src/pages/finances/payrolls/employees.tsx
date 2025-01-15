@@ -48,7 +48,6 @@ export default function FinancesPayrollsEmployees() {
                 apiUrlParams={{
                     type: 'employee',
                 }}
-                // @ts-expect-error fix this later
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 // onRowClick={handleRowClick}

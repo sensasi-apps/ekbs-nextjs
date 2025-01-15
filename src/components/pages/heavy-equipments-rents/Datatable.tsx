@@ -1,4 +1,5 @@
 // types
+import type { MUIDataTableColumn } from 'mui-datatables'
 import type RentItemRent from '@/dataTypes/RentItemRent'
 // materials
 import Typography from '@mui/material/Typography'
@@ -16,7 +17,6 @@ import useAuth from '@/providers/Auth'
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
 import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
 import Role from '@/enums/Role'
-import { DataTableColumnObject } from 'mui-datatable-delight'
 
 let getRowData: GetRowDataType<RentItemRent>
 
@@ -74,7 +74,7 @@ export default function HeavyEquipmentRentsDatatable({
     )
 }
 
-const DATATABLE_COLUMNS: DataTableColumnObject[] = [
+const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
         label: 'Kode',

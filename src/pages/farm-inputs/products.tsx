@@ -52,7 +52,6 @@ export default function FarmInputsProducts() {
         <AuthLayout title="Produk">
             <Datatable
                 apiUrl={DatatableEndpointEnum.PRODUCTS}
-                // @ts-expect-error fix this later
                 columns={columns}
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
                 onRowClick={(_, { dataIndex }, event) => {

@@ -1,7 +1,7 @@
 // types
 import type { AxiosResponse } from 'axios'
 import type InventoryItem from '@/dataTypes/InventoryItem'
-import type { MUISortOptions } from 'mui-datatables'
+import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 import type { GetRowDataType, MutateType } from '@/components/Datatable'
 import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
 // vendors
@@ -19,7 +19,6 @@ import AssignPicButtonAndDialogForm from '@/components/pages/inventory-items/[uu
 import ChekupButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/CheckupButtonAndDialogForm'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import BackButton from '@/components/BackButton'
-import { DataTableColumnObject } from 'mui-datatable-delight'
 
 let picMutator: MutateType<InventoryItem['latest_pic']>
 let checkupMutator: MutateType<InventoryItem['latest_checkup']>
@@ -145,7 +144,7 @@ const DEFAULT_SORT_ORDER: MUISortOptions = {
     direction: 'desc',
 }
 
-const PIC_DATATABLE_COLUMNS: DataTableColumnObject[] = [
+const PIC_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'at',
         label: 'Pada',
@@ -166,7 +165,7 @@ const PIC_DATATABLE_COLUMNS: DataTableColumnObject[] = [
     },
 ]
 
-const CHECKUP_DATATABLE_COLUMNS: DataTableColumnObject[] = [
+const CHECKUP_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'at',
         label: 'Pada',

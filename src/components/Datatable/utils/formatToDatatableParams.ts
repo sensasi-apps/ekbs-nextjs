@@ -1,6 +1,5 @@
 import type { DataTableRequest } from '@/@types/request/datatable'
-import type { DataTableState } from 'mui-datatable-delight'
-import type { MUIDataTableColumnState } from 'mui-datatables'
+import type { MUIDataTableColumnState, MUIDataTableState } from 'mui-datatables'
 
 /**
  *
@@ -10,10 +9,10 @@ import type { MUIDataTableColumnState } from 'mui-datatables'
  * @see https://datatables.net/manual/server-side
  */
 export default function formatToDatatableParams(
-    tableState: DataTableState,
+    tableState: MUIDataTableState,
 ): DataTableRequest {
     const orderIndex = tableState.columns.findIndex(
-        column => column.name === tableState.sortOrder?.name,
+        column => column.name === tableState.sortOrder.name,
     )
 
     return {
@@ -27,10 +26,10 @@ export default function formatToDatatableParams(
         order: [
             {
                 column: orderIndex,
-                dir: tableState.sortOrder?.direction || 'desc',
+                dir: tableState.sortOrder.direction || 'desc',
             },
         ],
-        columns: formatColumns(tableState.columns as MUIDataTableColumnState[]),
+        columns: formatColumns(tableState.columns),
     }
 }
 

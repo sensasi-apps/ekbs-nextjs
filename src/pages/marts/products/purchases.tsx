@@ -79,7 +79,6 @@ export default function ProductPurchases() {
                 tableId="product-purchase-table"
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
-                // @ts-expect-error fix this later
                 columns={columns}
                 setRowProps={getNoWrapCellProps}
             />
