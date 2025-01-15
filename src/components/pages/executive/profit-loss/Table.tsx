@@ -15,6 +15,7 @@ import {
 import dayjs from 'dayjs'
 // utils
 import formatNumber from '@/utils/formatNumber'
+import { InfoOutlined } from '@mui/icons-material'
 
 export type ItemRow = {
     name: string
@@ -43,6 +44,7 @@ export default function Table({
     footer: {
         incomes?: ItemRow[]
         outcomes?: ItemRow[]
+        info?: string
     }
 }) {
     return (
@@ -120,7 +122,20 @@ function CustomRow({ name, data, info }: ItemRow) {
             <TableCell sx={SX_CELL_DATA}>
                 {info ? (
                     <Tooltip title={info} arrow placement="right">
-                        <span>{name}*</span>
+                        <Box
+                            sx={{
+                                textDecoration: 'underline',
+                                textDecorationStyle: 'dashed',
+                            }}
+                            component="span">
+                            {name}{' '}
+                            <InfoOutlined
+                                sx={{
+                                    fontSize: '1em',
+                                    verticalAlign: 'text-top',
+                                }}
+                            />
+                        </Box>
                     </Tooltip>
                 ) : (
                     name
@@ -142,11 +157,13 @@ function CustomRow({ name, data, info }: ItemRow) {
 }
 
 function CustomTableFooter({
-    incomes,
     outcomes,
+    incomes,
+    info,
 }: {
-    incomes?: ItemRow[]
     outcomes?: ItemRow[]
+    incomes?: ItemRow[]
+    info?: string
 }) {
     const incomeSums: number[] = monthNames.map(
         (_, i) =>
@@ -174,6 +191,7 @@ function CustomTableFooter({
                 {
                     name: 'Laba Kotor',
                     data: diffs,
+                    info: info,
                 },
                 {
                     name: 'PPH Pasal 25 @10%',
