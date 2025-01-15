@@ -116,7 +116,6 @@ export default function ProfitLoss() {
                 in={activeTab === BusinessUnit.BELAYAN_MART.toString()}
                 unmountOnExit>
                 <div>
-                    test
                     <Table
                         subtables={[
                             {
@@ -125,9 +124,9 @@ export default function ProfitLoss() {
                                 footer: 'Total (I)',
                             },
                             {
-                                header: 'Pembelian (II)',
+                                header: 'Pembelian',
                                 data: belayanMart?.purchases,
-                                footer: 'Total (II)',
+                                footer: 'Total',
                             },
                             {
                                 header: 'Persediaan',
@@ -135,9 +134,9 @@ export default function ProfitLoss() {
                                 footer: 'Total',
                             },
                             {
-                                header: 'HPP',
+                                header: 'HPP (II)',
                                 data: belayanMart?.hpp,
-                                footer: 'Total',
+                                footer: 'Total (II)',
                             },
                             {
                                 header: 'Beban (III)',
@@ -147,7 +146,11 @@ export default function ProfitLoss() {
                         ]}
                         footer={{
                             incomes: belayanMart?.sales,
-                            outcomes: belayanMart?.outcomes,
+                            outcomes: [
+                                ...(belayanMart?.outcomes ?? []),
+                                ...(belayanMart?.hpp ?? []),
+                            ],
+                            info: '= I - II - III',
                         }}
                     />
                 </div>
@@ -163,9 +166,9 @@ export default function ProfitLoss() {
                                 footer: 'Total (I)',
                             },
                             {
-                                header: 'Pembelian (II)',
+                                header: 'Pembelian',
                                 data: farmInput?.purchases,
-                                footer: 'Total (II)',
+                                footer: 'Total',
                             },
                             {
                                 header: 'Persediaan',
@@ -173,9 +176,9 @@ export default function ProfitLoss() {
                                 footer: 'Total',
                             },
                             {
-                                header: 'HPP',
+                                header: 'HPP (II)',
                                 data: farmInput?.hpp,
-                                footer: 'Total',
+                                footer: 'Total (II)',
                             },
                             {
                                 header: 'Beban (III)',
@@ -185,7 +188,11 @@ export default function ProfitLoss() {
                         ]}
                         footer={{
                             incomes: farmInput?.sales,
-                            outcomes: farmInput?.outcomes,
+                            outcomes: [
+                                ...(farmInput?.outcomes ?? []),
+                                ...(farmInput?.hpp ?? []),
+                            ],
+                            info: '= I - II - III',
                         }}
                     />
                 </div>
@@ -235,6 +242,14 @@ export default function ProfitLoss() {
                         }}
                     />
                 </div>
+            </Fade>
+
+            <Fade in={isValidating || isLoading}>
+                <LinearProgress
+                    sx={{
+                        mt: 3,
+                    }}
+                />
             </Fade>
         </AuthLayout>
     )
