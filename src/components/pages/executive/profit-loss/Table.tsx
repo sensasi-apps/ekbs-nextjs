@@ -208,7 +208,11 @@ function RpItemCell({
                     justifyContent="space-between">
                     <span>Rp.</span>
 
-                    <span>{formatNumber(data)}</span>
+                    <span>
+                        {formatNumber(data, {
+                            maximumFractionDigits: 0,
+                        })}
+                    </span>
                 </Box>
             ) : (
                 '-'
