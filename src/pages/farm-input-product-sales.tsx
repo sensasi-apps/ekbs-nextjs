@@ -125,7 +125,6 @@ export default function FarmInputProductSales() {
                 tableId="farm-input-product-sale-table"
                 apiUrl="/farm-inputs/product-sales/datatable"
                 onRowClick={handleRowClick}
-                // @ts-expect-error fix this later
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 getRowDataCallback={fn => (getRowData = fn)}

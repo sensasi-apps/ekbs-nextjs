@@ -64,7 +64,6 @@ export default function InventoryItems() {
                 tableId="inventory-item-table"
                 apiUrl="/inventory-items/datatable"
                 onRowClick={handleRowClick}
-                // @ts-expect-error fix this later
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'owned_at', direction: 'desc' }}
                 mutateCallback={fn => (mutate = fn)}

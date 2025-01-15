@@ -37,7 +37,7 @@
     "idb": "^8.0.1",
     "js-file-download": "^0.4.12",
     "js-sha3": "^0.9.3",
-    "mui-datatable-delight": "^0.0.0-experimental.17",
+    "mui-datatable-delight": "^0.0.0-experimental.13",
     "next": "^15.1.4",
     "notistack": "^3.0.1",
     "qs": "^6.13.1",

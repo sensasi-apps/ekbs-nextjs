@@ -1,5 +1,5 @@
 // types
-import type { DataTableColumnObject } from 'mui-datatable-delight'
+import type { MUIDataTableColumn } from 'mui-datatables'
 import type { GetRowDataType, MutateType } from '@/components/Datatable'
 import type Transaction from '@/dataTypes/Transaction'
 // vendors
@@ -139,7 +139,7 @@ export default function UnitTxs({
     )
 }
 
-const DATATABLE_COLUMNS: DataTableColumnObject[] = [
+const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'uuid',
         label: 'UUID',

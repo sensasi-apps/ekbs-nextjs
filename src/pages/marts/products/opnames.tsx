@@ -1,6 +1,6 @@
 // types
 import type { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
-import type { DataTableColumnObject } from 'mui-datatable-delight'
+import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
 // vendors
 import { Box, Button } from '@mui/material'
@@ -79,7 +79,7 @@ export default function Opnames() {
     )
 }
 
-const columns: DataTableColumnObject[] = [
+const columns: MUIDataTableColumn[] = [
     {
         name: 'uuid',
         label: 'ID',
