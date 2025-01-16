@@ -19,6 +19,8 @@ import myAxios from '@/lib/axios'
 
 const CURR_YEAR = dayjs().format('YYYY')
 
+let isRecache = false
+
 export default function ProfitLoss() {
     const { query, replace } = useRouter()
 
@@ -41,7 +43,7 @@ export default function ProfitLoss() {
             'executive/profit-loss-data',
             {
                 year: query.year ?? CURR_YEAR,
-                recache: query.recache ?? false,
+                recache: isRecache,
             },
         ],
         fetcher,
@@ -51,22 +53,20 @@ export default function ProfitLoss() {
         <AuthLayout title="Laporan Laba-Rugi">
             <TabChips
                 disabled={isLoading || isValidating}
-                onRefreshClick={() => {
+                onYearChange={date => {
+                    isRecache = false
+
                     replace({
                         query: {
                             ...query,
-                            recache: true,
+                            year: (date ?? dayjs()).format('YYYY'),
                         },
                     })
+                }}
+                onRefreshClick={() => {
+                    isRecache = true
 
-                    mutate().then(() =>
-                        replace({
-                            query: {
-                                ...query,
-                                recache: false,
-                            },
-                        }),
-                    )
+                    mutate()
                 }}
             />
 
