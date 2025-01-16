@@ -69,7 +69,7 @@ export default function ProfitLoss() {
             <Fade in={!activeTab || activeTab === 'umum'} unmountOnExit>
                 <div>
                     <Table
-                        subtables={[
+                        subTables={[
                             {
                                 header: 'Pendapatan (I)',
                                 data: general?.incomes,
@@ -92,7 +92,7 @@ export default function ProfitLoss() {
             <Fade in={activeTab === 'alat-berat'} unmountOnExit>
                 <div>
                     <Table
-                        subtables={[
+                        subTables={[
                             {
                                 header: 'Pendapatan (I)',
                                 data: heavyEquipmentRent?.incomes,
@@ -117,7 +117,7 @@ export default function ProfitLoss() {
                 unmountOnExit>
                 <div>
                     <Table
-                        subtables={[
+                        subTables={[
                             {
                                 header: 'Penjualan (I)',
                                 data: belayanMart?.sales,
@@ -129,28 +129,31 @@ export default function ProfitLoss() {
                                 footer: 'Total',
                             },
                             {
-                                header: 'Persediaan',
-                                data: belayanMart?.stock_ins,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'HPP (II)',
-                                data: belayanMart?.hpp,
+                                header: 'Opname',
+                                data: belayanMart?.opname,
                                 footer: 'Total (II)',
                             },
                             {
-                                header: 'Beban (III)',
-                                data: belayanMart?.outcomes,
+                                header: 'HPP',
+                                data: belayanMart?.hpp,
                                 footer: 'Total (III)',
+                            },
+                            {
+                                header: 'Beban',
+                                data: belayanMart?.outcomes,
+                                footer: 'Total (IV)',
                             },
                         ]}
                         footer={{
-                            incomes: belayanMart?.sales,
+                            incomes: [
+                                ...(belayanMart?.sales ?? []),
+                                ...(belayanMart?.opname ?? []),
+                            ],
                             outcomes: [
                                 ...(belayanMart?.outcomes ?? []),
                                 ...(belayanMart?.hpp ?? []),
                             ],
-                            info: '= I - II - III',
+                            info: '= I + II - III - IV',
                         }}
                     />
                 </div>
@@ -159,7 +162,7 @@ export default function ProfitLoss() {
             <Fade in={activeTab === 'saprodi'} unmountOnExit>
                 <div>
                     <Table
-                        subtables={[
+                        subTables={[
                             {
                                 header: 'Penjualan (I)',
                                 data: farmInput?.sales,
@@ -201,7 +204,7 @@ export default function ProfitLoss() {
             <Fade in={activeTab === 'spp'} unmountOnExit>
                 <div>
                     <Table
-                        subtables={[
+                        subTables={[
                             {
                                 header: 'Pendapatan (I)',
                                 data: userLoan?.incomes,
@@ -224,7 +227,7 @@ export default function ProfitLoss() {
             <Fade in={activeTab === 'tbs'} unmountOnExit>
                 <div>
                     <Table
-                        subtables={[
+                        subTables={[
                             {
                                 header: 'Pendapatan (I)',
                                 data: palmBunch?.incomes,
@@ -293,8 +296,8 @@ interface ApiResponseType {
     [BusinessUnit.BELAYAN_MART]: {
         sales: ItemRow[]
         purchases: ItemRow[]
-        stock_ins: ItemRow[]
         hpp: ItemRow[]
+        opname: ItemRow[]
         outcomes: ItemRow[]
     }
 
