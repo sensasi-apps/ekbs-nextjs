@@ -19,10 +19,8 @@ import myAxios from '@/lib/axios'
 
 const CURR_YEAR = dayjs().format('YYYY')
 
-let isRecache = false
-
 export default function ProfitLoss() {
-    const { query } = useRouter()
+    const { query, replace } = useRouter()
 
     const activeTab = query.activeTab as Tab
 
@@ -43,9 +41,10 @@ export default function ProfitLoss() {
             'executive/profit-loss-data',
             {
                 year: query.year ?? CURR_YEAR,
+                recache: query.recache ?? false,
             },
         ],
-        args => fetcher(args[0] as string, args[1] as { year: string }),
+        fetcher,
     )
 
     return (
@@ -53,8 +52,21 @@ export default function ProfitLoss() {
             <TabChips
                 disabled={isLoading || isValidating}
                 onRefreshClick={() => {
-                    isRecache = true
-                    mutate()
+                    replace({
+                        query: {
+                            ...query,
+                            recache: true,
+                        },
+                    })
+
+                    mutate().then(() =>
+                        replace({
+                            query: {
+                                ...query,
+                                recache: false,
+                            },
+                        }),
+                    )
                 }}
             />
 
@@ -71,12 +83,12 @@ export default function ProfitLoss() {
                     <Table
                         subTables={[
                             {
-                                header: 'Pendapatan (I)',
+                                header: 'Pendapatan',
                                 data: general?.incomes,
                                 footer: 'Total (I)',
                             },
                             {
-                                header: 'Beban (II)',
+                                header: 'Beban',
                                 data: general?.outcomes,
                                 footer: 'Total (II)',
                             },
@@ -84,6 +96,7 @@ export default function ProfitLoss() {
                         footer={{
                             incomes: general?.incomes,
                             outcomes: general?.outcomes,
+                            info: 'I - II',
                         }}
                     />
                 </div>
@@ -94,12 +107,12 @@ export default function ProfitLoss() {
                     <Table
                         subTables={[
                             {
-                                header: 'Pendapatan (I)',
+                                header: 'Pendapatan',
                                 data: heavyEquipmentRent?.incomes,
                                 footer: 'Total (I)',
                             },
                             {
-                                header: 'Beban (II)',
+                                header: 'Beban',
                                 data: heavyEquipmentRent?.outcomes,
                                 footer: 'Total (II)',
                             },
@@ -107,6 +120,7 @@ export default function ProfitLoss() {
                         footer={{
                             incomes: heavyEquipmentRent?.incomes,
                             outcomes: heavyEquipmentRent?.outcomes,
+                            info: 'I - II',
                         }}
                     />
                 </div>
@@ -119,7 +133,7 @@ export default function ProfitLoss() {
                     <Table
                         subTables={[
                             {
-                                header: 'Penjualan (I)',
+                                header: 'Penjualan',
                                 data: belayanMart?.sales,
                                 footer: 'Total (I)',
                             },
@@ -129,13 +143,13 @@ export default function ProfitLoss() {
                                 footer: 'Total',
                             },
                             {
-                                header: 'Opname',
-                                data: belayanMart?.opname,
+                                header: 'HPP',
+                                data: belayanMart?.hpp,
                                 footer: 'Total (II)',
                             },
                             {
-                                header: 'HPP',
-                                data: belayanMart?.hpp,
+                                header: 'Opname',
+                                data: belayanMart?.opname,
                                 footer: 'Total (III)',
                             },
                             {
@@ -153,7 +167,7 @@ export default function ProfitLoss() {
                                 ...(belayanMart?.outcomes ?? []),
                                 ...(belayanMart?.hpp ?? []),
                             ],
-                            info: '= I + II - III - IV',
+                            info: '= I - II + III - IV',
                         }}
                     />
                 </div>
@@ -164,7 +178,7 @@ export default function ProfitLoss() {
                     <Table
                         subTables={[
                             {
-                                header: 'Penjualan (I)',
+                                header: 'Penjualan',
                                 data: farmInput?.sales,
                                 footer: 'Total (I)',
                             },
@@ -174,28 +188,31 @@ export default function ProfitLoss() {
                                 footer: 'Total',
                             },
                             {
-                                header: 'Persediaan',
-                                data: farmInput?.stock_ins,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'HPP (II)',
+                                header: 'HPP',
                                 data: farmInput?.hpp,
                                 footer: 'Total (II)',
                             },
                             {
-                                header: 'Beban (III)',
-                                data: farmInput?.outcomes,
+                                header: 'Opname',
+                                data: farmInput?.opname,
                                 footer: 'Total (III)',
+                            },
+                            {
+                                header: 'Beban',
+                                data: farmInput?.outcomes,
+                                footer: 'Total (IV)',
                             },
                         ]}
                         footer={{
-                            incomes: farmInput?.sales,
+                            incomes: [
+                                ...(farmInput?.sales ?? []),
+                                ...(farmInput?.opname ?? []),
+                            ],
                             outcomes: [
                                 ...(farmInput?.outcomes ?? []),
                                 ...(farmInput?.hpp ?? []),
                             ],
-                            info: '= I - II - III',
+                            info: '= I - II + III - IV',
                         }}
                     />
                 </div>
@@ -206,12 +223,12 @@ export default function ProfitLoss() {
                     <Table
                         subTables={[
                             {
-                                header: 'Pendapatan (I)',
+                                header: 'Pendapatan',
                                 data: userLoan?.incomes,
                                 footer: 'Total (I)',
                             },
                             {
-                                header: 'Beban (II)',
+                                header: 'Beban',
                                 data: userLoan?.outcomes,
                                 footer: 'Total (II)',
                             },
@@ -219,6 +236,7 @@ export default function ProfitLoss() {
                         footer={{
                             incomes: userLoan?.incomes,
                             outcomes: userLoan?.outcomes,
+                            info: 'I - II',
                         }}
                     />
                 </div>
@@ -229,12 +247,12 @@ export default function ProfitLoss() {
                     <Table
                         subTables={[
                             {
-                                header: 'Pendapatan (I)',
+                                header: 'Pendapatan',
                                 data: palmBunch?.incomes,
                                 footer: 'Total (I)',
                             },
                             {
-                                header: 'Beban (II)',
+                                header: 'Beban',
                                 data: palmBunch?.outcomes,
                                 footer: 'Total (II)',
                             },
@@ -242,6 +260,7 @@ export default function ProfitLoss() {
                         footer={{
                             incomes: palmBunch?.incomes,
                             outcomes: palmBunch?.outcomes,
+                            info: 'I - II',
                         }}
                     />
                 </div>
@@ -258,13 +277,13 @@ export default function ProfitLoss() {
     )
 }
 
-async function fetcher(url: string, params: { year: string }) {
+async function fetcher(args: [string, { year: string; recache: boolean }]) {
+    const url = args[0]
+    const params = args[1]
+
     return myAxios
         .get(url, {
-            params: {
-                ...params,
-                recache: isRecache,
-            },
+            params,
         })
         .then(res => res.data)
 }
@@ -276,11 +295,11 @@ interface ApiResponseType {
     }
 
     farmInput: {
-        sales: ItemRow[]
-        purchases: ItemRow[]
-        stock_ins: ItemRow[]
         hpp: ItemRow[]
+        opname: ItemRow[]
         outcomes: ItemRow[]
+        purchases: ItemRow[]
+        sales: ItemRow[]
     }
 
     userLoan: {
