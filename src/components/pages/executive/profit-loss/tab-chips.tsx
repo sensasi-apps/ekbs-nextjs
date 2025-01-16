@@ -12,6 +12,7 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 // enums
 import BusinessUnit from '@/enums/BusinessUnit'
 import dynamic from 'next/dynamic'
+import type { DatePickerProps } from '@/components/DatePicker'
 
 const DatePicker = dynamic(() => import('@/components/DatePicker'), {
     ssr: false,
@@ -20,9 +21,11 @@ const DatePicker = dynamic(() => import('@/components/DatePicker'), {
 export function TabChips({
     disabled,
     onRefreshClick,
+    onYearChange,
 }: {
     disabled: boolean
     onRefreshClick: () => void
+    onYearChange: DatePickerProps['onChange']
 }) {
     const { replace, query } = useRouter()
 
@@ -102,14 +105,7 @@ export function TabChips({
                 label="Tahun"
                 value={dayjs(query.year as string)}
                 format="YYYY"
-                onChange={date => {
-                    replace({
-                        query: {
-                            ...query,
-                            year: (date ?? dayjs()).format('YYYY'),
-                        },
-                    })
-                }}
+                onChange={onYearChange}
                 minDate={dayjs('2024')}
                 maxDate={dayjs()}
                 views={['year']}
