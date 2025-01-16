@@ -34,11 +34,7 @@ export default function Opnames() {
         query: { from_at, to_at },
     } = useRouter()
 
-    const {
-        data = [],
-        mutate,
-        isLoading,
-    } = useSWR<OpnameReportItem[]>(
+    const swr = useSWR<OpnameReportItem[]>(
         from_at && to_at
             ? [
                   OpnameApiUrl.REPORTS,
@@ -50,12 +46,16 @@ export default function Opnames() {
             : null,
     )
 
+    const { data = [] } = swr
+
+    const isLoading = swr.isLoading || swr.isValidating
+
     return (
         <AuthLayout title="Laporan Opname per Kategori">
             <BackButton />
 
             <Box display="flex" alignItems="center" mb={2} mt={1}>
-                <FiltersBox {...{ mutate, isLoading }} />
+                <FiltersBox mutate={swr.mutate} isLoading={isLoading} />
 
                 <PrintHandler
                     slotProps={{
@@ -166,7 +166,7 @@ function FiltersBox({
                 disabled={!from_at || !to_at || isLoading}
                 title="Segarkan"
                 icon={Refresh}
-                onClick={mutate}
+                onClick={() => mutate()}
             />
         </Box>
     )

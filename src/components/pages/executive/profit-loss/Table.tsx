@@ -23,11 +23,6 @@ export type ItemRow = {
     info?: string
 }
 
-const HEADER_SX = {
-    fontWeight: 'bold',
-    fontSize: '0.8rem',
-}
-
 const monthNames: string[] = []
 
 for (let i = 0; i < 12; i++) {
@@ -37,10 +32,10 @@ for (let i = 0; i < 12; i++) {
 const emptyData = monthNames.map(() => 0)
 
 export default function Table({
-    subtables,
+    subTables,
     footer,
 }: {
-    subtables: SubTableProps[]
+    subTables: SubTableProps[]
     footer: {
         incomes?: ItemRow[]
         outcomes?: ItemRow[]
@@ -65,8 +60,8 @@ export default function Table({
                             whiteSpace: 'nowrap',
                         },
                     }}>
-                    {subtables.map((subtable, i) => (
-                        <SubTable key={i} {...subtable} />
+                    {subTables.map((subTable, i) => (
+                        <SubTable key={i} {...subTable} />
                     ))}
                 </TableBody>
 
@@ -80,6 +75,11 @@ interface SubTableProps {
     header: string
     data: ItemRow[] | undefined
     footer: string
+}
+
+const HEADER_SX = {
+    fontWeight: 'bold',
+    fontSize: '0.8rem',
 }
 
 function SubTable({ header, data, footer }: SubTableProps) {
@@ -143,14 +143,7 @@ function CustomRow({ name, data, info }: ItemRow) {
             </TableCell>
 
             {data?.map((subItem, i) => (
-                <RpItemCell
-                    key={i}
-                    data={subItem}
-                    sx={{
-                        ...SX_CELL_DATA,
-                        color: subItem < 0 ? 'error.light' : undefined,
-                    }}
-                />
+                <RpItemCell key={i} data={subItem} sx={SX_CELL_DATA} />
             ))}
         </TableRow>
     )
@@ -217,7 +210,12 @@ function RpItemCell({
     data,
 }: Omit<TableCellProps, 'children'> & { data: number }) {
     return (
-        <TableCell sx={sx} align="right">
+        <TableCell
+            sx={{
+                ...sx,
+                color: data < 0 ? 'error.light' : undefined,
+            }}
+            align="right">
             {data ? (
                 <Box
                     display="flex"
