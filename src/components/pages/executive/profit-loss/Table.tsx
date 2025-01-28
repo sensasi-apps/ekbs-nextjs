@@ -19,7 +19,7 @@ import { InfoOutlined } from '@mui/icons-material'
 
 export type ItemRow = {
     name: string
-    data?: number[]
+    data: number[]
     info?: string
 }
 

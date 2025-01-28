@@ -135,7 +135,7 @@ export default function ProfitLoss() {
                             {
                                 header: 'Penjualan',
                                 data: belayanMart?.sales,
-                                footer: 'Total (I)',
+                                footer: 'Total',
                             },
                             {
                                 header: 'Pembelian',
@@ -143,31 +143,54 @@ export default function ProfitLoss() {
                                 footer: 'Total',
                             },
                             {
-                                header: 'HPP',
-                                data: belayanMart?.hpp,
-                                footer: 'Total (II)',
-                            },
-                            {
                                 header: 'Opname',
                                 data: belayanMart?.opname,
-                                footer: 'Total (III)',
+                                footer: 'Total',
                             },
+                            {
+                                header: 'HPP',
+                                data: belayanMart?.hpp,
+                                footer: 'Total',
+                            },
+
+                            {
+                                header: 'Laba Penjualan',
+                                data: [
+                                    {
+                                        name: 'Total Penjualan',
+                                        data: calcMonthlyTotal(
+                                            belayanMart?.sales ?? [],
+                                        ),
+                                    },
+                                    {
+                                        name: '(-)Total HPP',
+                                        data: calcMonthlyTotal(
+                                            belayanMart?.hpp ?? [],
+                                        ).map(total => total * -1),
+                                    },
+                                ],
+                                footer: 'Total (I)',
+                            },
+
+                            {
+                                header: 'Pendapatan Lain',
+                                data: belayanMart?.other_incomes,
+                                footer: 'Total (II)',
+                            },
+
                             {
                                 header: 'Beban',
                                 data: belayanMart?.outcomes,
-                                footer: 'Total (IV)',
+                                footer: 'Total (III)',
                             },
                         ]}
                         footer={{
-                            incomes: [
-                                ...(belayanMart?.sales ?? []),
-                                ...(belayanMart?.opname ?? []),
-                            ],
+                            incomes: [...(belayanMart?.sales ?? [])],
                             outcomes: [
                                 ...(belayanMart?.outcomes ?? []),
                                 ...(belayanMart?.hpp ?? []),
                             ],
-                            info: '= I - II + III - IV',
+                            info: '= I + II - III',
                         }}
                     />
                 </div>
@@ -180,7 +203,7 @@ export default function ProfitLoss() {
                             {
                                 header: 'Penjualan',
                                 data: farmInput?.sales,
-                                footer: 'Total (I)',
+                                footer: 'Total',
                             },
                             {
                                 header: 'Pembelian',
@@ -188,31 +211,51 @@ export default function ProfitLoss() {
                                 footer: 'Total',
                             },
                             {
-                                header: 'HPP',
-                                data: farmInput?.hpp,
-                                footer: 'Total (II)',
-                            },
-                            {
                                 header: 'Opname',
                                 data: farmInput?.opname,
-                                footer: 'Total (III)',
+                                footer: 'Total',
+                            },
+                            {
+                                header: 'HPP',
+                                data: farmInput?.hpp,
+                                footer: 'Total',
+                            },
+                            {
+                                header: 'Laba Penjualan',
+                                data: [
+                                    {
+                                        name: 'Total Penjualan',
+                                        data: calcMonthlyTotal(
+                                            farmInput?.sales ?? [],
+                                        ),
+                                    },
+                                    {
+                                        name: '(-)Total HPP',
+                                        data: calcMonthlyTotal(
+                                            farmInput?.hpp ?? [],
+                                        ).map(total => total * -1),
+                                    },
+                                ],
+                                footer: 'Total (I)',
+                            },
+                            {
+                                header: 'Pendapatan Lain',
+                                data: farmInput?.other_incomes,
+                                footer: 'Total (II)',
                             },
                             {
                                 header: 'Beban',
                                 data: farmInput?.outcomes,
-                                footer: 'Total (IV)',
+                                footer: 'Total (III)',
                             },
                         ]}
                         footer={{
-                            incomes: [
-                                ...(farmInput?.sales ?? []),
-                                ...(farmInput?.opname ?? []),
-                            ],
+                            incomes: [...(farmInput?.sales ?? [])],
                             outcomes: [
                                 ...(farmInput?.outcomes ?? []),
                                 ...(farmInput?.hpp ?? []),
                             ],
-                            info: '= I - II + III - IV',
+                            info: '= I + II - III',
                         }}
                     />
                 </div>
@@ -299,6 +342,7 @@ interface ApiResponseType {
         opname: ItemRow[]
         outcomes: ItemRow[]
         purchases: ItemRow[]
+        other_incomes: ItemRow[]
         sales: ItemRow[]
     }
 
@@ -317,6 +361,7 @@ interface ApiResponseType {
         purchases: ItemRow[]
         hpp: ItemRow[]
         opname: ItemRow[]
+        other_incomes: ItemRow[]
         outcomes: ItemRow[]
     }
 
@@ -324,4 +369,13 @@ interface ApiResponseType {
         incomes: ItemRow[]
         outcomes: ItemRow[]
     }
+}
+
+function calcMonthlyTotal(data: ItemRow[]): number[] {
+    return data
+        .map(item => item.data)
+        .reduce(
+            (acc, item) => acc.map((_, i) => acc[i] + (item?.[i] ?? 0)),
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        )
 }
