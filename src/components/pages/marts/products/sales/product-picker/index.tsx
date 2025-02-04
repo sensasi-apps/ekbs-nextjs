@@ -7,12 +7,12 @@ import type { SubmittedData } from '../formik-wrapper/@types/submitted-data'
 // vendors
 import { memo, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { Masonry } from '@mui/lab'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
+import Masonry from '@mui/lab/Masonry'
 // sub-components
 import CategoryChips from './components/category-chips'
 import ProductCard from './components/product-card'

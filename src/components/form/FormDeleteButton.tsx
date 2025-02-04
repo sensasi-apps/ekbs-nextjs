@@ -1,5 +1,5 @@
 // vendors
-import { LoadingButton, LoadingButtonProps } from '@mui/lab'
+import LoadingButton, { type LoadingButtonProps } from '@mui/lab/LoadingButton'
 import { useState } from 'react'
 // components
 import ConfirmationDialog from '../ConfirmationDialog'
