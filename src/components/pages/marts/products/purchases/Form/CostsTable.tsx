@@ -1,14 +1,14 @@
+// materials
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableFooter from '@mui/material/TableFooter'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Typography from '@mui/material/Typography'
+//
 import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
 import formatNumber from '@/utils/formatNumber'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableRow,
-    Typography,
-} from '@mui/material'
 
 export function CostsTable({ data }: { data: ProductMovementCost[] }) {
     return (

@@ -4,10 +4,13 @@ import type Product from '@/dataTypes/mart/Product'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
 import { useState } from 'react'
-import { Fade, LinearProgress, Typography } from '@mui/material'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
+// materials
+import Fade from '@mui/material/Fade'
+import LinearProgress from '@mui/material/LinearProgress'
+import Typography from '@mui/material/Typography'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components

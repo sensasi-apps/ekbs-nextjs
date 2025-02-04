@@ -1,9 +1,14 @@
-import { Box, IconButton, Typography } from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+// vendors
 import { memo, useEffect, useState } from 'react'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+// materials
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 extend(relativeTime)
 

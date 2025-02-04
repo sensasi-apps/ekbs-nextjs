@@ -1,23 +1,23 @@
 // vendors
 import { useState } from 'react'
 // materials
+import Box from '@mui/material/Box'
+import CardActionArea from '@mui/material/CardActionArea'
+import CardContent from '@mui/material/CardContent'
+import Collapse from '@mui/material/Collapse'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import IconButton from '@mui/material/IconButton'
 import MuiCard, { type CardProps } from '@mui/material/Card'
 import LinearProgress, {
-    LinearProgressProps,
+    type LinearProgressProps,
 } from '@mui/material/LinearProgress'
-import {
-    Box,
-    CardActionArea,
-    CardContent,
-    Collapse,
-    Dialog,
-    DialogContent,
-    IconButton,
-    Skeleton,
-    Typography,
-} from '@mui/material'
-// icons
-import { Close, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import Close from '@mui/icons-material/Close'
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
 

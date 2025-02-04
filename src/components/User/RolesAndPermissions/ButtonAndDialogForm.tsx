@@ -7,27 +7,23 @@ import { useState } from 'react'
 import useSWR, { mutate } from 'swr'
 import axios from '@/lib/axios'
 // materials
-import {
-    Box,
-    Button,
-    Checkbox,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle as MuiDialogTitle,
-    Divider,
-    FormControlLabel,
-    FormGroup,
-    IconButton,
-    Skeleton,
-    Tooltip,
-    Typography,
-} from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import MuiDialogTitle from '@mui/material/DialogTitle'
+import Divider from '@mui/material/Divider'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormGroup from '@mui/material/FormGroup'
+import IconButton from '@mui/material/IconButton'
+import Skeleton from '@mui/material/Skeleton'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 // icons
-import {
-    Close as CloseIcon,
-    ManageAccounts as ManageAccountsIcon,
-} from '@mui/icons-material'
+import CloseIcon from '@mui/icons-material/Close'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 // components
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'

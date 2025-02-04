@@ -1,14 +1,11 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import {
-    AllInbox,
-    // AutoStories,
-    Inventory,
-    PointOfSale,
-    QueryStats,
-    ShoppingCart,
-} from '@mui/icons-material'
+// icons-materials
+import AllInbox from '@mui/icons-material/AllInbox'
+import Inventory from '@mui/icons-material/Inventory'
+import PointOfSale from '@mui/icons-material/PointOfSale'
+import QueryStats from '@mui/icons-material/QueryStats'
+import ShoppingCart from '@mui/icons-material/ShoppingCart'
 // enums
 import Mart from '@/enums/permissions/Mart'
 

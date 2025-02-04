@@ -1,12 +1,13 @@
 // materials
 import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
+import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableContainer from '@mui/material/TableContainer'
 // components
 import { ApiResponseType } from '../Tbs'
-import { TableBody, TableFooter } from '@mui/material'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 

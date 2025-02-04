@@ -5,10 +5,13 @@ import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 import type { GetRowDataType, MutateType } from '@/components/Datatable'
 import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
 // vendors
+import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 import useSWR from 'swr'
-import { useRouter } from 'next/router'
-import { Card, CardContent, Grid2 } from '@mui/material'
+// materials
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Grid2 from '@mui/material/Grid2'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable from '@/components/Datatable'
@@ -16,7 +19,7 @@ import InventoryItemFormWithFormik from '@/components/pages/inventory-items/Form
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 // components/pages
 import AssignPicButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/AssignPicButtonAndDialogForm'
-import ChekupButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/CheckupButtonAndDialogForm'
+import CheckupButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/CheckupButtonAndDialogForm'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import BackButton from '@/components/BackButton'
 
@@ -67,7 +70,7 @@ export default function InventoryItemDetail() {
                             xs: 12,
                             sm: 8,
                         }}>
-                        <ChekupButtonAndDialogForm
+                        <CheckupButtonAndDialogForm
                             uuid={inventoryItem.uuid}
                             onSubmit={() => checkupMutator()}
                             latestPic={inventoryItem.latest_pic}

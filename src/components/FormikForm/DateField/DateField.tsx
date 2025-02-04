@@ -1,6 +1,6 @@
 // types
 import type { Ymd } from '@/types/DateString'
-import type { TextFieldProps } from '@mui/material'
+import type { TextFieldProps } from '@mui/material/TextField'
 // vendors
 import { Field, FieldProps } from 'formik'
 import { useDebouncedCallback } from 'use-debounce'

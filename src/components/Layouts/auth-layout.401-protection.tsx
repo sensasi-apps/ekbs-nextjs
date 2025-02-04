@@ -1,7 +1,9 @@
-import { ArrowForward } from '@mui/icons-material'
-import { Alert, Box, Button } from '@mui/material'
+import ArrowForward from '@mui/icons-material/ArrowForward'
+import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function The401Protection({ hasMenu = false }: { hasMenu?: boolean }) {
     const { replace } = useRouter()

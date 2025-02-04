@@ -11,7 +11,8 @@ const compat = new FlatCompat({
 })
 
 /** @type { import("eslint").Linter.Config[] } */
-export default [
+
+const config = [
     ...compat.extends('next/core-web-vitals', 'next/typescript'),
 
     {
@@ -32,8 +33,29 @@ export default [
             //         ]
             //     }
             // ]
+
+            'no-restricted-imports': [
+                'error',
+                {
+                    paths: [
+                        {
+                            name: '@mui/material',
+                            message:
+                                "Please use `import [Component] from '@mui/material/[Component]'` instead.",
+                        },
+                        {
+                            name: '@mui/icons-material',
+                            message:
+                                "Please use `import [Component] from '@mui/icons-material/[Component]'` instead.",
+                        },
+                    ],
+                    patterns: ['!@mui/material/*', '!@mui/icons-material/*'],
+                },
+            ],
         },
     },
 
     eslintPluginPrettierRecommended,
 ]
+
+export default config

@@ -1,15 +1,11 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import {
-    AutoStories,
-    AlignHorizontalLeft,
-    BackupTable,
-    CurrencyExchange,
-    PointOfSale,
-    // RequestQuote,
-    // RateReview,
-} from '@mui/icons-material'
+// icons-materials
+import AutoStories from '@mui/icons-material/AutoStories'
+import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
+import BackupTable from '@mui/icons-material/BackupTable'
+import CurrencyExchange from '@mui/icons-material/CurrencyExchange'
+import PointOfSale from '@mui/icons-material/PointOfSale'
 // enums
 import UserLoan from '@/enums/permissions/UserLoan'
 

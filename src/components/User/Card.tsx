@@ -1,14 +1,15 @@
-// materials
-import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Skeleton,
-    Typography,
-} from '@mui/material'
-import { Close, Edit } from '@mui/icons-material'
+// vendors
 import { useRouter } from 'next/router'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import Close from '@mui/icons-material/Close'
+import Edit from '@mui/icons-material/Edit'
 // global components
 import IconButton from '../IconButton'
 // local components

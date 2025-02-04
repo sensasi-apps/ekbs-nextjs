@@ -5,12 +5,17 @@ import type PalmBunchType from '@/dataTypes/PalmBunch'
 import type Land from '@/types/Land'
 // vendors
 import { useRouter } from 'next/router'
-import { Box, Button, Chip, Collapse, Typography } from '@mui/material'
-import { BackupTable } from '@mui/icons-material'
 import Link from 'next/link'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
-// icons
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
+import Collapse from '@mui/material/Collapse'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import BackupTable from '@mui/icons-material/BackupTable'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'

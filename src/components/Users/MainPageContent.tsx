@@ -1,15 +1,12 @@
 // vendors
 import { useRouter } from 'next/router'
 // materials
-import {
-    Box,
-    Card,
-    CardContent,
-    CardHeader,
-    CardHeaderProps,
-    Fade,
-    Typography,
-} from '@mui/material'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardHeader, { type CardHeaderProps } from '@mui/material/CardHeader'
+import Fade from '@mui/material/Fade'
+import Typography from '@mui/material/Typography'
 // mui labs
 import Masonry from '@mui/lab/Masonry'
 // page components

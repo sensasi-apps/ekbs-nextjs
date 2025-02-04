@@ -7,13 +7,11 @@ import '@fontsource/roboto/700.css'
 import type { ReactNode } from 'react'
 // vendors
 import { closeSnackbar, SnackbarProvider } from 'notistack'
-import {
-    CssBaseline,
-    GlobalStyles,
-    IconButton,
-    ThemeProvider,
-} from '@mui/material'
-import { Close } from '@mui/icons-material'
+import CssBaseline from '@mui/material/CssBaseline'
+import GlobalStyles from '@mui/material/GlobalStyles'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
+import IconButton from '@mui/material/IconButton'
+import Close from '@mui/icons-material/Close'
 import { locale } from 'dayjs'
 import Head from 'next/head'
 import 'dayjs/locale/id'
@@ -35,7 +33,7 @@ locale('id')
  * - `CssBaseline`: Provides a consistent baseline for CSS.
  * - `GlobalStyles`: Applies global CSS styles, including custom scrollbar styles.
  * - `Head`: Sets meta tags and the title for the application.
- * - `SnackbarProvider`: Provides a context for displaying snackbars with a maximum of 7 snackbars.
+ * - `SnackbarProvider`: Provides a context for displaying snackbar(s) with a maximum of 7 snackbars.
  * - `SWRProvider`: Provides SWR context for data fetching.
  * - `ThemeProvider`: Provides a theme for the application.
  * - `useRedirectIfBrowserIsUnsupported`: A hook to redirect if the browser is unsupported.

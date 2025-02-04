@@ -1,8 +1,13 @@
+// vendors
 import { memo, useEffect, useState } from 'react'
+// materials
+import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
 // icons
+import Close from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
-import { Fade, IconButton, InputAdornment, TextField } from '@mui/material'
-import { Close } from '@mui/icons-material'
 
 function SearchTextField({
     value: valueProp,

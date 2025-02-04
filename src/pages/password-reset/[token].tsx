@@ -1,11 +1,14 @@
 import type { AxiosError } from 'axios'
 import type LaravelValidationException from '@/types/LaravelValidationException'
-// vandors
+// vendors
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 // materials
-import { Box, Button, TextField, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 // icons
 import LockResetIcon from '@mui/icons-material/LockReset'
 // components

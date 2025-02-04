@@ -1,4 +1,5 @@
-import { Divider, Typography } from '@mui/material'
+import Divider from '@mui/material/Divider'
+import Typography from '@mui/material/Typography'
 import { NavItemGroup } from './@types/nav-item-group'
 import { MenuListItem } from './menu-list-item'
 import useAuth from '@/providers/Auth'

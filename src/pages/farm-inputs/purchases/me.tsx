@@ -2,17 +2,16 @@
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
-import {
-    Box,
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    Grid2,
-} from '@mui/material'
 import useSWR from 'swr'
 import { useState } from 'react'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import Grid2 from '@mui/material/Grid2'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, { type GetRowDataType } from '@/components/Datatable'

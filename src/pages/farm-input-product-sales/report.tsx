@@ -1,14 +1,18 @@
 // vendors
-import { Fade, LinearProgress, Table, TableContainer } from '@mui/material'
+import { useRouter } from 'next/router'
+import useSWR from 'swr'
+// materials
+import Fade from '@mui/material/Fade'
+import LinearProgress from '@mui/material/LinearProgress'
+import Table from '@mui/material/Table'
+import TableContainer from '@mui/material/TableContainer'
 // components
+import type ProductSaleType from '@/dataTypes/ProductSale'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import BackButton from '@/components/BackButton'
 import FiltersBox from '@/components/pages/farm-input-product-sales/Report/FiltersBox'
 import TableHead from '@/components/pages/farm-input-product-sales/Report/Table/TableHead'
 import TableBody from '@/components/pages/farm-input-product-sales/Report/Table/TableBody'
-import useSWR from 'swr'
-import ProductSaleType from '@/dataTypes/ProductSale'
-import { useRouter } from 'next/router'
 import TableFooter from '@/components/pages/farm-input-product-sales/Report/Table/TableFooter'
 
 export default function FarmInputProductSalesReport() {

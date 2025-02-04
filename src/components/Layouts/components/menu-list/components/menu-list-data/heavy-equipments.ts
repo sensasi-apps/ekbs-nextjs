@@ -1,12 +1,10 @@
 // type
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import {
-    AutoStories,
-    AlignHorizontalLeft,
-    CreditCard,
-    EventNote,
-} from '@mui/icons-material'
+// icons-materials
+import AutoStories from '@mui/icons-material/AutoStories'
+import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
+import CreditCard from '@mui/icons-material/CreditCard'
+import EventNote from '@mui/icons-material/EventNote'
 // enums
 import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
 

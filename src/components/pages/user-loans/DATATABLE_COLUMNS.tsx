@@ -1,8 +1,9 @@
 // types
 import type { MUIDataTableColumn } from 'mui-datatables'
 import type UserLoan from '@/dataTypes/Loan'
-// vendors
-import { Chip, Typography } from '@mui/material'
+// materials
+import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 // utils
 import { getRowData } from '@/components/Datatable'
 import toDmy from '@/utils/toDmy'

@@ -1,14 +1,14 @@
+// materials
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableFooter from '@mui/material/TableFooter'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Typography from '@mui/material/Typography'
+//
 import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 import formatNumber from '@/utils/formatNumber'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableRow,
-    Typography,
-} from '@mui/material'
 
 export function PmdsTable({ data }: { data: ProductMovementDetail[] }) {
     return (

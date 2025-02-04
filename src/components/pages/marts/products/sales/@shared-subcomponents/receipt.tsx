@@ -6,9 +6,12 @@ import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'
 import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
 // vendors
-import { Box, Divider, Typography } from '@mui/material'
-import Grid2 from '@mui/material/Grid2'
 import Image from 'next/image'
+// materials
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import Grid2 from '@mui/material/Grid2'
+import Typography from '@mui/material/Typography'
 // components
 import DefaultItemDesc from './default-item-desc'
 // utils

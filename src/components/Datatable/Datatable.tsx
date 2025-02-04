@@ -6,8 +6,14 @@ import type {
     DataTableOptions as VendorDatatableOptions,
     DataTableProps as VendorDatatableProps,
 } from 'mui-datatable-delight'
-import { Box, Fade, IconButton, LinearProgress, Tooltip } from '@mui/material'
-import { Download, Refresh } from '@mui/icons-material'
+import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
+import LinearProgress from '@mui/material/LinearProgress'
+import Tooltip from '@mui/material/Tooltip'
+// icons-materials
+import Download from '@mui/icons-material/Download'
+import Refresh from '@mui/icons-material/Refresh'
 // locals
 import { useHooks } from './hooks'
 // import { DownloadConfirmationDialog } from './components/DownloadConfirmationDialog'

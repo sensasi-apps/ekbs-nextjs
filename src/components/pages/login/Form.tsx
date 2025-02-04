@@ -1,5 +1,8 @@
 // materials
-import { Box, Fab, Link, TextField } from '@mui/material'
+import Box from '@mui/material/Box'
+import Fab from '@mui/material/Fab'
+import Link from '@mui/material/Link'
+import TextField from '@mui/material/TextField'
 
 export function Form({
     handleSubmit,

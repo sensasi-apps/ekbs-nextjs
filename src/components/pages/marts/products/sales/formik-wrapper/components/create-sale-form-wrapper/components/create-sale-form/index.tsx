@@ -3,9 +3,12 @@ import type { FormikStatusType, FormValuesType } from '../../../..'
 // vendors
 import { Field, FieldProps, useFormikContext } from 'formik'
 import { memo } from 'react'
-import { Box, Divider, Typography } from '@mui/material'
+// materials
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
 import Grid2 from '@mui/material/Grid2'
-// subcomponents
+import Typography from '@mui/material/Typography'
+// sub-components
 import { NumericField } from '@/components/FormikForm'
 import BuyerUserUuidFieldComponent from './components/buyer-user-uuid-field-component'
 import CashableUuidFieldComponent from './components/cashable-uuid-field-component'

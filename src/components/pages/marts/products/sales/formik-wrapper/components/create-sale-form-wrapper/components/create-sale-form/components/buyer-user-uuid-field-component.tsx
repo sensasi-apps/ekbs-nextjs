@@ -1,6 +1,4 @@
-import type User from '@/dataTypes/User'
-import type { FieldProps } from 'formik'
-import type { FormikStatusType } from '../../../../..'
+// vendors
 import {
     Children,
     cloneElement,
@@ -13,12 +11,21 @@ import {
     ReactNode,
     useState,
 } from 'react'
-import { Autocomplete, Box, Fade, IconButton } from '@mui/material'
+import type { FieldProps } from 'formik'
 import useSWR from 'swr'
-import TextField from '@/components/TextField'
-// icons
+// materials
+import Autocomplete from '@mui/material/Autocomplete'
+import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
+// icons-materials
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
+//
+import type User from '@/dataTypes/User'
+import type { FormikStatusType } from '../../../../..'
+import TextField from '@/components/TextField'
+// icons
 import { List, ListRowProps } from 'react-virtualized'
 import ApiUrl from '../../../../../../@enums/api-url'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'

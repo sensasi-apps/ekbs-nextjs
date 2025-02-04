@@ -1,10 +1,8 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import {
-    Group as GroupIcon,
-    Settings as SettingsIcon,
-} from '@mui/icons-material'
+// icons-materials
+import GroupIcon from '@mui/icons-material/Group'
+import SettingsIcon from '@mui/icons-material/Settings'
 // enums
 import Role from '@/enums/Role'
 

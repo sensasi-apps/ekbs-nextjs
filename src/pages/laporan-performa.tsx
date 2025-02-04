@@ -1,16 +1,22 @@
 // type
 import type { ReactNode } from 'react'
 // vendors
-import { Box, Grid2, Skeleton, Typography } from '@mui/material'
 import useSWR from 'swr'
-// icons
+// materials
+import Box from '@mui/material/Box'
+import Grid2 from '@mui/material/Grid2'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
+// icons-materials
 import AgricultureIcon from '@mui/icons-material/Agriculture'
+import BikeScooter from '@mui/icons-material/BikeScooter'
+import Coffee from '@mui/icons-material/Coffee'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import Diversity3Icon from '@mui/icons-material/Diversity3'
 import ForestIcon from '@mui/icons-material/Forest'
+import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WorkIcon from '@mui/icons-material/Work'
-import { BikeScooter, Coffee, ShoppingCart } from '@mui/icons-material'
 // components
 import LineChart from '@/components/Chart/Line'
 import BigNumber from '@/components/StatCard/BigNumber'

@@ -3,14 +3,20 @@ import type {
     FormValuesType,
 } from '@/components/pages/marts/products/sales/formik-wrapper'
 // vendors
-import { Box, Collapse, Fade, IconButton, Paper, Tooltip } from '@mui/material'
-import { LoadingButton } from '@mui/lab'
 import { useFormikContext } from 'formik'
-import {
-    Save as SaveIcon,
-    AddBox as AddBoxIcon,
-    Close as CloseIcon,
-} from '@mui/icons-material'
+// mui-labs
+import LoadingButton from '@mui/lab/LoadingButton'
+// materials
+import Box from '@mui/material/Box'
+import Collapse from '@mui/material/Collapse'
+import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
+import Paper from '@mui/material/Paper'
+import Tooltip from '@mui/material/Tooltip'
+// icons
+import SaveIcon from '@mui/icons-material/Save'
+import AddBoxIcon from '@mui/icons-material/AddBox'
+import CloseIcon from '@mui/icons-material/Close'
 // global components
 import PrintHandler from '@/components/PrintHandler'
 // subcomponents

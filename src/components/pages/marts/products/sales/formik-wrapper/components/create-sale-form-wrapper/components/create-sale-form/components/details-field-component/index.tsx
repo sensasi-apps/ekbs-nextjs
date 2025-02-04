@@ -1,13 +1,12 @@
-import {
-    Card,
-    CardActionArea,
-    CardContent,
-    FormHelperText,
-    Grid2,
-} from '@mui/material'
-import { FieldProps } from 'formik'
+import type { FieldProps } from 'formik'
 import { memo, useState } from 'react'
-// subcomponents
+// materials
+import Card from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
+import CardContent from '@mui/material/CardContent'
+import FormHelperText from '@mui/material/FormHelperText'
+import Grid2 from '@mui/material/Grid2'
+// sub-components
 import DetailItem from '../../../../../../../@shared-subcomponents/detail-item'
 import { FormikStatusType, FormValuesType } from '../../../../../..'
 import { DetailItemFormDialog } from './components/detail-item-form-dialog'

@@ -1,7 +1,8 @@
 // types
 import type { ReactNode } from 'react'
 //vendors
-import { Box, Container, ContainerProps } from '@mui/material'
+import Box from '@mui/material/Box'
+import Container, { type ContainerProps } from '@mui/material/Container'
 import Head from 'next/head'
 // components
 import { Footer } from './components/footer'

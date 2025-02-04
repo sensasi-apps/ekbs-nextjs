@@ -1,19 +1,15 @@
 import { useState } from 'react'
-
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CircularProgress,
-    Collapse,
-    IconButton,
-} from '@mui/material'
-
+// materials
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
+import CircularProgress from '@mui/material/CircularProgress'
+import Collapse from '@mui/material/Collapse'
+import IconButton from '@mui/material/IconButton'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-
+//
 import UserDetailBox from './Box'
-
 import useUserWithDetails from '@/providers/UserWithDetails'
 
 const CARD_CONTENT_SX = {

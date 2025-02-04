@@ -1,8 +1,13 @@
 // types
 import type { ReactNode } from 'react'
 // vendors
-import { ArrowBack } from '@mui/icons-material'
-import { Avatar, Box, Card, CardContent, Fab, Typography } from '@mui/material'
+import ArrowBack from '@mui/icons-material/ArrowBack'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Fab from '@mui/material/Fab'
+import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 // components

@@ -3,7 +3,12 @@ import type { StatCardProps } from '@/components/StatCard/StatCard'
 import type CashType from '@/dataTypes/Cash'
 import type { ButtonProps } from '@mui/material/Button'
 // vendors
-import { Box, Button, Divider, Grid2, Tooltip, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import Grid2 from '@mui/material/Grid2'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 import useSWR from 'swr'
 // components
 import StatCard from '@/components/StatCard'

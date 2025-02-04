@@ -3,9 +3,12 @@ import type { FormValuesType } from '../formik-wrapper'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
 import { FieldProps, FormikErrors } from 'formik'
-import { Grid2, Typography } from '@mui/material'
 import { memo, useState } from 'react'
-import { RemoveCircle } from '@mui/icons-material'
+// materials
+import Grid2 from '@mui/material/Grid2'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import RemoveCircle from '@mui/icons-material/RemoveCircle'
 // components
 import IconButton from '@/components/IconButton'
 import NumericFormat from '@/components/NumericFormat'

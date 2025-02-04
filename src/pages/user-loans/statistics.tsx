@@ -1,5 +1,7 @@
 // vendors
-import { Box, Grid2, Tooltip } from '@mui/material'
+import Box from '@mui/material/Box'
+import Grid2 from '@mui/material/Grid2'
+import Tooltip from '@mui/material/Tooltip'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import BigNumber from '@/components/StatCard/BigNumber'

@@ -1,6 +1,12 @@
-import { Box, type CardProps, Typography } from '@mui/material'
+// vendors
+import type { CardProps } from '@mui/material/Card'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import TrendingDown from '@mui/icons-material/TrendingDown'
+import TrendingUp from '@mui/icons-material/TrendingUp'
+//
 import StatCard from '../StatCard'
-import { TrendingDown, TrendingUp } from '@mui/icons-material'
 import formatNumber from '@/utils/formatNumber'
 
 export default function BigNumberCard({
