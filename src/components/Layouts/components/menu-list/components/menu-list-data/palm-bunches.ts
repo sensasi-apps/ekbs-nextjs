@@ -1,16 +1,13 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import {
-    AlignHorizontalLeft,
-    AutoStories,
-    FormatAlignJustify,
-    // Assessment,
-    Grass,
-    FireTruck,
-    Balance,
-    PointOfSale,
-} from '@mui/icons-material'
+// icons-materials
+import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
+import AutoStories from '@mui/icons-material/AutoStories'
+import Balance from '@mui/icons-material/Balance'
+import FormatAlignJustify from '@mui/icons-material/FormatAlignJustify'
+import Grass from '@mui/icons-material/Grass'
+import FireTruck from '@mui/icons-material/FireTruck'
+import PointOfSale from '@mui/icons-material/PointOfSale'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'

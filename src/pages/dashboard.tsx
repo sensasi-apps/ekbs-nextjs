@@ -1,8 +1,13 @@
 import type { ApiResponseType } from './me/participations'
 // vendors
-import { FireTruck, Forest } from '@mui/icons-material'
-import { Skeleton, Typography, Grid2 } from '@mui/material'
 import useSWR from 'swr'
+// materials
+import Grid2 from '@mui/material/Grid2'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import FireTruck from '@mui/icons-material/FireTruck'
+import Forest from '@mui/icons-material/Forest'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import useAuth from '@/providers/Auth'

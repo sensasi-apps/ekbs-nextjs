@@ -1,7 +1,10 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import { Biotech, Group, Note, SupervisedUserCircle } from '@mui/icons-material'
+// icons-materials
+import Biotech from '@mui/icons-material/Biotech'
+import Group from '@mui/icons-material/Group'
+import Note from '@mui/icons-material/Note'
+import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle'
 // enums
 import Role from '@/enums/Role'
 

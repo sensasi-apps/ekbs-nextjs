@@ -1,4 +1,4 @@
-import { keyframes } from '@mui/material'
+import { keyframes } from '@mui/material/styles'
 
 const keyframe = keyframes`
 0% { opacity: 0; }

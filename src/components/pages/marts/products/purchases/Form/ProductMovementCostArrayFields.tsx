@@ -4,8 +4,11 @@ import type { FormValues } from '../Form'
 // vendors
 import { FieldArrayRenderProps } from 'formik'
 // materials
-import { Box, FormHelperText, IconButton, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import FormHelperText from '@mui/material/FormHelperText'
 import Grid2 from '@mui/material/Grid2'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 // components
 import { NumericField, TextField } from '@/components/FormikForm'
 import RpInputAdornment from '@/components/InputAdornment/Rp'

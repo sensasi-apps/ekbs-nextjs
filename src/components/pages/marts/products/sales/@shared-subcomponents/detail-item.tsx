@@ -1,9 +1,13 @@
-import type { FormValuesType } from '../formik-wrapper'
+// vendors
 import { memo } from 'react'
-import { Typography } from '@mui/material'
+// materials
 import Grid2 from '@mui/material/Grid2'
-import IconButton from '@/components/IconButton'
+import Typography from '@mui/material/Typography'
+// icons-materials
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+//
+import type { FormValuesType } from '../formik-wrapper'
+import IconButton from '@/components/IconButton'
 import formatNumber from '@/utils/formatNumber'
 
 function DetailItem({

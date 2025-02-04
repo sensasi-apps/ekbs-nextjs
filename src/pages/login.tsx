@@ -1,7 +1,8 @@
 // materials
-import { Button, Divider } from '@mui/material'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
 // icons
-import { ArrowBack } from '@mui/icons-material'
+import ArrowBack from '@mui/icons-material/ArrowBack'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // components
 import { Form } from '../components/pages/login/Form'

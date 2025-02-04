@@ -1,17 +1,20 @@
 // types
 import type { ReactNode } from 'react'
 // vendors
-import {
-    Agriculture,
-    BikeScooter,
-    ChevronRight,
-    CurrencyExchange,
-    Forest,
-    ShoppingCart,
-    Warehouse,
-} from '@mui/icons-material'
-import { Box, Button, Grid2, Typography } from '@mui/material'
 import useSWR from 'swr'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Grid2 from '@mui/material/Grid2'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import Agriculture from '@mui/icons-material/Agriculture'
+import BikeScooter from '@mui/icons-material/BikeScooter'
+import ChevronRight from '@mui/icons-material/ChevronRight'
+import CurrencyExchange from '@mui/icons-material/CurrencyExchange'
+import Forest from '@mui/icons-material/Forest'
+import ShoppingCart from '@mui/icons-material/ShoppingCart'
+import Warehouse from '@mui/icons-material/Warehouse'
 // components
 import LineChart from '@/components/Chart/Line'
 import AuthLayout from '@/components/Layouts/AuthLayout'

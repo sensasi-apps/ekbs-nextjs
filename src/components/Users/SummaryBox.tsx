@@ -1,15 +1,14 @@
 // vendors
 import { useRouter } from 'next/router'
-import {
-    Box,
-    Card,
-    CardActionArea,
-    CardContent,
-    Skeleton,
-    Tooltip,
-    Typography,
-} from '@mui/material'
 import useSWR from 'swr'
+// materials
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
+import CardContent from '@mui/material/CardContent'
+import Skeleton from '@mui/material/Skeleton'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 // etc
 import { getRoleIconByIdName } from '../User/RoleChips'
 import formatNumber from '@/utils/formatNumber'

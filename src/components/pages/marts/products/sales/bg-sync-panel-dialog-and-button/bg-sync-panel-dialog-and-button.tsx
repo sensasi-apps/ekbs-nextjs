@@ -1,30 +1,33 @@
-import { postToSw } from '@/functions/post-to-sw'
-import { Close, Sync } from '@mui/icons-material'
-import {
-    Alert,
-    Badge,
-    Box,
-    Dialog,
-    DialogContent,
-    IconButton,
-    LinearProgress,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Tooltip,
-    Typography,
-} from '@mui/material'
+// vendors
 import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
+// materials
+import Alert from '@mui/material/Alert'
+import Badge from '@mui/material/Badge'
+import Box from '@mui/material/Box'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import IconButton from '@mui/material/IconButton'
+import LinearProgress from '@mui/material/LinearProgress'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import Close from '@mui/icons-material/Close'
+import Sync from '@mui/icons-material/Sync'
+//
+import { FormattedEntry } from '@/sw/functions/handle-message'
+import { postToSw } from '@/functions/post-to-sw'
+import { SubmittedData } from '../formik-wrapper/@types/submitted-data'
 import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../@shared-subcomponents/receipt'
-import dayjs from 'dayjs'
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
-import { SubmittedData } from '../formik-wrapper/@types/submitted-data'
-import { FormattedEntry } from '@/sw/functions/handle-message'
 import blinkSxValue from '@/utils/blinkSxValue'
 
 export function BgSyncPanelDialogAndButton() {

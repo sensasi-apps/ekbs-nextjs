@@ -1,21 +1,19 @@
-// types
-import type { TableCellProps } from '@mui/material/TableCell'
 // vendors
-import {
-    Box,
-    Table as MuiTable,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableFooter,
-    TableHead,
-    TableRow,
-    Tooltip,
-} from '@mui/material'
 import dayjs from 'dayjs'
+// materials
+import Box from '@mui/material/Box'
+import MuiTable from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell, { type TableCellProps } from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableFooter from '@mui/material/TableFooter'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Tooltip from '@mui/material/Tooltip'
+// icons-materials
+import InfoOutlined from '@mui/icons-material/InfoOutlined'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import { InfoOutlined } from '@mui/icons-material'
 
 export type ItemRow = {
     name: string

@@ -5,7 +5,9 @@ import type { UserDetailDBTypeWithRelations } from '@/dataTypes/UserDetail'
 // vendors
 import { PatternFormat } from 'react-number-format'
 // materials
-import { Box, Typography, Tooltip } from '@mui/material'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip'
 // components
 import ImageButtonAndModal from '@/components/ImageButtonAndModal'
 // utils

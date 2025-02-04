@@ -2,11 +2,9 @@
 import ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
 import { memo } from 'react'
-import {
-    TableRow as MuiTableRow,
-    TableBody as MuiTableBody,
-    TableCell,
-} from '@mui/material'
+import MuiTableBody from '@mui/material/TableBody'
+import MuiTableRow from '@mui/material/TableRow'
+import TableCell from '@mui/material/TableCell'
 // components
 import TableRow from './TableRow'
 

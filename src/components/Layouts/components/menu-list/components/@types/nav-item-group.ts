@@ -1,12 +1,12 @@
 import type Role from '@/enums/Role'
 import type { Permission } from '@/@types/permission'
-import type { SvgIconComponent } from '@mui/icons-material'
+import type { ElementType } from 'react'
 
 interface NavItem {
     href: string
     label: string
     pathname?: string | string[]
-    icon: SvgIconComponent
+    icon: ElementType
     forRole?: Role | Role[]
     forPermission?: Permission | Permission[]
 }

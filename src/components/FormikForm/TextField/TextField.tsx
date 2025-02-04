@@ -1,5 +1,5 @@
 // types
-import type { TextFieldProps as MuiTextFieldProps } from '@mui/material'
+import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField'
 // vendors
 import { Field, FieldProps } from 'formik'
 import { useDebouncedCallback } from 'use-debounce'

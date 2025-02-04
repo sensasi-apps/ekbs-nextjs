@@ -1,7 +1,9 @@
 // types
 import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 // vendors
-import { Box, Collapse, Grid2 } from '@mui/material'
+import Box from '@mui/material/Box'
+import Collapse from '@mui/material/Collapse'
+import Grid2 from '@mui/material/Grid2'
 import { useRouter } from 'next/router'
 // components
 import { UserWithDetailsProvider } from '@/providers/UserWithDetails'

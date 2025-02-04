@@ -1,4 +1,3 @@
-// import { getInitColorSchemeScript } from '@mui/material'
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
 import { Html, Head, Main, NextScript } from 'next/document'
 

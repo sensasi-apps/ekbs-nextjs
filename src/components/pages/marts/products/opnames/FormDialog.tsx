@@ -1,8 +1,11 @@
-import type { UUID } from 'crypto'
 // vendors
-import { Dialog, DialogContent, DialogTitle } from '@mui/material'
+import type { UUID } from 'crypto'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
+// materials
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
 // components
 import Form, { type CreateFormValues } from './Form'
 import ProductMovement from '@/dataTypes/mart/ProductMovement'

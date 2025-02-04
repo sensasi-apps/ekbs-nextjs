@@ -1,12 +1,12 @@
 // vendors
-import {
-    Button,
-    IconButton,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-} from '@mui/material'
-import { Edit as EditIcon, Close as CloseIcon } from '@mui/icons-material'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
+// icons-materials
+import EditIcon from '@mui/icons-material/Edit'
+import CloseIcon from '@mui/icons-material/Close'
 // components
 import UserDetailForm from './Form'
 // providers

@@ -1,7 +1,11 @@
 // vendors
 import { useEffect, useState } from 'react'
 // materials
-import { Box, Drawer, List, Skeleton, Toolbar } from '@mui/material'
+import Box from '@mui/material/Box'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import Skeleton from '@mui/material/Skeleton'
+import Toolbar from '@mui/material/Toolbar'
 // components
 import { MenuItemGroup } from './components/menu-item-group'
 // etc

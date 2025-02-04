@@ -1,21 +1,22 @@
+// vendors
+import type { UUID } from 'crypto'
+import { type AxiosError } from 'axios'
+import { Formik } from 'formik'
+import { useState } from 'react'
+import { mutate } from 'swr'
+import axios from '@/lib/axios'
+// materials
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import LoadingButton from '@mui/lab/LoadingButton'
+//
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import type User from '@/dataTypes/User'
-import { Formik } from 'formik'
 import EmployeeDetailBox from './DetailBox'
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-} from '@mui/material'
 import EmployeeForm from './Form'
-import { useState } from 'react'
-import axios from '@/lib/axios'
-import { mutate } from 'swr'
-import { AxiosError } from 'axios'
-import { UUID } from 'crypto'
-import { LoadingButton } from '@mui/lab'
 
 const FORM_ID = 'employee-form'
 

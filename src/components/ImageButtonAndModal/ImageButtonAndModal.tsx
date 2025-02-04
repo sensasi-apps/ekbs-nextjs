@@ -5,11 +5,15 @@ import type FileFromDb from '@/dataTypes/File'
 import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
-// materials
-import { Box, Button, Dialog, IconButton, Skeleton } from '@mui/material'
-// icons
-import { Close as CloseIcon } from '@mui/icons-material'
 import Image from 'next/image'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import IconButton from '@mui/material/IconButton'
+import Skeleton from '@mui/material/Skeleton'
+// icons-materials
+import CloseIcon from '@mui/icons-material/Close'
 
 export default function ImageButtonAndModal({
     alt,

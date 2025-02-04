@@ -1,4 +1,4 @@
-import { Chip, type ChipProps } from '@mui/material'
+import Chip, { type ChipProps } from '@mui/material/Chip'
 
 /**
  * Ordinary MuiChip component with small size by default.

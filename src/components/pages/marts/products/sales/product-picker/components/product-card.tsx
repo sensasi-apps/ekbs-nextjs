@@ -1,18 +1,19 @@
-import type Product from '@/dataTypes/mart/Product'
+// vendors
 import { memo } from 'react'
-import {
-    Box,
-    Card,
-    CardActionArea,
-    CardActionAreaProps,
-    CardContent,
-    Fade,
-    Typography,
-    Zoom,
-} from '@mui/material'
+// materials
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardActionArea, {
+    type CardActionAreaProps,
+} from '@mui/material/CardActionArea'
+import CardContent from '@mui/material/CardContent'
+import Fade from '@mui/material/Fade'
+import Typography from '@mui/material/Typography'
+import Zoom from '@mui/material/Zoom'
 // icons
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 // components
+import type Product from '@/dataTypes/mart/Product'
 import ChipSmall from '@/components/ChipSmall'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'

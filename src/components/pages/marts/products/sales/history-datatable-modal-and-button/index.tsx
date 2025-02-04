@@ -1,11 +1,15 @@
 // vendors
-import { Box, Dialog, Tab, Tabs } from '@mui/material'
 import { useState } from 'react'
-// components
+// materials
+import Box from '@mui/material/Box'
+import Dialog from '@mui/material/Dialog'
+import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs'
+// icons-materials
+import HistoryIcon from '@mui/icons-material/History'
+//
 import IconButton from '@/components/IconButton'
 import Datatable from './components/datatable'
-// icons
-import HistoryIcon from '@mui/icons-material/History'
 import BalanceInSummary from './components/balance-in-summary'
 import SalesReport from './components/sales-report'
 import useAuth from '@/providers/Auth'

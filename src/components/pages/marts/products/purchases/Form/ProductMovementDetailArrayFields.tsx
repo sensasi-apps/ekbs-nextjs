@@ -4,15 +4,13 @@ import type Product from '@/dataTypes/mart/Product'
 // vendors
 import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
 // materials
-import {
-    Autocomplete,
-    Box,
-    FormHelperText,
-    IconButton,
-    InputAdornment,
-    TextField,
-    Typography,
-} from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
+import Box from '@mui/material/Box'
+import FormHelperText from '@mui/material/FormHelperText'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import Grid2 from '@mui/material/Grid2'
 // components
 import { NumericField } from '@/components/FormikForm'

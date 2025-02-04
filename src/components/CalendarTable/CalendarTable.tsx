@@ -1,25 +1,27 @@
 // types
 import type { Dayjs } from 'dayjs'
 // vendors
-import { memo, ReactElement } from 'react'
+import { memo, type ReactElement } from 'react'
 // materials
+import Alert from '@mui/material/Alert'
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
+import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
-import {
-    Alert,
-    Avatar,
-    Card,
-    CardActionArea,
-    Paper,
-    Tooltip,
-    Typography,
-} from '@mui/material'
-import { DoneAll, MonetizationOn, WorkHistory } from '@mui/icons-material'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import DoneAll from '@mui/icons-material/DoneAll'
+import MonetizationOn from '@mui/icons-material/MonetizationOn'
+import WorkHistory from '@mui/icons-material/WorkHistory'
+//
 import formatNumber from '@/utils/formatNumber'
 
 const CalendarTable = memo(function CalendarTable({

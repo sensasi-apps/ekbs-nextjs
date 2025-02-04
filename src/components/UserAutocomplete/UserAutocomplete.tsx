@@ -7,6 +7,7 @@ import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { useDebounce } from 'use-debounce'
 // materials
+import type { TextFieldProps } from '@mui/material/TextField'
 import MuiAutocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
@@ -16,7 +17,6 @@ import TextField from '@/components/TextField'
 import useSWR from 'swr'
 import RoleChips from '../User/RoleChips'
 import ScrollableXBox from '../ScrollableXBox'
-import { TextFieldProps } from '@mui/material'
 
 function isSearchTermPassedTheRequirements(value: string) {
     return value.length >= 3 || (value.length >= 2 && value.startsWith('#'))

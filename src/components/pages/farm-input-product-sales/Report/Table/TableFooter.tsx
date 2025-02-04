@@ -1,9 +1,7 @@
 import { memo } from 'react'
-import {
-    TableCell,
-    TableFooter as MuiTableFooter,
-    TableRow,
-} from '@mui/material'
+import MuiTableFooter from '@mui/material/TableFooter'
+import TableCell from '@mui/material/TableCell'
+import TableRow from '@mui/material/TableRow'
 import globalFormatNumber from '@/utils/formatNumber'
 import ProductSaleType from '@/dataTypes/ProductSale'
 import ChipSmall from '@/components/ChipSmall'

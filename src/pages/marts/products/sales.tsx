@@ -1,6 +1,8 @@
 // vendors
-import { Box, Grid2 } from '@mui/material'
 import Head from 'next/head'
+// materials
+import Box from '@mui/material/Box'
+import Grid2 from '@mui/material/Grid2'
 // global components
 import BackButton from '@/components/BackButton'
 import FooterBox from '@/components/Layouts/FooterBox'

@@ -1,16 +1,13 @@
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import {
-    AlignHorizontalLeft,
-    AutoStories,
-    CreditCard,
-    // Checklist,
-    Inventory,
-    LocalGasStation,
-    Receipt,
-    ShoppingCart,
-    Warehouse,
-} from '@mui/icons-material'
+// icons-materials
+import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
+import AutoStories from '@mui/icons-material/AutoStories'
+import CreditCard from '@mui/icons-material/CreditCard'
+import Inventory from '@mui/icons-material/Inventory'
+import LocalGasStation from '@mui/icons-material/LocalGasStation'
+import Receipt from '@mui/icons-material/Receipt'
+import ShoppingCart from '@mui/icons-material/ShoppingCart'
+import Warehouse from '@mui/icons-material/Warehouse'
 // enums
 import FarmInput from '@/enums/permissions/FarmInput'
 import Role from '@/enums/Role'

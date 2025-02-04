@@ -1,8 +1,14 @@
 // types
 import type { ReactNode } from 'react'
 // vendors
-import { Box, Fab, FabProps, Typography } from '@mui/material'
-import { Insights, Login, OpenInNew, Warehouse } from '@mui/icons-material'
+import Box from '@mui/material/Box'
+import Fab, { type FabProps } from '@mui/material/Fab'
+import Typography from '@mui/material/Typography'
+import Insights from '@mui/icons-material/Insights'
+import Login from '@mui/icons-material/Login'
+import OpenInNew from '@mui/icons-material/OpenInNew'
+import Warehouse from '@mui/icons-material/Warehouse'
+//
 import { Background } from '@/components/Layouts/background'
 
 export function Landing() {

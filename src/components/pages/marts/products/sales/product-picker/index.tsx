@@ -5,12 +5,15 @@ import type { FormikStatusType, FormValuesType } from '../formik-wrapper'
 import type { FormattedEntry } from '@/sw/functions/handle-message'
 import type { SubmittedData } from '../formik-wrapper/@types/submitted-data'
 // vendors
-import { Box, Paper, Typography } from '@mui/material'
 import { memo, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { Masonry } from '@mui/lab'
 import useSWR from 'swr'
-// subcomponents
+// materials
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
+// sub-components
 import CategoryChips from './components/category-chips'
 import ProductCard from './components/product-card'
 import SearchTextField from './components/search-text-field'

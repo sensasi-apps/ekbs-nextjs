@@ -1,4 +1,9 @@
 // vendors
+import useSWR from 'swr'
+// materials
+import Box from '@mui/material/Box'
+import Grid2 from '@mui/material/Grid2'
+import Tooltip from '@mui/material/Tooltip'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import BigNumber from '@/components/StatCard/BigNumber'
@@ -10,8 +15,6 @@ import InOutLineChart, {
 import TbsSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Tbs'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
-import useSWR from 'swr'
-import { Box, Grid2, Tooltip } from '@mui/material'
 
 export default function FarmInputsStatistics() {
     const { data, isLoading } = useSWR<{

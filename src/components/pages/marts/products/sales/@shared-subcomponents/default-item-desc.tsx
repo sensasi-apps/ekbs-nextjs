@@ -1,5 +1,8 @@
-import { Box, Typography } from '@mui/material'
+// vendors
 import { memo } from 'react'
+// materials
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 function DefaultItemDesc({
     desc,

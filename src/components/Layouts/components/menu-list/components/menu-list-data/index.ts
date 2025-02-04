@@ -1,7 +1,9 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import { Assessment, Dashboard, VolunteerActivism } from '@mui/icons-material'
+// icons-materials
+import Assessment from '@mui/icons-material/Assessment'
+import Dashboard from '@mui/icons-material/Dashboard'
+import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 // nav items
 import { accountings } from './accountings'
 import { executives } from './executives'

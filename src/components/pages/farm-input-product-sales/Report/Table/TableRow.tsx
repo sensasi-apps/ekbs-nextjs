@@ -3,7 +3,8 @@ import ProductSaleType from '@/dataTypes/ProductSale'
 import globalFormatNumber from '@/utils/formatNumber'
 import toDmy from '@/utils/toDmy'
 import ucWords from '@/utils/ucWords'
-import { TableCell, TableRow as MuiTableRow } from '@mui/material'
+import TableCell from '@mui/material/TableCell'
+import MuiTableRow from '@mui/material/TableRow'
 import { memo, ReactNode } from 'react'
 
 const LEFT_BORDER_STYLE = {

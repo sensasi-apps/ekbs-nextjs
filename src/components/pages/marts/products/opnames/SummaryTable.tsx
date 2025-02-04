@@ -1,21 +1,21 @@
 // types
 import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
 // vendors
-import {
-    IconButton,
-    Table,
-    TableBody,
-    TableCell,
-    TableRow,
-} from '@mui/material'
 import { memo, useState } from 'react'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
+// materials
+import IconButton from '@mui/material/IconButton'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableRow from '@mui/material/TableRow'
+// icons-materials
+import Edit from '@mui/icons-material/Edit'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import FormDialog from './FormDialog'
 import { CreateFormValues } from './Form'
-import { Edit } from '@mui/icons-material'
 
 function SummaryTable({ data }: { data: ProductMovementOpname }) {
     const { reload } = useRouter()

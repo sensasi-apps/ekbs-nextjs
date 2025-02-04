@@ -4,9 +4,12 @@ import type RentItemRent from '@/dataTypes/RentItemRent'
 import type { KeyedMutator } from 'swr'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
-import { Box, Fade, IconButton, LinearProgress } from '@mui/material'
 import { memo } from 'react'
 import { useRouter } from 'next/router'
+import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
+import LinearProgress from '@mui/material/LinearProgress'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // icons

@@ -1,18 +1,17 @@
 // vendors
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import {
-    Chip,
-    Divider,
-    IconButton,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
-    Typography,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material'
+import Chip from '@mui/material/Chip'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
+/** @todo  https://github.com/sensasi-apps/ekbs-nextjs/issues/606 */
+import useMediaQuery from '@mui/material/useMediaQuery'
+import useTheme from '@mui/material/styles/useTheme'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
 import FooterBox from '@/components/Layouts/FooterBox'

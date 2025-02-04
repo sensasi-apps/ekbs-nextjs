@@ -1,4 +1,20 @@
-import ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
+// vendors
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
+// materials
+import Alert from '@mui/material/Alert'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
+import LinearProgress from '@mui/material/LinearProgress'
+import Typography from '@mui/material/Typography'
+// icons-materials
+import LockIcon from '@mui/icons-material/Lock'
+// libs
+import axios from '@/lib/axios'
+//
+import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
 import BackButton from '@/components/BackButton'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import AddProductFormDialog from '@/components/pages/marts/products/opnames/AddProductsFormDialog'
@@ -6,19 +22,6 @@ import DetailTable from '@/components/pages/marts/products/opnames/DetailTable'
 import SummaryTable from '@/components/pages/marts/products/opnames/SummaryTable'
 import PrintHandler from '@/components/PrintHandler'
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
-import axios from '@/lib/axios'
-import LockIcon from '@mui/icons-material/Lock'
-import {
-    Alert,
-    Box,
-    Button,
-    Fade,
-    LinearProgress,
-    Typography,
-} from '@mui/material'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import useSWR from 'swr'
 
 export default function OpnameDetail() {
     const {

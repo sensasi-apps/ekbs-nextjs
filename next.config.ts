@@ -37,4 +37,6 @@ export default withSentryConfig(withSerwist(nextConfig), {
     sourcemaps: {
         disable: process.env.VERCEL_ENV !== `production`,
     },
+
+    telemetry: process.env.VERCEL_ENV === `production`,
 })

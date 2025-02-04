@@ -1,10 +1,7 @@
 // types
 import type { NavItemGroup } from '../@types/nav-item-group'
-// icons
-import {
-    AlignHorizontalLeft,
-    // BackupTable,
-} from '@mui/icons-material'
+// icons-materials
+import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
 // enums
 import Executive from '@/enums/permissions/Executive'
 

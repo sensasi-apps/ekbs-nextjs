@@ -1,5 +1,5 @@
-import type { SvgIconComponent } from '@mui/icons-material'
-import MuiIconButton, { IconButtonProps } from '@mui/material/IconButton'
+import type { ElementType } from 'react'
+import MuiIconButton, { type IconButtonProps } from '@mui/material/IconButton'
 import Tooltip, { TooltipProps } from '../Tooltip'
 
 export default function IconButton({
@@ -9,7 +9,7 @@ export default function IconButton({
     ...props
 }: IconButtonProps & {
     title: TooltipProps['title']
-    icon: SvgIconComponent
+    icon: ElementType
     href?: string | URL
     download?: boolean
     children?: never
