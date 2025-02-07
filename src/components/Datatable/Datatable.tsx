@@ -1,10 +1,9 @@
 // types
 import type { Mutate, DatatableProps } from './@types'
-import type { ReactNode } from 'react'
 // vendors
-import type {
+import VendorDataTable, {
     DataTableOptions as VendorDatatableOptions,
-    DataTableProps as VendorDatatableProps,
+    DataTableProps as VendorDataTableProps,
 } from 'mui-datatable-delight'
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
@@ -12,7 +11,6 @@ import IconButton from '@mui/material/IconButton'
 import LinearProgress from '@mui/material/LinearProgress'
 import Tooltip from '@mui/material/Tooltip'
 // icons-materials
-import Download from '@mui/icons-material/Download'
 import Refresh from '@mui/icons-material/Refresh'
 // locals
 import { useHooks } from './hooks'
@@ -20,17 +18,9 @@ import { useHooks } from './hooks'
 import sxs from './sxs'
 // utils
 import { CLICKABLE_INFO } from './statics'
-import dynamic from 'next/dynamic'
 
 let getRowData: <T = unknown>(index: number) => T | undefined
 let mutatorForExport: Mutate
-
-const VendorDataTable = dynamic<VendorDatatableProps>(
-    () => import('mui-datatable-delight'),
-    {
-        ssr: false,
-    },
-)
 
 /**
  * Datatable component
@@ -43,7 +33,7 @@ const VendorDataTable = dynamic<VendorDatatableProps>(
 export function Datatable<T>({
     apiUrl,
     apiUrlParams,
-    columns: defaultColumns,
+    columns: columnsFromProps,
     defaultSortOrder,
     tableId,
     title,
@@ -53,17 +43,17 @@ export function Datatable<T>({
     swrOptions,
     download = false,
     ...props
-}: DatatableProps & Omit<VendorDatatableOptions, 'onRowClick'>) {
+}: DatatableProps<T>) {
     const {
         data,
         mutate,
         isLoading,
         columns,
-        // isDownloadConfirmationDialogOpen,
         options: optionsFromHook,
+        // isDownloadConfirmationDialogOpen,
     } = useHooks<T>(
         tableId,
-        defaultColumns,
+        columnsFromProps,
         defaultSortOrder,
         apiUrl,
         apiUrlParams,
@@ -80,7 +70,7 @@ export function Datatable<T>({
 
     const isRowClickable = Boolean(onRowClick)
 
-    const options: VendorDatatableOptions = {
+    const options: VendorDataTableProps<T>['options'] = {
         rowHover: isRowClickable,
         download:
             download || props.onDownload
@@ -110,14 +100,10 @@ export function Datatable<T>({
 
             <VendorDataTable
                 title={title}
-                data={data as object[]}
+                data={data}
                 columns={columns}
                 options={options}
-                components={{
-                    icons: {
-                        DownloadIcon: Download as unknown as ReactNode,
-                    },
-                }}
+                textLabels={TEXT_LABELS}
             />
 
             <Fade in={isLoading}>
@@ -142,3 +128,22 @@ export function Datatable<T>({
 }
 
 export { getRowData, mutatorForExport as mutate }
+
+const TEXT_LABELS: VendorDataTableProps['textLabels'] = {
+    pagination: {
+        next: 'selanjutnya',
+        previous: 'sebelumnya',
+        rowsPerPage: 'data/halaman:',
+        jumpToPage: 'halaman:',
+    },
+    toolbar: {
+        search: 'Cari',
+        downloadCsv: 'Unduh',
+        print: 'Cetak',
+        viewColumns: 'Tampilkan kolom',
+    },
+    body: {
+        noMatch: 'Tidak ada data yang tersedia',
+        toolTip: 'Urutkan',
+    },
+}

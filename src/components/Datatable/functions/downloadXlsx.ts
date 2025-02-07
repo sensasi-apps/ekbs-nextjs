@@ -1,8 +1,8 @@
 // types
 import type { DatatableProps } from '../@types'
-import type { MUIDataTableMeta, MUIDataTableState } from 'mui-datatables'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
+import type { DataTableState } from 'mui-datatable-delight'
 import dayjs from 'dayjs'
 import axios from '@/lib/axios'
 import { utils, writeFileXLSX } from 'xlsx'
@@ -11,10 +11,10 @@ import formatToDatatableParams from '../utils/formatToDatatableParams'
 // etc
 import packageJson from '@/../package.json'
 
-export default async function downloadXlsx(
-    apiUrl: DatatableProps['apiUrl'],
-    apiUrlParams: DatatableProps['apiUrlParams'] | undefined,
-    tableState: MUIDataTableState,
+export default async function downloadXlsx<T>(
+    apiUrl: DatatableProps<T>['apiUrl'],
+    apiUrlParams: DatatableProps<T>['apiUrlParams'] | undefined,
+    tableState: DataTableState<T>,
     filename: string,
 ) {
     const headerCols = tableState.columns.filter(col => col.download)
@@ -40,14 +40,7 @@ export default async function downloadXlsx(
                     if (typeof value === 'number') {
                         return value
                     } else if (customBodyRender) {
-                        return customBodyRender(
-                            value,
-                            {
-                                rowIndex: i,
-                                columnIndex: j,
-                            } as MUIDataTableMeta,
-                            () => {},
-                        )
+                        return customBodyRender(value, i, j, tableState)
                     }
 
                     return value
