@@ -1,5 +1,4 @@
 // vendors
-import type { MUIDataTableColumn } from 'mui-datatables'
 import { Formik } from 'formik'
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -13,7 +12,11 @@ import Tooltip from '@mui/material/Tooltip'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
-import type { GetRowDataType, MutateType } from '@/components/Datatable'
+import type {
+    DatatableProps,
+    GetRowDataType,
+    MutateType,
+} from '@/components/Datatable'
 import type Transaction from '@/dataTypes/Transaction'
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
@@ -141,7 +144,7 @@ export default function UnitTxs({
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',

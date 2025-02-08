@@ -1,7 +1,6 @@
 // types
 import type { AxiosError } from 'axios'
-import type { MUIDataTableColumn } from 'mui-datatables'
-import type { Mutate } from '@/components/Datatable/@types'
+import type { DatatableProps, Mutate } from '@/components/Datatable/@types'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import type Debt from '@/dataTypes/Debt'
 // vendors
@@ -34,7 +33,7 @@ import useAuth from '@/providers/Auth'
 import Finance from '@/enums/permissions/Finance'
 
 let getRowData: GetRowDataType<Debt>
-let mutate: Mutate
+let mutate: Mutate<Debt>
 
 export default function Debts() {
     const { userHasPermission } = useAuth()
@@ -154,7 +153,7 @@ export default function Debts() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<Debt>['columns'] = [
     {
         name: 'uuid',
         label: 'Kode',

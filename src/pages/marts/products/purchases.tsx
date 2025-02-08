@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 // vendors
 import { useState } from 'react'
@@ -8,6 +7,7 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
+    DatatableProps,
     getNoWrapCellProps,
     GetRowDataType,
     MutateType,
@@ -104,7 +104,7 @@ export default function ProductPurchases() {
     )
 }
 
-const columns: MUIDataTableColumn[] = [
+const columns: DatatableProps<ProductMovement>['columns'] = [
     {
         name: 'at',
         label: 'TGL',

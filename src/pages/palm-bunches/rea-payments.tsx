@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type { UUID } from 'crypto'
 import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
 // vendors
@@ -12,7 +11,11 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { GetRowDataType, MutateType } from '@/components/Datatable'
+import Datatable, {
+    DatatableProps,
+    GetRowDataType,
+    MutateType,
+} from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'
 import FormActions from '@/components/Global/Form/Actions'
@@ -341,49 +344,54 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
-    {
-        name: 'uuid',
-        label: 'uuid',
-        options: {
-            display: false,
-        },
-    },
-    {
-        name: 'from_at',
-        label: 'Tanggal Tiket Awal',
-        options: {
-            customBodyRender: toDmy,
-        },
-    },
-    {
-        name: 'to_at',
-        label: 'Tanggal Tiket Akhir',
-        options: {
-            customBodyRender: toDmy,
-        },
-    },
-    {
-        name: 'final_rp',
-        label: 'Nilai Akhir',
-        options: {
-            customBodyRender: (value: number) => numberToCurrency(value),
-        },
-    },
-    {
-        name: 'transactions.at',
-        label: 'Tanggal Pelunasan oleh REA',
-        options: {
-            customBodyRenderLite: dataIndex => {
-                const data = getRowData(dataIndex)
-
-                if (!data || !data.transactions || data.transactions.length < 0)
-                    return ''
-
-                return data.transactions[0]
-                    ? toDmy(data.transactions[0].at)
-                    : ''
+const DATATABLE_COLUMNS: DatatableProps<PalmBunchesReaPaymentDataType>['columns'] =
+    [
+        {
+            name: 'uuid',
+            label: 'uuid',
+            options: {
+                display: false,
             },
         },
-    },
-]
+        {
+            name: 'from_at',
+            label: 'Tanggal Tiket Awal',
+            options: {
+                customBodyRender: toDmy,
+            },
+        },
+        {
+            name: 'to_at',
+            label: 'Tanggal Tiket Akhir',
+            options: {
+                customBodyRender: toDmy,
+            },
+        },
+        {
+            name: 'final_rp',
+            label: 'Nilai Akhir',
+            options: {
+                customBodyRender: (value: number) => numberToCurrency(value),
+            },
+        },
+        {
+            name: 'transactions.at',
+            label: 'Tanggal Pelunasan oleh REA',
+            options: {
+                customBodyRenderLite: dataIndex => {
+                    const data = getRowData(dataIndex)
+
+                    if (
+                        !data ||
+                        !data.transactions ||
+                        data.transactions.length < 0
+                    )
+                        return ''
+
+                    return data.transactions[0]
+                        ? toDmy(data.transactions[0].at)
+                        : ''
+                },
+            },
+        },
+    ]

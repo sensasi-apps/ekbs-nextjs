@@ -26,7 +26,7 @@ import errorCatcher from '@/utils/errorCatcher'
 import UserLoan from '@/enums/permissions/UserLoan'
 import FlexColumnBox from '@/components/FlexColumnBox'
 
-let mutateUserLoans: MutateType
+let mutateUserLoans: MutateType<LoanType>
 
 export default function UserLoans() {
     const { query } = useRouter()

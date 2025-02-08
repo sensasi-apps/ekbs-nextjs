@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type Product from '@/dataTypes/mart/Product'
 import type YajraDatatable from '@/types/responses/YajraDatatable'
 // vendors
@@ -18,6 +17,7 @@ import ApiUrl from '@/components/pages/marts/products/ApiUrl'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
+    DatatableProps,
     getNoWrapCellProps,
     GetRowDataType,
     MutateType,
@@ -194,7 +194,7 @@ function getAxiosRequest(
     }
 }
 
-const columns: MUIDataTableColumn[] = [
+const columns: DatatableProps<Product>['columns'] = [
     {
         name: 'id',
         label: 'ID',

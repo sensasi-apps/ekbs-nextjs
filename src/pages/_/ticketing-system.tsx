@@ -33,7 +33,7 @@ export default function TicketingSystemPage() {
     )
 }
 
-const COLUMNS: DatatableProps['columns'] = [
+const COLUMNS: DatatableProps<Ticket>['columns'] = [
     {
         name: 'id',
         label: 'ID',
@@ -58,7 +58,9 @@ const COLUMNS: DatatableProps['columns'] = [
         label: 'Pesan',
         options: {
             customBodyRender: value => (
-                <Markdown remarkPlugins={[remarkGfm]}>{value}</Markdown>
+                <Markdown remarkPlugins={[remarkGfm]}>
+                    {value as string}
+                </Markdown>
             ),
         },
     },

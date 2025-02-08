@@ -40,7 +40,13 @@ export default async function downloadXlsx<T>(
                     if (typeof value === 'number') {
                         return value
                     } else if (customBodyRender) {
-                        return customBodyRender(value, i, j, tableState)
+                        return customBodyRender(
+                            value,
+                            i,
+                            j,
+                            tableState,
+                            () => {},
+                        )
                     }
 
                     return value

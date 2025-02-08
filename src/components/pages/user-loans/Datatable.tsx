@@ -5,7 +5,6 @@ import type {
     DatatableProps,
     OnRowClickType,
 } from '@/components/Datatable'
-import type { MUISortOptions } from 'mui-datatables'
 // vendors
 import { useCallback } from 'react'
 // components
@@ -21,9 +20,9 @@ export default function LoanDatatable({
     mutateCallback,
 }: {
     mode: 'applier' | 'manager'
-    apiUrlParams?: DatatableProps['apiUrlParams']
+    apiUrlParams?: DatatableProps<LoanType>['apiUrlParams']
     onEdit: (values: LoanType) => void
-    mutateCallback?: DatatableProps['mutateCallback']
+    mutateCallback?: DatatableProps<LoanType>['mutateCallback']
 }) {
     const handleRowClick: OnRowClickType = useCallback(
         (_, { rowIndex }, event) => {
@@ -61,7 +60,7 @@ export default function LoanDatatable({
     )
 }
 
-export const DEFAULT_SORT_ORDER: MUISortOptions = {
+export const DEFAULT_SORT_ORDER = {
     name: 'proposed_at',
-    direction: 'desc',
+    direction: 'desc' as const,
 }

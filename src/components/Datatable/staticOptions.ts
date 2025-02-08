@@ -5,6 +5,7 @@ const staticOptions = {
     selectableRows: 'none' as const,
     print: false,
     jumpToPage: true,
+    searchDelay: 500,
 }
 
 export default staticOptions

@@ -1,6 +1,5 @@
 // types
 import type { UUID } from 'crypto'
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type Payroll from '@/dataTypes/Payroll'
 // vendors
 import { Formik } from 'formik'
@@ -14,7 +13,10 @@ import PaymentsIcon from '@mui/icons-material/Payments'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { GetRowDataType } from '@/components/Datatable'
+import Datatable, {
+    DatatableProps,
+    GetRowDataType,
+} from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import FinanceApiUrlEnum from '@/components/pages/finances/ApiUrlEnum'
@@ -91,7 +93,7 @@ function DetailButton({ uuid: payrollUuid }: { uuid: UUID }) {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<Payroll>['columns'] = [
     {
         name: 'at',
         label: 'TGL',

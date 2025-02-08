@@ -6,7 +6,7 @@ import type {
 } from 'mui-datatable-delight'
 import type { DatatableProps } from '../@types'
 // vendors
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 // hooks
 import { useSwr } from './useSwr'
@@ -33,8 +33,6 @@ export function useHooks<T>(
 
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
-
-    const timerId = useRef<NodeJS.Timeout>(undefined)
 
     /**
      * not implemented yet
@@ -64,15 +62,8 @@ export function useHooks<T>(
         )
 
         if (datatableSentRequestParamsJson !== newRequestParamsJson) {
-            clearTimeout(timerId.current)
-
-            timerId.current = setTimeout(() => {
-                setMuiDatatableState(() => {
-                    setDatatableSentRequestParamJson(newRequestParamsJson)
-
-                    return tableState
-                })
-            }, 500)
+            setDatatableSentRequestParamJson(newRequestParamsJson)
+            setMuiDatatableState(tableState)
         }
     }
 

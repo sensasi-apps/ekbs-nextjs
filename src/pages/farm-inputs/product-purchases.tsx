@@ -1,9 +1,9 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
 import type { Ymd } from '@/types/DateString'
 import type {
+    DatatableProps,
     GetRowDataType,
     MutateType,
     OnRowClickType,
@@ -195,7 +195,7 @@ function pmdsCustomBodyRender(pids: ProductMovementDetail[]) {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductPurchaseType>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',

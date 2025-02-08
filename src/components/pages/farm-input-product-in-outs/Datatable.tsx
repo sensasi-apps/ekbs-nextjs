@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductMovement from '@/dataTypes/ProductMovement'
 // vendors
 import { memo, useState } from 'react'
@@ -9,8 +8,9 @@ import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable, {
-    GetRowDataType,
-    OnRowClickType,
+    type DatatableProps,
+    type GetRowDataType,
+    type OnRowClickType,
 } from '@/components/Datatable'
 // utils
 import toDmy from '@/utils/toDmy'
@@ -34,7 +34,7 @@ const FarmInputProductInOutDatatable = memo(
             <>
                 <FilterBox activeUrl={apiUrl} setApiUrl={setApiUrl} />
 
-                <Datatable
+                <Datatable<ProductMovement>
                     title="Riwayat"
                     tableId="farm-input-product-in-outs-datatable"
                     apiUrl={apiUrl}
@@ -142,7 +142,7 @@ const detailsProductStateCustomBodyRenderLite = (dataIndex: number) => {
     )
 }
 
-export const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+export const DATATABLE_COLUMNS: DatatableProps<ProductMovement>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',

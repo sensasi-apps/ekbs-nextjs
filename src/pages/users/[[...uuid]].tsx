@@ -1,18 +1,16 @@
-// types
-import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 // vendors
+import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import Grid2 from '@mui/material/Grid2'
-import { useRouter } from 'next/router'
 // components
+import { FormDataProvider } from '@/providers/FormData'
 import { UserWithDetailsProvider } from '@/providers/UserWithDetails'
+import Datatable, { type DatatableProps } from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable from '@/components/Datatable'
 import UserRoleChips from '@/components/User/RoleChips'
 import UsersMainPageContent from '@/components/Users/MainPageContent'
 import UsersSummaryBox from '@/components/Users/SummaryBox'
-import { FormDataProvider } from '@/providers/FormData'
 import UserDialogFormWithFab from '@/components/User/DialogFormWithFab'
 
 export default function Page() {
@@ -70,12 +68,12 @@ export default function Page() {
     )
 }
 
-const DEFAULT_SORT_ORDER: MUISortOptions = {
+const DEFAULT_SORT_ORDER: DatatableProps['defaultSortOrder'] = {
     name: 'name',
     direction: 'asc',
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
         name: 'id',
         label: 'ID',

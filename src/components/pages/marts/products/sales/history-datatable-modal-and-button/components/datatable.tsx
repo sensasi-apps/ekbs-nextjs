@@ -1,8 +1,10 @@
 // types
 import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
-import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 // components
-import DefaultDatatable, { GetRowDataType } from '@/components/Datatable'
+import DefaultDatatable, {
+    DatatableProps,
+    GetRowDataType,
+} from '@/components/Datatable'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import ApiUrl from '../../@enums/api-url'
@@ -24,18 +26,15 @@ export default function Datatable() {
     )
 }
 
-const DEFAULT_SORT_ORDER: MUISortOptions = {
+const DEFAULT_SORT_ORDER = {
     name: 'at',
-    direction: 'desc',
+    direction: 'desc' as const,
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductMovementWithSale>['columns'] = [
     {
         name: 'sale.no',
         label: 'NO Struk',
-        options: {
-            customBodyRenderLite: dataIndex => getRowData(dataIndex)?.sale.no,
-        },
     },
     {
         name: 'short_uuid',
@@ -49,21 +48,17 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         label: 'Waktu',
     },
     {
-        name: 'byUser.name',
+        name: 'by_user.name',
         label: 'Kasir',
         options: {
-            customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.by_user?.name,
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'sale.buyerUser.name',
+        name: 'sale.buyer_user.name',
         label: 'Pelanggan',
         options: {
-            customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.sale?.buyer_user?.name,
             searchable: false,
             sort: false,
         },
@@ -81,11 +76,6 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
         name: 'transaction.cashable.name',
         label: 'Pembayaran',
         options: {
-            customBodyRenderLite: dataIndex => {
-                const cashable = getRowData(dataIndex)?.transaction?.cashable
-
-                if (cashable && 'name' in cashable) return cashable.name
-            },
             searchable: false,
             sort: false,
         },

@@ -1,10 +1,9 @@
 // vendors
-import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 import dayjs from 'dayjs'
 // materials
 import Typography from '@mui/material/Typography'
 //
-import Datatable from '@/components/Datatable'
+import Datatable, { type DatatableProps } from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Role from '@/enums/Role'
 import { useRoleChecker } from '@/hooks/use-role-checker'
@@ -24,12 +23,12 @@ export default function Page() {
     )
 }
 
-const DEFAULT_SORT_ORDER: MUISortOptions = {
+const DEFAULT_SORT_ORDER = {
     name: 'at',
-    direction: 'desc',
+    direction: 'desc' as const,
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
         name: 'at',
         label: 'TGL',

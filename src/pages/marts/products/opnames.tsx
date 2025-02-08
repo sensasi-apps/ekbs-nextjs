@@ -1,5 +1,4 @@
 // vendors
-import type { MUIDataTableColumn } from 'mui-datatables'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
@@ -10,7 +9,10 @@ import Button from '@mui/material/Button'
 import BackupTable from '@mui/icons-material/BackupTable'
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
-import Datatable, { type GetRowDataType } from '@/components/Datatable'
+import Datatable, {
+    DatatableProps,
+    type GetRowDataType,
+} from '@/components/Datatable'
 import Fab from '@/components/Fab'
 // layouts
 import type { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
@@ -81,7 +83,7 @@ export default function Opnames() {
     )
 }
 
-const columns: MUIDataTableColumn[] = [
+const columns: DatatableProps<ProductMovementOpname>['columns'] = [
     {
         name: 'uuid',
         label: 'ID',

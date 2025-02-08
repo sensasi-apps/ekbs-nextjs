@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type RentItemRent from '@/dataTypes/RentItemRent'
 // materials
 import Typography from '@mui/material/Typography'
@@ -27,8 +26,8 @@ export default function HeavyEquipmentRentsDatatable({
     apiUrlParams,
 }: {
     handleRowClick: OnRowClickType
-    mutateCallback: DatatableProps['mutateCallback']
-    getRowDataCallback: DatatableProps['getRowDataCallback']
+    mutateCallback: DatatableProps<RentItemRent>['mutateCallback']
+    getRowDataCallback: DatatableProps<RentItemRent>['getRowDataCallback']
     apiUrlParams: {
         type: 'unfinished' | '' | 'unfinished-task'
     }
@@ -74,7 +73,7 @@ export default function HeavyEquipmentRentsDatatable({
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
     {
         name: 'uuid',
         label: 'Kode',
