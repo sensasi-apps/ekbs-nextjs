@@ -1,6 +1,9 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
-import type { GetRowDataType, MutateType } from '@/components/Datatable'
+import type {
+    DatatableProps,
+    GetRowDataType,
+    MutateType,
+} from '@/components/Datatable'
 import dayjs from 'dayjs'
 // materials
 // utils
@@ -29,7 +32,7 @@ import { DATATABE_SEARCH_ONLY_COLUMNS } from './hooks/statics'
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
 let getRowData: GetRowDataType<Installment> = () => undefined
-let mutate: MutateType
+let mutate: MutateType<Installment>
 
 export default function ReceivablesDatatable({
     asManager = false,
@@ -127,7 +130,7 @@ export default function ReceivablesDatatable({
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<Installment>['columns'] = [
     // UUID
     {
         name: 'uuid',

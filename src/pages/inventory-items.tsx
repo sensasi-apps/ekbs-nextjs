@@ -1,7 +1,7 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
 import type {
+    DatatableProps,
     GetRowDataType,
     MutateType,
     OnRowClickType,
@@ -94,7 +94,7 @@ export default function InventoryItems() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<InventoryItem>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',

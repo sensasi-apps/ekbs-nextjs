@@ -1,7 +1,6 @@
 // types
 import type { Dayjs } from 'dayjs'
-import type { GetRowDataType } from '@/components/Datatable'
-import type { MUIDataTableColumn } from 'mui-datatables'
+import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import type Wallet from '@/dataTypes/Wallet'
 // vendors
@@ -74,7 +73,7 @@ export default function WalletsPage() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<Wallet>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
@@ -85,18 +84,10 @@ const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     {
         name: 'user.id',
         label: 'ID Pengguna',
-        options: {
-            customBodyRender: (_, rowMeta) =>
-                getRowData(rowMeta.rowIndex)?.user?.id,
-        },
     },
     {
         name: 'user.name',
         label: 'Nama Pengguna',
-        options: {
-            customBodyRender: (_, rowMeta) =>
-                getRowData(rowMeta.rowIndex)?.user?.name,
-        },
     },
     {
         name: 'balance',

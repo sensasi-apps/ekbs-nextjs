@@ -1,8 +1,11 @@
 // types
 import type { AxiosResponse } from 'axios'
 import type InventoryItem from '@/dataTypes/InventoryItem'
-import type { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
-import type { GetRowDataType, MutateType } from '@/components/Datatable'
+import type {
+    DatatableProps,
+    GetRowDataType,
+    MutateType,
+} from '@/components/Datatable'
 import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
 // vendors
 import { useRouter } from 'next/router'
@@ -142,12 +145,14 @@ export default function InventoryItemDetail() {
     )
 }
 
-const DEFAULT_SORT_ORDER: MUISortOptions = {
+const DEFAULT_SORT_ORDER = {
     name: 'at',
-    direction: 'desc',
+    direction: 'desc' as const,
 }
 
-const PIC_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const PIC_DATATABLE_COLUMNS: DatatableProps<
+    InventoryItem['latest_pic']
+>['columns'] = [
     {
         name: 'at',
         label: 'Pada',
@@ -168,7 +173,9 @@ const PIC_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
     },
 ]
 
-const CHECKUP_DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const CHECKUP_DATATABLE_COLUMNS: DatatableProps<
+    InventoryItem['latest_checkup']
+>['columns'] = [
     {
         name: 'at',
         label: 'Pada',

@@ -1,5 +1,4 @@
 import type { UUID } from 'crypto'
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
 import type PalmBunchType from '@/dataTypes/PalmBunch'
 import type Land from '@/types/Land'
@@ -19,7 +18,11 @@ import BackupTable from '@mui/icons-material/BackupTable'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { getRowData, mutate } from '@/components/Datatable'
+import Datatable, {
+    DatatableProps,
+    getRowData,
+    mutate,
+} from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'
 import FormActions from '@/components/Global/Form/Actions'
@@ -178,7 +181,7 @@ function Crud() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
         name: 'id',
         label: 'ID',

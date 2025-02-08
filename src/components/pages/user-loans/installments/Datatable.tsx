@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { getRowData } from '@/components/Datatable'
+import Datatable, { DatatableProps, getRowData } from '@/components/Datatable'
 
 enum UserLoanInstallmentDatatableApiUrlEnum {
     All = '/user-loans/installments/datatable',
@@ -82,7 +82,6 @@ const UserLoanInstallmentDatatable = memo(
 export default UserLoanInstallmentDatatable
 
 import toDmy from '@/utils/toDmy'
-import { MUIDataTableColumn, MUISortOptions } from 'mui-datatables'
 import {
     InstallmentUserLoan,
     InstallmentWithTransactionType,
@@ -93,12 +92,12 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 
 extend(relativeTime)
 
-const DEFAULT_SORT_ORDER: MUISortOptions = {
+const DEFAULT_SORT_ORDER = {
     name: 'should_be_paid_at',
-    direction: 'asc',
+    direction: 'asc' as const,
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',

@@ -1,41 +1,41 @@
 // types
-import type { DataTableOptions } from 'mui-datatable-delight'
-import type { MUIDataTableState } from 'mui-datatables'
+import type {
+    DataTableOptions,
+    DataTableProps,
+    DataTableState,
+} from 'mui-datatable-delight'
 import type { DatatableProps } from '../@types'
 // vendors
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import dayjs from 'dayjs'
 // hooks
 import { useSwr } from './useSwr'
 // functions
 import downloadXlsx from '../functions/downloadXlsx'
 import formatToDatatableParams from '../utils/formatToDatatableParams'
-import dayjs from 'dayjs'
 import staticOptions from '../staticOptions'
 
 export function useHooks<T>(
-    tableId: DatatableProps['tableId'],
-    columnDefs: DatatableProps['columns'],
-    defaultSortOrder: DatatableProps['defaultSortOrder'],
-    apiUrl: DatatableProps['apiUrl'],
-    apiUrlParams: DatatableProps['apiUrlParams'],
-    swrOptions: DatatableProps['swrOptions'],
+    tableId: DatatableProps<T>['tableId'],
+    columnDefs: DatatableProps<T>['columns'],
+    defaultSortOrder: DatatableProps<T>['defaultSortOrder'],
+    apiUrl: DatatableProps<T>['apiUrl'],
+    apiUrlParams: DatatableProps<T>['apiUrlParams'],
+    swrOptions: DatatableProps<T>['swrOptions'],
 ) {
-    const [rowsPerPage, setRowsPerPage] = useState<number>(
-        staticOptions.rowsPerPageOptions?.[0] ?? 10,
-    )
+    const [rowsPerPage, setRowsPerPage] = useState<number>(10)
     const [columns, setColumns] =
-        useState<DatatableProps['columns']>(columnDefs)
+        useState<DatatableProps<T>['columns']>(columnDefs)
     const [sortOrder, setSortOrder] =
-        useState<DatatableProps['defaultSortOrder']>(defaultSortOrder)
+        useState<DatatableProps<T>['defaultSortOrder']>(defaultSortOrder)
     const [MuiDatatableState, setMuiDatatableState] =
-        useState<MUIDataTableState>()
+        useState<DataTableState<T>>()
 
-    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
 
     /**
-     * @deprecated not implemented yet
+     * not implemented yet
      */
     // const [
     //     isDownloadConfirmationDialogOpen,
@@ -43,10 +43,10 @@ export function useHooks<T>(
     // ] = useState<boolean>(false)
 
     const {
-        data: { data = [], recordsTotal, recordsFiltered } = {},
-        mutate,
-        isLoading: swrIsLoading,
+        data: { data = [], recordsFiltered, recordsTotal } = {},
+        isLoading,
         isValidating,
+        mutate,
     } = useSwr<T>(
         apiUrl,
         apiUrlParams,
@@ -54,43 +54,26 @@ export function useHooks<T>(
         datatableSentRequestParamsJson,
     )
 
-    useEffect(() => {
-        setIsLoading(swrIsLoading || isValidating)
-    }, [swrIsLoading, isValidating])
-
-    let timerId: NodeJS.Timeout
-
     const handleTableChangeOrInit:
-        | DataTableOptions['onTableChange']
-        | DataTableOptions['onTableInit'] = (
-        action: string,
-        tableState: MUIDataTableState,
-    ) => {
-        if (JSON.stringify(MuiDatatableState) !== JSON.stringify(tableState)) {
-            clearTimeout(timerId)
-            timerId = setTimeout(() => {
-                setMuiDatatableState(tableState)
+        | DataTableOptions<T>['onTableChange']
+        | DataTableOptions<T>['onTableInit'] = (_, tableState) => {
+        const newRequestParamsJson = JSON.stringify(
+            formatToDatatableParams(tableState),
+        )
 
-                const newRequestParamsJson = JSON.stringify(
-                    formatToDatatableParams(tableState),
-                )
-                if (datatableSentRequestParamsJson !== newRequestParamsJson) {
-                    setDatatableSentRequestParamJson(newRequestParamsJson)
-                }
-            }, 350)
+        if (datatableSentRequestParamsJson !== newRequestParamsJson) {
+            setDatatableSentRequestParamJson(newRequestParamsJson)
+            setMuiDatatableState(tableState)
         }
     }
 
-    const options: DataTableOptions = {
+    const options: DataTableProps<T>['options'] = {
         ...staticOptions,
         rowsPerPage,
         sortOrder: sortOrder,
         onTableChange: handleTableChangeOrInit,
         onTableInit: handleTableChangeOrInit,
-        onColumnSortChange: (
-            changedColumn: string,
-            direction: 'asc' | 'desc',
-        ) => {
+        onColumnSortChange(changedColumn, direction) {
             setSortOrder({
                 name: changedColumn,
                 direction,
@@ -125,8 +108,6 @@ export function useHooks<T>(
                 return false
             }
 
-            setIsLoading(true)
-
             const sampleData = MuiDatatableState.data[0] ?? undefined
             const nData = MuiDatatableState.count
             const estimatedB = estimateDownloadSizeInB(sampleData, nData)
@@ -149,7 +130,7 @@ export function useHooks<T>(
                         '-' +
                         dayjs().format('YYYY-MM-DD-HH-mm-ss') +
                         '.xlsx',
-                ).then(() => setIsLoading(false))
+                )
             }
 
             return false
@@ -161,13 +142,13 @@ export function useHooks<T>(
         data,
         mutate,
         columns,
-        isLoading,
+        isLoading: isLoading || isValidating,
+        options,
 
         /**
-         * @deprecated not implemented yet
+         * not implemented yet
          */
         // isDownloadConfirmationDialogOpen,
-        options,
     }
 }
 

@@ -1,6 +1,5 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
-import type { GetRowDataType } from '@/components/Datatable'
+import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
 import type ProductType from '@/dataTypes/Product'
 // vendors
 import { useRouter } from 'next/router'
@@ -18,12 +17,12 @@ import formatNumber from '@/utils/formatNumber'
 import PublicLayout from '@/components/Layouts/PublicLayout'
 import WarehouseSelectionButton from '@/components/pages/katalog-saprodi/WarehouseSelectionButton'
 
-let getRowData: GetRowDataType<
-    Omit<ProductType, 'warehouses'> & {
-        qty: number
-        default_sell_price: number
-    }
->
+interface DataType extends Omit<ProductType, 'warehouses'> {
+    qty: number
+    default_sell_price: number
+}
+
+let getRowData: GetRowDataType<DataType>
 
 export default function KatalogProdukSaprodi() {
     const pageTitle = 'Katalog Digital Produk SAPRODI'
@@ -46,7 +45,7 @@ export default function KatalogProdukSaprodi() {
                 <WarehouseSelectionButton />
             </Box>
 
-            <Datatable
+            <Datatable<DataType>
                 apiUrl={'/public/produk-saprodi/datatable/' + warehouse}
                 columns={columns}
                 defaultSortOrder={{
@@ -90,7 +89,7 @@ export default function KatalogProdukSaprodi() {
     )
 }
 
-const columns: MUIDataTableColumn[] = [
+const columns: DatatableProps<DataType>['columns'] = [
     {
         name: 'category_name',
         label: 'Kategori',
@@ -182,8 +181,9 @@ const columns: MUIDataTableColumn[] = [
         name: 'default_sell_price',
         label: 'Harga Satuan (Tunai)',
         options: {
-            customBodyRender: (value: number) =>
-                value ? numberToCurrency(value) : '',
+            customBodyRender: value => (
+                <>{value ? numberToCurrency(value) : ''}</>
+            ),
         },
     },
     {

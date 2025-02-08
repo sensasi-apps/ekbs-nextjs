@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductType from '@/dataTypes/Product'
 // vendors
 import { Formik } from 'formik'
@@ -12,6 +11,7 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
+    DatatableProps,
     getNoWrapCellProps,
     GetRowDataType,
     MutateType,
@@ -134,7 +134,7 @@ export default function FarmInputsProducts() {
     )
 }
 
-const columns: MUIDataTableColumn[] = [
+const columns: DatatableProps<ProductType>['columns'] = [
     {
         name: 'id',
         label: 'ID',

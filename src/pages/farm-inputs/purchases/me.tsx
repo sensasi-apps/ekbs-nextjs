@@ -1,5 +1,4 @@
 // types
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type ProductSaleType from '@/dataTypes/ProductSale'
 // vendors
 import useSWR from 'swr'
@@ -14,7 +13,10 @@ import DialogContent from '@mui/material/DialogContent'
 import Grid2 from '@mui/material/Grid2'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { type GetRowDataType } from '@/components/Datatable'
+import Datatable, {
+    DatatableProps,
+    type GetRowDataType,
+} from '@/components/Datatable'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // utils
 import toDmy from '@/utils/toDmy'
@@ -113,7 +115,7 @@ export default function Page() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductSaleType>['columns'] = [
     {
         name: 'at',
         label: 'TGL',

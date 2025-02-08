@@ -1,8 +1,7 @@
 // types
 import type { Ymd } from '@/types/DateString'
-import type { MUIDataTableColumn } from 'mui-datatables'
 import type { OnRowClickType } from '@/components/Datatable'
-import type { GetRowData } from '@/components/Datatable/@types'
+import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
 import type Transaction from '@/dataTypes/Transaction'
 // vendors
 import Chip from '@mui/material/Chip'
@@ -52,7 +51,7 @@ export default function TransactionCrud() {
 
     return (
         <>
-            <Datatable
+            <Datatable<Transaction>
                 title="Riwayat Transaksi"
                 tableId="transaction-datatable"
                 apiUrl="/transactions/datatable"
@@ -102,7 +101,7 @@ export default function TransactionCrud() {
     )
 }
 
-const DATATABLE_COLUMNS: MUIDataTableColumn[] = [
+const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
