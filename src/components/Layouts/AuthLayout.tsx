@@ -36,10 +36,15 @@ export default function AuthLayout({
 
             <Box
                 flexGrow="1"
-                p={3}
                 width={{
                     xs: '100%',
                     sm: `calc(100% - ${DRAWER_WIDTH}px)`,
+                }}
+                sx={{
+                    p: {
+                        xs: 3,
+                        sm: 5,
+                    },
                 }}>
                 <Toolbar />
 
