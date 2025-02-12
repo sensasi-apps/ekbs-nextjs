@@ -103,13 +103,13 @@ export function useHooks<T>(
                 })
             }
         },
-        onDownload: () => {
+        onDownload: (_, __, ___, data) => {
             if (!MuiDatatableState) {
                 return false
             }
 
-            const sampleData = MuiDatatableState.data[0] ?? undefined
-            const nData = MuiDatatableState.count
+            const sampleData = data[0].data ?? undefined
+            const nData = recordsFiltered ?? recordsTotal ?? data.length
             const estimatedB = estimateDownloadSizeInB(sampleData, nData)
 
             if (
@@ -152,6 +152,6 @@ export function useHooks<T>(
     }
 }
 
-function estimateDownloadSizeInB(sampleData: object, count: number) {
+function estimateDownloadSizeInB<T>(sampleData: T, count: number) {
     return JSON.stringify(sampleData).length * 4 * count
 }
