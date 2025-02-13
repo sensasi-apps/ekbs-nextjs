@@ -1,12 +1,8 @@
 // types
-import type {
-    DataTableOptions,
-    DataTableProps,
-    DataTableState,
-} from 'mui-datatable-delight'
+import type { DataTableProps, DataTableState } from 'mui-datatable-delight'
 import type { DatatableProps } from '../@types'
 // vendors
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 // hooks
 import { useSwr } from './useSwr'
@@ -28,11 +24,23 @@ export function useHooks<T>(
         useState<DatatableProps<T>['columns']>(columnDefs)
     const [sortOrder, setSortOrder] =
         useState<DatatableProps<T>['defaultSortOrder']>(defaultSortOrder)
-    const [MuiDatatableState, setMuiDatatableState] =
-        useState<DataTableState<T>>()
 
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
+
+    const lastDataTableState = useRef<DataTableState<T>>()
+
+    useEffect(() => {
+        if (!lastDataTableState.current) {
+            throw new Error('Datatable state is not initialized')
+        }
+
+        const newRequestParamsJson = JSON.stringify(
+            formatToDatatableParams(lastDataTableState.current),
+        )
+
+        setDatatableSentRequestParamJson(newRequestParamsJson)
+    }, [])
 
     /**
      * not implemented yet
@@ -54,25 +62,23 @@ export function useHooks<T>(
         datatableSentRequestParamsJson,
     )
 
-    const handleTableChangeOrInit:
-        | DataTableOptions<T>['onTableChange']
-        | DataTableOptions<T>['onTableInit'] = (_, tableState) => {
-        const newRequestParamsJson = JSON.stringify(
-            formatToDatatableParams(tableState),
-        )
-
-        if (datatableSentRequestParamsJson !== newRequestParamsJson) {
-            setDatatableSentRequestParamJson(newRequestParamsJson)
-            setMuiDatatableState(tableState)
-        }
-    }
-
     const options: DataTableProps<T>['options'] = {
         ...staticOptions,
         rowsPerPage,
         sortOrder: sortOrder,
-        onTableChange: handleTableChangeOrInit,
-        onTableInit: handleTableChangeOrInit,
+        onTableChange: (_, tableState) => {
+            const newRequestParamsJson = JSON.stringify(
+                formatToDatatableParams(tableState),
+            )
+
+            if (datatableSentRequestParamsJson !== newRequestParamsJson) {
+                setDatatableSentRequestParamJson(newRequestParamsJson)
+                lastDataTableState.current = tableState
+            }
+        },
+        onTableInit: (_, tableState) => {
+            lastDataTableState.current = tableState
+        },
         onColumnSortChange(changedColumn, direction) {
             setSortOrder({
                 name: changedColumn,
@@ -104,7 +110,7 @@ export function useHooks<T>(
             }
         },
         onDownload: (_, __, ___, data) => {
-            if (!MuiDatatableState) {
+            if (!lastDataTableState.current) {
                 return false
             }
 
@@ -124,7 +130,7 @@ export function useHooks<T>(
                 downloadXlsx(
                     apiUrl,
                     apiUrlParams,
-                    MuiDatatableState,
+                    lastDataTableState.current,
                     'datatable-' +
                         tableId +
                         '-' +

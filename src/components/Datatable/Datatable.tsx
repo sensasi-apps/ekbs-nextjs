@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip'
 // icons-materials
 import Refresh from '@mui/icons-material/Refresh'
 // locals
-import { useHooks } from './hooks'
+import { useHooks } from './hooks/useHooks'
 // import { DownloadConfirmationDialog } from './components/DownloadConfirmationDialog'
 import sxs from './sxs'
 // utils
