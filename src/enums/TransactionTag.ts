@@ -1,3 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import txAccounts from '@/components/pages/cashes/Transaction/Form/txAccounts'
+
+/**
+ * DON'T FORGET TO SYNC WITH {@link txAccounts | `txAccounts`}
+ */
 enum TransactionTag {
     // general
     ARISAN = 'Arisan',
@@ -81,7 +87,7 @@ enum TransactionTag {
 
     // palm bunch costs
     BEBAN_KEGIATAN_KANTOR = 'Beban Kegiatan Kantor',
-    BEBAN_PENYERAHAN_SHU = 'Beba Penyerahan SHU 2021',
+    BEBAN_PENYERAHAN_SHU = 'Beban Penyerahan SHU 2021',
     // BEBAN_OPERASIONAL_KELOMPOK_TANI = 'Beban Operasional Kelompok Tani',
     BEBAN_SERTIFIKASI_RSPO = 'Beban Sertifikasi RSPO',
     BEBAN_INVESTASI = 'Beban Investasi',
