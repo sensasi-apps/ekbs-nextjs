@@ -1,5 +1,8 @@
 import TransactionTag from '@/enums/TransactionTag'
 
+/**
+ * DON'T FORGET TO SYNC WITH {@link TransactionTag | `TransactionTag`}
+ */
 const txAccounts: {
     income: TransactionTag[]
     expense: TransactionTag[]
@@ -15,10 +18,14 @@ const txAccounts: {
         TransactionTag.PENDAPATAN_LAIN_LAIN,
     ],
     expense: [
-        TransactionTag.BEBAN_JASA_PENGURUS,
-        TransactionTag.BEBAN_JASA_PENGAWAS,
-        TransactionTag.BEBAN_JASA_PENDIRI,
-        TransactionTag.BEBAN_LAIN_LAIN,
+        TransactionTag.BEBAN_ANGSURAN,
+
+        // general costs
+        // TransactionTag.BEBAN_JASA_PENGURUS,
+        // TransactionTag.BEBAN_JASA_PENGAWAS,
+        // TransactionTag.BEBAN_JASA_PENDIRI,
+        // TransactionTag.BEBAN_GAJI_PENGELOLA,
+        // TransactionTag.BEBAN_LAIN_LAIN,
         TransactionTag.BEBAN_ADMINISTRASI,
 
         // farm input costs
@@ -42,7 +49,7 @@ const txAccounts: {
 
         // palm bunch costs
         TransactionTag.BEBAN_KEGIATAN_KANTOR,
-        TransactionTag.BEBAN_PENYERAHAN_SHU,
+        // TransactionTag.BEBAN_PENYERAHAN_SHU,
         // TransactionTag.BEBAN_OPERASIONAL_KELOMPOK_TANI = 'Beban Operasional Kelompok Tani',
         TransactionTag.BEBAN_SERTIFIKASI_RSPO,
         TransactionTag.BEBAN_INVESTASI,
