@@ -52,13 +52,14 @@ export default function TransactionCrud() {
     return (
         <>
             <Datatable<Transaction>
-                title="Riwayat Transaksi"
-                tableId="transaction-datatable"
                 apiUrl="/transactions/datatable"
-                onRowClick={handleRowClick}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
+                download
                 getRowDataCallback={fn => (getRowData = fn)}
+                onRowClick={handleRowClick}
+                title="Riwayat Transaksi"
+                tableId="transaction-datatable"
             />
 
             <DialogWithTitle title={dialogTitle} open={isDialogOpen}>
@@ -129,8 +130,7 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         name: 'cash.name',
         label: 'Kas',
         options: {
-            customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.cash?.name,
+            customBodyRender: (_, rowIndex) => getRowData(rowIndex)?.cash?.name,
         },
     },
     {
@@ -138,9 +138,18 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         label: 'Akun',
         options: {
             sort: false,
+            customBodyRender(_, rowIndex) {
+                return getRowData(rowIndex)
+                    ?.tags.map(tag => decodeHtml(tag.name.id))
+                    .join(', ')
+            },
             customBodyRenderLite: dataIndex =>
                 getRowData(dataIndex)?.tags.map(tag => (
-                    <Chip key={tag.id} label={tag.name.id} size="small" />
+                    <Chip
+                        key={tag.id}
+                        label={decodeHtml(tag.name.id)}
+                        size="small"
+                    />
                 )),
         },
     },
@@ -171,14 +180,20 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
             }),
         },
     },
-
     {
         name: 'userActivityLogs.user.name',
         label: 'Oleh',
         options: {
             sort: false,
-            customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.user_activity_logs?.[0]?.user.name,
+            customBodyRender: (_, rowIndex) =>
+                getRowData(rowIndex)?.user_activity_logs?.[0]?.user.name,
         },
     },
 ]
+
+function decodeHtml(html: string): string {
+    const txt = document.createElement('textarea')
+    txt.innerHTML = html
+
+    return txt.value
+}

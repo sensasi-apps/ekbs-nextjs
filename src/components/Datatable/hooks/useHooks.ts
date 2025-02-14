@@ -10,6 +10,7 @@ import { useSwr } from './useSwr'
 import downloadXlsx from '../functions/downloadXlsx'
 import formatToDatatableParams from '../utils/formatToDatatableParams'
 import staticOptions from '../staticOptions'
+import { enqueueSnackbar } from 'notistack'
 
 export function useHooks<T>(
     tableId: DatatableProps<T>['tableId'],
@@ -27,6 +28,8 @@ export function useHooks<T>(
 
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const lastDataTableState = useRef<DataTableState<T>>()
 
@@ -52,7 +55,7 @@ export function useHooks<T>(
 
     const {
         data: { data = [], recordsFiltered, recordsTotal } = {},
-        isLoading,
+        isLoading: isSwrLoading,
         isValidating,
         mutate,
     } = useSwr<T>(
@@ -61,6 +64,10 @@ export function useHooks<T>(
         swrOptions,
         datatableSentRequestParamsJson,
     )
+
+    useEffect(() => {
+        setIsLoading(isSwrLoading || isValidating)
+    }, [isSwrLoading, isValidating])
 
     const options: DataTableProps<T>['options'] = {
         ...staticOptions,
@@ -120,13 +127,17 @@ export function useHooks<T>(
 
             if (
                 estimatedB >
-                100 * 1024 * 1024 // 100 MB
+                4 * 1024 // 4 MB
             ) {
-                /**
-                 * PENDING: Uncomment this line when the DownloadConfirmationDialog component is ready
-                 */
-                // setIsDownloadConfirmationDialogOpen(true)
+                enqueueSnackbar(
+                    `Tidak dapat melakukan unduh karena ukuran data terlalu besar. mohon lakukan penyaringan.`,
+                    {
+                        variant: 'warning',
+                    },
+                )
             } else if (estimatedB) {
+                setIsLoading(true)
+
                 downloadXlsx(
                     apiUrl,
                     apiUrlParams,
@@ -136,7 +147,9 @@ export function useHooks<T>(
                         '-' +
                         dayjs().format('YYYY-MM-DD-HH-mm-ss') +
                         '.xlsx',
-                )
+                ).then(() => {
+                    setIsLoading(false)
+                })
             }
 
             return false
@@ -148,7 +161,7 @@ export function useHooks<T>(
         data,
         mutate,
         columns,
-        isLoading: isLoading || isValidating,
+        isLoading,
         options,
 
         /**
@@ -158,6 +171,9 @@ export function useHooks<T>(
     }
 }
 
+/**
+ * Estimate download size in kilobytes
+ */
 function estimateDownloadSizeInB<T>(sampleData: T, count: number) {
-    return JSON.stringify(sampleData).length * 4 * count
+    return (JSON.stringify(sampleData).length * 4 * count) / 1024
 }
