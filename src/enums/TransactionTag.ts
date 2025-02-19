@@ -53,6 +53,9 @@ enum TransactionTag {
     PENDAPATAN_INSENTIF_RSPO = 'Pendapatan Insentif RSPO',
     PENDAPATAN_ADMINISTRASI = 'Pendapatan Administrasi',
 
+    // coffee
+    PENDAPATAN_JASA_STAN_MAKANAN = 'Pendapatan Jasa Stan Makanan',
+
     // ###################### COSTS
 
     // general costs
@@ -62,6 +65,7 @@ enum TransactionTag {
     BEBAN_GAJI_PENGELOLA = 'Beban Gaji Pengelola',
     BEBAN_LAIN_LAIN = 'Beban Lain-lain',
     BEBAN_ADMINISTRASI = 'Beban Administrasi',
+    BANK_INTEREST_TAX = 'Pajak Bunga Bank',
 
     // farm input and he
     BEBAN_ANGSURAN = 'Beban Angsuran',
@@ -88,7 +92,7 @@ enum TransactionTag {
     // palm bunch costs
     BEBAN_KEGIATAN_KANTOR = 'Beban Kegiatan Kantor',
     BEBAN_PENYERAHAN_SHU = 'Beban Penyerahan SHU 2021',
-    // BEBAN_OPERASIONAL_KELOMPOK_TANI = 'Beban Operasional Kelompok Tani',
+    BEBAN_OPERASIONAL_KELOMPOK_TANI = 'Beban Operasional Kelompok Tani',
     BEBAN_SERTIFIKASI_RSPO = 'Beban Sertifikasi RSPO',
     BEBAN_INVESTASI = 'Beban Investasi',
     BEBAN_KEGIATAN_RAT = 'Beban Kegiatan RAT',

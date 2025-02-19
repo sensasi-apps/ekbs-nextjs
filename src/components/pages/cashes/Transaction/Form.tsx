@@ -164,6 +164,40 @@ export default function TransactionForm({
                     )}
                 </FastField>
 
+                <FastField name="at">
+                    {({
+                        field: { name, value },
+                        meta: { error },
+                        form: { setFieldValue },
+                    }: FastFieldProps) => (
+                        <DatePicker
+                            disableFuture
+                            slotProps={{
+                                textField: {
+                                    fullWidth: true,
+                                    required: true,
+                                    variant: 'standard',
+                                    margin: 'normal',
+                                    name: name,
+                                    sx: {
+                                        mt: 2,
+                                    },
+                                    ...errorsToHelperTextObj(error),
+                                },
+                            }}
+                            label="Tanggal"
+                            disabled={isDisabled}
+                            onChange={value =>
+                                setFieldValue(
+                                    name,
+                                    value?.format('YYYY-MM-DD') ?? '',
+                                )
+                            }
+                            value={dayjs(value)}
+                        />
+                    )}
+                </FastField>
+
                 <Field name="cashable_uuid">
                     {({
                         field: { name, value, onBlur, onChange },
@@ -316,40 +350,6 @@ export default function TransactionForm({
                     )}
                 </Field>
 
-                <FastField name="at">
-                    {({
-                        field: { name, value },
-                        meta: { error },
-                        form: { setFieldValue },
-                    }: FastFieldProps) => (
-                        <DatePicker
-                            disableFuture
-                            slotProps={{
-                                textField: {
-                                    fullWidth: true,
-                                    required: true,
-                                    margin: 'dense',
-                                    size: 'small',
-                                    name: name,
-                                    sx: {
-                                        mt: 2,
-                                    },
-                                    ...errorsToHelperTextObj(error),
-                                },
-                            }}
-                            label="Tanggal"
-                            disabled={isDisabled}
-                            onChange={value =>
-                                setFieldValue(
-                                    name,
-                                    value?.format('YYYY-MM-DD') ?? '',
-                                )
-                            }
-                            value={dayjs(value)}
-                        />
-                    )}
-                </FastField>
-
                 <FastField name="amount">
                     {({
                         field: { value, name },
@@ -359,9 +359,12 @@ export default function TransactionForm({
                         return (
                             <NumericFormat
                                 disabled={isDisabled}
+                                margin="normal"
+                                size="medium"
                                 label="Jumlah"
                                 value={value}
                                 name={name}
+                                variant="standard"
                                 onValueChange={({ value }) =>
                                     setFieldValue(name, value)
                                 }
@@ -381,11 +384,11 @@ export default function TransactionForm({
 
                 <FastField
                     name="desc"
-                    required={false}
+                    required
+                    variant="standard"
                     component={TextFieldFastableComponent}
                     multiline
                     disabled={isDisabled}
-                    rows={2}
                     label="Deskripsi"
                 />
 

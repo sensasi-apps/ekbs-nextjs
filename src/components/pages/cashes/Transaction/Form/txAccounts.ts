@@ -16,11 +16,13 @@ const txAccounts: {
         TransactionTag.PENDAPATAN_INSENTIF_RSPO,
         TransactionTag.PENDAPATAN_ADMINISTRASI,
         TransactionTag.PENDAPATAN_LAIN_LAIN,
+
+        // coffee
+        TransactionTag.PENDAPATAN_JASA_STAN_MAKANAN,
     ],
     expense: [
-        TransactionTag.BEBAN_ANGSURAN,
-
         // general costs
+        TransactionTag.BEBAN_ANGSURAN,
         // TransactionTag.BEBAN_JASA_PENGURUS,
         // TransactionTag.BEBAN_JASA_PENGAWAS,
         // TransactionTag.BEBAN_JASA_PENDIRI,
@@ -50,12 +52,14 @@ const txAccounts: {
         // palm bunch costs
         TransactionTag.BEBAN_KEGIATAN_KANTOR,
         // TransactionTag.BEBAN_PENYERAHAN_SHU,
-        // TransactionTag.BEBAN_OPERASIONAL_KELOMPOK_TANI = 'Beban Operasional Kelompok Tani',
+        TransactionTag.BEBAN_OPERASIONAL_KELOMPOK_TANI,
         TransactionTag.BEBAN_SERTIFIKASI_RSPO,
         TransactionTag.BEBAN_INVESTASI,
         TransactionTag.BEBAN_KEGIATAN_RAT,
         TransactionTag.BEBAN_PERJALANAN_DINAS,
         // TransactionTag.BEBAN_PPH_BADAN_PERIODE_SEBELUMNYA,
+
+        TransactionTag.BANK_INTEREST_TAX,
     ],
 }
 
