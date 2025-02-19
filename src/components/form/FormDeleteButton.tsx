@@ -31,7 +31,7 @@ export default function FormDeleteButton({
                 color="error"
                 onConfirm={ev => onClick?.(ev)}
                 cancelButtonProps={{
-                    disabled: loading,
+                    disabled: loading ?? undefined,
                 }}
                 confirmButtonProps={{
                     loading: loading,
