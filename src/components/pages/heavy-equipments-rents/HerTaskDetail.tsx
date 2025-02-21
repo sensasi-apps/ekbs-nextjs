@@ -5,6 +5,7 @@ import { memo } from 'react'
 // utils
 import toDmy from '@/utils/toDmy'
 import RentItemRent from '@/dataTypes/RentItemRent'
+import numberToCurrency from '@/utils/numberToCurrency'
 
 const HerTaskDetail = memo(function HerTaskDetail({
     data: {
@@ -14,6 +15,7 @@ const HerTaskDetail = memo(function HerTaskDetail({
         inventory_item,
         for_n_units,
         rate_rp_per_unit,
+        rate_unit,
         note,
         heavy_equipment_rent,
     },
@@ -49,8 +51,11 @@ const HerTaskDetail = memo(function HerTaskDetail({
                         : ''
                 }
             />
-            <Row label="Pesan Untuk" value={`${for_n_units} H.M`} />
-            <Row label="Tarif" value={`${rate_rp_per_unit}/H.M`} />
+            <Row label="Pesan Untuk" value={`${for_n_units} ${rate_unit}`} />
+            <Row
+                label="Tarif"
+                value={`${numberToCurrency(rate_rp_per_unit)}/${rate_unit}`}
+            />
             <Row label="Catatan" value={note ?? ''} />
         </>
     )

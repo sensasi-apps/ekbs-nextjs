@@ -173,6 +173,7 @@ const FullMonthTableRows = ({
 }
 
 function RentInfoCard({
+    rentUnit,
     rentFor,
     renterId,
     unitName,
@@ -181,6 +182,7 @@ function RentInfoCard({
     isDone,
     isPaid,
 }: {
+    rentUnit: string
     rentFor: number
     renterId?: number
     unitName: string
@@ -220,7 +222,7 @@ function RentInfoCard({
                     {[
                         shortUuid,
                         renterId ? `#${renterId} ` : '',
-                        formatNumber(rentFor) + ' H.M',
+                        formatNumber(rentFor) + ' ' + rentUnit,
                         unitName,
                     ].map((text, i) => (
                         <Typography

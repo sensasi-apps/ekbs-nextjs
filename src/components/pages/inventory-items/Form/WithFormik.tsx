@@ -46,4 +46,5 @@ const formDataFormatter = (values: InventoryItemFormValues) => ({
     unfunctional_note: values.unfunctional_note ?? undefined,
     tags: values.tags ?? undefined,
     default_rate_rp_per_unit: values.default_rate_rp_per_unit ?? undefined,
+    default_rate_unit: values.default_rate_unit ?? undefined,
 })

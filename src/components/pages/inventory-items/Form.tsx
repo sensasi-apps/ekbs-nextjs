@@ -42,6 +42,7 @@ const InventoryItemForm = memo(function InventoryItemForm({
 
         rentable,
         default_rate_rp_per_unit,
+        default_rate_unit,
     },
     setFieldValue,
 }: FormikProps<InventoryItemFormValues>) {
@@ -296,9 +297,8 @@ const InventoryItemForm = memo(function InventoryItemForm({
                         InputProps={{
                             startAdornment: <RpInputAdornment />,
                             endAdornment: (
-                                // TODO: dynamic unit
                                 <InputAdornment position="end">
-                                    / H.M
+                                    / {default_rate_unit}
                                 </InputAdornment>
                             ),
                         }}
@@ -321,6 +321,7 @@ export default InventoryItemForm
 export type InventoryItemFormValues = Partial<
     Omit<InventoryItem, 'tags'> & {
         default_rate_rp_per_unit: number
+        default_rate_unit: string
         tags: string[]
     }
 >

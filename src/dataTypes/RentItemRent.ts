@@ -15,7 +15,7 @@ type RentItemRent = {
     by_user_uuid?: UUID
     payment_method: 'cash' | 'wallet' | 'installment' | 'fgwallet'
     rate_rp_per_unit: number
-    rate_unit: 'jam'
+    rate_unit: 'H.M' | 'sewa'
     for_n_units: number
     for_at: Ymd
     finished_at?: Ymd
