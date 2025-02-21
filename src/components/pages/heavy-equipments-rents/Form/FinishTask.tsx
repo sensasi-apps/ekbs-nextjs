@@ -80,59 +80,61 @@ export default function HeavyEquipmentRentFinishTaskForm({
                 )}
             </FastField>
 
-            <Box display="inline-flex" gap={1}>
-                <FastField name="start_hm" disabled={isDisabled}>
-                    {({
-                        field: { value, name },
-                        meta: { error },
-                        form: { setFieldValue },
-                    }: FastFieldProps) => (
-                        <NumericFormat
-                            label="H.M Awal"
-                            value={value}
-                            name={name}
-                            disabled={isDisabled}
-                            onValueChange={({ floatValue }) =>
-                                setFieldValue(name, floatValue)
-                            }
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {rate_unit}
-                                    </InputAdornment>
-                                ),
-                            }}
-                            {...errorsToHelperTextObj(error)}
-                        />
-                    )}
-                </FastField>
+            {rate_unit === 'H.M' && (
+                <Box display="inline-flex" gap={1}>
+                    <FastField name="start_hm" disabled={isDisabled}>
+                        {({
+                            field: { value, name },
+                            meta: { error },
+                            form: { setFieldValue },
+                        }: FastFieldProps) => (
+                            <NumericFormat
+                                label="H.M Awal"
+                                value={value}
+                                name={name}
+                                disabled={isDisabled}
+                                onValueChange={({ floatValue }) =>
+                                    setFieldValue(name, floatValue)
+                                }
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            {rate_unit}
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                {...errorsToHelperTextObj(error)}
+                            />
+                        )}
+                    </FastField>
 
-                <FastField name="end_hm" disabled={isDisabled}>
-                    {({
-                        field: { value, name },
-                        meta: { error },
-                        form: { setFieldValue },
-                    }: FastFieldProps) => (
-                        <NumericFormat
-                            label="H.M Akhir"
-                            value={value}
-                            name={name}
-                            disabled={isDisabled}
-                            onValueChange={({ floatValue }) =>
-                                setFieldValue(name, floatValue)
-                            }
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {rate_unit}
-                                    </InputAdornment>
-                                ),
-                            }}
-                            {...errorsToHelperTextObj(error)}
-                        />
-                    )}
-                </FastField>
-            </Box>
+                    <FastField name="end_hm" disabled={isDisabled}>
+                        {({
+                            field: { value, name },
+                            meta: { error },
+                            form: { setFieldValue },
+                        }: FastFieldProps) => (
+                            <NumericFormat
+                                label="H.M Akhir"
+                                value={value}
+                                name={name}
+                                disabled={isDisabled}
+                                onValueChange={({ floatValue }) =>
+                                    setFieldValue(name, floatValue)
+                                }
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            {rate_unit}
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                {...errorsToHelperTextObj(error)}
+                            />
+                        )}
+                    </FastField>
+                </Box>
+            )}
         </FormikForm>
     )
 }

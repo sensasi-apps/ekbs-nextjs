@@ -130,6 +130,10 @@ export default function InventoryItemDetail() {
                                                 ?.default_rate_rp_per_unit ??
                                             undefined,
                                         tags: inventoryItem.tags ?? [],
+                                        default_rate_unit:
+                                            inventoryItem.rentable
+                                                ?.default_rate_unit ??
+                                            undefined,
                                     }}
                                     onSubmitted={mutate}
                                     onReset={() => null}

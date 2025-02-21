@@ -51,8 +51,14 @@ export default function HeavyEquipmentRentsTasks() {
     const handleEdit = (data: RentItemRent) => {
         const formedData: HerFinishTaskFormValues = {
             ...data,
-            start_hm: data.heavy_equipment_rent?.start_hm ?? undefined,
-            end_hm: data.heavy_equipment_rent?.end_hm ?? undefined,
+            start_hm:
+                data.rate_unit === 'H.M'
+                    ? (data.heavy_equipment_rent?.start_hm ?? undefined)
+                    : 0,
+            end_hm:
+                data.rate_unit === 'H.M'
+                    ? (data.heavy_equipment_rent?.end_hm ?? undefined)
+                    : 1,
         }
 
         setInitialFormikValues(formedData)

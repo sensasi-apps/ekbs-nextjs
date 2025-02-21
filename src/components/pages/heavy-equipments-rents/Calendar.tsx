@@ -120,6 +120,7 @@ function rentsToEventButtons(
             unitName: rent.inventory_item.name,
             shortUuid: rent.short_uuid,
             rentFor: rent.for_n_units,
+            rentUnit: rent.rate_unit,
         })
     })
 

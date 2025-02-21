@@ -177,33 +177,35 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                         sx={{ mt: 3 }}
                     />
 
-                    <Box display="inline-flex" gap={1}>
-                        <NumericFormat
-                            label="H.M Awal"
-                            disabled={true}
-                            value={heavy_equipment_rent?.start_hm ?? ''}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {rate_unit}
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
+                    {rate_unit === 'H.M' && (
+                        <Box display="inline-flex" gap={1}>
+                            <NumericFormat
+                                label="H.M Awal"
+                                disabled={true}
+                                value={heavy_equipment_rent?.start_hm ?? ''}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            {rate_unit}
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
 
-                        <NumericFormat
-                            label="H.M Akhir"
-                            disabled={true}
-                            value={heavy_equipment_rent?.end_hm}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {rate_unit}
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Box>
+                            <NumericFormat
+                                label="H.M Akhir"
+                                disabled={true}
+                                value={heavy_equipment_rent?.end_hm}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            {rate_unit}
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Box>
+                    )}
 
                     <div
                         style={{
