@@ -1,10 +1,11 @@
 // vendors
-import LoadingButton, { type LoadingButtonProps } from '@mui/lab/LoadingButton'
 import { useState } from 'react'
+// materials
+import Button, { type ButtonProps } from '@mui/material/Button'
 // components
 import ConfirmationDialog from '../ConfirmationDialog'
 
-export type FormDeleteButtonProps = LoadingButtonProps & {
+export type FormDeleteButtonProps = ButtonProps & {
     titleText?: string
     confirmationText?: string
 }
@@ -17,7 +18,7 @@ export default function FormDeleteButton({
     titleText,
     confirmationText,
     ...props
-}: LoadingButtonProps & {
+}: ButtonProps & {
     titleText?: string
     confirmationText?: string
 }) {
@@ -41,14 +42,14 @@ export default function FormDeleteButton({
                     'Data yang dihapus tidak dapat dikembalikan.'}
             </ConfirmationDialog>
 
-            <LoadingButton
+            <Button
                 color="error"
                 onClick={() => setIsDialogOpen(true)}
                 disabled={disabled}
                 loading={loading}
                 {...props}>
                 {children ?? 'Hapus'}
-            </LoadingButton>
+            </Button>
         </>
     )
 }

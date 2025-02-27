@@ -12,12 +12,12 @@ import {
     // useFormik,
 } from 'formik'
 // materials
+// import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import InputLabel from '@mui/material/InputLabel'
-// import LoadingButton from '@mui/lab/LoadingButton'
 // import MenuItem from '@mui/material/MenuItem'
 import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
@@ -389,13 +389,13 @@ export default function UnitTxForm({
                             flexGrow: 1,
                         }}>
                         {/* {values.uuid && isUserCanDelete && (
-                            <LoadingButton
+                            <Button
                                 color="error"
                                 onClick={() => handleDelete()}
                                 loading={isDeleting}
                                 disabled={isDisabled}>
                                 <DeleteIcon />
-                            </LoadingButton>
+                            </Button>
                         )} */}
                     </span>
 

@@ -5,7 +5,6 @@ import axios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import LoadingButton from '@mui/lab/LoadingButton'
 //components
 import DatePicker from '@/components/DatePicker'
 import TextField from '@/components/TextField'
@@ -124,13 +123,13 @@ export default function MemberForm() {
                     color="info">
                     Batal
                 </Button>
-                <LoadingButton
+                <Button
                     loading={isLoading}
                     type="submit"
                     color="info"
                     variant="contained">
                     Simpan
-                </LoadingButton>
+                </Button>
             </Box>
         </form>
     )

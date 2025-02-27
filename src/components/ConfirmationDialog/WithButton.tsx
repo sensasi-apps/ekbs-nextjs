@@ -1,8 +1,7 @@
-// types
-import type { LoadingButtonProps } from '@mui/lab/LoadingButton'
 // vendors
 import { useState } from 'react'
-import LoadingButton from '@mui/lab/LoadingButton'
+// materials
+import Button, { type ButtonProps } from '@mui/material/Button'
 // components
 import ConfirmationDialog from '../ConfirmationDialog'
 
@@ -15,8 +14,8 @@ export default function ConfirmationDialogWithButton({
 }: {
     shouldConfirm: boolean
     onConfirm: () => void
-    buttonProps?: LoadingButtonProps
-    confirmButtonProps?: LoadingButtonProps
+    buttonProps?: ButtonProps
+    confirmButtonProps?: ButtonProps
 } & Omit<Parameters<typeof ConfirmationDialog>[0], 'open' | 'onCancel'>) {
     const [open, setOpen] = useState(false)
 
@@ -29,7 +28,7 @@ export default function ConfirmationDialogWithButton({
 
     return (
         <>
-            <LoadingButton
+            <Button
                 onClick={shouldConfirm ? handleOpen : handleConfirm}
                 color={props.color}
                 {...buttonProps}

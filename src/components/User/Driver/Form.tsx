@@ -9,7 +9,6 @@ import axios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import LoadingButton from '@mui/lab/LoadingButton'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 // components
 import TextField from '@/components/TextField'
@@ -111,13 +110,13 @@ export default function UserDriverForm({
                     Batal
                 </Button>
 
-                <LoadingButton
+                <Button
                     type="submit"
                     loading={isLoading}
                     variant="contained"
                     color="info">
                     Simpan
-                </LoadingButton>
+                </Button>
             </Box>
         </form>
     )

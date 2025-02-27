@@ -1,5 +1,6 @@
 // vendors
-import { useState, forwardRef } from 'react'
+import { type UUIDTypes } from 'uuid'
+import { type FormEvent, useState, ChangeEvent } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
 // materials
@@ -7,59 +8,64 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import LoadingButton from '@mui/lab/LoadingButton'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import LaravelValidationException from '@/types/LaravelValidationException'
 
-const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
-    const [errors, setErrors] = useState({})
+export default function UserVehicleForm({
+    onClose,
+    courierUserUuid,
+}: {
+    onClose: () => void
+    courierUserUuid: UUIDTypes
+}) {
+    const [errors, setErrors] = useState<LaravelValidationException['errors']>()
     const [isLoading, setIsLoading] = useState(false)
-    const [inputMaxCapacityValue, setInputMaxCapacityValue] = useState('')
+    const [inputMaxCapacityValue, setInputMaxCapacityValue] = useState<number>()
 
-    const handleSubmit = async e => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setIsLoading(true)
 
-        try {
-            const formEl = e.target
-            const formData = new FormData(formEl)
+        const formEl = e.currentTarget
+        const formData = new FormData(formEl)
 
-            await axios.post(
-                `/users/${courierUserUuid}/courier/vehicles`,
-                formData,
-            )
-            await mutate(`users/${courierUserUuid}`)
+        axios
+            .post(`/users/${courierUserUuid}/courier/vehicles`, formData)
+            .then(() => {
+                mutate(`users/${courierUserUuid}`)
 
-            if (onClose) {
                 formEl.reset()
-                setInputMaxCapacityValue('')
+                setInputMaxCapacityValue(undefined)
                 onClose()
-            }
-        } catch (err) {
-            if (err.response?.status === 422) {
-                setErrors(err.response.data.errors)
-            } else {
-                throw err
-            }
-        }
-
-        setIsLoading(false)
+            })
+            .catch(err => {
+                if (err.response?.status === 422) {
+                    setErrors(err.response.data.errors)
+                } else {
+                    throw err
+                }
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
     }
 
-    const clearError = e => {
+    const clearError = (e: ChangeEvent<HTMLInputElement>) => {
         const { name } = e.target
 
-        if (errors[name]) {
-            setErrors({
-                ...errors,
-                [name]: null,
+        if (errors?.[name]) {
+            setErrors(() => {
+                const newErrors = { ...errors }
+                delete newErrors[name]
+                return newErrors
             })
         }
     }
 
     return (
-        <form autoComplete="off" onSubmit={handleSubmit} ref={ref} {...props}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
             <TextField
                 fullWidth
                 required
@@ -67,9 +73,8 @@ const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
                 margin="normal"
                 label="Merk"
                 name="brand"
-                error={Boolean(errors.brand)}
                 onChange={clearError}
-                helperText={errors.brand}
+                {...errorsToHelperTextObj(errors?.brand)}
             />
 
             <TextField
@@ -79,35 +84,32 @@ const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
                 margin="normal"
                 label="Model / Tipe"
                 name="type"
-                error={Boolean(errors.type)}
                 onChange={clearError}
-                helperText={errors.type}
+                {...errorsToHelperTextObj(errors?.type)}
             />
 
             <input
                 type="hidden"
                 id="max_capacity_ton"
                 name="max_capacity_ton"
+                value={inputMaxCapacityValue ?? ''}
             />
 
             <NumericFormat
                 disabled={isLoading}
                 margin="normal"
                 label="Kapasitas Muatan"
-                value={inputMaxCapacityValue}
+                value={inputMaxCapacityValue ?? ''}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="start">Ton</InputAdornment>
                     ),
                 }}
-                onChange={e => {
-                    const { value } = e.target
-                    document.getElementById('max_capacity_ton').value = value
-                    setInputMaxCapacityValue(value)
-
-                    return clearError(e)
+                onValueChange={({ floatValue }) => {
+                    setInputMaxCapacityValue(floatValue)
                 }}
-                {...errorsToHelperTextObj(errors.max_capacity_ton)}
+                onChange={clearError}
+                {...errorsToHelperTextObj(errors?.max_capacity_ton)}
             />
 
             <TextField
@@ -117,9 +119,8 @@ const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
                 margin="normal"
                 label="Nomor Plat Kendaraan"
                 name="plate_number"
-                error={Boolean(errors.plate_number)}
                 onChange={clearError}
-                helperText={errors.plate_number}
+                {...errorsToHelperTextObj(errors?.plate_number)}
             />
 
             <Box textAlign="right" mt={1}>
@@ -127,21 +128,15 @@ const UserVehicleForm = ({ onClose, courierUserUuid, ...props }, ref) => {
                     type="reset"
                     disabled={isLoading}
                     onClick={() => {
-                        setInputMaxCapacityValue('')
-
-                        if (onClose) onClose()
+                        setInputMaxCapacityValue(undefined)
+                        onClose()
                     }}>
                     Batal
                 </Button>
-                <LoadingButton
-                    loading={isLoading}
-                    type="submit"
-                    variant="contained">
+                <Button loading={isLoading} type="submit" variant="contained">
                     Simpan
-                </LoadingButton>
+                </Button>
             </Box>
         </form>
     )
 }
-
-export default forwardRef(UserVehicleForm)

@@ -1,14 +1,12 @@
-// types
-import type { DialogProps } from '@mui/material/Dialog'
-import type { LoadingButtonProps } from '@mui/lab/LoadingButton'
 // vendors
 import { memo } from 'react'
+// materials
 import Box from '@mui/material/Box'
-import Dialog from '@mui/material/Dialog'
+import Button, { type ButtonProps } from '@mui/material/Button'
+import Dialog, { type DialogProps } from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
-import LoadingButton from '@mui/lab/LoadingButton'
 
 const ConfirmationDialog = memo(function ConfirmationDialog({
     color = 'warning',
@@ -20,12 +18,12 @@ const ConfirmationDialog = memo(function ConfirmationDialog({
     children,
     ...props
 }: {
-    color?: LoadingButtonProps['color']
+    color?: ButtonProps['color']
     title: string
-    onConfirm: LoadingButtonProps['onClick']
+    onConfirm: ButtonProps['onClick']
     onCancel: () => void
-    cancelButtonProps?: LoadingButtonProps
-    confirmButtonProps?: LoadingButtonProps
+    cancelButtonProps?: ButtonProps
+    confirmButtonProps?: ButtonProps
 } & DialogProps) {
     return (
         <Dialog maxWidth="xs" fullWidth disableRestoreFocus {...props}>
@@ -40,19 +38,16 @@ const ConfirmationDialog = memo(function ConfirmationDialog({
                 </DialogContent>
             )}
             <DialogActions>
-                <LoadingButton
-                    onClick={onCancel}
-                    color={color}
-                    {...cancelButtonProps}>
+                <Button onClick={onCancel} color={color} {...cancelButtonProps}>
                     Urungkan
-                </LoadingButton>
-                <LoadingButton
+                </Button>
+                <Button
                     onClick={onConfirm}
                     color={color}
                     variant="contained"
                     {...confirmButtonProps}>
                     Yakin
-                </LoadingButton>
+                </Button>
             </DialogActions>
         </Dialog>
     )

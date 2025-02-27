@@ -11,7 +11,6 @@ import dayjs from 'dayjs'
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
-import LoadingButton from '@mui/lab/LoadingButton'
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -165,16 +164,14 @@ function DialogForDownloadXls() {
                     onClick: () => setOpen(false),
                 }}
                 actions={
-                    <>
-                        <LoadingButton
-                            loading={isFetching}
-                            color="success"
-                            disabled={downloadDisabled}
-                            onClick={handleFetching}
-                            endIcon={<DownloadIcon />}>
-                            Unduh
-                        </LoadingButton>
-                    </>
+                    <Button
+                        loading={isFetching}
+                        color="success"
+                        disabled={downloadDisabled}
+                        onClick={handleFetching}
+                        endIcon={<DownloadIcon />}>
+                        Unduh
+                    </Button>
                 }>
                 <Collapse in={showSuccess}>
                     <Alert

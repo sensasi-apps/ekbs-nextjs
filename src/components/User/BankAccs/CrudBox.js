@@ -15,8 +15,8 @@ import Typography from '@mui/material/Typography'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-
-import UserBankAccForm from './Form'
+//
+import UserBankAccForm from './form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import useUserWithDetails from '@/providers/UserWithDetails'
 

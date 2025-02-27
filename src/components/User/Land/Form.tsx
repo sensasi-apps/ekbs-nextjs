@@ -17,7 +17,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import LoadingButton from '@mui/lab/LoadingButton'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import DatePicker from '@/components/DatePicker'
@@ -251,13 +250,13 @@ export default function UserLandForm(props: UserLandFormPropType) {
                         onClick={onCancel}>
                         Batal
                     </Button>
-                    <LoadingButton
+                    <Button
                         type="submit"
                         loading={isLoading}
                         variant="contained"
                         color="info">
                         Simpan
-                    </LoadingButton>
+                    </Button>
                 </div>
             </Box>
         </form>

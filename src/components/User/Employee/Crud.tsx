@@ -11,7 +11,6 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import LoadingButton from '@mui/lab/LoadingButton'
 //
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import type User from '@/dataTypes/User'
@@ -80,13 +79,13 @@ export default function UserEmployeeCrud({
                                     Batal
                                 </Button>
 
-                                <LoadingButton
+                                <Button
                                     variant="contained"
                                     loading={props.isSubmitting}
                                     form={FORM_ID}
                                     type="submit">
                                     Simpan
-                                </LoadingButton>
+                                </Button>
                             </DialogActions>
                         </Dialog>
                     )}
