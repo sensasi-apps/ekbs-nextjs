@@ -5,10 +5,10 @@ import type CashType from '@/dataTypes/Cash'
 import axios from '@/lib/axios'
 import { FastField, Form, useFormik } from 'formik'
 // materials
+import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
-import LoadingButton from '@mui/lab/LoadingButton'
 import Typography from '@mui/material/Typography'
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -112,14 +112,14 @@ export default function CashForm({
                             flexGrow: 1,
                         }}>
                         {isDeletable && (
-                            <LoadingButton
+                            <Button
                                 size="small"
                                 onClick={() => handleDelete()}
                                 color="error"
                                 loading={isDeleting}
                                 disabled={isSubmitting}>
                                 <DeleteIcon />
-                            </LoadingButton>
+                            </Button>
                         )}
                     </span>
 

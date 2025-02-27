@@ -3,8 +3,6 @@ import { useIsOnline } from 'react-use-is-online'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import LoadingButton from '@mui/lab/LoadingButton'
-// hooks
 
 export default function FormActions({
     submitting,
@@ -28,13 +26,13 @@ export default function FormActions({
             alignContent="end"
             mt={2}>
             {onDelete && (
-                <LoadingButton
+                <Button
                     onClick={onDelete}
                     disabled={submitting || disabled || isOffline}
                     loading={deleting}
                     color="error">
                     Hapus
-                </LoadingButton>
+                </Button>
             )}
 
             <Box display="flex" gap={1}>
@@ -46,14 +44,14 @@ export default function FormActions({
                     Batal
                 </Button>
 
-                <LoadingButton
+                <Button
                     type="submit"
                     disabled={deleting || disabled || isOffline}
                     loading={submitting}
                     variant={isOffline ? 'outlined' : 'contained'}
                     color="info">
                     Simpan
-                </LoadingButton>
+                </Button>
             </Box>
         </Box>
     )

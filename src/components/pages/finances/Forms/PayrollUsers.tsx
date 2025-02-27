@@ -1,13 +1,13 @@
-// types
-import type { UUID } from 'crypto'
 // vendors
+import type { UUID } from 'crypto'
 import { useState } from 'react'
 import axios from '@/lib/axios'
 // materials
-import UserAutocomplete from '@/components/UserAutocomplete'
-import UserType from '@/dataTypes/User'
 import Box from '@mui/material/Box'
-import LoadingButton from '@mui/lab/LoadingButton'
+import Button from '@mui/material/Button'
+//
+import type UserType from '@/dataTypes/User'
+import UserAutocomplete from '@/components/UserAutocomplete'
 import handle422 from '@/utils/errorCatcher'
 import FinanceApiUrlEnum from '../ApiUrlEnum'
 
@@ -61,13 +61,13 @@ export default function PayrollUsersForm({
 
     return (
         <>
-            <LoadingButton
+            <Button
                 size="small"
                 onClick={handleAddAllEmployees}
                 disabled={disabled}
                 loading={addEmployeeLoading}>
                 Masukkan Semua Karyawan
-            </LoadingButton>
+            </Button>
 
             <Box mt={1}>
                 <UserAutocomplete
@@ -88,15 +88,15 @@ export default function PayrollUsersForm({
             ))}
 
             <Box mt={2} display="flex" justifyContent="end" gap={1}>
-                <LoadingButton
+                <Button
                     size="small"
                     color="info"
                     onClick={onClose}
                     disabled={disabled}>
                     Batal
-                </LoadingButton>
+                </Button>
 
-                <LoadingButton
+                <Button
                     size="small"
                     type="submit"
                     color="info"
@@ -105,7 +105,7 @@ export default function PayrollUsersForm({
                     loading={submitLoading}
                     onClick={handleSubmit}>
                     Tambahkan
-                </LoadingButton>
+                </Button>
             </Box>
         </>
     )

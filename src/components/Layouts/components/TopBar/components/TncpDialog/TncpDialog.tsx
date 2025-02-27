@@ -8,7 +8,6 @@ import axios from '@/lib/axios'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
-import LoadingButton from '@mui/lab/LoadingButton'
 // hooks
 import useAuth from '@/providers/Auth'
 // components
@@ -69,13 +68,13 @@ export function TncpDialog({
                 </Button>
                 {user?.is_agreed_tncp === false && (
                     <form onSubmit={handleSubmit}>
-                        <LoadingButton
+                        <Button
                             loading={isLoading}
                             type="submit"
                             variant="contained">
                             Saya telah membaca dan menyetujui Syarat, Ketentuan,
                             dan Kebijakan Privasi ini
-                        </LoadingButton>
+                        </Button>
                     </form>
                 )}
             </DialogActions>

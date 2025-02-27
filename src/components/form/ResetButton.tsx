@@ -1,7 +1,7 @@
-// types
-import type { LoadingButtonProps } from '@mui/lab/LoadingButton'
 // vendors
 import { memo } from 'react'
+// materials
+import type { ButtonProps } from '@mui/material/Button'
 // components
 import ConfirmationDialogWithButton from '@/components/ConfirmationDialog/WithButton'
 
@@ -15,7 +15,7 @@ const FormResetButton = memo(function FormResetButton({
     disabled: boolean
     form: string
     slotProps?: {
-        button?: Omit<LoadingButtonProps, 'type' | 'form' | 'disabled'>
+        button?: Omit<ButtonProps, 'type' | 'form' | 'disabled'>
     }
 }) {
     const {

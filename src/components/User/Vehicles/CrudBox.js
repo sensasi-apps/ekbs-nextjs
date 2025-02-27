@@ -14,7 +14,7 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import UserVehicleForm from '../Vehicle/Form'
+import UserVehicleForm from '../Vehicle/form'
 
 function ListItem({
     courierUserUuid,
@@ -108,10 +108,12 @@ const UserVehiclesCrudBox = ({
             )}
 
             <Fade in={isFormOpen} unmountOnExit>
-                <UserVehicleForm
-                    courierUserUuid={courierUserUuid}
-                    onClose={() => setIsFormOpen(false)}
-                />
+                <div>
+                    <UserVehicleForm
+                        courierUserUuid={courierUserUuid}
+                        onClose={() => setIsFormOpen(false)}
+                    />
+                </div>
             </Fade>
         </Box>
     )

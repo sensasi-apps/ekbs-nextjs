@@ -1,13 +1,8 @@
-import type {
-    FormikStatusType,
-    FormValuesType,
-} from '@/components/pages/marts/products/sales/formik-wrapper'
 // vendors
 import { useFormikContext } from 'formik'
-// mui-labs
-import LoadingButton from '@mui/lab/LoadingButton'
 // materials
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
@@ -18,8 +13,12 @@ import SaveIcon from '@mui/icons-material/Save'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import CloseIcon from '@mui/icons-material/Close'
 // global components
+import type {
+    FormikStatusType,
+    FormValuesType,
+} from '@/components/pages/marts/products/sales/formik-wrapper'
 import PrintHandler from '@/components/PrintHandler'
-// subcomponents
+// sub-components
 import CreateSaleForm from './components/create-sale-form'
 import Receipt from '../../../@shared-subcomponents/receipt'
 // utils
@@ -47,7 +46,7 @@ export function CreateSaleFormWrapper() {
             }}>
             <Box display="flex" justifyContent="space-between">
                 <Box display="flex">
-                    <LoadingButton
+                    <Button
                         startIcon={isFormOpen ? <SaveIcon /> : <AddBoxIcon />}
                         color={isFormOpen ? 'warning' : 'success'}
                         size="small"
@@ -62,7 +61,7 @@ export function CreateSaleFormWrapper() {
                         }
                         loading={isSubmitting}>
                         {isFormOpen ? 'Simpan' : 'Penjualan Baru'}
-                    </LoadingButton>
+                    </Button>
 
                     <PrintHandler
                         slotProps={{

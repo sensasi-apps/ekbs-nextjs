@@ -1,14 +1,10 @@
-import type { Ymd } from '@/types/DateString'
-import type CashType from '@/dataTypes/Cash'
-import type LaravelValidationException from '@/types/LaravelValidationException'
-import type Payroll from '@/dataTypes/Payroll'
-import type { PayrollType } from '@/dataTypes/Payroll'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -16,7 +12,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
 import InputLabel from '@mui/material/InputLabel'
-import LoadingButton from '@mui/lab/LoadingButton'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Table from '@mui/material/Table'
@@ -30,6 +25,11 @@ import Typography from '@mui/material/Typography'
 // icons
 import LockIcon from '@mui/icons-material/Lock'
 // components
+import type { PayrollType } from '@/dataTypes/Payroll'
+import type { Ymd } from '@/types/DateString'
+import type CashType from '@/dataTypes/Cash'
+import type LaravelValidationException from '@/types/LaravelValidationException'
+import type Payroll from '@/dataTypes/Payroll'
 import DatePicker from '@/components/DatePicker'
 import InfoBox from '@/components/InfoBox'
 import NumericFormat from '@/components/NumericFormat'
@@ -341,15 +341,15 @@ export default function ProcessPayrollForm({
             </FormGroup>
 
             <Box display="flex" justifyContent="end" gap={1.5}>
-                <LoadingButton
+                <Button
                     size="small"
                     color={isFinal ? 'warning' : 'info'}
                     disabled={loading}
                     onClick={handleClose}>
                     {data.processed_at ? 'Tutup' : 'Batal'}
-                </LoadingButton>
+                </Button>
 
-                <LoadingButton
+                <Button
                     size="small"
                     color={isFinal ? 'warning' : 'info'}
                     variant="contained"
@@ -358,7 +358,7 @@ export default function ProcessPayrollForm({
                     loading={loading}
                     onClick={handleSubmit}>
                     {isFinal ? 'Proses Penggajian' : 'Simpan'}
-                </LoadingButton>
+                </Button>
             </Box>
         </>
     )

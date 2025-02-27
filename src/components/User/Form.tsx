@@ -14,7 +14,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import Switch from '@mui/material/Switch'
-import LoadingButton from '@mui/lab/LoadingButton'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
@@ -187,12 +186,9 @@ const UserForm = () => {
                     Batal
                 </Button>
 
-                <LoadingButton
-                    loading={isLoading}
-                    type="submit"
-                    variant="contained">
+                <Button loading={isLoading} type="submit" variant="contained">
                     Simpan
-                </LoadingButton>
+                </Button>
             </Box>
         </form>
     )

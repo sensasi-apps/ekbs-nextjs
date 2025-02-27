@@ -6,8 +6,8 @@ import type LaravelValidationException from '@/types/LaravelValidationException'
 import { useState } from 'react'
 import axios from '@/lib/axios'
 // materials
+import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
-import LoadingButton from '@mui/lab/LoadingButton'
 // icons
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 // utils
@@ -40,7 +40,7 @@ export default function RefundForm({
     }
     return (
         <>
-            <LoadingButton
+            <Button
                 onClick={() =>
                     confirm(
                         `Apakah anda yakin ingin melakukan refund untuk penjualan dengan kode ${data.short_uuid}?`,
@@ -57,7 +57,7 @@ export default function RefundForm({
                 }
                 endIcon={<VolunteerActivismIcon />}>
                 Refund
-            </LoadingButton>
+            </Button>
 
             {errors?.error && (
                 <FormHelperText error>{errors.error}</FormHelperText>

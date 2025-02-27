@@ -1,16 +1,15 @@
-// types
-import type { FormikFormProps } from 'formik'
-import type { LoadingButtonProps } from '@mui/lab/LoadingButton'
 // vendors
 import { memo } from 'react'
-import { Form } from 'formik'
+import { Form, type FormikFormProps } from 'formik'
+// materials
+import { type ButtonProps } from '@mui/material/Button'
 import Box from '@mui/material/Box'
 // components
 import DialogLoadingBar from '@/components/Dialog/LoadingBar'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
 import FormDeleteButton, {
-    FormDeleteButtonProps,
+    type FormDeleteButtonProps,
 } from '@/components/form/FormDeleteButton'
 
 /**
@@ -49,7 +48,7 @@ const FormikForm = memo(function FormikForm({
     processing: boolean
     slotProps: {
         deleteButton?: FormDeleteButtonProps
-        cancelButton?: Omit<LoadingButtonProps, 'disabled' | 'form' | 'type'>
+        cancelButton?: Omit<ButtonProps, 'disabled' | 'form' | 'type'>
         submitButton: {
             disabled: boolean
             confirmationText?: string

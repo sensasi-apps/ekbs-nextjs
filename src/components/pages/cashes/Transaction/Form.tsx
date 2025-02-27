@@ -17,12 +17,12 @@ import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
+import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
-import LoadingButton from '@mui/lab/LoadingButton'
 import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
@@ -403,13 +403,13 @@ export default function TransactionForm({
                             flexGrow: 1,
                         }}>
                         {txFromDB?.uuid && isUserCanDelete && (
-                            <LoadingButton
+                            <Button
                                 color="error"
                                 onClick={() => handleDelete()}
                                 loading={isDeleting}
                                 disabled={isDisabled}>
                                 <DeleteIcon />
-                            </LoadingButton>
+                            </Button>
                         )}
                     </span>
 

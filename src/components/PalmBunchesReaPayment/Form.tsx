@@ -8,8 +8,8 @@ import React, { ChangeEvent, useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import Grid from '@mui/material/Grid'
 import Fade from '@mui/material/Fade'
@@ -26,7 +26,6 @@ import TableBody from '@mui/material/TableBody'
 import TableFooter from '@mui/material/TableFooter'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import LoadingButton from '@mui/lab/LoadingButton'
 // icons
 import AddIcon from '@mui/icons-material/Add'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
@@ -201,7 +200,7 @@ export default function PalmBuncesReaPaymentForm({
                 </Grid>
 
                 <Grid item xs={12} sm={4}>
-                    <LoadingButton
+                    <Button
                         fullWidth
                         loading={loading}
                         disabled={loading || hasTransactions}
@@ -222,7 +221,7 @@ export default function PalmBuncesReaPaymentForm({
                                 handleFileChange(e)
                             }}
                         />
-                    </LoadingButton>
+                    </Button>
                 </Grid>
             </Grid>
 

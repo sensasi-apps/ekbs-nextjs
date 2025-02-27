@@ -20,7 +20,6 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
-import LoadingButton from '@mui/lab/LoadingButton'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import DatePicker from '@/components/DatePicker'
@@ -316,13 +315,13 @@ export default function UserDetailForm() {
                     Batal
                 </Button>
 
-                <LoadingButton
+                <Button
                     loading={isLoading}
                     type="submit"
                     color="info"
                     variant="contained">
                     Simpan
-                </LoadingButton>
+                </Button>
             </Box>
         </form>
     )
