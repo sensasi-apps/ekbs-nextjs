@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableContainer from '@mui/material/TableContainer'
 // components
-import { ApiResponseType } from '../Tbs'
+import { type ApiResponseType } from '../Tbs'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 

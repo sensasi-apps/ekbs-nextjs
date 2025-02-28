@@ -1,6 +1,6 @@
-import { UUID } from 'crypto'
+import { type UUID } from 'crypto'
 
-type File = {
+export default interface File {
     uuid: UUID
     alias: string
     mime: string
@@ -9,5 +9,3 @@ type File = {
     fileable_classname?: string
     fileable_uuid?: UUID
 }
-
-export default File

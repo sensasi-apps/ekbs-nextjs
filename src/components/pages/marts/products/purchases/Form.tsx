@@ -1,10 +1,10 @@
 // types
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
-import type Transaction from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 import type ProductMovementPurchase from '@/dataTypes/mart/ProductMovementPurchase'
-import ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
+import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 // vendors
-import { Field, FieldArray, FieldProps, type FormikProps } from 'formik'
+import { Field, FieldArray, type FieldProps, type FormikProps } from 'formik'
 // materials
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'

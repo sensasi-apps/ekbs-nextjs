@@ -1,6 +1,6 @@
 // types
 import type { FormEvent } from 'react'
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 import type FormType from '@/components/Global/Form/type'
 import type ActivityLogType from '@/dataTypes/ActivityLog'
 // vendors
@@ -36,7 +36,7 @@ export default function PalmBuncesReaTicketForm({
     loading,
     setSubmitting,
     onSubmitted,
-}: FormType<PalmBunchesReaTicketType>) {
+}: FormType<PalmBunchesReaTicket>) {
     const { userHasRole, userHasPermission } = useAuth()
 
     const disabled =

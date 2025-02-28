@@ -2,13 +2,13 @@
 import {
     Children,
     cloneElement,
-    ComponentType,
+    type ComponentType,
     forwardRef,
-    HTMLAttributes,
+    type HTMLAttributes,
     isValidElement,
     memo,
-    ReactElement,
-    ReactNode,
+    type ReactElement,
+    type ReactNode,
     useState,
 } from 'react'
 import type { FieldProps } from 'formik'
@@ -26,7 +26,7 @@ import type User from '@/dataTypes/User'
 import type { FormikStatusType } from '../../../../..'
 import TextField from '@/components/TextField'
 // icons
-import { List, ListRowProps } from 'react-virtualized'
+import { List, type ListRowProps } from 'react-virtualized'
 import ApiUrl from '../../../../../../@enums/api-url'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 

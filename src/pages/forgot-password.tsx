@@ -1,7 +1,7 @@
 // types
 import { AxiosError } from 'axios'
 // vendors
-import { useState, FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import axios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'

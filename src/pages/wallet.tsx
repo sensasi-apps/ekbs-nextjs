@@ -1,5 +1,5 @@
 // types
-import Wallet from '@/dataTypes/Wallet'
+import type Wallet from '@/dataTypes/Wallet'
 // vendors
 import useSWR from 'swr'
 // components

@@ -1,5 +1,5 @@
 import type { SWRConfiguration } from 'swr'
-import type YajraDatatable from '@/types/responses/YajraDatatable'
+import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 import type { DatatableProps } from '../@types'
 import useSWRVendor from 'swr'
 

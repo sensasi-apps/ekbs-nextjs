@@ -1,4 +1,4 @@
-type Role = {
+export default interface Role {
     id: number
     name: string
     name_id: string
@@ -10,5 +10,3 @@ type Role = {
         updated_at: string
     }[]
 }
-
-export default Role

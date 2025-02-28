@@ -2,7 +2,7 @@
 import type { FormValues } from '../Form'
 import type Product from '@/dataTypes/mart/Product'
 // vendors
-import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
+import { Field, type FieldArrayRenderProps, type FieldProps } from 'formik'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'

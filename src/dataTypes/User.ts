@@ -1,9 +1,9 @@
 import type { Employee } from '@/@types/Data/Employee'
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
-import type Installment from './Installment'
+import type { Installment } from './Installment'
 
-interface User {
+export default interface User {
     id: number
     is_active: boolean
     is_agreed_tncp: boolean
@@ -31,5 +31,3 @@ interface User {
 
     unpaid_installments?: Installment[] // only used in \src\components\Wallet\TxForm.tsx
 }
-
-export default User

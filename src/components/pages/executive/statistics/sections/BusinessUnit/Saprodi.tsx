@@ -12,18 +12,18 @@ import Skeleton from '@mui/material/Skeleton'
 import RefreshIcon from '@mui/icons-material/Refresh'
 // components
 import InOutLineChart, {
-    InOutLineChartProps,
+    type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 import StatCard from '@/components/StatCard'
 // page components
 import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
 import ProductMovementTable, {
-    ProductMovementTableProp,
+    type ProductMovementTableProp,
 } from '@/pages/farm-inputs/statitistics/ProductMovementTable'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import DatePicker from '@/components/DatePicker'
 import DynamicProductMovementTable, {
-    DynamicProductMovementTableProp,
+    type DynamicProductMovementTableProp,
 } from '@/pages/farm-inputs/statitistics/DynamicProductMovementTable'
 import IconButton from '@/components/IconButton'
 

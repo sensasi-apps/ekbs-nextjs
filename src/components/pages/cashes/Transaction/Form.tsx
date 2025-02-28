@@ -1,16 +1,16 @@
 // types
 import type { AxiosError } from 'axios'
 import type BusinessUnitCash from '@/dataTypes/BusinessUnitCash'
-import type TransactionType from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import { useState } from 'react'
 import {
     FastField,
-    FastFieldProps,
+    type FastFieldProps,
     Field,
-    FieldProps,
+    type FieldProps,
     Form,
-    FormikProps,
+    type FormikProps,
     useFormik,
 } from 'formik'
 import axios from '@/lib/axios'
@@ -45,7 +45,7 @@ import useAuth from '@/providers/Auth'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import txAccounts from './Form/txAccounts'
 import handle422 from '@/utils/errorCatcher'
-import LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 import shortUuid from '@/utils/uuidToShort'
 
 export default function TransactionForm({
@@ -57,7 +57,7 @@ export default function TransactionForm({
     status,
     setFieldValue,
 }: FormikProps<FormValuesType>) {
-    const txFromDB = status as TransactionType | undefined
+    const txFromDB = status as Transaction | undefined
 
     const [validationErrorMsg, setValidationErrorMsg] = useState<string>()
     const [isBuTx, setIsBuTx] = useState<boolean>(Boolean(values.to_cash_uuid))
@@ -432,13 +432,13 @@ export default function TransactionForm({
 }
 
 export type FormValuesType = Partial<{
-    cashable_uuid: TransactionType['cashable_uuid']
-    at: TransactionType['at']
-    amount: TransactionType['amount']
-    desc: TransactionType['desc']
-    type: TransactionType['type']
-    to_cash_uuid: TransactionType['to_cash_uuid']
-    tag: TransactionType['tags'][0]['name']['id']
+    cashable_uuid: Transaction['cashable_uuid']
+    at: Transaction['at']
+    amount: Transaction['amount']
+    desc: Transaction['desc']
+    type: Transaction['type']
+    to_cash_uuid: Transaction['to_cash_uuid']
+    tag: Transaction['tags'][0]['name']['id']
 }>
 
 export function transactionToFormValues({
@@ -449,7 +449,7 @@ export function transactionToFormValues({
     type,
     to_cash_uuid,
     tags,
-}: TransactionType): FormValuesType {
+}: Transaction): FormValuesType {
     return {
         cashable_uuid,
         at,

@@ -12,9 +12,9 @@ import Typography from '@mui/material/Typography'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
-    DatatableProps,
-    GetRowDataType,
-    MutateType,
+    type DatatableProps,
+    type GetRowDataType,
+    type MutateType,
 } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'

@@ -1,6 +1,6 @@
 import type User from '@/dataTypes/User'
 
-export type AuthInfo = {
+export interface AuthInfo {
     id: User['id']
     uuid: User['uuid']
     name: User['name']

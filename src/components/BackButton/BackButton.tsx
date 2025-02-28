@@ -2,7 +2,7 @@
 import { memo } from 'react'
 import { useRouter } from 'next/router'
 // materials
-import Button, { ButtonProps } from '@mui/material/Button'
+import Button, { type ButtonProps } from '@mui/material/Button'
 // icons
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 

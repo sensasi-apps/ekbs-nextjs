@@ -1,5 +1,5 @@
 // types
-import type Transaction from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
 import { useDebounce } from 'use-debounce'

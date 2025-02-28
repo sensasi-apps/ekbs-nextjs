@@ -2,7 +2,7 @@ import type FarmerGroupType from '@/dataTypes/FarmerGroup'
 import type RentItemType from '@/dataTypes/RentItem'
 import type { HeavyEquipmentRentFormValues } from '../Form'
 // vendors
-import { FastField, FormikProps } from 'formik'
+import { FastField, type FormikProps } from 'formik'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'

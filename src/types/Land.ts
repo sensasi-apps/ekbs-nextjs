@@ -1,7 +1,7 @@
-import { UUID } from 'crypto'
-import Address from './Address'
+import { type UUID } from 'crypto'
+import type Address from './Address'
 
-interface Land {
+export default interface Land {
     uuid: UUID
     user_uuid: UUID
     farmer_group_uuid: UUID
@@ -12,5 +12,3 @@ interface Land {
     note: string
     address: Address
 }
-
-export default Land

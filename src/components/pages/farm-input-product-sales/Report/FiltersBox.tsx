@@ -9,7 +9,7 @@ import IconButton from '@/components/IconButton'
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import RefreshIcon from '@mui/icons-material/Refresh'
-import ProductSaleType from '@/dataTypes/ProductSale'
+import type { ProductSale } from '@/dataTypes/ProductSale'
 import { aoaToXlsx } from '@/functions/aoaToXlsx'
 
 const MAX_DATE = dayjs().endOf('month')
@@ -20,7 +20,7 @@ export default function FiltersBox({
     disabled,
     onRefresh,
 }: {
-    data: ProductSaleType[]
+    data: ProductSale[]
     disabled: boolean
     onRefresh: () => void
 }) {
@@ -118,7 +118,7 @@ export default function FiltersBox({
     )
 }
 
-function handleDownloadExcel(data: ProductSaleType[], fileName: string) {
+function handleDownloadExcel(data: ProductSale[], fileName: string) {
     const rows = data.flatMap(item => {
         const adjustedTotalRp = item.total_rp - item.total_base_rp
 

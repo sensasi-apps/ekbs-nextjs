@@ -7,7 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import Table from '@mui/material/Table'
 import TableContainer from '@mui/material/TableContainer'
 // components
-import type ProductSaleType from '@/dataTypes/ProductSale'
+import type { ProductSale } from '@/dataTypes/ProductSale'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import BackButton from '@/components/BackButton'
 import FiltersBox from '@/components/pages/farm-input-product-sales/Report/FiltersBox'
@@ -25,7 +25,7 @@ export default function FarmInputProductSalesReport() {
         isLoading,
         isValidating,
         mutate,
-    } = useSWR<ProductSaleType[]>(
+    } = useSWR<ProductSale[]>(
         from_date && till_date
             ? [
                   apiUrl,

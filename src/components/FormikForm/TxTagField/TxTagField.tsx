@@ -1,5 +1,5 @@
 // vendors
-import { Field, FieldProps } from 'formik'
+import { Field, type FieldProps } from 'formik'
 import Autocomplete from '@mui/material/Autocomplete'
 // components
 import txAccounts from '@/components/pages/cashes/Transaction/Form/txAccounts'

@@ -1,6 +1,11 @@
 // types
 import type Product from '@/dataTypes/Product'
-import { FastField, FieldArray, FormikErrors, type FormikProps } from 'formik'
+import {
+    FastField,
+    FieldArray,
+    type FormikErrors,
+    type FormikProps,
+} from 'formik'
 // materials
 import Alert from '@mui/material/Alert'
 import Grid from '@mui/material/Grid'

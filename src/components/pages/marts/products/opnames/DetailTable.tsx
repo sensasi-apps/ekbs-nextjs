@@ -13,10 +13,10 @@ import TableRow from '@mui/material/TableRow'
 // icons-materials
 import RemoveCircle from '@mui/icons-material/RemoveCircle'
 //
+import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 import axios from '@/lib/axios'
 import IconButton from '@/components/IconButton'
 import NumericFormat from '@/components/NumericFormat'
-import ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
 import formatNumber from '@/utils/formatNumber'
 

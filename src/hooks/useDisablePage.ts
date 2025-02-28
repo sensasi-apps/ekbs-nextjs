@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { OptionsObject, enqueueSnackbar } from 'notistack'
+import { type OptionsObject, enqueueSnackbar } from 'notistack'
 import { useEffect } from 'react'
 
 const SNACKBAR_OPTIONS: OptionsObject = {

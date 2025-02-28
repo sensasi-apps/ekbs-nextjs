@@ -6,7 +6,7 @@ import type {
     OnRowClickType,
 } from '@/components/Datatable'
 import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
-import type ProductSaleType from '@/dataTypes/ProductSale'
+import type { ProductSale } from '@/dataTypes/ProductSale'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
@@ -42,8 +42,8 @@ import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
 import { CashableClassname } from '@/dataTypes/Transaction'
 import Warehouse from '@/enums/Warehouse'
 
-let getRowData: GetRowDataType<ProductSaleType>
-let mutate: MutateType<ProductSaleType>
+let getRowData: GetRowDataType<ProductSale>
+let mutate: MutateType<ProductSale>
 
 export default function FarmInputProductSales() {
     const { userHasPermission, userHasRole } = useAuth()
@@ -258,7 +258,7 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
     </ul>
 )
 
-const DATATABLE_COLUMNS: DatatableProps<ProductSaleType>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',

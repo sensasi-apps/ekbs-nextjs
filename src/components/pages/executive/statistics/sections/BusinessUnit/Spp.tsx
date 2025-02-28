@@ -6,7 +6,7 @@ import Grid2 from '@mui/material/Grid2'
 // components
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
-    InOutLineChartProps,
+    type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
 

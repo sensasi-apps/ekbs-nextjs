@@ -14,13 +14,13 @@ import Typography from '@mui/material/Typography'
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, { GetRowDataType } from '@/components/Datatable'
+import Datatable, { type GetRowDataType } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import FinanceApiUrlEnum from '@/components/pages/finances/ApiUrlEnum'
 import FinancesDebtForm, {
     calcTotalRp,
-    FormValuesType,
+    type FormValuesType,
 } from '@/components/pages/finances/debts/Form'
 import SettlementForm from '@/components/pages/finances/debts/SettlementForm'
 import ScrollableXBox from '@/components/ScrollableXBox'

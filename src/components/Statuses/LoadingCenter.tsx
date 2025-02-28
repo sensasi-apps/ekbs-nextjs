@@ -1,5 +1,5 @@
-import { FC } from 'react'
-import Box, { BoxProps } from '@mui/material/Box'
+import { type FC } from 'react'
+import Box, { type BoxProps } from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 
 interface LoadingCenterProps extends BoxProps {
@@ -20,7 +20,7 @@ const LoadingCenter: FC<LoadingCenterProps> = ({
             textAlign="center"
             {...props}>
             <CircularProgress />
-            <Box mt={2}>{message || children}</Box>
+            <Box mt={2}>{message ?? children}</Box>
         </Box>
     )
 }

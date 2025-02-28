@@ -2,7 +2,7 @@
 import type { Ymd } from '@/types/DateString'
 import type { OnRowClickType } from '@/components/Datatable'
 import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
-import type Transaction from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import Chip from '@mui/material/Chip'
 import { Formik } from 'formik'
@@ -18,7 +18,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 // local components
 import TransactionForm, {
-    FormValuesType,
+    type FormValuesType,
     transactionToFormValues,
 } from './Form'
 import { mutate as mutateCashlist } from '../Cash/List'

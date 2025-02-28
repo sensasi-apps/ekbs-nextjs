@@ -1,6 +1,4 @@
-type BusinessUnit = {
+export default interface BusinessUnit {
     id: number
     name: string
 }
-
-export default BusinessUnit

@@ -14,8 +14,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
-    DatatableProps,
-    GetRowDataType,
+    type DatatableProps,
+    type GetRowDataType,
 } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'

@@ -1,8 +1,8 @@
 import {
     createContext,
-    FC,
-    ReactNode,
-    Reducer,
+    type FC,
+    type ReactNode,
+    type Reducer,
     useContext,
     useReducer,
 } from 'react'

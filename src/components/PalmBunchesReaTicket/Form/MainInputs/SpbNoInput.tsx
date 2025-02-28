@@ -1,6 +1,6 @@
 // types
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
-import type ValidationErrorsType from '@/types/ValidationErrors'
+import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import { type ValidationErrorsType } from '@/types/ValidationErrors'
 // vendors
 import { useState, useEffect } from 'react'
 // materials
@@ -23,7 +23,7 @@ export default function SpbNoInput({
     disabled: boolean
     clearByName: (name: string) => void
 }) {
-    const { data, setData } = useFormData<PalmBunchesReaTicketType>()
+    const { data, setData } = useFormData<PalmBunchesReaTicket>()
     const [internalValue, setInternalValue] = useState(data.spb_no ?? '')
 
     useEffect(() => {

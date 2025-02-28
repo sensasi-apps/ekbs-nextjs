@@ -5,7 +5,7 @@ import type { Ymd } from '@/types/DateString'
 import type Debt from '@/dataTypes/Debt'
 import type DebtDetail from '@/dataTypes/DebtDetail'
 // vendors
-import { Field, FieldProps, FormikProps } from 'formik'
+import { Field, type FieldProps, type FormikProps } from 'formik'
 import dayjs from 'dayjs'
 // materials
 import FormControl from '@mui/material/FormControl'

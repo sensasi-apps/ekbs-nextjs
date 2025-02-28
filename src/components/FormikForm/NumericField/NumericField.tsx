@@ -1,13 +1,15 @@
 // vendors
-import { Field, FieldProps } from 'formik'
+import { Field, type FieldProps } from 'formik'
 import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
 // components
-import NumericFormat, { NumericFormatProps } from '@/components/NumericFormat'
+import NumericFormat, {
+    type NumericFormatProps,
+} from '@/components/NumericFormat'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
-type NumericFieldProps = {
+interface NumericFieldProps {
     name: string
     label?: string
     disabled: boolean

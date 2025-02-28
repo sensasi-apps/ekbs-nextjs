@@ -7,7 +7,7 @@ import AuthLayout from '@/components/Layouts/AuthLayout'
 import BigNumber from '@/components/StatCard/BigNumber'
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
-    InOutLineChartProps,
+    type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 // page components
 import SaprodiSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Saprodi'

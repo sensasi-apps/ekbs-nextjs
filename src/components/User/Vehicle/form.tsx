@@ -1,6 +1,6 @@
 // vendors
 import { type UUIDTypes } from 'uuid'
-import { type FormEvent, useState, ChangeEvent } from 'react'
+import { type FormEvent, useState, type ChangeEvent } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'
 // materials
@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 
 export default function UserVehicleForm({
     onClose,

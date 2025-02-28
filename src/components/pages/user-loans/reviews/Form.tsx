@@ -1,7 +1,7 @@
 // types
 import type { UUID } from 'crypto'
 import type { FormikContextType, FastFieldProps } from 'formik'
-import type LoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 // vendors
 import { FastField, Form } from 'formik'
 import FormControl from '@mui/material/FormControl'
@@ -22,7 +22,7 @@ export default function UserLoanReviewForm({
     isSubmitting,
     status,
 }: FormikContextType<FormDataType>) {
-    const userLoan = status?.userLoan as LoanType
+    const userLoan = status?.userLoan as UserLoanType
     const isNew = !values.uuid
     const isDisbursed = Boolean(userLoan.transaction)
     const isProcessing = isSubmitting

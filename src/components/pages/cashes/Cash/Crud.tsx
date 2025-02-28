@@ -3,7 +3,7 @@ import type CashType from '@/dataTypes/Cash'
 // vendors
 import axios from '@/lib/axios'
 import { useCallback, useState } from 'react'
-import { Formik, FormikConfig } from 'formik'
+import { Formik, type FormikConfig } from 'formik'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
 // local components

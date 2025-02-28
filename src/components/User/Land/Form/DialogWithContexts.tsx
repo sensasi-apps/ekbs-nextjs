@@ -1,10 +1,10 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 
+import type Land from '@/types/Land'
 import Dialog from '@/components/Global/Dialog'
 import useUserWithDetails from '@/providers/UserWithDetails'
 import UserLandForm from '@/components/User/Land/Form'
 import useFormData from '@/providers/useFormData'
-import Land from '@/types/Land'
 
 const UserLandFormhDialogWithUseContexts: FC = () => {
     const { data: user } = useUserWithDetails()

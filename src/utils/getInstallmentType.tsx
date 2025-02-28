@@ -1,4 +1,4 @@
-import type Installment from '@/dataTypes/Installment'
+import type { Installment } from '@/dataTypes/Installment'
 import Typography from '@mui/material/Typography'
 
 export default function getInstallmentType({

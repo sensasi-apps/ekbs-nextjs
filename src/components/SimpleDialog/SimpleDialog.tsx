@@ -5,7 +5,7 @@ import type { IconButtonProps } from '@mui/material/IconButton'
 // vendors
 import { useState } from 'react'
 // materials
-import Button, { ButtonProps } from '@mui/material/Button'
+import Button, { type ButtonProps } from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'

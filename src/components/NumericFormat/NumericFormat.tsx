@@ -4,7 +4,7 @@ import type { TextFieldProps } from '@mui/material/TextField'
 import { memo } from 'react'
 import {
     NumericFormat as VendorNumericFormat,
-    NumericFormatProps as VendorNumericFormatProps,
+    type NumericFormatProps as VendorNumericFormatProps,
 } from 'react-number-format'
 // components
 import TextField from '@/components/TextField'

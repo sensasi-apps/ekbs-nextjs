@@ -1,5 +1,5 @@
 // types
-import type UserType from '@/dataTypes/User'
+import type User from '@/dataTypes/User'
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
@@ -32,8 +32,8 @@ import formatNumber from '@/utils/formatNumber'
 import Image from 'next/image'
 
 type ApiResponseType = {
-    user_id: UserType['id']
-    user_name: UserType['name']
+    user_id: User['id']
+    user_name: User['name']
     n_kg: number
     n_tickets: number
 }[]

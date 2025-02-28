@@ -1,6 +1,6 @@
-import Warehouse from '@/enums/Warehouse'
+import type Warehouse from '@/enums/Warehouse'
 
-type ProductWarehouse = {
+export default interface ProductWarehouse {
     id: number
     product_id: number
     warehouse: Warehouse
@@ -8,5 +8,3 @@ type ProductWarehouse = {
     default_sell_price: number
     base_cost_rp_per_unit: number
 }
-
-export default ProductWarehouse

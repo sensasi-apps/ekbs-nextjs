@@ -1,7 +1,7 @@
 // types
 import type Product from '@/dataTypes/mart/Product'
 // vendors
-import { FastField, FieldArrayRenderProps } from 'formik'
+import { FastField, type FieldArrayRenderProps } from 'formik'
 // materials
 import Grid2 from '@mui/material/Grid2'
 // components

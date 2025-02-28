@@ -8,7 +8,7 @@ import {
     YAxis,
     Tooltip,
     ResponsiveContainer,
-    LineProps,
+    type LineProps,
 } from 'recharts'
 // materials
 import Typography from '@mui/material/Typography'

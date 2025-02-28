@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
-import { useState, FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 // materials

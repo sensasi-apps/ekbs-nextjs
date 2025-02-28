@@ -1,6 +1,6 @@
 // types
 import type { DatatableProps } from '../@types'
-import type YajraDatatable from '@/types/responses/YajraDatatable'
+import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 // vendors
 import type { DataTableState } from 'mui-datatable-delight'
 import dayjs from 'dayjs'

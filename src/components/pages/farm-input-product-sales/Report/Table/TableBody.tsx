@@ -1,5 +1,5 @@
 // types
-import ProductSaleType from '@/dataTypes/ProductSale'
+import type { ProductSale } from '@/dataTypes/ProductSale'
 // vendors
 import { memo } from 'react'
 import MuiTableBody from '@mui/material/TableBody'
@@ -8,7 +8,7 @@ import TableCell from '@mui/material/TableCell'
 // components
 import TableRow from './TableRow'
 
-function TableBody({ data }: { data: ProductSaleType[] }) {
+function TableBody({ data }: { data: ProductSale[] }) {
     return (
         <MuiTableBody
             sx={{

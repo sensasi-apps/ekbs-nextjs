@@ -1,7 +1,7 @@
 import type { UUID } from 'crypto'
 import type UserType from './User'
 
-type PayrollUser = {
+export default interface PayrollUser {
     uuid: UUID
     payroll_uuid: UUID
     user_uuid: string
@@ -13,8 +13,6 @@ type PayrollUser = {
     // user?: UserType
     details?: PayrollUserDetail[]
 }
-
-export default PayrollUser
 
 type PayrollUserDetail = {
     uuid: UUID

@@ -7,14 +7,14 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
-    DatatableProps,
+    type DatatableProps,
     getNoWrapCellProps,
-    GetRowDataType,
-    MutateType,
+    type GetRowDataType,
+    type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import FormDialog from '@/components/pages/marts/products/purchases/FormDialog'
-import { FormValues } from '@/components/pages/marts/products/purchases/Form'
+import { type FormValues } from '@/components/pages/marts/products/purchases/Form'
 import ApiUrl from '@/components/pages/marts/products/purchases/ApiUrl'
 // utils
 import formatNumber from '@/utils/formatNumber'

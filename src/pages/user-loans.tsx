@@ -1,5 +1,5 @@
 // types
-import type LoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 import type { FormikConfig } from 'formik'
 import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/types'
 // vendors
@@ -8,11 +8,11 @@ import { useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 // materials
-import Chip, { ChipOwnProps } from '@mui/material/Chip'
+import Chip, { type ChipOwnProps } from '@mui/material/Chip'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
-import { MutateType } from '@/components/Datatable'
+import { type MutateType } from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Fab from '@/components/Fab'
 import DialogWithTitle from '@/components/DialogWithTitle'
@@ -26,7 +26,7 @@ import errorCatcher from '@/utils/errorCatcher'
 import UserLoan from '@/enums/permissions/UserLoan'
 import FlexColumnBox from '@/components/FlexColumnBox'
 
-let mutateUserLoans: MutateType<LoanType>
+let mutateUserLoans: MutateType<UserLoanType>
 
 export default function UserLoans() {
     const { query } = useRouter()
@@ -34,7 +34,9 @@ export default function UserLoans() {
     const { userHasPermission } = useAuth()
     const [values, setValues] = useState(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
-    const [userLoanFromDb, setUserLoanFromDb] = useState<LoanType | null>(null)
+    const [userLoanFromDb, setUserLoanFromDb] = useState<UserLoanType | null>(
+        null,
+    )
 
     const handleNew = useCallback(() => {
         setValues(INITIAL_VALUES)
@@ -42,7 +44,7 @@ export default function UserLoans() {
         setDialogOpen(true)
     }, [])
 
-    const handleEdit = useCallback((values: LoanType) => {
+    const handleEdit = useCallback((values: UserLoanType) => {
         setValues({
             interest_percent: values.interest_percent,
             n_term: values.n_term,

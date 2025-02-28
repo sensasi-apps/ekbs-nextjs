@@ -17,7 +17,7 @@ import type {
     GetRowDataType,
     MutateType,
 } from '@/components/Datatable'
-import type Transaction from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
@@ -25,7 +25,7 @@ import UnitTxForm from './Form'
 import BigNumber from '@/components/StatCard/BigNumber'
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
-    InOutLineChartProps,
+    type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 // utils
 import formatNumber from '@/utils/formatNumber'

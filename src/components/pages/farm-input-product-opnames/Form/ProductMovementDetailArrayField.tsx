@@ -1,7 +1,7 @@
 // types
 import type ProductType from '@/dataTypes/Product'
 // vendors
-import { FieldArray, FormikErrors } from 'formik'
+import { FieldArray, type FormikErrors } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
 import axios from '@/lib/axios'

@@ -1,7 +1,7 @@
 import type Product from './Product'
 import type ProductWarehouse from './ProductWarehouse'
 
-type ProductMovementDetail = {
+export default interface ProductMovementDetail {
     id: number
     product_id: number
     qty: number
@@ -13,5 +13,3 @@ type ProductMovementDetail = {
     // relations
     product?: Product
 }
-
-export default ProductMovementDetail

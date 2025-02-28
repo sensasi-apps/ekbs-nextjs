@@ -1,6 +1,6 @@
 // types
 import type { ApiResponseType } from '../TxHistory'
-import type Transaction from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 import type { ReactNode } from 'react'
 // materials
 import Box from '@mui/material/Box'

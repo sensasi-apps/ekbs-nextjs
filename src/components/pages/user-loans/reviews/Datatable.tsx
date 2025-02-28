@@ -1,5 +1,5 @@
 // types
-import type LoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 import type { FormOpenStateType } from '@/pages/user-loans/reviews'
 // vendors
 import { useState } from 'react'
@@ -51,7 +51,7 @@ function UserLoanReviewDatatable({
                 apiUrl={apiUrl}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const userLoan = getRowData<LoanType>(dataIndex)
+                        const userLoan = getRowData<UserLoanType>(dataIndex)
                         if (!userLoan) return
 
                         const userResponse = userLoan.responses.find(

@@ -10,13 +10,13 @@ import BackupTable from '@mui/icons-material/BackupTable'
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import Datatable, {
-    DatatableProps,
+    type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 // layouts
 import type { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
-import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
+import type { ProductMovementOpname } from '@/@types/Data/Mart/Product/MovementOpname'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
 import Mart from '@/enums/permissions/Mart'
@@ -112,7 +112,7 @@ const columns: DatatableProps<ProductMovementOpname>['columns'] = [
         name: 'details.product_state',
         label: 'Kategori',
         options: {
-            customBodyRenderLite(dataIndex, rowIndex) {
+            customBodyRenderLite(_, rowIndex) {
                 const data = getRowData(rowIndex)
 
                 return (

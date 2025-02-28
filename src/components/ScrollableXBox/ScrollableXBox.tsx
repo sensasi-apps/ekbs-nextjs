@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { type BoxProps } from '@mui/material/Box'
 
 /**
  * Box with default scrollable x params

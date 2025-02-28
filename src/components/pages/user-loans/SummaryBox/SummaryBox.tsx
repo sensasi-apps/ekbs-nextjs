@@ -1,5 +1,5 @@
 // types
-import type LoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 import type { ReactNode } from 'react'
 import type { BoxProps } from '@mui/material/Box'
 // materials
@@ -17,7 +17,7 @@ export default function UserLoanSummaryBox({
     data: loan,
     ...props
 }: BoxProps & {
-    data: LoanType
+    data: UserLoanType
     isLoading?: boolean
     handleEdit?: () => void
     children?: ReactNode

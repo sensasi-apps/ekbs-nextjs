@@ -4,7 +4,7 @@ import type { SvgIconOwnProps } from '@mui/material/SvgIcon'
 import { memo } from 'react'
 // materials
 import Box from '@mui/material/Box'
-import Chip, { ChipProps } from '@mui/material/Chip'
+import Chip, { type ChipProps } from '@mui/material/Chip'
 import Skeleton from '@mui/material/Skeleton'
 // icons
 import BadgeIcon from '@mui/icons-material/Badge'

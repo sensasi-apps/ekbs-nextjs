@@ -1,13 +1,11 @@
 import type { UUID } from 'crypto'
-import type UserType from './User'
+import type User from './User'
 
-type Wallet = {
+export default interface Wallet {
     uuid: UUID
     balance: number
     user_uuid: UUID
 
     // relations
-    user?: UserType
+    user?: User
 }
-
-export default Wallet

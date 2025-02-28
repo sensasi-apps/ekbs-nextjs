@@ -1,5 +1,5 @@
 // types
-import type Installment from '@/dataTypes/Installment'
+import type { Installment } from '@/dataTypes/Installment'
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'

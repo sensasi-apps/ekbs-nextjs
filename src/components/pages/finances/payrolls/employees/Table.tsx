@@ -21,7 +21,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
-import PayrollEmployeeDetailsForm, { FormikValues } from './DetailForm'
+import PayrollEmployeeDetailsForm, { type FormikValues } from './DetailForm'
 import IconButton from '@/components/IconButton'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'

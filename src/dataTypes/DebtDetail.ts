@@ -1,8 +1,8 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
-import Transaction from './Transaction'
+import type { Transaction } from './Transaction'
 
-type DebtDetail = {
+export default interface DebtDetail {
     uuid: UUID
     due: Ymd
     paid: null | Ymd
@@ -11,5 +11,3 @@ type DebtDetail = {
     // relations
     transaction?: Transaction
 }
-
-export default DebtDetail

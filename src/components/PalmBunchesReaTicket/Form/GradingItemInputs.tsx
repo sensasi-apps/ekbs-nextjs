@@ -1,8 +1,8 @@
 import type PalmBunchesReaGradingItemType from '@/dataTypes/PalmBunchesReaGradingItem'
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
-import type ValidationErrorsType from '@/types/ValidationErrors'
+import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import { type ValidationErrorsType } from '@/types/ValidationErrors'
 
-import { FC, memo } from 'react'
+import { type FC, memo } from 'react'
 import useSWR from 'swr'
 import { NumericFormat } from 'react-number-format'
 
@@ -18,7 +18,7 @@ const GradingItemInputs: FC<{
     clearByName: (name: string) => void
     validationErrors: ValidationErrorsType
 }> = ({ disabled, clearByName, validationErrors }) => {
-    const { data, setData } = useFormData<PalmBunchesReaTicketType>()
+    const { data, setData } = useFormData<PalmBunchesReaTicket>()
 
     const { data: gradingItemActives, isLoading } = useSWR<
         PalmBunchesReaGradingItemType[]

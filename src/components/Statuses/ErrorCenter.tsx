@@ -1,6 +1,6 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { type BoxProps } from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 

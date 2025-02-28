@@ -1,11 +1,11 @@
 import ChipSmall from '@/components/ChipSmall'
-import ProductSaleType from '@/dataTypes/ProductSale'
+import type { ProductSale } from '@/dataTypes/ProductSale'
 import globalFormatNumber from '@/utils/formatNumber'
 import toDmy from '@/utils/toDmy'
 import ucWords from '@/utils/ucWords'
 import TableCell from '@mui/material/TableCell'
 import MuiTableRow from '@mui/material/TableRow'
-import { memo, ReactNode } from 'react'
+import { memo, type ReactNode } from 'react'
 
 const LEFT_BORDER_STYLE = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
@@ -24,7 +24,7 @@ function TableRow({
     },
     no,
 }: {
-    data: ProductSaleType
+    data: ProductSale
     no: number
 }) {
     const totalBaseCostRp = product_movement_details.reduce(

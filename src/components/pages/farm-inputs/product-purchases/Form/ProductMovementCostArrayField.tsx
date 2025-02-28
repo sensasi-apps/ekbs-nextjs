@@ -18,7 +18,7 @@ import TextField from '@/components/TextField'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import { FormValuesType } from '../Form'
+import { type FormValuesType } from '../Form'
 
 export default function ProductMovementCostArrayField({
     replace,

@@ -1,6 +1,6 @@
 // types
 import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
-import type ProductSaleType from '@/dataTypes/ProductSale'
+import type { ProductSale } from '@/dataTypes/ProductSale'
 import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 // vendors
 import { useState } from 'react'
@@ -15,7 +15,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 // page components
 import FarmInputHeGasSaleForm, {
-    FormValues,
+    type FormValues,
 } from '@/components/pages/farm-input-he-gas-sales/Form'
 // import PrintHandler from '@/components/PrintHandler'
 // import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
@@ -43,7 +43,7 @@ export default function FarmInputHeGasSales() {
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const productSale = getRowData<ProductSaleType>(dataIndex)
+            const productSale = getRowData<ProductSale>(dataIndex)
             if (!productSale) return
 
             setInitialFormikValues({
@@ -185,7 +185,7 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
     </ul>
 )
 
-const DATATABLE_COLUMNS: DatatableProps<ProductSaleType>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
@@ -205,7 +205,7 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleType>['columns'] = [
         label: 'Pemesan',
         options: {
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSaleType>(dataIndex)
+                const data = getRowData<ProductSale>(dataIndex)
                 if (!data || !data.buyer_user) return ''
 
                 return `#${data.buyer_user.id} ${data.buyer_user.name}`
@@ -234,7 +234,7 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleType>['columns'] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSaleType>(dataIndex)
+                const data = getRowData<ProductSale>(dataIndex)
                 if (!data) return ''
 
                 return pmdsCustomBodyRender(data.product_movement_details)
@@ -257,7 +257,7 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleType>['columns'] = [
     //         sort: false,
     //         searchable: false,
     //         customBodyRenderLite: dataIndex => {
-    //             const data = getRowData<ProductSaleType>(dataIndex)
+    //             const data = getRowData<ProductSale>(dataIndex)
     //             if (!data) return ''
 
     //             return (

@@ -18,7 +18,7 @@ import AuthLayout from '@/components/Layouts/AuthLayout'
 // page components
 import { AoaTable } from '@/components/aoa-table'
 import { useRouter } from 'next/router'
-import { aoaToXlsx, AoaRows } from '@/functions/aoaToXlsx'
+import { aoaToXlsx, type AoaRows } from '@/functions/aoaToXlsx'
 import { useEffect, useState } from 'react'
 import BackButton from '@/components/BackButton'
 import useAuth from '@/providers/Auth'

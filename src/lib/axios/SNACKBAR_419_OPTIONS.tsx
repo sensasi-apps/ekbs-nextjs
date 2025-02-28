@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button'
-import { OptionsObject } from 'notistack'
+import { type OptionsObject } from 'notistack'
 
 const SNACKBAR_419_OPTIONS: OptionsObject<'warning'> = {
     variant: 'warning',

@@ -2,7 +2,7 @@
 import type { CalendarTableProps } from '@/components/CalendarTable/CalendarTable'
 import type RentItemRent from '@/dataTypes/RentItemRent'
 import type { KeyedMutator } from 'swr'
-import type YajraDatatable from '@/types/responses/YajraDatatable'
+import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 // vendors
 import { memo } from 'react'
 import { useRouter } from 'next/router'

@@ -1,5 +1,5 @@
 // vendors
-import { Field, FieldProps } from 'formik'
+import { Field, type FieldProps } from 'formik'
 import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
 // materials

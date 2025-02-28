@@ -1,4 +1,4 @@
-import type ValidationErrorsType from '@/types/ValidationErrors'
+import { type ValidationErrorsType } from '@/types/ValidationErrors'
 import type { ChangeEvent } from 'react'
 
 import { useState } from 'react'

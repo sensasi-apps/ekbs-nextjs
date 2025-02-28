@@ -2,7 +2,7 @@ import type { UUID } from 'crypto'
 import type InventoryItem from './InventoryItem'
 import type { Ymd } from '@/types/DateString'
 
-type RentItem = {
+export default interface RentItem {
     inventory_item_uuid: UUID
     inventory_item: InventoryItem
     default_rate_rp_per_unit: number
@@ -10,5 +10,3 @@ type RentItem = {
 
     deleted_at?: Ymd
 }
-
-export default RentItem

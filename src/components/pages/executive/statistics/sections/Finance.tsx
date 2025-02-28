@@ -11,7 +11,7 @@ import AllCashChart from '@/components/pages/cashes/Cash/AllCashChart'
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
 import Heading3 from '@/components/pages/executive/statistics/Heading3'
 import InOutCashChart, {
-    InOutCashChartDataType,
+    type InOutCashChartDataType,
 } from '@/components/pages/cashes/Cash/InOutChart'
 import useSWR from 'swr'
 import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'

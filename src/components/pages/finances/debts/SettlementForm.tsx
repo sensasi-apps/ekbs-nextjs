@@ -1,9 +1,9 @@
 // types
 import type { UUID } from 'crypto'
 import type DebtDetail from '@/dataTypes/DebtDetail'
-import type Transaction from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
-import { Field, FieldProps, FormikProps } from 'formik'
+import { Field, type FieldProps, type FormikProps } from 'formik'
 // components
 import FormikForm, {
     DateField,

@@ -2,18 +2,16 @@ import type { Ymd } from '@/types/DateString'
 import type { UUID } from 'crypto'
 import type ActivityLogType from './ActivityLog'
 import type BusinessUnitProductSale from './BusinessUnitProductSale'
-import type InstallmentType from './Installment'
+import type { Installment } from './Installment'
 import type ProductMovementType from './ProductMovement'
 import type ProductMovementDetail from './ProductMovementDetail'
-import type TransactionType from './Transaction'
+import type { Transaction } from './Transaction'
 import type UserType from './User'
 
-type ProductSaleType =
+export type ProductSale =
     | ProductSaleCashType
     | ProductSaleInstallmentType
     | ProductSaleWalletType
-
-export default ProductSaleType
 
 type BaseType = {
     uuid: UUID
@@ -37,15 +35,15 @@ type BaseType = {
     product_movement_details: ProductMovementDetail[]
     user_activity_logs: ActivityLogType[]
     business_unit_product_sale: BusinessUnitProductSale | null
-    refund_from_product_sale: ProductSaleType | null
-    refund_product_sale: ProductSaleType | null
+    refund_from_product_sale: ProductSale | null
+    refund_product_sale: ProductSale | null
 
     // cash
-    transaction?: TransactionType
+    transaction?: Transaction
     adjustment_rp?: number
 
     // installment
-    installments?: InstallmentType[]
+    installments?: Installment[]
     interest_percent?: number
     n_term?: number
     n_term_unit?: 'minggu' | 'bulan'
@@ -56,14 +54,14 @@ type ProductSaleCashType = BaseType & {
     buyer_user_uuid?: UUID
     buyer_user?: UserType
     adjustment_rp: number
-    transaction: TransactionType
+    transaction: Transaction
 }
 
 export type ProductSaleInstallmentType = BaseType & {
     payment_method: 'installment'
     buyer_user_uuid: UUID
     buyer_user: UserType
-    installments: InstallmentType[]
+    installments: Installment[]
     interest_percent: number
     n_term: number
     n_term_unit: 'minggu' | 'bulan'
@@ -73,5 +71,5 @@ type ProductSaleWalletType = BaseType & {
     payment_method: 'wallet'
     buyer_user_uuid: UUID
     buyer_user: UserType
-    transaction: TransactionType
+    transaction: Transaction
 }

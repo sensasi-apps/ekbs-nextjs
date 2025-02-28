@@ -1,12 +1,12 @@
 // types
-import type Installment from '@/dataTypes/Installment'
+import type { Installment } from '@/dataTypes/Installment'
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
-import Chip, { ChipOwnProps } from '@mui/material/Chip'
+import Chip, { type ChipOwnProps } from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'

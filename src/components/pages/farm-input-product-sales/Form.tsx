@@ -2,11 +2,11 @@
 import type CashType from '@/dataTypes/Cash'
 import type { UUID } from 'crypto'
 import type ProductType from '@/dataTypes/Product'
-import type ProductSaleType from '@/dataTypes/ProductSale'
-import type UserType from '@/dataTypes/User'
-import type WalletType from '@/dataTypes/Wallet'
+import type { ProductSale } from '@/dataTypes/ProductSale'
+import type User from '@/dataTypes/User'
+import type Wallet from '@/dataTypes/Wallet'
 // vendors
-import { FastField, FormikProps } from 'formik'
+import { FastField, type FormikProps } from 'formik'
 import { memo, useState } from 'react'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
@@ -50,7 +50,7 @@ import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums
 import Role from '@/enums/Role'
-import ProductMovementType from '@/dataTypes/ProductMovement'
+import type ProductMovement from '@/dataTypes/ProductMovement'
 import Warehouse from '@/enums/Warehouse'
 
 const ProductSaleForm = memo(function ProductSaleForm({
@@ -71,11 +71,11 @@ const ProductSaleForm = memo(function ProductSaleForm({
     status,
     setFieldValue,
 }: FormikProps<typeof EMPTY_FORM_DATA>) {
-    const typedStatus: null | ProductSaleType = status
+    const typedStatus: null | ProductSale = status
     const { uuid, buyer_user, short_uuid, is_paid } = typedStatus ?? {}
 
     const [userAutocompleteValue, setUserAutocompleteValue] =
-        useState<UserType | null>(buyer_user ?? null)
+        useState<User | null>(buyer_user ?? null)
 
     const { userHasRole } = useAuth()
 
@@ -86,7 +86,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
             0,
         ) ?? 0
 
-    const { data: wallet, isLoading: isWalletLoading } = useSWR<WalletType>(
+    const { data: wallet, isLoading: isWalletLoading } = useSWR<Wallet>(
         userAutocompleteValue?.uuid && !is_paid
             ? `/wallets/user/${userAutocompleteValue?.uuid}`
             : null,
@@ -539,10 +539,10 @@ const ProductSaleForm = memo(function ProductSaleForm({
 export default ProductSaleForm
 
 export const EMPTY_FORM_DATA: Partial<{
-    buyer_user_uuid: null | ProductSaleType['buyer_user_uuid']
-    at: null | ProductSaleType['at']
-    note: '' | ProductSaleType['note']
-    warehouse: ProductMovementType['warehouse']
+    buyer_user_uuid: null | ProductSale['buyer_user_uuid']
+    at: null | ProductSale['at']
+    note: '' | ProductSale['note']
+    warehouse: ProductMovement['warehouse']
 
     product_sale_details: {
         product_id: null | number
@@ -558,9 +558,9 @@ export const EMPTY_FORM_DATA: Partial<{
     adjustment_rp?: number
 
     // payment installment
-    interest_percent: ProductSaleType['interest_percent']
-    n_term: ProductSaleType['n_term']
-    n_term_unit: null | ProductSaleType['n_term_unit']
+    interest_percent: ProductSale['interest_percent']
+    n_term: ProductSale['n_term']
+    n_term_unit: null | ProductSale['n_term_unit']
 }> = {
     buyer_user_uuid: null,
     note: '',
@@ -575,4 +575,4 @@ export const EMPTY_FORM_DATA: Partial<{
     cashable_uuid: '',
 }
 
-export const EMPTY_FORM_STATUS: null | ProductSaleType = null
+export const EMPTY_FORM_STATUS: null | ProductSale = null

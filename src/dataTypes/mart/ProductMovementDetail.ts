@@ -1,6 +1,6 @@
 import type Product from './Product'
 
-type ProductMovementDetail = {
+export default interface ProductMovementDetail {
     id: number
     // product_movement_uuid: UUID
     product_id: Product['id']
@@ -14,5 +14,3 @@ type ProductMovementDetail = {
     // relations
     product?: Product
 }
-
-export default ProductMovementDetail

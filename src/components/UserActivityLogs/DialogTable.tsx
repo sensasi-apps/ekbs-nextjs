@@ -1,7 +1,7 @@
 // types
 import type ActivityLogType from '@/dataTypes/ActivityLog'
 // vendors
-import { Dispatch, SetStateAction, memo } from 'react'
+import { type Dispatch, type SetStateAction, memo } from 'react'
 // materials
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'

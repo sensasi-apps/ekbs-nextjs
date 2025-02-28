@@ -1,7 +1,7 @@
 // types
 import type { ChangeEvent } from 'react'
 import type FormType from '@/components/Global/Form/type'
-import type PalmBunchDeliveryRateType from '@/dataTypes/PalmBunchDeliveryRate'
+import type { PalmBunchDeliveryRateType } from '@/dataTypes/PalmBunchDeliveryRate'
 import type PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
 import type { Ymd } from '@/types/DateString'
 // vendors

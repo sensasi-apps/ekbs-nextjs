@@ -2,8 +2,8 @@
 import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
 // components
 import DefaultDatatable, {
-    DatatableProps,
-    GetRowDataType,
+    type DatatableProps,
+    type GetRowDataType,
 } from '@/components/Datatable'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'

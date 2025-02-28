@@ -1,12 +1,12 @@
 // vendor types
 import type { UUID } from 'crypto'
 // local types
-import type InstallmentType from './Installment'
-import type TransactionType from './Transaction'
+import type { Installment } from './Installment'
+import type { Transaction } from './Transaction'
 import type UserType from './User'
 import type ActivityLogType from './ActivityLog'
 import type { Ymd } from '@/types/DateString'
-import type UserLoanResponse from './UserLoanResponse'
+import type { UserLoanResponse } from './UserLoanResponse'
 import type UserLoanStatusEnum from './UserLoan/StatusEnum'
 
 type NewLoanType = {
@@ -35,21 +35,21 @@ type ApprovedLoanType = {
 
 type ActiveLoanType = {
     status: UserLoanStatusEnum.Active
-    transaction: TransactionType
+    transaction: Transaction
     is_approved: true
-    installments: InstallmentType[]
+    installments: Installment[]
     responses: UserLoanResponse[]
 }
 
 type DoneLoanType = {
     status: UserLoanStatusEnum.Finished
-    transaction: TransactionType
+    transaction: Transaction
     is_approved: true
-    installments: InstallmentType[]
+    installments: Installment[]
     responses: UserLoanResponse[]
 }
 
-type UserLoanType = {
+export type UserLoanType = {
     uuid: UUID
     proposed_at: Ymd
     purpose: string
@@ -69,5 +69,3 @@ type UserLoanType = {
     | ActiveLoanType
     | DoneLoanType
 )
-
-export default UserLoanType

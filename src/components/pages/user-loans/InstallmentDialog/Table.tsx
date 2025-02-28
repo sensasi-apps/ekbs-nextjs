@@ -1,7 +1,7 @@
 // types
 import type { InstallmentWithTransactionType } from '@/dataTypes/Installment'
 import type { UserLoanFormDataType } from '../Form/types'
-import type LoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -21,7 +21,7 @@ type DraftInstallment = {
 export default function UserLoanInstallmentDialogTable({
     data: loan,
 }: {
-    data: UserLoanFormDataType | LoanType
+    data: UserLoanFormDataType | UserLoanType
 }) {
     const { proposed_rp, interest_percent, n_term, term_unit } = loan
 

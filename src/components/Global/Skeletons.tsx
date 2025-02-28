@@ -1,4 +1,4 @@
-import { LegacyRef, forwardRef } from 'react'
+import { type LegacyRef, forwardRef } from 'react'
 
 import Skeleton from '@mui/material/Skeleton'
 

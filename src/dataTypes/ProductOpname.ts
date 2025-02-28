@@ -2,7 +2,7 @@ import type { Ymd } from '@/types/DateString'
 import type { UUID } from 'crypto'
 import type ProductMovementType from './ProductMovement'
 
-type ProductOpnameType = {
+export default interface ProductOpnameType {
     uuid: UUID
     at: Ymd
     note: string
@@ -10,5 +10,3 @@ type ProductOpnameType = {
     // relation
     product_movement: ProductMovementType
 }
-
-export default ProductOpnameType

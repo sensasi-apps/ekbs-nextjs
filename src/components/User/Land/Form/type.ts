@@ -1,6 +1,6 @@
 import type Land from '@/types/Land'
 
-interface UserLandFormPropType {
+export default interface UserLandFormPropType {
     data: Land
     userUuid: string
     onCancel: () => void
@@ -8,5 +8,3 @@ interface UserLandFormPropType {
     onSubmit: () => void
     setIsLoading: (isLoading: boolean) => void
 }
-
-export default UserLandFormPropType

@@ -1,4 +1,4 @@
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { type BoxProps } from '@mui/material/Box'
 import Image from 'next/image'
 import CircularProgress from '@mui/material/CircularProgress'
 

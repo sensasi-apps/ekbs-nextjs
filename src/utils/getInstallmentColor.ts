@@ -1,4 +1,4 @@
-import type Installment from '@/dataTypes/Installment'
+import type { Installment } from '@/dataTypes/Installment'
 
 export default function getInstallmentColor({
     state,

@@ -1,7 +1,7 @@
 // types
 import type { AxiosError } from 'axios'
 // vendors
-import { useEffect, useState, FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useRouter } from 'next/router'
 // hooks
 import useAuth from '@/providers/Auth'

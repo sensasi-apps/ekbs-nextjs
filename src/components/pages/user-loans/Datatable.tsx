@@ -1,5 +1,5 @@
 // types
-import type LoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 import type {
     GetRowDataType,
     DatatableProps,
@@ -11,7 +11,7 @@ import { useCallback } from 'react'
 import Datatable from '@/components/Datatable'
 import DATATABLE_COLUMNS from './DATATABLE_COLUMNS'
 
-let getRowData: GetRowDataType<LoanType>
+let getRowData: GetRowDataType<UserLoanType>
 
 export default function LoanDatatable({
     mode,
@@ -20,9 +20,9 @@ export default function LoanDatatable({
     mutateCallback,
 }: {
     mode: 'applier' | 'manager'
-    apiUrlParams?: DatatableProps<LoanType>['apiUrlParams']
-    onEdit: (values: LoanType) => void
-    mutateCallback?: DatatableProps<LoanType>['mutateCallback']
+    apiUrlParams?: DatatableProps<UserLoanType>['apiUrlParams']
+    onEdit: (values: UserLoanType) => void
+    mutateCallback?: DatatableProps<UserLoanType>['mutateCallback']
 }) {
     const handleRowClick: OnRowClickType = useCallback(
         (_, { rowIndex }, event) => {

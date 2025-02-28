@@ -21,7 +21,7 @@ export default function HistoryDatatableModalAndButton() {
 
     const { userHasPermission } = useAuth()
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (_: unknown, newValue: number) => {
         setValue(newValue)
     }
 

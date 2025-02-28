@@ -4,7 +4,7 @@ import type { Ymd } from '@/types/DateString'
 import type Tag from './Tag'
 import type RentItem from './RentItem'
 
-type InventoryItem = {
+export default interface InventoryItem {
     uuid: UUID
     code: string
     name: string
@@ -24,8 +24,6 @@ type InventoryItem = {
     checkups: InventoryItemCheckup[]
     latest_checkup?: InventoryItemCheckup
 }
-
-export default InventoryItem
 
 type InventoryItemPic = {
     id: number

@@ -26,7 +26,7 @@ import TextField from '@/components/TextField'
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
-import { FormValuesType } from '../Form'
+import { type FormValuesType } from '../Form'
 
 const calculatePrice = (qty?: number, subtotal?: number) => {
     if (!qty || !subtotal) return undefined

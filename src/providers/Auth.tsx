@@ -5,7 +5,7 @@ import type Role from '@/enums/Role'
 import {
     createContext,
     useContext,
-    ReactNode,
+    type ReactNode,
     useState,
     useEffect,
 } from 'react'

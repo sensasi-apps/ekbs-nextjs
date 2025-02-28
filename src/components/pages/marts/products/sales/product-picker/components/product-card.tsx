@@ -18,7 +18,7 @@ import ChipSmall from '@/components/ChipSmall'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import { useFormikContext } from 'formik'
-import { FormikStatusType } from '../../formik-wrapper'
+import type { FormikStatusType } from '../../formik-wrapper'
 import formatNumber from '@/utils/formatNumber'
 
 function ProductCard({

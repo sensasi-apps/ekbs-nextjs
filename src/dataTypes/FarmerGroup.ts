@@ -1,11 +1,9 @@
-import { UUID } from 'crypto'
-import CashType from './Cash'
+import { type UUID } from 'crypto'
+import type CashType from './Cash'
 
-type FarmerGroupType = {
+export default interface FarmerGroupType {
     uuid: UUID
     name: string
 
     cash: CashType
 }
-
-export default FarmerGroupType
