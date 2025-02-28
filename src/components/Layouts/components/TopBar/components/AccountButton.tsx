@@ -9,9 +9,6 @@ import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
-/** @todo  https://github.com/sensasi-apps/ekbs-nextjs/issues/606 */
-import useMediaQuery from '@mui/material/useMediaQuery'
-import useTheme from '@mui/material/styles/useTheme'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
 import FooterBox from '@/components/Layouts/FooterBox'
@@ -26,11 +23,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuth from '@/providers/Auth'
-import dynamic from 'next/dynamic'
-
-const Fade = dynamic(() => import('@mui/material/Fade'), {
-    ssr: false,
-})
 
 export default function AccountButton({
     color = 'inherit',
@@ -50,49 +42,40 @@ export default function AccountButton({
     const [isOpenTncp, setIsOpenTncp] = useState(false)
     const [anchorEl, setAnchorEl] = useState<Element>()
 
-    const theme = useTheme()
-    const isXs = useMediaQuery(theme.breakpoints.down('md'))
-
     return (
         <>
-            <Fade
-                in={isXs}
-                unmountOnExit
-                timeout={{
-                    enter: 300,
-                    exit: 0,
+            <IconButton
+                aria-label="akun"
+                onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
+                color={color}
+                sx={{
+                    display: {
+                        xs: 'inline-flex',
+                        sm: 'none',
+                    },
                 }}>
-                <IconButton
-                    aria-label="akun"
-                    onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
-                    color={color}>
-                    <AccountCircleIcon />
-                </IconButton>
-            </Fade>
+                <AccountCircleIcon />
+            </IconButton>
 
-            <Fade
-                in={!isXs}
-                unmountOnExit
-                timeout={{
-                    enter: 300,
-                    exit: 0,
-                }}>
-                <Chip
-                    aria-label="akun"
-                    icon={
-                        <AccountCircleIcon
-                            color={color === 'inherit' ? 'inherit' : undefined}
-                        />
-                    }
-                    label={user?.name ?? 'memuat...'}
-                    variant="filled"
-                    color={color === 'inherit' ? undefined : color}
-                    sx={{
-                        color: color === 'inherit' ? '#e0e0e0' : undefined,
-                    }}
-                    onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
-                />
-            </Fade>
+            <Chip
+                aria-label="akun"
+                icon={
+                    <AccountCircleIcon
+                        color={color === 'inherit' ? 'inherit' : undefined}
+                    />
+                }
+                label={user?.name ?? 'memuat...'}
+                variant="filled"
+                color={color === 'inherit' ? undefined : color}
+                sx={{
+                    color: color === 'inherit' ? '#e0e0e0' : undefined,
+                    display: {
+                        xs: 'none',
+                        sm: 'inline-flex',
+                    },
+                }}
+                onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
+            />
 
             <Menu
                 anchorEl={anchorEl}
