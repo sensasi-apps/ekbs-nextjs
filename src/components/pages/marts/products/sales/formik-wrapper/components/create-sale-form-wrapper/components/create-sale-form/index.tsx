@@ -1,7 +1,7 @@
 // types
 import type { FormikStatusType, FormValuesType } from '../../../..'
 // vendors
-import { Field, FieldProps, useFormikContext } from 'formik'
+import { Field, type FieldProps, useFormikContext } from 'formik'
 import { memo } from 'react'
 // materials
 import Box from '@mui/material/Box'

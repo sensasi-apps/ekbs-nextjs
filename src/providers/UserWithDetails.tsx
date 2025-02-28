@@ -1,8 +1,9 @@
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, type ReactNode, useContext } from 'react'
 import { useRouter } from 'next/router'
-import useSWR, { SWRResponse } from 'swr'
+import useSWR, { type SWRResponse } from 'swr'
+//
 import axios from '@/lib/axios'
-import User from '@/dataTypes/User'
+import type User from '@/dataTypes/User'
 
 const UserWithDetailsCtx = createContext<SWRResponse>({} as SWRResponse)
 

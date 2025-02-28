@@ -1,7 +1,7 @@
 // types
 import type { UUID } from 'crypto'
 import type { FormEvent } from 'react'
-import type ValidationErrorsType from '@/types/ValidationErrors'
+import { type ValidationErrorsType } from '@/types/ValidationErrors'
 // vendors
 import axios from '@/lib/axios'
 import { useState } from 'react'

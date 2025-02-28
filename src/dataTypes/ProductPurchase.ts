@@ -1,10 +1,10 @@
 import type { UUID } from 'crypto'
 import type ProductMovementDetail from './ProductMovementDetail'
-import type TransactionType from './Transaction'
+import type { Transaction } from './Transaction'
 import type { Ymd } from '@/types/DateString'
 import type ProductMovementType from './ProductMovement'
 
-type ProductPurchase = {
+export default interface ProductPurchase {
     uuid: UUID
     order: Ymd
     due: Ymd | null
@@ -13,9 +13,8 @@ type ProductPurchase = {
     note: string | null
     product_movement: ProductMovementType
     product_movement_details: ProductMovementDetail[]
-    transaction?: TransactionType
+    transaction?: Transaction
 
     // exists on the database, but unused here. handled by backend
     // product_movement_details_temp: ProductMovementDetail[]
 }
-export default ProductPurchase

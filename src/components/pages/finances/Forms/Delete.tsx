@@ -9,7 +9,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 // etc
 import FinanceApiUrlEnum from '../ApiUrlEnum'
 import FormDeleteButton from '@/components/form/FormDeleteButton'
-import LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 import handle422 from '@/utils/errorCatcher'
 
 export default function PayrollDeleteForm({

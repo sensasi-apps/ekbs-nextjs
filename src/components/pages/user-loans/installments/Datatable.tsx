@@ -4,7 +4,10 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { DatatableProps, getRowData } from '@/components/Datatable'
+import Datatable, {
+    type DatatableProps,
+    getRowData,
+} from '@/components/Datatable'
 
 enum UserLoanInstallmentDatatableApiUrlEnum {
     All = '/user-loans/installments/datatable',
@@ -82,7 +85,7 @@ const UserLoanInstallmentDatatable = memo(
 export default UserLoanInstallmentDatatable
 
 import toDmy from '@/utils/toDmy'
-import {
+import type {
     InstallmentUserLoan,
     InstallmentWithTransactionType,
 } from '@/dataTypes/Installment'

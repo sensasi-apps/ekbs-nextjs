@@ -1,7 +1,7 @@
 import type { UUID } from 'crypto'
 import type BusinessUnit from './BusinessUnit'
 
-type BusinessUnitCash = {
+export default interface BusinessUnitCash {
     uuid: UUID
     balance: number
     business_unit_id: number
@@ -9,5 +9,3 @@ type BusinessUnitCash = {
     // relation
     business_unit?: BusinessUnit
 }
-
-export default BusinessUnitCash

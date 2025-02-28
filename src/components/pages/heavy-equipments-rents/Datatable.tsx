@@ -4,9 +4,9 @@ import type RentItemRent from '@/dataTypes/RentItemRent'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable, {
-    DatatableProps,
-    GetRowDataType,
-    OnRowClickType,
+    type DatatableProps,
+    type GetRowDataType,
+    type OnRowClickType,
 } from '@/components/Datatable'
 import WhatsAppButton from '@/components/WhatsappButton'
 // utils

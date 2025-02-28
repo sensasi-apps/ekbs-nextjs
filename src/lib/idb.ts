@@ -1,5 +1,5 @@
 import DBConfig from '@/DBConfig'
-import { openDB, IDBPDatabase } from 'idb'
+import { openDB, type IDBPDatabase } from 'idb'
 
 let dbPromise: Promise<IDBPDatabase>
 

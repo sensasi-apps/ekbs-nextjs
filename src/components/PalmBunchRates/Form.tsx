@@ -1,11 +1,11 @@
 // types
 import type { Ymd } from '@/types/DateString'
 import type { Mutate } from '../Datatable/@types'
-import type PalmBunchRateType from '@/dataTypes/PalmBunchRate'
+import type { PalmBunchRateType } from '@/dataTypes/PalmBunchRate'
 import type PalmBunchRateValidDateType from '@/dataTypes/PalmBunchRateValidDate'
 // vendors
 import { useEffect, useState } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs, { type Dayjs } from 'dayjs'
 import { NumericFormat } from 'react-number-format'
 // materials
 import Fade from '@mui/material/Fade'

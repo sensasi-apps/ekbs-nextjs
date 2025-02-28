@@ -1,6 +1,6 @@
 // vendors
 import Head from 'next/head'
-import { IBrowser, UAParser } from 'ua-parser-js'
+import { type IBrowser, UAParser } from 'ua-parser-js'
 import { useEffect, useState } from 'react'
 // components
 import FooterBoxWithLogo from '@/components/Layouts/FooterBox/WithLogo'

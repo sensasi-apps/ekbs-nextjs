@@ -1,15 +1,15 @@
 // types
-import type UserLoan from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 // materials
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // utils
-import { DatatableProps, getRowData } from '@/components/Datatable'
+import { type DatatableProps, getRowData } from '@/components/Datatable'
 import toDmy from '@/utils/toDmy'
 import getLoanStatusColor from '@/utils/getLoanStatusColor'
 import formatNumber from '@/utils/formatNumber'
 
-const DATATABLE_COLUMNS: DatatableProps<UserLoan>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<UserLoanType>['columns'] = [
     {
         name: 'uuid',
         label: 'uuid',
@@ -38,7 +38,7 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoan>['columns'] = [
         label: 'Nama',
         options: {
             customBodyRenderLite: dataIndex => {
-                const user = getRowData<UserLoan>(dataIndex)?.user
+                const user = getRowData<UserLoanType>(dataIndex)?.user
 
                 if (!user) return ''
 
@@ -58,7 +58,7 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoan>['columns'] = [
                     textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: UserLoan['proposed_rp']) =>
+            customBodyRender: (value: UserLoanType['proposed_rp']) =>
                 formatNumber(value),
         },
     },
@@ -66,7 +66,7 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoan>['columns'] = [
         name: 'type',
         label: 'Jenis',
         options: {
-            customBodyRender: (value: UserLoan['type']) => (
+            customBodyRender: (value: UserLoanType['type']) => (
                 <Chip label={value} size="small" />
             ),
         },
@@ -82,7 +82,7 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoan>['columns'] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (value: UserLoan['status']) => (
+            customBodyRender: (value: UserLoanType['status']) => (
                 <Typography
                     variant="body2"
                     color={getLoanStatusColor(value, '.main')}

@@ -1,5 +1,5 @@
 // types
-import type ProductSaleType from '@/dataTypes/ProductSale'
+import type { ProductSale } from '@/dataTypes/ProductSale'
 // vendors
 import useSWR from 'swr'
 import { useState } from 'react'
@@ -14,7 +14,7 @@ import Grid2 from '@mui/material/Grid2'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
-    DatatableProps,
+    type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
@@ -23,13 +23,12 @@ import toDmy from '@/utils/toDmy'
 import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
 import formatNumber from '@/utils/formatNumber'
 import BigNumberCard from '@/components/big-number-card'
-import { ApiResponseType, LineChartCard } from '@/pages/me/participations'
+import { type ApiResponseType, LineChartCard } from '@/pages/me/participations'
 
-let getRowData: GetRowDataType<ProductSaleType>
+let getRowData: GetRowDataType<ProductSale>
 
 export default function Page() {
-    const [receiptDialogData, setReceiptDialogData] =
-        useState<ProductSaleType>()
+    const [receiptDialogData, setReceiptDialogData] = useState<ProductSale>()
 
     const {
         data: { farmInputs: { bigNumber1, bigNumber2, lineChart } } = {
@@ -115,7 +114,7 @@ export default function Page() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<ProductSaleType>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
     {
         name: 'at',
         label: 'TGL',

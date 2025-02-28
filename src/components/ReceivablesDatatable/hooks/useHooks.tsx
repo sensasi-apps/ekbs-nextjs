@@ -1,5 +1,5 @@
 import type { FormValuesType } from '../PaymentForm'
-import type Installment from '@/dataTypes/Installment'
+import type { Installment } from '@/dataTypes/Installment'
 // vendors
 import { useRouter } from 'next/router'
 import { useState } from 'react'

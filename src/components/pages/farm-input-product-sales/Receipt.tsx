@@ -1,5 +1,5 @@
 // types
-import type ProductSaleType from '@/dataTypes/ProductSale'
+import type { ProductSale } from '@/dataTypes/ProductSale'
 import type { ReactNode } from 'react'
 // vendors
 import { memo } from 'react'
@@ -18,7 +18,7 @@ import dayjs from 'dayjs'
 const ProductSaleReceipt = memo(function ProductSaleReceipt({
     data,
 }: {
-    data: ProductSaleType
+    data: ProductSale
 }) {
     const {
         uuid,

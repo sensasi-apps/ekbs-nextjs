@@ -26,7 +26,7 @@ import TypeFilterChips from './components/TypeFilterChips'
 import handle422 from '@/utils/errorCatcher'
 import ReceivablePaymentForm from './PaymentForm'
 import Dialog from '../Global/Dialog'
-import Installment from '@/dataTypes/Installment'
+import type { Installment } from '@/dataTypes/Installment'
 import { DATATABE_SEARCH_ONLY_COLUMNS } from './hooks/statics'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'

@@ -1,4 +1,4 @@
-import type UserLoanResponse from '@/dataTypes/UserLoanResponse'
+import type { UserLoanResponse } from '@/dataTypes/UserLoanResponse'
 
 import Typography from '@mui/material/Typography'
 

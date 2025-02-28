@@ -1,6 +1,4 @@
-type ProductMovementCost = {
+export default interface ProductMovementCost {
     name: string
     rp: number
 }
-
-export default ProductMovementCost

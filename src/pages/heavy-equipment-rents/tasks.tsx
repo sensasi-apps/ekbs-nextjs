@@ -6,7 +6,7 @@ import type {
     OnRowClickType,
 } from '@/components/Datatable'
 import type { KeyedMutator } from 'swr'
-import type YajraDatatable from '@/types/responses/YajraDatatable'
+import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
@@ -20,7 +20,7 @@ import AuthLayout from '@/components/Layouts/AuthLayout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 // page components
 import HeavyEquipmentRentFinishTaskForm, {
-    HerFinishTaskFormValues,
+    type HerFinishTaskFormValues,
 } from '@/components/pages/heavy-equipments-rents/Form/FinishTask'
 import HerMonthlyCalender from '@/components/pages/heavy-equipments-rents/Calendar'
 // utils

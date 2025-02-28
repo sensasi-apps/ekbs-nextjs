@@ -1,5 +1,5 @@
-import Typography, { TypographyProps } from '@mui/material/Typography'
-import { ReactNode } from 'react'
+import Typography, { type TypographyProps } from '@mui/material/Typography'
+import { type ReactNode } from 'react'
 
 export default function Heading2({
     children,

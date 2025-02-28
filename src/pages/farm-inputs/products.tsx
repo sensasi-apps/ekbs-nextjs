@@ -11,10 +11,10 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
-    DatatableProps,
+    type DatatableProps,
     getNoWrapCellProps,
-    GetRowDataType,
-    MutateType,
+    type GetRowDataType,
+    type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import ProductForm from '@/components/Product/Form'

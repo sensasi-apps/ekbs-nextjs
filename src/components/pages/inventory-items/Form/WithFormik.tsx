@@ -3,7 +3,7 @@ import axios from '@/lib/axios'
 import { Formik } from 'formik'
 // page components
 import InventoryItemForm, {
-    InventoryItemFormValues,
+    type InventoryItemFormValues,
 } from '@/components/pages/inventory-items/Form'
 // utils
 import errorCatcher from '@/utils/errorCatcher'

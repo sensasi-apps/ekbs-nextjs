@@ -1,5 +1,5 @@
 // types
-import type UserLoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 // vendors
 import { useState } from 'react'
 import Chip from '@mui/material/Chip'

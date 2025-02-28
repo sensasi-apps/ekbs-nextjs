@@ -7,8 +7,8 @@ import CardContent from '@mui/material/CardContent'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid2 from '@mui/material/Grid2'
 // sub-components
+import type { FormikStatusType, FormValuesType } from '../../../../../..'
 import DetailItem from '../../../../../../../@shared-subcomponents/detail-item'
-import { FormikStatusType, FormValuesType } from '../../../../../..'
 import { DetailItemFormDialog } from './components/detail-item-form-dialog'
 
 function DetailsFieldComponent({

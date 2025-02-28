@@ -1,10 +1,10 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
 import type FileType from './File'
-import type TransactionDataType from './Transaction'
+import type { Transaction } from './Transaction'
 import type PalmBunchesReaPaymentDetail from './PalmBunchReaPaymentDetail'
 
-type PalmBunchesReaPaymentDataType = {
+export default interface PalmBunchesReaPaymentDataType {
     uuid: UUID
     from_at: Ymd
     to_at: Ymd
@@ -13,8 +13,8 @@ type PalmBunchesReaPaymentDataType = {
     incentive_rp: number
     net_rp: number
     excel_file: FileType
-    transaction_drafts: TransactionDataType[]
-    transactions: TransactionDataType[]
+    transaction_drafts: Transaction[]
+    transactions: Transaction[]
     details: PalmBunchesReaPaymentDetail[]
 
     n_tickets?: number
@@ -23,5 +23,3 @@ type PalmBunchesReaPaymentDataType = {
     n_details_unsynced?: number
     n_details_has_paid?: number
 }
-
-export default PalmBunchesReaPaymentDataType

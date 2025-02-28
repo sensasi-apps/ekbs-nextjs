@@ -1,6 +1,6 @@
-import TransactionTag from '@/enums/TransactionTag'
+import type TransactionTag from '@/enums/TransactionTag'
 
-type Tag = {
+export default interface Tag {
     id: number
     name: {
         id: string | TransactionTag
@@ -9,5 +9,3 @@ type Tag = {
         id: string
     }
 }
-
-export default Tag

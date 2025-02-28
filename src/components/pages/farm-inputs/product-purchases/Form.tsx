@@ -3,7 +3,12 @@ import type { UUID } from 'crypto'
 import type ProductPurchase from '@/dataTypes/ProductPurchase'
 import type CashType from '@/dataTypes/Cash'
 // vendors
-import { FastField, FieldArray, FormikErrors, FormikProps } from 'formik'
+import {
+    FastField,
+    FieldArray,
+    type FormikErrors,
+    type FormikProps,
+} from 'formik'
 import { memo } from 'react'
 import dayjs from 'dayjs'
 // materials

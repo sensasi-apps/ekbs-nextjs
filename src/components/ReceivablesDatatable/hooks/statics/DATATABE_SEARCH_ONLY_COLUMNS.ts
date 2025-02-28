@@ -1,5 +1,5 @@
-import { DatatableProps } from '@/components/Datatable'
-import Installment from '@/dataTypes/Installment'
+import type { DatatableProps } from '@/components/Datatable'
+import type { Installment } from '@/dataTypes/Installment'
 
 export const DATATABE_SEARCH_ONLY_COLUMNS: DatatableProps<Installment>['columns'] =
     [

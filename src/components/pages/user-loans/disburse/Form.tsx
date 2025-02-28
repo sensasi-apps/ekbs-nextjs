@@ -1,7 +1,7 @@
 // types
 import type { UUID } from 'crypto'
 import type { FormikContextType, FastFieldProps } from 'formik'
-import type UserLoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 // vendors
 import { memo } from 'react'
 import { FastField } from 'formik'

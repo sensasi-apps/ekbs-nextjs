@@ -1,6 +1,6 @@
 // types
 import type Product from '@/dataTypes/mart/Product'
-import type YajraDatatable from '@/types/responses/YajraDatatable'
+import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 // vendors
 import { useState } from 'react'
 import { Formik } from 'formik'
@@ -17,14 +17,16 @@ import ApiUrl from '@/components/pages/marts/products/ApiUrl'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
-    DatatableProps,
+    type DatatableProps,
     getNoWrapCellProps,
-    GetRowDataType,
-    MutateType,
+    type GetRowDataType,
+    type MutateType,
 } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
-import ProductForm, { FormValues } from '@/components/pages/marts/products/Form'
+import ProductForm, {
+    type FormValues,
+} from '@/components/pages/marts/products/Form'
 // utils
 import handle422 from '@/utils/errorCatcher'
 import formatNumber from '@/utils/formatNumber'

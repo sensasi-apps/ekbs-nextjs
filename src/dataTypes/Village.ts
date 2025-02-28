@@ -1,8 +1,4 @@
-type VillageType = VillageDbType
-
-export default VillageType
-
-type VillageDbType = {
+export default interface Village {
     id: number
     name: string
     district_id: number

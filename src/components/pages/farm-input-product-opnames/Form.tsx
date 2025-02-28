@@ -5,7 +5,7 @@ import type { ProductOpnameMovementType } from '@/dataTypes/ProductMovement'
 // vendors
 import { memo } from 'react'
 import dayjs from 'dayjs'
-import { FastField, FormikErrors, FormikProps } from 'formik'
+import { FastField, type FormikErrors, type FormikProps } from 'formik'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'

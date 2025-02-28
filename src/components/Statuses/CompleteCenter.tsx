@@ -1,8 +1,8 @@
-import { FC, ReactNode } from 'react'
-
+import type { FC, ReactNode } from 'react'
+// materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-
+// icons
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 
 const CompleteCenter: FC<{

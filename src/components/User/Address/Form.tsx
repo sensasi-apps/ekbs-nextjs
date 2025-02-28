@@ -4,7 +4,7 @@ import { mutate } from 'swr'
 import axios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'
-import Button, { ButtonProps } from '@mui/material/Button'
+import Button, { type ButtonProps } from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 // components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
@@ -94,7 +94,7 @@ export default function AddressForm({
             <Autocomplete
                 margin="normal"
                 required
-                onChange={(e, value) => {
+                onChange={(_, value) => {
                     const inputEl = document.querySelector(
                         'input[name="region_id"]',
                     ) as HTMLInputElement

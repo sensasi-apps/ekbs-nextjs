@@ -2,7 +2,7 @@
 import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
 import type { FormValues } from '../Form'
 // vendors
-import { FieldArrayRenderProps } from 'formik'
+import type { FieldArrayRenderProps } from 'formik'
 // materials
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'

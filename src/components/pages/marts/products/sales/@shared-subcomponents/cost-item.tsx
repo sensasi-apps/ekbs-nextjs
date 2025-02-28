@@ -2,7 +2,7 @@
 import type { FormValuesType } from '../formik-wrapper'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
-import { FieldProps, FormikErrors } from 'formik'
+import type { FieldProps, FormikErrors } from 'formik'
 import { memo, useState } from 'react'
 // materials
 import Grid2 from '@mui/material/Grid2'

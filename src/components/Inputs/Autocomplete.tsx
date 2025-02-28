@@ -6,7 +6,7 @@ import axios from '@/lib/axios'
 import useSWRMutation from 'swr/mutation'
 // material-ui
 import MuiAutocomplete, {
-    AutocompleteProps as MuiAutocompletePropsTemp,
+    type AutocompleteProps as MuiAutocompletePropsTemp,
 } from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'

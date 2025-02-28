@@ -3,9 +3,9 @@ import type { Ymd } from '@/types/DateString'
 import type PayrollUser from './PayrollUser'
 import type UserType from './User'
 import type BusinessUnit from './BusinessUnit'
-import type TransactionType from './Transaction'
+import type { Transaction } from './Transaction'
 
-type Payroll = {
+export default interface Payroll {
     uuid: UUID
     at: Ymd
     type: PayrollType
@@ -26,10 +26,8 @@ type Payroll = {
     processed_by_user?: UserType
     users?: PayrollUser[]
     cost_shares?: PayrollCostShare[]
-    transaction?: TransactionType
+    transaction?: Transaction
 }
-
-export default Payroll
 
 export type PayrollType = 'pengelola' | 'pengurus' | 'pengawas' | 'pendiri'
 
@@ -42,5 +40,5 @@ type PayrollCostShare = {
 
     // relations
     business_unit?: BusinessUnit
-    transactions?: TransactionType[]
+    transactions?: Transaction[]
 }

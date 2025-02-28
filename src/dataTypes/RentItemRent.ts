@@ -3,12 +3,12 @@ import type { Ymd } from '@/types/DateString'
 import type ActivityLogType from './ActivityLog'
 import type FarmerGroupType from './FarmerGroup'
 import type File from './File'
-import type InstallmentType from './Installment'
+import type { Installment } from './Installment'
 import type InventoryItem from './InventoryItem'
-import type TransactionType from './Transaction'
+import type { Transaction } from './Transaction'
 import type UserType from './User'
 
-type RentItemRent = {
+export default interface RentItemRent {
     // columns
     uuid: UUID
     inventory_item_uuid: UUID
@@ -30,8 +30,8 @@ type RentItemRent = {
     // relations
     inventory_item: InventoryItem
     by_user?: UserType
-    transaction?: TransactionType
-    installments?: InstallmentType[]
+    transaction?: Transaction
+    installments?: Installment[]
     installment?: {
         interest_percent: number
         n_term: number
@@ -49,5 +49,3 @@ type RentItemRent = {
     user_activity_logs: ActivityLogType[]
     validated_by_admin_user?: UserType
 }
-
-export default RentItemRent

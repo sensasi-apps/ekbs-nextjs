@@ -1,5 +1,5 @@
 import InputAdornment, {
-    InputAdornmentProps,
+    type InputAdornmentProps,
 } from '@mui/material/InputAdornment'
 
 /**

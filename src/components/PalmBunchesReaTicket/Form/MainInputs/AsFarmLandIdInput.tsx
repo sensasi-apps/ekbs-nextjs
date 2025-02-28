@@ -1,7 +1,7 @@
-import type ValidationErrorsType from '@/types/ValidationErrors'
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import { type ValidationErrorsType } from '@/types/ValidationErrors'
+import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 
-import { FC, useEffect, useState } from 'react'
+import { type FC, useEffect, useState } from 'react'
 import { PatternFormat } from 'react-number-format'
 import TextField from '@mui/material/TextField'
 // providers
@@ -14,7 +14,7 @@ const AsFarmLandIdInput: FC<{
     validationErrors: ValidationErrorsType
     clearByName: (name: string) => void
 }> = ({ disabled, validationErrors, clearByName }) => {
-    const { data, setData } = useFormData<PalmBunchesReaTicketType>()
+    const { data, setData } = useFormData<PalmBunchesReaTicket>()
     const [asFarmLandId, setAsFarmLandId] = useState<string>(
         data.as_farm_land_id ?? '',
     )

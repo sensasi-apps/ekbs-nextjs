@@ -5,9 +5,9 @@ import type Address from '@/types/Address'
 import {
     useState,
     useCallback,
-    FormEvent,
-    ChangeEvent,
-    SyntheticEvent,
+    type FormEvent,
+    type ChangeEvent,
+    type SyntheticEvent,
 } from 'react'
 import { mutate } from 'swr'
 import axios from '@/lib/axios'

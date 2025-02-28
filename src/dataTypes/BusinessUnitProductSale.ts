@@ -1,7 +1,5 @@
 import type { InventoryItemCheckup } from './InventoryItem'
 
-type BusinessUnitProductSale = {
+export default interface BusinessUnitProductSale {
     inventory_item_checkup: InventoryItemCheckup | null
 }
-
-export default BusinessUnitProductSale

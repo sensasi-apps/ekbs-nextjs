@@ -1,5 +1,5 @@
 // types
-import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
+import type { ProductMovementOpname } from '@/@types/Data/Mart/Product/MovementOpname'
 // vendors
 import { memo, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -15,7 +15,7 @@ import Edit from '@mui/icons-material/Edit'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import FormDialog from './FormDialog'
-import { CreateFormValues } from './Form'
+import { type CreateFormValues } from './Form'
 
 function SummaryTable({ data }: { data: ProductMovementOpname }) {
     const { reload } = useRouter()

@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import {
     DateTimePicker as MuiDateTimePicker,
-    DateTimePickerProps as MuiDateTimePickerProps,
+    type DateTimePickerProps as MuiDateTimePickerProps,
 } from '@mui/x-date-pickers'
 // components
 import TextField from '@/components/TextField'

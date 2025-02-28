@@ -1,6 +1,6 @@
 // types
 import type { Ymd } from '@/types/DateString'
-import type TransactionType from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
@@ -38,7 +38,7 @@ export default function TbsPayrollList() {
         query: { at, to_cash_uuid },
     } = useRouter()
 
-    const { data, isLoading } = useSWR<TransactionType[]>(
+    const { data, isLoading } = useSWR<Transaction[]>(
         at && to_cash_uuid
             ? [
                   ApiUrl,
@@ -174,7 +174,7 @@ function FilterForm({ disabled }: { disabled: boolean }) {
     )
 }
 
-function MainTable({ data: txs }: { data: TransactionType[] }) {
+function MainTable({ data: txs }: { data: Transaction[] }) {
     return (
         <TableContainer>
             <Table size="small">

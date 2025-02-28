@@ -2,7 +2,7 @@
 import type { AxiosError } from 'axios'
 import type Role from '@/dataTypes/Role'
 import type FormType from '@/components/Global/Form/type'
-import type ValidationErrorsType from '@/types/ValidationErrors'
+import { type ValidationErrorsType } from '@/types/ValidationErrors'
 // vendors
 import { stringify } from 'qs'
 import axios from '@/lib/axios'

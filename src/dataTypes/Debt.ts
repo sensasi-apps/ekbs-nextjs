@@ -3,9 +3,9 @@ import type { Ymd } from '@/types/DateString'
 import type BusinessUnit from './BusinessUnit'
 import type InterestUnit from './enums/DbColumns/Debts/InterestUnit'
 import type TermUnit from './enums/DbColumns/Debts/TermUnit'
-import DebtDetail from './DebtDetail'
+import type DebtDetail from './DebtDetail'
 
-type Debt = {
+export default interface Debt {
     uuid: UUID
     business_unit_id: number | null
     at: Ymd
@@ -23,5 +23,3 @@ type Debt = {
     // accessors
     hasDetails?: boolean
 }
-
-export default Debt

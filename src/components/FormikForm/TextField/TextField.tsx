@@ -1,7 +1,7 @@
 // types
 import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField'
 // vendors
-import { Field, FieldProps } from 'formik'
+import { Field, type FieldProps } from 'formik'
 import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
 // components

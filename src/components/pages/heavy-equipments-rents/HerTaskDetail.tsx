@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import { memo } from 'react'
 // utils
 import toDmy from '@/utils/toDmy'
-import RentItemRent from '@/dataTypes/RentItemRent'
+import type RentItemRent from '@/dataTypes/RentItemRent'
 import numberToCurrency from '@/utils/numberToCurrency'
 
 const HerTaskDetail = memo(function HerTaskDetail({

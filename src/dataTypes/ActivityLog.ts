@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type UserType from './User'
+import type User from './User'
 
 export default interface ActivityLogType {
     uuid: UUID
@@ -9,5 +9,5 @@ export default interface ActivityLogType {
     // model_uuid: UUID,
     model_value_changed: unknown
     at: string
-    user: UserType
+    user: User
 }

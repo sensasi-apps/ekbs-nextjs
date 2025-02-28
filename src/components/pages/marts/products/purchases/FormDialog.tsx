@@ -6,10 +6,10 @@ import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 //
-import Form, { FormValues } from './Form'
-import ProductMovement from '@/dataTypes/mart/ProductMovement'
+import type ProductMovement from '@/dataTypes/mart/ProductMovement'
+import type LaravelValidationException from '@/types/LaravelValidationException'
+import Form, { type FormValues } from './Form'
 import getAxiosRequest from './getAxiosRequest'
-import LaravelValidationException from '@/types/LaravelValidationException'
 import { transformToFormikErrors } from '@/functions/transform-to-formik-errors'
 
 export default function FormDialog({

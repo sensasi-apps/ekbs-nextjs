@@ -14,7 +14,7 @@ import LockIcon from '@mui/icons-material/Lock'
 // libs
 import axios from '@/lib/axios'
 //
-import type ProductMovementOpname from '@/@types/Data/Mart/Product/MovementOpname'
+import type { ProductMovementOpname } from '@/@types/Data/Mart/Product/MovementOpname'
 import BackButton from '@/components/BackButton'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import AddProductFormDialog from '@/components/pages/marts/products/opnames/AddProductsFormDialog'

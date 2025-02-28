@@ -2,8 +2,8 @@
 import type { Mutate, DatatableProps } from './@types'
 // vendors
 import VendorDataTable, {
-    DataTableOptions as VendorDatatableOptions,
-    DataTableProps as VendorDataTableProps,
+    type DataTableOptions as VendorDatatableOptions,
+    type DataTableProps as VendorDataTableProps,
 } from 'mui-datatable-delight'
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'

@@ -1,5 +1,5 @@
 // types
-import type LoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 import type { FormDataType } from '@/components/pages/user-loans/reviews/Form'
 // vendors
 import { useState } from 'react'
@@ -59,7 +59,7 @@ export default function UserLoansReviews() {
 export type FormOpenStateType = {
     isDialogOpen: true
     formData: FormDataType
-    userLoan: LoanType
+    userLoan: UserLoanType
 }
 
 type FormCloseStateType = {

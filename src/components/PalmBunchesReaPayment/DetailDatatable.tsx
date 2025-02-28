@@ -7,7 +7,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable, { DatatableProps } from '@/components/Datatable'
+import Datatable, { type DatatableProps } from '@/components/Datatable'
 // enums
 import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'
 // utils

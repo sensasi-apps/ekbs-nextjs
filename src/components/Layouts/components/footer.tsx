@@ -3,7 +3,7 @@ import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 import dayjs from 'dayjs'
 import packageJson from '@/../package.json'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 const versionDateDayjs = dayjs(packageJson.versionDate)
 

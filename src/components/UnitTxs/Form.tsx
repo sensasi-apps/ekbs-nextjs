@@ -1,14 +1,14 @@
 // types
-import type Transaction from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 // import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 import {
     FastField,
-    FastFieldProps,
+    type FastFieldProps,
     Field,
     Form,
-    FormikProps,
+    type FormikProps,
     // useFormik,
 } from 'formik'
 // materials

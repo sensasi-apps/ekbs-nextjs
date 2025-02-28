@@ -4,7 +4,7 @@ import type ActivityLog from './ActivityLog'
 import type ProductOpname from './ProductOpname'
 import Warehouse from '@/enums/Warehouse'
 
-type ProductMovement = {
+export default interface ProductMovement {
     uuid: UUID
     at: string
     type: ProductMovementTypeEnum
@@ -19,8 +19,6 @@ type ProductMovement = {
         rp: number
     }[]
 }
-
-export default ProductMovement
 
 export type ProductOpnameMovementType = ProductMovement & {
     type: ProductMovementTypeEnum.OPNAME

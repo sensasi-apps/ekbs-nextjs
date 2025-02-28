@@ -12,7 +12,7 @@ export default function PalmBuncesRates() {
 }
 
 // types
-import type PalmBunchRateType from '@/dataTypes/PalmBunchRate'
+import type { PalmBunchRateType } from '@/dataTypes/PalmBunchRate'
 import type PalmBunchRateValidDateType from '@/dataTypes/PalmBunchRateValidDate'
 // vendors
 import Fab from '@mui/material/Fab'

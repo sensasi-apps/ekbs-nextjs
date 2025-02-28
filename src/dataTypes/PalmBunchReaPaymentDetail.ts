@@ -1,7 +1,7 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
 
-interface PalmBunchesReaPaymentDetail {
+export default interface PalmBunchesReaPaymentDetail {
     palm_bunches_rea_payment_uuid: UUID
     weighting_at: Ymd
     oil_mill_code: string
@@ -20,5 +20,3 @@ interface PalmBunchesReaPaymentDetail {
     incentive_rp: number
     net_rp: number
 }
-
-export default PalmBunchesReaPaymentDetail

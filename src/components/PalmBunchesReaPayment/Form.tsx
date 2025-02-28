@@ -1,10 +1,10 @@
 // types
-import type ValidationErrorsType from '@/types/ValidationErrors'
+import { type ValidationErrorsType } from '@/types/ValidationErrors'
 import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
 import type FormType from '@/components/Global/Form/type'
-import type TransactionDataType from '@/dataTypes/Transaction'
+import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
-import React, { ChangeEvent, useState } from 'react'
+import React, { type ChangeEvent, useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
@@ -428,7 +428,7 @@ export default function PalmBuncesReaPaymentForm({
                                     {
                                         desc: '',
                                         amount: 0,
-                                    } as TransactionDataType,
+                                    } as Transaction,
                                 ])
                             }}
                             startIcon={<AddIcon />}>

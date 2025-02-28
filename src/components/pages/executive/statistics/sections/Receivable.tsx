@@ -1,5 +1,5 @@
 // types
-import type Installment from '@/dataTypes/Installment'
+import type { Installment } from '@/dataTypes/Installment'
 // vendors
 import { memo } from 'react'
 import useSWR from 'swr'

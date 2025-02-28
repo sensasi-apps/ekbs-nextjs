@@ -1,8 +1,4 @@
-type RegencyType = RegencyDbType
-
-export default RegencyType
-
-type RegencyDbType = {
+export default interface RegencyType {
     id: number
     name: string
     province_id: number

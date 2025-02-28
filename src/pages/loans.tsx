@@ -1,5 +1,5 @@
 // types
-import type LoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 import type { FormikConfig } from 'formik'
 import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/types'
 // vendors
@@ -24,7 +24,9 @@ export default function Loans() {
     // const { userHasPermission } = useAuth()
     const [values, setValues] = useState(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
-    const [userLoanFromDb, setUserLoanFromDb] = useState<LoanType | null>(null)
+    const [userLoanFromDb, setUserLoanFromDb] = useState<UserLoanType | null>(
+        null,
+    )
 
     // const handleNew = useCallback(() => {
     //     setValues(INITIAL_VALUES)
@@ -32,7 +34,7 @@ export default function Loans() {
     //     setDialogOpen(true)
     // }, [])
 
-    const handleEdit = useCallback((values: LoanType) => {
+    const handleEdit = useCallback((values: UserLoanType) => {
         setValues({
             interest_percent: values.interest_percent,
             n_term: values.n_term,

@@ -1,5 +1,5 @@
 // vendors
-import { FastField, FastFieldProps, FormikProps } from 'formik'
+import { FastField, type FastFieldProps, type FormikProps } from 'formik'
 import dayjs from 'dayjs'
 // materials
 import FormControl from '@mui/material/FormControl'
@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 // components
 import FormikForm from '@/components/FormikForm'
-import Payroll from '@/dataTypes/Payroll'
+import type Payroll from '@/dataTypes/Payroll'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import DatePicker from '@/components/DatePicker'
 // utils

@@ -7,9 +7,9 @@ import FormHelperText from '@mui/material/FormHelperText'
 //
 import ChipSmall from '@/components/ChipSmall'
 import ScrollableXBox from '@/components/ScrollableXBox'
-import CashType from '@/dataTypes/Cash'
+import type CashType from '@/dataTypes/Cash'
 import ApiUrl from '../../../../../../@enums/api-url'
-import { FormikStatusType } from '../../../../..'
+import { type FormikStatusType } from '../../../../..'
 
 function CashableUuidFieldComponent({
     field: { name: fieldName, value },

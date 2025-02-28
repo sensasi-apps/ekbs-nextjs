@@ -1,7 +1,7 @@
 import Warehouse from '@/enums/Warehouse'
 import type { Ymd } from '@/types/DateString'
 
-type Product = {
+export default interface Product {
     id: number
     code?: string
     name: string
@@ -17,5 +17,3 @@ type Product = {
         qty: number
     }[]
 }
-
-export default Product

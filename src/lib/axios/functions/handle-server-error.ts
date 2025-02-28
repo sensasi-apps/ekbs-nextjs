@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import { OptionsObject, enqueueSnackbar } from 'notistack'
+import { type OptionsObject, enqueueSnackbar } from 'notistack'
 import SNACKBAR_419_OPTIONS from '../SNACKBAR_419_OPTIONS'
 
 const SNACKBAR_OPTIONS: OptionsObject = {

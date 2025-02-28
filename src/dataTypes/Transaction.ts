@@ -27,7 +27,7 @@ type NonTransferType = {
     to_cash_uuid: null
 }
 
-type Transaction = {
+export type Transaction = {
     uuid: UUID
     amount: number
     at: Ymd
@@ -54,8 +54,6 @@ type Transaction = {
     cash_transfer_origin?: CashTransfer
     cash?: CashType
 } & (TransferType | NonTransferType)
-
-export default Transaction
 
 export enum CashableClassname {
     Cash = 'App\\Models\\Cash',

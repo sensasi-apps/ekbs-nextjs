@@ -11,7 +11,7 @@ import type {
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
-import { Formik, FormikConfig } from 'formik'
+import { Formik, type FormikConfig } from 'formik'
 // materials
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
@@ -22,7 +22,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import ProductPurchaseForm, {
     EMPTY_FORM_STATUS,
-    FormValuesType,
+    type FormValuesType,
     productPurchaseToFormValues,
 } from '@/components/pages/farm-inputs/product-purchases/Form'
 // icons

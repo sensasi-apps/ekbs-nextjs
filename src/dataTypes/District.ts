@@ -1,8 +1,4 @@
-type DistrictType = DistrictDbType
-
-export default DistrictType
-
-type DistrictDbType = {
+export default interface DistrictType {
     id: number
     name: string
     regency_id: number

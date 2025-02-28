@@ -1,7 +1,7 @@
 import type { BoxProps } from '@mui/material/Box'
 import type FileFromDb from '@/dataTypes/File'
 // vendors
-import { useEffect, useState, ChangeEvent } from 'react'
+import { useEffect, useState, type ChangeEvent } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'

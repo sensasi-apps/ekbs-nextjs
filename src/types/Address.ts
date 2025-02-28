@@ -1,4 +1,4 @@
-type Address = {
+export default interface Address {
     uuid: string
     regency: { id: string }
     district?: { id: string }
@@ -6,5 +6,3 @@ type Address = {
     detail?: string
     zip_code?: string
 }
-
-export default Address

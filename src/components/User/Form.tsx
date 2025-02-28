@@ -2,7 +2,7 @@
 import type { UUID } from 'crypto'
 import type User from '@/dataTypes/User'
 // vendors
-import { ChangeEvent, MouseEventHandler, useState } from 'react'
+import { type ChangeEvent, type MouseEventHandler, useState } from 'react'
 import { mutate } from 'swr'
 import { useRouter } from 'next/router'
 import axios from '@/lib/axios'

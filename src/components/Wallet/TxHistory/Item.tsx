@@ -3,7 +3,7 @@ import type { BoxProps } from '@mui/material/Box'
 import type { TypographyProps } from '@mui/material/Typography'
 // materials
 import Box from '@mui/material/Box'
-import Chip, { ChipProps } from '@mui/material/Chip'
+import Chip, { type ChipProps } from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'

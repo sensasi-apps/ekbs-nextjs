@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
+import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 import type PalmBunchType from '@/dataTypes/PalmBunch'
 import type Land from '@/types/Land'
 // vendors
@@ -19,7 +19,7 @@ import ReceiptIcon from '@mui/icons-material/Receipt'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
-    DatatableProps,
+    type DatatableProps,
     getRowData,
     mutate,
 } from '@/components/Datatable'
@@ -91,7 +91,7 @@ function Crud() {
         loading,
         setSubmitting,
         submitting,
-    } = useFormData<PalmBunchesReaTicketType>()
+    } = useFormData<PalmBunchesReaTicket>()
 
     return (
         <>
@@ -108,8 +108,7 @@ function Crud() {
                 }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data =
-                            getRowData<PalmBunchesReaTicketType>(dataIndex)
+                        const data = getRowData<PalmBunchesReaTicket>(dataIndex)
                         if (data) return handleEdit(data)
                     }
                 }}
@@ -232,7 +231,7 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         label: 'Pabrik',
         options: {
             customBodyRenderLite: dataIndex =>
-                getRowData<PalmBunchesReaTicketType>(dataIndex)?.delivery
+                getRowData<PalmBunchesReaTicket>(dataIndex)?.delivery
                     .to_oil_mill_code,
         },
     },
@@ -261,7 +260,7 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         options: {
             setCellProps: (_, rowIndex) => {
                 const isCurrentUserData =
-                    getRowData<PalmBunchesReaTicketType>(rowIndex)?.delivery
+                    getRowData<PalmBunchesReaTicket>(rowIndex)?.delivery
                         .courier_user?.uuid === currentUserUuid
 
                 return {
@@ -275,7 +274,7 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
 
             customBodyRenderLite: dataIndex => {
                 const courier_user =
-                    getRowData<PalmBunchesReaTicketType>(dataIndex)?.delivery
+                    getRowData<PalmBunchesReaTicket>(dataIndex)?.delivery
                         .courier_user
 
                 return courier_user
@@ -306,8 +305,8 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
             customBodyRenderLite: dataIndex => (
                 <ListInsideMuiDatatableCell
                     listItems={
-                        getRowData<PalmBunchesReaTicketType>(dataIndex)
-                            ?.delivery?.palm_bunches ?? []
+                        getRowData<PalmBunchesReaTicket>(dataIndex)?.delivery
+                            ?.palm_bunches ?? []
                     }
                     renderItem={(palmBunch: PalmBunchType) => (
                         <Box
@@ -350,7 +349,7 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
                 },
             }),
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<PalmBunchesReaTicketType>(dataIndex)
+                const data = getRowData<PalmBunchesReaTicket>(dataIndex)
 
                 if (!data) return ''
 
@@ -371,7 +370,7 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
                 },
             }),
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<PalmBunchesReaTicketType>(dataIndex)
+                const data = getRowData<PalmBunchesReaTicket>(dataIndex)
 
                 if (!data) return ''
 

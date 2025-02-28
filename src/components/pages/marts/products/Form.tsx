@@ -1,7 +1,12 @@
 // types
 import type Product from '@/dataTypes/mart/Product'
 // vendors
-import { FastField, FieldArray, FieldProps, type FormikProps } from 'formik'
+import {
+    FastField,
+    FieldArray,
+    type FieldProps,
+    type FormikProps,
+} from 'formik'
 import Autocomplete from '@mui/material/Autocomplete'
 import MuiTextField from '@mui/material/TextField'
 import useSWR from 'swr'

@@ -2,10 +2,10 @@
 import type { FormikProps } from 'formik'
 import type Product from '@/dataTypes/Product'
 import type { Ymd } from '@/types/DateString'
-import type YajraDatatable from '@/types/responses/YajraDatatable'
+import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 import type InventoryItem from '@/dataTypes/InventoryItem'
 import type { UUID } from 'crypto'
-import type UserType from '@/dataTypes/User'
+import type User from '@/dataTypes/User'
 // vendors
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
@@ -49,7 +49,7 @@ export type FormValues = Partial<{
     has_tx: boolean
     inventory_item: InventoryItem | null
     product: Product | null
-    buyer_user: UserType | null
+    buyer_user: User | null
 }>
 
 export default function FarmInputHeGasSaleForm({

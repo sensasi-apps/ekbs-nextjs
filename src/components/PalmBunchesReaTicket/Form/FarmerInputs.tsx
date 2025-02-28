@@ -1,7 +1,7 @@
 // types
 import type PalmBunchDataType from '@/dataTypes/PalmBunch'
-import type PalmBunchesReaTicketType from '@/dataTypes/PalmBunchReaTicket'
-import type ValidationErrorsType from '@/types/ValidationErrors'
+import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import { type ValidationErrorsType } from '@/types/ValidationErrors'
 // vendors
 import { useEffect, useState, memo } from 'react'
 import { NumericFormat } from 'react-number-format'
@@ -35,7 +35,7 @@ function PalmBunchesReaDeliveryFarmerInputs({
 }) {
     const { userHasPermission } = useAuth()
 
-    const { data, setData } = useFormData<PalmBunchesReaTicketType>()
+    const { data, setData } = useFormData<PalmBunchesReaTicket>()
 
     const [palmBunches, setPalmBunches] = useState<PalmBunchDataType[]>(
         data.delivery?.palm_bunches ?? [{}],

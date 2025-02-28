@@ -1,6 +1,6 @@
 import type User from '../User'
 
-interface ProductMovementSale {
+export default interface ProductMovementSale {
     buyer_user_uuid: User['uuid']
     no: number
     total_payment: number
@@ -8,5 +8,3 @@ interface ProductMovementSale {
     // relations
     buyer_user?: User
 }
-
-export default ProductMovementSale

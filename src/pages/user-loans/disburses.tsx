@@ -1,6 +1,6 @@
 // types
 import type { FormikConfig } from 'formik'
-import type UserLoanType from '@/dataTypes/Loan'
+import type { UserLoanType } from '@/dataTypes/Loan'
 // vendors
 import { useState } from 'react'
 import { Formik } from 'formik'
@@ -9,7 +9,7 @@ import axios from '@/lib/axios'
 import { mutate } from '@/components/Datatable'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import UserLoanDisburseForm, {
-    FormValuesType,
+    type FormValuesType,
 } from '@/components/pages/user-loans/disburse/Form'
 import UserLoanDisburseDatatable from '@/components/pages/user-loans/disburse/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
