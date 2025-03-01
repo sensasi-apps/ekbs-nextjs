@@ -27,6 +27,9 @@ const PAGE_THEME = createTheme({
     components: THEME.components,
 })
 
+const BG_IMG_URL =
+    'https://belayansejahtera.org/wp-content/uploads/2025/02/FJR00081-scaled.jpg'
+
 export function Background({
     children,
     slotProps,
@@ -56,8 +59,7 @@ export function Background({
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                     backgroundAttachment: 'fixed',
-                    backgroundImage:
-                        'linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(https://belayansejahtera.org/wp-content/uploads/2024/10/FJR05684-2-scaled.jpg)',
+                    backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${BG_IMG_URL})`,
                 }}>
                 <Container
                     maxWidth="lg"
