@@ -2,7 +2,12 @@
 import { useRef, useState } from 'react'
 // materials
 import Chip from '@mui/material/Chip'
+import Tooltip from '@mui/material/Tooltip'
+// icons
+import DeleteIcon from '@mui/icons-material/Delete'
 //
+import type SparePart from '@/@types/Data/repair-shop/spare-part'
+import type VehicleType from '@/enums/db-columns/repair-shop/spare-part/vehicle-type'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
@@ -10,15 +15,18 @@ import Datatable, {
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import type VehicleType from '@/enums/db-columns/repair-shop/spare-part/vehicle-type'
 import SparePartFormDialog from '@/components/pages/repair-shop/spare-part/form-dialog'
-import type SparePart from '@/@types/Data/repair-shop/spare-part'
 import TextShortener from '@/components/text-shortener'
+// utils
 import formatNumber from '@/utils/formatNumber'
+
+let getRowDataRef: {
+    current?: GetRowDataType<SparePart>
+}
 
 export default function Page() {
     const mutateRef = useRef<MutateType<SparePart>>()
-    const getRowDataRef = useRef<GetRowDataType<SparePart>>()
+    const _getRowDataRef = useRef<GetRowDataType<SparePart>>()
     const [formData, setFormData] = useState<Partial<SparePart>>()
 
     return (
@@ -34,8 +42,7 @@ export default function Page() {
 
             <SparePartFormDialog
                 formData={formData}
-                handleClose={() => setFormData(undefined)}
-                onSuccess={() => {
+                handleClose={() => {
                     setFormData(undefined)
                     mutateRef.current?.()
                 }}
@@ -45,7 +52,10 @@ export default function Page() {
                 apiUrl="repair-shop/spare-part/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
-                getRowDataCallback={fn => (getRowDataRef.current = fn)}
+                getRowDataCallback={fn => {
+                    _getRowDataRef.current = fn
+                    getRowDataRef = _getRowDataRef
+                }}
                 mutateCallback={mutate => (mutateRef.current = mutate)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
@@ -72,9 +82,29 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         name: 'code',
         label: 'Kode',
         options: {
-            customBodyRender: (value: string) => (
-                <TextShortener text={value} maxChar={12} />
-            ),
+            customBodyRender: (value: string, dataIndex) => {
+                const deleted_at =
+                    getRowDataRef.current?.(dataIndex)?.deleted_at
+
+                return (
+                    <>
+                        <TextShortener text={value} maxChar={12} />
+                        {deleted_at && (
+                            <Tooltip
+                                title="Data telah dihapus"
+                                arrow
+                                placement="top">
+                                <DeleteIcon
+                                    color="error"
+                                    sx={{
+                                        fontSize: '1.5em',
+                                    }}
+                                />
+                            </Tooltip>
+                        )}
+                    </>
+                )
+            },
         },
     },
     {
@@ -103,11 +133,11 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         name: 'margin_percent_final',
         label: 'Harga Jual',
         options: {
-            customBodyRender: (value: number, _, __, { data }) => {
+            customBodyRender: (value: number, dataIndex) => {
                 const general_base_rp_per_unit =
-                    (data[0]?.data[4] as number) ?? 0
+                    getRowDataRef.current?.(dataIndex)?.general_base_rp_per_unit
 
-                if (general_base_rp_per_unit === 0) return '-'
+                if (!general_base_rp_per_unit) return '-'
 
                 return (
                     <>

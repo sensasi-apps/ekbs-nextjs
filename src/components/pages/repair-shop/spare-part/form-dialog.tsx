@@ -1,6 +1,8 @@
 // vendors
 import { Formik, type FormikProps } from 'formik'
+import { useState } from 'react'
 // materials
+import Alert from '@mui/material/Alert'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -14,17 +16,16 @@ import FormikForm, {
 } from '@/components/FormikForm'
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/errorCatcher'
+import toDmy from '@/utils/toDmy'
 
 type FormData = Partial<SparePart>
 
 export default function SparePartFormDialog({
     formData,
     handleClose,
-    onSuccess,
 }: {
     formData: FormData | undefined
     handleClose: () => void
-    onSuccess: () => void
 }) {
     const isNew = !formData?.id
 
@@ -39,14 +40,14 @@ export default function SparePartFormDialog({
                 }}>
                 <Formik<FormData>
                     initialValues={formData ?? {}}
-                    onSubmit={(values, { setErrors }) => {
+                    onSubmit={(values, { setErrors, resetForm }) => {
                         const request = isNew ? myAxios.post : myAxios.put
 
                         return request(
                             `repair-shop/spare-part/` + (formData?.id ?? ''),
                             values,
                         )
-                            .then(onSuccess)
+                            .then(resetForm)
                             .catch(error => handle422(error, setErrors))
                     }}
                     onReset={handleClose}
@@ -59,22 +60,50 @@ export default function SparePartFormDialog({
 
 function SparePartFormikForm({
     dirty,
+    handleReset,
     isSubmitting,
+    setErrors,
     values,
 }: FormikProps<FormData>) {
+    const [isDeleting, setIsDeleting] = useState(false)
+
+    function handleDelete() {
+        setIsDeleting(true)
+
+        myAxios
+            .delete(`repair-shop/spare-part/${values.id}`)
+            .then(() => handleReset())
+            .catch(error => handle422(error, setErrors))
+            .finally(() => setIsDeleting(false))
+    }
+
     return (
         <FormikForm
             id="product-purchase-form"
             autoComplete="off"
             isNew={!values.id}
-            dirty={dirty}
+            dirty={dirty || Boolean(values.deleted_at)}
             processing={isSubmitting}
             submitting={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: isSubmitting,
                 },
+                deleteButton:
+                    values.id && !values.deleted_at
+                        ? {
+                              onClick: handleDelete,
+                              loading: isDeleting,
+                              disabled: isSubmitting,
+                          }
+                        : undefined,
             }}>
+            {values?.deleted_at && (
+                <Alert severity="warning">
+                    Data telah dihapus pada <b>{toDmy(values.deleted_at)}.</b>{' '}
+                    Silakan klik <b>SIMPAN</b> untuk mengembalikan data ini.
+                </Alert>
+            )}
             <TextField
                 name="code"
                 label="Kode"
