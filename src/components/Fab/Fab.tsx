@@ -1,8 +1,11 @@
+// vendors
+import { type ElementType } from 'react'
+// materials
+import MuiFab, { type FabProps } from '@mui/material/Fab'
 import Tooltip from '@mui/material/Tooltip'
-import type { FabProps } from '@mui/material/Fab'
-
-import MuiFab from '@mui/material/Fab'
 import Zoom from '@mui/material/Zoom'
+// icons
+import AddIcon from '@mui/icons-material/Add'
 
 /**
  * A floating action button component.
@@ -16,9 +19,12 @@ import Zoom from '@mui/material/Zoom'
 export default function Fab({
     in: inProp = true,
     title = '',
+    children,
+    Icon = AddIcon,
     ...props
 }: FabProps & {
     in?: boolean
+    Icon?: ElementType
 }) {
     return (
         <Zoom in={inProp} unmountOnExit>
@@ -31,8 +37,9 @@ export default function Fab({
                         bottom: 16,
                         right: 16,
                     }}
-                    {...props}
-                />
+                    {...props}>
+                    {children ?? <Icon />}
+                </MuiFab>
             </Tooltip>
         </Zoom>
     )
