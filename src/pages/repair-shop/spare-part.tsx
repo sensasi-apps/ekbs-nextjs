@@ -36,6 +36,7 @@ export default function Page() {
                 formData={formData}
                 handleClose={() => setFormData(undefined)}
                 onSuccess={() => {
+                    setFormData(undefined)
                     mutateRef.current?.()
                 }}
             />

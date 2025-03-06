@@ -81,6 +81,9 @@ function SparePartFormikForm({
                 disabled={isSubmitting}
                 textFieldProps={{
                     required: false,
+                    helperText: values?.code
+                        ? undefined
+                        : 'Lewati isian untuk kode otomatis',
                 }}
             />
 
@@ -111,7 +114,6 @@ function SparePartFormikForm({
                 label="Margin"
                 disabled={isSubmitting}
                 numericFormatProps={{
-                    required: false,
                     slotProps: {
                         input: {
                             endAdornment: (
