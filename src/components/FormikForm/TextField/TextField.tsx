@@ -6,24 +6,15 @@ import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
 // components
 import DefaultTextField from '@/components/TextField'
-// utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
-type TextFieldProps = {
+interface TextFieldProps {
     value?: string
     name: string
     label?: string
     disabled: boolean
     textFieldProps?: Omit<
         MuiTextFieldProps,
-        | 'error'
-        | 'helperText'
-        | 'name'
-        | 'id'
-        | 'disabled'
-        | 'label'
-        | 'value'
-        | 'onChange'
+        'error' | 'name' | 'id' | 'disabled' | 'label' | 'value' | 'onChange'
     >
 }
 
@@ -60,8 +51,9 @@ function InnerComponent({
                 setInnerValue(value)
                 debounceSetFieldValue(value)
             }}
-            {...errorsToHelperTextObj(error)}
             {...textFieldProps}
+            error={Boolean(error)}
+            helperText={error ?? textFieldProps?.helperText}
         />
     )
 }
