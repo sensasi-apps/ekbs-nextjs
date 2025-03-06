@@ -5,6 +5,7 @@ import type Finance from '@/enums/permissions/Finance'
 import type HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
 import type Mart from '@/enums/permissions/Mart'
 import type PalmBunch from '@/enums/permissions/PalmBunch'
+import type RepairShop from '@/enums/permissions/repair-shop'
 import type Transaction from '@/enums/permissions/Transaction'
 import type UserLoan from '@/enums/permissions/UserLoan'
 import type Wallet from '@/enums/permissions/Wallet'
@@ -17,6 +18,7 @@ export type Permission =
     | HeavyEquipmentRent
     | Mart
     | PalmBunch
+    | RepairShop
     | Transaction
     | UserLoan
     | Wallet

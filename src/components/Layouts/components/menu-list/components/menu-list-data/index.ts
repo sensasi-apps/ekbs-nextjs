@@ -16,6 +16,7 @@ import { supermans } from './supermans'
 import { systems } from './systems'
 import { marts } from './marts'
 import Role from '@/enums/Role'
+import { repairShop } from './repair-shop'
 
 export const NAV_ITEM_GROUPS: NavItemGroup[] = [
     {
@@ -46,6 +47,7 @@ export const NAV_ITEM_GROUPS: NavItemGroup[] = [
     inventories,
     heavyEquipments,
     marts,
+    repairShop,
     accountings,
     systems,
     supermans,
