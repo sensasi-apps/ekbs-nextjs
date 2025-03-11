@@ -1,10 +1,11 @@
 // vendors
+import type { UUID } from 'crypto'
 import { useState } from 'react'
 import { mutate } from 'swr'
 import { PatternFormat } from 'react-number-format'
 import axios from '@/lib/axios'
 // materials
-import Box from '@mui/material/Box'
+import Box, { type BoxProps } from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -21,10 +22,11 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 import PhoneIcon from '@mui/icons-material/Phone'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 // components
+import type UserSocial from '@/dataTypes/user-social'
 import SocialForm from '../Social/Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 
-const GET_ICON_NODE = name => {
+const GET_ICON_NODE = (name: string) => {
     switch (name.toLowerCase()) {
         case 'phone':
             return <PhoneIcon color="info" />
@@ -44,6 +46,9 @@ const GET_ICON_NODE = name => {
 const ContactListItem = ({
     data: { uuid, username, social, user_uuid },
     readMode,
+}: {
+    data: UserSocial
+    readMode?: boolean
 }) => {
     const [isDeleting, setIsDeleting] = useState(false)
 
@@ -99,7 +104,13 @@ const ContactListItem = ({
     )
 }
 
-const ContactList = ({ data: socials = [], readMode = false }) => {
+export function ContactList({
+    data: socials = [],
+    readMode = false,
+}: {
+    data: UserSocial[]
+    readMode?: boolean
+}) {
     if (socials.length === 0)
         return (
             <Typography variant="body2" color="GrayText">
@@ -138,7 +149,12 @@ const UserSocialsCrudBox = ({
     readMode = false,
     isLoading,
     ...props
-}) => {
+}: {
+    userUuid: UUID
+    data: UserSocial[]
+    readMode?: boolean
+    isLoading?: boolean
+} & BoxProps) => {
     const [isFormOpen, setIsFormOpen] = useState(false)
 
     return (
@@ -171,5 +187,4 @@ const UserSocialsCrudBox = ({
     )
 }
 
-export { ContactList }
 export default UserSocialsCrudBox

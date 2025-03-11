@@ -2,6 +2,7 @@ import type { Employee } from '@/@types/Data/Employee'
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
 import type { Installment } from './Installment'
+import type UserSocial from './user-social'
 
 export default interface User {
     id: number
@@ -24,7 +25,7 @@ export default interface User {
         unjoined_reason: string | null
         note: string | null
     }
-    socials?: []
+    socials?: UserSocial[]
     last_six_months_tbs_performance?: []
     employee?: Employee | null
     phone_no?: string
