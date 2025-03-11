@@ -23,7 +23,7 @@ export default function SocialForm({
     onClose,
     onSubmitted,
     userUuid,
-}: HTMLFormElement & {
+}: {
     isShow: boolean
     onClose?: () => void
     onSubmitted?: () => void
