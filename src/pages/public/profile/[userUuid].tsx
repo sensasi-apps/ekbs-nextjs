@@ -21,6 +21,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import type Social from '@/dataTypes/social'
 import PublicLayout from '@/components/Layouts/PublicLayout'
 import myAxios from '@/lib/axios'
+import type { AxiosError } from 'axios'
 
 interface Data {
     name: User['name']
@@ -39,16 +40,26 @@ interface Data {
 }
 
 export default function ProfilePage() {
-    const { query } = useRouter()
+    const { query, replace } = useRouter()
     const [user, setUser] = useState<Data>()
+    const [error, setError] = useState<string>()
 
     useEffect(() => {
         if (query.userUuid && !user) {
-            myAxios.get<Data>('/public/profile/' + query.userUuid).then(res => {
-                setUser(res.data)
-            })
+            myAxios
+                .get<Data>('/public/profile/' + query.userUuid)
+                .then(res => {
+                    setUser(res.data)
+                })
+                .catch((err: AxiosError) => {
+                    if (err.status === 404) {
+                        replace('/404')
+                    } else {
+                        setError(err.message)
+                    }
+                })
         }
-    }, [query.userUuid, user])
+    }, [query.userUuid, user, replace])
 
     return (
         <PublicLayout title={process.env.NEXT_PUBLIC_APP_NAME ?? 'EKBS'}>
@@ -62,7 +73,15 @@ export default function ProfilePage() {
                 <meta http-equiv="Expires" content="0" />
             </Head>
 
-            {!user && <LinearProgress />}
+            {!user && !error && <LinearProgress />}
+
+            {error && (
+                <>
+                    <Typography color="error">Terjadi Kesalahan: </Typography>
+
+                    <Typography color="error">{error}</Typography>
+                </>
+            )}
 
             {user && <Profile data={user} />}
         </PublicLayout>
