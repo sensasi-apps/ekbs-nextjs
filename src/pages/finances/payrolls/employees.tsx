@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
 // materials
+import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
@@ -145,7 +146,13 @@ const DATATABLE_COLUMNS: DatatableProps<Payroll>['columns'] = [
                     whiteSpace: 'nowrap',
                 },
             }),
-            customBodyRender: (value: number) => numberToCurrency(value),
+            customBodyRender: (value: number) => (
+                <Box
+                    color={value <= 0 ? 'error.main' : undefined}
+                    component="span">
+                    {numberToCurrency(value)}
+                </Box>
+            ),
         },
     },
     {

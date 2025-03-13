@@ -13,6 +13,7 @@ export default interface Payroll {
     cash_uuid: UUID | null
     processed_at: Ymd | null
     processed_by_user_uuid: Ymd | null
+    general_deduction_rp: number
 
     // computed
     short_uuid: string

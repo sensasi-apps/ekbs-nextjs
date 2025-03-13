@@ -107,7 +107,7 @@ export default function FinancePayrollEmployee() {
 
                         <Dialog
                             open={processDialogOpen}
-                            maxWidth="sm"
+                            maxWidth="lg"
                             fullWidth>
                             <DialogContent>
                                 <ProcessPayrollForm
