@@ -155,7 +155,7 @@ function ItemRow({ name, data }: TxsGroup) {
                 TransactionTag.PELUNASAN_BIAYA_ANGKUT.toString(),
                 TransactionTag.PELUNASAN_TBS.toString(),
                 TransactionTag.POTONGAN_BIAYA_ANGKUT.toString(),
-            ].includes(tx.tags[0].name.id),
+            ].includes(tx.tags[0]?.name.id),
         )
         .map(tx => {
             if (!tx.transactionable) return

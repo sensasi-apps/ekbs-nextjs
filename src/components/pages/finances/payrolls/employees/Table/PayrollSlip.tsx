@@ -113,7 +113,13 @@ const PayrollSlip = memo(function PayrollSlip({
                             </TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody
+                        sx={{
+                            '& td': {
+                                px: 1,
+                                py: 0,
+                            },
+                        }}>
                         {(
                             ((earnings?.length ?? 0) >=
                             (deductions?.length ?? 0)
@@ -124,7 +130,11 @@ const PayrollSlip = memo(function PayrollSlip({
                                 <TableCell width="30%">
                                     {earnings?.[i]?.name}
                                 </TableCell>
-                                <TableCell width="20%">
+                                <TableCell
+                                    width="20%"
+                                    sx={{
+                                        whiteSpace: 'nowrap',
+                                    }}>
                                     {earnings?.[i]?.amount_rp
                                         ? numberToCurrency(
                                               earnings[i].amount_rp,
@@ -134,7 +144,11 @@ const PayrollSlip = memo(function PayrollSlip({
                                 <TableCell sx={SX_BORDER_LEFT} width="30%">
                                     {deductions?.[i]?.name}
                                 </TableCell>
-                                <TableCell width="20%">
+                                <TableCell
+                                    width="20%"
+                                    sx={{
+                                        whiteSpace: 'nowrap',
+                                    }}>
                                     {deductions?.[i]?.amount_rp
                                         ? numberToCurrency(
                                               deductions[i].amount_rp,

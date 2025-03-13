@@ -6,6 +6,7 @@ import { Formik } from 'formik'
 import axios from '@/lib/axios'
 import dynamic from 'next/dynamic'
 // materials
+import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -142,9 +143,18 @@ export default function PayrollsEmployeesTable({
                                                     .map(detail => (
                                                         <li key={detail.uuid}>
                                                             {detail.name}:{' '}
-                                                            {numberToCurrency(
-                                                                detail.amount_rp,
-                                                            )}
+                                                            <Box
+                                                                color={
+                                                                    detail.amount_rp <
+                                                                    0
+                                                                        ? 'error.main'
+                                                                        : undefined
+                                                                }
+                                                                component="span">
+                                                                {numberToCurrency(
+                                                                    detail.amount_rp,
+                                                                )}
+                                                            </Box>
                                                         </li>
                                                     ))}
                                             </ul>
@@ -152,6 +162,11 @@ export default function PayrollsEmployeesTable({
                                         <TableCell
                                             sx={{
                                                 whiteSpace: 'nowrap',
+                                                color:
+                                                    payrollUser.final_rp_cache <
+                                                    0
+                                                        ? 'error.main'
+                                                        : undefined,
                                             }}>
                                             {numberToCurrency(
                                                 payrollUser.final_rp_cache,
@@ -174,19 +189,17 @@ export default function PayrollsEmployeesTable({
                                                             : 'Pratinjau',
                                                     },
                                                 }}
-                                                documentTitle={
-                                                    (isFinished
-                                                        ? 'Slip Gaji'
-                                                        : 'Pratinjau') +
-                                                    payrollUser.user_state
-                                                        .name +
-                                                    ' (#' +
-                                                    payrollUser.user_state.id +
-                                                    ') - ' +
-                                                    dayjs().format(
+                                                documentTitle={`${
+                                                    !isFinished
+                                                        ? 'Pratinjau '
+                                                        : ''
+                                                }Slip Gaji #
+                                                    ${payrollUser.user_state.id} — ${
+                                                        payrollUser.user_state
+                                                            .name
+                                                    } — ${dayjs().format(
                                                         'YYYYMMDDHHmmss',
-                                                    )
-                                                }
+                                                    )}`}
                                                 onBeforePrint={async () => {
                                                     history.pushState(
                                                         null,

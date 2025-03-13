@@ -11,6 +11,7 @@ import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
+import Grid2 from '@mui/material/Grid2'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
@@ -62,10 +63,13 @@ export default function ProcessPayrollForm({
     const [cashUuid, setCashUuid] = useState<string>(data.cash_uuid as string)
     const [isFinal, setIsFinal] = useState(Boolean(data.processed_at))
     const [costShares, setCostShares] = useState(data.cost_shares)
+    const [generalRpDeduction, setGeneralRpDeduction] = useState(
+        data.general_deduction_rp ?? 0,
+    )
 
     const [errors, setErrors] = useState<LaravelValidationException['errors']>()
 
-    const handleSubmit = () => {
+    async function handleSubmit() {
         setLoading(true)
 
         return axios
@@ -81,6 +85,7 @@ export default function ProcessPayrollForm({
                         uuid: costShare.uuid,
                         deduction_rp: costShare.deduction_rp,
                     })),
+                    general_deduction_rp: generalRpDeduction,
                 },
             )
             .then(() => {
@@ -91,23 +96,16 @@ export default function ProcessPayrollForm({
             .finally(() => setLoading(false))
     }
 
-    const disabled = loading || Boolean(data.processed_at)
+    const isDisabled = loading || Boolean(data.processed_at)
 
     return (
-        <>
-            <Typography>Rincian Penggajian:</Typography>
+        <Grid2 container spacing={4}>
+            <Grid2 size={{ md: 4 }}>
+                <Typography mb={1}>Rincian Penggajian:</Typography>
 
-            <Box
-                my={1}
-                sx={{
-                    maxWidth: {
-                        xs: '100%',
-                        sm: '50%',
-                    },
-                }}>
                 <DatePicker
                     value={at ? dayjs(at) : null}
-                    disabled={disabled}
+                    disabled={isDisabled}
                     label="Tanggal"
                     onChange={date =>
                         debounce(() => setAt(date?.format('YYYY-MM-DD') as Ymd))
@@ -126,7 +124,7 @@ export default function ProcessPayrollForm({
                         name="type"
                         required
                         label="Jenis"
-                        disabled={disabled}
+                        disabled={isDisabled}
                         labelId="type-select-label"
                         id="type-select"
                         onChange={({ target }) =>
@@ -146,7 +144,7 @@ export default function ProcessPayrollForm({
                     multiline
                     name="note"
                     label="Catatan"
-                    disabled={disabled}
+                    disabled={isDisabled}
                     rows={2}
                     defaultValue={note}
                     onChange={({ target: { value } }) =>
@@ -161,7 +159,7 @@ export default function ProcessPayrollForm({
                     label="Telah Dibayar Dari Kas"
                     size="small"
                     margin="dense"
-                    disabled={disabled}
+                    disabled={isDisabled}
                     selectProps={{
                         value: cashUuid ?? '',
                         name: 'cash_uuid',
@@ -185,34 +183,50 @@ export default function ProcessPayrollForm({
                     )}
                     {...errorsToHelperTextObj(errors?.cash_uuid)}
                 />
-            </Box>
 
-            <Box mb={2}>
-                <InfoBox
-                    data={[
-                        {
-                            label: 'Total Gaji Kotor',
-                            value: numberToCurrency(
-                                data?.earning_rp_cache ?? 0,
-                            ),
-                        },
-                        {
-                            label: 'Potongan',
-                            value: numberToCurrency(
-                                data?.deduction_rp_cache ?? 0,
-                            ),
-                        },
-                        {
-                            label: 'Total Bersih',
-                            value: numberToCurrency(data?.final_rp_cache ?? 0),
-                        },
-                    ]}
+                <Box mt={2}>
+                    <InfoBox
+                        data={[
+                            {
+                                label: 'Total Gaji Kotor',
+                                value: numberToCurrency(
+                                    data?.earning_rp_cache ?? 0,
+                                ),
+                            },
+                            {
+                                label: 'Potongan',
+                                value: numberToCurrency(
+                                    data?.deduction_rp_cache ?? 0,
+                                ),
+                            },
+                            {
+                                label: 'Total Bersih',
+                                value: numberToCurrency(
+                                    data?.final_rp_cache ?? 0,
+                                ),
+                            },
+                        ]}
+                    />
+                </Box>
+            </Grid2>
+
+            <Grid2 size={{ md: 8 }}>
+                <Typography>Beban Umum:</Typography>
+
+                <NumericFormat
+                    disabled={isDisabled}
+                    value={generalRpDeduction}
+                    onValueChange={({ floatValue }) =>
+                        setGeneralRpDeduction(floatValue ?? 0)
+                    }
+                    InputProps={{
+                        startAdornment: <RpInputAdornment />,
+                    }}
+                    {...errorsToHelperTextObj(errors?.general_deduction_rp)}
                 />
-            </Box>
 
-            <Typography>Beban Unit Bisnis:</Typography>
+                <Typography mt={4}>Beban Unit Bisnis:</Typography>
 
-            <Box>
                 <TableContainer>
                     <Table size="small">
                         <TableHead>
@@ -231,7 +245,7 @@ export default function ProcessPayrollForm({
                                     </TableCell>
                                     <TableCell>
                                         <NumericFormat
-                                            disabled={disabled}
+                                            disabled={isDisabled}
                                             value={costShare.deduction_rp}
                                             onValueChange={({ floatValue }) =>
                                                 setCostShares(prev =>
@@ -278,11 +292,11 @@ export default function ProcessPayrollForm({
                                 <TableCell>Total</TableCell>
                                 <TableCell sx={SX_NOWRAP}>
                                     {numberToCurrency(
-                                        costShares?.reduce(
+                                        (costShares?.reduce(
                                             (acc, costShare) =>
                                                 acc + costShare.deduction_rp,
                                             0,
-                                        ) ?? 0,
+                                        ) ?? 0) + generalRpDeduction,
                                     )}
                                 </TableCell>
                                 <TableCell sx={SX_NOWRAP}>
@@ -309,57 +323,57 @@ export default function ProcessPayrollForm({
                         </TableFooter>
                     </Table>
                 </TableContainer>
-            </Box>
 
-            {errors && (
-                <FormHelperText error component="div">
-                    {Object.values(errors).map((error, i) => (
-                        <Box key={i}>{error}</Box>
-                    ))}
-                </FormHelperText>
-            )}
+                {errors && (
+                    <FormHelperText error component="div">
+                        {Object.values(errors).map((error, i) => (
+                            <Box key={i}>{error}</Box>
+                        ))}
+                    </FormHelperText>
+                )}
 
-            <FormGroup
-                sx={{
-                    mt: 2,
-                }}>
-                <FormControlLabel
-                    disabled={disabled}
+                <FormGroup
                     sx={{
-                        maxWidth: 'fit-content',
-                    }}
-                    control={
-                        <Checkbox
-                            checked={isFinal}
-                            onChange={({ target: { checked } }) =>
-                                setIsFinal(checked)
-                            }
-                        />
-                    }
-                    label="Simpan Permanen"
-                />
-            </FormGroup>
+                        mt: 2,
+                    }}>
+                    <FormControlLabel
+                        disabled={isDisabled}
+                        sx={{
+                            maxWidth: 'fit-content',
+                        }}
+                        control={
+                            <Checkbox
+                                checked={isFinal}
+                                onChange={({ target: { checked } }) =>
+                                    setIsFinal(checked)
+                                }
+                            />
+                        }
+                        label="Simpan Permanen"
+                    />
+                </FormGroup>
 
-            <Box display="flex" justifyContent="end" gap={1.5}>
-                <Button
-                    size="small"
-                    color={isFinal ? 'warning' : 'info'}
-                    disabled={loading}
-                    onClick={handleClose}>
-                    {data.processed_at ? 'Tutup' : 'Batal'}
-                </Button>
+                <Box display="flex" justifyContent="end" gap={1.5}>
+                    <Button
+                        size="small"
+                        color={isFinal ? 'warning' : 'info'}
+                        disabled={loading}
+                        onClick={handleClose}>
+                        {data.processed_at ? 'Tutup' : 'Batal'}
+                    </Button>
 
-                <Button
-                    size="small"
-                    color={isFinal ? 'warning' : 'info'}
-                    variant="contained"
-                    startIcon={isFinal ? <LockIcon /> : undefined}
-                    disabled={disabled}
-                    loading={loading}
-                    onClick={handleSubmit}>
-                    {isFinal ? 'Proses Penggajian' : 'Simpan'}
-                </Button>
-            </Box>
-        </>
+                    <Button
+                        size="small"
+                        color={isFinal ? 'warning' : 'info'}
+                        variant="contained"
+                        startIcon={isFinal ? <LockIcon /> : undefined}
+                        disabled={isDisabled}
+                        loading={loading}
+                        onClick={handleSubmit}>
+                        {isFinal ? 'Proses Penggajian' : 'Simpan'}
+                    </Button>
+                </Box>
+            </Grid2>
+        </Grid2>
     )
 }
