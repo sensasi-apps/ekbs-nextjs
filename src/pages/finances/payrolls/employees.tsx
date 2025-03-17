@@ -103,6 +103,15 @@ const DATATABLE_COLUMNS: DatatableProps<Payroll>['columns'] = [
         },
     },
     {
+        name: 'uuid',
+        label: 'Kode',
+        options: {
+            customBodyRender: (_, rowIndex) => {
+                return getRowData(rowIndex)?.short_uuid ?? '-'
+            },
+        },
+    },
+    {
         name: 'type',
         label: 'Jenis',
         options: {
