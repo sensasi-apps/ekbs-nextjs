@@ -6,6 +6,7 @@ import type HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
 import type Mart from '@/enums/permissions/Mart'
 import type PalmBunch from '@/enums/permissions/PalmBunch'
 import type RepairShop from '@/enums/permissions/repair-shop'
+import type ServicePermission from '@/features/repair-shop/service/enums/permission'
 import type Transaction from '@/enums/permissions/Transaction'
 import type UserLoan from '@/enums/permissions/UserLoan'
 import type Wallet from '@/enums/permissions/Wallet'
@@ -19,6 +20,7 @@ export type Permission =
     | Mart
     | PalmBunch
     | RepairShop
+    | ServicePermission
     | Transaction
     | UserLoan
     | Wallet
