@@ -5,9 +5,7 @@ import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
-//
-import type SparePart from '@/@types/Data/repair-shop/spare-part'
-import type VehicleType from '@/enums/db-columns/repair-shop/spare-part/vehicle-type'
+// global components
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
@@ -15,10 +13,13 @@ import Datatable, {
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import SparePartFormDialog from '@/components/pages/repair-shop/spare-part/form-dialog'
 import TextShortener from '@/components/text-shortener'
 // utils
 import formatNumber from '@/utils/formatNumber'
+// feature scope
+import type SparePart from '@/features/repair-shop/spare-part/types/spare-part'
+import type VehicleType from '@/features/repair-shop/spare-part/enums/vehicle-type'
+import SparePartFormDialog from '@/features/repair-shop/spare-part/components/form-dialog'
 
 let getRowDataRef: {
     current?: GetRowDataType<SparePart>
@@ -49,7 +50,7 @@ export default function Page() {
             />
 
             <Datatable<SparePart>
-                apiUrl="repair-shop/spare-part/datatable"
+                apiUrl="repair-shop/spare-parts/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
                 getRowDataCallback={fn => {

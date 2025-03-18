@@ -1,4 +1,4 @@
-import type VehicleType from '@/enums/db-columns/repair-shop/spare-part/vehicle-type'
+import type VehicleType from '../enums/vehicle-type'
 
 export default interface SparePart {
     id: number

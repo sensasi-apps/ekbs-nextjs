@@ -8,15 +8,18 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import InputAdornment from '@mui/material/InputAdornment'
 // components
-import type SparePart from '@/@types/Data/repair-shop/spare-part'
 import FormikForm, {
     NumericField,
     Radio,
     TextField,
 } from '@/components/FormikForm'
+//
 import myAxios from '@/lib/axios'
+// utils
 import handle422 from '@/utils/errorCatcher'
 import toDmy from '@/utils/toDmy'
+// feature scope
+import type SparePart from '../types/spare-part'
 
 type FormData = Partial<SparePart>
 
@@ -44,7 +47,7 @@ export default function SparePartFormDialog({
                         const request = isNew ? myAxios.post : myAxios.put
 
                         return request(
-                            `repair-shop/spare-part/` + (formData?.id ?? ''),
+                            `repair-shop/spare-parts/` + (formData?.id ?? ''),
                             values,
                         )
                             .then(resetForm)
@@ -71,7 +74,7 @@ function SparePartFormikForm({
         setIsDeleting(true)
 
         myAxios
-            .delete(`repair-shop/spare-part/${values.id}`)
+            .delete(`repair-shop/spare-parts/${values.id}`)
             .then(() => handleReset())
             .catch(error => handle422(error, setErrors))
             .finally(() => setIsDeleting(false))
