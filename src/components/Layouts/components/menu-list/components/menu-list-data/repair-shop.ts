@@ -2,7 +2,7 @@ import type { NavItemGroup } from '../@types/nav-item-group'
 // icons
 import TopicIcon from '@mui/icons-material/Topic'
 // enums
-import RepairShop from '@/enums/permissions/repair-shop'
+import SparePartPermission from '@/features/repair-shop/spare-part/enums/permission'
 import ServicePermission from '@/features/repair-shop/service/enums/permission'
 
 export const repairShop: NavItemGroup = {
@@ -22,16 +22,16 @@ export const repairShop: NavItemGroup = {
         // },
         {
             label: 'Suku Cadang',
-            href: '/repair-shop/spare-part',
+            href: '/repair-shop/spare-parts',
             icon: TopicIcon,
-            forPermission: RepairShop.READ_SPARE_PART,
+            forPermission: SparePartPermission.READ,
         },
 
         {
             label: 'Layanan',
             href: '/repair-shop/services',
             icon: TopicIcon,
-            forPermission: ServicePermission.READ_SERVICE,
+            forPermission: ServicePermission.READ,
         },
 
         // {
