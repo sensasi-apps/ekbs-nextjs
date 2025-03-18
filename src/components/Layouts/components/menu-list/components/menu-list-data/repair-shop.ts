@@ -1,7 +1,9 @@
-import RepairShop from '@/enums/permissions/repair-shop'
 import type { NavItemGroup } from '../@types/nav-item-group'
 // icons
 import TopicIcon from '@mui/icons-material/Topic'
+// enums
+import RepairShop from '@/enums/permissions/repair-shop'
+import ServicePermission from '@/features/repair-shop/service/enums/permission'
 
 export const repairShop: NavItemGroup = {
     label: 'Belayan Spare Parts',
@@ -24,6 +26,14 @@ export const repairShop: NavItemGroup = {
             icon: TopicIcon,
             forPermission: RepairShop.READ_SPARE_PART,
         },
+
+        {
+            label: 'Layanan',
+            href: '/repair-shop/services',
+            icon: TopicIcon,
+            forPermission: ServicePermission.READ_SERVICE,
+        },
+
         // {
         //     label: 'Bobot TBS',
         //     href: '/palm-bunches/reports/farmer-weights',
