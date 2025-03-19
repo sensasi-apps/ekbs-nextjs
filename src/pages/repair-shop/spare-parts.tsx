@@ -2,9 +2,6 @@
 import { useRef, useState } from 'react'
 // materials
 import Chip from '@mui/material/Chip'
-import Tooltip from '@mui/material/Tooltip'
-// icons
-import DeleteIcon from '@mui/icons-material/Delete'
 // global components
 import Datatable, {
     type DatatableProps,
@@ -67,6 +64,21 @@ export default function Page() {
                         }
                     }
                 }}
+                setRowProps={(_, dataIndex) => {
+                    const isDeleted =
+                        getRowDataRef.current?.(dataIndex)?.deleted_at
+
+                    if (!isDeleted) return {}
+
+                    return {
+                        sx: {
+                            '& td': {
+                                textDecoration: 'line-through',
+                                color: 'gray',
+                            },
+                        },
+                    }
+                }}
                 title="Daftar Suku Cadang"
                 tableId="spare-part-datatable"
             />
@@ -83,29 +95,9 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         name: 'code',
         label: 'Kode',
         options: {
-            customBodyRender: (value: string, dataIndex) => {
-                const deleted_at =
-                    getRowDataRef.current?.(dataIndex)?.deleted_at
-
-                return (
-                    <>
-                        <TextShortener text={value} maxChar={12} />
-                        {deleted_at && (
-                            <Tooltip
-                                title="Data telah dihapus"
-                                arrow
-                                placement="top">
-                                <DeleteIcon
-                                    color="error"
-                                    sx={{
-                                        fontSize: '1.5em',
-                                    }}
-                                />
-                            </Tooltip>
-                        )}
-                    </>
-                )
-            },
+            customBodyRender: (value: string) => (
+                <TextShortener text={value} maxChar={12} />
+            ),
         },
     },
     {
@@ -116,9 +108,20 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         name: 'vehicle_type',
         label: 'Jenis Kendaraan',
         options: {
-            customBodyRender: (value: VehicleType) => (
-                <Chip label={value} size="small" />
-            ),
+            customBodyRender: (value: VehicleType, rowIndex) => {
+                const isDeleted = Boolean(
+                    getRowDataRef.current?.(rowIndex)?.deleted_at,
+                )
+
+                return (
+                    <Chip
+                        label={value === 'car' ? 'mobil' : 'motor'}
+                        color={value === 'car' ? 'success' : 'warning'}
+                        disabled={isDeleted}
+                        size="small"
+                    />
+                )
+            },
         },
     },
     {

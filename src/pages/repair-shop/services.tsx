@@ -1,9 +1,5 @@
 // vendors
 import { useRef, useState } from 'react'
-// materials
-import Tooltip from '@mui/material/Tooltip'
-// icons
-import DeleteIcon from '@mui/icons-material/Delete'
 //
 import Datatable, {
     type DatatableProps,
@@ -18,13 +14,9 @@ import ServiceFormDialog from '@/features/repair-shop/service/components/form-di
 //
 import type Service from '@/features/repair-shop/service/types/service'
 
-let getRowDataRef: {
-    current?: GetRowDataType<Service>
-}
-
 export default function Page() {
     const mutateRef = useRef<MutateType<Service>>()
-    const _getRowDataRef = useRef<GetRowDataType<Service>>()
+    const getRowDataRef = useRef<GetRowDataType<Service>>()
     const [formData, setFormData] = useState<Partial<Service>>()
 
     return (
@@ -44,8 +36,7 @@ export default function Page() {
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
                 getRowDataCallback={fn => {
-                    _getRowDataRef.current = fn
-                    getRowDataRef = _getRowDataRef
+                    getRowDataRef.current = fn
                 }}
                 mutateCallback={mutate => (mutateRef.current = mutate)}
                 onRowClick={(_, { dataIndex }, event) => {
@@ -57,11 +48,21 @@ export default function Page() {
                         }
                     }
                 }}
-                setRowProps={() => ({
-                    style: {
-                        color: 'white !important',
-                    },
-                })}
+                setRowProps={(_, dataIndex) => {
+                    const isDeleted =
+                        getRowDataRef.current?.(dataIndex)?.deleted_at
+
+                    if (!isDeleted) return {}
+
+                    return {
+                        sx: {
+                            '& td': {
+                                textDecoration: 'line-through',
+                                color: 'gray',
+                            },
+                        },
+                    }
+                }}
                 title="Daftar Layanan"
                 tableId="services-datatable"
             />
@@ -73,28 +74,6 @@ const DATATABLE_COLUMNS: DatatableProps<Service>['columns'] = [
     {
         name: 'id',
         label: 'ID',
-        options: {
-            customBodyRender: (value: string, dataIndex) => {
-                const deleted_at =
-                    getRowDataRef.current?.(dataIndex)?.deleted_at
-
-                return deleted_at ? (
-                    <Tooltip title="Data telah dihapus" arrow placement="top">
-                        <span>
-                            {value}
-                            <DeleteIcon
-                                color="error"
-                                sx={{
-                                    fontSize: '1.5em',
-                                }}
-                            />
-                        </span>
-                    </Tooltip>
-                ) : (
-                    value
-                )
-            },
-        },
     },
     {
         name: 'name',
