@@ -6,7 +6,7 @@ import axios from '@/lib/axios'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 //
-import type UserType from '@/dataTypes/User'
+import type UserType from '@/features/user/types/user'
 import UserAutocomplete from '@/components/UserAutocomplete'
 import handle422 from '@/utils/errorCatcher'
 import FinanceApiUrlEnum from '../ApiUrlEnum'

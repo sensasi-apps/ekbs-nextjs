@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type UserType from '@/dataTypes/User'
+import type UserType from '@/features/user/types/user'
 // vendors
 import { useRouter } from 'next/router'
 import useSWR from 'swr'

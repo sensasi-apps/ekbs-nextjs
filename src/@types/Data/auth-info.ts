@@ -1,4 +1,4 @@
-import type User from '@/dataTypes/User'
+import type User from '@/features/user/types/user'
 
 export interface AuthInfo {
     id: User['id']

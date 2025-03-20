@@ -2,7 +2,7 @@ import type BusinessUnit from '@/dataTypes/BusinessUnit'
 import type BusinessUnitEnum from '@/enums/BusinessUnit'
 import type { Ymd } from '@/types/DateString'
 
-export interface Employee {
+export default interface Employee {
     employee_status_id: EmployeeStatusId
     business_unit_id: BusinessUnitEnum
     joined_at: Ymd

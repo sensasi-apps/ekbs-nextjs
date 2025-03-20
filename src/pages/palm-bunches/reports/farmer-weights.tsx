@@ -1,5 +1,5 @@
 // types
-import type User from '@/dataTypes/User'
+import type User from '@/features/user/types/user'
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'

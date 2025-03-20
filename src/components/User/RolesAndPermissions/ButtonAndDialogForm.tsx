@@ -1,5 +1,5 @@
 // types
-import type User from '@/dataTypes/User'
+import type User from '@/features/user/types/user'
 import type Role from '@/dataTypes/Role'
 import type { FormEvent } from 'react'
 // vendors

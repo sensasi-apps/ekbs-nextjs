@@ -3,7 +3,7 @@ import type { UUID } from 'crypto'
 // local types
 import type { Installment } from './Installment'
 import type { Transaction } from './Transaction'
-import type UserType from './User'
+import type UserType from '../features/user/types/user'
 import type ActivityLogType from './ActivityLog'
 import type { Ymd } from '@/types/DateString'
 import type { UserLoanResponse } from './UserLoanResponse'

@@ -5,7 +5,7 @@ import type { Ymd } from '@/types/DateString'
 import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 import type InventoryItem from '@/dataTypes/InventoryItem'
 import type { UUID } from 'crypto'
-import type User from '@/dataTypes/User'
+import type User from '@/features/user/types/user'
 // vendors
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'

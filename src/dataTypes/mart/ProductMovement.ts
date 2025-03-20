@@ -5,7 +5,7 @@ import type { Transaction } from '../Transaction'
 import type ProductMovementDetail from './ProductMovementDetail'
 import type ProductMovementPurchase from './ProductMovementPurchase'
 import type ProductMovementCost from './ProductMovementCost'
-import type User from '../User'
+import type User from '../../features/user/types/user'
 
 export default interface ProductMovement {
     uuid: UUID

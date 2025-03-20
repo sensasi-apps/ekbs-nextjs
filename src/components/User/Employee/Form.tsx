@@ -1,6 +1,5 @@
 // types
 import type { FormikProps } from 'formik'
-import type { Employee } from '@/@types/Data/Employee'
 // vendors
 import { useDebouncedCallback } from 'use-debounce'
 import dayjs from 'dayjs'
@@ -19,6 +18,8 @@ import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import BusinessUnit from '@/enums/BusinessUnit'
 // functions
 import { toYmd } from '@/functions/toYmd'
+// features
+import type Employee from '@/features/user/types/employee'
 
 export default function EmployeeForm({
     id,

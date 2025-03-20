@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type UserType from './User'
+import type UserType from '../features/user/types/user'
 
 export default interface PayrollUser {
     uuid: UUID
