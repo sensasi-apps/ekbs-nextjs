@@ -2,8 +2,8 @@ import type { NavItemGroup } from '../@types/nav-item-group'
 // icons
 import TopicIcon from '@mui/icons-material/Topic'
 // enums
-import SparePartPermission from '@/features/repair-shop/spare-part/enums/permission'
-import ServicePermission from '@/features/repair-shop/service/enums/permission'
+import SparePartPermission from '@/features/repair-shop--spare-part/enums/permission'
+import ServicePermission from '@/features/repair-shop--service/enums/permission'
 
 export const repairShop: NavItemGroup = {
     label: 'Belayan Spare Parts',
