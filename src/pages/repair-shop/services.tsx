@@ -10,9 +10,9 @@ import Fab from '@/components/Fab'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import ServiceFormDialog from '@/features/repair-shop/service/components/form-dialog'
-//
-import type Service from '@/features/repair-shop/service/types/service'
+// features
+import type Service from '@/features/repair-shop--service/types/service'
+import ServiceFormDialog from '@/features/repair-shop--service/components/form-dialog'
 
 export default function Page() {
     const mutateRef = useRef<MutateType<Service>>()

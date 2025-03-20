@@ -14,9 +14,9 @@ import TextShortener from '@/components/text-shortener'
 // utils
 import formatNumber from '@/utils/formatNumber'
 // feature scope
-import type SparePart from '@/features/repair-shop/spare-part/types/spare-part'
-import type VehicleType from '@/features/repair-shop/spare-part/enums/vehicle-type'
-import SparePartFormDialog from '@/features/repair-shop/spare-part/components/form-dialog'
+import type SparePart from '@/features/repair-shop--spare-part/types/spare-part'
+import type VehicleType from '@/features/repair-shop--spare-part/enums/vehicle-type'
+import SparePartFormDialog from '@/features/repair-shop--spare-part/components/form-dialog'
 
 let getRowDataRef: {
     current?: GetRowDataType<SparePart>
