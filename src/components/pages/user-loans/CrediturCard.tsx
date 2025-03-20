@@ -1,5 +1,5 @@
 // types
-import type UserType from '@/dataTypes/User'
+import type UserType from '@/features/user/types/user'
 // vendors
 import { useState } from 'react'
 import useSWR from 'swr'

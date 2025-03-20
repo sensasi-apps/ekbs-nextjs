@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type UserType from './User'
+import type UserType from '../features/user/types/user'
 import type { Ymd } from '@/types/DateString'
 import type Tag from './Tag'
 import type RentItem from './RentItem'

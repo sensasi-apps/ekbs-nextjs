@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import useSWR, { type SWRResponse } from 'swr'
 //
 import axios from '@/lib/axios'
-import type User from '@/dataTypes/User'
+import type User from '@/features/user/types/user'
 
 const UserWithDetailsCtx = createContext<SWRResponse>({} as SWRResponse)
 

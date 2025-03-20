@@ -1,6 +1,6 @@
 // types
 import type { BoxProps } from '@mui/material/Box'
-import type User from '@/dataTypes/User'
+import type User from '@/features/user/types/user'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'

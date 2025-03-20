@@ -6,7 +6,7 @@ import type { Installment } from './Installment'
 import type ProductMovementType from './ProductMovement'
 import type ProductMovementDetail from './ProductMovementDetail'
 import type { Transaction } from './Transaction'
-import type UserType from './User'
+import type UserType from '../features/user/types/user'
 
 export type ProductSale =
     | ProductSaleCashType

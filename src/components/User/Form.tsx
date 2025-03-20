@@ -1,6 +1,6 @@
 // types
 import type { UUID } from 'crypto'
-import type User from '@/dataTypes/User'
+import type User from '@/features/user/types/user'
 // vendors
 import { type ChangeEvent, type MouseEventHandler, useState } from 'react'
 import { mutate } from 'swr'

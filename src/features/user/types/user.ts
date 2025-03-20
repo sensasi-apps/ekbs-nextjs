@@ -1,8 +1,9 @@
-import type { Employee } from '@/@types/Data/Employee'
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
-import type { Installment } from './Installment'
-import type UserSocial from './user-social'
+import type { Installment } from '@/dataTypes/Installment'
+// features
+import type Employee from '@/features/user/types/employee'
+import type UserSocial from '@/features/user/types/user-social'
 
 export default interface User {
     id: number

@@ -17,7 +17,7 @@ import TextField from '@/components/TextField'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 // providers
 import useFormData from '@/providers/useFormData'
-import type UserType from '@/dataTypes/User'
+import type UserType from '@/features/user/types/user'
 import SpbNoInput from './MainInputs/SpbNoInput'
 import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
 //libs

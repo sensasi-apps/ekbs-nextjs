@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type User from './User'
+import type User from '../features/user/types/user'
 import type PalmBunchType from './PalmBunch'
 import type ActivityLogType from './ActivityLog'
 import type { PalmBunchesReaTicket } from './PalmBunchReaTicket'

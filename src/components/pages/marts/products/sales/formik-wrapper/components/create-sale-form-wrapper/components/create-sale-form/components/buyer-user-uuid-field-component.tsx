@@ -22,7 +22,7 @@ import IconButton from '@mui/material/IconButton'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
 //
-import type User from '@/dataTypes/User'
+import type User from '@/features/user/types/user'
 import type { FormikStatusType } from '../../../../..'
 import TextField from '@/components/TextField'
 // icons
