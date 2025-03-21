@@ -1,4 +1,4 @@
-import type { AuthInfo } from '@/@types/Data/auth-info'
+import type AuthInfo from '@/features/user--auth/types/auth-info'
 import Role from '@/enums/Role'
 
 export default function userHasPermission(

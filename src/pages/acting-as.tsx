@@ -1,5 +1,5 @@
 // types
-import type { AuthInfo } from '@/@types/Data/auth-info'
+import type AuthInfo from '@/features/user--auth/types/auth-info'
 // vendors
 import { useState } from 'react'
 // components
