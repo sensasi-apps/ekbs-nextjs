@@ -1,4 +1,4 @@
-import TransactionTag from '@/enums/TransactionTag'
+import TransactionTag from '@/features/transaction/enums/transaction-tag'
 
 /**
  * DON'T FORGET TO SYNC WITH {@link TransactionTag | `TransactionTag`}
@@ -27,7 +27,7 @@ const txAccounts: {
         // TransactionTag.BEBAN_JASA_PENGAWAS,
         // TransactionTag.BEBAN_JASA_PENDIRI,
         // TransactionTag.BEBAN_GAJI_PENGELOLA,
-        // TransactionTag.BEBAN_LAIN_LAIN,
+        TransactionTag.BEBAN_LAIN_LAIN,
         TransactionTag.BEBAN_ADMINISTRASI,
 
         // farm input costs

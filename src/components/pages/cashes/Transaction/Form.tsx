@@ -43,7 +43,7 @@ import UserActivityLogs from '@/components/UserActivityLogs'
 import useAuth from '@/providers/Auth'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import txAccounts from './Form/txAccounts'
+import txAccounts from '../../../../features/transaction/statics/tx-accounts'
 import handle422 from '@/utils/errorCatcher'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import shortUuid from '@/utils/uuidToShort'

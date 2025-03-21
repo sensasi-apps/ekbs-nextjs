@@ -2,7 +2,7 @@
 import { Field, type FieldProps } from 'formik'
 import Autocomplete from '@mui/material/Autocomplete'
 // components
-import txAccounts from '@/components/pages/cashes/Transaction/Form/txAccounts'
+import txAccounts from '@/features/transaction/statics/tx-accounts'
 import TextField from '@/components/TextField'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'

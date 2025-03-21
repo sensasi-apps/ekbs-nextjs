@@ -39,7 +39,7 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 // import useAuth from '@/providers/Auth'
 // utils
 // import errorCatcher from '@/utils/errorCatcher'
-import TransactionTag from '@/enums/TransactionTag'
+import TransactionTag from '@/features/transaction/enums/transaction-tag'
 import getUnitTxTags from '@/utils/getUnitTxTags'
 import BusinessUnit from '@/enums/BusinessUnit'
 
