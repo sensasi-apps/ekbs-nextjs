@@ -1,5 +1,5 @@
 // types
-import type { AuthInfo } from '@/@types/Data/auth-info'
+import type AuthInfo from '@/features/user--auth/types/auth-info'
 import type Role from '@/enums/Role'
 // vendors
 import {
@@ -18,7 +18,7 @@ import { getCurrentAuthInfo } from './Auth/functions/getCurrentAuthInfo'
 
 interface AuthContextType {
     /**
-     * `undefined` mean user data is not retrived yet
+     * `undefined` mean user data is not retrieved yet
      *
      * @default undefined
      */

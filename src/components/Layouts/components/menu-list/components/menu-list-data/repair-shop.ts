@@ -1,4 +1,4 @@
-import type { NavItemGroup } from '../@types/nav-item-group'
+import type NavItemGroup from '../types/nav-item-group'
 // icons
 import TopicIcon from '@mui/icons-material/Topic'
 // enums

@@ -1,5 +1,5 @@
 // types
-import type { NavItemGroup } from '../@types/nav-item-group'
+import type NavItemGroup from '../types/nav-item-group'
 // icons-materials
 import Biotech from '@mui/icons-material/Biotech'
 import Group from '@mui/icons-material/Group'

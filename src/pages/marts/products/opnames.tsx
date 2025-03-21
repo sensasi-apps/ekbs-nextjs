@@ -16,7 +16,7 @@ import Datatable, {
 import Fab from '@/components/Fab'
 // layouts
 import type { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
-import type { ProductMovementOpname } from '@/@types/Data/Mart/Product/MovementOpname'
+import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
 import Mart from '@/enums/permissions/Mart'

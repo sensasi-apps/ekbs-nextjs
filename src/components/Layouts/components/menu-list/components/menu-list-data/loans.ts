@@ -1,5 +1,5 @@
 // types
-import type { NavItemGroup } from '../@types/nav-item-group'
+import type NavItemGroup from '../types/nav-item-group'
 // icons-materials
 import AutoStories from '@mui/icons-material/AutoStories'
 import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'

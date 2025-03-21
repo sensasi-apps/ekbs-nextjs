@@ -1,5 +1,5 @@
 import type Role from '@/enums/Role'
-import type { Permission } from '@/@types/permission'
+import type { Permission } from '@/components/Layouts/components/menu-list/components/types/permission'
 import type { ElementType } from 'react'
 
 interface NavItem {
@@ -11,7 +11,7 @@ interface NavItem {
     forPermission?: Permission | Permission[]
 }
 
-export interface NavItemGroup {
+export default interface NavItemGroup {
     label?: string
     items: NavItem[]
 }

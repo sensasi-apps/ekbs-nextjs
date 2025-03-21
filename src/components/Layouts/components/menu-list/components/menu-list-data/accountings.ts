@@ -1,5 +1,5 @@
 // types
-import type { NavItemGroup } from '../@types/nav-item-group'
+import type NavItemGroup from '../types/nav-item-group'
 // icons-materials
 import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet'
 import AutoStories from '@mui/icons-material/AutoStories'

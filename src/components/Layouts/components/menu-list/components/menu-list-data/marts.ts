@@ -1,5 +1,5 @@
 // types
-import type { NavItemGroup } from '../@types/nav-item-group'
+import type NavItemGroup from '../types/nav-item-group'
 // icons-materials
 import AllInbox from '@mui/icons-material/AllInbox'
 import Inventory from '@mui/icons-material/Inventory'

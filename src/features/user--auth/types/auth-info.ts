@@ -1,6 +1,6 @@
 import type User from '@/features/user/types/user'
 
-export interface AuthInfo {
+export default interface AuthInfo {
     id: User['id']
     uuid: User['uuid']
     name: User['name']
