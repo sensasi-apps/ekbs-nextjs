@@ -1,5 +1,5 @@
 // types
-import type { NavItemGroup } from './@types/nav-item-group'
+import type NavItemGroup from './types/nav-item-group'
 // vendors
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
