@@ -8,8 +8,6 @@ export default interface SparePart {
     note: string
 
     vehicle_type: VehicleType.CAR | VehicleType.MOTORCYCLE
-    low_number: number | null
-    margin_percent: number
 
     created_at: string
     updated_at: string
@@ -31,6 +29,7 @@ interface SparePartWarehouse {
     warehouse: string
     qty: number
     base_rp_per_unit: number
+    default_sell_price: number
     low_number: number | null
     margin_percent: number | null
 }

@@ -1,6 +1,7 @@
 import type NavItemGroup from '../types/nav-item-group'
 // icons
 import TopicIcon from '@mui/icons-material/Topic'
+import CartIcon from '@mui/icons-material/ShoppingCart'
 // enums
 import SparePartPermission from '@/features/repair-shop--spare-part/enums/permission'
 import ServicePermission from '@/features/repair-shop--service/enums/permission'
@@ -31,6 +32,13 @@ export const repairShop: NavItemGroup = {
             label: 'Layanan',
             href: '/repair-shop/services',
             icon: TopicIcon,
+            forPermission: ServicePermission.READ,
+        },
+
+        {
+            label: 'Pembelian Stok',
+            href: '/repair-shop/spare-part-purchases',
+            icon: CartIcon,
             forPermission: ServicePermission.READ,
         },
 
