@@ -49,7 +49,7 @@ export default function Page() {
             <Datatable<SparePart>
                 apiUrl="repair-shop/spare-parts/datatable"
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'id', direction: 'desc' }}
+                defaultSortOrder={{ name: 'name', direction: 'asc' }}
                 getRowDataCallback={fn => {
                     _getRowDataRef.current = fn
                     getRowDataRef = _getRowDataRef
@@ -125,28 +125,57 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         },
     },
     {
-        name: 'general_base_rp_per_unit',
-        label: 'HPP (Rp)',
+        name: 'note',
+        label: 'Catatan',
+    },
+    {
+        name: 'id',
+        label: 'Total QTY',
         options: {
-            customBodyRender: (value: number) => formatNumber(value),
+            customBodyRender: (_, rowIndex) => {
+                const totalQty =
+                    getRowDataRef
+                        .current?.(rowIndex)
+                        ?.warehouses?.reduce((acc, { qty }) => acc + qty, 0) ??
+                    0
+
+                return formatNumber(totalQty, { maximumFractionDigits: 0 })
+            },
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'margin_percent_final',
+        name: 'warehouses.base_rp_per_unit',
+        label: 'HPP',
+        options: {
+            customBodyRender: (_, rowIndex) => {
+                const baseRpPerUnit =
+                    getRowDataRef.current?.(rowIndex)?.warehouses[0]
+                        .base_rp_per_unit ?? 0
+
+                return formatNumber(baseRpPerUnit)
+            },
+            searchable: false,
+            sort: false,
+        },
+    },
+    {
+        name: 'warehouses.margin_percent',
         label: 'Harga Jual',
         options: {
-            customBodyRender: (value: number, dataIndex) => {
-                const general_base_rp_per_unit =
-                    getRowDataRef.current?.(dataIndex)?.general_base_rp_per_unit
+            customBodyRender: (_, rowIndex) => {
+                const data = getRowDataRef.current?.(rowIndex)
 
-                if (!general_base_rp_per_unit) return '-'
+                if (!data) return '-'
 
                 return (
                     <>
-                        {general_base_rp_per_unit * (1 + value / 100)}
-                        <Chip label={value} size="small" />
+                        <Chip
+                            label={data.warehouses[0].margin_percent + '%'}
+                            size="small"
+                        />{' '}
+                        {formatNumber(data.warehouses[0].default_sell_price)}
                     </>
                 )
             },
