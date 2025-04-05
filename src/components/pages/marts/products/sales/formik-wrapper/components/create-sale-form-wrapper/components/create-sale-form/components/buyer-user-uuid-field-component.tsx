@@ -27,7 +27,6 @@ import type { FormikStatusType } from '../../../../..'
 import TextField from '@/components/TextField'
 // icons
 import { List, type ListRowProps } from 'react-virtualized'
-import ApiUrl from '../../../../../../@enums/api-url'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 
 type UserSelectItemData = {
@@ -97,7 +96,7 @@ function VirtualizedAutocomplete({
     error: string | undefined
 }) {
     const { data: users = [] } = useSWR<UserSelectItemData[]>(
-        ApiUrl.USERS,
+        'marts/products/sales/users',
         null,
         {
             keepPreviousData: true,

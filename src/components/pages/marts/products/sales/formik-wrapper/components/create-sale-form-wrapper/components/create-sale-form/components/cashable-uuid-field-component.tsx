@@ -4,12 +4,10 @@ import { memo } from 'react'
 import useSWR from 'swr'
 // materials
 import FormHelperText from '@mui/material/FormHelperText'
-//
+// components
+import { type FormikStatusType } from '../../../../..'
 import ChipSmall from '@/components/ChipSmall'
 import ScrollableXBox from '@/components/ScrollableXBox'
-import type CashType from '@/dataTypes/Cash'
-import ApiUrl from '../../../../../../@enums/api-url'
-import { type FormikStatusType } from '../../../../..'
 
 function CashableUuidFieldComponent({
     field: { name: fieldName, value },
@@ -18,7 +16,12 @@ function CashableUuidFieldComponent({
     const typedStatus = status as FormikStatusType
 
     const { error } = getFieldMeta(fieldName)
-    const { data: cashes } = useSWR<CashType[]>(ApiUrl.CASHES, null, {
+    const { data: cashes } = useSWR<
+        {
+            uuid: string
+            name: string
+        }[]
+    >('marts/products/sales/cashes', null, {
         keepPreviousData: true,
     })
 

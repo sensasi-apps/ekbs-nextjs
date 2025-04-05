@@ -17,7 +17,6 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import DateTimePicker from '@/components/DateTimePicker'
 import IconButton from '@/components/IconButton'
 // utils
-import ApiUrl from '../../@enums/api-url'
 import formatNumber from '@/utils/formatNumber'
 import PrintHandler from '@/components/PrintHandler'
 
@@ -40,7 +39,7 @@ export default function BalanceInSummary() {
     } = useSWR<BalanceInSummaryRow[]>(
         isParamsValid
             ? [
-                  ApiUrl.BALANCE_IN_SUMMARY,
+                  'marts/products/sales/balance-in-summary',
                   {
                       from_at: fromAt?.format('YYYY-MM-DD HH:mm'),
                       to_at: toAt?.format('YYYY-MM-DD HH:mm'),

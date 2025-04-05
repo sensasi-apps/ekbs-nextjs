@@ -7,7 +7,6 @@ import DefaultDatatable, {
 } from '@/components/Datatable'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
-import ApiUrl from '../../@enums/api-url'
 import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../../@shared-subcomponents/receipt'
 
@@ -16,7 +15,7 @@ let getRowData: GetRowDataType<ProductMovementWithSale>
 export default function Datatable() {
     return (
         <DefaultDatatable
-            apiUrl={ApiUrl.DATATABLE}
+            apiUrl="marts/products/sales/datatable"
             columns={DATATABLE_COLUMNS}
             defaultSortOrder={DEFAULT_SORT_ORDER}
             tableId="mart-sales-table"
