@@ -21,7 +21,6 @@ import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 // utils
 import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
-import ApiUrl from '../../@enums/api-url'
 import formatNumber from '@/utils/formatNumber'
 import toDmy from '@/utils/toDmy'
 import { aoaToXlsx } from '@/functions/aoaToXlsx'
@@ -50,7 +49,7 @@ export default function SalesReport() {
     } = useSWR<ProductMovementWithSale[]>(
         isParamsValid
             ? [
-                  ApiUrl.SALES_REPORT,
+                  'marts/products/sales/report',
                   {
                       from_at: fromAtQuery,
                       to_at: toAtQuery,
