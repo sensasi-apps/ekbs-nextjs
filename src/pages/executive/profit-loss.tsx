@@ -185,7 +185,10 @@ export default function ProfitLoss() {
                             },
                         ]}
                         footer={{
-                            incomes: [...(belayanMart?.sales ?? [])],
+                            incomes: [
+                                ...(belayanMart?.sales ?? []),
+                                ...(belayanMart?.other_incomes ?? []),
+                            ],
                             outcomes: [
                                 ...(belayanMart?.outcomes ?? []),
                                 ...(belayanMart?.hpp ?? []),
@@ -250,7 +253,10 @@ export default function ProfitLoss() {
                             },
                         ]}
                         footer={{
-                            incomes: [...(farmInput?.sales ?? [])],
+                            incomes: [
+                                ...(farmInput?.sales ?? []),
+                                ...(farmInput?.other_incomes ?? []),
+                            ],
                             outcomes: [
                                 ...(farmInput?.outcomes ?? []),
                                 ...(farmInput?.hpp ?? []),
