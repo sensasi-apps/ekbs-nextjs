@@ -2,18 +2,11 @@
 // import { useRef, useState } from 'react'
 import Link from 'next/link'
 // components
-import Datatable, {
-    type DatatableProps,
-    // type GetRowDataType,
-    // type MutateType,
-} from '@/components/Datatable'
+import Datatable, { type DatatableProps } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-// utils
-// import formatNumber from '@/utils/formatNumber'
 // features
-import type Sale from '@/features/repair-shop--sale/types/sale'
-import Endpoint from '@/features/repair-shop--sale/enums/endpoint'
+import type { Sale } from '@/features/repair-shop--sale/types/sale'
 import TextShortener from '@/components/text-shortener'
 
 export default function Page() {
@@ -22,7 +15,7 @@ export default function Page() {
             <Fab href="sales/create" component={Link} />
 
             <Datatable<Sale>
-                apiUrl={Endpoint.DATATABLE}
+                apiUrl="repair-shop/sales/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
                 // getRowDataCallback={fn => {
