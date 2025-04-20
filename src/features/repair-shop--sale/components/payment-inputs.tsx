@@ -142,47 +142,17 @@ export default function PaymentInput({
                 <>
                     <RpAdjustmentField isDisabled={isDisabled} />
                     <TotalRpText />
-                    <CashPicker isDisabled={isDisabled} />
+                    <CashPicker name="cash_uuid" isDisabled={isDisabled} />
                 </>
             )}
 
             {values.payment_method === 'business-unit' && (
                 <>
                     <TotalRpText />
-
-                    <Field name="business_unit_cash_uuid">
-                        {({
-                            field: { name, value, onBlur, onChange },
-                            meta: { error },
-                        }: FieldProps) => {
-                            return (
-                                <SelectFromApi
-                                    required
-                                    disabled={isDisabled}
-                                    endpoint="/data/business-unit-cashes"
-                                    label="Unit Bisnis"
-                                    size="small"
-                                    margin="dense"
-                                    selectProps={{
-                                        value: value ?? '',
-                                        name: name,
-                                        onBlur: onBlur,
-                                    }}
-                                    renderOption={(
-                                        buCash: BusinessUnitCash,
-                                    ) => (
-                                        <MenuItem
-                                            key={buCash.uuid}
-                                            value={buCash.uuid}>
-                                            {buCash.business_unit?.name}
-                                        </MenuItem>
-                                    )}
-                                    onChange={onChange}
-                                    {...errorsToHelperTextObj(error)}
-                                />
-                            )
-                        }}
-                    </Field>
+                    <BuCashPicker
+                        name="business_unit_cash_uuid"
+                        isDisabled={isDisabled}
+                    />
                 </>
             )}
 
@@ -275,10 +245,20 @@ export default function PaymentInput({
     )
 }
 
-function CashPicker({ isDisabled }: { isDisabled: boolean }) {
+function CashPicker({
+    name,
+    isDisabled,
+}: {
+    name: string
+    isDisabled: boolean
+}) {
     return (
-        <Field name="cash_uuid">
-            {({ form: { values, setFieldValue } }: FieldProps) => {
+        <Field name={name}>
+            {({
+                field: { value },
+                form: { setFieldValue },
+                meta: { error },
+            }: FieldProps) => {
                 return (
                     <SelectFromApi
                         disabled={isDisabled}
@@ -289,12 +269,13 @@ function CashPicker({ isDisabled }: { isDisabled: boolean }) {
                         size="small"
                         margin="dense"
                         selectProps={{
-                            name: 'cash_uuid',
-                            value: values.cash_uuid ?? '',
+                            name: name,
+                            value: value ?? '',
                         }}
                         onValueChange={(value: CashType) =>
-                            setFieldValue('cash_uuid', value.uuid)
+                            setFieldValue(name, value.uuid)
                         }
+                        {...errorsToHelperTextObj(error)}
                     />
                 )
             }}
@@ -399,5 +380,47 @@ function TotalRpText() {
                 {numberToCurrency(totalRp)}
             </Typography>
         </Box>
+    )
+}
+
+function BuCashPicker({
+    name,
+    isDisabled,
+}: {
+    name: string
+    isDisabled: boolean
+}) {
+    return (
+        <Field name={name}>
+            {({
+                field: { value },
+                form: { setFieldValue },
+                meta: { error },
+            }: FieldProps) => {
+                return (
+                    <SelectFromApi
+                        required
+                        disabled={isDisabled}
+                        endpoint="/data/business-unit-cashes"
+                        label="Unit Bisnis"
+                        size="small"
+                        margin="dense"
+                        selectProps={{
+                            value: value ?? '',
+                            name: name,
+                        }}
+                        renderOption={(buCash: BusinessUnitCash) => (
+                            <MenuItem key={buCash.uuid} value={buCash.uuid}>
+                                {buCash.business_unit?.name}
+                            </MenuItem>
+                        )}
+                        onValueChange={(value: CashType) =>
+                            setFieldValue(name, value.uuid)
+                        }
+                        {...errorsToHelperTextObj(error)}
+                    />
+                )
+            }}
+        </Field>
     )
 }
