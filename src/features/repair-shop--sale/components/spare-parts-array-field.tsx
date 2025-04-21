@@ -21,6 +21,7 @@ import { NumericField } from '@/components/FormikForm'
 import RemoveButton from '@/components/remove-button'
 // features
 import type { FormData } from '@/features/repair-shop--sale/components/sale-form-dialog'
+import type SparePart from '@/features/repair-shop--spare-part/types/spare-part'
 
 export default function SparePartsArrayField({
     name,
@@ -30,7 +31,7 @@ export default function SparePartsArrayField({
     isDisabled: boolean
 }) {
     const {
-        values: { spare_parts },
+        values: { uuid, spare_parts },
     } = useFormikContext<FormData>()
 
     return (
@@ -43,10 +44,12 @@ export default function SparePartsArrayField({
                                 Suku Cadang
                             </Typography>
 
-                            <AddItemButton
-                                isDisabled={isDisabled}
-                                push={push}
-                            />
+                            {!uuid && (
+                                <AddItemButton
+                                    isDisabled={isDisabled}
+                                    push={push}
+                                />
+                            )}
                         </Box>
 
                         {spare_parts?.map((row, index) => (
@@ -62,7 +65,8 @@ export default function SparePartsArrayField({
                                     remove={remove}
                                     isDisabled={isDisabled}
                                     showDelete={
-                                        index === spare_parts.length - 1
+                                        index === spare_parts.length - 1 &&
+                                        !uuid
                                     }
                                 />
 
@@ -85,6 +89,7 @@ export default function SparePartsArrayField({
                                             selected?.default_sell_price,
                                         )
                                     }}
+                                    state={row.spare_part_state}
                                 />
 
                                 <PriceInput
@@ -161,18 +166,20 @@ type SparePartForSale = {
 
 function SparePartInput({
     name,
+    state,
     isDisabled,
     onChange,
 }: {
     name: string
     isDisabled: boolean
+    state: SparePart | undefined
     onChange: (
         event: React.SyntheticEvent,
         selected: SparePartForSale | null,
     ) => void
 }) {
     const { data: spareParts = [], isLoading } = useSWR<SparePartForSale[]>(
-        'repair-shop/sales/get-spare-part-warehouses',
+        !state ? 'repair-shop/sales/get-spare-part-warehouses' : null,
         null,
         {
             keepPreviousData: false,
@@ -185,48 +192,58 @@ function SparePartInput({
                 xs: 12,
                 sm: 4.5,
             }}>
-            {isLoading && <Skeleton variant="rounded" />}
+            {state ? (
+                `${state.id} — ${state.name}`
+            ) : (
+                <>
+                    {isLoading && <Skeleton variant="rounded" />}
+                    {!isLoading && (
+                        <Field name={name}>
+                            {({
+                                field,
+                                meta: { error },
+                            }: FieldProps<number, FormData>) => {
+                                const selectedValue =
+                                    spareParts.find(
+                                        sparePart =>
+                                            sparePart.spare_part_warehouse_id ===
+                                            field.value,
+                                    ) ?? null
 
-            {!isLoading && (
-                <Field name={name}>
-                    {({ field, meta: { error } }: FieldProps) => {
-                        const value =
-                            spareParts.find(
-                                sparePart =>
-                                    sparePart.spare_part_id == field.value,
-                            ) ?? null
-
-                        return (
-                            <Autocomplete
-                                isOptionEqualToValue={(option, value) =>
-                                    option.spare_part_id === value.spare_part_id
-                                }
-                                id={field.name}
-                                value={value}
-                                options={spareParts}
-                                getOptionDisabled={sparePart =>
-                                    sparePart.qty <= 0
-                                }
-                                disabled={isDisabled}
-                                getOptionLabel={sparePart =>
-                                    `${sparePart.spare_part_id} — ${sparePart.name}`
-                                }
-                                onChange={onChange}
-                                renderInput={params => (
-                                    <MuiTextField
-                                        {...params}
-                                        required
-                                        label="Suku Cadang"
-                                        size="small"
-                                        margin="none"
-                                        error={Boolean(error)}
-                                        helperText={error}
+                                return (
+                                    <Autocomplete
+                                        isOptionEqualToValue={(option, value) =>
+                                            option.spare_part_warehouse_id ===
+                                            value.spare_part_id
+                                        }
+                                        id={field.name}
+                                        value={selectedValue}
+                                        options={spareParts}
+                                        getOptionDisabled={sparePart =>
+                                            sparePart.qty <= 0
+                                        }
+                                        disabled={isDisabled}
+                                        getOptionLabel={sparePart =>
+                                            `${sparePart.spare_part_id} — ${sparePart.name}`
+                                        }
+                                        onChange={onChange}
+                                        renderInput={params => (
+                                            <MuiTextField
+                                                {...params}
+                                                required
+                                                label="Suku Cadang"
+                                                size="small"
+                                                margin="none"
+                                                error={Boolean(error)}
+                                                helperText={error}
+                                            />
+                                        )}
                                     />
-                                )}
-                            />
-                        )
-                    }}
-                </Field>
+                                )
+                            }}
+                        </Field>
+                    )}
+                </>
             )}
         </Grid2>
     )

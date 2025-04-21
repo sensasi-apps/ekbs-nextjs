@@ -1,15 +1,28 @@
 // vendors
-// import { useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useRef } from 'react'
 import Link from 'next/link'
 // components
-import Datatable, { type DatatableProps } from '@/components/Datatable'
+import Datatable, {
+    type DatatableProps,
+    type GetRowDataType,
+} from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 // features
 import type { Sale } from '@/features/repair-shop--sale/types/sale'
 import TextShortener from '@/components/text-shortener'
+import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/toDmy'
+
+// const getRowDataRef: {
+//     current?: (dataIndex: number) => Sale
+// }
 
 export default function Page() {
+    const { replace } = useRouter()
+    const getRowDataRef = useRef<GetRowDataType<Sale>>()
+
     return (
         <AuthLayout title="Penjualan">
             <Fab href="sales/create" component={Link} />
@@ -18,34 +31,16 @@ export default function Page() {
                 apiUrl="repair-shop/sales/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
-                // getRowDataCallback={fn => {
-                //     getRowDataRef.current = fn
-                // }}
-                // mutateCallback={mutate => (mutateRef.current = mutate)}
-                // onRowClick={(_, { dataIndex }, event) => {
-                //     if (event.detail === 2) {
-                //         const data = getRowDataRef.current?.(dataIndex)
+                getRowDataCallback={fn => {
+                    getRowDataRef.current = fn
+                }}
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data = getRowDataRef.current?.(dataIndex)
 
-                //         if (data) {
-                //             setFormData(data)
-                //         }
-                //     }
-                // }}
-                // setRowProps={(_, dataIndex) => {
-                //     const isDeleted =
-                //         getRowDataRef.current?.(dataIndex)?.deleted_at
-
-                //     if (!isDeleted) return {}
-
-                //     return {
-                //         sx: {
-                //             '& td': {
-                //                 textDecoration: 'line-through',
-                //                 color: 'gray',
-                //             },
-                //         },
-                //     }
-                // }}
+                        replace(`sales/${data?.uuid}`)
+                    }
+                }}
                 title="Riwayat"
                 tableId="sales-datatable"
             />
@@ -62,5 +57,57 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
                 return <TextShortener text={value} />
             },
         },
+    },
+    {
+        name: 'at',
+        label: 'TGL',
+        options: {
+            customBodyRender(value: string) {
+                return toDmy(value)
+            },
+        },
+    },
+    {
+        name: 'customer.name',
+        label: 'Pelanggan',
+    },
+    {
+        name: 'total_rp',
+        label: 'Total (Rp)',
+        options: {
+            customBodyRender(value: number) {
+                return formatNumber(value)
+            },
+        },
+    },
+    {
+        name: 'payment_method',
+        label: 'Metode Pembayaran',
+        options: {
+            customBodyRender(value: Sale['payment_method']) {
+                if (value === 'cash') return 'Tunai'
+                if (value === 'business-unit') return 'Unit Bisnis'
+                if (value === 'installment') return 'Angsuran'
+
+                return value
+            },
+        },
+    },
+    {
+        name: 'note',
+        label: 'catatan',
+        options: {
+            display: 'excluded',
+            sort: false,
+        },
+    },
+    {
+        name: '',
+        label: 'Kwitansi',
+        // options: {
+        //     customBodyRender(value: number) {
+        //         return formatNumber(value)
+        //     },
+        // },
     },
 ]

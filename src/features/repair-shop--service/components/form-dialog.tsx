@@ -36,7 +36,8 @@ export default function ServiceFormDialog({
                         const request = isNew ? myAxios.post : myAxios.put
 
                         return request(
-                            `repair-shop/services/` + (formData?.id ?? ''),
+                            `repair-shop/services` +
+                                (formData?.id ? '/' + formData?.id : ''),
                             values,
                         )
                             .then(resetForm)
