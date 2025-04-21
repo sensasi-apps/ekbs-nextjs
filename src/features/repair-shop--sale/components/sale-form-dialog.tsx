@@ -2,7 +2,6 @@
 import { type FormikProps, Formik, useFormikContext } from 'formik'
 // materials
 import Box from '@mui/material/Box'
-import Container from '@mui/material/Container'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -18,6 +17,7 @@ import PaymentInputs from './payment-inputs'
 import SparePartsArrayField from '@/features/repair-shop--sale/components/spare-parts-array-field'
 import ServicesArrayField from './services-array-field'
 // utils
+import type Service from '@/features/repair-shop--service/types/service'
 import type SparePart from '@/features/repair-shop--spare-part/types/spare-part'
 import numberToCurrency from '@/utils/numberToCurrency'
 
@@ -44,14 +44,14 @@ export type FormData = Partial<{
     business_unit_cash_uuid: string
 
     spare_parts: Partial<{
-        state?: SparePart // if defined, it's an existing sale
+        spare_part_state?: SparePart // if defined, it's an existing sale
         spare_part_warehouse_id: number
         qty: number
         rp_per_unit: number
     }>[]
 
     services: Partial<{
-        state?: SparePart // if defined, it's an existing sale
+        state?: Service // if defined, it's an existing sale
         service_id: string
         rp: number
     }>[]
@@ -67,37 +67,51 @@ export default function SaleFormDialog({
     const isNew = !formData?.uuid
 
     return (
-        <Dialog open fullScreen disablePortal>
-            <Container>
-                <DialogTitle>
-                    {isNew ? 'Tambah' : 'Rincian'} Data Penjualan
-                </DialogTitle>
+        <Dialog open fullScreen disablePortal maxWidth="md">
+            <DialogTitle
+                sx={{
+                    px: {
+                        sm: undefined,
+                        md: 12,
+                    },
+                }}>
+                {isNew ? 'Tambah' : 'Rincian'} Data Penjualan
+            </DialogTitle>
 
-                <DialogContent>
-                    <Formik<FormData>
-                        validateOnChange={false}
-                        initialValues={formData ?? {}}
-                        onSubmit={(values, { setErrors, resetForm }) =>
-                            myAxios
-                                .post('repair-shop/sales', values)
-                                .then(resetForm)
-                                .catch(error => handle422(error, setErrors))
-                        }
-                        onReset={handleClose}
-                        component={SaleFormikForm}
-                    />
-                </DialogContent>
-            </Container>
+            <DialogContent
+                sx={{
+                    px: {
+                        sm: undefined,
+                        md: 12,
+                    },
+                }}>
+                <Formik<FormData>
+                    validateOnChange={false}
+                    initialStatus={{
+                        isDisabled: !isNew,
+                    }}
+                    initialValues={formData ?? {}}
+                    onSubmit={(values, { setErrors, resetForm }) =>
+                        myAxios
+                            .post('repair-shop/sales', values)
+                            .then(resetForm)
+                            .catch(error => handle422(error, setErrors))
+                    }
+                    onReset={handleClose}
+                    component={SaleFormikForm}
+                />
+            </DialogContent>
         </Dialog>
     )
 }
 
 export function SaleFormikForm({
+    status,
     dirty,
     isSubmitting,
     values,
 }: FormikProps<FormData>) {
-    const isDisabled = isSubmitting
+    const isDisabled = isSubmitting || status?.isDisabled
 
     return (
         <FormikForm

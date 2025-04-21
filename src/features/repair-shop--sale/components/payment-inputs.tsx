@@ -27,6 +27,7 @@ import type BusinessUnitCash from '@/dataTypes/BusinessUnitCash'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import ScrollableXBox from '@/components/ScrollableXBox'
 
 interface CashOption {
     value: 'cash' | 'business-unit' | 'installment'
@@ -77,7 +78,7 @@ export default function PaymentInput({
                                 {label}*
                             </Typography>
 
-                            <Box display="flex" gap={2} mb={3}>
+                            <ScrollableXBox mb={3}>
                                 {CASH_SELECT_OPTIONS.map(
                                     ({ value: optionValue, ...rest }) => (
                                         <Chip
@@ -126,7 +127,7 @@ export default function PaymentInput({
                                         />
                                     ),
                                 )}
-                            </Box>
+                            </ScrollableXBox>
 
                             {errors.payment_method && (
                                 <FormHelperText error>
