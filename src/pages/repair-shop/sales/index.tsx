@@ -14,14 +14,16 @@ import type { Sale } from '@/features/repair-shop--sale/types/sale'
 import TextShortener from '@/components/text-shortener'
 import formatNumber from '@/utils/formatNumber'
 import toDmy from '@/utils/toDmy'
+import PrintHandler from '@/components/PrintHandler'
+import Receipt from '@/features/repair-shop--sale/components/receipt'
 
-// const getRowDataRef: {
-//     current?: (dataIndex: number) => Sale
-// }
+let getRowDataRef: {
+    current?: GetRowDataType<Sale>
+}
 
 export default function Page() {
     const { replace } = useRouter()
-    const getRowDataRef = useRef<GetRowDataType<Sale>>()
+    getRowDataRef = useRef<GetRowDataType<Sale>>()
 
     return (
         <AuthLayout title="Penjualan">
@@ -72,7 +74,7 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
         label: 'Pelanggan',
     },
     {
-        name: 'total_rp',
+        name: 'final_rp',
         label: 'Total (Rp)',
         options: {
             customBodyRender(value: number) {
@@ -104,10 +106,18 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
     {
         name: '',
         label: 'Kwitansi',
-        // options: {
-        //     customBodyRender(value: number) {
-        //         return formatNumber(value)
-        //     },
-        // },
+        options: {
+            customBodyRender(_, rowIndex) {
+                const data = getRowDataRef.current?.(rowIndex)
+
+                if (!data) return null
+
+                return (
+                    <PrintHandler>
+                        <Receipt data={data} />
+                    </PrintHandler>
+                )
+            },
+        },
     },
 ]
