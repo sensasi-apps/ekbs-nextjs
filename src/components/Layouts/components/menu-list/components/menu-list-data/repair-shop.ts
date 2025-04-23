@@ -2,9 +2,12 @@ import type NavItemGroup from '../types/nav-item-group'
 // icons
 import TopicIcon from '@mui/icons-material/Topic'
 import CartIcon from '@mui/icons-material/ShoppingCart'
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 // enums
+import PurchasePermission from '@/features/repair-shop--purchase/enums/permission'
 import SparePartPermission from '@/features/repair-shop--spare-part/enums/permission'
 import ServicePermission from '@/features/repair-shop--service/enums/permission'
+import SalePermission from '@/features/repair-shop--sale/enums/permission'
 
 export const repairShop: NavItemGroup = {
     label: 'Belayan Spare Parts',
@@ -39,43 +42,14 @@ export const repairShop: NavItemGroup = {
             label: 'Pembelian Stok',
             href: '/repair-shop/spare-part-purchases',
             icon: CartIcon,
-            forPermission: ServicePermission.READ,
+            forPermission: PurchasePermission.READ,
         },
 
-        // {
-        //     label: 'Bobot TBS',
-        //     href: '/palm-bunches/reports/farmer-weights',
-        //     icon: FormatAlignJustify,
-        //     forPermission: PalmBunch.READ_STATISTIC,
-        // },
-        // {
-        //     href: '/palm-bunches/rates',
-        //     label: 'Harga TBS',
-        //     icon: Grass,
-        //     forRole: Role.PALM_BUNCH_MANAGER,
-        // },
-        // {
-        //     href: '/palm-bunches/delivery-rates',
-        //     label: 'Tarif Angkut',
-        //     icon: FireTruck,
-        //     forRole: Role.PALM_BUNCH_MANAGER,
-        // },
-        // {
-        //     href: '/palm-bunches/rea-tickets',
-        //     pathname: [
-        //         '/palm-bunches/rea-tickets',
-        //         '/palm-bunches/rea-tickets/export',
-        //         '/palm-bunches/rea-tickets/summary-per-user',
-        //     ],
-        //     label: 'Tiket REA',
-        //     icon: Balance,
-        //     forPermission: PalmBunch.READ_TICKET,
-        // },
-        // {
-        //     href: '/palm-bunches/rea-payments',
-        //     label: 'Pembayaran REA',
-        //     icon: PointOfSale,
-        //     forRole: Role.PALM_BUNCH_MANAGER,
-        // },
+        {
+            label: 'Penjualan',
+            href: '/repair-shop/sales',
+            icon: PointOfSaleIcon,
+            forPermission: SalePermission.READ,
+        },
     ],
 }
