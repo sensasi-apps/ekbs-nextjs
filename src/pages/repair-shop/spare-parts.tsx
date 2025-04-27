@@ -16,7 +16,9 @@ import formatNumber from '@/utils/formatNumber'
 // feature scope
 import type SparePart from '@/features/repair-shop--spare-part/types/spare-part'
 import type VehicleType from '@/features/repair-shop--spare-part/enums/vehicle-type'
-import SparePartFormDialog from '@/features/repair-shop--spare-part/components/form-dialog'
+import SparePartFormDialog, {
+    type FormData,
+} from '@/features/repair-shop--spare-part/components/form-dialog'
 
 let getRowDataRef: {
     current?: GetRowDataType<SparePart>
@@ -25,7 +27,7 @@ let getRowDataRef: {
 export default function Page() {
     const mutateRef = useRef<MutateType<SparePart>>()
     const _getRowDataRef = useRef<GetRowDataType<SparePart>>()
-    const [formData, setFormData] = useState<Partial<SparePart>>()
+    const [formData, setFormData] = useState<FormData>()
 
     return (
         <AuthLayout title="Data Suku Cadang">
@@ -60,7 +62,14 @@ export default function Page() {
                         const data = getRowDataRef.current?.(dataIndex)
 
                         if (data) {
-                            setFormData(data)
+                            setFormData({
+                                ...data,
+                                margin_percent:
+                                    data.warehouses[0].margin_percent,
+                                margin_percent_installment:
+                                    data.warehouses[0]
+                                        .installment_margin_percent,
+                            } satisfies Required<FormData>)
                         }
                     }
                 }}
