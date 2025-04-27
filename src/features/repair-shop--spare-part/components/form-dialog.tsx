@@ -3,6 +3,7 @@ import { Formik, type FormikProps } from 'formik'
 import { useState } from 'react'
 // materials
 import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -18,10 +19,25 @@ import myAxios from '@/lib/axios'
 // utils
 import handle422 from '@/utils/errorCatcher'
 import toDmy from '@/utils/toDmy'
-// feature scope
-import type SparePart from '../types/spare-part'
 
-type FormData = Partial<SparePart>
+export type FormData = Partial<{
+    id: number
+    code: string
+    name: string
+    unit: string
+
+    /**
+     * margin percent should be per warehouse not per spare part but it's ok for now
+     */
+    margin_percent: number
+
+    /**
+     * margin percent should be per warehouse not per spare part but it's ok for now
+     */
+    margin_percent_installment: number
+    vehicle_type: 'motorcycle' | 'car'
+    deleted_at: string
+}>
 
 export default function SparePartFormDialog({
     formData,
@@ -47,7 +63,8 @@ export default function SparePartFormDialog({
                         const request = isNew ? myAxios.post : myAxios.put
 
                         return request(
-                            `repair-shop/spare-parts/` + (formData?.id ?? ''),
+                            `repair-shop/spare-parts` +
+                                (formData?.id ? '/' + formData.id : ''),
                             values,
                         )
                             .then(resetForm)
@@ -141,22 +158,41 @@ function SparePartFormikForm({
                 }}
             />
 
-            <NumericField
-                name="margin_percent"
-                label="Margin"
-                disabled={isSubmitting}
-                numericFormatProps={{
-                    slotProps: {
-                        input: {
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    %
-                                </InputAdornment>
-                            ),
+            <Box display="flex" gap={1.5}>
+                <NumericField
+                    name="margin_percent"
+                    label="Marjin Default"
+                    disabled={isSubmitting}
+                    numericFormatProps={{
+                        slotProps: {
+                            input: {
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        %
+                                    </InputAdornment>
+                                ),
+                            },
                         },
-                    },
-                }}
-            />
+                    }}
+                />
+
+                <NumericField
+                    name="installment_margin_percent"
+                    label="Marjin Default Angsuran"
+                    disabled={isSubmitting}
+                    numericFormatProps={{
+                        slotProps: {
+                            input: {
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        %
+                                    </InputAdornment>
+                                ),
+                            },
+                        },
+                    }}
+                />
+            </Box>
 
             <TextField
                 name="note"
