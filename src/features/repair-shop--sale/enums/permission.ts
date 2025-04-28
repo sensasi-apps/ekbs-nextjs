@@ -1,8 +1,10 @@
+/**
+ * Make sure this is sync with {@link https://github.com/sensasi-apps/ekbs-laravel/blob/main/Modules/RepairShop/app/Enums/Permission.php|permission enum on backend}
+ */
 enum Permission {
-    READ = 'read repair shop sale',
-    CREATE = 'create repair shop sale',
-    UPDATE = 'update repair shop sale',
-    // DELETE = 'delete repair shop sale',
+    READ = '[repair shop] read sale',
+    CREATE = '[repair shop] create sale',
+    UPDATE = '[repair shop] update sale',
 }
 
 export default Permission

@@ -195,10 +195,11 @@ const ROLE_GROUPS = [
     'inventory',
     'mart',
     'system',
+    'repair shop',
 ]
 
 const ROLE_GROUPS_ID: {
-    [key: string]: string
+    [key: (typeof ROLE_GROUPS)[number]]: string
 } = {
     basic: 'identifikasi dasar',
     finance: 'keuangan',
@@ -209,6 +210,7 @@ const ROLE_GROUPS_ID: {
     inventory: 'inventaris',
     'heavy equipment rent': 'sewa alat berat',
     mart: 'Belayan Mart',
+    'repair shop': 'Belayan Spare Parts',
 }
 
 function CheckboxesByGroupName({
