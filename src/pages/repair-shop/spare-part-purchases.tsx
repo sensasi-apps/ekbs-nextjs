@@ -37,7 +37,7 @@ export default function Page() {
             <Datatable<SparePartMovement>
                 apiUrl={Endpoint.DATATABLE}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
+                defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 getRowDataCallback={fn => (getRowDataRef.current = fn)}
                 mutateCallback={mutate => (mutateRef.current = mutate)}
                 onRowClick={(_, { dataIndex }, event) => {
@@ -58,15 +58,17 @@ export default function Page() {
 
 const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
     {
-        name: 'uuid',
+        name: 'short_uuid',
         label: 'Kode',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowDataRef.current?.(dataIndex)
 
+                if (!data) return ''
+
                 return (
                     <>
-                        {data?.finalized_at ? (
+                        {data.finalized_at ? (
                             ''
                         ) : (
                             <Chip
