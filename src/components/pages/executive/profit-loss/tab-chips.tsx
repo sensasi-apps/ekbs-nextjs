@@ -1,5 +1,3 @@
-// types
-import type { Tab } from './@types/tab'
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
@@ -30,7 +28,7 @@ export function TabChips({
 }) {
     const { replace, query } = useRouter()
 
-    function handleActiveTabChange(value?: Tab) {
+    function handleActiveTabChange(value?: string) {
         replace({
             query: {
                 ...query,
@@ -62,7 +60,9 @@ export function TabChips({
             <Chip
                 label="Minimarket"
                 disabled={disabled}
-                onClick={() => handleActiveTabChange(BusinessUnit.BELAYAN_MART)}
+                onClick={() =>
+                    handleActiveTabChange(BusinessUnit.BELAYAN_MART.toString())
+                }
                 color={
                     query.activeTab === BusinessUnit.BELAYAN_MART.toString()
                         ? 'success'
@@ -89,6 +89,35 @@ export function TabChips({
                 disabled={disabled}
                 onClick={() => handleActiveTabChange('tbs')}
                 color={query.activeTab === 'tbs' ? 'success' : undefined}
+            />
+
+            <Chip
+                label="BENGKEL"
+                disabled={disabled}
+                onClick={() =>
+                    handleActiveTabChange(BusinessUnit.BENGKEL.toString())
+                }
+                color={
+                    query.activeTab === BusinessUnit.BENGKEL.toString()
+                        ? 'success'
+                        : undefined
+                }
+            />
+
+            <Chip
+                label="SPK"
+                disabled={disabled}
+                onClick={() =>
+                    handleActiveTabChange(
+                        BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString(),
+                    )
+                }
+                color={
+                    query.activeTab ===
+                    BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString()
+                        ? 'success'
+                        : undefined
+                }
             />
 
             <DatePicker

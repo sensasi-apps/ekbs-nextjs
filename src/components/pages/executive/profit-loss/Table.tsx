@@ -82,7 +82,7 @@ const HEADER_SX = {
 
 function SubTable({ header, data, footer }: SubTableProps) {
     const sums: number[] =
-        data?.[0].data?.map((_, i) =>
+        data?.[0]?.data?.map((_, i) =>
             data.reduce((acc, item) => acc + (item.data?.[i] ?? 0), 0),
         ) ?? emptyData
 
