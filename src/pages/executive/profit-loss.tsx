@@ -1,7 +1,7 @@
 // types
 import type { ItemRow } from '@/components/pages/executive/profit-loss/Table'
-import type { Tab } from '@/components/pages/executive/profit-loss/@types/tab'
 // vendors
+import { useRef } from 'react'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
@@ -19,12 +19,9 @@ import myAxios from '@/lib/axios'
 
 const CURR_YEAR = dayjs().format('YYYY')
 
-let isRecache = false
-
 export default function ProfitLoss() {
     const { query, replace } = useRouter()
-
-    const activeTab = query.activeTab as Tab
+    const isRecache = useRef(false)
 
     const {
         data: {
@@ -34,6 +31,9 @@ export default function ProfitLoss() {
             farmInput,
             userLoan,
             [BusinessUnit.BELAYAN_MART]: belayanMart,
+            [BusinessUnit.BENGKEL]: repairShop,
+            [BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN]:
+                sertifikasiDanPengelolaanKebun,
         } = {},
         isLoading,
         isValidating,
@@ -43,7 +43,7 @@ export default function ProfitLoss() {
             'executive/profit-loss-data',
             {
                 year: query.year ?? CURR_YEAR,
-                recache: isRecache,
+                recache: isRecache.current,
             },
         ],
         fetcher,
@@ -54,7 +54,7 @@ export default function ProfitLoss() {
             <TabChips
                 disabled={isLoading || isValidating}
                 onYearChange={date => {
-                    isRecache = false
+                    isRecache.current = false
 
                     replace({
                         query: {
@@ -64,7 +64,7 @@ export default function ProfitLoss() {
                     })
                 }}
                 onRefreshClick={() => {
-                    isRecache = true
+                    isRecache.current = true
 
                     mutate()
                 }}
@@ -78,242 +78,29 @@ export default function ProfitLoss() {
                 />
             </Fade>
 
-            <Fade in={!activeTab || activeTab === 'umum'} unmountOnExit>
-                <div>
-                    <Table
-                        subTables={[
-                            {
-                                header: 'Pendapatan',
-                                data: general?.incomes,
-                                footer: 'Total (I)',
-                            },
-                            {
-                                header: 'Beban',
-                                data: general?.outcomes,
-                                footer: 'Total (II)',
-                            },
-                        ]}
-                        footer={{
-                            incomes: general?.incomes,
-                            outcomes: general?.outcomes,
-                            info: 'I - II',
-                        }}
-                    />
-                </div>
-            </Fade>
+            <Table1WithFade name="umum" data={general} />
 
-            <Fade in={activeTab === 'alat-berat'} unmountOnExit>
-                <div>
-                    <Table
-                        subTables={[
-                            {
-                                header: 'Pendapatan',
-                                data: heavyEquipmentRent?.incomes,
-                                footer: 'Total (I)',
-                            },
-                            {
-                                header: 'Beban',
-                                data: heavyEquipmentRent?.outcomes,
-                                footer: 'Total (II)',
-                            },
-                        ]}
-                        footer={{
-                            incomes: heavyEquipmentRent?.incomes,
-                            outcomes: heavyEquipmentRent?.outcomes,
-                            info: 'I - II',
-                        }}
-                    />
-                </div>
-            </Fade>
+            <Table1WithFade name="alat-berat" data={heavyEquipmentRent} />
 
-            <Fade
-                in={activeTab === BusinessUnit.BELAYAN_MART.toString()}
-                unmountOnExit>
-                <div>
-                    <Table
-                        subTables={[
-                            {
-                                header: 'Penjualan',
-                                data: belayanMart?.sales,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'Pembelian',
-                                data: belayanMart?.purchases,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'Opname',
-                                data: belayanMart?.opname,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'HPP',
-                                data: belayanMart?.hpp,
-                                footer: 'Total',
-                            },
+            <Table2WithFade
+                name={BusinessUnit.BELAYAN_MART.toString()}
+                data={belayanMart}
+            />
 
-                            {
-                                header: 'Laba Penjualan',
-                                data: [
-                                    {
-                                        name: 'Total Penjualan',
-                                        data: calcMonthlyTotal(
-                                            belayanMart?.sales ?? [],
-                                        ),
-                                    },
-                                    {
-                                        name: '(-)Total HPP',
-                                        data: calcMonthlyTotal(
-                                            belayanMart?.hpp ?? [],
-                                        ).map(total => total * -1),
-                                    },
-                                ],
-                                footer: 'Total (I)',
-                            },
+            <Table2WithFade name="saprodi" data={farmInput} />
+            <Table1WithFade name="spp" data={userLoan} />
+            <Table1WithFade name="tbs" data={palmBunch} />
+            <Table2WithFade
+                name={BusinessUnit.BENGKEL.toString()}
+                data={repairShop}
+            />
 
-                            {
-                                header: 'Pendapatan Lain',
-                                data: belayanMart?.other_incomes,
-                                footer: 'Total (II)',
-                            },
+            <Table1WithFade name="tbs" data={palmBunch} />
 
-                            {
-                                header: 'Beban',
-                                data: belayanMart?.outcomes,
-                                footer: 'Total (III)',
-                            },
-                        ]}
-                        footer={{
-                            incomes: [
-                                ...(belayanMart?.sales ?? []),
-                                ...(belayanMart?.other_incomes ?? []),
-                            ],
-                            outcomes: [
-                                ...(belayanMart?.outcomes ?? []),
-                                ...(belayanMart?.hpp ?? []),
-                            ],
-                            info: '= I + II - III',
-                        }}
-                    />
-                </div>
-            </Fade>
-
-            <Fade in={activeTab === 'saprodi'} unmountOnExit>
-                <div>
-                    <Table
-                        subTables={[
-                            {
-                                header: 'Penjualan',
-                                data: farmInput?.sales,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'Pembelian',
-                                data: farmInput?.purchases,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'Opname',
-                                data: farmInput?.opname,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'HPP',
-                                data: farmInput?.hpp,
-                                footer: 'Total',
-                            },
-                            {
-                                header: 'Laba Penjualan',
-                                data: [
-                                    {
-                                        name: 'Total Penjualan',
-                                        data: calcMonthlyTotal(
-                                            farmInput?.sales ?? [],
-                                        ),
-                                    },
-                                    {
-                                        name: '(-)Total HPP',
-                                        data: calcMonthlyTotal(
-                                            farmInput?.hpp ?? [],
-                                        ).map(total => total * -1),
-                                    },
-                                ],
-                                footer: 'Total (I)',
-                            },
-                            {
-                                header: 'Pendapatan Lain',
-                                data: farmInput?.other_incomes,
-                                footer: 'Total (II)',
-                            },
-                            {
-                                header: 'Beban',
-                                data: farmInput?.outcomes,
-                                footer: 'Total (III)',
-                            },
-                        ]}
-                        footer={{
-                            incomes: [
-                                ...(farmInput?.sales ?? []),
-                                ...(farmInput?.other_incomes ?? []),
-                            ],
-                            outcomes: [
-                                ...(farmInput?.outcomes ?? []),
-                                ...(farmInput?.hpp ?? []),
-                            ],
-                            info: '= I + II - III',
-                        }}
-                    />
-                </div>
-            </Fade>
-
-            <Fade in={activeTab === 'spp'} unmountOnExit>
-                <div>
-                    <Table
-                        subTables={[
-                            {
-                                header: 'Pendapatan',
-                                data: userLoan?.incomes,
-                                footer: 'Total (I)',
-                            },
-                            {
-                                header: 'Beban',
-                                data: userLoan?.outcomes,
-                                footer: 'Total (II)',
-                            },
-                        ]}
-                        footer={{
-                            incomes: userLoan?.incomes,
-                            outcomes: userLoan?.outcomes,
-                            info: 'I - II',
-                        }}
-                    />
-                </div>
-            </Fade>
-
-            <Fade in={activeTab === 'tbs'} unmountOnExit>
-                <div>
-                    <Table
-                        subTables={[
-                            {
-                                header: 'Pendapatan',
-                                data: palmBunch?.incomes,
-                                footer: 'Total (I)',
-                            },
-                            {
-                                header: 'Beban',
-                                data: palmBunch?.outcomes,
-                                footer: 'Total (II)',
-                            },
-                        ]}
-                        footer={{
-                            incomes: palmBunch?.incomes,
-                            outcomes: palmBunch?.outcomes,
-                            info: 'I - II',
-                        }}
-                    />
-                </div>
-            </Fade>
+            <Table1WithFade
+                name={BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString()}
+                data={sertifikasiDanPengelolaanKebun}
+            />
 
             <Fade in={isValidating || isLoading}>
                 <LinearProgress
@@ -337,44 +124,30 @@ async function fetcher(args: [string, { year: string; recache: boolean }]) {
         .then(res => res.data)
 }
 
+interface ApiResponseItemType1 {
+    incomes: ItemRow[]
+    outcomes: ItemRow[]
+}
+
+interface ApiResponseItemType2 {
+    hpp: ItemRow[]
+    opname: ItemRow[]
+    outcomes: ItemRow[]
+    purchases: ItemRow[]
+    other_incomes: ItemRow[]
+    sales: ItemRow[]
+}
+
 interface ApiResponseType {
-    heavyEquipmentRent: {
-        incomes: ItemRow[]
-        outcomes: ItemRow[]
-    }
+    farmInput: ApiResponseItemType2
+    general: ApiResponseItemType1
+    heavyEquipmentRent: ApiResponseItemType1
+    userLoan: ApiResponseItemType1
+    palmBunch: ApiResponseItemType1
 
-    farmInput: {
-        hpp: ItemRow[]
-        opname: ItemRow[]
-        outcomes: ItemRow[]
-        purchases: ItemRow[]
-        other_incomes: ItemRow[]
-        sales: ItemRow[]
-    }
-
-    userLoan: {
-        incomes: ItemRow[]
-        outcomes: ItemRow[]
-    }
-
-    palmBunch: {
-        incomes: ItemRow[]
-        outcomes: ItemRow[]
-    }
-
-    [BusinessUnit.BELAYAN_MART]: {
-        sales: ItemRow[]
-        purchases: ItemRow[]
-        hpp: ItemRow[]
-        opname: ItemRow[]
-        other_incomes: ItemRow[]
-        outcomes: ItemRow[]
-    }
-
-    general: {
-        incomes: ItemRow[]
-        outcomes: ItemRow[]
-    }
+    [BusinessUnit.BELAYAN_MART]: ApiResponseItemType2
+    [BusinessUnit.BENGKEL]: ApiResponseItemType2
+    [BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN]: ApiResponseItemType1
 }
 
 function calcMonthlyTotal(data: ItemRow[]): number[] {
@@ -384,4 +157,125 @@ function calcMonthlyTotal(data: ItemRow[]): number[] {
             (acc, item) => acc.map((_, i) => acc[i] + (item?.[i] ?? 0)),
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         )
+}
+
+function Table1WithFade({
+    name,
+    data,
+}: {
+    name: string
+    data: ApiResponseItemType1 | undefined
+}) {
+    const { query } = useRouter()
+
+    if (!data) return null
+
+    const isIn =
+        query.activeTab === name || (!query.activeTab && name === 'umum')
+
+    return (
+        <Fade in={isIn} unmountOnExit>
+            <div>
+                <Table
+                    subTables={[
+                        {
+                            header: 'Pendapatan',
+                            data: data.incomes,
+                            footer: 'Total (I)',
+                        },
+                        {
+                            header: 'Beban',
+                            data: data.outcomes,
+                            footer: 'Total (II)',
+                        },
+                    ]}
+                    footer={{
+                        incomes: data.incomes,
+                        outcomes: data.outcomes,
+                        info: 'I - II',
+                    }}
+                />
+            </div>
+        </Fade>
+    )
+}
+
+function Table2WithFade({
+    name,
+    data,
+}: {
+    name: string
+    data: ApiResponseItemType2 | undefined
+}) {
+    const { query } = useRouter()
+
+    if (!data) return null
+
+    return (
+        <Fade in={query.activeTab === name} unmountOnExit>
+            <div>
+                <Table
+                    subTables={[
+                        {
+                            header: 'Penjualan',
+                            data: data?.sales,
+                            footer: 'Total',
+                        },
+                        {
+                            header: 'Pembelian',
+                            data: data?.purchases,
+                            footer: 'Total',
+                        },
+                        {
+                            header: 'Opname',
+                            data: data?.opname,
+                            footer: 'Total',
+                        },
+                        {
+                            header: 'HPP',
+                            data: data?.hpp,
+                            footer: 'Total',
+                        },
+                        {
+                            header: 'Laba Penjualan',
+                            data: [
+                                {
+                                    name: 'Total Penjualan',
+                                    data: calcMonthlyTotal(data?.sales ?? []),
+                                },
+                                {
+                                    name: '(-)Total HPP',
+                                    data: calcMonthlyTotal(data?.hpp ?? []).map(
+                                        total => total * -1,
+                                    ),
+                                },
+                            ],
+                            footer: 'Total (I)',
+                        },
+                        {
+                            header: 'Pendapatan Lain',
+                            data: data?.other_incomes,
+                            footer: 'Total (II)',
+                        },
+                        {
+                            header: 'Beban',
+                            data: data?.outcomes,
+                            footer: 'Total (III)',
+                        },
+                    ]}
+                    footer={{
+                        incomes: [
+                            ...(data?.sales ?? []),
+                            ...(data?.other_incomes ?? []),
+                        ],
+                        outcomes: [
+                            ...(data?.outcomes ?? []),
+                            ...(data?.hpp ?? []),
+                        ],
+                        info: '= I + II - III',
+                    }}
+                />
+            </div>
+        </Fade>
+    )
 }
