@@ -127,6 +127,10 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         },
     },
     {
+        name: 'business_unit_name',
+        label: 'Unit Bisnis',
+    },
+    {
         name: 'cash.name',
         label: 'Kas',
         options: {
