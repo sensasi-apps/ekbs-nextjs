@@ -4,10 +4,10 @@ import type { OnRowClickType } from '@/components/Datatable'
 import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
 import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
-import Chip from '@mui/material/Chip'
 import { Formik } from 'formik'
+import { useCallback, useRef, useState, type MutableRefObject } from 'react'
+import Chip from '@mui/material/Chip'
 import green from '@mui/material/colors/green'
-import { useCallback, useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // icons
@@ -27,18 +27,24 @@ import errorCatcher from '@/utils/errorCatcher'
 import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
 
-let getRowData: GetRowData<Transaction>
+type CustomTx = Transaction & {
+    'tags.name': string
+}
+
+let getRowDataRefGlobal: MutableRefObject<GetRowData<CustomTx> | undefined>
 
 export default function TransactionCrud() {
     const [values, setValues] = useState<FormValuesType>()
     const [status, setStatus] = useState<Transaction>()
+    const getRowDataRef = useRef<GetRowData<CustomTx>>()
+    getRowDataRefGlobal = getRowDataRef
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
     const [dialogTitle, setDialogTitle] = useState<string>('')
 
     const handleRowClick: OnRowClickType = useCallback((_, rowMeta, event) => {
         if (event.detail === 2) {
-            const data = getRowData(rowMeta.dataIndex)
+            const data = getRowDataRef.current?.(rowMeta.dataIndex)
 
             if (!data) return
 
@@ -51,12 +57,12 @@ export default function TransactionCrud() {
 
     return (
         <>
-            <Datatable<Transaction>
+            <Datatable<CustomTx>
                 apiUrl="/transactions/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
                 download
-                getRowDataCallback={fn => (getRowData = fn)}
+                getRowDataCallback={fn => (getRowDataRef.current = fn)}
                 onRowClick={handleRowClick}
                 title="Riwayat Transaksi"
                 tableId="transaction-datatable"
@@ -102,7 +108,7 @@ export default function TransactionCrud() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
@@ -127,14 +133,18 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         },
     },
     {
-        name: 'business_unit_name',
-        label: 'Unit Bisnis',
-    },
-    {
         name: 'cash.name',
         label: 'Kas',
         options: {
-            customBodyRender: (_, rowIndex) => getRowData(rowIndex)?.cash?.name,
+            customBodyRenderLite: (value, rowIndex) =>
+                getRowDataRefGlobal.current?.(rowIndex)?.cash?.name ?? value,
+        },
+    },
+    {
+        name: 'business_unit_name',
+        label: 'Unit Bisnis',
+        options: {
+            searchable: false,
         },
     },
     {
@@ -142,34 +152,36 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         label: 'Akun',
         options: {
             sort: false,
-            customBodyRender(_, rowIndex) {
-                return getRowData(rowIndex)
-                    ?.tags.map(tag => decodeHtml(tag.name.id))
-                    .join(', ')
+            customBodyRenderLite: dataIndex => {
+                return getRowDataRefGlobal
+                    .current?.(dataIndex)
+                    ?.['tags.name']?.split(', ')
+                    .map(tagName => (
+                        <Chip key={tagName} label={tagName} size="small" />
+                    ))
             },
-            customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.tags.map(tag => (
-                    <Chip
-                        key={tag.id}
-                        label={decodeHtml(tag.name.id)}
-                        size="small"
-                    />
-                )),
         },
     },
     {
         name: 'amount',
         label: 'Nilai (Rp)',
         options: {
-            customBodyRender: (value: number) => (
-                <span
-                    style={{
-                        whiteSpace: 'nowrap',
-                        color: value <= 0 ? 'inherit' : green[500],
-                    }}>
-                    {formatNumber(value)}
-                </span>
-            ),
+            customBodyRenderLite: dataIndex => {
+                const value = getRowDataRefGlobal.current?.(dataIndex)?.amount
+
+                return (
+                    <span
+                        style={{
+                            textAlign: 'right',
+                            color:
+                                typeof value === 'number' && value <= 0
+                                    ? 'inherit'
+                                    : green[500],
+                        }}>
+                        {formatNumber(value ?? 0)}
+                    </span>
+                )
+            },
         },
     },
     {
@@ -177,11 +189,6 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         label: 'Perihal',
         options: {
             sort: false,
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'pre',
-                },
-            }),
         },
     },
     {
@@ -189,15 +196,9 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         label: 'Oleh',
         options: {
             sort: false,
-            customBodyRender: (_, rowIndex) =>
-                getRowData(rowIndex)?.user_activity_logs?.[0]?.user.name,
+            customBodyRenderLite: (_, rowIndex) =>
+                getRowDataRefGlobal.current?.(rowIndex)?.user_activity_logs?.[0]
+                    ?.user.name,
         },
     },
 ]
-
-function decodeHtml(html: string): string {
-    const txt = document.createElement('textarea')
-    txt.innerHTML = html
-
-    return txt.value
-}
