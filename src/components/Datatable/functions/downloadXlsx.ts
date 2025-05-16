@@ -33,20 +33,25 @@ export default async function downloadXlsx<T>(
         .then(({ data }) => {
             const data_aoa = data.data.map((row, i) =>
                 headerCols.map((col, j) => {
-                    const value = row[col.name as keyof typeof row]
-
                     const { customBodyRender } = col
+                    const value = row[col.name as keyof typeof row]
 
                     if (typeof value === 'number') {
                         return value
-                    } else if (customBodyRender) {
-                        return customBodyRender(
-                            value,
-                            i,
-                            j,
-                            tableState,
-                            () => {},
-                        )
+                    }
+
+                    const renderResult = customBodyRender?.(
+                        value,
+                        i,
+                        j,
+                        tableState,
+                        () => {},
+                    )
+
+                    if (renderResult) {
+                        if (typeof renderResult === 'string') {
+                            return renderResult
+                        }
                     }
 
                     return value
