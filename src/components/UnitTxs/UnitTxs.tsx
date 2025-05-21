@@ -1,6 +1,6 @@
 // vendors
 import { Formik } from 'formik'
-import { useState } from 'react'
+import { useRef, useState, type MutableRefObject } from 'react'
 import axios from '@/lib/axios'
 import useSWR from 'swr'
 // materials
@@ -35,8 +35,11 @@ import toDmy from '@/utils/toDmy'
 // enums
 import BusinessUnit from '@/enums/BusinessUnit'
 
-let getRowData: GetRowDataType<Transaction>
-let mutate: MutateType<Transaction>
+type CustomTx = Transaction & {
+    'tags.name': string
+}
+
+let getRowDataRefGlobal: MutableRefObject<GetRowDataType<CustomTx> | undefined>
 
 export default function UnitTxs({
     businessUnit,
@@ -44,6 +47,9 @@ export default function UnitTxs({
     businessUnit: BusinessUnit
 }) {
     const [isOpenDialog, setIsOpenDialog] = useState(false)
+    const mutateRef = useRef<MutateType<CustomTx>>()
+    const getRowDataRef = useRef<GetRowDataType<CustomTx>>()
+    getRowDataRefGlobal = getRowDataRef
 
     function handleClose() {
         setIsOpenDialog(false)
@@ -109,8 +115,8 @@ export default function UnitTxs({
                         : DATATABLE_COLUMNS
                 }
                 defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => (getRowDataRef.current = fn)}
+                mutateCallback={fn => (mutateRef.current = fn)}
             />
             <DialogWithTitle title="Tambah Transaksi" open={isOpenDialog}>
                 <Formik
@@ -125,7 +131,7 @@ export default function UnitTxs({
                                 values,
                             )
                             .then(() => {
-                                mutate()
+                                mutateRef.current?.()
                                 handleClose()
                             })
                             .catch(error => handle422(error, setErrors))
@@ -144,7 +150,7 @@ export default function UnitTxs({
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
@@ -173,10 +179,14 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         label: 'Akun',
         options: {
             sort: false,
-            customBodyRenderLite: (dataIndex: number) =>
-                getRowData(dataIndex)?.tags.map(tag => (
-                    <Chip size="small" label={tag.name.id} key={tag.id} />
-                )),
+            customBodyRenderLite: dataIndex => {
+                return getRowDataRefGlobal
+                    .current?.(dataIndex)
+                    ?.['tags.name']?.split(', ')
+                    .map(tagName => (
+                        <Chip key={tagName} label={tagName} size="small" />
+                    ))
+            },
         },
     },
     {
@@ -215,7 +225,8 @@ const DATATABLE_COLUMNS: DatatableProps<Transaction>['columns'] = [
         label: 'Oleh',
         options: {
             customBodyRenderLite: dataIndex =>
-                getRowData(dataIndex)?.user_activity_logs?.[0]?.user.name,
+                getRowDataRefGlobal.current?.(dataIndex)
+                    ?.user_activity_logs?.[0]?.user.name,
         },
     },
 ]
