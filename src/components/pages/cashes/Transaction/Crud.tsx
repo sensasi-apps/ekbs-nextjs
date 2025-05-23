@@ -6,7 +6,7 @@ import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import { Formik } from 'formik'
 import { useCallback, useRef, useState, type MutableRefObject } from 'react'
-import Chip from '@mui/material/Chip'
+import Chip, { type ChipProps } from '@mui/material/Chip'
 import green from '@mui/material/colors/green'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
@@ -30,6 +30,8 @@ import formatNumber from '@/utils/formatNumber'
 type CustomTx = Transaction & {
     tag_names: string
     cash_name: string
+    wallet_name: string
+    wallet_chip_color: ChipProps['color']
 }
 
 let getRowDataRefGlobal: MutableRefObject<GetRowData<CustomTx> | undefined>
@@ -137,6 +139,7 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         name: 'cash.name',
         options: {
             display: 'excluded',
+            download: false,
         },
     },
     {
@@ -144,15 +147,41 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         label: 'Kas',
         options: {
             searchable: false,
-            customBodyRenderLite: dataIndex =>
-                getRowDataRefGlobal.current?.(dataIndex)?.['cash_name'],
+            customBodyRenderLite: dataIndex => {
+                const data = getRowDataRefGlobal.current?.(dataIndex)
+                const chipColor = (data?.amount ?? 0) > 0 ? 'success' : 'error'
+
+                return data?.cash_name ? (
+                    <Chip
+                        label={data?.cash_name}
+                        size="small"
+                        color={chipColor}
+                    />
+                ) : (
+                    ''
+                )
+            },
         },
     },
     {
-        name: 'business_unit_name',
-        label: 'Unit Bisnis',
+        name: 'wallet_name',
+        label: 'Wallet',
         options: {
+            sort: false,
             searchable: false,
+            customBodyRenderLite: dataIndex => {
+                const data = getRowDataRefGlobal.current?.(dataIndex)
+
+                return data?.wallet_name ? (
+                    <Chip
+                        label={data?.wallet_name}
+                        size="small"
+                        color={data?.wallet_chip_color}
+                    />
+                ) : (
+                    ''
+                )
+            },
         },
     },
     {
@@ -160,6 +189,7 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         options: {
             sort: false,
             display: 'excluded',
+            download: false,
         },
     },
     {

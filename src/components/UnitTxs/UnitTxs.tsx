@@ -5,7 +5,7 @@ import axios from '@/lib/axios'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
+import Chip, { type ChipProps } from '@mui/material/Chip'
 import Grid2 from '@mui/material/Grid2'
 import green from '@mui/material/colors/green'
 import Tooltip from '@mui/material/Tooltip'
@@ -37,6 +37,9 @@ import BusinessUnit from '@/enums/BusinessUnit'
 
 type CustomTx = Transaction & {
     tag_names: string
+    cash_name: string
+    wallet_name: string
+    wallet_chip_color: ChipProps['color']
 }
 
 let getRowDataRefGlobal: MutableRefObject<GetRowDataType<CustomTx> | undefined>
@@ -175,10 +178,60 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         },
     },
     {
+        name: 'cash.name',
+        options: {
+            display: 'excluded',
+            download: false,
+        },
+    },
+    {
+        name: 'cash_name',
+        label: 'Kas',
+        options: {
+            searchable: false,
+            customBodyRenderLite: dataIndex => {
+                const data = getRowDataRefGlobal.current?.(dataIndex)
+                const chipColor = (data?.amount ?? 0) > 0 ? 'success' : 'error'
+
+                return data?.cash_name ? (
+                    <Chip
+                        label={data?.cash_name}
+                        size="small"
+                        color={chipColor}
+                    />
+                ) : (
+                    ''
+                )
+            },
+        },
+    },
+    {
+        name: 'wallet_name',
+        label: 'Wallet',
+        options: {
+            searchable: false,
+            sort: false,
+            customBodyRenderLite: dataIndex => {
+                const data = getRowDataRefGlobal.current?.(dataIndex)
+
+                return data?.wallet_name ? (
+                    <Chip
+                        label={data.wallet_name}
+                        size="small"
+                        color={data.wallet_chip_color}
+                    />
+                ) : (
+                    ''
+                )
+            },
+        },
+    },
+    {
         name: 'tags.name',
         options: {
             sort: false,
             display: 'excluded',
+            download: false,
         },
     },
     {
