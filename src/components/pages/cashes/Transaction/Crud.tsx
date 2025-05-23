@@ -28,7 +28,8 @@ import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
 
 type CustomTx = Transaction & {
-    'tags.name': string
+    tag_names: string
+    cash_name: string
 }
 
 let getRowDataRefGlobal: MutableRefObject<GetRowData<CustomTx> | undefined>
@@ -134,10 +135,17 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
     },
     {
         name: 'cash.name',
+        options: {
+            display: 'excluded',
+        },
+    },
+    {
+        name: 'cash_name',
         label: 'Kas',
         options: {
-            customBodyRenderLite: (value, rowIndex) =>
-                getRowDataRefGlobal.current?.(rowIndex)?.cash?.name ?? value,
+            searchable: false,
+            customBodyRenderLite: dataIndex =>
+                getRowDataRefGlobal.current?.(dataIndex)?.['cash_name'],
         },
     },
     {
@@ -149,13 +157,21 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
     },
     {
         name: 'tags.name',
+        options: {
+            sort: false,
+            display: 'excluded',
+        },
+    },
+    {
+        name: 'tag_names',
         label: 'Akun',
         options: {
             sort: false,
+            searchable: false,
             customBodyRenderLite: dataIndex => {
                 return getRowDataRefGlobal
                     .current?.(dataIndex)
-                    ?.['tags.name']?.split(', ')
+                    ?.['tag_names']?.split(', ')
                     .map(tagName => (
                         <Chip key={tagName} label={tagName} size="small" />
                     ))
