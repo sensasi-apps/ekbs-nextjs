@@ -36,7 +36,7 @@ import toDmy from '@/utils/toDmy'
 import BusinessUnit from '@/enums/BusinessUnit'
 
 type CustomTx = Transaction & {
-    'tags.name': string
+    tag_names: string
 }
 
 let getRowDataRefGlobal: MutableRefObject<GetRowDataType<CustomTx> | undefined>
@@ -176,13 +176,21 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
     },
     {
         name: 'tags.name',
+        options: {
+            sort: false,
+            display: 'excluded',
+        },
+    },
+    {
+        name: 'tag_names',
         label: 'Akun',
         options: {
             sort: false,
+            searchable: false,
             customBodyRenderLite: dataIndex => {
                 return getRowDataRefGlobal
                     .current?.(dataIndex)
-                    ?.['tags.name']?.split(', ')
+                    ?.['tag_names']?.split(', ')
                     .map(tagName => (
                         <Chip key={tagName} label={tagName} size="small" />
                     ))
