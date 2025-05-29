@@ -95,8 +95,6 @@ export default function ProfitLoss() {
                 data={repairShop}
             />
 
-            <Table1WithFade name="tbs" data={palmBunch} />
-
             <Table1WithFade
                 name={BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString()}
                 data={sertifikasiDanPengelolaanKebun}
@@ -125,11 +123,13 @@ async function fetcher(args: [string, { year: string; recache: boolean }]) {
 }
 
 interface ApiResponseItemType1 {
+    corrections: ItemRow['data'] | null
     incomes: ItemRow[]
     outcomes: ItemRow[]
 }
 
 interface ApiResponseItemType2 {
+    corrections: ItemRow['data'] | null
     hpp: ItemRow[]
     opname: ItemRow[]
     outcomes: ItemRow[]
@@ -173,22 +173,37 @@ function Table1WithFade({
     const isIn =
         query.activeTab === name || (!query.activeTab && name === 'umum')
 
+    const subTableProps = [
+        {
+            header: 'Pendapatan',
+            data: data.incomes,
+            footer: 'Total (I)',
+        },
+        {
+            header: 'Beban',
+            data: data.outcomes,
+            footer: 'Total (II)',
+        },
+    ]
+
+    if (data.corrections) {
+        subTableProps.unshift({
+            header: 'Koreksi',
+            data: [
+                {
+                    name: 'Koreksi',
+                    data: data.corrections,
+                },
+            ],
+            footer: 'Total Koreksi',
+        })
+    }
+
     return (
         <Fade in={isIn} unmountOnExit>
             <div>
                 <Table
-                    subTables={[
-                        {
-                            header: 'Pendapatan',
-                            data: data.incomes,
-                            footer: 'Total (I)',
-                        },
-                        {
-                            header: 'Beban',
-                            data: data.outcomes,
-                            footer: 'Total (II)',
-                        },
-                    ]}
+                    subTables={subTableProps}
                     footer={{
                         incomes: data.incomes,
                         outcomes: data.outcomes,
@@ -211,58 +226,73 @@ function Table2WithFade({
 
     if (!data) return null
 
+    const subTableProps = [
+        {
+            header: 'Penjualan',
+            data: data?.sales,
+            footer: 'Total',
+        },
+        {
+            header: 'Pembelian',
+            data: data?.purchases,
+            footer: 'Total',
+        },
+        {
+            header: 'Opname',
+            data: data?.opname,
+            footer: 'Total',
+        },
+        {
+            header: 'HPP',
+            data: data?.hpp,
+            footer: 'Total',
+        },
+        {
+            header: 'Laba Penjualan',
+            data: [
+                {
+                    name: 'Total Penjualan',
+                    data: calcMonthlyTotal(data?.sales ?? []),
+                },
+                {
+                    name: '(-)Total HPP',
+                    data: calcMonthlyTotal(data?.hpp ?? []).map(
+                        total => total * -1,
+                    ),
+                },
+            ],
+            footer: 'Total (I)',
+        },
+        {
+            header: 'Pendapatan Lain',
+            data: data?.other_incomes,
+            footer: 'Total (II)',
+        },
+        {
+            header: 'Beban',
+            data: data?.outcomes,
+            footer: 'Total (III)',
+        },
+    ]
+
+    if (data.corrections) {
+        subTableProps.unshift({
+            header: 'Koreksi',
+            data: [
+                {
+                    name: 'Koreksi',
+                    data: data.corrections,
+                },
+            ],
+            footer: 'Total Koreksi',
+        })
+    }
+
     return (
         <Fade in={query.activeTab === name} unmountOnExit>
             <div>
                 <Table
-                    subTables={[
-                        {
-                            header: 'Penjualan',
-                            data: data?.sales,
-                            footer: 'Total',
-                        },
-                        {
-                            header: 'Pembelian',
-                            data: data?.purchases,
-                            footer: 'Total',
-                        },
-                        {
-                            header: 'Opname',
-                            data: data?.opname,
-                            footer: 'Total',
-                        },
-                        {
-                            header: 'HPP',
-                            data: data?.hpp,
-                            footer: 'Total',
-                        },
-                        {
-                            header: 'Laba Penjualan',
-                            data: [
-                                {
-                                    name: 'Total Penjualan',
-                                    data: calcMonthlyTotal(data?.sales ?? []),
-                                },
-                                {
-                                    name: '(-)Total HPP',
-                                    data: calcMonthlyTotal(data?.hpp ?? []).map(
-                                        total => total * -1,
-                                    ),
-                                },
-                            ],
-                            footer: 'Total (I)',
-                        },
-                        {
-                            header: 'Pendapatan Lain',
-                            data: data?.other_incomes,
-                            footer: 'Total (II)',
-                        },
-                        {
-                            header: 'Beban',
-                            data: data?.outcomes,
-                            footer: 'Total (III)',
-                        },
-                    ]}
+                    subTables={subTableProps}
                     footer={{
                         incomes: [
                             ...(data?.sales ?? []),

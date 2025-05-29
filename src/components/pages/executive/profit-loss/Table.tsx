@@ -8,12 +8,13 @@ import TableCell, { type TableCellProps } from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
+import TableRow, { type TableRowProps } from '@mui/material/TableRow'
 import Tooltip from '@mui/material/Tooltip'
 // icons-materials
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
 // utils
 import formatNumber from '@/utils/formatNumber'
+import blinkSxValue from '@/utils/blinkSxValue'
 
 export type ItemRow = {
     name: string
@@ -91,14 +92,24 @@ function SubTable({ header, data, footer }: SubTableProps) {
             <TableRow>
                 <TableCell
                     colSpan={13}
-                    sx={{ ...HEADER_SX, borderBottom: 'none' }}>
+                    sx={{
+                        ...HEADER_SX,
+                        borderBottom: 'none',
+                        ...(header === 'Koreksi' ? blinkSxValue : {}),
+                    }}>
                     {header}
                 </TableCell>
             </TableRow>
 
-            {data?.map((item, i) => <CustomRow key={i} {...item} />)}
+            {data?.map((item, i) => (
+                <CustomRow
+                    key={i}
+                    sxRow={header === 'Koreksi' ? blinkSxValue : undefined}
+                    {...item}
+                />
+            ))}
 
-            <TableRow>
+            <TableRow sx={header === 'Koreksi' ? blinkSxValue : undefined}>
                 <TableCell sx={HEADER_SX}>{footer}</TableCell>
 
                 {sums.map((sum, i) => (
@@ -109,14 +120,21 @@ function SubTable({ header, data, footer }: SubTableProps) {
     )
 }
 
-function CustomRow({ name, data, info }: ItemRow) {
+function CustomRow({
+    name,
+    data,
+    info,
+    sxRow,
+}: ItemRow & {
+    sxRow?: TableRowProps['sx']
+}) {
     const SX_CELL_DATA = {
         borderBottom: 'none',
         py: 0.1,
     }
 
     return (
-        <TableRow>
+        <TableRow sx={sxRow}>
             <TableCell sx={SX_CELL_DATA}>
                 {info ? (
                     <Tooltip title={info} arrow placement="right">
