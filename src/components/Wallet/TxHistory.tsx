@@ -1,6 +1,5 @@
 // types
 import type { Transaction } from '@/dataTypes/Transaction'
-import type WalletType from '@/dataTypes/Wallet'
 // vendors
 import { useDebounce } from 'use-debounce'
 import { useState } from 'react'
@@ -10,13 +9,13 @@ import Image from 'next/image'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-// import Tooltip from '@mui/material/Tooltip'
 // icons
-// import BackupTableIcon from '@mui/icons-material/BackupTable'
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
 // components
@@ -41,6 +40,10 @@ import toDmy from '@/utils/toDmy'
 import Wallet from '@/enums/permissions/Wallet'
 // providers
 import useAuth from '@/providers/Auth'
+import InstallmentDataTable from './tx-form/installment-datatable'
+// pages type
+import type { DataType } from '@/pages/wallets'
+import CorrectionTxDataTable from './tx-form/correction-tx-datatable'
 
 export type ApiResponseType = {
     balanceFrom: number
@@ -53,14 +56,14 @@ export default function TxHistory({
     canPrint,
     canExportExcel,
 }: {
-    walletData: WalletType
+    walletData: DataType
     canPrint?: boolean
     canExportExcel?: boolean
 }) {
     const { userHasPermission } = useAuth()
-    const [activeTab, setActiveTab] = useState<
-        'rangkuman' | 'rincian' | 'rangkumanV2'
-    >('rangkumanV2')
+    const [activeTab, setActiveTab] = useState<'rangkuman' | 'rincian'>(
+        'rangkuman',
+    )
     const [fromDate, setFromDate] = useState(DEFAULT_START_DATE)
     const [toDate, setToDate] = useState(DEFAULT_END_DATE)
 
@@ -85,7 +88,7 @@ export default function TxHistory({
         isLoading: isWalletDataLoading,
         isValidating: isWalletDataValidating,
         mutate: mutateWalletData,
-    } = useSWR<WalletType>(`/wallets/user/${walletDataCache.user_uuid}`, null, {
+    } = useSWR<DataType>(`/wallets/user/${walletDataCache.user_uuid}`, null, {
         keepPreviousData: true,
     })
 
@@ -95,149 +98,172 @@ export default function TxHistory({
         isWalletDataLoading ||
         isWalletDataValidating
 
-    /**
-     * unused: deactived for now
-     */
-    // const excelExportUrl = `${
-    //     process.env.NEXT_PUBLIC_BACKEND_URL
-    // }/wallets/transactions/${walletData.uuid}?fromDate=${fromDate.format(
-    //     'YYYY-MM-DD',
-    // )}&toDate=${toDate.format('YYYY-MM-DD')}&download=true`
-
     return (
-        <FlexColumnBox>
+        <Box display="flex" gap={8}>
             <Header data={walletData} />
 
-            <Box display="flex" gap={2}>
-                <DatePickers
-                    disabled={loading}
-                    fromDateUseState={[fromDate, setFromDate]}
-                    toDateUseState={[toDate, setToDate]}
-                    userCashUuid={walletData.uuid}
-                />
-            </Box>
+            <Box display="flex" flexDirection="column" gap={2}>
+                <Box display="flex" gap={2} mt={1}>
+                    <DatePickers
+                        disabled={loading}
+                        fromDateUseState={[fromDate, setFromDate]}
+                        toDateUseState={[toDate, setToDate]}
+                        userCashUuid={walletData.uuid}
+                    />
+                </Box>
 
-            {(canPrint || canExportExcel) && (
-                <Box display="inline-flex">
-                    <Box flexGrow={1}>
-                        {userHasPermission(
-                            Wallet.CREATE_USER_WALLET_TRANSACTION,
-                        ) && (
-                            <WalletTxButtonAndForm
-                                disabled={loading}
-                                data={walletData}
-                                onSubmit={() => {
-                                    mutateHistory()
-                                    mutateWalletData()
-                                }}
-                            />
+                {(canPrint || canExportExcel) && (
+                    <Box display="inline-flex">
+                        <Box flexGrow={1}>
+                            {userHasPermission(
+                                Wallet.CREATE_USER_WALLET_TRANSACTION,
+                            ) && (
+                                <WalletTxButtonAndForm
+                                    disabled={loading}
+                                    data={walletData}
+                                    onSubmit={() => {
+                                        mutateHistory()
+                                        mutateWalletData()
+                                    }}
+                                />
+                            )}
+                        </Box>
+
+                        {canPrint && (
+                            <PrintHandler
+                                slotProps={{
+                                    printButton: {
+                                        disabled: loading,
+                                    },
+                                }}>
+                                <PrintTemplate
+                                    tab={activeTab}
+                                    walletData={walletData}
+                                    fromDate={fromDate}
+                                    toDate={toDate}
+                                    loading={loading}
+                                    txs={txs}
+                                />
+                            </PrintHandler>
                         )}
                     </Box>
+                )}
 
-                    {canPrint && (
-                        <PrintHandler
-                            slotProps={{
-                                printButton: {
-                                    disabled: loading,
-                                },
-                            }}>
-                            <PrintTemplate
-                                tab={activeTab}
-                                walletData={walletData}
-                                fromDate={fromDate}
-                                toDate={toDate}
-                                loading={loading}
-                                txs={txs}
+                {loading && <Skeletons />}
+
+                {!loading && txs && (
+                    <>
+                        <ScrollableXBox>
+                            <Chip
+                                label="Rangkuman"
+                                color="success"
+                                size="small"
+                                variant={
+                                    activeTab === 'rangkuman'
+                                        ? 'filled'
+                                        : 'outlined'
+                                }
+                                onClick={() => setActiveTab('rangkuman')}
                             />
-                        </PrintHandler>
-                    )}
 
-                    {/**
-                     * unused: deactived for now
-                     */}
+                            <Chip
+                                label="Rincian"
+                                color="success"
+                                size="small"
+                                variant={
+                                    activeTab === 'rincian'
+                                        ? 'filled'
+                                        : 'outlined'
+                                }
+                                onClick={() => setActiveTab('rincian')}
+                            />
+                        </ScrollableXBox>
 
-                    {/* 
-                    {canExportExcel && (
-                        <Tooltip title="Ekspor Excel" placement="top" arrow>
-                            <span>
-                                <IconButton
-                                    disabled={loading}
-                                    color="inherit"
-                                    size="small"
-                                    href={excelExportUrl}
-                                    download>
-                                    <BackupTableIcon />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
-                    )} */}
-                </Box>
-            )}
-
-            {loading && <Skeletons />}
-            {!loading && txs && (
-                <>
-                    <ScrollableXBox>
-                        {/* unused: deactived for now */}
-                        {/* <Chip
-                            label="Rangkuman"
-                            color="success"
-                            size="small"
-                            variant={
-                                activeTab === 'rangkuman'
-                                    ? 'filled'
-                                    : 'outlined'
-                            }
-                            onClick={() => setActiveTab('rangkuman')}
-                        /> */}
-
-                        <Chip
-                            // label="Rangkuman V2" // changed: from 'Rangkuman V2' to 'Rangkuman'
-                            label="Rangkuman"
-                            color="success"
-                            size="small"
-                            variant={
-                                activeTab === 'rangkumanV2'
-                                    ? 'filled'
-                                    : 'outlined'
-                            }
-                            onClick={() => setActiveTab('rangkumanV2')}
-                        />
-
-                        <Chip
-                            label="Rincian"
-                            color="success"
-                            size="small"
-                            variant={
-                                activeTab === 'rincian' ? 'filled' : 'outlined'
-                            }
-                            onClick={() => setActiveTab('rincian')}
-                        />
-                    </ScrollableXBox>
-
-                    <Body data={txs} activeTab={activeTab} />
-                </>
-            )}
-        </FlexColumnBox>
+                        <Body data={txs} activeTab={activeTab} />
+                    </>
+                )}
+            </Box>
+        </Box>
     )
 }
 
-function Header({ data }: { data: WalletType }) {
+function Header({ data }: { data: DataType }) {
+    const [isPiutangDialogOpen, setIsPiutangDialogOpen] = useState(false)
+    const [isCorrectionDialogOpen, setIsCorrectionDialogOpen] = useState(false)
+
     return (
-        <Box textAlign="center">
-            <Typography color="text.disabled" variant="caption">
-                Saldo Saat Ini:
-            </Typography>
-            <Typography color="text.secondary">
+        <Box display="flex" flexDirection="column" gap={2}>
+            <Typography>
                 #{data.user?.id} &mdash; {data.user?.name}
             </Typography>
-            <Typography
-                color="text.primary"
-                variant="h4"
-                fontWeight="bold"
-                component="div">
-                {numberToCurrency(data.balance ?? 0)}
-            </Typography>
+
+            <Box>
+                <Typography color="text.disabled" variant="caption">
+                    Saldo Saat Ini:
+                </Typography>
+
+                <Typography
+                    color="text.primary"
+                    variant="h4"
+                    fontWeight="bold"
+                    component="div">
+                    {numberToCurrency(data.balance ?? 0)}
+                </Typography>
+            </Box>
+
+            {!!data.unpaid_installment_total_rp && (
+                <Box>
+                    <Typography color="text.disabled" variant="caption">
+                        Total Angsuran:
+                    </Typography>
+
+                    <Button
+                        size="small"
+                        color="warning"
+                        variant="outlined"
+                        sx={{
+                            ml: 1,
+                        }}
+                        onClick={() => setIsPiutangDialogOpen(true)}>
+                        {numberToCurrency(data.unpaid_installment_total_rp)}
+                    </Button>
+                </Box>
+            )}
+
+            {!!data.correction_total_rp && (
+                <Box>
+                    <Typography color="text.disabled" variant="caption">
+                        Total Koreksi:
+                    </Typography>
+
+                    <Button
+                        size="small"
+                        color="warning"
+                        variant="outlined"
+                        sx={{
+                            ml: 1,
+                        }}
+                        onClick={() => setIsCorrectionDialogOpen(true)}>
+                        {numberToCurrency(data.correction_total_rp)}
+                    </Button>
+                </Box>
+            )}
+
+            <Dialog
+                open={isPiutangDialogOpen}
+                maxWidth="md"
+                fullWidth
+                onClose={() => setIsPiutangDialogOpen(false)}>
+                <InstallmentDataTable userUuid={data.user_uuid} />
+            </Dialog>
+
+            <Dialog
+                open={isCorrectionDialogOpen}
+                maxWidth="md"
+                fullWidth
+                onClose={() => setIsCorrectionDialogOpen(false)}>
+                <CorrectionTxDataTable userUuid={data.user_uuid} />
+            </Dialog>
         </Box>
     )
 }
@@ -247,25 +273,26 @@ function Body({
     activeTab,
 }: {
     data: ApiResponseType
-    activeTab: 'rangkuman' | 'rincian' | 'rangkumanV2'
+    activeTab: 'rangkuman' | 'rincian'
 }) {
     const [showSearch, setShowSearch] = useState(false)
     const [searchTerm, setSearchTerm] = useState<string>()
 
     const filteredTxs = searchTerm
         ? {
-              data: txs.data.filter(tx =>
-                  tx.desc?.toLowerCase().includes(searchTerm),
+              data: txs.data.filter(
+                  tx =>
+                      tx.desc?.toLowerCase().includes(searchTerm) ||
+                      tx.tags.some(tag =>
+                          tag.name.id.toLowerCase().includes(searchTerm),
+                      ),
               ),
           }
         : txs
 
     return (
         <>
-            {/**
-             * TODO: rename 'rangkumanV2' to 'rangkuman'
-             */}
-            <Fade in={activeTab === 'rangkumanV2'} unmountOnExit exit={false}>
+            <Fade in={activeTab === 'rangkuman'} unmountOnExit exit={false}>
                 <span>
                     <SummaryByTag data={txs} />
                 </span>
@@ -397,7 +424,7 @@ function TxsList({
                     )
 
                     return (
-                        <FlexColumnBox gap={1} key={i}>
+                        <FlexColumnBox gap={2} key={i}>
                             <Box
                                 sx={{
                                     mt: 1.5,
@@ -450,6 +477,7 @@ function TxsList({
                                     key={i}
                                     desc={tx.desc}
                                     amount={tx.amount}
+                                    tags={tx.tags.map(tag => tag.name.id)}
                                 />
                             ))}
                         </FlexColumnBox>
@@ -525,7 +553,7 @@ function SummaryTable({ data }: { data: ApiResponseType }) {
     )
 }
 
-type TabType = 'rangkuman' | 'rincian' | 'rangkumanV2'
+type TabType = 'rangkuman' | 'rincian'
 
 function PrintTemplate({
     tab: activeTab,
@@ -538,14 +566,12 @@ function PrintTemplate({
     tab: TabType
     fromDate: Dayjs
     toDate: Dayjs
-    walletData: WalletType
+    walletData: DataType
     loading: boolean
     txs: ApiResponseType | undefined
 }) {
     const title =
-        (['rangkuman', 'rangkumanV2'].includes(activeTab)
-            ? 'Rangkuman'
-            : 'Mutasi') + ' EKBS Wallet'
+        (activeTab === 'rangkuman' ? 'Rangkuman' : 'Mutasi') + ' EKBS Wallet'
 
     const dateRangeText = `${toDmy(fromDate)} s/d ${toDmy(toDate)}`
 
@@ -596,25 +622,20 @@ function PrintTemplate({
             </Box>
 
             <FlexColumnBox gap={2}>
-                {activeTab === 'rincian' && <Header data={walletData} />}
-
-                {['rangkuman', 'rangkumanV2'].includes(activeTab) && (
-                    <Box mt={1}>
-                        <Typography
-                            variant="caption"
-                            color="text.disabled"
-                            component="div">
-                            Nama:
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            component="div"
-                            fontWeight="bold">
-                            #{walletData.user?.id} &mdash;{' '}
-                            {walletData.user?.name}
-                        </Typography>
-                    </Box>
-                )}
+                <Box mt={1}>
+                    <Typography
+                        variant="caption"
+                        color="text.disabled"
+                        component="div">
+                        Nama:
+                    </Typography>
+                    <Typography
+                        variant="body1"
+                        component="div"
+                        fontWeight="bold">
+                        #{walletData.user?.id} &mdash; {walletData.user?.name}
+                    </Typography>
+                </Box>
 
                 {!loading && txs && <Body data={txs} activeTab={activeTab} />}
             </FlexColumnBox>

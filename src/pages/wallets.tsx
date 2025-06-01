@@ -4,7 +4,7 @@ import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import type Wallet from '@/dataTypes/Wallet'
 // vendors
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // materials
@@ -21,13 +21,16 @@ import DatePicker from '@/components/DatePicker'
 import Dialog from '@/components/Global/Dialog'
 import TxHistory from '@/components/Wallet/TxHistory'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import formatNumber from '@/utils/formatNumber'
 
-// let mutate: MutateType<Wallet>
-let getRowData: GetRowDataType<Wallet>
+export type DataType = Wallet & {
+    unpaid_installment_total_rp: number
+    correction_total_rp: number
+}
 
 export default function WalletsPage() {
-    const [walletData, setWalletData] = useState<Wallet>()
+    const [walletData, setWalletData] = useState<DataType>()
+    const getRowData = useRef<GetRowDataType<DataType>>()
 
     return (
         <AuthLayout title="Wallet Pengguna EKBS">
@@ -44,12 +47,11 @@ export default function WalletsPage() {
                 apiUrl="/wallets/datatable"
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data = getRowData(dataIndex)
+                        const data = getRowData.current?.(dataIndex)
                         if (data) return setWalletData(data)
                     }
                 }}
-                // mutateCallback={fn => (mutate = fn)}
-                getRowDataCallback={fn => (getRowData = fn)}
+                getRowDataCallback={fn => (getRowData.current = fn)}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'balance', direction: 'desc' }}
             />
@@ -57,6 +59,8 @@ export default function WalletsPage() {
             <Dialog
                 title="Riwayat Transaksi Wallet"
                 open={Boolean(walletData?.uuid)}
+                maxWidth="md"
+                fullWidth={false}
                 closeButtonProps={{
                     onClick: () => setWalletData(undefined),
                 }}>
@@ -72,7 +76,7 @@ export default function WalletsPage() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Wallet>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<DataType>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
@@ -92,7 +96,36 @@ const DATATABLE_COLUMNS: DatatableProps<Wallet>['columns'] = [
         name: 'balance',
         label: 'Saldo',
         options: {
-            customBodyRender: (value: number) => numberToCurrency(value),
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                },
+            }),
+            customBodyRender: (value: number) => formatNumber(value),
+        },
+    },
+    {
+        name: 'unpaid_installment_total_rp',
+        label: 'Total Angsuran (Rp)',
+        options: {
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                },
+            }),
+            customBodyRender: (value: number) => formatNumber(value),
+        },
+    },
+    {
+        name: 'correction_total_rp',
+        label: 'Total Koreksi (Rp)',
+        options: {
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                },
+            }),
+            customBodyRender: (value: number) => formatNumber(value),
         },
     },
 ]

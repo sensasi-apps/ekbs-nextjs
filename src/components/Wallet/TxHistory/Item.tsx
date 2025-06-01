@@ -10,11 +10,13 @@ import numberToCurrency from '@/utils/numberToCurrency'
 
 export default function TxHistoryItem({
     desc,
+    tags,
     amount,
     slotProps,
     ...props
 }: BoxProps & {
     desc?: string | null
+    tags?: string[]
     amount: number
     slotProps?: {
         typography?: TypographyProps
@@ -25,27 +27,40 @@ export default function TxHistoryItem({
     const isInbound = amount > 0
 
     return (
-        <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            {...props}>
-            <Typography
-                variant="body2"
-                maxWidth="66%"
-                color={isInbound ? 'success.main' : undefined}
-                sx={{ whiteSpace: 'pre-line' }}
-                {...tProps}>
-                {desc}
-            </Typography>
+        <>
+            <Box mb={-1.5} display="flex" gap={0.65}>
+                {tags?.map(tag => (
+                    <Chip
+                        key={tag}
+                        label={tag}
+                        color={isInbound ? 'success' : undefined}
+                        size="small"
+                        {...chipProps}
+                    />
+                ))}
+            </Box>
+            <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                {...props}>
+                <Typography
+                    variant="body2"
+                    maxWidth="66%"
+                    color={isInbound ? 'success.main' : undefined}
+                    sx={{ whiteSpace: 'pre-line' }}
+                    {...tProps}>
+                    {desc}
+                </Typography>
 
-            <Chip
-                label={numberToCurrency(amount)}
-                color={isInbound ? 'success' : undefined}
-                size="small"
-                variant="outlined"
-                {...chipProps}
-            />
-        </Box>
+                <Chip
+                    label={numberToCurrency(amount)}
+                    color={isInbound ? 'success' : undefined}
+                    size="small"
+                    variant="outlined"
+                    {...chipProps}
+                />
+            </Box>
+        </>
     )
 }
