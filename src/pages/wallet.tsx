@@ -1,5 +1,3 @@
-// types
-import type Wallet from '@/dataTypes/Wallet'
 // vendors
 import useSWR from 'swr'
 // components
@@ -7,6 +5,8 @@ import AuthLayout from '@/components/Layouts/AuthLayout'
 import TxHistory from '@/components/Wallet/TxHistory'
 import Skeletons from '@/components/Global/Skeletons'
 import useDisablePage from '@/hooks/useDisablePage'
+// pages components
+import type { DataType } from './wallets'
 
 /**
  * User wallet page for checking wallet transaction history and balance
@@ -16,7 +16,7 @@ import useDisablePage from '@/hooks/useDisablePage'
 export default function WalletPage() {
     useDisablePage()
 
-    const { data: walletData, isLoading } = useSWR<Wallet>('/wallet')
+    const { data: walletData, isLoading } = useSWR<DataType>('/wallet')
 
     return (
         <AuthLayout title="Wallet EKBS Anda">

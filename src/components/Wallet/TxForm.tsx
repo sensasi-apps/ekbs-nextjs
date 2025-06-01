@@ -2,39 +2,30 @@
 import type { FormikProps } from 'formik'
 import type { UUID } from 'crypto'
 import type CashType from '@/dataTypes/Cash'
-import type WalletType from '@/dataTypes/Wallet'
 // vendors
 import { useState } from 'react'
 import { FastField } from 'formik'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
-import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import MenuItem from '@mui/material/MenuItem'
-// componentns
+// components
 import FormikForm from '@/components/FormikForm'
-import InfoBox from '@/components/InfoBox'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '../InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextField from '@/components/TextField'
-// icons
-import ViewListIcon from '@mui/icons-material/ViewList'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
 import DatePicker from '../DatePicker'
 import TextFieldFastableComponent from '../TextField/FastableComponent'
 import TransactionTag from '@/features/transaction/enums/transaction-tag'
-import IconButton from '../IconButton'
-import InstallmentTable from './TxForm/InstallmentTable'
 import dayjs from 'dayjs'
 
 export default function WalletTxForm({
@@ -42,13 +33,9 @@ export default function WalletTxForm({
     errors,
     isSubmitting,
     values: { from_cash_uuid },
-    status,
     setFieldValue,
 }: FormikProps<FormValuesType>) {
     const [fromCash, setFromCash] = useState<CashType>()
-    const [openPiutang, setOpenPiutang] = useState(false)
-
-    const typedStatus: WalletType = status
 
     const isPropcessing = isSubmitting
     const disabled = isPropcessing
@@ -66,63 +53,6 @@ export default function WalletTxForm({
                     disabled: disabled,
                 },
             }}>
-            <InfoBox
-                mb={2}
-                data={[
-                    {
-                        label: 'ID',
-                        value: typedStatus.user?.id,
-                    },
-                    {
-                        label: 'Nama',
-                        value: typedStatus.user?.name,
-                    },
-                    {
-                        label: 'Panggilan',
-                        value: typedStatus.user?.nickname,
-                    },
-                    {
-                        label: 'Saldo',
-                        value: numberToCurrency(typedStatus.balance ?? 0),
-                    },
-                    {
-                        label: 'Piutang',
-                        value: (
-                            <Box display="flex" alignItems="center">
-                                {numberToCurrency(
-                                    typedStatus.user?.unpaid_installments?.reduce(
-                                        (acc, curr) => acc + curr.amount_rp,
-                                        0,
-                                    ) ?? 0,
-                                )}
-
-                                <IconButton
-                                    title="Detail"
-                                    color="primary"
-                                    icon={ViewListIcon}
-                                    onClick={() => setOpenPiutang(true)}
-                                />
-
-                                <Dialog
-                                    open={openPiutang}
-                                    maxWidth="sm"
-                                    fullWidth
-                                    onClose={() => setOpenPiutang(false)}>
-                                    <DialogContent>
-                                        <InstallmentTable
-                                            data={
-                                                typedStatus.user
-                                                    ?.unpaid_installments ?? []
-                                            }
-                                        />
-                                    </DialogContent>
-                                </Dialog>
-                            </Box>
-                        ),
-                    },
-                ]}
-            />
-
             <FormControl disabled={disabled} size="small">
                 <FormLabel id="tx-radio-group">Jenis</FormLabel>
 

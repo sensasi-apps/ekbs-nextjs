@@ -1,6 +1,5 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
-import type { Installment } from '@/dataTypes/Installment'
 // features
 import type Employee from '@/features/user/types/employee'
 import type UserSocial from '@/features/user/types/user-social'
@@ -30,6 +29,4 @@ export default interface User {
     last_six_months_tbs_performance?: []
     employee?: Employee | null
     phone_no?: string
-
-    unpaid_installments?: Installment[] // only used in \src\components\Wallet\TxForm.tsx
 }
