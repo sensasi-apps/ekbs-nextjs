@@ -5,10 +5,7 @@ import type {
     MutateType,
 } from '@/components/Datatable'
 import dayjs from 'dayjs'
-// materials
 // utils
-import getInstallmentColor from '@/utils/getInstallmentColor'
-import numberToCurrency from '@/utils/numberToCurrency'
 // vendors
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
@@ -18,16 +15,18 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
+import Dialog from '../Global/Dialog'
 // locals
 import { useHooks } from './hooks/useHooks'
+import { DATATABE_SEARCH_ONLY_COLUMNS } from './hooks/statics'
 import StateFilterChips from './components/StateFilterChips'
 import TypeFilterChips from './components/TypeFilterChips'
 // utils
+import type { Installment } from '@/dataTypes/Installment'
 import handle422 from '@/utils/errorCatcher'
 import ReceivablePaymentForm from './PaymentForm'
-import Dialog from '../Global/Dialog'
-import type { Installment } from '@/dataTypes/Installment'
-import { DATATABE_SEARCH_ONLY_COLUMNS } from './hooks/statics'
+import formatNumber from '@/utils/formatNumber'
+import getInstallmentColor from '@/utils/getInstallmentColor'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
@@ -131,25 +130,11 @@ export default function ReceivablesDatatable({
 }
 
 const DATATABLE_COLUMNS: DatatableProps<Installment>['columns'] = [
-    // UUID
     {
         name: 'uuid',
-        label: 'UUID',
-        options: {
-            display: false,
-            filter: false,
-            sort: false,
-        },
-    },
-
-    // Short UUID
-    {
-        name: 'short_uuid',
         label: 'Kode',
         options: {
-            filter: false,
-            sort: false,
-            searchable: false,
+            customBodyRender: shortUuid,
         },
     },
 
@@ -158,8 +143,13 @@ const DATATABLE_COLUMNS: DatatableProps<Installment>['columns'] = [
         name: 'user_id',
         label: 'ID Pengguna',
         options: {
-            searchable: false, // search is accomodated in DATATABE_SEARCH_ONLY_COLUMNS
+            searchable: false, // search is accommodated in DATATABE_SEARCH_ONLY_COLUMNS
             sort: false,
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                },
+            }),
         },
     },
 
@@ -186,7 +176,7 @@ const DATATABLE_COLUMNS: DatatableProps<Installment>['columns'] = [
     // Installmentable UUID (short)
     {
         name: 'installmentable_uuid',
-        label: 'Kode Refrensi',
+        label: 'Kode Referensi',
         options: {
             sort: false,
             customBodyRender: shortUuid,
@@ -207,15 +197,16 @@ const DATATABLE_COLUMNS: DatatableProps<Installment>['columns'] = [
     // Amount
     {
         name: 'amount_rp',
-        label: 'Nilai',
+        label: 'Nilai (Rp)',
         options: {
             searchable: false,
             setCellProps: () => ({
                 style: {
                     whiteSpace: 'nowrap',
+                    textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: number) => numberToCurrency(value),
+            customBodyRender: (value: number) => formatNumber(value),
         },
     },
 
