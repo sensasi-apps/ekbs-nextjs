@@ -5,8 +5,6 @@ import type {
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type { KeyedMutator } from 'swr'
-import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
@@ -30,7 +28,6 @@ import errorCatcher from '@/utils/errorCatcher'
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
 
 let mutate: MutateType<RentItemRent>
-let mutateCalendar: KeyedMutator<YajraDatatable<RentItemRent>>
 let getRowData: GetRowDataType<RentItemRent>
 
 export default function HeavyEquipmentRent() {
@@ -79,8 +76,6 @@ export default function HeavyEquipmentRent() {
         if (mutate) {
             mutate()
         }
-
-        mutateCalendar()
     }
 
     const isNew = !initialFormikValues.uuid
