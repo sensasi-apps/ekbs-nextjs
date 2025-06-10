@@ -11,10 +11,6 @@ import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 import { Formik } from 'formik'
 import { useState } from 'react'
 import axios from '@/lib/axios'
-// materials
-import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
-import Fade from '@mui/material/Fade'
 // icons
 import EventNoteIcon from '@mui/icons-material/EventNote'
 // components
@@ -25,7 +21,6 @@ import Fab from '@/components/Fab'
 import HeavyEquipmentRentForm, {
     type HeavyEquipmentRentFormValues,
 } from '@/components/pages/heavy-equipments-rents/Form'
-import HerMonthlyCalender from '@/components/pages/heavy-equipments-rents/Calendar'
 import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-rents/Datatable'
 // providers
 import useAuth from '@/providers/Auth'
@@ -42,9 +37,6 @@ export default function HeavyEquipmentRent() {
     const { userHasPermission } = useAuth()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [activeTab, setActiveTab] = useState<'unfinished' | 'calendar' | ''>(
-        'calendar',
-    )
 
     const [initialFormikValues, setInitialFormikValues] =
         useState<HeavyEquipmentRentFormValues>({})
@@ -95,57 +87,11 @@ export default function HeavyEquipmentRent() {
 
     return (
         <AuthLayout title="Penyewaan Alat Berat">
-            <Box display="flex" gap={1}>
-                <Chip
-                    color={activeTab === 'calendar' ? 'success' : undefined}
-                    label="Kalender"
-                    onClick={
-                        activeTab === 'calendar'
-                            ? undefined
-                            : () => setActiveTab('calendar')
-                    }
-                />
-
-                <Chip
-                    color={activeTab === 'unfinished' ? 'success' : undefined}
-                    label="Belum Selesai"
-                    onClick={
-                        activeTab === 'unfinished'
-                            ? undefined
-                            : () => setActiveTab('unfinished')
-                    }
-                />
-
-                <Chip
-                    color={activeTab === '' ? 'success' : undefined}
-                    label="Semua"
-                    onClick={
-                        activeTab === '' ? undefined : () => setActiveTab('')
-                    }
-                />
-            </Box>
-
-            <Fade in={activeTab === 'calendar'} unmountOnExit>
-                <div>
-                    <HerMonthlyCalender
-                        mutateCallback={mutator => (mutateCalendar = mutator)}
-                        onEventClick={handleEdit}
-                    />
-                </div>
-            </Fade>
-
-            <Fade in={activeTab !== 'calendar'} unmountOnExit>
-                <div>
-                    <HeavyEquipmentRentsDatatable
-                        handleRowClick={handleRowClick}
-                        mutateCallback={fn => (mutate = fn)}
-                        getRowDataCallback={fn => (getRowData = fn)}
-                        apiUrlParams={{
-                            type: activeTab !== 'calendar' ? activeTab : '',
-                        }}
-                    />
-                </div>
-            </Fade>
+            <HeavyEquipmentRentsDatatable
+                handleRowClick={handleRowClick}
+                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => (getRowData = fn)}
+            />
 
             <DialogWithTitle
                 title={`${isNew ? 'Tambah' : 'Perbaharui'} Data Penyewaan`}
