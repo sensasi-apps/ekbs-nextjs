@@ -50,6 +50,7 @@ export type Transaction = {
     user_activity_logs?: ActivityLogType[]
     transactionable?: null | PalmBunchesDeliveryType | PalmBunchType
     tags: Tag[]
+    cashable?: CashType | WalletType | BusinessUnitCash
     cash_transfer_origin?: CashTransfer
 
     business_unit_cash?: BusinessUnitCash
