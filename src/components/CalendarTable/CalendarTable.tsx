@@ -24,6 +24,9 @@ import WorkHistory from '@mui/icons-material/WorkHistory'
 //
 import formatNumber from '@/utils/formatNumber'
 
+/**
+ * @deprecated UNUSED will be removed if not used in future
+ */
 const CalendarTable = memo(function CalendarTable({
     anchorDate,
     eventButtons,
@@ -55,6 +58,9 @@ const CalendarTable = memo(function CalendarTable({
     )
 })
 
+/**
+ * @deprecated UNUSED will be removed if not used in future
+ */
 export default CalendarTable
 
 const FullMonthHead = () => (
