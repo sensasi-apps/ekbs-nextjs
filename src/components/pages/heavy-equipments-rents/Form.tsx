@@ -35,6 +35,8 @@ import HerTaskDetail from './HerTaskDetail'
 import BaseTaskFields from './Form/BaseTaskFields'
 import ApiUrlEnum from './ApiUrlEnum'
 import handle422 from '@/utils/errorCatcher'
+import PrintHandler from '@/components/PrintHandler'
+import PrintPage from './Form/print-page'
 
 const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     dirty,
@@ -122,13 +124,19 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 <>
                     <UserActivityLogs data={user_activity_logs ?? []} />
 
-                    <TextField
-                        label="Kode"
-                        value={short_uuid}
-                        variant="filled"
-                        disabled
-                        {...errorsToHelperTextObj(errors.uuid)}
-                    />
+                    <Box display="flex" gap={1} alignItems="center">
+                        <TextField
+                            label="Kode"
+                            value={short_uuid}
+                            variant="filled"
+                            disabled
+                            {...errorsToHelperTextObj(errors.uuid)}
+                        />
+
+                        <PrintHandler>
+                            <PrintPage data={values} />
+                        </PrintHandler>
+                    </Box>
                 </>
             )}
 
