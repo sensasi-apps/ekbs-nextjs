@@ -7,6 +7,7 @@ import type PalmBunchType from './PalmBunch'
 import type PalmBunchesDeliveryType from './PalmBunchesDelivery'
 import type Tag from './Tag'
 import type WalletType from './Wallet'
+import type FarmerGroupType from './FarmerGroup'
 // import FarmerGroupType from './FarmerGroup'
 
 type TransferType =
@@ -50,9 +51,16 @@ export type Transaction = {
     transactionable?: null | PalmBunchesDeliveryType | PalmBunchType
     tags: Tag[]
     cashable?: CashType | WalletType | BusinessUnitCash
-    // cashable?: CashType | WalletType | BusinessUnitCash | FarmerGroupType // unused for now
     cash_transfer_origin?: CashTransfer
+
+    business_unit_cash?: BusinessUnitCash
     cash?: CashType
+    wallet?: WalletType
+    farmer_group_cash?: {
+        uuid: UUID
+        farmer_group_uuid: UUID
+        farmer_group: FarmerGroupType
+    }
 } & (TransferType | NonTransferType)
 
 export enum CashableClassname {
