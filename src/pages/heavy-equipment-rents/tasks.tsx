@@ -5,8 +5,6 @@ import type {
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type { KeyedMutator } from 'swr'
-import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
@@ -24,7 +22,6 @@ import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-re
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
 
 let mutate: MutateType<RentItemRent>
-let mutateCalendar: KeyedMutator<YajraDatatable<RentItemRent>>
 let getRowData: GetRowDataType<RentItemRent>
 
 export default function HeavyEquipmentRentsTasks() {
@@ -98,7 +95,6 @@ export default function HeavyEquipmentRentsTasks() {
                                     mutate()
                                 }
 
-                                mutateCalendar()
                                 handleClose()
                             })
                             .catch(error => errorCatcher(error, setErrors))
