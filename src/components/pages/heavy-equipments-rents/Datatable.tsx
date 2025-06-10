@@ -1,6 +1,6 @@
 // vendors
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 // types
 import type RentItemRent from '@/dataTypes/RentItemRent'
@@ -27,23 +27,28 @@ import Role from '@/enums/Role'
 let getRowData: GetRowDataType<RentItemRent>
 const CURRENT_DATE = dayjs()
 
+type DataCategory =
+    | 'all' // admin
+    | 'unfinished' // admin
+    | 'unfinished-task' // operator
+
 export default function HeavyEquipmentRentsDatatable({
     mutateCallback,
     handleRowClick,
     getRowDataCallback,
+    category = 'all',
 }: {
     handleRowClick: OnRowClickType
     mutateCallback: DatatableProps<RentItemRent>['mutateCallback']
     getRowDataCallback: DatatableProps<RentItemRent>['getRowDataCallback']
+    category?: DataCategory
 }) {
     const {
         // userHasPermission,
         userHasRole,
     } = useAuth()
     const { query, replace } = useRouter()
-    const [type, setType] = useState<'all' | 'unfinished' | 'unfinished-task'>(
-        'all',
-    )
+    const [type, setType] = useState<DataCategory>(category)
 
     const selectedDate = query.year
         ? dayjs(
@@ -68,63 +73,76 @@ export default function HeavyEquipmentRentsDatatable({
         columns = columns.filter(col => col.label !== 'Operator')
     }
 
+    useEffect(() => {
+        if (query.year === undefined || query.month === undefined) {
+            replace({
+                query: {
+                    year: CURRENT_DATE.format('YYYY'),
+                    month: CURRENT_DATE.format('MM'),
+                },
+            })
+        }
+    })
+
     return (
         <Box display="flex" gap={3} flexDirection="column">
-            <Box display="flex" gap={1} alignItems="center">
-                <DatePicker
-                    label="Bulan"
-                    openTo="month"
-                    format="MMMM YYYY"
-                    value={selectedDate}
-                    onAccept={date =>
-                        date
-                            ? replace({
-                                  query: {
-                                      year: date?.format('YYYY'),
-                                      month: date?.format('MM'),
-                                  },
-                              })
-                            : undefined
-                    }
-                    views={['year', 'month']}
-                    sx={{
-                        mr: 1,
-                    }}
-                    slotProps={{
-                        field: {
-                            clearable: true,
-                            onClear: () => {
-                                replace({
-                                    query: {
-                                        year: undefined,
-                                        month: undefined,
-                                    },
-                                })
+            {category !== 'unfinished-task' && (
+                <Box display="flex" gap={1} alignItems="center">
+                    <DatePicker
+                        label="Bulan"
+                        openTo="month"
+                        format="MMMM YYYY"
+                        value={selectedDate}
+                        onAccept={date =>
+                            date
+                                ? replace({
+                                      query: {
+                                          year: date?.format('YYYY'),
+                                          month: date?.format('MM'),
+                                      },
+                                  })
+                                : undefined
+                        }
+                        views={['year', 'month']}
+                        sx={{
+                            mr: 1,
+                        }}
+                        slotProps={{
+                            field: {
+                                clearable: true,
+                                onClear: () => {
+                                    replace({
+                                        query: {
+                                            year: undefined,
+                                            month: undefined,
+                                        },
+                                    })
+                                },
                             },
-                        },
-                        textField: {
-                            margin: 'none',
-                            size: 'small',
-                            fullWidth: false,
-                        },
-                    }}
-                />
+                            textField: {
+                                margin: 'none',
+                                size: 'small',
+                                fullWidth: false,
+                            },
+                        }}
+                    />
 
-                <Chip
-                    color={type === 'all' ? 'success' : undefined}
-                    label="Semua"
-                    onClick={() => setType('all')}
-                />
+                    <Chip
+                        color={type === 'all' ? 'success' : undefined}
+                        label="Semua"
+                        onClick={() => setType('all')}
+                    />
 
-                <Chip
-                    color={type === 'unfinished' ? 'success' : undefined}
-                    label="Belum Selesai"
-                    onClick={() => setType('unfinished')}
-                />
-            </Box>
+                    <Chip
+                        color={type === 'unfinished' ? 'success' : undefined}
+                        label="Belum Selesai"
+                        onClick={() => setType('unfinished')}
+                    />
+                </Box>
+            )}
 
             <Datatable
-                title="Daftar"
+                title=""
                 tableId="unfinished-heavy-equipment-rents-datatable"
                 apiUrl={ApiUrlEnum.DATATABLE_DATA}
                 apiUrlParams={{
