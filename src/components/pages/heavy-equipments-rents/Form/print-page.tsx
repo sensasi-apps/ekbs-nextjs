@@ -38,7 +38,8 @@ export default function PrintPage({
 
                 <Box display="flex" flexDirection="column">
                     <Typography fontWeight="bold">
-                        Nota Penyewaan Alat Berat
+                        {data.is_paid ? 'Nota ' : 'Faktur '}
+                        Penyewaan Alat Berat
                     </Typography>
 
                     <Typography variant="caption">
