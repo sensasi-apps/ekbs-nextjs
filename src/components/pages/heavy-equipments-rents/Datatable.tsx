@@ -129,7 +129,7 @@ export default function HeavyEquipmentRentsDatatable({
                     <Chip
                         color={type === 'unpaid' ? 'success' : undefined}
                         label="Belum Dibayar"
-                        onClick={() => setType('unfinished')}
+                        onClick={() => setType('unpaid')}
                     />
                 )}
             </Box>
