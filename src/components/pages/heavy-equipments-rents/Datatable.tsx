@@ -64,12 +64,12 @@ export default function HeavyEquipmentRentsDatatable({
     //     columns = columns.filter(col => col.label !== 'Kirim Tugas')
     // }
 
-    if (
-        !userHasRole([
-            Role.HEAVY_EQUIPMENT_RENT_ADMIN,
-            Role.HEAVY_EQUIPMENT_RENT_MANAGER,
-        ])
-    ) {
+    const isOperator = !userHasRole([
+        Role.HEAVY_EQUIPMENT_RENT_ADMIN,
+        Role.HEAVY_EQUIPMENT_RENT_MANAGER,
+    ])
+
+    if (isOperator) {
         columns = columns.filter(col => col.label !== 'Operator')
     }
 
@@ -86,60 +86,58 @@ export default function HeavyEquipmentRentsDatatable({
 
     return (
         <Box display="flex" gap={3} flexDirection="column">
-            {category !== 'unfinished-task' && (
-                <Box display="flex" gap={1} alignItems="center">
-                    <DatePicker
-                        label="Bulan"
-                        openTo="month"
-                        format="MMMM YYYY"
-                        value={selectedDate}
-                        onAccept={date =>
-                            date
-                                ? replace({
-                                      query: {
-                                          year: date?.format('YYYY'),
-                                          month: date?.format('MM'),
-                                      },
-                                  })
-                                : undefined
-                        }
-                        views={['year', 'month']}
-                        sx={{
-                            mr: 1,
-                        }}
-                        slotProps={{
-                            field: {
-                                clearable: true,
-                                onClear: () => {
-                                    replace({
-                                        query: {
-                                            year: undefined,
-                                            month: undefined,
-                                        },
-                                    })
-                                },
+            <Box display="flex" gap={1} alignItems="center">
+                <DatePicker
+                    label="Bulan"
+                    openTo="month"
+                    format="MMMM YYYY"
+                    value={selectedDate}
+                    onAccept={date =>
+                        date
+                            ? replace({
+                                  query: {
+                                      year: date?.format('YYYY'),
+                                      month: date?.format('MM'),
+                                  },
+                              })
+                            : undefined
+                    }
+                    views={['year', 'month']}
+                    sx={{
+                        mr: 1,
+                    }}
+                    slotProps={{
+                        field: {
+                            clearable: true,
+                            onClear: () => {
+                                replace({
+                                    query: {
+                                        year: undefined,
+                                        month: undefined,
+                                    },
+                                })
                             },
-                            textField: {
-                                margin: 'none',
-                                size: 'small',
-                                fullWidth: false,
-                            },
-                        }}
-                    />
+                        },
+                        textField: {
+                            margin: 'none',
+                            size: 'small',
+                            fullWidth: false,
+                        },
+                    }}
+                />
 
-                    <Chip
-                        color={type === 'all' ? 'success' : undefined}
-                        label="Semua"
-                        onClick={() => setType('all')}
-                    />
+                <Chip
+                    color={type === 'all' ? 'success' : undefined}
+                    label="Semua"
+                    onClick={() => setType('all')}
+                />
 
-                    <Chip
-                        color={type === 'unfinished' ? 'success' : undefined}
-                        label="Belum Selesai"
-                        onClick={() => setType('unfinished')}
-                    />
-                </Box>
-            )}
+                <Chip
+                    color={type === 'unfinished' ? 'success' : undefined}
+                    label="Belum Selesai"
+                    onClick={() => setType('unfinished')}
+                />
+            </Box>
 
             <Datatable
                 title=""
