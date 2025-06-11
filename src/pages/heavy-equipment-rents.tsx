@@ -86,6 +86,7 @@ export default function HeavyEquipmentRent() {
                 handleRowClick={handleRowClick}
                 mutateCallback={fn => (mutate = fn)}
                 getRowDataCallback={fn => (getRowData = fn)}
+                as="admin"
             />
 
             <DialogWithTitle

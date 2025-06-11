@@ -66,7 +66,7 @@ export default function HeavyEquipmentRentsTasks() {
                 handleRowClick={handleRowClick}
                 mutateCallback={fn => (mutate = fn)}
                 getRowDataCallback={fn => (getRowData = fn)}
-                category="unfinished-task"
+                as="operator"
             />
 
             <DialogWithTitle

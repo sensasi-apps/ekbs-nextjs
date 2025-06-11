@@ -15,40 +15,32 @@ import Datatable, {
     type OnRowClickType,
 } from '@/components/Datatable'
 import DatePicker from '@/components/DatePicker'
-// import WhatsAppButton from '@/components/WhatsappButton'
 // utils
 import toDmy from '@/utils/toDmy'
-import useAuth from '@/providers/Auth'
 // enums
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
-// import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
-import Role from '@/enums/Role'
 
 let getRowData: GetRowDataType<RentItemRent>
 const CURRENT_DATE = dayjs()
 
-type DataCategory =
-    | 'all' // admin
-    | 'unfinished' // admin
-    | 'unfinished-task' // operator
+type DataCategory = 'all' | 'unpaid' | 'unfinished'
 
 export default function HeavyEquipmentRentsDatatable({
     mutateCallback,
     handleRowClick,
     getRowDataCallback,
-    category = 'all',
+    as,
 }: {
     handleRowClick: OnRowClickType
     mutateCallback: DatatableProps<RentItemRent>['mutateCallback']
     getRowDataCallback: DatatableProps<RentItemRent>['getRowDataCallback']
-    category?: DataCategory
+    as: 'admin' | 'operator'
 }) {
-    const {
-        // userHasPermission,
-        userHasRole,
-    } = useAuth()
     const { query, replace } = useRouter()
-    const [type, setType] = useState<DataCategory>(category)
+    const [isClientSideRendered, setIsClientSideRendered] = useState(false)
+    const [type, setType] = useState<DataCategory>(
+        as === 'operator' ? 'unfinished' : 'all',
+    )
 
     const selectedDate = query.year
         ? dayjs(
@@ -60,16 +52,7 @@ export default function HeavyEquipmentRentsDatatable({
 
     let columns = [...DATATABLE_COLUMNS]
 
-    // if (!userHasPermission(HeavyEquipmentRent.NOTIFY_OPERATOR)) {
-    //     columns = columns.filter(col => col.label !== 'Kirim Tugas')
-    // }
-
-    const isOperator = !userHasRole([
-        Role.HEAVY_EQUIPMENT_RENT_ADMIN,
-        Role.HEAVY_EQUIPMENT_RENT_MANAGER,
-    ])
-
-    if (isOperator) {
+    if (as === 'operator') {
         columns = columns.filter(col => col.label !== 'Operator')
     }
 
@@ -82,49 +65,53 @@ export default function HeavyEquipmentRentsDatatable({
                 },
             })
         }
-    })
+
+        setIsClientSideRendered(true)
+    }, [query.year, query.month, replace])
 
     return (
         <Box display="flex" gap={3} flexDirection="column">
             <Box display="flex" gap={1} alignItems="center">
-                <DatePicker
-                    label="Bulan"
-                    openTo="month"
-                    format="MMMM YYYY"
-                    value={selectedDate}
-                    onAccept={date =>
-                        date
-                            ? replace({
-                                  query: {
-                                      year: date?.format('YYYY'),
-                                      month: date?.format('MM'),
-                                  },
-                              })
-                            : undefined
-                    }
-                    views={['year', 'month']}
-                    sx={{
-                        mr: 1,
-                    }}
-                    slotProps={{
-                        field: {
-                            clearable: true,
-                            onClear: () => {
-                                replace({
-                                    query: {
-                                        year: undefined,
-                                        month: undefined,
-                                    },
-                                })
+                {isClientSideRendered && (
+                    <DatePicker
+                        label="Bulan"
+                        openTo="month"
+                        format="MMMM YYYY"
+                        value={selectedDate}
+                        onAccept={date =>
+                            date
+                                ? replace({
+                                      query: {
+                                          year: date?.format('YYYY'),
+                                          month: date?.format('MM'),
+                                      },
+                                  })
+                                : undefined
+                        }
+                        views={['year', 'month']}
+                        sx={{
+                            mr: 1,
+                        }}
+                        slotProps={{
+                            field: {
+                                clearable: true,
+                                onClear: () => {
+                                    replace({
+                                        query: {
+                                            year: undefined,
+                                            month: undefined,
+                                        },
+                                    })
+                                },
                             },
-                        },
-                        textField: {
-                            margin: 'none',
-                            size: 'small',
-                            fullWidth: false,
-                        },
-                    }}
-                />
+                            textField: {
+                                margin: 'none',
+                                size: 'small',
+                                fullWidth: false,
+                            },
+                        }}
+                    />
+                )}
 
                 <Chip
                     color={type === 'all' ? 'success' : undefined}
@@ -137,6 +124,14 @@ export default function HeavyEquipmentRentsDatatable({
                     label="Belum Selesai"
                     onClick={() => setType('unfinished')}
                 />
+
+                {as === 'admin' && (
+                    <Chip
+                        color={type === 'unpaid' ? 'success' : undefined}
+                        label="Belum Dibayar"
+                        onClick={() => setType('unfinished')}
+                    />
+                )}
             </Box>
 
             <Datatable
@@ -144,9 +139,10 @@ export default function HeavyEquipmentRentsDatatable({
                 tableId="unfinished-heavy-equipment-rents-datatable"
                 apiUrl={ApiUrlEnum.DATATABLE_DATA}
                 apiUrlParams={{
-                    year: selectedDate?.format('YYYY') ?? undefined,
+                    as,
+                    type,
                     month: selectedDate?.format('MM') ?? undefined,
-                    type: type,
+                    year: selectedDate?.format('YYYY') ?? undefined,
                 }}
                 onRowClick={handleRowClick}
                 columns={columns}
@@ -184,13 +180,21 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
         },
     },
     {
+        name: 'byUser.id', // <-- hidden / only for search
+        label: 'Penyewa/PJ',
+        options: {
+            display: 'excluded',
+            sort: false,
+        },
+    },
+    {
         name: 'byUser.name',
         label: 'Penyewa/PJ',
         options: {
             customBodyRenderLite: dataIndex => {
                 const { id, name } = getRowData(dataIndex)?.by_user ?? {}
 
-                return id ? `#${id} ${name}` : '-'
+                return id ? `#${id} — ${name}` : '-'
             },
         },
     },
@@ -283,15 +287,31 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRenderLite: dataIndex => {
-                const data = getRowData(dataIndex)
+            customBodyRender: (_, rowIndex): RentStatus => {
+                const data = getRowData(rowIndex)
 
                 return data?.is_paid
-                    ? 'Selesai'
+                    ? RentStatus.PAID
                     : data?.finished_at
-                      ? 'Menunggu Pembayaran'
-                      : 'Terjadwal'
+                      ? RentStatus.FINISHED
+                      : RentStatus.SCHEDULED
             },
+            setCellProps: cellValue => ({
+                sx: {
+                    color:
+                        cellValue === RentStatus.PAID
+                            ? 'success.main'
+                            : cellValue === RentStatus.FINISHED
+                              ? 'warning.main'
+                              : 'inherit',
+                },
+            }),
         },
     },
 ]
+
+enum RentStatus {
+    PAID = 'Lunas',
+    FINISHED = 'Pekerjaan Selesai / Menunggu Pembayaran',
+    SCHEDULED = 'Terjadwal',
+}
