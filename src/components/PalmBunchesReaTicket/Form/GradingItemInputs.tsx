@@ -75,12 +75,6 @@ const GradingItemInputs: FC<{
                             value={grading.item.id}
                         />
 
-                        <input
-                            type="hidden"
-                            name={`gradings[${index}][value]`}
-                            value={grading.value ?? ''}
-                        />
-
                         <NumericFormat
                             customInput={TextField}
                             disabled={disabled}
@@ -92,6 +86,7 @@ const GradingItemInputs: FC<{
                             thousandSeparator="."
                             decimalSeparator=","
                             allowNegative={false}
+                            name={`gradings[${index}][value]`}
                             InputProps={{
                                 endAdornment: grading.item.unit,
                             }}
