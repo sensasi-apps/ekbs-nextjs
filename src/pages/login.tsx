@@ -1,8 +1,11 @@
+// vendors
+import { useIsOnline } from 'react-use-is-online'
 // materials
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 // icons
 import ArrowBack from '@mui/icons-material/ArrowBack'
+import GoogleIcon from '@mui/icons-material/Google'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // components
 import { Form } from '../components/pages/login/Form'
@@ -12,6 +15,7 @@ import CompleteCenter from '@/components/Statuses/CompleteCenter'
 
 export default function LoginPage() {
     const { message, isLoading, isError, handleSubmit } = useHooks()
+    const { isOffline } = useIsOnline()
 
     return (
         <GuestFormLayout
@@ -34,16 +38,18 @@ export default function LoginPage() {
                 Atau
             </Divider>
 
-            {/* <Box display="flex" flexDirection="column" gap={2}> */}
-            {/* disable google login for now due to offline auth */}
-            {/* <Button
-                href="/api/oauth/google"
+            <Button
+                sx={{
+                    mb: 2,
+                }}
+                href="/oauth/google"
                 fullWidth
                 color="inherit"
                 variant="contained"
+                disabled={isOffline}
                 startIcon={<GoogleIcon />}>
                 Login dengan Google
-            </Button> */}
+            </Button>
 
             <Button
                 href="/"
