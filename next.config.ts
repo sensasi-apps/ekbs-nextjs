@@ -6,16 +6,21 @@ import withSerwistInit from '@serwist/next'
 const nextConfig: NextConfig = {
     reactStrictMode: true,
 
-    /** DISABLED DUE #328 changes */
-    // rewrites() {
-    //     return [
-    //         {
-    //             source: '/api/oauth/:path*',
-    //             destination:
-    //                 process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
-    //         },
-    //     ]
-    // },
+    async rewrites() {
+        return [
+            {
+                source: '/oauth/:path*',
+                destination:
+                    process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
+            },
+            {
+                source: '/oauth/:path*/callback',
+                destination:
+                    process.env.NEXT_PUBLIC_BACKEND_URL +
+                    '/oauth/:path*/callback',
+            },
+        ]
+    },
 }
 
 const withSerwist = withSerwistInit({
