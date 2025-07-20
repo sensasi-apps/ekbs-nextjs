@@ -47,7 +47,9 @@ export default function UsersSummaryBox() {
                 </>
             )}
 
-            {data?.map((item, i) => <SummaryCard key={i} data={item} />)}
+            {data?.map((item, i) => (
+                <SummaryCard key={i} data={item} />
+            ))}
         </Box>
     )
 }
