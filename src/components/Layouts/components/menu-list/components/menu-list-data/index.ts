@@ -6,6 +6,7 @@ import Dashboard from '@mui/icons-material/Dashboard'
 import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 // nav items
 import { accountings } from './accountings'
+import { clms } from './clm'
 import { executives } from './executives'
 import { farmInputs } from './farm-Inputs'
 import { heavyEquipments } from './heavy-equipments'
@@ -15,8 +16,9 @@ import { palmBunches } from './palm-bunches'
 import { supermans } from './supermans'
 import { systems } from './systems'
 import { marts } from './marts'
-import Role from '@/enums/Role'
 import { repairShop } from './repair-shop'
+// enums
+import Role from '@/enums/Role'
 
 export const NAV_ITEM_GROUPS: NavItemGroup[] = [
     {
@@ -48,6 +50,7 @@ export const NAV_ITEM_GROUPS: NavItemGroup[] = [
     heavyEquipments,
     marts,
     repairShop,
+    clms,
     accountings,
     systems,
     supermans,
