@@ -1,7 +1,12 @@
 import { getCurrentAuthInfo } from '@/providers/Auth/functions/getCurrentAuthInfo'
 import * as Sentry from '@sentry/nextjs'
 
-if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart
+
+if (
+    process.env.NEXT_PUBLIC_SENTRY_DSN &&
+    process.env.NODE_ENV === 'production'
+) {
     Sentry.init({
         dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
@@ -15,7 +20,7 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
 
         // Capture Replay for 10% of all sessions,
         // plus for 100% of sessions with an error
-        replaysSessionSampleRate: 0.1,
+        // replaysSessionSampleRate: 0.1,
         replaysOnErrorSampleRate: 1.0,
 
         // ...
