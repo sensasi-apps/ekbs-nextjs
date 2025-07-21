@@ -51,7 +51,10 @@ export default function StatCard({
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center">
-                    <Typography textTransform="capitalize" variant="body1">
+                    <Typography
+                        component="div"
+                        textTransform="capitalize"
+                        variant="body1">
                         {title}
                     </Typography>
 

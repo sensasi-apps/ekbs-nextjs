@@ -2,6 +2,7 @@ import type { ApiResponseType } from './me/participations'
 // vendors
 import useSWR from 'swr'
 // materials
+import Box from '@mui/material/Box'
 import Grid2 from '@mui/material/Grid2'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
@@ -12,7 +13,9 @@ import Forest from '@mui/icons-material/Forest'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import useAuth from '@/providers/Auth'
 import ScrollableXBox from '@/components/ScrollableXBox'
-import BigNumberCard from '@/components/big-number-card'
+import BigNumberCard, {
+    type BigNumberCardProps,
+} from '@/components/big-number-card'
 import AlertListCard from '@/components/pages/dashboard/AlertListCard'
 // enums
 import Role from '@/enums/Role'
@@ -32,6 +35,10 @@ export default function Page() {
                 ? 'me/participations'
                 : null,
         )
+
+    const { data = [] } = useSWR<BigNumberCardProps[]>(
+        userHasRole([Role.SUPERMAN]) ? 'data/dashboard' : null,
+    )
 
     return (
         <AuthLayout title="Dasbor">
@@ -54,9 +61,11 @@ export default function Page() {
             <ScrollableXBox
                 gap={3}
                 flex="1 1 0"
+                alignItems="stretch"
                 sx={{
                     '& > *': {
                         flex: '0 0 auto',
+                        minWidth: '15rem',
                     },
                 }}
                 mb={6}>
@@ -64,10 +73,10 @@ export default function Page() {
                     <BigNumberCard
                         {...palmBunches.bigNumber1}
                         title={
-                            <>
-                                <Forest sx={{ mr: 1 }} /> Penjualan TBS bulan
-                                ini
-                            </>
+                            <Box display="flex" alignItems="center" gap={2}>
+                                <Forest />
+                                <div>Penjualan TBS bulan ini</div>
+                            </Box>
                         }
                     />
                 )}
@@ -76,13 +85,17 @@ export default function Page() {
                     <BigNumberCard
                         {...palmBunchesDelivery.bigNumber1}
                         title={
-                            <>
-                                <FireTruck sx={{ mr: 1 }} /> Pengangkutan TBS
-                                bulan ini
-                            </>
+                            <Box display="flex" alignItems="center" gap={2}>
+                                <FireTruck />
+                                <div>Pengangkutan TBS bulan ini</div>
+                            </Box>
                         }
                     />
                 )}
+
+                {data.map((item, index) => (
+                    <BigNumberCard key={index} {...item} />
+                ))}
             </ScrollableXBox>
 
             <Grid2 container spacing={2}>
