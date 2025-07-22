@@ -55,7 +55,7 @@ function getIsShowMenuItemToUser(
     forPermission: NavItemGroup['items'][0]['forPermission'],
     userHasRole: AuthContextType['userHasRole'],
     userHasPermission: AuthContextType['userHasPermission'],
-) {
+): boolean {
     if (forRole && forPermission) {
         return userHasRole(forRole) || userHasPermission(forPermission)
     }
