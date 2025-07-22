@@ -7,7 +7,19 @@ interface NavItem {
     label: string
     pathname?: string | string[]
     icon: ElementType
+
+    /**
+     * `undefined` value for `forRole` means all roles.
+     *
+     * set it to `[]` if you want to hide the item / only for superman.
+     */
     forRole?: Role | Role[]
+
+    /**
+     * `undefined` value for `forPermission` means all permissions.
+     *
+     * set it to `[]` if you want to hide the item / only for superman.
+     */
     forPermission?: Permission | Permission[]
 }
 

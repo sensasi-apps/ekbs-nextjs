@@ -10,7 +10,7 @@ export const clms: NavItemGroup = {
             label: 'Anggota',
             href: '/clm/members',
             icon: Group,
-            // forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
+            forRole: [], // TODO: change this when feature is ready
         },
     ],
 }
