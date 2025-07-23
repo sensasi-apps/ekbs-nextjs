@@ -1,25 +1,31 @@
 // types
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 // vendors
 import Head from 'next/head'
 // materials
 import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
 // components
-import { DRAWER_WIDTH } from './components/menu-list'
-import TopBarAndMenuList from './TopBarAndMenuList'
+import MenuList, { DRAWER_WIDTH } from './components/menu-list'
+import TopBar from './components/TopBar'
 import FooterBox from './FooterBox'
+// hooks
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
 import { The401Protection } from './auth-layout.401-protection'
 
 export default function AuthLayout({
     title,
     children,
+    subtitle,
 }: {
     title: string
     children: ReactNode
+    subtitle?: string
 }) {
     useRedirectIfUnauth()
+
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+    const toggleDrawer = () => setIsDrawerOpen(prev => !prev)
 
     return (
         <div
@@ -27,30 +33,39 @@ export default function AuthLayout({
                 display: 'flex',
             }}>
             <Head>
-                {title && (
+                {title !== '' && (
                     <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
                 )}
+
+                {subtitle && <meta name="description" content={subtitle} />}
             </Head>
 
-            <TopBarAndMenuList title={title} />
+            <MenuList isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
 
             <Box
                 flexGrow="1"
                 width={{
                     xs: '100%',
                     sm: `calc(100% - ${DRAWER_WIDTH}px)`,
-                }}
-                sx={{
-                    p: {
-                        xs: 3,
-                        sm: 5,
-                    },
                 }}>
-                <Toolbar />
+                <TopBar
+                    title={title}
+                    toggleDrawer={toggleDrawer}
+                    subtitle={subtitle}
+                />
 
                 <The401Protection hasMenu />
 
-                <main>{children}</main>
+                <Box
+                    component="main"
+                    sx={{
+                        p: {
+                            xs: 3,
+                            sm: 6,
+                        },
+                    }}>
+                    {children}
+                </Box>
 
                 <FooterBox mt={10} mb={0} />
             </Box>
