@@ -72,6 +72,9 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
     {
         name: 'customer.name',
         label: 'Pelanggan',
+        options: {
+            searchable: false,
+        },
     },
     {
         name: 'final_rp',

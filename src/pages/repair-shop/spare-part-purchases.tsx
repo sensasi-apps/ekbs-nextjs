@@ -58,7 +58,7 @@ export default function Page() {
 
 const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
     {
-        name: 'short_uuid',
+        name: 'uuid',
         label: 'Kode',
         options: {
             customBodyRenderLite: dataIndex => {
@@ -96,7 +96,7 @@ const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
         },
     },
     {
-        name: 'details.product.name',
+        name: 'details.sparePart.name',
         label: 'Barang',
         options: {
             customBodyRender: (_, rowIndex) => {
