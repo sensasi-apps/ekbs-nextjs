@@ -11,7 +11,7 @@ interface TextFieldProps {
     value?: string
     name: string
     label?: string
-    disabled: boolean
+    disabled?: boolean
     textFieldProps?: Omit<
         MuiTextFieldProps,
         'error' | 'name' | 'id' | 'disabled' | 'label' | 'value' | 'onChange'
@@ -25,7 +25,7 @@ export default function TextField(props: TextFieldProps) {
 function InnerComponent({
     // formik props
     field: { name },
-    form: { setFieldValue, getFieldMeta },
+    form: { setFieldValue, getFieldMeta, isSubmitting },
 
     // additional props
     label,
@@ -44,7 +44,7 @@ function InnerComponent({
     return (
         <DefaultTextField
             id={name}
-            disabled={disabled}
+            disabled={disabled || isSubmitting}
             label={label}
             value={innerValue}
             onChange={({ target: { value } }) => {
