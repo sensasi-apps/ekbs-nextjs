@@ -15,7 +15,7 @@ export default function Radio({
     options,
     required,
 }: {
-    disabled: boolean
+    disabled?: boolean
     label: string
     name: string
     required?: boolean
@@ -29,10 +29,11 @@ export default function Radio({
             {({
                 field: { value, onChange, name },
                 meta: { error },
+                form: { isSubmitting },
             }: FieldProps) => (
                 <FormControl
                     error={Boolean(error)}
-                    disabled={disabled}
+                    disabled={disabled || isSubmitting}
                     fullWidth
                     required={required}
                     margin="dense">
@@ -47,7 +48,7 @@ export default function Radio({
                             <FormControlLabel
                                 key={option.value}
                                 value={option.value}
-                                required
+                                required={required}
                                 control={<MuiRadio />}
                                 label={option.label}
                             />
