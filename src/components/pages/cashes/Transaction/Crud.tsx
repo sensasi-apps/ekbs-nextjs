@@ -168,7 +168,6 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         label: 'Wallet',
         options: {
             sort: false,
-            searchable: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowDataRefGlobal.current?.(dataIndex)
 

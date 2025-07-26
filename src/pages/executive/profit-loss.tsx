@@ -34,6 +34,7 @@ export default function ProfitLoss() {
             [BusinessUnit.BENGKEL]: repairShop,
             [BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN]:
                 sertifikasiDanPengelolaanKebun,
+            [BusinessUnit.COFFEESHOP_DEPAN_KANTOR]: coffeeShopDepanKantor,
         } = {},
         isLoading,
         isValidating,
@@ -100,6 +101,11 @@ export default function ProfitLoss() {
                 data={sertifikasiDanPengelolaanKebun}
             />
 
+            <Table1WithFade
+                name={BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString()}
+                data={coffeeShopDepanKantor}
+            />
+
             <Fade in={isValidating || isLoading}>
                 <LinearProgress
                     sx={{
@@ -148,6 +154,7 @@ interface ApiResponseType {
     [BusinessUnit.BELAYAN_MART]: ApiResponseItemType2
     [BusinessUnit.BENGKEL]: ApiResponseItemType2
     [BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN]: ApiResponseItemType1
+    [BusinessUnit.COFFEESHOP_DEPAN_KANTOR]: ApiResponseItemType1
 }
 
 function calcMonthlyTotal(data: ItemRow[]): number[] {

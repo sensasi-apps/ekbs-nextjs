@@ -120,6 +120,22 @@ export function TabChips({
                 }
             />
 
+            <Chip
+                label="COFFEESHOP"
+                disabled={disabled}
+                onClick={() =>
+                    handleActiveTabChange(
+                        BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString(),
+                    )
+                }
+                color={
+                    query.activeTab ===
+                    BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString()
+                        ? 'success'
+                        : undefined
+                }
+            />
+
             <DatePicker
                 disabled={disabled}
                 slotProps={{
