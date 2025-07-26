@@ -1,6 +1,7 @@
 // vendors
 import { Formik, type FormikProps } from 'formik'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
+import useSWR from 'swr'
 // materials
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -9,21 +10,23 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid2'
 import LinearProgress from '@mui/material/LinearProgress'
+import Typography from '@mui/material/Typography'
 // icons
 import Add from '@mui/icons-material/Add'
 import Check from '@mui/icons-material/Check'
+import ContactPageIcon from '@mui/icons-material/ContactPage'
+import Edit from '@mui/icons-material/Edit'
+import ForestIcon from '@mui/icons-material/Forest'
 // components
+import { AoaTable } from '@/components/aoa-table'
+import { Radio, TextField } from '@/components/FormikForm'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import Datatable, {
-    type DatatableProps,
-    type GetRowDataType,
-    type MutateType,
-} from '@/components/Datatable'
 import Fab from '@/components/Fab'
+import Switch from '@/components/FormikForm/switch'
+import IconButton from '@/components/IconButton'
+//
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/errorCatcher'
-import { Radio, TextField } from '@/components/FormikForm'
-import Switch from '@/components/FormikForm/switch'
 
 interface Requisite {
     id: number
@@ -40,49 +43,86 @@ type FormData = Omit<Requisite, 'id' | 'is_optional'> & {
 
 export default function Page() {
     const [formData, setFormData] = useState<FormData>()
-    const USER_mutateRef = useRef<MutateType<Requisite>>()
-    const USER_getRowDataRef = useRef<GetRowDataType<Requisite>>()
 
-    const LAND_mutateRef = useRef<MutateType<Requisite>>()
-    const LAND_getRowDataRef = useRef<GetRowDataType<Requisite>>()
+    const {
+        data = [],
+        mutate,
+        isLoading,
+        isValidating,
+    } = useSWR<Requisite[]>('clm/requisites')
+
+    const showLinearProgress = isLoading || isValidating
+
+    const aoaUserData = data
+        .filter(({ type }) => type === 'user')
+        .map(row => [
+            row.name,
+            row.description,
+            row.is_optional ? '' : <Check color="success" />,
+            <IconButton
+                title="Ubah"
+                key={row.id}
+                icon={Edit}
+                color="primary"
+                onClick={() => {
+                    setFormData({
+                        ...row,
+                        is_required: !row.is_optional,
+                    })
+                }}
+            />,
+        ])
+
+    const aoaLandData = data
+        .filter(({ type }) => type === 'land')
+        .map(row => [
+            row.name,
+            row.description,
+            row.is_optional ? '' : <Check color="success" />,
+            <Button
+                key={row.id}
+                size="small"
+                onClick={() => {
+                    setFormData({
+                        ...row,
+                        is_required: !row.is_optional,
+                    })
+                }}>
+                Ubah
+            </Button>,
+        ])
 
     return (
         <AuthLayout
             title="Syarat Sertifikasi"
             subtitle="Pengaturan syarat yang akan berlaku untuk semua anggota dan lahan">
-            <Grid container spacing={2} mt={2}>
+            <Grid container spacing={4}>
                 <Grid
                     size={{
                         xs: 12,
                         sm: 12,
                         md: 6,
                     }}>
-                    <Datatable<Requisite>
-                        tableId="clm-user-requisites-datatable"
-                        title="Syarat Perorangan"
-                        apiUrl="/clm/requisites/get-datatable-data"
-                        apiUrlParams={{
-                            type: 'user',
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        display="flex"
+                        gap={1}
+                        mb={1}>
+                        <ContactPageIcon />
+                        Perorangan
+                    </Typography>
+                    <LinearProgress
+                        sx={{
+                            visibility: showLinearProgress
+                                ? 'visible'
+                                : 'hidden',
                         }}
-                        columns={DATATABLE_COLUMNS}
-                        defaultSortOrder={{ name: 'name', direction: 'asc' }}
-                        onRowClick={(_, { dataIndex }, event) => {
-                            if (event.detail === 2) {
-                                const data =
-                                    USER_getRowDataRef.current?.(dataIndex)
+                    />
 
-                                if (data) {
-                                    setFormData({
-                                        ...data,
-                                        is_required: !data?.is_optional,
-                                    })
-                                }
-                            }
-                        }}
-                        mutateCallback={fn => (USER_mutateRef.current = fn)}
-                        getRowDataCallback={fn =>
-                            (USER_getRowDataRef.current = fn)
-                        }
+                    <AoaTable
+                        headers={['Nama', 'Keterangan', 'Wajib', 'Aksi']}
+                        dataRows={aoaUserData}
                     />
                 </Grid>
 
@@ -92,32 +132,27 @@ export default function Page() {
                         sm: 12,
                         md: 6,
                     }}>
-                    <Datatable
-                        tableId="clm-user-requisites-datatable"
-                        title="Syarat per Lahan"
-                        apiUrl="/clm/requisites/get-datatable-data"
-                        apiUrlParams={{
-                            type: 'land',
-                        }}
-                        columns={DATATABLE_COLUMNS}
-                        defaultSortOrder={{ name: 'name', direction: 'asc' }}
-                        onRowClick={(_, { dataIndex }, event) => {
-                            if (event.detail === 2) {
-                                const data =
-                                    LAND_getRowDataRef.current?.(dataIndex)
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        display="flex"
+                        gap={1}
+                        mb={1}>
+                        <ForestIcon />
+                        Lahan
+                    </Typography>
 
-                                if (data) {
-                                    setFormData({
-                                        ...data,
-                                        is_required: !data?.is_optional,
-                                    })
-                                }
-                            }
+                    <LinearProgress
+                        sx={{
+                            visibility: showLinearProgress
+                                ? 'visible'
+                                : 'hidden',
                         }}
-                        mutateCallback={fn => (LAND_mutateRef.current = fn)}
-                        getRowDataCallback={fn =>
-                            (LAND_getRowDataRef.current = fn)
-                        }
+                    />
+
+                    <AoaTable
+                        headers={['Nama', 'Keterangan', 'Wajib', 'Aksi']}
+                        dataRows={aoaLandData}
                     />
                 </Grid>
             </Grid>
@@ -127,10 +162,9 @@ export default function Page() {
                 onCancel={() => {
                     setFormData(undefined)
                 }}
-                onCLose={() => {
+                onSubmitted={() => {
                     setFormData(undefined)
-                    USER_mutateRef.current?.()
-                    LAND_mutateRef.current?.()
+                    mutate()
                 }}
             />
 
@@ -149,57 +183,13 @@ export default function Page() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Requisite>['columns'] = [
-    // {
-    //     name: 'id',
-    //     label: 'ID',
-    // },
-    {
-        name: 'name',
-        label: 'Nama',
-    },
-    {
-        name: 'description',
-        label: 'Keterangan',
-        options: {
-            sort: false,
-        },
-    },
-    {
-        name: 'is_optional',
-        label: 'Wajib',
-        options: {
-            searchable: false,
-            customBodyRender: (value: boolean) => {
-                return value ? '' : <Check color="success" />
-            },
-        },
-    },
-
-    // {
-    //     name: 'status',
-    //     label: 'Status',
-    //     options: {
-    //         searchable: false,
-    //         sort: false,
-    //     },
-    // },
-
-    // {
-    //     name: 'created_at',
-    //     options: {
-    //         display: 'excluded',
-    //     },
-    // },
-]
-
 function RequisiteForm({
     formData,
-    onCLose,
+    onSubmitted,
     onCancel,
 }: {
     formData: FormData | undefined
-    onCLose: () => void
+    onSubmitted: () => void
     onCancel: () => void
 }) {
     if (!formData) {
@@ -212,7 +202,7 @@ function RequisiteForm({
             onSubmit={(values, { setErrors }) =>
                 myAxios
                     .post('/clm/requisites', values)
-                    .then(onCLose)
+                    .then(onSubmitted)
                     .catch(error => handle422(error, setErrors))
             }
             component={({
