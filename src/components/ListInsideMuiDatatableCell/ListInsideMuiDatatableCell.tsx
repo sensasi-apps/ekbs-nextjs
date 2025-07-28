@@ -3,20 +3,18 @@ import type { ReactNode } from 'react'
 import type { BoxProps } from '@mui/material/Box'
 // materials
 import Box from '@mui/material/Box'
-//
-import type PalmBunchType from '@/dataTypes/PalmBunch'
 
-export default function ListInsideMuiDatatableCell({
+export default function ListInsideMuiDatatableCell<T>({
     listItems,
     slotProps,
     renderItem = () => null,
 }: {
-    listItems: PalmBunchType[]
+    listItems: T[]
     slotProps?: {
         list: BoxProps
         listItem: BoxProps
     }
-    renderItem?: (item: PalmBunchType) => ReactNode
+    renderItem?: (item: T) => ReactNode
 }) {
     if (!listItems?.length) return null
 
