@@ -3,6 +3,7 @@ import type { Ymd } from '@/types/DateString'
 // features
 import type Employee from '@/features/user/types/employee'
 import type UserSocial from '@/features/user/types/user-social'
+import type Land from '@/types/Land'
 
 export default interface User {
     id: number
@@ -29,4 +30,7 @@ export default interface User {
     last_six_months_tbs_performance?: []
     employee?: Employee | null
     phone_no?: string
+
+    // lands
+    lands?: Land[]
 }

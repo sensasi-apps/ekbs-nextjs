@@ -20,6 +20,8 @@ import myAxios from '@/lib/axios'
 import handle422 from '@/utils/errorCatcher'
 import type User from '@/features/user/types/user'
 import { useRouter } from 'next/router'
+import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
+import TextShortener from '@/components/text-shortener'
 
 interface Member {
     user_uuid: string
@@ -125,6 +127,28 @@ const DATATABLE_COLUMNS: DatatableProps<Member>['columns'] = [
     {
         name: 'user.name',
         label: 'Nama',
+    },
+
+    {
+        name: 'user.lands',
+        label: 'Lahan',
+        options: {
+            searchable: false,
+            sort: false,
+            customBodyRender: (value: Member['user']['lands']) => {
+                return (
+                    <ListInsideMuiDatatableCell
+                        listItems={value ?? []}
+                        renderItem={land => (
+                            <>
+                                <TextShortener text={land.uuid} /> (
+                                {land.n_area_hectares} Ha)
+                            </>
+                        )}
+                    />
+                )
+            },
+        },
     },
 
     {
