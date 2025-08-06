@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // sub-components
 import type { FormikStatusType, FormValuesType } from '../../../../../..'
 import DetailItem from '../../../../../../../@shared-subcomponents/detail-item'

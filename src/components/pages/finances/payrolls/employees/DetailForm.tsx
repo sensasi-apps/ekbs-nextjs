@@ -9,7 +9,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 // icons
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'

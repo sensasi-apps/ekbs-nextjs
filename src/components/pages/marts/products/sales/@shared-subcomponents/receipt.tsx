@@ -10,7 +10,7 @@ import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // components
 import DefaultItemDesc from './default-item-desc'

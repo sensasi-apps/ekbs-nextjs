@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Fade from '@mui/material/Fade'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // components
 import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import myAxios from '@/lib/axios'

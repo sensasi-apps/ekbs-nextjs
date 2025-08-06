@@ -8,7 +8,7 @@ import { Field, FieldArray, type FieldProps, type FormikProps } from 'formik'
 // materials
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // components
 import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import TextFieldDefault from '@/components/TextField'

@@ -9,7 +9,7 @@ import dayjs, { type Dayjs } from 'dayjs'
 import { NumericFormat } from 'react-number-format'
 // materials
 import Fade from '@mui/material/Fade'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'

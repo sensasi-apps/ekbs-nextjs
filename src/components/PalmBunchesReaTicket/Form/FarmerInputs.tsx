@@ -7,7 +7,7 @@ import { useEffect, useState, memo } from 'react'
 import { NumericFormat } from 'react-number-format'
 // materials
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'

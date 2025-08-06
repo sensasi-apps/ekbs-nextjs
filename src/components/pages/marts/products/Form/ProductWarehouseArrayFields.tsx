@@ -3,7 +3,7 @@ import type Product from '@/dataTypes/mart/Product'
 // vendors
 import { FastField, type FieldArrayRenderProps } from 'formik'
 // materials
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'

@@ -1,7 +1,7 @@
 // vendors
 import { memo } from 'react'
 // materials
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 // components

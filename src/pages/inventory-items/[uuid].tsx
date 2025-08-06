@@ -14,7 +14,7 @@ import useSWR from 'swr'
 // materials
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable from '@/components/Datatable'

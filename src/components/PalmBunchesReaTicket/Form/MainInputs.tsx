@@ -5,7 +5,7 @@ import { NumericFormat, type NumberFormatValues } from 'react-number-format'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 // components

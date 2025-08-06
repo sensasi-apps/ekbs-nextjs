@@ -1,6 +1,6 @@
 // materials
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import CashCrud from '@/components/pages/cashes/Cash/Crud'

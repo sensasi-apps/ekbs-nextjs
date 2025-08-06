@@ -8,7 +8,7 @@ import {
 } from 'formik'
 // materials
 import Alert from '@mui/material/Alert'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 // components
 import NumericFormat from '@/components/NumericFormat'
 // utils

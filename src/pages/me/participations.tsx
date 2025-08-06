@@ -5,7 +5,7 @@ import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // icons-materials
 import Agriculture from '@mui/icons-material/Agriculture'

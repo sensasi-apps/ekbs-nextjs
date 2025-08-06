@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // components
 import { NumericField } from '@/components/FormikForm'
 import RpInputAdornment from '@/components/InputAdornment/Rp'

@@ -4,7 +4,7 @@ import type { Installment } from '@/dataTypes/Installment'
 import { memo } from 'react'
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // icons
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 // components

@@ -6,7 +6,7 @@ import { memo } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // sub-components
 import { NumericField } from '@/components/FormikForm'

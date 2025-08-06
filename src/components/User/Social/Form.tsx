@@ -9,7 +9,7 @@ import { mutate } from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 // components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import SelectFromApi from '@/components/Global/SelectFromApi'

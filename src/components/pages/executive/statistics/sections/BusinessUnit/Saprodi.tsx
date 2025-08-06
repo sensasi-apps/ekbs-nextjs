@@ -6,7 +6,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'

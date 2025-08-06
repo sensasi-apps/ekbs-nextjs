@@ -8,7 +8,7 @@ import axios from '@/lib/axios'
 import useSWR from 'swr'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'

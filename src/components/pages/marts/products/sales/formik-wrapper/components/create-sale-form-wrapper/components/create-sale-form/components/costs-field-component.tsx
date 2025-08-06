@@ -4,7 +4,7 @@ import { memo } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 // materials
 import Button from '@mui/material/Button'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // icons-materials
 import AddCircle from '@mui/icons-material/AddCircle'
 //

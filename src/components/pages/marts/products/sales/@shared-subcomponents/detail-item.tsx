@@ -1,7 +1,7 @@
 // vendors
 import { memo } from 'react'
 // materials
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // icons-materials
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'

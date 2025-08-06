@@ -1,6 +1,6 @@
 // vendors
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
