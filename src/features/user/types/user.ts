@@ -3,6 +3,8 @@ import type { Ymd } from '@/types/DateString'
 // features
 import type Employee from '@/features/user/types/employee'
 import type UserSocial from '@/features/user/types/user-social'
+import type Land from '@/types/Land'
+import type File from '@/dataTypes/File'
 
 export default interface User {
     id: number
@@ -17,6 +19,11 @@ export default interface User {
     uuid: UUID
 
     // relations
+    detail?: {
+        uuid: UUID
+        user_uuid: UUID
+        files?: File[]
+    }
     member?: {
         uuid: UUID
         user_uuid: UUID
@@ -29,4 +36,7 @@ export default interface User {
     last_six_months_tbs_performance?: []
     employee?: Employee | null
     phone_no?: string
+
+    // lands
+    lands?: Land[]
 }

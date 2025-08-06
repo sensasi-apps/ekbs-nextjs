@@ -1,5 +1,4 @@
 // vendors
-import type { AoaRows } from '@/functions/aoaToXlsx'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -12,7 +11,7 @@ export function AoaTable({
     dataRows,
 }: {
     headers: string[]
-    dataRows: AoaRows
+    dataRows: (string | number | null | JSX.Element)[][]
 }) {
     return (
         <TableContainer>
@@ -31,10 +30,22 @@ export function AoaTable({
                             whiteSpace: 'nowrap',
                         },
                     }}>
-                    {dataRows.map((row, index) => (
-                        <TableRow key={index}>
-                            {row.map((cell, index) => (
-                                <TableCell key={index}>{cell}</TableCell>
+                    {dataRows.length === 0 && (
+                        <TableRow>
+                            <TableCell
+                                colSpan={headers.length}
+                                sx={{
+                                    textAlign: 'center',
+                                }}>
+                                Tidak ada data
+                            </TableCell>
+                        </TableRow>
+                    )}
+
+                    {dataRows.map((row, i) => (
+                        <TableRow key={'row-' + i}>
+                            {row.map((cell, j) => (
+                                <TableCell key={'cell-' + j}>{cell}</TableCell>
                             ))}
                         </TableRow>
                     ))}
