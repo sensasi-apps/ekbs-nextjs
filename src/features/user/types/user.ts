@@ -4,6 +4,7 @@ import type { Ymd } from '@/types/DateString'
 import type Employee from '@/features/user/types/employee'
 import type UserSocial from '@/features/user/types/user-social'
 import type Land from '@/types/Land'
+import type File from '@/dataTypes/File'
 
 export default interface User {
     id: number
@@ -18,6 +19,11 @@ export default interface User {
     uuid: UUID
 
     // relations
+    detail?: {
+        uuid: UUID
+        user_uuid: UUID
+        files?: File[]
+    }
     member?: {
         uuid: UUID
         user_uuid: UUID

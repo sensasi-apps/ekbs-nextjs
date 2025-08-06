@@ -1,0 +1,42 @@
+// materials
+import type { SvgIconComponent } from '@mui/icons-material' // eslint-disable-line
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+
+type UserStatCardProps = {
+    text: string
+    value: number | string
+    unit?: string
+    Icon: SvgIconComponent
+}
+
+export default function UserStatCard({
+    text,
+    value,
+    unit,
+    Icon,
+}: UserStatCardProps) {
+    return (
+        <Card sx={{ width: '100%', height: '100%' }}>
+            <CardContent
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                    px: 4,
+                    py: 3,
+                }}>
+                <Icon sx={{ fontSize: 40 }} />
+
+                <Box>
+                    <Typography variant="h5" fontWeight="bold">
+                        {value} {unit}
+                    </Typography>
+                    <Typography variant="body2">{text}</Typography>
+                </Box>
+            </CardContent>
+        </Card>
+    )
+}

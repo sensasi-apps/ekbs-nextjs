@@ -1,8 +1,14 @@
+interface IdName {
+    id: string
+    name: string
+}
+
 export default interface Address {
     uuid: string
-    regency: { id: string }
-    district?: { id: string }
-    village?: { id: string }
+    province: IdName
+    regency: IdName
+    district?: IdName
+    village?: IdName
     detail?: string
     zip_code?: string
 }

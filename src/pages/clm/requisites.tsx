@@ -27,14 +27,7 @@ import IconButton from '@/components/IconButton'
 //
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/errorCatcher'
-
-interface Requisite {
-    id: number
-    name: string
-    description: string | null
-    type: 'user' | 'land'
-    is_optional: boolean
-}
+import type Requisite from '@/features/clm/types/requisite'
 
 type FormData = Omit<Requisite, 'id' | 'is_optional'> & {
     id?: number
