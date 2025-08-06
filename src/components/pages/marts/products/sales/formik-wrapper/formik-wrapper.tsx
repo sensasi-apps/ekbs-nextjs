@@ -6,7 +6,7 @@ import type LaravelValidationException from '@/types/LaravelValidationException'
 import { Field, Formik } from 'formik'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // local components
 import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
 import ProductPicker from '../product-picker'

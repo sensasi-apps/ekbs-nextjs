@@ -8,7 +8,7 @@ import type { Ymd } from '@/types/DateString'
 import { useEffect, useState } from 'react'
 // materials
 import Fade from '@mui/material/Fade'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 import TextField from '@mui/material/TextField'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'

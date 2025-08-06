@@ -19,7 +19,7 @@ import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import DatePicker from '@/components/DatePicker'

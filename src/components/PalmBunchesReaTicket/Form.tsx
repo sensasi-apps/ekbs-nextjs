@@ -13,7 +13,7 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 // icons
 import InfoIcon from '@mui/icons-material/Info'
 // local components

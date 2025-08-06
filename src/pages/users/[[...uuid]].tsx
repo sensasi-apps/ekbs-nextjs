@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // components
 import { FormDataProvider } from '@/providers/FormData'
 import { UserWithDetailsProvider } from '@/providers/UserWithDetails'

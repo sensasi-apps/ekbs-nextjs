@@ -6,8 +6,8 @@ import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Chip, { type ChipProps } from '@mui/material/Chip'
-import Grid2 from '@mui/material/Grid2'
-import green from '@mui/material/colors/green'
+import Grid2 from '@mui/material/Grid'
+import { green } from '@mui/material/colors'
 import Tooltip from '@mui/material/Tooltip'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'

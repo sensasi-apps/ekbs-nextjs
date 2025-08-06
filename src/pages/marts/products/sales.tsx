@@ -2,7 +2,7 @@
 import Head from 'next/head'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // global components
 import BackButton from '@/components/BackButton'
 import FooterBox from '@/components/Layouts/FooterBox'

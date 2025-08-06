@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 // icons-materials

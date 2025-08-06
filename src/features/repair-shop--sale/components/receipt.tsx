@@ -3,7 +3,7 @@ import type { UUID } from 'crypto'
 // import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // utils
 import formatNumber from '@/utils/formatNumber'

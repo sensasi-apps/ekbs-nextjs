@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react'
 // materials
+import { createTheme, THEME_ID, ThemeProvider } from '@mui/material/styles'
 import Box, { type BoxProps } from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
-import createTheme from '@mui/material/styles/createTheme'
-import ThemeProvider from '@mui/material/styles/ThemeProvider'
-import THEME_ID from '@mui/material/styles/identifier'
 //
 import { Footer } from '@/components/Layouts/components/footer'
 import THEME from '@/providers/@statics/theme'

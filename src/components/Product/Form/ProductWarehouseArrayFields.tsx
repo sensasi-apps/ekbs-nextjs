@@ -6,7 +6,7 @@ import {
 } from 'formik'
 import type Product from '@/dataTypes/Product'
 // materials
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'

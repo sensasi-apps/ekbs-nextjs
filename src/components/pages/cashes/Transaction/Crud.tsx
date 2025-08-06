@@ -7,7 +7,7 @@ import type { Transaction } from '@/dataTypes/Transaction'
 import { Formik } from 'formik'
 import { useCallback, useRef, useState, type MutableRefObject } from 'react'
 import Chip, { type ChipProps } from '@mui/material/Chip'
-import green from '@mui/material/colors/green'
+import { green } from '@mui/material/colors'
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 // icons

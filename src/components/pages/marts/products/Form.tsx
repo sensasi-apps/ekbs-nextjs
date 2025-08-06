@@ -12,7 +12,7 @@ import MuiTextField from '@mui/material/TextField'
 import useSWR from 'swr'
 // materials
 import Alert from '@mui/material/Alert'
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // components
 import FormikForm, { NumericField, TextField } from '@/components/FormikForm'
 import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'

@@ -1,7 +1,7 @@
 // vendors
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 // icons
 import Diversity3Icon from '@mui/icons-material/Diversity3'
 // components

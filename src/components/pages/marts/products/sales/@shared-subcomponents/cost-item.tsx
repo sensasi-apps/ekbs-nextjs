@@ -5,7 +5,7 @@ import type LaravelValidationException from '@/types/LaravelValidationException'
 import type { FieldProps, FormikErrors } from 'formik'
 import { memo, useState } from 'react'
 // materials
-import Grid2 from '@mui/material/Grid2'
+import Grid2 from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // icons-materials
 import RemoveCircle from '@mui/icons-material/RemoveCircle'

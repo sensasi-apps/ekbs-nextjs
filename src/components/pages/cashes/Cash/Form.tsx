@@ -8,7 +8,7 @@ import { FastField, Form, useFormik } from 'formik'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/GridLegacy'
 import Typography from '@mui/material/Typography'
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
