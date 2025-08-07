@@ -15,8 +15,8 @@ import type Service from '@/features/repair-shop--service/types/service'
 import ServiceFormDialog from '@/features/repair-shop--service/components/form-dialog'
 
 export default function Page() {
-    const mutateRef = useRef<MutateType<Service>>()
-    const getRowDataRef = useRef<GetRowDataType<Service>>()
+    const mutateRef = useRef<MutateType<Service> | undefined>(undefined)
+    const getRowDataRef = useRef<GetRowDataType<Service> | undefined>(undefined)
     const [formData, setFormData] = useState<Partial<Service>>()
 
     return (

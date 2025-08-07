@@ -23,7 +23,7 @@ let getRowDataRef: {
 
 export default function Page() {
     const { replace } = useRouter()
-    getRowDataRef = useRef<GetRowDataType<Sale>>()
+    getRowDataRef = useRef<GetRowDataType<Sale> | undefined>(undefined)
 
     return (
         <AuthLayout title="Penjualan">

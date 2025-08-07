@@ -25,8 +25,10 @@ let getRowDataRef: {
 }
 
 export default function Page() {
-    const mutateRef = useRef<MutateType<SparePart>>()
-    const _getRowDataRef = useRef<GetRowDataType<SparePart>>()
+    const mutateRef = useRef<MutateType<SparePart> | undefined>(undefined)
+    const _getRowDataRef = useRef<GetRowDataType<SparePart> | undefined>(
+        undefined,
+    )
     const [formData, setFormData] = useState<FormData>()
 
     return (

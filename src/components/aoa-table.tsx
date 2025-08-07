@@ -1,4 +1,6 @@
 // vendors
+import type { ReactNode } from 'react'
+// materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -6,12 +8,24 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
+/**
+ * AoaTable is a component that renders a table with customizable headers and data rows.
+ * The table displays a "Tidak ada data" message in a centered cell if no data rows are provided.
+ */
 export function AoaTable({
     headers,
     dataRows,
 }: {
+    /**
+     * An array of strings representing the column headers.
+     */
     headers: string[]
-    dataRows: (string | number | null | JSX.Element)[][]
+
+    /**
+     * A 2D array containing the table data, where each sub-array represents a row,
+     * and each element within the sub-array can be a string, number, null, or ReactNode.
+     */
+    dataRows: (string | number | null | ReactNode)[][]
 }) {
     return (
         <TableContainer>

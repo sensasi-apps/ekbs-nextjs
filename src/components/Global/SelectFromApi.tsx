@@ -30,7 +30,7 @@ export default function SelectFromApi({
     helperText?: ReactNode
     // TODO: remove any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderOption?: (option: any, index: number) => JSX.Element
+    renderOption?: (option: any, index: number) => ReactNode
     onChange?: SelectProps['onChange']
     // TODO: remove any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

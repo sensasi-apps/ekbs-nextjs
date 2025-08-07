@@ -28,7 +28,9 @@ const getRowDataRef: {
 
 export default function Page() {
     const { push } = useRouter()
-    const mutateRef = useRef<MutateType<SparePartMovement>>()
+    const mutateRef = useRef<MutateType<SparePartMovement> | undefined>(
+        undefined,
+    )
 
     return (
         <AuthLayout title="Pembelian Stok">

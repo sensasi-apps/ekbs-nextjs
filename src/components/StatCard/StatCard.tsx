@@ -1,5 +1,5 @@
 // vendors
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import CardActionArea from '@mui/material/CardActionArea'
@@ -122,7 +122,7 @@ export default function StatCard({
 }
 
 export type StatCardProps = Omit<CardProps, 'title'> & {
-    title: string | JSX.Element
+    title: ReactNode
     isLoading?: boolean
     collapsible?: boolean
     color?: LinearProgressProps['color']
