@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Fade from '@mui/material/Fade'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // components
 import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import myAxios from '@/lib/axios'
@@ -92,14 +92,14 @@ export function PurchaseFormikForm({
                     disabled: isDisabled,
                 },
             }}>
-            <Grid2 container spacing={4}>
+            <Grid container spacing={4}>
                 <LeftGrid
                     isDisabled={isDisabled}
                     values={values}
                     setFieldValue={setFieldValue}
                 />
                 <RightGrid isDisabled={isDisabled} values={values} />
-            </Grid2>
+            </Grid>
         </FormikForm>
     )
 }
@@ -119,7 +119,7 @@ function LeftGrid({
     const [showCashSelect, setShowCashSelect] = useState(!!values.finalized_at)
 
     return (
-        <Grid2 size={{ xs: 12, sm: 4 }}>
+        <Grid size={{ xs: 12, sm: 4 }}>
             <DateField name="at" label="Tanggal" disabled={isDisabled} />
             <TextField
                 name="note"
@@ -177,19 +177,19 @@ function LeftGrid({
                     )}
                 />
             </Box>
-        </Grid2>
+        </Grid>
     )
 }
 
 function RightGrid({ isDisabled }: InnerGrid) {
     return (
-        <Grid2 size={{ xs: 12, sm: 8 }}>
+        <Grid size={{ xs: 12, sm: 8 }}>
             <FieldArray
                 name="details"
                 render={props => (
                     <DetailsField {...props} isDisabled={isDisabled} />
                 )}
             />
-        </Grid2>
+        </Grid>
     )
 }

@@ -4,7 +4,7 @@ import { memo } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 // materials
 import Button from '@mui/material/Button'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // icons-materials
 import AddCircle from '@mui/icons-material/AddCircle'
 //
@@ -30,7 +30,7 @@ function CostFieldComponent({
 
     return (
         <>
-            <Grid2 container alignItems="center" spacing={1}>
+            <Grid container alignItems="center" spacing={1}>
                 {value.map((cost, i) => (
                     <CostItem
                         key={i}
@@ -52,7 +52,7 @@ function CostFieldComponent({
                         onDataChange={data => debounceHandleDataChange(i, data)}
                     />
                 ))}
-            </Grid2>
+            </Grid>
 
             <Button
                 sx={{

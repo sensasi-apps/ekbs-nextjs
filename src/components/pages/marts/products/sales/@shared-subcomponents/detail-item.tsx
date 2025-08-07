@@ -1,7 +1,7 @@
 // vendors
 import { memo } from 'react'
 // materials
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // icons-materials
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
@@ -21,7 +21,7 @@ function DetailItem({
 }) {
     return (
         <>
-            <Grid2 size={{ xs: 1 }}>
+            <Grid size={{ xs: 1 }}>
                 <IconButton
                     title="Kurangi jumlah"
                     size="small"
@@ -38,8 +38,8 @@ function DetailItem({
                     color="error"
                     component="div"
                 />
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
                 component={Typography}
                 variant="overline"
                 lineHeight="1.5rem"
@@ -54,8 +54,8 @@ function DetailItem({
                     {formatNumber(Math.abs(qty))} {product?.unit} &times; RP{' '}
                     {formatNumber(rp_per_unit)}
                 </Typography>
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
                 size={{ xs: 1 }}
                 textAlign="end"
                 component={Typography}
@@ -63,8 +63,8 @@ function DetailItem({
                 lineHeight="unset"
                 fontSize="1.1em">
                 Rp
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
                 textAlign="end"
                 component={Typography}
                 variant="overline"
@@ -72,7 +72,7 @@ function DetailItem({
                 fontSize="1.1em"
                 size={3}>
                 {formatNumber(qty * rp_per_unit)}
-            </Grid2>
+            </Grid>
         </>
     )
 }

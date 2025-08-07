@@ -6,7 +6,7 @@ import useSWR from 'swr'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
 import MuiTextField from '@mui/material/TextField'
@@ -47,7 +47,7 @@ export default function DetailsField({
             </Box>
 
             {details.map((row, index) => (
-                <Grid2
+                <Grid
                     key={index}
                     container
                     columnSpacing={1}
@@ -66,7 +66,7 @@ export default function DetailsField({
                     <PriceInput index={index} isDisabled={isDisabled} />
 
                     <SubTotal value={(row.qty ?? 0) * (row.rp_per_unit ?? 0)} />
-                </Grid2>
+                </Grid>
             ))}
         </>
     )
@@ -132,7 +132,7 @@ function SparePartInput({
     }
 
     return (
-        <Grid2
+        <Grid
             size={{
                 xs: 12,
                 sm: 4.5,
@@ -172,7 +172,7 @@ function SparePartInput({
                     )
                 }}
             </Field>
-        </Grid2>
+        </Grid>
     )
 }
 
@@ -188,7 +188,7 @@ function NumberCell({
     showDelete: boolean
 }) {
     return (
-        <Grid2 size={{ xs: 2, sm: 1 }} textAlign="right" pr={1}>
+        <Grid size={{ xs: 2, sm: 1 }} textAlign="right" pr={1}>
             {showDelete && (
                 <Tooltip placement="top" arrow title="Hapus">
                     <span>
@@ -205,7 +205,7 @@ function NumberCell({
                 </Tooltip>
             )}
             {index + 1}
-        </Grid2>
+        </Grid>
     )
 }
 
@@ -217,7 +217,7 @@ function QtyInput({
     index: number
 }) {
     return (
-        <Grid2
+        <Grid
             size={{
                 xs: 10,
                 sm: 1.5,
@@ -230,7 +230,7 @@ function QtyInput({
                     margin: 'none',
                 }}
             />
-        </Grid2>
+        </Grid>
     )
 }
 
@@ -242,7 +242,7 @@ function PriceInput({
     index: number
 }) {
     return (
-        <Grid2
+        <Grid
             size={{
                 xs: 12,
                 sm: 2,
@@ -255,13 +255,13 @@ function PriceInput({
                     margin: 'none',
                 }}
             />
-        </Grid2>
+        </Grid>
     )
 }
 
 function SubTotal({ value }: { value: number }) {
     return (
-        <Grid2
+        <Grid
             size={{
                 xs: 12,
                 sm: 2.5,
@@ -274,6 +274,6 @@ function SubTotal({ value }: { value: number }) {
                 margin="none"
                 variant="standard"
             />
-        </Grid2>
+        </Grid>
     )
 }

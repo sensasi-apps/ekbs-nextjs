@@ -4,7 +4,7 @@ import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 // icons
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import CropIcon from '@mui/icons-material/Crop'

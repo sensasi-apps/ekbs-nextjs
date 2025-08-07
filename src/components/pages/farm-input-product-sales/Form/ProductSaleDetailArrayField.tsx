@@ -8,7 +8,7 @@ import axios from '@/lib/axios'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
@@ -81,8 +81,8 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                 </span>
                             </Tooltip>
 
-                            <Grid2 container spacing={1}>
-                                <Grid2
+                            <Grid container spacing={1}>
+                                <Grid
                                     size={{
                                         xs: 12,
                                         sm: 8,
@@ -144,8 +144,8 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                     )}
 
                                     <Box>
-                                        <Grid2 container spacing={1}>
-                                            <Grid2
+                                        <Grid container spacing={1}>
+                                            <Grid
                                                 size={{
                                                     xs: 12,
                                                     sm: 4,
@@ -190,9 +190,9 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                         ],
                                                     )}
                                                 />
-                                            </Grid2>
+                                            </Grid>
 
-                                            <Grid2
+                                            <Grid
                                                 size={{
                                                     xs: 12,
                                                     sm: 4,
@@ -225,12 +225,12 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                         ],
                                                     )}
                                                 />
-                                            </Grid2>
-                                        </Grid2>
+                                            </Grid>
+                                        </Grid>
                                     </Box>
-                                </Grid2>
+                                </Grid>
 
-                                <Grid2
+                                <Grid
                                     size={{
                                         xs: 12,
                                         sm: 4,
@@ -261,8 +261,8 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                 : ''
                                         }
                                     />
-                                </Grid2>
-                            </Grid2>
+                                </Grid>
+                            </Grid>
                         </Box>
                     ))}
 

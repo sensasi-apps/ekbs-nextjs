@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // components
 import { FormDataProvider } from '@/providers/FormData'
 import { UserWithDetailsProvider } from '@/providers/UserWithDetails'
@@ -18,7 +18,7 @@ export default function Page() {
 
     return (
         <AuthLayout title="Pengguna">
-            <Grid2
+            <Grid
                 container
                 spacing={3}
                 sx={{
@@ -27,7 +27,7 @@ export default function Page() {
                         md: 'row',
                     },
                 }}>
-                <Grid2 size={{ xs: 12, md: 8 }}>
+                <Grid size={{ xs: 12, md: 8 }}>
                     <UserWithDetailsProvider>
                         <FormDataProvider>
                             <Collapse in={Boolean(query.uuid)} unmountOnExit>
@@ -58,12 +58,12 @@ export default function Page() {
                         tableId="users-table"
                         title="Daftar Pengguna"
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 4 }}>
                     <UsersSummaryBox />
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </AuthLayout>
     )
 }

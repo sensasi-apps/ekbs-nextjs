@@ -3,7 +3,7 @@ import type { ApiResponseType } from './me/participations'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 // icons-materials
@@ -98,11 +98,11 @@ export default function Page() {
                 ))}
             </ScrollableXBox>
 
-            <Grid2 container spacing={2}>
-                <Grid2 size={{ xs: 12, md: 4 }}>
+            <Grid container spacing={2}>
+                <Grid size={{ xs: 12, md: 4 }}>
                     <AlertListCard />
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </AuthLayout>
     )
 }

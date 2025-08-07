@@ -18,7 +18,7 @@ import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
@@ -262,14 +262,14 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
             />
 
             {costs && costs.length > 0 && (
-                <Grid2 container spacing={2} mt={0}>
-                    <Grid2 size={{ xs: 4 }} textAlign="right">
+                <Grid container spacing={2} mt={0}>
+                    <Grid size={{ xs: 4 }} textAlign="right">
                         TOTAL
-                    </Grid2>
-                    <Grid2 size={{ xs: 3 }} pl={2}>
+                    </Grid>
+                    <Grid size={{ xs: 3 }} pl={2}>
                         {numberToCurrency(totalRpCost)}
-                    </Grid2>
-                </Grid2>
+                    </Grid>
+                </Grid>
             )}
 
             <FieldArray
@@ -289,12 +289,12 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                 {errors?.product_movement_details?.toString()}
             </FormHelperText>
 
-            <Grid2 container spacing={2} mt={0} mb={2}>
-                <Grid2 size={{ xs: 4, sm: 7.5 }} textAlign="right">
+            <Grid container spacing={2} mt={0} mb={2}>
+                <Grid size={{ xs: 4, sm: 7.5 }} textAlign="right">
                     TOTAL
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 4, sm: 2.5 }} pl={2}>
+                <Grid size={{ xs: 4, sm: 2.5 }} pl={2}>
                     <Box
                         sx={{
                             display: {
@@ -305,9 +305,9 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                         <Typography variant="caption">Nilai Barang</Typography>
                     </Box>
                     {numberToCurrency(totalPrice)}
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 4, sm: 2 }} pl={2}>
+                <Grid size={{ xs: 4, sm: 2 }} pl={2}>
                     <Box
                         sx={{
                             display: {
@@ -328,8 +328,8 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                             Biaya tidak sinkron
                         </Typography>
                     )}
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </FormikForm>
     )
 })

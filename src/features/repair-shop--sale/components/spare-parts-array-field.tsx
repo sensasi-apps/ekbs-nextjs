@@ -6,7 +6,7 @@ import useSWR from 'swr'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
 import MuiTextField from '@mui/material/TextField'
@@ -53,7 +53,7 @@ export default function SparePartsArrayField({
                         </Box>
 
                         {spare_parts?.map((row, index) => (
-                            <Grid2
+                            <Grid
                                 key={index}
                                 container
                                 columnSpacing={1}
@@ -103,7 +103,7 @@ export default function SparePartsArrayField({
                                         (row.qty ?? 0) * (row.rp_per_unit ?? 0)
                                     }
                                 />
-                            </Grid2>
+                            </Grid>
                         ))}
                     </>
                 )
@@ -187,7 +187,7 @@ function SparePartInput({
     )
 
     return (
-        <Grid2
+        <Grid
             size={{
                 xs: 12,
                 sm: 4.5,
@@ -245,7 +245,7 @@ function SparePartInput({
                     )}
                 </>
             )}
-        </Grid2>
+        </Grid>
     )
 }
 
@@ -261,7 +261,7 @@ function NumberCell({
     showDelete: boolean
 }) {
     return (
-        <Grid2
+        <Grid
             size={{ xs: 2, sm: 1 }}
             textAlign="right"
             pr={1}
@@ -276,13 +276,13 @@ function NumberCell({
                 />
             )}
             {index + 1}
-        </Grid2>
+        </Grid>
     )
 }
 
 function QtyInput({ name, isDisabled }: { name: string; isDisabled: boolean }) {
     return (
-        <Grid2
+        <Grid
             size={{
                 xs: 10,
                 sm: 1.5,
@@ -295,7 +295,7 @@ function QtyInput({ name, isDisabled }: { name: string; isDisabled: boolean }) {
                     margin: 'none',
                 }}
             />
-        </Grid2>
+        </Grid>
     )
 }
 
@@ -309,7 +309,7 @@ function PriceInput({
     value: number | undefined
 }) {
     return (
-        <Grid2
+        <Grid
             size={{
                 xs: 12,
                 sm: 2,
@@ -323,13 +323,13 @@ function PriceInput({
                     value: value ?? '',
                 }}
             />
-        </Grid2>
+        </Grid>
     )
 }
 
 function SubTotal({ value }: { value: number }) {
     return (
-        <Grid2
+        <Grid
             size={{
                 xs: 12,
                 sm: 2.5,
@@ -342,6 +342,6 @@ function SubTotal({ value }: { value: number }) {
                 margin="none"
                 variant="standard"
             />
-        </Grid2>
+        </Grid>
     )
 }

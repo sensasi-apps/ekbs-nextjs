@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
@@ -111,16 +111,16 @@ export default function FinancesDebtForm({
                 disabled={isDisabled}
             />
 
-            <Grid2 container>
-                <Grid2 size={{ xs: 6 }}>
+            <Grid container>
+                <Grid size={{ xs: 6 }}>
                     <NumericField
                         name="term"
                         label="Tenor"
                         disabled={isDisabled}
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 6 }}>
+                <Grid size={{ xs: 6 }}>
                     <Field name="term_unit">
                         {({ field }: FieldProps<string>) => (
                             <FormControl
@@ -149,19 +149,19 @@ export default function FinancesDebtForm({
                             </FormControl>
                         )}
                     </Field>
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
 
-            <Grid2 container>
-                <Grid2 size={{ xs: 6 }}>
+            <Grid container>
+                <Grid size={{ xs: 6 }}>
                     <NumericField
                         name="interest"
                         label="Bunga"
                         disabled={isDisabled}
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 6 }}>
+                <Grid size={{ xs: 6 }}>
                     <Field name="interest_unit">
                         {({ field }: FieldProps<string>) => (
                             <FormControl
@@ -190,8 +190,8 @@ export default function FinancesDebtForm({
                             </FormControl>
                         )}
                     </Field>
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
 
             <TextField
                 name="note"

@@ -6,7 +6,7 @@ import { memo } from 'react'
 import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // components
 import ReceiptInstalmentTable from '@/components/pages/farm-input-product-sales/Receipt/InstallmentTable'
@@ -71,7 +71,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                 </Box>
             </Box>
 
-            <Grid2 container columnSpacing={1} mb={2.5}>
+            <Grid container columnSpacing={1} mb={2.5}>
                 <RowTextGrids title="Kode" value={short_uuid} />
 
                 <RowTextGrids
@@ -89,7 +89,7 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                     title="Kasir"
                     value={user_activity_logs?.[0]?.user?.name}
                 />
-            </Grid2>
+            </Grid>
 
             <Typography
                 variant="caption"
@@ -107,12 +107,12 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                     rp_per_unit,
                     product_state: { name, unit },
                 }) => (
-                    <Grid2
+                    <Grid
                         key={product_id}
                         container
                         mb={0.5}
                         alignItems="center">
-                        <Grid2
+                        <Grid
                             size={{ xs: 2 }}
                             textAlign="center"
                             textTransform="uppercase"
@@ -121,9 +121,9 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                             lineHeight="unset"
                             fontSize="1em">
                             {formatNumber(Math.abs(qty))} {unit}
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 6 }}
                             component={Typography}
                             variant="overline"
@@ -135,9 +135,9 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                             <Typography variant="caption" component="div">
                                 @ RP {formatNumber(rp_per_unit)}
                             </Typography>
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 1 }}
                             textAlign="end"
                             component={Typography}
@@ -145,9 +145,9 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                             lineHeight="unset"
                             fontSize="1em">
                             Rp
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 3 }}
                             textAlign="end"
                             component={Typography}
@@ -155,79 +155,79 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                             lineHeight="unset"
                             fontSize="1em">
                             {formatNumber(Math.abs(qty) * rp_per_unit)}
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                 ),
             )}
 
-            <Grid2 container rowSpacing={0.5} alignItems="center">
+            <Grid container rowSpacing={0.5} alignItems="center">
                 {Boolean(adjustment_rp) && (
                     <>
-                        <Grid2 size={{ xs: 2 }} />
+                        <Grid size={{ xs: 2 }} />
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 6 }}
                             component={Typography}
                             variant="caption">
                             PENYESUAIAN
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 1 }}
                             textAlign="end"
                             component={Typography}
                             variant="caption">
                             Rp
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 3 }}
                             textAlign="end"
                             component={Typography}
                             variant="caption">
                             {formatNumber(adjustment_rp ?? 0)}
-                        </Grid2>
+                        </Grid>
                     </>
                 )}
 
                 {payment_method === 'installment' && (
                     <>
-                        <Grid2 size={{ xs: 2 }} />
+                        <Grid size={{ xs: 2 }} />
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 6 }}
                             component={Typography}
                             variant="caption">
                             Jasa ({interest_percent}% &times; {n_term}{' '}
                             {n_term_unit})
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 1 }}
                             textAlign="end"
                             component={Typography}
                             variant="caption">
                             Rp
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{ xs: 3 }}
                             textAlign="end"
                             component={Typography}
                             variant="caption">
                             {formatNumber(total_rp - total_base_rp)}
-                        </Grid2>
+                        </Grid>
                     </>
                 )}
 
                 {/* footer */}
-                <Grid2 size={{ xs: 8 }} textAlign="center">
+                <Grid size={{ xs: 8 }} textAlign="center">
                     <Typography variant="caption" fontWeight="bold">
                         TOTAL KESELURUHAN
                     </Typography>
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
@@ -235,9 +235,9 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                     fontSize="1em"
                     fontWeight="bold">
                     Rp
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 3 }}
                     textAlign="end"
                     component={Typography}
@@ -245,8 +245,8 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                     fontSize="1em"
                     fontWeight="bold">
                     {formatNumber(total_rp)}
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
 
             {payment_method === 'installment' && (
                 <>
@@ -297,20 +297,20 @@ const RowTextGrids = ({
     value: ReactNode
 }) => (
     <>
-        <Grid2 size={{ xs: 2 }}>
+        <Grid size={{ xs: 2 }}>
             <Typography variant="caption" component="div">
                 {title}
             </Typography>
-        </Grid2>
+        </Grid>
 
-        <Grid2 size={{ xs: 1 }} textAlign="end">
+        <Grid size={{ xs: 1 }} textAlign="end">
             <Typography variant="caption" component="div">
                 :
             </Typography>
-        </Grid2>
+        </Grid>
 
-        <Grid2 size={{ xs: 9 }}>
+        <Grid size={{ xs: 9 }}>
             <Typography fontWeight="bold">{value}</Typography>
-        </Grid2>
+        </Grid>
     </>
 )

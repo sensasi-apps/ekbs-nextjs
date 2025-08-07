@@ -8,7 +8,7 @@ import axios from '@/lib/axios'
 import useSWR from 'swr'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
@@ -119,7 +119,7 @@ export default function ProductMovementDetailArrayField({
             </Typography>
 
             {product_movement_details.map((row, index) => (
-                <Grid2
+                <Grid
                     key={index}
                     container
                     columnSpacing={1.5}
@@ -130,7 +130,7 @@ export default function ProductMovementDetailArrayField({
                             sm: 'initial',
                         },
                     }}>
-                    <Grid2
+                    <Grid
                         size={{ xs: 2, sm: 1 }}
                         alignSelf="center"
                         textAlign="center">
@@ -157,10 +157,10 @@ export default function ProductMovementDetailArrayField({
                                 </IconButton>
                             </span>
                         </Tooltip>
-                    </Grid2>
+                    </Grid>
 
                     {/* QTY */}
-                    <Grid2
+                    <Grid
                         size={{
                             xs: 10,
                             sm: 1.5,
@@ -197,10 +197,10 @@ export default function ProductMovementDetailArrayField({
                                 errors[`product_movement_details.${index}.qty`],
                             )}
                         />
-                    </Grid2>
+                    </Grid>
 
                     {/* PRODUCTS */}
-                    <Grid2
+                    <Grid
                         size={{
                             xs: 12,
                             sm: 2.5,
@@ -240,10 +240,10 @@ export default function ProductMovementDetailArrayField({
                                 )}
                             />
                         )}
-                    </Grid2>
+                    </Grid>
 
                     {/* PRICE */}
-                    <Grid2
+                    <Grid
                         size={{
                             xs: 12,
                             sm: 2.5,
@@ -275,10 +275,10 @@ export default function ProductMovementDetailArrayField({
                                 ],
                             )}
                         />
-                    </Grid2>
+                    </Grid>
 
                     {/* SUBTOTAL */}
-                    <Grid2
+                    <Grid
                         size={{
                             xs: 12,
                             sm: 2.5,
@@ -318,10 +318,10 @@ export default function ProductMovementDetailArrayField({
                                 ],
                             )}
                         />
-                    </Grid2>
+                    </Grid>
 
                     {/* OTHER COST */}
-                    <Grid2
+                    <Grid
                         size={{
                             xs: 12,
                             sm: 2,
@@ -361,8 +361,8 @@ export default function ProductMovementDetailArrayField({
                                 ],
                             )}
                         />
-                    </Grid2>
-                </Grid2>
+                    </Grid>
+                </Grid>
             ))}
         </>
     )

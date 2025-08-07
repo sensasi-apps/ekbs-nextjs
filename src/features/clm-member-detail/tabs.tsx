@@ -1,7 +1,7 @@
 import { useState, type SyntheticEvent } from 'react'
 // materials
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import MuiTab from '@mui/material/Tab'
 // material-labs
 import TabContext from '@mui/lab/TabContext'

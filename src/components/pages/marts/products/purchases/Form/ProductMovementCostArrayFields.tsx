@@ -6,7 +6,7 @@ import type { FieldArrayRenderProps } from 'formik'
 // materials
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 // components
@@ -60,7 +60,7 @@ export default function ProductMovementCostArrayFields({
                         ))}
                 </FormHelperText>
             )}
-            <Grid2 container columnSpacing={1} alignItems="center">
+            <Grid container columnSpacing={1} alignItems="center">
                 {value?.length > 0 && <HeaderGrid />}
 
                 {(value ?? []).map((_, index) => (
@@ -75,20 +75,20 @@ export default function ProductMovementCostArrayFields({
 
                 {value?.length > 0 && (
                     <>
-                        <Grid2 textAlign="right" size={3} offset={1}>
+                        <Grid textAlign="right" size={3} offset={1}>
                             <Typography variant="overline">Total</Typography>
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2 justifyContent="space-between" px={2} size={2.5}>
+                        <Grid justifyContent="space-between" px={2} size={2.5}>
                             <Box display="flex" justifyContent="space-between">
                                 <Typography variant="overline">Rp</Typography>
                                 <Typography variant="overline">
                                     {formatNumber(costsTotal)}
                                 </Typography>
                             </Box>
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2 size={5.5}>
+                        <Grid size={5.5}>
                             <IconButton
                                 color="warning"
                                 size="small"
@@ -116,10 +116,10 @@ export default function ProductMovementCostArrayFields({
                                 }}>
                                 <AutoFixHigh />
                             </IconButton>
-                        </Grid2>
+                        </Grid>
                     </>
                 )}
-            </Grid2>
+            </Grid>
         </Box>
     )
 }
@@ -127,13 +127,13 @@ export default function ProductMovementCostArrayFields({
 function HeaderGrid() {
     return (
         <>
-            <Grid2 textAlign="center" size={3} offset={1}>
+            <Grid textAlign="center" size={3} offset={1}>
                 <Typography variant="overline">Nama</Typography>
-            </Grid2>
-            <Grid2 textAlign="center" size={2.5}>
+            </Grid>
+            <Grid textAlign="center" size={2.5}>
                 <Typography variant="overline">Nilai</Typography>
-            </Grid2>
-            <Grid2 size={5.5} />
+            </Grid>
+            <Grid size={5.5} />
         </>
     )
 }
@@ -151,13 +151,13 @@ function Row({
 }) {
     return (
         <>
-            <Grid2 size={{ xs: 1 }} textAlign="center">
+            <Grid size={{ xs: 1 }} textAlign="center">
                 <Typography variant="overline">{index + 1}</Typography>
-            </Grid2>
-            <Grid2 size={3}>
+            </Grid>
+            <Grid size={3}>
                 <TextField name={`${name}.${index}.name`} disabled={disabled} />
-            </Grid2>
-            <Grid2 size={2.5}>
+            </Grid>
+            <Grid size={2.5}>
                 <NumericField
                     disabled={disabled}
                     name={`${name}.${index}.rp`}
@@ -167,8 +167,8 @@ function Row({
                         },
                     }}
                 />
-            </Grid2>
-            <Grid2 size={5.5}>
+            </Grid>
+            <Grid size={5.5}>
                 <IconButton
                     disabled={disabled}
                     tabIndex={-1}
@@ -177,7 +177,7 @@ function Row({
                     color="error">
                     <RemoveCircleIcon />
                 </IconButton>
-            </Grid2>
+            </Grid>
         </>
     )
 }

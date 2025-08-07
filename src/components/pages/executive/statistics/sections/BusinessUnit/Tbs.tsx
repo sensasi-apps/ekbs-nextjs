@@ -2,7 +2,7 @@
 import { memo } from 'react'
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // components
 import LineChart from '@/components/Chart/Line/Line'
 import StatCard from '@/components/StatCard'
@@ -19,14 +19,14 @@ const TbsSubsection = memo(function TbsSubsection() {
     )
 
     return (
-        <Grid2 container spacing={1.5}>
-            <Grid2 size={{ xs: 12 }} id="bobot" sx={SX_SCROLL_MARGIN_TOP}>
+        <Grid container spacing={1.5}>
+            <Grid size={{ xs: 12 }} id="bobot" sx={SX_SCROLL_MARGIN_TOP}>
                 <TbsWeightChartCard
                     data={data?.palm_bunch_weight_monthly_total}
                     isLoading={isLoading}
                 />
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
                 size={{ xs: 12 }}
                 id="penjualan-pelunasan"
                 sx={SX_SCROLL_MARGIN_TOP}>
@@ -40,9 +40,9 @@ const TbsSubsection = memo(function TbsSubsection() {
                         outboundAlias="Pelunasan"
                     />
                 </StatCard>
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 12 }}
                 id="kontribusi-kelompok-tani"
                 sx={SX_SCROLL_MARGIN_TOP}>
@@ -55,8 +55,8 @@ const TbsSubsection = memo(function TbsSubsection() {
                         />
                     )}
                 </StatCard>
-            </Grid2>
-        </Grid2>
+            </Grid>
+        </Grid>
     )
 })
 

@@ -2,7 +2,7 @@
 import Head from 'next/head'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // global components
 import BackButton from '@/components/BackButton'
 import FooterBox from '@/components/Layouts/FooterBox'
@@ -56,7 +56,7 @@ export default function SalesPage() {
                 </Box>
             </Box>
 
-            <Grid2
+            <Grid
                 component="main"
                 container
                 spacing={2}
@@ -66,7 +66,7 @@ export default function SalesPage() {
                     },
                 }}>
                 <FormikWrapper />
-            </Grid2>
+            </Grid>
 
             <FooterBox />
         </Box>

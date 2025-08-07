@@ -1,7 +1,7 @@
 // vendors
 import { memo } from 'react'
 // materials
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 // components
@@ -48,52 +48,52 @@ const FinanceSection = memo(function FinanceSection() {
                 sx={SX_SCROLL_MARGIN_TOP}>
                 Saldo Masuk-Keluar
             </Heading3>
-            <Grid2 container spacing={1.5}>
-                <Grid2 size={{ xs: 12 }}>
+            <Grid container spacing={1.5}>
+                <Grid size={{ xs: 12 }}>
                     <InOutCashChart
                         title="KOPERASI — Bulanan"
                         data={data?.all}
                         isLoading={isLoading}
                         disableAutoFetch
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                     <InOutCashChart
                         title="ALAT BERAT — Bulanan"
                         data={data?.alat_berat}
                         isLoading={isLoading}
                         disableAutoFetch
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                     <InOutCashChart
                         title="SAPRODI — Bulanan"
                         data={data?.saprodi}
                         isLoading={isLoading}
                         disableAutoFetch
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                     <InOutCashChart
                         title="SPP — Bulanan"
                         data={data?.spp}
                         isLoading={isLoading}
                         disableAutoFetch
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                     <InOutCashChart
                         title="TBS — Bulanan"
                         data={data?.tbs}
                         isLoading={isLoading}
                         disableAutoFetch
                     />
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </FlexColumnBox>
     )
 })
