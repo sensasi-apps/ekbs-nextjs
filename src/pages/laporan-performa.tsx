@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 // icons-materials
@@ -92,8 +92,8 @@ export default function Stat() {
                 <Box>
                     <Heading2 startIcon={<Diversity3Icon />}>Anggota</Heading2>
 
-                    <Grid2 container spacing={2}>
-                        <Grid2
+                    <Grid container spacing={2}>
+                        <Grid
                             size={{
                                 xs: 12,
                                 sm: 4,
@@ -107,9 +107,9 @@ export default function Stat() {
                                 }
                                 isLoading={isLoading}
                             />
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{
                                 xs: 12,
                                 sm: 8,
@@ -122,8 +122,8 @@ export default function Stat() {
                                     data={monthlyMemberParticipations}
                                 />
                             </StatCard>
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                 </Box>
 
                 <Box display="flex" gap={3} flexDirection="column">

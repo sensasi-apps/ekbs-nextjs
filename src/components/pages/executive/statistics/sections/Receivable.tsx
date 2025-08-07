@@ -4,7 +4,7 @@ import type { Installment } from '@/dataTypes/Installment'
 import { memo } from 'react'
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // icons
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 // components
@@ -48,8 +48,8 @@ const ReceivableSection = memo(function ReceivableSection() {
                 Piutang
             </Heading2>
 
-            <Grid2 container spacing={1.5}>
-                <Grid2
+            <Grid container spacing={1.5}>
+                <Grid
                     size={{
                         xs: 12,
                         md: 6,
@@ -96,9 +96,9 @@ const ReceivableSection = memo(function ReceivableSection() {
                             })}
                         />
                     </ScrollableXBox>
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 12,
                         md: 6,
@@ -149,8 +149,8 @@ const ReceivableSection = memo(function ReceivableSection() {
                             })}
                         />
                     </ScrollableXBox>
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </FlexColumnBox>
     )
 })

@@ -14,7 +14,7 @@ import useSWR from 'swr'
 // materials
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable from '@/components/Datatable'
@@ -61,14 +61,14 @@ export default function InventoryItemDetail() {
             }Inventaris`}>
             <BackButton />
             {inventoryItem && inventoryItem.uuid ? (
-                <Grid2
+                <Grid
                     container
                     spacing={2}
                     direction={{
                         xs: 'column-reverse',
                         sm: 'row',
                     }}>
-                    <Grid2
+                    <Grid
                         size={{
                             xs: 12,
                             sm: 8,
@@ -102,8 +102,8 @@ export default function InventoryItemDetail() {
                                 getRowDataCallback={fn => (getPicRowData = fn)}
                             />
                         </FlexColumnBox>
-                    </Grid2>
-                    <Grid2
+                    </Grid>
+                    <Grid
                         size={{
                             xs: 12,
                             sm: 4,
@@ -140,8 +140,8 @@ export default function InventoryItemDetail() {
                                 />
                             </CardContent>
                         </Card>
-                    </Grid2>
-                </Grid2>
+                    </Grid>
+                </Grid>
             ) : (
                 <LoadingCenter />
             )}

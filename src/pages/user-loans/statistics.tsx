@@ -1,6 +1,6 @@
 // vendors
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
@@ -24,8 +24,8 @@ export default function UserLoansStatistics() {
     }>('user-loans/statistic-data')
     return (
         <AuthLayout title="Statistik Unit Bisnis SPP">
-            <Grid2 container mb={1} spacing={1.5}>
-                <Grid2
+            <Grid container mb={1} spacing={1.5}>
+                <Grid
                     display="flex"
                     flexDirection="column"
                     gap={1.5}
@@ -83,9 +83,9 @@ export default function UserLoansStatistics() {
                             </Tooltip>
                         }
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 12,
                         sm: 8,
@@ -95,8 +95,8 @@ export default function UserLoansStatistics() {
                         isLoading={isLoading}>
                         <InOutLineChart data={data?.in_out_balance} />
                     </StatCard>
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
             <SppSubsection />
         </AuthLayout>
     )

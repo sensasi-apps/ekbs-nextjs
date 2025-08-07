@@ -4,7 +4,7 @@ import { type FieldArrayRenderProps } from 'formik'
 import { useRef } from 'react'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
@@ -37,7 +37,7 @@ export default function CostsField({
             </Box>
 
             {costs.map((_, index) => (
-                <Grid2
+                <Grid
                     key={index}
                     container
                     columnSpacing={1}
@@ -54,7 +54,7 @@ export default function CostsField({
                     <NameInput isDisabled={isDisabled} index={index} />
 
                     <RpInput index={index} isDisabled={isDisabled} />
-                </Grid2>
+                </Grid>
             ))}
         </>
     )
@@ -102,7 +102,7 @@ function NumberCell({
     showDelete: boolean
 }) {
     return (
-        <Grid2 size={2} textAlign="right" pr={1}>
+        <Grid size={2} textAlign="right" pr={1}>
             {showDelete && (
                 <Tooltip placement="top" arrow title="Hapus">
                     <span>
@@ -119,7 +119,7 @@ function NumberCell({
                 </Tooltip>
             )}
             {index + 1}
-        </Grid2>
+        </Grid>
     )
 }
 
@@ -131,7 +131,7 @@ function NameInput({
     index: number
 }) {
     return (
-        <Grid2 size={5}>
+        <Grid size={5}>
             <TextField
                 name={`costs.${index}.name`}
                 disabled={isDisabled}
@@ -140,7 +140,7 @@ function NameInput({
                     margin: 'none',
                 }}
             />
-        </Grid2>
+        </Grid>
     )
 }
 
@@ -152,7 +152,7 @@ function RpInput({
     index: number
 }) {
     return (
-        <Grid2 size={5}>
+        <Grid size={5}>
             <NumericField
                 name={`costs.${index}.rp`}
                 disabled={isDisabled}
@@ -161,6 +161,6 @@ function RpInput({
                     margin: 'none',
                 }}
             />
-        </Grid2>
+        </Grid>
     )
 }

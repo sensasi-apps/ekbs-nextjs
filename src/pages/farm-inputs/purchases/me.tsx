@@ -10,7 +10,7 @@ import Chip from '@mui/material/Chip'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import Datatable, {
@@ -39,8 +39,8 @@ export default function Page() {
     return (
         <AuthLayout title="Pembelian Anda">
             <Box mb={2}>
-                <Grid2 container spacing={2} mb={1}>
-                    <Grid2
+                <Grid container spacing={2} mb={1}>
+                    <Grid
                         size={{
                             xs: 12,
                             md: 6,
@@ -48,9 +48,9 @@ export default function Page() {
                         {bigNumber1 && (
                             <BigNumberCard {...bigNumber1} collapsible />
                         )}
-                    </Grid2>
+                    </Grid>
 
-                    <Grid2
+                    <Grid
                         size={{
                             xs: 12,
                             md: 6,
@@ -58,8 +58,8 @@ export default function Page() {
                         {bigNumber2 && (
                             <BigNumberCard {...bigNumber2} collapsible />
                         )}
-                    </Grid2>
-                </Grid2>
+                    </Grid>
+                </Grid>
 
                 {lineChart && (
                     <LineChartCard

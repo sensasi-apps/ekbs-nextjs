@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // sub-components
 import type { FormikStatusType, FormValuesType } from '../../../../../..'
 import DetailItem from '../../../../../../../@shared-subcomponents/detail-item'
@@ -53,7 +53,7 @@ function DetailsFieldComponent({
                             sx={{
                                 py: 1.2,
                             }}>
-                            <Grid2 container alignItems="center">
+                            <Grid container alignItems="center">
                                 <DetailItem
                                     key={i}
                                     data={detail}
@@ -84,7 +84,7 @@ function DetailsFieldComponent({
                                         setFieldValue('details', newValue)
                                     }}
                                 />
-                            </Grid2>
+                            </Grid>
                         </CardContent>
                     </CardActionArea>
                 </Card>

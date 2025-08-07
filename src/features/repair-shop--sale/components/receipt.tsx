@@ -3,7 +3,7 @@ import type { UUID } from 'crypto'
 // import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // utils
 import formatNumber from '@/utils/formatNumber'
@@ -92,7 +92,7 @@ export default function Receipt({ data }: { data: Sale }) {
                     Layanan:
                 </Typography>
 
-                <Grid2 container alignItems="center">
+                <Grid container alignItems="center">
                     {data.sale_services.map(service => (
                         <RowGrids
                             key={service.id}
@@ -100,7 +100,7 @@ export default function Receipt({ data }: { data: Sale }) {
                             value={service.rp ?? 0}
                         />
                     ))}
-                </Grid2>
+                </Grid>
             </Box>
 
             <Box my={1}>
@@ -108,16 +108,16 @@ export default function Receipt({ data }: { data: Sale }) {
                     Suku Cadang:
                 </Typography>
 
-                <Grid2 container alignItems="center">
+                <Grid container alignItems="center">
                     {data.sale_spare_part_movement.spare_part_movement.details?.map(
                         sparePart => (
                             <DetailItem key={sparePart.id} data={sparePart} />
                         ),
                     )}
-                </Grid2>
+                </Grid>
             </Box>
 
-            <Grid2 container alignItems="center">
+            <Grid container alignItems="center">
                 <RowGrids
                     desc="Subtotal"
                     value={totalRpSparePart + totalRpService}
@@ -132,7 +132,7 @@ export default function Receipt({ data }: { data: Sale }) {
                 )}
 
                 <RowGrids desc="Total Akhir" value={data.final_rp} bold />
-            </Grid2>
+            </Grid>
         </Box>
     )
 }
@@ -148,7 +148,7 @@ function RowGrids({
 }) {
     return (
         <>
-            <Grid2
+            <Grid
                 size={{
                     xs: 8,
                 }}
@@ -158,18 +158,18 @@ function RowGrids({
                 fontWeight={bold ? 'bold' : 'normal'}
                 textOverflow="ellipsis">
                 {desc}
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 1 }}
                 textAlign="end"
                 component={Typography}
                 variant="overline"
                 lineHeight="unset">
                 Rp
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{
                     xs: 3,
                 }}
@@ -179,7 +179,7 @@ function RowGrids({
                 fontWeight={bold ? 'bold' : 'normal'}
                 lineHeight="unset">
                 {formatNumber(value)}
-            </Grid2>
+            </Grid>
         </>
     )
 }
@@ -191,7 +191,7 @@ function DetailItem({ data }: { data: SparePartMovement['details'][number] }) {
 
     return (
         <>
-            <Grid2
+            <Grid
                 size={{
                     xs: 8,
                 }}>
@@ -206,18 +206,18 @@ function DetailItem({ data }: { data: SparePartMovement['details'][number] }) {
                     {formatNumber(Math.abs(qty ?? 0))} {spare_part_state?.unit}{' '}
                     &times; RP {formatNumber(rp_per_unit ?? 0)}
                 </Typography>
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 1 }}
                 textAlign="end"
                 component={Typography}
                 variant="overline"
                 lineHeight="unset">
                 Rp
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{
                     xs: 3,
                 }}
@@ -226,7 +226,7 @@ function DetailItem({ data }: { data: SparePartMovement['details'][number] }) {
                 variant="overline"
                 lineHeight="unset">
                 {formatNumber(Math.abs(qty ?? 0) * (rp_per_unit ?? 0))}
-            </Grid2>
+            </Grid>
         </>
     )
 }

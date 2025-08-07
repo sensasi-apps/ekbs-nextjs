@@ -5,7 +5,7 @@ import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // icons-materials
 import Agriculture from '@mui/icons-material/Agriculture'
@@ -197,23 +197,23 @@ function Section({
                 iconTitle={iconTitle}
                 detailHref={detailHref}
             />
-            <Grid2 container spacing={2} mb={1}>
-                <Grid2
+            <Grid container spacing={2} mb={1}>
+                <Grid
                     size={{
                         xs: 12,
                         md: 6,
                     }}>
                     {bigNumber1 && <BigNumberCard {...bigNumber1} />}
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 12,
                         md: 6,
                     }}>
                     {bigNumber2 && <BigNumberCard {...bigNumber2} />}
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
             {lineChart && (
                 <LineChartCard
                     suffix={bigNumber1?.number1Suffix}

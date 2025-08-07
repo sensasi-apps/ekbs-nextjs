@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // components
 import { NumericField } from '@/components/FormikForm'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
@@ -72,27 +72,27 @@ export default function ProductMovementDetailArrayFields({
                     (detail.rp_per_unit + (detail.cost_rp_per_unit ?? 0))
 
                 return (
-                    <Grid2
+                    <Grid
                         container
                         columnSpacing={1}
                         alignItems="center"
                         mb={1}
                         key={index}>
-                        <Grid2
+                        <Grid
                             component={Typography}
                             variant="overline"
                             size={0.5}>
                             {index + 1}
-                        </Grid2>
-                        <Grid2 container size={8.5}>
-                            <Grid2 size={12}>
+                        </Grid>
+                        <Grid container size={8.5}>
+                            <Grid size={12}>
                                 <ProductPicker
                                     name={`${name}.${index}.product`}
                                     disabled={disabled}
                                 />
-                            </Grid2>
+                            </Grid>
 
-                            <Grid2 size={4}>
+                            <Grid size={4}>
                                 <NumericField
                                     label="Harga Satuan"
                                     disabled={disabled}
@@ -110,9 +110,9 @@ export default function ProductMovementDetailArrayFields({
                                         },
                                     }}
                                 />
-                            </Grid2>
+                            </Grid>
 
-                            <Grid2 size={4}>
+                            <Grid size={4}>
                                 <NumericField
                                     label="Biaya Satuan"
                                     disabled={disabled}
@@ -131,9 +131,9 @@ export default function ProductMovementDetailArrayFields({
                                         value: detail.cost_rp_per_unit,
                                     }}
                                 />
-                            </Grid2>
+                            </Grid>
 
-                            <Grid2 size={4}>
+                            <Grid size={4}>
                                 <NumericField
                                     label="Qty"
                                     disabled={disabled}
@@ -148,9 +148,9 @@ export default function ProductMovementDetailArrayFields({
                                         },
                                     }}
                                 />
-                            </Grid2>
-                        </Grid2>
-                        <Grid2 px={2} size={2.5}>
+                            </Grid>
+                        </Grid>
+                        <Grid px={2} size={2.5}>
                             <Typography variant="overline">subtotal</Typography>
 
                             <Box
@@ -162,8 +162,8 @@ export default function ProductMovementDetailArrayFields({
                                     {subtotal ? formatNumber(subtotal) : ''}
                                 </Box>
                             </Box>
-                        </Grid2>
-                        <Grid2 size={0.5}>
+                        </Grid>
+                        <Grid size={0.5}>
                             <IconButton
                                 tabIndex={-1}
                                 onClick={() => remove(index)}
@@ -172,8 +172,8 @@ export default function ProductMovementDetailArrayFields({
                                 color="error">
                                 <RemoveCircleIcon />
                             </IconButton>
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                 )
             })}
             {value && <FooterGrids value={value} />}
@@ -268,11 +268,11 @@ function FooterGrids({ value }: { value: FormValues['details'] }) {
         ) ?? 0) + totalCost
 
     return (
-        <Grid2 container columnSpacing={1} alignItems="center">
-            <Grid2 textAlign="right" size={9}>
+        <Grid container columnSpacing={1} alignItems="center">
+            <Grid textAlign="right" size={9}>
                 <Typography variant="overline">Total</Typography>
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
                 textAlign="center"
                 display="flex"
                 justifyContent="space-between"
@@ -282,8 +282,8 @@ function FooterGrids({ value }: { value: FormValues['details'] }) {
                 <Typography variant="overline">
                     {formatNumber(purchaseRpTotal)}
                 </Typography>
-            </Grid2>
-            <Grid2 size={0.5} />
-        </Grid2>
+            </Grid>
+            <Grid size={0.5} />
+        </Grid>
     )
 }

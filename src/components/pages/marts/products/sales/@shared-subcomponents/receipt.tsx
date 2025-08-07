@@ -10,7 +10,7 @@ import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // components
 import DefaultItemDesc from './default-item-desc'
@@ -97,11 +97,11 @@ export default function Receipt({
                 </Box>
             </Box>
 
-            <Grid2 container mt={2} alignItems="center" rowSpacing={1.5}>
+            <Grid container mt={2} alignItems="center" rowSpacing={1.5}>
                 {details.map((detail, index) => (
                     <DetailItem key={index} data={detail} />
                 ))}
-            </Grid2>
+            </Grid>
 
             {costs.length > 0 && (
                 <>
@@ -111,11 +111,11 @@ export default function Receipt({
                         }}
                     />
 
-                    <Grid2 container alignItems="center">
+                    <Grid container alignItems="center">
                         {costs.map((cost, index) => (
                             <CostItem key={index} data={cost} />
                         ))}
-                    </Grid2>
+                    </Grid>
                 </>
             )}
 
@@ -126,8 +126,8 @@ export default function Receipt({
                 }}
             />
 
-            <Grid2 container alignItems="center">
-                <Grid2
+            <Grid container alignItems="center">
+                <Grid
                     size={{
                         xs: 8,
                     }}
@@ -136,18 +136,18 @@ export default function Receipt({
                     lineHeight="unset"
                     textOverflow="ellipsis">
                     Total
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
                     lineHeight="unset">
                     Rp
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 3,
                     }}
@@ -156,9 +156,9 @@ export default function Receipt({
                     variant="overline"
                     lineHeight="unset">
                     {formatNumber(totalDetails + totalCosts)}
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 8,
                     }}
@@ -167,18 +167,18 @@ export default function Receipt({
                     lineHeight="unset"
                     textOverflow="ellipsis">
                     Bayar
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
                     lineHeight="unset">
                     Rp
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 3,
                     }}
@@ -187,9 +187,9 @@ export default function Receipt({
                     variant="overline"
                     lineHeight="unset">
                     {formatNumber(totalPayment)}
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 8,
                     }}
@@ -198,18 +198,18 @@ export default function Receipt({
                     lineHeight="unset"
                     textOverflow="ellipsis">
                     Kembalian
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
                     variant="overline"
                     lineHeight="unset">
                     Rp
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 3,
                     }}
@@ -218,8 +218,8 @@ export default function Receipt({
                     variant="overline"
                     lineHeight="unset">
                     {formatNumber(totalPayment - totalDetails + totalCosts)}
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </Box>
     )
 }
@@ -231,7 +231,7 @@ function CostItem({
 }) {
     return (
         <>
-            <Grid2
+            <Grid
                 size={{
                     xs: 8,
                 }}
@@ -240,18 +240,18 @@ function CostItem({
                 textOverflow="ellipsis"
                 variant="caption">
                 {name}
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 1 }}
                 component={Typography}
                 lineHeight="unset"
                 textOverflow="ellipsis"
                 variant="caption">
                 Rp
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{
                     xs: 3,
                 }}
@@ -260,7 +260,7 @@ function CostItem({
                 variant="caption"
                 lineHeight="unset">
                 {formatNumber(rp)}
-            </Grid2>
+            </Grid>
         </>
     )
 }
@@ -274,7 +274,7 @@ function DetailItem({
 
     return (
         <>
-            <Grid2
+            <Grid
                 size={{
                     xs: 8,
                 }}>
@@ -289,18 +289,18 @@ function DetailItem({
                     {formatNumber(Math.abs(qty))} {printedProduct?.unit} &times;
                     RP {formatNumber(rp_per_unit)}
                 </Typography>
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 1 }}
                 textAlign="end"
                 component={Typography}
                 variant="overline"
                 lineHeight="unset">
                 Rp
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{
                     xs: 3,
                 }}
@@ -309,7 +309,7 @@ function DetailItem({
                 variant="overline"
                 lineHeight="unset">
                 {formatNumber(Math.abs(qty) * rp_per_unit)}
-            </Grid2>
+            </Grid>
         </>
     )
 }

@@ -3,7 +3,7 @@ import type Product from '@/dataTypes/mart/Product'
 // vendors
 import { FastField, type FieldArrayRenderProps } from 'formik'
 // materials
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
@@ -19,8 +19,8 @@ export default function ProductWarehouseArrayFields({
 }: FieldArrayRenderProps & { disabled: boolean }) {
     return (values?.warehouses ?? []).map(
         (warehouse: Product['warehouses'][0], index: number) => (
-            <Grid2 key={index} container columnSpacing={1}>
-                <Grid2 size={{ xs: 2 }}>
+            <Grid key={index} container columnSpacing={1}>
+                <Grid size={{ xs: 2 }}>
                     <FastField
                         name={`warehouses.${index}.warehouse`}
                         label="Gudang"
@@ -29,9 +29,9 @@ export default function ProductWarehouseArrayFields({
                         required={false}
                         variant="standard"
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 2 }}>
+                <Grid size={{ xs: 2 }}>
                     <NumericFormat
                         disabled={true}
                         required={false}
@@ -48,9 +48,9 @@ export default function ProductWarehouseArrayFields({
                             )
                         }
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 4 }}>
+                <Grid size={{ xs: 4 }}>
                     <NumericFormat
                         disabled={true}
                         required={false}
@@ -69,9 +69,9 @@ export default function ProductWarehouseArrayFields({
                             )
                         }
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2 size={{ xs: 4 }}>
+                <Grid size={{ xs: 4 }}>
                     <NumericFormat
                         required={false}
                         disabled={disabled}
@@ -91,8 +91,8 @@ export default function ProductWarehouseArrayFields({
                         }
                         {...errorsToHelperTextObj(errors?.default_sell_price)}
                     />
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         ),
     )
 }

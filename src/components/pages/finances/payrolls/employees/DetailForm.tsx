@@ -9,7 +9,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 // icons
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
@@ -137,12 +137,12 @@ export default function PayrollEmployeeDetailsForm({
                                         </IconButton>
                                     </FlexColumnBox>
 
-                                    <Grid2
+                                    <Grid
                                         container
                                         spacing={1}
                                         alignItems="center"
                                         flexGrow="1">
-                                        <Grid2 size={{ xs: 6 }}>
+                                        <Grid size={{ xs: 6 }}>
                                             <FastField
                                                 name={`details.${index}.name`}>
                                                 {({
@@ -199,9 +199,9 @@ export default function PayrollEmployeeDetailsForm({
                                                     />
                                                 )}
                                             </FastField>
-                                        </Grid2>
+                                        </Grid>
 
-                                        <Grid2 size={{ xs: 6 }}>
+                                        <Grid size={{ xs: 6 }}>
                                             <Field
                                                 name={`details.${index}.amount_rp`}>
                                                 {({
@@ -243,8 +243,8 @@ export default function PayrollEmployeeDetailsForm({
                                                     />
                                                 )}
                                             </Field>
-                                        </Grid2>
-                                    </Grid2>
+                                        </Grid>
+                                    </Grid>
 
                                     <span>
                                         <IconButton

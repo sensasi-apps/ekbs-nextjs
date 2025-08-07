@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
@@ -99,8 +99,8 @@ export default function ProcessPayrollForm({
     const isDisabled = loading || Boolean(data.processed_at)
 
     return (
-        <Grid2 container spacing={4}>
-            <Grid2 size={{ md: 4 }}>
+        <Grid container spacing={4}>
+            <Grid size={{ md: 4 }}>
                 <Typography mb={1}>Rincian Penggajian:</Typography>
 
                 <DatePicker
@@ -208,9 +208,9 @@ export default function ProcessPayrollForm({
                         ]}
                     />
                 </Box>
-            </Grid2>
+            </Grid>
 
-            <Grid2 size={{ md: 8 }}>
+            <Grid size={{ md: 8 }}>
                 <Typography>Beban Umum:</Typography>
 
                 <NumericFormat
@@ -373,7 +373,7 @@ export default function ProcessPayrollForm({
                         {isFinal ? 'Proses Penggajian' : 'Simpan'}
                     </Button>
                 </Box>
-            </Grid2>
-        </Grid2>
+            </Grid>
+        </Grid>
     )
 }

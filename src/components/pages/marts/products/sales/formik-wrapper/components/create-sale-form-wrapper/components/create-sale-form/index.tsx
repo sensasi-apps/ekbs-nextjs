@@ -6,7 +6,7 @@ import { memo } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // sub-components
 import { NumericField } from '@/components/FormikForm'
@@ -70,8 +70,8 @@ function CreateSaleForm() {
                 }}
             />
 
-            <Grid2 container alignItems="center">
-                <Grid2
+            <Grid container alignItems="center">
+                <Grid
                     size={{
                         xs: 7,
                     }}
@@ -83,9 +83,9 @@ function CreateSaleForm() {
                     textOverflow="ellipsis"
                     pl={1}>
                     Total
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
@@ -93,9 +93,9 @@ function CreateSaleForm() {
                     lineHeight="unset"
                     fontSize="1em">
                     Rp
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 4 }}
                     textAlign="end"
                     component={Typography}
@@ -122,9 +122,9 @@ function CreateSaleForm() {
                             return formatNumber(grandTotalSale)
                         }}
                     />
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 7,
                     }}
@@ -136,9 +136,9 @@ function CreateSaleForm() {
                     textOverflow="ellipsis"
                     pl={1}>
                     BAYAR
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
@@ -146,9 +146,9 @@ function CreateSaleForm() {
                     lineHeight="unset"
                     fontSize="1em">
                     Rp
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 4 }}
                     textAlign="end"
                     component={Typography}
@@ -175,9 +175,9 @@ function CreateSaleForm() {
                             }}
                         />
                     )}
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 7,
                     }}
@@ -189,9 +189,9 @@ function CreateSaleForm() {
                     textOverflow="ellipsis"
                     pl={1}>
                     Kembalian
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 1 }}
                     textAlign="end"
                     component={Typography}
@@ -199,9 +199,9 @@ function CreateSaleForm() {
                     lineHeight="unset"
                     fontSize="1em">
                     Rp
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{ xs: 4 }}
                     textAlign="end"
                     component={Typography}
@@ -233,8 +233,8 @@ function CreateSaleForm() {
                             )
                         }}
                     />
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </>
     )
 }

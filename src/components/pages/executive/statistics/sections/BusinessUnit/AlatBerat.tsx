@@ -2,7 +2,7 @@
 import { memo } from 'react'
 import useSWR from 'swr'
 // materials
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // icons
 // components
 import StatCard from '@/components/StatCard'
@@ -45,8 +45,8 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
     )
 
     return (
-        <Grid2 container spacing={1.5}>
-            <Grid2
+        <Grid container spacing={1.5}>
+            <Grid
                 size={{ xs: 12, sm: 4 }}
                 id="hm-unit"
                 sx={SX_SCROLL_MARGIN_TOP}>
@@ -54,9 +54,9 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
                     data={data?.unit_current_hms}
                     isLoading={isLoading}
                 />
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 12, sm: 8 }}
                 id="total-hm-kerja"
                 sx={SX_SCROLL_MARGIN_TOP}>
@@ -64,16 +64,16 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
                     data={data?.unit_hm_working_monthly}
                     isLoading={isLoading}
                 />
-            </Grid2>
+            </Grid>
 
-            <Grid2 size={{ xs: 12 }} id="omzet" sx={SX_SCROLL_MARGIN_TOP}>
+            <Grid size={{ xs: 12 }} id="omzet" sx={SX_SCROLL_MARGIN_TOP}>
                 <OmzetChartCard
                     data={data?.omzet_monthly ?? []}
                     isLoading={isLoading}
                 />
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 12 }}
                 id="pembelian-bbm"
                 sx={SX_SCROLL_MARGIN_TOP}>
@@ -81,8 +81,8 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
                     data={data?.gas_purchases_monthly}
                     isLoading={isLoading}
                 />
-            </Grid2>
-        </Grid2>
+            </Grid>
+        </Grid>
     )
 })
 

@@ -8,7 +8,7 @@ import { Field, FieldArray, type FieldProps, type FormikProps } from 'formik'
 // materials
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 // components
 import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import TextFieldDefault from '@/components/TextField'
@@ -48,8 +48,8 @@ export default function Form({
                     disabled: !(dirty || isSubmitting),
                 },
             }}>
-            <Grid2 container spacing={4}>
-                <Grid2
+            <Grid container spacing={4}>
+                <Grid
                     size={{
                         xs: 12,
                         sm: 3,
@@ -158,9 +158,9 @@ export default function Form({
                                 ))}
                         </FormHelperText>
                     )}
-                </Grid2>
+                </Grid>
 
-                <Grid2
+                <Grid
                     size={{
                         xs: 12,
                         sm: 9,
@@ -201,8 +201,8 @@ export default function Form({
                             )}
                         />
                     )}
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </FormikForm>
     )
 }

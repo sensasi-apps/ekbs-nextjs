@@ -11,7 +11,7 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Dialog from '@mui/material/Dialog'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -266,32 +266,32 @@ function FSNCardsGrid({
     const noData = data.filter(({ qty_per_day }) => qty_per_day === 0)
 
     return (
-        <Grid2 container spacing={3}>
-            <Grid2
+        <Grid container spacing={3}>
+            <Grid
                 size={{
                     xs: 12,
                     sm: 12,
                     md: 4,
                 }}>
                 <FSNCard title="Pergerakan Cepat" data={fastData} />
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
                 size={{
                     xs: 12,
                     sm: 12,
                     md: 4,
                 }}>
                 <FSNCard title="Pergerakan Lambat" data={slowData} />
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
                 size={{
                     xs: 12,
                     sm: 12,
                     md: 4,
                 }}>
                 <FSNCard title="Tidak Bergerak" data={noData} />
-            </Grid2>
-        </Grid2>
+            </Grid>
+        </Grid>
     )
 }
 

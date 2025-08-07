@@ -5,7 +5,7 @@ import type LaravelValidationException from '@/types/LaravelValidationException'
 import type { FieldProps, FormikErrors } from 'formik'
 import { memo, useState } from 'react'
 // materials
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // icons-materials
 import RemoveCircle from '@mui/icons-material/RemoveCircle'
@@ -40,7 +40,7 @@ function CostItem({
 
     return (
         <>
-            <Grid2 size={{ xs: 1 }}>
+            <Grid size={{ xs: 1 }}>
                 <IconButton
                     sx={{
                         p: 0,
@@ -52,9 +52,9 @@ function CostItem({
                     onClick={onRemove}
                     disabled={disabled}
                 />
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 6 }}
                 component={Typography}
                 lineHeight="unset"
@@ -88,9 +88,9 @@ function CostItem({
                         errors?.[`costs.${index}.name`] ?? error?.name,
                     )}
                 />
-            </Grid2>
+            </Grid>
 
-            <Grid2
+            <Grid
                 size={{ xs: 5 }}
                 textAlign="end"
                 component={Typography}
@@ -134,7 +134,7 @@ function CostItem({
                         errors?.[`costs.${index}.rp`] ?? error?.rp,
                     )}
                 />
-            </Grid2>
+            </Grid>
         </>
     )
 }

@@ -6,7 +6,7 @@ import type { ButtonProps } from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
-import Grid2 from '@mui/material/Grid'
+import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import useSWR from 'swr'
@@ -74,9 +74,9 @@ export default function AllCashChart({
             isLoading={cashLoading || walletLoading}
             {...props}>
             <Box minWidth={MIN_WIDTH}>
-                <Grid2 container spacing={0.5}>
-                    <Grid2 container size={{ xs: (maxPositive / max) * 12 }}>
-                        <Grid2 size={{ xs: (totalCash / maxPositive) * 12 }}>
+                <Grid container spacing={0.5}>
+                    <Grid container size={{ xs: (maxPositive / max) * 12 }}>
+                        <Grid size={{ xs: (totalCash / maxPositive) * 12 }}>
                             <Box display="flex" gap={0.5}>
                                 {cashData?.map(({ uuid, name, balance }) =>
                                     balance < 0 ? null : (
@@ -111,9 +111,9 @@ export default function AllCashChart({
                                     {numberToCurrency(totalCash)}
                                 </Typography>
                             </Divider>
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2 size={{ xs: (totalWallet / maxPositive) * 12 }}>
+                        <Grid size={{ xs: (totalWallet / maxPositive) * 12 }}>
                             <Box display="flex" gap={0.5}>
                                 {walletData?.map(({ value, label }, index) =>
                                     value < 0 ? null : (
@@ -148,11 +148,11 @@ export default function AllCashChart({
                                     {numberToCurrency(totalWallet)}
                                 </Typography>
                             </Divider>
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
 
-                    <Grid2 container size={{ xs: (maxNegative / max) * 12 }}>
-                        <Grid2
+                    <Grid container size={{ xs: (maxNegative / max) * 12 }}>
+                        <Grid
                             size={{
                                 xs:
                                     (Math.abs(totalNegativeCash) /
@@ -215,9 +215,9 @@ export default function AllCashChart({
                                     </Divider>
                                 </>
                             )}
-                        </Grid2>
+                        </Grid>
 
-                        <Grid2
+                        <Grid
                             size={{
                                 xs:
                                     (Math.abs(totalNegativeWallet) /
@@ -278,9 +278,9 @@ export default function AllCashChart({
                                     </Divider>
                                 </>
                             )}
-                        </Grid2>
-                    </Grid2>
-                </Grid2>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Box>
         </StatCard>
     )
