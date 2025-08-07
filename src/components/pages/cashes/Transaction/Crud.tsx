@@ -39,7 +39,7 @@ let getRowDataRefGlobal: MutableRefObject<GetRowData<CustomTx> | undefined>
 export default function TransactionCrud() {
     const [values, setValues] = useState<FormValuesType>()
     const [status, setStatus] = useState<Transaction>()
-    const getRowDataRef = useRef<GetRowData<CustomTx>>()
+    const getRowDataRef = useRef<GetRowData<CustomTx> | undefined>(undefined)
     getRowDataRefGlobal = getRowDataRef
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)

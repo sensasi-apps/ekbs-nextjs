@@ -11,8 +11,7 @@ import packageJson from '@/../package.json'
 
 /**
  * Renders the footer component for the application.
- * @param {BoxProps} props - The props object for the Box component.
- * @returns {JSX.Element} - The JSX footer component.
+ *
  * @default
  * - mt: 8
  * - mb: 4

@@ -30,7 +30,7 @@ export type DataType = Wallet & {
 
 export default function WalletsPage() {
     const [walletData, setWalletData] = useState<DataType>()
-    const getRowData = useRef<GetRowDataType<DataType>>()
+    const getRowData = useRef<GetRowDataType<DataType> | undefined>(undefined)
 
     return (
         <AuthLayout title="Wallet Pengguna EKBS">

@@ -1,3 +1,5 @@
+// vendors
+import type { JSX } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'

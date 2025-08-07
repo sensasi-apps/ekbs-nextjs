@@ -16,7 +16,7 @@ export function MenuListItem({
     onClick: () => void
 }) {
     const { pathname: currPathname } = useRouter()
-    const myRef = useRef<HTMLLIElement>()
+    const myRef = useRef<HTMLLIElement | undefined>(undefined)
 
     const { href, icon: Icon, label, pathname } = data
 

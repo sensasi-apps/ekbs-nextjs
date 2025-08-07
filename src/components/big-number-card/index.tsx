@@ -1,4 +1,6 @@
 // vendors
+import type { ReactNode } from 'react'
+// materials
 import type { CardProps } from '@mui/material/Card'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -92,7 +94,7 @@ function Number2Text({
 }
 
 export interface BigNumberCardProps {
-    title: string | JSX.Element
+    title: ReactNode
     number1: number
     number2?: number
     timeUnit?: string

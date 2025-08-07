@@ -31,7 +31,7 @@ export function useHooks<T>(
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const lastDataTableState = useRef<DataTableState<T>>()
+    const lastDataTableState = useRef<DataTableState<T> | undefined>(undefined)
 
     useEffect(() => {
         if (!lastDataTableState.current) {

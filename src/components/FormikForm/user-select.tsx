@@ -132,6 +132,7 @@ const ListboxComponent = forwardRef<
                     rowRenderer={(listRowProps: ListRowProps) => {
                         if (isValidElement(items[listRowProps.index])) {
                             return cloneElement(items[listRowProps.index], {
+                                // @ts-expect-error  TODO: will fix see https://mui.com/material-ui/react-autocomplete/#virtualization
                                 style: listRowProps.style,
                             })
                         }

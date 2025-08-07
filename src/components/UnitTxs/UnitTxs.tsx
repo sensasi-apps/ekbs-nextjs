@@ -50,8 +50,10 @@ export default function UnitTxs({
     businessUnit: BusinessUnit
 }) {
     const [isOpenDialog, setIsOpenDialog] = useState(false)
-    const mutateRef = useRef<MutateType<CustomTx>>()
-    const getRowDataRef = useRef<GetRowDataType<CustomTx>>()
+    const mutateRef = useRef<MutateType<CustomTx> | undefined>(undefined)
+    const getRowDataRef = useRef<GetRowDataType<CustomTx> | undefined>(
+        undefined,
+    )
     getRowDataRefGlobal = getRowDataRef
 
     function handleClose() {

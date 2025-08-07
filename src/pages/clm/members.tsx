@@ -31,8 +31,8 @@ interface Member {
 export default function Members() {
     const { replace } = useRouter()
     const [open, setOpen] = useState(false)
-    const mutateRef = useRef<MutateType<Member>>()
-    const getRowDataRef = useRef<GetRowDataType<Member>>()
+    const mutateRef = useRef<MutateType<Member> | undefined>(undefined)
+    const getRowDataRef = useRef<GetRowDataType<Member> | undefined>(undefined)
 
     function handleClose() {
         setOpen(false)
@@ -60,7 +60,9 @@ export default function Members() {
                 title="Daftar Anggota"
             />
 
-            <Formik
+            <Formik<{
+                user_uuid: string | null
+            }>
                 initialValues={{
                     user_uuid: null,
                 }}
