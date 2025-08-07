@@ -1,5 +1,3 @@
-// types
-import type { Dayjs } from 'dayjs'
 // vendors
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -10,7 +8,7 @@ import {
 // components
 import TextField from '@/components/TextField'
 
-type DateTimePickerProps = MuiDateTimePickerProps<Dayjs>
+type DateTimePickerProps = MuiDateTimePickerProps
 
 /**
  * A date picker component that uses Day.js as the date library.
