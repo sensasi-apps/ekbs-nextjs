@@ -51,7 +51,7 @@ export default function DatePickers({
         },
     })
 
-    const datePickersSharedProps: DatePickerProps = useMemo(
+    const datePickersSharedProps: DatePickerProps<Dayjs> = useMemo(
         () => ({
             disabled: disabled,
             slots: {
