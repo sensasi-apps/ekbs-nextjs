@@ -1,20 +1,13 @@
-// assets
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
 // types
 import type { ReactNode } from 'react'
 // vendors
 import { closeSnackbar, SnackbarProvider } from 'notistack'
+import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
-import { ThemeProvider } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
-import Close from '@mui/icons-material/Close'
-import { locale } from 'dayjs'
-import Head from 'next/head'
-import 'dayjs/locale/id'
+// icons
+import CloseIcon from '@mui/icons-material/Close'
 // providers
 import { AuthProvider } from '@/providers/Auth'
 import { SWRProvider } from './swr'
@@ -22,7 +15,9 @@ import { SWRProvider } from './swr'
 import useRedirectIfBrowserIsUnsupported from '@/hooks/useRedirectIfBrowserIsUnsupported'
 // statics
 import THEME from '@/providers/@statics/theme'
-
+//
+import { locale } from 'dayjs'
+import 'dayjs/locale/id'
 locale('id')
 
 /**
@@ -70,14 +65,6 @@ export function AppProviders({ children }: { children: ReactNode }) {
             />
             <CssBaseline />
 
-            <Head>
-                <meta
-                    name="viewport"
-                    content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-                />
-                <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-            </Head>
-
             <SnackbarProvider
                 anchorOrigin={{
                     vertical: 'top',
@@ -85,7 +72,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
                 }}
                 action={key => (
                     <IconButton size="small" onClick={() => closeSnackbar(key)}>
-                        <Close />
+                        <CloseIcon />
                     </IconButton>
                 )}
                 maxSnack={7}

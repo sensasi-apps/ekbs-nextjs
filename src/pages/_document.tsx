@@ -1,11 +1,37 @@
-import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
-import { Html, Head, Main, NextScript } from 'next/document'
+import {
+    type DocumentHeadTagsProps,
+    DocumentHeadTags,
+    documentGetInitialProps,
+} from '@mui/material-nextjs/v15-pagesRouter'
 
-export default function Document() {
+import {
+    Html,
+    Head,
+    Main,
+    NextScript,
+    type DocumentContext,
+    type DocumentProps,
+} from 'next/document'
+
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
+
+/**
+ * references:
+ * - [InitColorSchemeScript](https://mui.com/material-ui/customization/css-theme-variables/configuration/#next-js-pages-router)
+ * - [DocumentHeadTags](https://mui.com/material-ui/integrations/nextjs/#configuration-2)
+ */
+export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
     return (
-        <Html lang="id" data-mui-color-scheme="light">
+        <Html lang="id" className="light">
             <Head>
+                <DocumentHeadTags {...props} />
+
                 <meta charSet="utf8" />
+
+                <meta
+                    name="viewport"
+                    content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                />
 
                 <meta
                     name="application-name"
@@ -33,12 +59,22 @@ export default function Document() {
             </Head>
 
             <body>
-                <InitColorSchemeScript attribute="data-mui-color-scheme" />
+                <InitColorSchemeScript attribute="class" />
+
                 <Main />
                 <NextScript />
             </body>
         </Html>
     )
+}
+
+/**
+ * @see https://mui.com/material-ui/integrations/nextjs/#configuration-2
+ */
+Document.getInitialProps = async (ctx: DocumentContext) => {
+    const finalProps = await documentGetInitialProps(ctx)
+
+    return finalProps
 }
 
 const TwitterMetaTags = () => (

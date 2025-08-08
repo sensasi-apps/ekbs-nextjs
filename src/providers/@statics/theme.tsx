@@ -11,7 +11,7 @@ const LinkBehavior = forwardRef<HTMLAnchorElement, LinkProps>(
 
 const THEME = createTheme({
     cssVariables: {
-        colorSchemeSelector: 'data-mui-color-scheme',
+        colorSchemeSelector: 'class',
     },
     colorSchemes: {
         light: {
