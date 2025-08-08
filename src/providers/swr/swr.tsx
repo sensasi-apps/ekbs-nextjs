@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { SWRConfig } from 'swr'
 import { fetcher } from './functions/fetcher'
 import { cacheProvider } from './functions/cache-provider'
+import LoadingCenter from '@/components/loading-center'
 
 /**
  * SWRProvider component that sets up the SWR configuration for the application.
@@ -14,7 +15,7 @@ export function SWRProvider({ children }: { children: ReactNode }): ReactNode {
         setIsClient(true)
     }, [])
 
-    if (!isClient) return children
+    if (!isClient) return <LoadingCenter />
 
     return (
         <SWRConfig

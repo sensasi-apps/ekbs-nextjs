@@ -10,6 +10,7 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 // components
+import ChipSmall from '@/components/ChipSmall'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import FooterBox from '@/components/Layouts/FooterBox'
 // local components
@@ -42,6 +43,8 @@ export default function AccountButton({
     const [isOpenTncp, setIsOpenTncp] = useState(false)
     const [anchorEl, setAnchorEl] = useState<Element>()
 
+    if (!user) return null
+
     return (
         <>
             <IconButton
@@ -64,7 +67,7 @@ export default function AccountButton({
                         color={color === 'inherit' ? 'inherit' : undefined}
                     />
                 }
-                label={user?.name ?? 'memuat...'}
+                label={user.name}
                 variant="filled"
                 color={color === 'inherit' ? undefined : color}
                 sx={{
@@ -89,9 +92,8 @@ export default function AccountButton({
                     textAlign="center"
                     gap={0}
                     my={1}>
-                    <Typography variant="overline" lineHeight="1rem">
-                        #<strong>{user?.id}</strong> &mdash; {user?.name}
-                    </Typography>
+                    <Typography variant="overline">{user.name}</Typography>
+                    <ChipSmall label={`#${user.id}`} />
                 </FlexColumnBox>
 
                 <Divider sx={{ pt: 1 }} />

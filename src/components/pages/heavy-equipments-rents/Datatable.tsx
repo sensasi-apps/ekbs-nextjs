@@ -37,7 +37,7 @@ export default function HeavyEquipmentRentsDatatable({
     as: 'admin' | 'operator'
 }) {
     const { query, replace } = useRouter()
-    const [isClientSideRendered, setIsClientSideRendered] = useState(false)
+    const [isClient, setIsClient] = useState(false)
     const [type, setType] = useState<DataCategory>(
         as === 'operator' ? 'unfinished' : 'all',
     )
@@ -66,52 +66,52 @@ export default function HeavyEquipmentRentsDatatable({
             })
         }
 
-        setIsClientSideRendered(true)
+        setIsClient(true)
     }, [query.year, query.month, replace])
+
+    if (!isClient) return null
 
     return (
         <Box display="flex" gap={3} flexDirection="column">
             <Box display="flex" gap={1} alignItems="center">
-                {isClientSideRendered && (
-                    <DatePicker
-                        label="Bulan"
-                        openTo="month"
-                        format="MMMM YYYY"
-                        value={selectedDate}
-                        onAccept={date =>
-                            date
-                                ? replace({
-                                      query: {
-                                          year: date?.format('YYYY'),
-                                          month: date?.format('MM'),
-                                      },
-                                  })
-                                : undefined
-                        }
-                        views={['year', 'month']}
-                        sx={{
-                            mr: 1,
-                        }}
-                        slotProps={{
-                            field: {
-                                clearable: true,
-                                onClear: () => {
-                                    replace({
-                                        query: {
-                                            year: undefined,
-                                            month: undefined,
-                                        },
-                                    })
-                                },
+                <DatePicker
+                    label="Bulan"
+                    openTo="month"
+                    format="MMMM YYYY"
+                    value={selectedDate}
+                    onAccept={date =>
+                        date
+                            ? replace({
+                                  query: {
+                                      year: date?.format('YYYY'),
+                                      month: date?.format('MM'),
+                                  },
+                              })
+                            : undefined
+                    }
+                    views={['year', 'month']}
+                    sx={{
+                        mr: 1,
+                    }}
+                    slotProps={{
+                        field: {
+                            clearable: true,
+                            onClear: () => {
+                                replace({
+                                    query: {
+                                        year: undefined,
+                                        month: undefined,
+                                    },
+                                })
                             },
-                            textField: {
-                                margin: 'none',
-                                size: 'small',
-                                fullWidth: false,
-                            },
-                        }}
-                    />
-                )}
+                        },
+                        textField: {
+                            margin: 'none',
+                            size: 'small',
+                            fullWidth: false,
+                        },
+                    }}
+                />
 
                 <Chip
                     color={type === 'all' ? 'success' : undefined}

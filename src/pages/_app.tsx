@@ -37,6 +37,11 @@ export default function App(props: AppPropsWithLayout) {
     return getLayout(
         <AppCacheProvider>
             <Head>
+                <meta
+                    name="viewport"
+                    content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                />
+
                 <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
             </Head>
 

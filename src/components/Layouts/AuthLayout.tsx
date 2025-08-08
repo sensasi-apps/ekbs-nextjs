@@ -38,6 +38,12 @@ export default function AuthLayout({
                 )}
 
                 {subtitle && <meta name="description" content={subtitle} />}
+
+                <meta
+                    name="robots"
+                    content="noindex, nofollow, noarchive, nosnippet, noimageindex"
+                />
+                <meta name="googlebot" content="noindex, nofollow" />
             </Head>
 
             <MenuList isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
