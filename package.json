@@ -33,6 +33,7 @@
         "dayjs": "^1.11.13",
         "formik": "^2.4.6",
         "idb": "^8.0.3",
+        "jotai": "^2.13.0",
         "js-file-download": "^0.4.12",
         "js-sha3": "^0.9.3",
         "mui-datatable-delight": "^2.0.0-experimental.1",
