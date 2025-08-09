@@ -1,40 +1,48 @@
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useCallback } from 'react'
 import dayjs from 'dayjs'
 // materials
 import Chip from '@mui/material/Chip'
 // icons-materials
 import Refresh from '@mui/icons-material/Refresh'
 // components
+import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // enums
 import BusinessUnit from '@/enums/BusinessUnit'
-import dynamic from 'next/dynamic'
-import type { DatePickerProps } from '@/components/DatePicker'
-
-const DatePicker = dynamic(() => import('@/components/DatePicker'), {
-    ssr: false,
-})
 
 export function TabChips({
     disabled,
     onRefreshClick,
-    onYearChange,
+    activeTab,
+    year,
 }: {
     disabled: boolean
     onRefreshClick: () => void
-    onYearChange: DatePickerProps['onChange']
+    activeTab: string
+    year: string
 }) {
-    const { replace, query } = useRouter()
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
 
-    function handleActiveTabChange(value?: string) {
-        replace({
-            query: {
-                ...query,
-                activeTab: value,
-            },
-        })
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams?.toString())
+            params.set(name, value)
+
+            return params.toString()
+        },
+        [searchParams],
+    )
+
+    function handleActiveTabChange(value: string) {
+        replace('?' + createQueryString('activeTab', value))
+    }
+
+    function handleYearChange(value: string) {
+        replace('?' + createQueryString('year', value))
     }
 
     return (
@@ -43,18 +51,14 @@ export function TabChips({
                 label="Umum"
                 disabled={disabled}
                 onClick={() => handleActiveTabChange('umum')}
-                color={
-                    !query.activeTab || query.activeTab === 'umum'
-                        ? 'success'
-                        : undefined
-                }
+                color={activeTab === 'umum' ? 'success' : undefined}
             />
 
             <Chip
                 label="Alat Berat"
                 disabled={disabled}
                 onClick={() => handleActiveTabChange('alat-berat')}
-                color={query.activeTab === 'alat-berat' ? 'success' : undefined}
+                color={activeTab === 'alat-berat' ? 'success' : undefined}
             />
 
             <Chip
@@ -64,7 +68,7 @@ export function TabChips({
                     handleActiveTabChange(BusinessUnit.BELAYAN_MART.toString())
                 }
                 color={
-                    query.activeTab === BusinessUnit.BELAYAN_MART.toString()
+                    activeTab === BusinessUnit.BELAYAN_MART.toString()
                         ? 'success'
                         : undefined
                 }
@@ -74,21 +78,21 @@ export function TabChips({
                 label="SAPRODI"
                 disabled={disabled}
                 onClick={() => handleActiveTabChange('saprodi')}
-                color={query.activeTab === 'saprodi' ? 'success' : undefined}
+                color={activeTab === 'saprodi' ? 'success' : undefined}
             />
 
             <Chip
                 label="SPP"
                 disabled={disabled}
                 onClick={() => handleActiveTabChange('spp')}
-                color={query.activeTab === 'spp' ? 'success' : undefined}
+                color={activeTab === 'spp' ? 'success' : undefined}
             />
 
             <Chip
                 label="TBS"
                 disabled={disabled}
                 onClick={() => handleActiveTabChange('tbs')}
-                color={query.activeTab === 'tbs' ? 'success' : undefined}
+                color={activeTab === 'tbs' ? 'success' : undefined}
             />
 
             <Chip
@@ -98,7 +102,7 @@ export function TabChips({
                     handleActiveTabChange(BusinessUnit.BENGKEL.toString())
                 }
                 color={
-                    query.activeTab === BusinessUnit.BENGKEL.toString()
+                    activeTab === BusinessUnit.BENGKEL.toString()
                         ? 'success'
                         : undefined
                 }
@@ -113,7 +117,7 @@ export function TabChips({
                     )
                 }
                 color={
-                    query.activeTab ===
+                    activeTab ===
                     BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString()
                         ? 'success'
                         : undefined
@@ -129,7 +133,7 @@ export function TabChips({
                     )
                 }
                 color={
-                    query.activeTab ===
+                    activeTab ===
                     BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString()
                         ? 'success'
                         : undefined
@@ -149,9 +153,9 @@ export function TabChips({
                     ml: 2,
                 }}
                 label="Tahun"
-                value={dayjs(query.year as string)}
+                value={dayjs(`${year}-01-01`)}
                 format="YYYY"
-                onChange={onYearChange}
+                onChange={date => handleYearChange(date?.format('YYYY') ?? '')}
                 minDate={dayjs('2024')}
                 maxDate={dayjs()}
                 views={['year']}

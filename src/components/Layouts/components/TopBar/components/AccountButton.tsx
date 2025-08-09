@@ -1,6 +1,7 @@
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+// materials
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
@@ -102,7 +103,7 @@ export default function AccountButton({
 
                 <FullscreenMenuItem />
 
-                <MenuItem onClick={() => router.reload()}>
+                <MenuItem onClick={() => router.refresh()}>
                     <ListItemIcon>
                         <SyncIcon />
                     </ListItemIcon>

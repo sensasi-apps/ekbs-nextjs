@@ -30,10 +30,6 @@ export default function App(props: AppPropsWithLayout) {
     // Use the layout defined at the page level, if available
     const getLayout = Component.getLayout ?? (page => page)
 
-    const componentClassName = [pageProps.className, roboto.className]
-        .filter(Boolean)
-        .join(' ')
-
     return getLayout(
         <AppCacheProvider>
             <Head>
@@ -46,7 +42,9 @@ export default function App(props: AppPropsWithLayout) {
             </Head>
 
             <AppProviders>
-                <Component {...pageProps} className={componentClassName} />
+                <div className={roboto.className}>
+                    <Component {...pageProps} />
+                </div>
             </AppProviders>
         </AppCacheProvider>,
     )

@@ -1,18 +1,19 @@
-import useAuth from '@/providers/Auth'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { redirect, usePathname } from 'next/navigation'
+// providers
+import useAuth from '@/providers/Auth'
 
 export function useRedirectIfUnauth() {
     const { user } = useAuth()
-    const { replace, pathname } = useRouter()
+    const pathname = usePathname()
 
     useEffect(() => {
         if (user === null) {
             if (pathname === '/logout') {
-                replace(`/`)
+                redirect(`/`)
             } else {
-                replace(`/login?redirectTo=${pathname}`)
+                redirect(`/login?redirectTo=${pathname}`)
             }
         }
-    }, [user, replace, pathname])
+    }, [user, pathname])
 }

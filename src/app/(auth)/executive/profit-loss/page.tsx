@@ -1,27 +1,48 @@
-// types
-import type { ItemRow } from '@/components/pages/executive/profit-loss/Table'
+'use client'
+
 // vendors
-import { useRef } from 'react'
-import { useRouter } from 'next/router'
+import { useEffect, useRef } from 'react'
+import { useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
 import Fade from '@mui/material/Fade'
-import LinearProgress from '@mui/material/LinearProgress'
-// global components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+// components
+import LoadingCenterLayout from '@/components/loading-center-layout'
 // page components
-import { TabChips } from '@/components/pages/executive/profit-loss/tab-chips'
-import Table from '@/components/pages/executive/profit-loss/Table'
+import { TabChips } from '@/app/(auth)/executive/profit-loss/_components/tab-chips'
+import Table, {
+    type ItemRow,
+} from '@/app/(auth)/executive/profit-loss/_components/table'
 // enums
 import BusinessUnit from '@/enums/BusinessUnit'
 import myAxios from '@/lib/axios'
+import { layoutData } from '../../../../atoms/layout-data'
+import { useSetAtom } from 'jotai'
+import FlexColumnBox from '@/components/FlexColumnBox'
+// import type { Metadata } from 'next'
 
 const CURR_YEAR = dayjs().format('YYYY')
 
-export default function ProfitLoss() {
-    const { query, replace } = useRouter()
+// export const metadata: Metadata = {
+//     title: 'Laporan Laba-Rugi — ' + process.env.NEXT_PUBLIC_APP_NAME,
+//     description: 'Laporan Laba-Rugi',
+// }
+
+export default function Page() {
+    const setLayoutData = useSetAtom(layoutData)
+
+    useEffect(() => {
+        setLayoutData({
+            title: 'Laporan Laba-Rugi',
+        })
+    }, [setLayoutData])
+
     const isRecache = useRef(false)
+    const searchParams = useSearchParams()
+    const { activeTab = 'umum', year = CURR_YEAR } = Object.fromEntries(
+        searchParams?.entries() ?? [],
+    )
 
     const {
         data: {
@@ -43,77 +64,67 @@ export default function ProfitLoss() {
         [
             'executive/profit-loss-data',
             {
-                year: query.year ?? CURR_YEAR,
+                year: year,
                 recache: isRecache.current,
             },
         ],
         fetcher,
     )
 
+    if (isLoading || isValidating) return <LoadingCenterLayout />
+
     return (
-        <AuthLayout title="Laporan Laba-Rugi">
+        <FlexColumnBox gap={4}>
             <TabChips
                 disabled={isLoading || isValidating}
-                onYearChange={date => {
-                    isRecache.current = false
-
-                    replace({
-                        query: {
-                            ...query,
-                            year: (date ?? dayjs()).format('YYYY'),
-                        },
-                    })
-                }}
                 onRefreshClick={() => {
                     isRecache.current = true
 
                     mutate()
                 }}
+                activeTab={activeTab}
+                year={year}
             />
 
-            <Fade in={isValidating || isLoading}>
-                <LinearProgress
-                    sx={{
-                        mt: 3,
-                    }}
-                />
-            </Fade>
+            <Table1WithFade name="umum" data={general} activeTab={activeTab} />
 
-            <Table1WithFade name="umum" data={general} />
-
-            <Table1WithFade name="alat-berat" data={heavyEquipmentRent} />
+            <Table1WithFade
+                name="alat-berat"
+                data={heavyEquipmentRent}
+                activeTab={activeTab}
+            />
 
             <Table2WithFade
                 name={BusinessUnit.BELAYAN_MART.toString()}
                 data={belayanMart}
+                activeTab={activeTab}
             />
 
-            <Table2WithFade name="saprodi" data={farmInput} />
-            <Table1WithFade name="spp" data={userLoan} />
-            <Table1WithFade name="tbs" data={palmBunch} />
+            <Table2WithFade
+                name="saprodi"
+                data={farmInput}
+                activeTab={activeTab}
+            />
+            <Table1WithFade name="spp" data={userLoan} activeTab={activeTab} />
+            <Table1WithFade name="tbs" data={palmBunch} activeTab={activeTab} />
             <Table2WithFade
                 name={BusinessUnit.BENGKEL.toString()}
                 data={repairShop}
+                activeTab={activeTab}
             />
 
             <Table1WithFade
                 name={BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString()}
                 data={sertifikasiDanPengelolaanKebun}
+                activeTab={activeTab}
             />
 
             <Table1WithFade
                 name={BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString()}
                 data={coffeeShopDepanKantor}
+                activeTab={activeTab}
             />
-
-            <Fade in={isValidating || isLoading}>
-                <LinearProgress
-                    sx={{
-                        mt: 3,
-                    }}
-                />
-            </Fade>
-        </AuthLayout>
+        </FlexColumnBox>
     )
 }
 
@@ -169,16 +180,13 @@ function calcMonthlyTotal(data: ItemRow[]): number[] {
 function Table1WithFade({
     name,
     data,
+    activeTab,
 }: {
     name: string
     data: ApiResponseItemType1 | undefined
+    activeTab: string
 }) {
-    const { query } = useRouter()
-
     if (!data) return null
-
-    const isIn =
-        query.activeTab === name || (!query.activeTab && name === 'umum')
 
     const subTableProps = [
         {
@@ -207,7 +215,7 @@ function Table1WithFade({
     }
 
     return (
-        <Fade in={isIn} unmountOnExit>
+        <Fade in={activeTab === name} unmountOnExit>
             <div>
                 <Table
                     subTables={subTableProps}
@@ -225,12 +233,12 @@ function Table1WithFade({
 function Table2WithFade({
     name,
     data,
+    activeTab,
 }: {
     name: string
     data: ApiResponseItemType2 | undefined
+    activeTab: string
 }) {
-    const { query } = useRouter()
-
     if (!data) return null
 
     const subTableProps = [
@@ -296,7 +304,7 @@ function Table2WithFade({
     }
 
     return (
-        <Fade in={query.activeTab === name} unmountOnExit>
+        <Fade in={activeTab === name} unmountOnExit>
             <div>
                 <Table
                     subTables={subTableProps}

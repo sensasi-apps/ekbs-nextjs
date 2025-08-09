@@ -35,6 +35,9 @@ const THEME = createTheme({
             },
         },
     },
+    typography: {
+        fontFamily: 'var(--font-roboto)',
+    },
 })
 
 export default THEME

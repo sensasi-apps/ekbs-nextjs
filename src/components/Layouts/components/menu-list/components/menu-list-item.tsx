@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
 export function MenuListItem({
@@ -15,7 +15,7 @@ export function MenuListItem({
     data: NavItemGroup['items'][0]
     onClick: () => void
 }) {
-    const { pathname: currPathname } = useRouter()
+    const currPathname = usePathname()
     const myRef = useRef<HTMLLIElement | undefined>(undefined)
 
     const { href, icon: Icon, label, pathname } = data
@@ -25,7 +25,7 @@ export function MenuListItem({
     const isActive =
         typeof pathnameOrHref === 'string'
             ? pathnameOrHref === currPathname
-            : pathnameOrHref.includes(currPathname)
+            : pathnameOrHref.includes(currPathname ?? '')
 
     const executeScroll = () => myRef.current?.scrollIntoView()
 

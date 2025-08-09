@@ -1,3 +1,5 @@
+'use client'
+
 // materials
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -9,16 +11,22 @@ import MenuIcon from '@mui/icons-material/Menu'
 // utils
 import AccountButton from './components/AccountButton'
 import NoInternetIndicator from '@/components/no-internet-indicator'
+import { useGetLayoutData } from '@/atoms/layout-data'
 
 export function TopBar({
-    title,
+    title: titleProp,
     toggleDrawer,
-    subtitle,
+    subtitle: subtitleProp,
 }: {
     title: string
     toggleDrawer: () => void
     subtitle: string | undefined
 }) {
+    const layoutData = useGetLayoutData()
+
+    const title = layoutData?.title ?? titleProp
+    const subtitle = layoutData?.subtitle ?? subtitleProp
+
     return (
         <AppBar position="relative" color="success">
             <Toolbar
@@ -36,7 +44,7 @@ export function TopBar({
                 </IconButton>
 
                 <Box py={2}>
-                    <Typography variant="h6" noWrap component="div">
+                    <Typography fontWeight="bold" noWrap component="div">
                         {title}
                     </Typography>
 

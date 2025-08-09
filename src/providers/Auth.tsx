@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type AuthInfo from '@/features/user--auth/types/auth-info'
 import type Role from '@/enums/Role'
