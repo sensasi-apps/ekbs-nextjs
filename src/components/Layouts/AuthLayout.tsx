@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import { useState, type ReactNode } from 'react'
 // vendors

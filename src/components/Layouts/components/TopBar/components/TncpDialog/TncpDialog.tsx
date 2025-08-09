@@ -2,7 +2,7 @@
 import type { FormEvent } from 'react'
 // vendors
 import { useCallback, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { usePathname, useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
 // materials
 import Button from '@mui/material/Button'
@@ -22,7 +22,8 @@ export function TncpDialog({
 }) {
     const { user, onAgreeTncp } = useAuth()
 
-    const { pathname, push } = useRouter()
+    const { push } = useRouter()
+    const pathname = usePathname()
 
     const [isLoading, setIsLoading] = useState(false)
     const [isOpen, setIsOpen] = useState(false)

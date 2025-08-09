@@ -1,9 +1,10 @@
-import { useRouter } from 'next/router'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { UAParser } from 'ua-parser-js'
 
 export default function useRedirectIfBrowserIsUnsupported() {
-    const { replace, asPath } = useRouter()
+    const { replace } = useRouter()
+    const path = usePathname()
 
     useEffect(() => {
         const { name, version } = new UAParser().getBrowser()
@@ -16,16 +17,16 @@ export default function useRedirectIfBrowserIsUnsupported() {
 
         if (
             isUnsupported &&
-            !asPath.startsWith('/outdated') &&
-            !asPath.startsWith('/_error')
+            !path?.startsWith('/outdated') &&
+            !path?.startsWith('/_error')
         ) {
             replace('/outdated')
         }
 
-        if (!isUnsupported && asPath.startsWith('/outdated')) {
+        if (!isUnsupported && path?.startsWith('/outdated')) {
             replace('/')
         }
-    }, [asPath, replace])
+    }, [replace, path])
 }
 
 /**
