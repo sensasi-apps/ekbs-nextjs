@@ -31,8 +31,9 @@ export default function NavBarItemGroup({
                     marginTop: '1rem',
                 }}
             />
+
             <Typography
-                ml={2}
+                ml={4}
                 mt={2}
                 variant="overline"
                 color="grey"
