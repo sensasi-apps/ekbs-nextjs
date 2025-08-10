@@ -12,12 +12,17 @@ export default function PageTitle({
 }) {
     return (
         <>
-            <Typography fontSize="2.5rem" component="h1" fontWeight="bold">
+            <Typography
+                fontSize="2.5rem"
+                component="h1"
+                fontWeight="bold"
+                lineHeight={1}>
                 {title}
             </Typography>
 
             {subtitle && (
                 <Typography
+                    mt={0.75}
                     variant="subtitle2"
                     component="div"
                     color="text.secondary">
