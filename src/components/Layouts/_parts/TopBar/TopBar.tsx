@@ -11,22 +11,16 @@ import MenuIcon from '@mui/icons-material/Menu'
 // utils
 import AccountButton from './components/AccountButton'
 import NoInternetIndicator from '@/components/no-internet-indicator'
-import { useGetLayoutData } from '@/atoms/layout-data'
 
 export function TopBar({
-    title: titleProp,
+    title,
     toggleDrawer,
-    subtitle: subtitleProp,
+    subtitle,
 }: {
     title: string
     toggleDrawer: () => void
     subtitle: string | undefined
 }) {
-    const layoutData = useGetLayoutData()
-
-    const title = layoutData?.title ?? titleProp
-    const subtitle = layoutData?.subtitle ?? subtitleProp
-
     return (
         <AppBar position="relative" color="success">
             <Toolbar
