@@ -16,7 +16,6 @@ import InOutLineChart, {
 } from '@/components/Chart/Line/InOut'
 import StatCard from '@/components/StatCard'
 // page components
-import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
 import ProductMovementTable, {
     type ProductMovementTableProp,
 } from '@/pages/farm-inputs/statitistics/ProductMovementTable'
@@ -26,6 +25,8 @@ import DynamicProductMovementTable, {
     type DynamicProductMovementTableProp,
 } from '@/pages/farm-inputs/statitistics/DynamicProductMovementTable'
 import IconButton from '@/components/IconButton'
+// constants
+import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 
 const SaprodiSubsection = memo(function SaprodiSubsection() {
     const { data, isLoading } = useSWR<{

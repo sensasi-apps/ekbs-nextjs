@@ -8,7 +8,8 @@ import StatCard from '@/components/StatCard'
 import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
-import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
+// constants
+import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 
 const SppSubsection = memo(function SppSubsection() {
     const { data, isLoading } = useSWR<{
