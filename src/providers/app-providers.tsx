@@ -43,12 +43,12 @@ export function AppProviders({ children }: { children: ReactNode }) {
             <GlobalStyles
                 styles={{
                     '::-webkit-scrollbar': {
-                        width: '5px',
-                        height: '5px',
+                        width: '8px',
+                        height: '8px',
                     },
 
                     '::-webkit-scrollbar-thumb': {
-                        borderRadius: '5px',
+                        borderRadius: '8px',
                         backgroundColor: 'rgba(128,128,128,0.5)',
 
                         '&:hover': {
