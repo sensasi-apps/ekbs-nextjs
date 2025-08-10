@@ -8,7 +8,7 @@ import BackButton from '@/components/BackButton'
 import FooterBox from '@/components/Layouts/FooterBox'
 import NoInternetIndicator from '@/components/no-internet-indicator'
 // page components
-import AccountButton from '@/components/Layouts/components/TopBar/components/AccountButton'
+import AccountButton from '@/components/Layouts/_parts/TopBar/components/AccountButton'
 import FormikWrapper from '@/components/pages/marts/products/sales/formik-wrapper'
 import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/history-datatable-modal-and-button'
 // hooks

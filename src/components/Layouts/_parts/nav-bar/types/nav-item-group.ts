@@ -1,3 +1,32 @@
+import type Role from '@/enums/Role'
+import type { ElementType } from 'react'
+
+interface NavItem {
+    href: string
+    label: string
+    pathname?: string | string[]
+    icon: ElementType
+
+    /**
+     * `undefined` value for `forRole` means all roles.
+     *
+     * set it to `[]` if you want to hide the item / only for superman.
+     */
+    forRole?: Role | Role[]
+
+    /**
+     * `undefined` value for `forPermission` means all permissions.
+     *
+     * set it to `[]` if you want to hide the item / only for superman.
+     */
+    forPermission?: Permission | Permission[]
+}
+
+export default interface NavItemGroup {
+    label?: string
+    items: NavItem[]
+}
+
 import type Cash from '@/enums/permissions/Cash'
 import type Executive from '@/enums/permissions/Executive'
 import type FarmInput from '@/enums/permissions/FarmInput'
@@ -14,7 +43,7 @@ import type RepairShopSalePermission from '@/features/repair-shop--sale/enums/pe
 import type RepairShopSparePartPermission from '@/features/repair-shop--spare-part/enums/permission'
 import type RepairShopServicePermission from '@/features/repair-shop--service/enums/permission'
 
-export type Permission =
+type Permission =
     | Cash
     | Executive
     | FarmInput

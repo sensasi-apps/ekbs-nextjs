@@ -6,10 +6,11 @@ import { useState, type ReactNode } from 'react'
 import Head from 'next/head'
 // materials
 import Box from '@mui/material/Box'
-// components
-import MenuList, { DRAWER_WIDTH } from './components/menu-list'
-import TopBar from './components/TopBar'
+// parts
 import FooterBox from './FooterBox'
+import TopBar from './_parts/TopBar'
+import NavBar from './_parts/nav-bar'
+import WIDTH from './_parts/nav-bar/WIDTH'
 // hooks
 import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
 import { The401Protection } from './auth-layout.401-protection'
@@ -48,13 +49,13 @@ export default function AuthLayout({
                 <meta name="googlebot" content="noindex, nofollow" />
             </Head>
 
-            <MenuList isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
+            <NavBar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
 
             <Box
                 flexGrow="1"
                 width={{
                     xs: '100%',
-                    sm: `calc(100% - ${DRAWER_WIDTH}px)`,
+                    sm: `calc(100% - ${WIDTH}px)`,
                 }}>
                 <TopBar
                     title={title}

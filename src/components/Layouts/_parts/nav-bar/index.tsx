@@ -4,23 +4,20 @@ import { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
-import Skeleton from '@mui/material/Skeleton'
 import Toolbar from '@mui/material/Toolbar'
-// components
-import { MenuItemGroup } from './components/menu-item-group'
-// etc
-import useAuth from '@/providers/Auth'
-import { NAV_ITEM_GROUPS } from './components/menu-list-data'
-import { DRAWER_WIDTH } from '.'
+// parts
+import NavBarItemGroup from './_parts/item-group'
+// constants
+import NAV_ITEM_GROUPS from './NAV_ITEM_GROUPS'
+import WIDTH from './WIDTH'
 
-export function MenuList({
+export default function NavBar({
     isDrawerOpen,
     toggleDrawer,
 }: {
     isDrawerOpen: boolean
     toggleDrawer: () => void
 }) {
-    const { user: currentUser } = useAuth()
     const [drawerProps, setDrawerProps] = useState({})
 
     useEffect(() => {
@@ -38,7 +35,7 @@ export function MenuList({
     return (
         <Box
             component="nav"
-            sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}>
+            sx={{ width: { sm: WIDTH }, flexShrink: { sm: 0 } }}>
             <Drawer
                 {...drawerProps}
                 open={isDrawerOpen}
@@ -48,36 +45,26 @@ export function MenuList({
                 sx={{
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
-                        width: DRAWER_WIDTH,
+                        width: WIDTH,
                     },
                 }}>
                 <Toolbar />
 
-                {currentUser ? (
-                    <List
-                        sx={{
-                            mb: 16,
-                            '& .MuiListItemIcon-root': {
-                                justifyContent: 'center',
-                            },
-                        }}>
-                        {NAV_ITEM_GROUPS.map((items, i) => (
-                            <MenuItemGroup
-                                data={items}
-                                key={i}
-                                onItemClick={toggleDrawer}
-                            />
-                        ))}
-                    </List>
-                ) : (
-                    <Box px={4}>
-                        <Skeleton height="4em" />
-                        <Skeleton height="4em" />
-                        <Skeleton height="4em" />
-                        <Skeleton height="4em" />
-                        <Skeleton height="4em" />
-                    </Box>
-                )}
+                <List
+                    sx={{
+                        mb: 16,
+                        '& .MuiListItemIcon-root': {
+                            justifyContent: 'center',
+                        },
+                    }}>
+                    {NAV_ITEM_GROUPS.map((items, i) => (
+                        <NavBarItemGroup
+                            data={items}
+                            key={i}
+                            onItemClick={toggleDrawer}
+                        />
+                    ))}
+                </List>
             </Drawer>
         </Box>
     )

@@ -1,10 +1,10 @@
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
-import type NavItemGroup from './types/nav-item-group'
-import { MenuListItem } from './menu-list-item'
+import type NavItemGroup from '../../types/nav-item-group'
+import NavBarListItem from './_parts/list-item'
 import useAuth from '@/providers/Auth'
 
-export function MenuItemGroup({
+export default function NavBarItemGroup({
     data: { label, items },
     onItemClick,
 }: {
@@ -42,7 +42,7 @@ export function MenuItemGroup({
             </Typography>
 
             {filteredItems.map((item, i) => (
-                <MenuListItem data={item} key={i} onClick={onItemClick} />
+                <NavBarListItem data={item} key={i} onClick={onItemClick} />
             ))}
         </>
     )

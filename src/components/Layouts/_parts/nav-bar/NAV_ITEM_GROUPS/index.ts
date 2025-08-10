@@ -20,7 +20,7 @@ import { repairShop } from './repair-shop'
 // enums
 import Role from '@/enums/Role'
 
-export const NAV_ITEM_GROUPS: NavItemGroup[] = [
+const NAV_ITEM_GROUPS: NavItemGroup[] = [
     {
         items: [
             {
@@ -55,3 +55,5 @@ export const NAV_ITEM_GROUPS: NavItemGroup[] = [
     systems,
     supermans,
 ]
+
+export default NAV_ITEM_GROUPS

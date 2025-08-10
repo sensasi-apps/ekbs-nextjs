@@ -1,14 +1,14 @@
 // types
-import type NavItemGroup from './types/nav-item-group'
+import type NavItemGroup from '../../../types/nav-item-group'
 // vendors
-import ListItem from '@mui/material/ListItem'
+import MuiListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
-export function MenuListItem({
+export default function NavBarListItem({
     data,
     onClick,
 }: {
@@ -36,7 +36,7 @@ export function MenuListItem({
     })
 
     return (
-        <ListItem disablePadding>
+        <MuiListItem disablePadding>
             <ListItemButton
                 href={href}
                 disabled={isActive}
@@ -57,6 +57,6 @@ export function MenuListItem({
                 </ListItemIcon>
                 <ListItemText primary={label} />
             </ListItemButton>
-        </ListItem>
+        </MuiListItem>
     )
 }
