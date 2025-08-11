@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -12,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 // components
 import ChipSmall from '@/components/ChipSmall'
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexBox from '@/components/flex-box'
 import FooterBox from '@/components/Layouts/FooterBox'
 // local components
 import DarkModeSwitch from './DarkModeSwitch'
@@ -84,18 +86,17 @@ export default function AccountButton({
             <Menu
                 anchorEl={anchorEl}
                 open={!!anchorEl}
-                onClose={() => setAnchorEl(undefined)}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}>
-                <FlexColumnBox
-                    alignItems="center"
-                    textAlign="center"
-                    gap={0}
-                    my={1}>
-                    <Typography variant="overline">{user.name}</Typography>
-                    <ChipSmall label={`#${user.id}`} />
-                </FlexColumnBox>
+                onClose={() => setAnchorEl(undefined)}>
+                <FlexBox alignItems="center" justifyContent="center" my={1}>
+                    <ChipSmall
+                        label={`#${user.id}`}
+                        variant="outlined"
+                        color="info"
+                    />
+                    <Typography fontWeight="bold" component="div">
+                        {user.name}
+                    </Typography>
+                </FlexBox>
 
                 <Divider sx={{ pt: 1 }} />
 
