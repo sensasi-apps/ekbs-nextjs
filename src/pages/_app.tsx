@@ -32,7 +32,7 @@ export default function App(props: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? (page => page)
 
     return getLayout(
-        <AppCacheProvider>
+        <AppCacheProvider {...props}>
             <Head>
                 <meta
                     name="viewport"
@@ -40,14 +40,20 @@ export default function App(props: AppPropsWithLayout) {
                 />
 
                 <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+
+                <style>
+                    {`
+                        :root {
+                            --font-roboto: ${roboto.style.fontFamily};
+                        }
+                    `}
+                </style>
             </Head>
 
             <RedirectIfBrowserIsUnsupported />
 
             <AppProviders>
-                <div className={roboto.className}>
-                    <Component {...pageProps} />
-                </div>
+                <Component {...pageProps} />
             </AppProviders>
         </AppCacheProvider>,
     )
