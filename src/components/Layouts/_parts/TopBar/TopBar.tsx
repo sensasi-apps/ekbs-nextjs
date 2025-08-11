@@ -1,24 +1,19 @@
-'use client'
-
 // materials
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-// icons
-import MenuIcon from '@mui/icons-material/Menu'
+// parts
+import TopBarNavbarToggleButton from './_parts/toggle-button'
 // utils
 import AccountButton from './components/AccountButton'
 import NoInternetIndicator from '@/components/no-internet-indicator'
 
 export function TopBar({
     title,
-    toggleDrawer,
     subtitle,
 }: {
     title: string
-    toggleDrawer: () => void
     subtitle: string | undefined
 }) {
     return (
@@ -28,14 +23,7 @@ export function TopBar({
                     display: 'flex',
                     justifyContent: 'space-between',
                 }}>
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={toggleDrawer}
-                    sx={{ mr: 2, display: { sm: 'none' } }}>
-                    <MenuIcon />
-                </IconButton>
+                <TopBarNavbarToggleButton />
 
                 <Box py={2}>
                     <Typography fontWeight="bold" noWrap component="div">

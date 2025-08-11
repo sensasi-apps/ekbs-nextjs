@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import { useState, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 // vendors
 import Head from 'next/head'
 // materials
@@ -24,10 +24,6 @@ export default function AuthLayout({
     children: ReactNode
     subtitle?: string
 }) {
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-
-    const toggleDrawer = () => setIsDrawerOpen(prev => !prev)
-
     return (
         <div
             style={{
@@ -49,7 +45,7 @@ export default function AuthLayout({
                 <meta name="googlebot" content="noindex, nofollow" />
             </Head>
 
-            <NavBar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
+            <NavBar />
 
             <Box
                 flexGrow="1"
@@ -57,11 +53,7 @@ export default function AuthLayout({
                     xs: '100%',
                     sm: `calc(100% - ${WIDTH}px)`,
                 }}>
-                <TopBar
-                    title={title}
-                    toggleDrawer={toggleDrawer}
-                    subtitle={subtitle}
-                />
+                <TopBar title={title} subtitle={subtitle} />
 
                 <The401Protection hasMenu />
 

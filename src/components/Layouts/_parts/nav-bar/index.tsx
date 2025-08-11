@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { useEffect, useState } from 'react'
 // materials
@@ -7,17 +9,16 @@ import List from '@mui/material/List'
 import Toolbar from '@mui/material/Toolbar'
 // parts
 import NavBarItemGroup from './_parts/item-group'
+// atoms
+import { useIsNavbarOpen, useToggleIsNavbarOpen } from '@/atoms/is-navbar-open'
 // constants
 import NAV_ITEM_GROUPS from './NAV_ITEM_GROUPS'
 import WIDTH from './WIDTH'
 
-export default function NavBar({
-    isDrawerOpen,
-    toggleDrawer,
-}: {
-    isDrawerOpen: boolean
-    toggleDrawer: () => void
-}) {
+export default function NavBar() {
+    const isDrawerOpen = useIsNavbarOpen()
+    const toggleDrawer = useToggleIsNavbarOpen()
+
     const [drawerProps, setDrawerProps] = useState({})
 
     useEffect(() => {
