@@ -14,11 +14,6 @@ const roboto = Roboto({
     variable: '--font-roboto',
 })
 
-export const metadata: Metadata = {
-    title: process.env.NEXT_PUBLIC_APP_NAME,
-    description: process.env.NEXT_PUBLIC_APP_NAME,
-}
-
 export default function RootLayout({
     children,
 }: {
@@ -37,4 +32,44 @@ export default function RootLayout({
             </body>
         </html>
     )
+}
+
+const APP_NAME = 'EKBS'
+const APP_DEFAULT_TITLE = process.env.NEXT_PUBLIC_APP_NAME ?? ''
+const APP_TITLE_TEMPLATE = `%s - ${process.env.NEXT_PUBLIC_APP_NAME}`
+const APP_DESCRIPTION = process.env.NEXT_PUBLIC_APP_NAME
+
+export const metadata: Metadata = {
+    applicationName: APP_NAME,
+    title: {
+        default: APP_DEFAULT_TITLE,
+        template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: APP_DEFAULT_TITLE,
+        // startUpImage: [],
+    },
+    formatDetection: {
+        telephone: false,
+    },
+    openGraph: {
+        type: 'website',
+        siteName: APP_NAME,
+        title: {
+            default: APP_DEFAULT_TITLE,
+            template: APP_TITLE_TEMPLATE,
+        },
+        description: APP_DESCRIPTION,
+    },
+    twitter: {
+        card: 'summary',
+        title: {
+            default: APP_DEFAULT_TITLE,
+            template: APP_TITLE_TEMPLATE,
+        },
+        description: APP_DESCRIPTION,
+    },
 }
