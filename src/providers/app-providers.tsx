@@ -10,11 +10,10 @@ import { SWRProvider } from './swr'
 // statics
 import THEME from '@/providers/@statics/theme'
 // parts
-
-//
+import SnackbarProvider from './_parts/snackbar-provider'
+// dayjs
 import { locale } from 'dayjs'
 import 'dayjs/locale/id'
-import SnackbarProvider from './_parts/snackbar-provider'
 locale('id')
 
 /**
@@ -25,10 +24,9 @@ locale('id')
  * - `CssBaseline`: Provides a consistent baseline for CSS.
  * - `GlobalStyles`: Applies global CSS styles, including custom scrollbar styles.
  * - `Head`: Sets meta tags and the title for the application.
- * - `SnackbarProvider`: Provides a context for displaying snackbar(s) with a maximum of 7 snackbars.
+ * - `SnackbarProvider`: Provides a context for displaying snackbar(s) with a maximum of 7 snackbar(s).
  * - `SWRProvider`: Provides SWR context for data fetching.
  * - `ThemeProvider`: Provides a theme for the application.
- * - `useRedirectIfBrowserIsUnsupported`: A hook to redirect if the browser is unsupported.
  */
 export function AppProviders({ children }: { children: ReactNode }) {
     return (
