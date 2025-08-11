@@ -11,7 +11,7 @@ import CropIcon from '@mui/icons-material/Crop'
 import ForestIcon from '@mui/icons-material/Forest'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/back-button'
 import ChipSmall from '@/components/ChipSmall'
 // features
 import type ApiResponse from '@/features/clm-member-detail/types/api-response'

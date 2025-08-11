@@ -5,7 +5,7 @@ import Box, { type BoxProps } from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 //
-import { Footer } from '@/components/Layouts/components/footer'
+import Footer from '@/components/Layouts/_parts/footer'
 import THEME from '@/providers/@statics/theme'
 
 const LIGHT = createTheme({

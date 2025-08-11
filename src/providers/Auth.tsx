@@ -15,7 +15,6 @@ import {
 import userHasRole from './Auth/userHasRole'
 import userHasPermission from './Auth/userHasPermission'
 import { login } from './Auth/login'
-import { logout } from './Auth/logout'
 import { getCurrentAuthInfo } from './Auth/functions/getCurrentAuthInfo'
 
 interface AuthContextType {
@@ -32,7 +31,6 @@ interface AuthContextType {
     ) => boolean
     userHasRole: (roleName: Role | Role[], userParam?: AuthInfo) => boolean
     login: (email: string, password: string) => Promise<void>
-    logout: () => void
 }
 
 const DEFAULT_CONTEXT_VALUE: AuthContextType = {
@@ -41,7 +39,6 @@ const DEFAULT_CONTEXT_VALUE: AuthContextType = {
     userHasPermission: () => false,
     userHasRole: () => false,
     login: async () => {},
-    logout: () => {},
 }
 
 const AuthContext = createContext<AuthContextType>(DEFAULT_CONTEXT_VALUE)
@@ -77,8 +74,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     userHasRole(roleName, userParam ?? user ?? undefined),
 
                 login: (email, password) => login(email, password, setUser),
-
-                logout: () => logout(setUser),
             }}>
             {children}
         </AuthContext.Provider>

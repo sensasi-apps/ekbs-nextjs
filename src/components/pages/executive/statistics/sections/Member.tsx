@@ -12,7 +12,8 @@ import TotalActiveMemberBigNumber from '@/components/pages/executive/statistics/
 import MonthlyTotalMemberInOutChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberInOutChartCard'
 import TotalMemberParticipationBigNumber from '@/components/pages/executive/statistics/charts/TotalMemberParticipationBigNumber'
 import MonthlyTotalMemberParticipationChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberParticipationChartCard'
-import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
+// constants
+import SX_SCROLL_MARGIN_TOP from '../SX_SCROLL_MARGIN_TOP'
 
 type DataItem = {
     value: number

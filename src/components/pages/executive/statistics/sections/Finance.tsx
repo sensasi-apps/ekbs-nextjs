@@ -1,5 +1,6 @@
 // vendors
 import { memo } from 'react'
+import useSWR from 'swr'
 // materials
 import Grid from '@mui/material/Grid'
 // icons
@@ -13,8 +14,8 @@ import Heading3 from '@/components/pages/executive/statistics/Heading3'
 import InOutCashChart, {
     type InOutCashChartDataType,
 } from '@/components/pages/cashes/Cash/InOutChart'
-import useSWR from 'swr'
-import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
+// constants
+import SX_SCROLL_MARGIN_TOP from '../SX_SCROLL_MARGIN_TOP'
 
 const FinanceSection = memo(function FinanceSection() {
     const { data, isLoading } = useSWR<{

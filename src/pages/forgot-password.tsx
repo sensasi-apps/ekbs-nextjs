@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField'
 // icons
 import SyncLockIcon from '@mui/icons-material/SyncLock'
 // components
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/back-button'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 import GuestFormLayout from '@/components/Layouts/guest-form'
 

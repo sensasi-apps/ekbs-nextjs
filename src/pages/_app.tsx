@@ -6,6 +6,7 @@ import { Roboto } from 'next/font/google'
 import Head from 'next/head'
 
 import { AppProviders } from '@/providers/app-providers'
+import RedirectIfBrowserIsUnsupported from '@/components/redirect-if-browser-is-unsupported'
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -31,7 +32,7 @@ export default function App(props: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? (page => page)
 
     return getLayout(
-        <AppCacheProvider>
+        <AppCacheProvider {...props}>
             <Head>
                 <meta
                     name="viewport"
@@ -39,12 +40,20 @@ export default function App(props: AppPropsWithLayout) {
                 />
 
                 <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+
+                <style>
+                    {`
+                        :root {
+                            --font-roboto: ${roboto.style.fontFamily};
+                        }
+                    `}
+                </style>
             </Head>
 
+            <RedirectIfBrowserIsUnsupported />
+
             <AppProviders>
-                <div className={roboto.className}>
-                    <Component {...pageProps} />
-                </div>
+                <Component {...pageProps} />
             </AppProviders>
         </AppCacheProvider>,
     )

@@ -4,22 +4,20 @@ import Head from 'next/head'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 // global components
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/back-button'
 import FooterBox from '@/components/Layouts/FooterBox'
 import NoInternetIndicator from '@/components/no-internet-indicator'
+import RedirectIfUnauth from '@/components/redirect-if-unauth'
 // page components
-import AccountButton from '@/components/Layouts/components/TopBar/components/AccountButton'
+import AccountButton from '@/components/Layouts/_parts/TopBar/components/AccountButton'
 import FormikWrapper from '@/components/pages/marts/products/sales/formik-wrapper'
 import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/history-datatable-modal-and-button'
 // hooks
-import { useRedirectIfUnauth } from '@/hooks/use-redirect-if-unauth'
 import { UserAccountAlert } from '@/components/pages/marts/products/sales/user-account-alert'
 import BgSyncPanelDialogAndButton from '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
 import { The401Protection } from '@/components/Layouts/auth-layout.401-protection'
 
 export default function SalesPage() {
-    useRedirectIfUnauth()
-
     return (
         <Box
             px={2}
@@ -32,6 +30,8 @@ export default function SalesPage() {
             <Head>
                 <title>{`Kasir Belayan Mart — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
+
+            <RedirectIfUnauth />
 
             <The401Protection />
 

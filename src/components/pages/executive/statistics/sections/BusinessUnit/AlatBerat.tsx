@@ -12,7 +12,8 @@ import LineChart from '@/components/Chart/Line/Line'
 import HmTableCard from './AlatBerat/HmTableCard'
 import WorkHmChartCard from './AlatBerat/WorkHmChartCard'
 import GasPurchaseChartCard from './AlatBerat/GasPurchaseChartCard'
-import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
+// constants
+import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 
 export type ApiResponseType = {
     unit_current_hms: {

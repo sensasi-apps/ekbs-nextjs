@@ -47,7 +47,10 @@ export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
                     href="/assets/pwa-icons/white-green.png"
                 />
 
-                <link rel="manifest" href="/manifest.webmanifest" />
+                <link
+                    rel="manifest"
+                    href="/pages-router/manifest.webmanifest"
+                />
 
                 <TwitterMetaTags />
                 <FacebookMetaTags />

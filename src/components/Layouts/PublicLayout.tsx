@@ -5,9 +5,10 @@ import Box from '@mui/material/Box'
 import Container, { type ContainerProps } from '@mui/material/Container'
 import Head from 'next/head'
 // components
-import { Footer } from './components/footer'
-import BackButton from '../BackButton'
-import DarkModeSwitch from './components/TopBar/components/DarkModeSwitch'
+import BackButton from '@/components/back-button'
+// parts
+import Footer from './_parts/footer'
+import DarkModeSwitch from './_parts/TopBar/components/DarkModeSwitch'
 
 export default function PublicLayout({
     children,

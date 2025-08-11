@@ -10,8 +10,9 @@ import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 // page components
-import { SX_SCROLL_MARGIN_TOP } from '@/pages/executive/statistics'
 import FarmerGroupStatTable from './Tbs/FarmerGroupStatTable'
+// constants
+import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 
 const TbsSubsection = memo(function TbsSubsection() {
     const { data, isLoading } = useSWR<ApiResponseType>(

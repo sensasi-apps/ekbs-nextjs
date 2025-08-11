@@ -28,7 +28,7 @@ import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
 // utils
 import { aoaToXlsx } from '@/functions/aoaToXlsx'
 import formatNumber from '@/utils/formatNumber'
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/back-button'
 
 export default function Opnames() {
     const {

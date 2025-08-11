@@ -1,7 +1,7 @@
 'use client'
 
 // vendors
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
@@ -17,9 +17,8 @@ import Table, {
 // enums
 import BusinessUnit from '@/enums/BusinessUnit'
 import myAxios from '@/lib/axios'
-import { layoutData } from '../../../../atoms/layout-data'
-import { useSetAtom } from 'jotai'
 import FlexColumnBox from '@/components/FlexColumnBox'
+import PageTitle from '@/components/page-title'
 // import type { Metadata } from 'next'
 
 const CURR_YEAR = dayjs().format('YYYY')
@@ -30,14 +29,6 @@ const CURR_YEAR = dayjs().format('YYYY')
 // }
 
 export default function Page() {
-    const setLayoutData = useSetAtom(layoutData)
-
-    useEffect(() => {
-        setLayoutData({
-            title: 'Laporan Laba-Rugi',
-        })
-    }, [setLayoutData])
-
     const isRecache = useRef(false)
     const searchParams = useSearchParams()
     const { activeTab = 'umum', year = CURR_YEAR } = Object.fromEntries(
@@ -75,6 +66,10 @@ export default function Page() {
 
     return (
         <FlexColumnBox gap={4}>
+            <div>
+                <PageTitle title="Laporan Laba-Rugi" subtitle={year} />
+            </div>
+
             <TabChips
                 disabled={isLoading || isValidating}
                 onRefreshClick={() => {

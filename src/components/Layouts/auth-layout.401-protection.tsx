@@ -1,11 +1,16 @@
-import ArrowForward from '@mui/icons-material/ArrowForward'
-import Alert from '@mui/material/Alert'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+'use client'
+
+// vendors
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+// materials
+import AlertTitle from '@mui/material/AlertTitle'
+import Alert from '@mui/material/Alert'
+import Button from '@mui/material/Button'
+// icons
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
-export function The401Protection({ hasMenu = false }: { hasMenu?: boolean }) {
+export function The401Protection() {
     const { replace } = useRouter()
     const [isShow, setIsShow] = useState(false)
 
@@ -21,21 +26,21 @@ export function The401Protection({ hasMenu = false }: { hasMenu?: boolean }) {
         }
     }, [])
 
+    if (!isShow) return null
+
     return (
-        <Box
-            sx={{
-                position: 'absolute' /* Sit on top of the page content */,
+        <div
+            style={{
+                position: 'fixed' /* Sit on top of the page content */,
                 width: '100%' /* Full width (cover the whole page) */,
                 height: '100%' /* Full height (cover the whole page) */,
                 top: 0,
-                left: hasMenu ? 120 : 0,
                 right: 0,
                 bottom: 0,
-                bgcolor: 'red',
                 backgroundColor:
                     'rgba(0,0,0,0.5)' /* Black background with opacity */,
-                zIndex: 1,
-                display: isShow ? 'flex' : 'none',
+                zIndex: 1201 /* 1200 is drawer z-index */,
+                display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
@@ -46,6 +51,7 @@ export function The401Protection({ hasMenu = false }: { hasMenu?: boolean }) {
                     py: 2,
                     px: 3,
                 }}>
+                <AlertTitle>Sesi Anda telah berakhir</AlertTitle>
                 Mohon untuk lakukan Logout terlebih dahulu
                 <Button
                     sx={{
@@ -53,10 +59,10 @@ export function The401Protection({ hasMenu = false }: { hasMenu?: boolean }) {
                     }}
                     color="inherit"
                     onClick={() => replace('/logout')}
-                    endIcon={<ArrowForward />}>
+                    endIcon={<ArrowForwardIcon />}>
                     LOGOUT
                 </Button>
             </Alert>
-        </Box>
+        </div>
     )
 }
