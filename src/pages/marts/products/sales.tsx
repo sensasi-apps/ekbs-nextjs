@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 // global components
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/back-button'
 import FooterBox from '@/components/Layouts/FooterBox'
 import NoInternetIndicator from '@/components/no-internet-indicator'
 import RedirectIfUnauth from '@/components/redirect-if-unauth'

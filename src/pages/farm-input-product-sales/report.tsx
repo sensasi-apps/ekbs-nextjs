@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer'
 // components
 import type { ProductSale } from '@/dataTypes/ProductSale'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/back-button'
 import FiltersBox from '@/components/pages/farm-input-product-sales/Report/FiltersBox'
 import TableHead from '@/components/pages/farm-input-product-sales/Report/Table/TableHead'
 import TableBody from '@/components/pages/farm-input-product-sales/Report/Table/TableBody'

@@ -1,12 +1,13 @@
+'use client'
+
 // vendors
-import { memo } from 'react'
 import { useRouter } from 'next/router'
 // materials
 import Button, { type ButtonProps } from '@mui/material/Button'
 // icons
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
-const BackButton = memo(function BackButton(props: ButtonProps) {
+export default function BackButton(props: ButtonProps) {
     const { push, back } = useRouter()
 
     return (
@@ -17,6 +18,4 @@ const BackButton = memo(function BackButton(props: ButtonProps) {
             Kembali
         </Button>
     )
-})
-
-export default BackButton
+}

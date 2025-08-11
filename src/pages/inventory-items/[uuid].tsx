@@ -24,7 +24,7 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import AssignPicButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/AssignPicButtonAndDialogForm'
 import CheckupButtonAndDialogForm from '@/components/pages/inventory-items/[uuid]/CheckupButtonAndDialogForm'
 import FlexColumnBox from '@/components/FlexColumnBox'
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/back-button'
 
 let picMutator: MutateType<InventoryItem['latest_pic']>
 let checkupMutator: MutateType<InventoryItem['latest_checkup']>

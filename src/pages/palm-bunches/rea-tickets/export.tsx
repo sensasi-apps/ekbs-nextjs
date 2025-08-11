@@ -20,7 +20,7 @@ import { AoaTable } from '@/components/aoa-table'
 import { useRouter } from 'next/router'
 import { aoaToXlsx, type AoaRows } from '@/functions/aoaToXlsx'
 import { useEffect, useState } from 'react'
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/back-button'
 import useAuth from '@/providers/Auth'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 
