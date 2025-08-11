@@ -3,21 +3,22 @@
 import { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 // providers
-import useAuth from '@/providers/Auth'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import type AuthInfo from '@/features/user--auth/types/auth-info'
 
 export default function RedirectIfUnauth() {
-    const { user } = useAuth()
+    const [authInfo] = useLocalStorage<AuthInfo | undefined>('currentAuthInfo')
     const { push } = useRouter()
     const pathname = usePathname()
 
     useEffect(() => {
-        if (user === null) {
+        if (!authInfo) {
             const toLocation =
                 pathname === '/logout' ? '/' : `/login?redirectTo=${pathname}`
 
             push(toLocation)
         }
-    }, [user, pathname, push])
+    }, [authInfo, pathname, push])
 
     return null
 }
