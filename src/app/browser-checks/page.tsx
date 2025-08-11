@@ -1,12 +1,22 @@
+'use client'
+
 // vendors
 import Head from 'next/head'
 import { type IBrowser, UAParser } from 'ua-parser-js'
 import { useEffect, useState } from 'react'
 // components
 import FooterBoxWithLogo from '@/components/Layouts/FooterBox/WithLogo'
-import { BROWSER_MINIMUM_VERSIONS } from '@/hooks/useRedirectIfBrowserIsUnsupported'
+// constants
+import BROWSER_MINIMUM_VERSIONS from '@/components/redirect-if-browser-is-unsupported/BROWSER_MINIMUM_VERSIONS'
 
-export default function Outdated() {
+/**
+ * Page displaying information about browser is supported or not.
+ *
+ * @todo Add link to download latest version
+ * @todo Add view for supported browsers
+ */
+export default function Page() {
+    const [isClient, setIsClient] = useState(false)
     const [browser, setBrowser] = useState<IBrowser>()
     const [minimumVersion, setMinimumVersion] = useState<number>()
 
@@ -17,7 +27,11 @@ export default function Outdated() {
         setMinimumVersion(
             BROWSER_MINIMUM_VERSIONS[browser.name?.toLocaleLowerCase() ?? ''],
         )
+
+        setIsClient(true)
     }, [])
+
+    if (!isClient) return null
 
     return (
         <>
@@ -31,7 +45,7 @@ export default function Outdated() {
                     justifyContent: 'center',
                     alignItems: 'center',
                     flexDirection: 'column',
-                    height: '100vh',
+                    height: '90vh',
                 }}>
                 <div
                     style={{
@@ -51,7 +65,7 @@ export default function Outdated() {
                     </h1>
 
                     <p>
-                        Anda menggunakan peramban{' '}
+                        Anda sedang menggunakan peramban{' '}
                         <span
                             style={{
                                 fontWeight: 'bold',
@@ -80,9 +94,10 @@ export default function Outdated() {
                                 </span>
                             </>
                         )}
-                        . Silahkan memperbaharui versi peramban Anda agar dapat
+                        . Silakan memperbaharui versi peramban Anda agar dapat
                         mengakses EKBS.
                     </p>
+
                     <FooterBoxWithLogo />
                 </div>
             </div>

@@ -6,6 +6,7 @@ import { Roboto } from 'next/font/google'
 import Head from 'next/head'
 
 import { AppProviders } from '@/providers/app-providers'
+import RedirectIfBrowserIsUnsupported from '@/components/redirect-if-browser-is-unsupported'
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -40,6 +41,8 @@ export default function App(props: AppPropsWithLayout) {
 
                 <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
             </Head>
+
+            <RedirectIfBrowserIsUnsupported />
 
             <AppProviders>
                 <div className={roboto.className}>

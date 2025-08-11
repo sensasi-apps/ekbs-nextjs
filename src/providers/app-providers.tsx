@@ -1,25 +1,20 @@
-'use client'
-
 // types
 import type { ReactNode } from 'react'
 // vendors
-import { closeSnackbar, SnackbarProvider } from 'notistack'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
-import IconButton from '@mui/material/IconButton'
-// icons
-import CloseIcon from '@mui/icons-material/Close'
 // providers
 import { AuthProvider } from '@/providers/Auth'
 import { SWRProvider } from './swr'
-// utils
-import useRedirectIfBrowserIsUnsupported from '@/hooks/useRedirectIfBrowserIsUnsupported'
 // statics
 import THEME from '@/providers/@statics/theme'
+// parts
+
 //
 import { locale } from 'dayjs'
 import 'dayjs/locale/id'
+import SnackbarProvider from './_parts/snackbar-provider'
 locale('id')
 
 /**
@@ -36,8 +31,6 @@ locale('id')
  * - `useRedirectIfBrowserIsUnsupported`: A hook to redirect if the browser is unsupported.
  */
 export function AppProviders({ children }: { children: ReactNode }) {
-    useRedirectIfBrowserIsUnsupported()
-
     return (
         <ThemeProvider theme={THEME}>
             <GlobalStyles
@@ -67,18 +60,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
             />
             <CssBaseline />
 
-            <SnackbarProvider
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-                action={key => (
-                    <IconButton size="small" onClick={() => closeSnackbar(key)}>
-                        <CloseIcon />
-                    </IconButton>
-                )}
-                maxSnack={7}
-            />
+            <SnackbarProvider />
 
             <AuthProvider>
                 <SWRProvider>{children}</SWRProvider>

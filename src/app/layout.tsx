@@ -5,6 +5,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
 //
 import { AppProviders } from '@/providers/app-providers'
+import RedirectIfBrowserIsUnsupported from '@/components/redirect-if-browser-is-unsupported'
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -25,6 +26,8 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" suppressHydrationWarning>
+            <RedirectIfBrowserIsUnsupported />
+
             <body className={roboto.variable}>
                 <AppRouterCacheProvider>
                     <InitColorSchemeScript attribute="class" />
