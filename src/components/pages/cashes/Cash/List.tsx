@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type CashType from '@/dataTypes/Cash'
 import type { KeyedMutator } from 'swr'
@@ -10,12 +12,11 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import IconButton from '@mui/material/IconButton'
+import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 // icons
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
-// components
-import CardListSkeletons from '@/components/Ui/CardListSkeletons'
 // providers
 import useAuth from '@/providers/Auth'
 // utils
@@ -42,7 +43,18 @@ const CashList = memo(function CashList({
     mutate = mutateCashes
 
     if (isLoading || isValidating) {
-        return <CardListSkeletons />
+        return (
+            <Box
+                sx={{
+                    '& > *': {
+                        mb: 2,
+                    },
+                }}>
+                <Skeleton variant="rounded" height={80} />
+                <Skeleton variant="rounded" height={80} />
+                <Skeleton variant="rounded" height={80} />
+            </Box>
+        )
     }
 
     if (userHasPermission('cashes read') === false) return null
