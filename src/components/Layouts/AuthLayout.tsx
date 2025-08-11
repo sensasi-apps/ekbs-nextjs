@@ -1,5 +1,3 @@
-'use client'
-
 // types
 import { type ReactNode } from 'react'
 // vendors
@@ -31,6 +29,8 @@ export default function AuthLayout({
             }}>
             <RedirectIfUnauth />
 
+            <The401Protection />
+
             <Head>
                 {title !== '' && (
                     <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
@@ -54,8 +54,6 @@ export default function AuthLayout({
                     sm: `calc(100% - ${WIDTH}px)`,
                 }}>
                 <TopBar title={title} subtitle={subtitle} />
-
-                <The401Protection hasMenu />
 
                 <Box
                     component="main"
