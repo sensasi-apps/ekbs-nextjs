@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type NavItemGroup from '../../../types/nav-item-group'
 // vendors

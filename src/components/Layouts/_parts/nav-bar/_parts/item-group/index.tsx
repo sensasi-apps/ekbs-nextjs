@@ -1,3 +1,5 @@
+'use client'
+
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 import type NavItemGroup from '../../types/nav-item-group'
