@@ -6,10 +6,8 @@ import useAuth from '@/providers/Auth'
 
 export default function NavBarItemGroup({
     data: { label, items },
-    onItemClick,
 }: {
     data: NavItemGroup
-    onItemClick: () => void
 }) {
     const { userHasRole, userHasPermission } = useAuth()
 
@@ -43,7 +41,7 @@ export default function NavBarItemGroup({
             </Typography>
 
             {filteredItems.map((item, i) => (
-                <NavBarListItem data={item} key={i} onClick={onItemClick} />
+                <NavBarListItem data={item} key={i} />
             ))}
         </>
     )

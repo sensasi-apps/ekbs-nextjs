@@ -12,10 +12,8 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 
 export default function NavBarListItem({
     data,
-    onClick,
 }: {
     data: NavItemGroup['items'][0]
-    onClick: () => void
 }) {
     const currPathname = usePathname()
 
@@ -37,7 +35,6 @@ export default function NavBarListItem({
                 href={href}
                 disabled={isActive}
                 selected={isActive}
-                onClick={onClick}
                 disableGutters
                 sx={{
                     py: 0.9,

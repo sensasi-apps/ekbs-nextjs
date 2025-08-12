@@ -19,27 +19,32 @@ export default function NavBar() {
     const isDrawerOpen = useIsNavbarOpen()
     const toggleDrawer = useToggleIsNavbarOpen()
 
-    const [drawerProps, setDrawerProps] = useState({})
+    const [drawerVariant, setDrawerVariant] = useState<
+        'temporary' | 'permanent'
+    >(window.innerWidth < 600 ? 'temporary' : 'permanent')
 
     useEffect(() => {
         function handleResize() {
-            setDrawerProps(makeDrawerProps(toggleDrawer))
+            if (window.innerWidth < 600) {
+                setDrawerVariant('temporary')
+            } else {
+                setDrawerVariant('permanent')
+            }
         }
 
-        handleResize()
+        window.addEventListener('resize', handleResize, { passive: true })
 
-        window.addEventListener('resize', handleResize, false)
-
-        return () => window.removeEventListener('resize', handleResize, false)
-    }, [toggleDrawer])
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
     return (
         <Box
             component="nav"
             sx={{ width: { sm: WIDTH }, flexShrink: { sm: 0 } }}>
             <Drawer
-                {...drawerProps}
+                variant={drawerVariant}
                 open={isDrawerOpen}
+                onClose={toggleDrawer}
                 ModalProps={{
                     keepMounted: true,
                 }}
@@ -59,30 +64,10 @@ export default function NavBar() {
                         },
                     }}>
                     {NAV_ITEM_GROUPS.map((items, i) => (
-                        <NavBarItemGroup
-                            data={items}
-                            key={i}
-                            onItemClick={toggleDrawer}
-                        />
+                        <NavBarItemGroup data={items} key={i} />
                     ))}
                 </List>
             </Drawer>
         </Box>
     )
-}
-
-const PERMANENT_DRAWER_PROP = {
-    variant: 'permanent',
-    onClose: null,
-}
-
-function makeDrawerProps(toggleDrawer: () => void) {
-    if (window.innerWidth < 600) {
-        return {
-            variant: 'temporary',
-            onClose: toggleDrawer,
-        }
-    }
-
-    return PERMANENT_DRAWER_PROP
 }
