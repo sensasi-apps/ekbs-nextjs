@@ -91,7 +91,7 @@ const ContactListItem = ({
                     ) ? (
                         <PatternFormat
                             value={username}
-                            format="+## ###-####-####"
+                            format="+## &nbsp;###–####–####"
                             displayType="text"
                         />
                     ) : (
