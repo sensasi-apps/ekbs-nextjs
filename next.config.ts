@@ -8,7 +8,11 @@ const nextConfig: NextConfig = {
     reactStrictMode: true,
 
     experimental: {
-        optimizePackageImports: ['@mui/x-date-pickers', 'recharts'],
+        optimizePackageImports: [
+            '@mui/x-date-pickers',
+            '@sentry/nextjs',
+            'recharts',
+        ],
     },
 
     async rewrites() {
