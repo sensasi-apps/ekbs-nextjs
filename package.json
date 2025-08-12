@@ -8,6 +8,7 @@
     },
     "private": true,
     "scripts": {
+        "analyze:windows": "ANALYZE=true && next build",
         "dev": "next dev -p 4000",
         "build": "next build",
         "start": "next start",
@@ -26,6 +27,7 @@
         "@mui/material": "^7.3.1",
         "@mui/material-nextjs": "^7.3.0",
         "@mui/x-date-pickers": "^7.29.4",
+        "@next/bundle-analyzer": "^15.4.6",
         "@sentry/nextjs": "^10.2.0",
         "@serwist/next": "^9.1.1",
         "@uidotdev/usehooks": "^2.4.1",
