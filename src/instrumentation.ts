@@ -1,3 +1,3 @@
-import * as Sentry from '@sentry/nextjs'
+import { captureRequestError } from '@sentry/nextjs'
 
-export const onRequestError = Sentry.captureRequestError
+export const onRequestError = captureRequestError

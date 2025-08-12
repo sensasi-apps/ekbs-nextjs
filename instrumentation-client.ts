@@ -1,17 +1,22 @@
 import { getCurrentAuthInfo } from '@/providers/Auth/functions/getCurrentAuthInfo'
-import * as Sentry from '@sentry/nextjs'
+import {
+    init,
+    captureRouterTransitionStart,
+    replayIntegration,
+    setUser,
+} from '@sentry/nextjs'
 
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart
+export const onRouterTransitionStart = captureRouterTransitionStart
 
 if (
     process.env.NEXT_PUBLIC_SENTRY_DSN &&
     process.env.NODE_ENV === 'production'
 ) {
-    Sentry.init({
+    init({
         dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
         // Replay may only be enabled for the client-side
-        integrations: [Sentry.replayIntegration()],
+        integrations: [replayIntegration()],
 
         // Set tracesSampleRate to 1.0 to capture 100%
         // of transactions for performance monitoring.
@@ -32,7 +37,7 @@ if (
 
     const user = getCurrentAuthInfo()
 
-    Sentry.setUser(
+    setUser(
         user
             ? {
                   id: user.id,
