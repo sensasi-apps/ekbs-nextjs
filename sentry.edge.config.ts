@@ -1,11 +1,11 @@
 import { getCurrentAuthInfo } from '@/providers/Auth/functions/getCurrentAuthInfo'
-import { init, setUser } from '@sentry/nextjs'
+import * as Sentry from '@sentry/nextjs'
 
 if (
     process.env.NEXT_PUBLIC_SENTRY_DSN &&
     process.env.NODE_ENV === 'production'
 ) {
-    init({
+    Sentry.init({
         dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
         // Set tracesSampleRate to 1.0 to capture 100%
@@ -22,7 +22,7 @@ if (
 
     const user = getCurrentAuthInfo()
 
-    setUser(
+    Sentry.setUser(
         user
             ? {
                   id: user.id,
