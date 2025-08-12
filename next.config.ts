@@ -1,10 +1,15 @@
 import type { NextConfig } from 'next'
 
-import withSerwist from './next.config/serwist'
+import withBundleAnalyzer from './next.config/bundle-analyzer'
 import withSentry from './next.config/sentry'
+import withSerwist from './next.config/serwist'
 
 const nextConfig: NextConfig = {
     reactStrictMode: true,
+
+    experimental: {
+        optimizePackageImports: ['@mui/x-date-pickers', 'recharts'],
+    },
 
     async rewrites() {
         return [
@@ -23,4 +28,4 @@ const nextConfig: NextConfig = {
     },
 }
 
-export default withSentry(withSerwist(nextConfig))
+export default withBundleAnalyzer(withSentry(withSerwist(nextConfig)))
