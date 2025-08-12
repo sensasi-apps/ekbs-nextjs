@@ -7,14 +7,12 @@ import Container from '@mui/material/Container'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 // etc
-import useAuth from '@/providers/Auth'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import FooterBox from '@/components/Layouts/FooterBox'
+import useAuthInfo from '@/hooks/use-auth-info'
 
 export default function NotFoundPage() {
-    const { user } = useAuth()
-
-    const isAuthenticated = Boolean(user)
+    const isAuthenticated = Boolean(useAuthInfo())
 
     return isAuthenticated ? (
         <AuthLayout title="Halaman tidak ditemukan">

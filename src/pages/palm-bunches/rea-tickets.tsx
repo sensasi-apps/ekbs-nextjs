@@ -41,11 +41,14 @@ import Role from '@/enums/Role'
 // utils
 import formatNumber from '@/utils/formatNumber'
 import blinkSxValue from '@/utils/blinkSxValue'
+// hooks
+import useAuthInfo from '@/hooks/use-auth-info'
 
 let currentUserUuid: UUID | undefined
 
 export default function Page() {
-    const { userHasPermission, user } = useAuth()
+    const user = useAuthInfo()
+    const { userHasPermission } = useAuth()
 
     currentUserUuid = user?.uuid
 

@@ -12,6 +12,7 @@ import DialogActions from '@mui/material/DialogActions'
 import useAuth from '@/providers/Auth'
 // components
 import { TncpDialogContent } from './components/TncpDialogContent'
+import useAuthInfo from '@/hooks/use-auth-info'
 
 export function TncpDialog({
     open,
@@ -20,7 +21,8 @@ export function TncpDialog({
     open: boolean
     handleClose: () => void
 }) {
-    const { user, onAgreeTncp } = useAuth()
+    const user = useAuthInfo()
+    const { onAgreeTncp } = useAuth()
 
     const { push } = useRouter()
     const pathname = usePathname()

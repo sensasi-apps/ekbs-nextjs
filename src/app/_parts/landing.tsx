@@ -11,7 +11,7 @@ import Warehouse from '@mui/icons-material/Warehouse'
 //
 import { Background } from '@/components/Layouts/background'
 
-export function Landing() {
+export default function Landing() {
     return (
         <Background>
             <Box display="flex" flexDirection="column" gap={2}>

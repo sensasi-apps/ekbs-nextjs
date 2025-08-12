@@ -7,10 +7,11 @@ import AuthLayout from '@/components/Layouts/AuthLayout'
 import UserAutocomplete from '@/components/UserAutocomplete'
 import axios from '@/lib/axios'
 import { useRouter } from 'next/navigation'
-import { setCurrentAuthInfo } from '@/providers/Auth/functions/setCurrentAuthInfo'
+import useAuthInfoState from '@/hooks/use-auth-info-state'
 
 export default function ActingAs() {
     const router = useRouter()
+    const [, setCurrentAuthInfo] = useAuthInfoState()
     const [loading, setLoading] = useState(false)
 
     return (

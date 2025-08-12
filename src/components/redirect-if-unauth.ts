@@ -1,24 +1,23 @@
 'use client'
 
 import { useEffect } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 // providers
-import { useLocalStorage } from '@uidotdev/usehooks'
-import type AuthInfo from '@/features/user--auth/types/auth-info'
+import useAuthInfo from '@/hooks/use-auth-info'
 
 export default function RedirectIfUnauth() {
-    const [authInfo] = useLocalStorage<AuthInfo | undefined>('currentAuthInfo')
+    const authInfo = useAuthInfo()
     const { push } = useRouter()
-    const pathname = usePathname()
 
     useEffect(() => {
         if (!authInfo) {
             const toLocation =
-                pathname === '/logout' ? '/' : `/login?redirectTo=${pathname}`
-
+                location.pathname === '/logout'
+                    ? '/'
+                    : `/login?redirectTo=${location.pathname}`
             push(toLocation)
         }
-    }, [authInfo, pathname, push])
+    }, [authInfo, push])
 
     return null
 }

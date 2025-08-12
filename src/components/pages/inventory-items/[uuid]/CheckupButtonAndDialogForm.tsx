@@ -16,6 +16,7 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
+import useAuthInfo from '@/hooks/use-auth-info'
 
 const CheckupButtonAndDialogForm = memo(function CheckupButtonAndDialogForm({
     uuid,
@@ -26,8 +27,9 @@ const CheckupButtonAndDialogForm = memo(function CheckupButtonAndDialogForm({
     latestPic: InventoryItem['latest_pic'] | undefined
     onSubmit?: () => void
 }) {
+    const user = useAuthInfo()
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const { userHasPermission, user } = useAuth()
+    const { userHasPermission } = useAuth()
 
     const { pic_user } = latestPic ?? {}
 

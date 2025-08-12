@@ -60,9 +60,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
             <SnackbarProvider />
 
-            <AuthProvider>
-                <SWRProvider>{children}</SWRProvider>
-            </AuthProvider>
+            <SWRProvider>
+                <AuthProvider>{children}</AuthProvider>
+            </SWRProvider>
         </ThemeProvider>
     )
 }

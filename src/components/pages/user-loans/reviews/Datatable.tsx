@@ -6,10 +6,11 @@ import { useState } from 'react'
 import Chip from '@mui/material/Chip'
 import Box from '@mui/material/Box'
 // components
-import useAuth from '@/providers/Auth'
 import Datatable, { getRowData } from '@/components/Datatable'
 import DATATABLE_COLUMNS from '@/components/pages/user-loans/DATATABLE_COLUMNS'
 import { DEFAULT_SORT_ORDER } from '@/components/pages/user-loans/Datatable'
+// hooks
+import useAuthInfo from '@/hooks/use-auth-info'
 
 enum ApiUrlEnum {
     All = '/user-loans/datatable',
@@ -21,7 +22,7 @@ function UserLoanReviewDatatable({
 }: {
     onSetReviewState: (openState: FormOpenStateType) => void
 }) {
-    const { user } = useAuth()
+    const user = useAuthInfo()
 
     const [apiUrl, setApiUrl] = useState(ApiUrlEnum.WaitForReview)
 
