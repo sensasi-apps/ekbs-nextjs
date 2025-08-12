@@ -1,32 +1,41 @@
 'use client'
 
 // vendors
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useLocalStorage } from '@uidotdev/usehooks'
 // materials
 import AlertTitle from '@mui/material/AlertTitle'
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 // icons
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import findLsKeyByValue from '@/utils/find-ls-key-by-value'
 
 export function The401Protection() {
-    const { replace } = useRouter()
     const [isShow, setIsShow] = useState(false)
+    const [authInfo, setAuthInfo] = useLocalStorage('currentAuthInfo')
 
     useEffect(() => {
         function show() {
             setIsShow(true)
         }
 
-        window.addEventListener('401Error', show, { passive: true })
+        addEventListener('401Error', show, { passive: true })
 
         return () => {
-            window.removeEventListener('401Error', show)
+            removeEventListener('401Error', show)
         }
     }, [])
 
     if (!isShow) return null
+
+    function clearAuthOnLs() {
+        findLsKeyByValue(JSON.stringify(authInfo)).map(key => {
+            localStorage.removeItem(key)
+        })
+
+        setAuthInfo(undefined) // clear current auth info state
+    }
 
     return (
         <div
@@ -50,18 +59,19 @@ export function The401Protection() {
                 sx={{
                     py: 2,
                     px: 3,
-                }}>
+                }}
+                action={
+                    <Button
+                        color="inherit"
+                        size="small"
+                        variant="outlined"
+                        onClick={clearAuthOnLs}
+                        endIcon={<ArrowForwardIcon />}>
+                        Proses
+                    </Button>
+                }>
                 <AlertTitle>Sesi Anda telah berakhir</AlertTitle>
-                Mohon untuk lakukan Logout terlebih dahulu
-                <Button
-                    sx={{
-                        ml: 4,
-                    }}
-                    color="inherit"
-                    onClick={() => replace('/logout')}
-                    endIcon={<ArrowForwardIcon />}>
-                    LOGOUT
-                </Button>
+                Mohon untuk melakukan login kembali.
             </Alert>
         </div>
     )
