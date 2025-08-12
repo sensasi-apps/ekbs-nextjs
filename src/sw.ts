@@ -31,8 +31,8 @@ const serwist = new Serwist({
     skipWaiting: true,
 })
 
-self.addEventListener('fetch', handleFetch)
+self.addEventListener('fetch', handleFetch, { passive: true })
 
-self.addEventListener('message', handleMessage)
+self.addEventListener('message', handleMessage, { passive: true })
 
 serwist.addEventListeners()
