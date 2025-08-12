@@ -26,7 +26,7 @@ import TncpDialog from './TncpDialog'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SyncIcon from '@mui/icons-material/Sync'
 // providers
-import useAuth from '@/providers/Auth'
+import useAuthInfo from '@/hooks/use-auth-info'
 
 export default function AccountButton({
     color = 'inherit',
@@ -40,7 +40,7 @@ export default function AccountButton({
         | 'info'
         | 'warning'
 }) {
-    const { user } = useAuth()
+    const user = useAuthInfo()
 
     const [isOpenTncp, setIsOpenTncp] = useState(false)
     const [anchorEl, setAnchorEl] = useState<Element>()

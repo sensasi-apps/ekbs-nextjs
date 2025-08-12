@@ -1,4 +1,6 @@
-import type { ApiResponseType } from './me/participations'
+'use client'
+
+import type { ApiResponseType } from '../../../pages/me/participations'
 // vendors
 import useSWR from 'swr'
 // materials
@@ -10,7 +12,6 @@ import Typography from '@mui/material/Typography'
 import FireTruck from '@mui/icons-material/FireTruck'
 import Forest from '@mui/icons-material/Forest'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
 import useAuth from '@/providers/Auth'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import BigNumberCard, {
@@ -19,6 +20,7 @@ import BigNumberCard, {
 import AlertListCard from '@/components/pages/dashboard/AlertListCard'
 // enums
 import Role from '@/enums/Role'
+import useAuthInfo from '@/hooks/use-auth-info'
 
 /**
  * The `Page` component represents the dashboard page of the application.
@@ -27,7 +29,8 @@ import Role from '@/enums/Role'
  * @todo Add total participation (RP) section
  */
 export default function Page() {
-    const { user, userHasRole } = useAuth()
+    const user = useAuthInfo()
+    const { userHasRole } = useAuth()
 
     const { data: { palmBunchesDelivery, palmBunches } = {} } =
         useSWR<ApiResponseType>(
@@ -41,7 +44,7 @@ export default function Page() {
     )
 
     return (
-        <AuthLayout title="Dasbor">
+        <>
             <Typography variant="h5" component="div" mb={4}>
                 Selamat datang,{' '}
                 {user?.name ? (
@@ -103,6 +106,6 @@ export default function Page() {
                     <AlertListCard />
                 </Grid>
             </Grid>
-        </AuthLayout>
+        </>
     )
 }

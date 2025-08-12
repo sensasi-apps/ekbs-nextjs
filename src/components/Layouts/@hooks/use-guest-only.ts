@@ -1,14 +1,16 @@
-import useAuth from '@/providers/Auth'
-import { useRouter } from 'next/router'
+import useAuthInfo from '@/hooks/use-auth-info'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 export function useGuestOnly() {
-    const { replace, pathname, query } = useRouter()
-    const { user } = useAuth()
+    const authInfo = useAuthInfo()
+    const pathname = usePathname()
+    const query = useSearchParams()
+    const { replace } = useRouter()
 
     useEffect(() => {
-        if (user) {
-            const redirectTo = query.redirectTo
+        if (authInfo) {
+            const redirectTo = query?.get('redirectTo')
 
             if (redirectTo) {
                 replace(redirectTo.toString())
@@ -16,5 +18,5 @@ export function useGuestOnly() {
                 replace('/dashboard')
             }
         }
-    }, [user, replace, pathname, query])
+    }, [authInfo, replace, pathname, query])
 }

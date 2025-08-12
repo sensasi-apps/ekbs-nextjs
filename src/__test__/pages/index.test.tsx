@@ -3,7 +3,7 @@
  */
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import Index from '@/pages/index'
+import Index from '@/app/page'
 
 const replaceFnMock = jest.fn()
 

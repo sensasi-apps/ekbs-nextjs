@@ -17,10 +17,11 @@ import DefaultItemDesc from '../../../../../@shared-subcomponents/default-item-d
 import DetailsFieldComponent from './components/details-field-component'
 // utils
 import formatNumber from '@/utils/formatNumber'
-import useAuth from '@/providers/Auth'
+// hooks
+import useAuthInfo from '@/hooks/use-auth-info'
 
 function CreateSaleForm() {
-    const { user } = useAuth()
+    const user = useAuthInfo()
     const { status, isSubmitting } = useFormikContext<FormValuesType>()
 
     const typedStatus = status as FormikStatusType

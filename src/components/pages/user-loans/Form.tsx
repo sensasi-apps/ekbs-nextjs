@@ -43,6 +43,7 @@ import UserLoanInstallmentDialog from './InstallmentDialog'
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import Role from '@/enums/Role'
+import useAuthInfo from '@/hooks/use-auth-info'
 
 export default function LoanForm({
     errors,
@@ -58,7 +59,9 @@ export default function LoanForm({
         throw new Error('status.mode or status.userLoanFromDb is undefined')
     }
 
-    const { user: currentUser, userHasRole, userHasPermission } = useAuth()
+    const currentUser = useAuthInfo()
+
+    const { userHasRole, userHasPermission } = useAuth()
 
     const mode: 'applier' | 'manager' = status.mode
     const userLoanFromDb: UserLoanType | null = status.userLoanFromDb

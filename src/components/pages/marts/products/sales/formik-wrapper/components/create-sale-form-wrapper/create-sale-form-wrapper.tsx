@@ -21,8 +21,8 @@ import PrintHandler from '@/components/PrintHandler'
 // sub-components
 import CreateSaleForm from './components/create-sale-form'
 import Receipt from '../../../@shared-subcomponents/receipt'
-// utils
-import useAuth from '@/providers/Auth'
+// hooks
+import useAuthInfo from '@/hooks/use-auth-info'
 
 export function CreateSaleFormWrapper() {
     const {
@@ -34,7 +34,7 @@ export function CreateSaleFormWrapper() {
         status,
         values,
     } = useFormikContext<FormValuesType>()
-    const { user } = useAuth()
+    const user = useAuthInfo()
     const { isDisabled, isFormOpen, submittedData } = status as FormikStatusType
 
     const isSubmitted = Boolean(submittedData)

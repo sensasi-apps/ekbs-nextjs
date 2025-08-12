@@ -4,26 +4,15 @@
 import type AuthInfo from '@/features/user--auth/types/auth-info'
 import type Role from '@/enums/Role'
 // vendors
-import {
-    createContext,
-    useContext,
-    type ReactNode,
-    useState,
-    useEffect,
-} from 'react'
+import { createContext, useContext, type ReactNode } from 'react'
 // functions
 import userHasRole from './Auth/userHasRole'
 import userHasPermission from './Auth/userHasPermission'
 import { login } from './Auth/login'
-import { getCurrentAuthInfo } from './Auth/functions/getCurrentAuthInfo'
+// hooks
+import useAuthInfoState from '@/hooks/use-auth-info-state'
 
 interface AuthContextType {
-    /**
-     * `undefined` mean user data is not retrieved yet
-     *
-     * @default undefined
-     */
-    user: AuthInfo | null | undefined
     onAgreeTncp: () => void
     userHasPermission: (
         permissionName: string | string[],
@@ -34,7 +23,6 @@ interface AuthContextType {
 }
 
 const DEFAULT_CONTEXT_VALUE: AuthContextType = {
-    user: null,
     onAgreeTncp: () => {},
     userHasPermission: () => false,
     userHasRole: () => false,
@@ -44,17 +32,11 @@ const DEFAULT_CONTEXT_VALUE: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(DEFAULT_CONTEXT_VALUE)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<AuthInfo | null | undefined>(undefined)
-
-    useEffect(() => {
-        setUser(getCurrentAuthInfo())
-    }, [])
+    const [user, setUser] = useAuthInfoState()
 
     return (
         <AuthContext.Provider
             value={{
-                user,
-
                 onAgreeTncp: () => {
                     if (user) {
                         setUser({

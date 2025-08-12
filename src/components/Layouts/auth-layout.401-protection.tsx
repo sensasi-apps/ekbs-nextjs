@@ -2,7 +2,6 @@
 
 // vendors
 import { useEffect, useState } from 'react'
-import { useLocalStorage } from '@uidotdev/usehooks'
 // materials
 import AlertTitle from '@mui/material/AlertTitle'
 import Alert from '@mui/material/Alert'
@@ -10,10 +9,12 @@ import Button from '@mui/material/Button'
 // icons
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import findLsKeyByValue from '@/utils/find-ls-key-by-value'
+// hooks
+import useAuthInfoState from '@/hooks/use-auth-info-state'
 
 export function The401Protection() {
     const [isShow, setIsShow] = useState(false)
-    const [authInfo, setAuthInfo] = useLocalStorage('currentAuthInfo')
+    const [authInfo, setAuthInfo] = useAuthInfoState()
 
     useEffect(() => {
         function show() {

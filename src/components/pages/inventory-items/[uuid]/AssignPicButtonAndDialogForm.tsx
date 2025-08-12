@@ -18,6 +18,7 @@ import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import useAuthInfo from '@/hooks/use-auth-info'
 
 const AssignPicButtonAndDialogForm = memo(
     function AssignPicButtonAndDialogForm({
@@ -29,8 +30,9 @@ const AssignPicButtonAndDialogForm = memo(
         latestPic: InventoryItem['latest_pic'] | undefined
         onSubmit?: () => void
     }) {
+        const user = useAuthInfo()
         const [isDialogOpen, setIsDialogOpen] = useState(false)
-        const { userHasPermission, user } = useAuth()
+        const { userHasPermission } = useAuth()
 
         const { pic_user } = latestPic ?? {}
 

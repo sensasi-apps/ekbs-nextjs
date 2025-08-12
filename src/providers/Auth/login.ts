@@ -5,25 +5,20 @@ import { AxiosError } from 'axios'
 import axios from '@/lib/axios'
 // functions
 import { getUserHashKey } from './functions/getUserHashKey'
-import { setCurrentAuthInfo } from './functions/setCurrentAuthInfo'
 
 export async function login(
     email: string,
     password: string,
-    setUser: (user: AuthInfo | null) => void,
+    setUser: (user: AuthInfo | undefined) => void,
 ) {
     const hashKey = getUserHashKey(email, password)
 
     const storedAuthInfoJson = localStorage.getItem(hashKey)
     const storedAuthInfo = storedAuthInfoJson
         ? (JSON.parse(storedAuthInfoJson) as AuthInfo)
-        : null
+        : undefined
 
     setUser(storedAuthInfo)
-
-    if (storedAuthInfo) {
-        setCurrentAuthInfo(storedAuthInfo)
-    }
 
     return axios
         .post<AuthInfo>('/login', {
@@ -35,7 +30,6 @@ export async function login(
 
             if (storedAuthInfoJson !== authInfoJson) {
                 setUser(authInfo)
-                setCurrentAuthInfo(authInfo)
                 localStorage.setItem(hashKey, authInfoJson)
             }
         })
@@ -49,8 +43,7 @@ export async function login(
                     return
                 }
 
-                setUser(null)
-                localStorage.removeItem('currentAuthInfo')
+                setUser(undefined)
                 return Promise.reject(err)
             },
         )
