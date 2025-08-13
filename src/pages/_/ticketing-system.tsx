@@ -1,7 +1,7 @@
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 import { type GetRowData } from '@/components/Datatable/@types'
 import Fab from '@/components/Fab'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import type User from '@/features/user/types/user'
 import Role from '@/enums/Role'
 import { useRoleChecker } from '@/hooks/use-role-checker'

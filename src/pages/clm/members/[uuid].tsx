@@ -10,7 +10,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import CropIcon from '@mui/icons-material/Crop'
 import ForestIcon from '@mui/icons-material/Forest'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import BackButton from '@/components/back-button'
 import ChipSmall from '@/components/ChipSmall'
 // features

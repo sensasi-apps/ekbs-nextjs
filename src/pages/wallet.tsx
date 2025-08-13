@@ -1,7 +1,7 @@
 // vendors
 import useSWR from 'swr'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import TxHistory from '@/components/Wallet/TxHistory'
 import Skeletons from '@/components/Global/Skeletons'
 import useDisablePage from '@/hooks/useDisablePage'

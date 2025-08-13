@@ -12,7 +12,7 @@ import axios from '@/lib/axios'
 // icons
 import EventNoteIcon from '@mui/icons-material/EventNote'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 // page components

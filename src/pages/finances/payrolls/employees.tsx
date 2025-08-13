@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton'
 import PaymentsIcon from '@mui/icons-material/Payments'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,

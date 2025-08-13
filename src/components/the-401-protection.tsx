@@ -12,7 +12,7 @@ import findLsKeyByValue from '@/utils/find-ls-key-by-value'
 // hooks
 import useAuthInfoState from '@/hooks/use-auth-info-state'
 
-export function The401Protection() {
+export default function The401Protection() {
     const [isShow, setIsShow] = useState(false)
     const [authInfo, setAuthInfo] = useAuthInfoState()
 

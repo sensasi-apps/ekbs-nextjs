@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import useSWR from 'swr'
 // import userHasPermission from '@/providers/Auth/userHasPermission'
 // components
-import { The401Protection } from '@/components/Layouts/auth-layout.401-protection'
+import The401Protection from '@/components/the-401-protection'
 // features
 // import Permission from '@/features/repair-shop--sale/enums/permission'
 import SaleFormDialog, {

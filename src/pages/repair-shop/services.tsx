@@ -7,7 +7,7 @@ import Datatable, {
     type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 // utils
 import formatNumber from '@/utils/formatNumber'
 // features

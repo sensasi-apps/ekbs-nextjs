@@ -10,7 +10,7 @@ import { Formik } from 'formik'
 import { useState } from 'react'
 import axios from '@/lib/axios'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 // page components
 import HeavyEquipmentRentFinishTaskForm, {

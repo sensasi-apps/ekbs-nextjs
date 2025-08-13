@@ -24,7 +24,7 @@ import Typography from '@mui/material/Typography'
 import RefreshIcon from '@mui/icons-material/Refresh'
 // components
 import type Product from '@/dataTypes/mart/Product'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 import NumericFormat from '@/components/NumericFormat'

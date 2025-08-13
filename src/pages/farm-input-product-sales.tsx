@@ -17,7 +17,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import ProductSaleForm, {

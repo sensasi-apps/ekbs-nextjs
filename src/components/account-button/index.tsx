@@ -15,10 +15,10 @@ import Typography from '@mui/material/Typography'
 // components
 import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
-import FooterBox from '@/components/Layouts/FooterBox'
+import FooterBox from '@/components/footer-box'
 // parts
 import DarkModeSwitch from './_parts/dark-mode-switch-menu-item'
-import FullscreenMenuItem from '../Layouts/_parts/TopBar/components/FullscreenMenuItem'
+import FullscreenMenuItem from './_parts/fullscreen-menu-item'
 import TncpMenuItem from './_parts/tncp-menu-item'
 // icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'

@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { type IBrowser, UAParser } from 'ua-parser-js'
 import { useEffect, useState } from 'react'
 // components
-import FooterBoxWithLogo from '@/components/Layouts/FooterBox/WithLogo'
+import FooterBoxWithLogo from '@/components/footer-box-with-logo'
 // constants
 import BROWSER_MINIMUM_VERSIONS from '@/components/redirect-if-browser-is-unsupported/BROWSER_MINIMUM_VERSIONS'
 

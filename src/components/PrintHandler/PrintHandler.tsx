@@ -5,7 +5,7 @@ import type { TooltipProps } from '@mui/material/Tooltip'
 // vendors
 import { memo, useRef } from 'react'
 import { useReactToPrint, type UseReactToPrintOptions } from 'react-to-print'
-import PrintLayout from '@/components/Layouts/PrintLayout'
+import PrintLayout from '@/components/print-layout'
 // materials
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'

@@ -8,7 +8,7 @@ import Datatable, {
     type GetRowDataType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 // features
 import type { Sale } from '@/features/repair-shop--sale/types/sale'
 import TextShortener from '@/components/text-shortener'

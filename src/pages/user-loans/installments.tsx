@@ -7,7 +7,7 @@ import type {
 import { Formik } from 'formik'
 import { useState } from 'react'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import { mutate } from '@/components/Datatable'
 // local components

@@ -15,7 +15,7 @@ import TableFooter from '@mui/material/TableFooter'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import IconButton from '@/components/IconButton'

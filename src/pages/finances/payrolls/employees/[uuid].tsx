@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import SettingsIcon from '@mui/icons-material/Settings'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import FinanceApiUrlEnum from '@/components/pages/finances/ApiUrlEnum'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import BackButton from '@/components/back-button'

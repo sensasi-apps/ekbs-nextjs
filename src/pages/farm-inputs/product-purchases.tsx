@@ -16,7 +16,7 @@ import { Formik, type FormikConfig } from 'formik'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'

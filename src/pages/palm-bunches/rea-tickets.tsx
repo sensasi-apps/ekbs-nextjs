@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography'
 import BackupTable from '@mui/icons-material/BackupTable'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     getRowData,

@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import FooterBox from '@/components/Layouts/FooterBox'
+import FooterBox from '@/components/footer-box'
 import LogoImage from '@/components/LogoImage'
 
 export default function FooterBoxWithLogo() {

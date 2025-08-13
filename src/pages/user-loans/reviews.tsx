@@ -7,7 +7,7 @@ import { Formik } from 'formik'
 import axios from '@/lib/axios'
 // components
 import { mutate } from '@/components/Datatable'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import LoanReviewForm from '@/components/pages/user-loans/reviews/Form'
 import ReviewDatatable from '@/components/pages/user-loans/reviews/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'

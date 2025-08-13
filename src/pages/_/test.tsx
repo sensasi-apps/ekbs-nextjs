@@ -4,7 +4,7 @@ import axios from '@/lib/axios'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 //
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Role from '@/enums/Role'
 import { useRoleChecker } from '@/hooks/use-role-checker'
 

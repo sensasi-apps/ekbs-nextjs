@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import Typography from '@mui/material/Typography'
 //
 import Datatable, { type DatatableProps } from '@/components/Datatable'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Role from '@/enums/Role'
 import { useRoleChecker } from '@/hooks/use-role-checker'
 

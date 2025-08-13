@@ -7,7 +7,7 @@ import axios from '@/lib/axios'
 import { Formik } from 'formik'
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import ProductOpanmeForm, {

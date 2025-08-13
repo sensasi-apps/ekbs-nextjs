@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid'
 // global components
 import AccountButton from '@/components/account-button'
 import BackButton from '@/components/back-button'
-import FooterBox from '@/components/Layouts/FooterBox'
+import FooterBox from '@/components/footer-box'
 import NoInternetIndicator from '@/components/no-internet-indicator'
 import RedirectIfUnauth from '@/components/redirect-if-unauth'
 // page components
@@ -15,7 +15,7 @@ import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sa
 // hooks
 import { UserAccountAlert } from '@/components/pages/marts/products/sales/user-account-alert'
 import BgSyncPanelDialogAndButton from '@/components/pages/marts/products/sales/bg-sync-panel-dialog-and-button'
-import { The401Protection } from '@/components/Layouts/auth-layout.401-protection'
+import The401Protection from '@/components/the-401-protection'
 
 export default function SalesPage() {
     return (

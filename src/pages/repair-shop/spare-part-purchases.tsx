@@ -11,7 +11,7 @@ import type {
     GetRowDataType,
     MutateType,
 } from '@/components/Datatable'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import TextShortener from '@/components/text-shortener'

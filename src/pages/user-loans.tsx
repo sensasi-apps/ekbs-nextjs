@@ -13,7 +13,7 @@ import Chip, { type ChipOwnProps } from '@mui/material/Chip'
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
 import { type MutateType } from '@/components/Datatable'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Fab from '@/components/Fab'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import ScrollableXBox from '@/components/ScrollableXBox'

@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 // components
-import Footer from '@/components/Layouts/_parts/footer'
+import FlatFooter from '@/app/_parts/flat-footer'
 // parts
 import THEME from '@/app/(guest)/_parts/THEME'
 
@@ -58,7 +58,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 </Container>
 
                 <Container maxWidth="lg">
-                    <Footer />
+                    <FlatFooter />
                 </Container>
             </Box>
         </ThemeProvider>

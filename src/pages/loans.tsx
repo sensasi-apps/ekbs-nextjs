@@ -7,7 +7,7 @@ import axios from '@/lib/axios'
 import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 // import Fab from '@/components/Fab'
 import { mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'

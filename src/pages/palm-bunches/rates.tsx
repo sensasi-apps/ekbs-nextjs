@@ -1,4 +1,4 @@
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 export default function PalmBuncesRates() {

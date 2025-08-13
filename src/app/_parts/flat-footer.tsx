@@ -7,7 +7,7 @@ import { type ReactNode } from 'react'
 
 const versionDateDayjs = dayjs(packageJson.versionDate)
 
-export default function Footer() {
+export default function FlatFooter() {
     return (
         <Box component="footer" columnGap={2} display="flex" flexWrap="wrap">
             {[

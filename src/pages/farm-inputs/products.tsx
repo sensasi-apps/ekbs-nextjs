@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     getNoWrapCellProps,

@@ -14,7 +14,7 @@ import Refresh from '@mui/icons-material/Refresh'
 import { toYmd } from '@/functions/toYmd'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 // page components
 import { AoaTable } from '@/components/aoa-table'
 import { useRouter } from 'next/router'

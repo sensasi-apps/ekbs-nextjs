@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import ApiUrl from '@/components/pages/marts/products/ApiUrl'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
     type DatatableProps,

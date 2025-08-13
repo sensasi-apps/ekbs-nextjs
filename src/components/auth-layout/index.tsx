@@ -4,14 +4,14 @@ import { type ReactNode } from 'react'
 import Head from 'next/head'
 // materials
 import Box from '@mui/material/Box'
+// components
+import RedirectIfUnauth from '@/components/redirect-if-unauth'
+import The401Protection from '@/components/the-401-protection'
 // parts
-import FooterBox from './FooterBox'
-import TopBar from './_parts/TopBar'
+import FooterBox from '../footer-box'
+import TopBar from './_parts/top-bar'
 import NavBar from './_parts/nav-bar'
 import WIDTH from './_parts/nav-bar/WIDTH'
-// hooks
-import RedirectIfUnauth from '@/components/redirect-if-unauth'
-import { The401Protection } from './auth-layout.401-protection'
 
 export default function AuthLayout({
     title,

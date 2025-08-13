@@ -20,7 +20,7 @@ import ForestIcon from '@mui/icons-material/Forest'
 // components
 import { AoaTable } from '@/components/aoa-table'
 import { Radio, TextField } from '@/components/FormikForm'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Fab from '@/components/Fab'
 import Switch from '@/components/FormikForm/switch'
 import IconButton from '@/components/IconButton'

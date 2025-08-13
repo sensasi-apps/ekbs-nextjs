@@ -7,8 +7,8 @@ import Container from '@mui/material/Container'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 // etc
-import AuthLayout from '@/components/Layouts/AuthLayout'
-import FooterBox from '@/components/Layouts/FooterBox'
+import AuthLayout from '@/components/auth-layout'
+import FooterBox from '@/components/footer-box'
 import useAuthInfo from '@/hooks/use-auth-info'
 
 export default function NotFoundPage() {

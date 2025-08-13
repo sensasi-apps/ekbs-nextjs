@@ -19,7 +19,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
