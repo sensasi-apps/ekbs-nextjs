@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch'
 
 export default function IsActiveDisplay({ isActive = false }) {
     return (
-        <FormControl fullWidth margin="normal" disabled>
+        <FormControl fullWidth margin="none" disabled>
             <FormLabel>Status Akun</FormLabel>
             <FormControlLabel
                 sx={{

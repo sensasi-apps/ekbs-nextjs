@@ -1,5 +1,5 @@
 // features
-import type User from '../../user/types/user'
+import type User from '@/features/user/types/user'
 
 export default interface PublicProfile {
     name: User['name']

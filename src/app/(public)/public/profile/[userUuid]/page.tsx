@@ -1,31 +1,36 @@
+'use client'
+
 // vendors
 import type { AxiosError } from 'axios'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import Head from 'next/head'
 // materials
 import Typography from '@mui/material/Typography'
 import LinearProgress from '@mui/material/LinearProgress'
 // libs
 import myAxios from '@/lib/axios'
-// components
-import PublicLayout from '@/components/Layouts/PublicLayout'
-// features
-import type PublicProfile from '@/features/user--public-profile/types/public-profile'
-import Profile from '@/features/user--public-profile/components/profile'
+// parts
+import type PublicProfile from './_types/public-profile'
+import Profile from './_parts/profile'
 
-export default function ProfilePage() {
-    const { query, replace } = useRouter()
+export default function Page({
+    params,
+}: {
+    params: Promise<{ userUuid: string }>
+}) {
+    const { replace } = useRouter()
+    const [userUuid, setUserUuid] = useState<string>()
     const [user, setUser] = useState<PublicProfile>()
     const [error, setError] = useState<string>()
 
+    params.then(({ userUuid }) => setUserUuid(userUuid))
+
     useEffect(() => {
-        if (query.userUuid && !user) {
+        if (userUuid) {
             myAxios
-                .get<PublicProfile>('/public/profile/' + query.userUuid)
-                .then(res => {
-                    setUser(res.data)
-                })
+                .get<PublicProfile>('/public/profile/' + userUuid)
+                .then(res => setUser(res.data))
                 .catch((err: AxiosError) => {
                     if (err.status === 404) {
                         replace('/404')
@@ -34,10 +39,10 @@ export default function ProfilePage() {
                     }
                 })
         }
-    }, [query.userUuid, user, replace])
+    }, [userUuid, replace])
 
     return (
-        <PublicLayout title={process.env.NEXT_PUBLIC_APP_NAME ?? 'EKBS'}>
+        <>
             <Head>
                 <meta name="robots" content="noindex,nofollow" />
                 <meta
@@ -59,6 +64,6 @@ export default function ProfilePage() {
             )}
 
             {user && <Profile data={user} />}
-        </PublicLayout>
+        </>
     )
 }

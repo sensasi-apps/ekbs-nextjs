@@ -1,6 +1,9 @@
+'use client'
+
 // type
 import type { ReactNode } from 'react'
 // vendors
+import Head from 'next/head'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
@@ -20,12 +23,11 @@ import WorkIcon from '@mui/icons-material/Work'
 // components
 import LineChart from '@/components/Chart/Line'
 import BigNumber from '@/components/StatCard/BigNumber'
-import PublicLayout from '@/components/Layouts/PublicLayout'
 import StatCard, { type StatCardProps } from '@/components/StatCard'
 // utils
 import toDmy from '@/utils/toDmy'
 
-export default function Stat() {
+export default function Page() {
     const {
         data: {
             lastGeneratedAt,
@@ -60,9 +62,14 @@ export default function Stat() {
     }>('performance-data')
 
     return (
-        <PublicLayout
-            title={`Laporan Performa Koperasi Belayan Sejahtera —
-        ${process.env.NEXT_PUBLIC_APP_NAME}`}>
+        <>
+            <Head>
+                <title>
+                    Laporan Performa Koperasi Belayan Sejahtera —
+                    {process.env.NEXT_PUBLIC_APP_NAME}
+                </title>
+            </Head>
+
             <Box mb={3}>
                 <Typography variant="h4" component="h1">
                     Laporan Performa
@@ -78,7 +85,7 @@ export default function Stat() {
                     gap={0.5}
                     color="GrayText"
                     alignItems="center">
-                    Pengikinian terakhir tanggal:
+                    Pengkinian terakhir tanggal:
                     {isLoading ? (
                         <Skeleton variant="rounded" width="8em" />
                     ) : (
@@ -88,6 +95,7 @@ export default function Stat() {
                     )}
                 </Typography>
             </Box>
+
             <Box display="flex" gap={4} flexDirection="column">
                 <Box>
                     <Heading2 startIcon={<Diversity3Icon />}>Anggota</Heading2>
@@ -233,7 +241,7 @@ export default function Stat() {
                     </StatCardBox>
                 </Box>
             </Box>
-        </PublicLayout>
+        </>
     )
 }
 

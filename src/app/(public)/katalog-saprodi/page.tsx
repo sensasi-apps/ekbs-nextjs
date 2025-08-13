@@ -1,21 +1,21 @@
+'use client'
 // types
 import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
 import type ProductType from '@/dataTypes/Product'
 // vendors
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
+import Head from 'next/head'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
-import FarmInputsProductsLowQty from '../components/pages/farm-inputs/products/LowQty'
+import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
+import WarehouseSelectionButton from '@/app/(public)/katalog-saprodi/_parts/warehouse-selection-button'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
-// layout
-import PublicLayout from '@/components/Layouts/PublicLayout'
-import WarehouseSelectionButton from '@/components/pages/katalog-saprodi/WarehouseSelectionButton'
 
 interface DataType extends Omit<ProductType, 'warehouses'> {
     qty: number
@@ -24,15 +24,20 @@ interface DataType extends Omit<ProductType, 'warehouses'> {
 
 let getRowData: GetRowDataType<DataType>
 
-export default function KatalogProdukSaprodi() {
+export default function Page() {
     const pageTitle = 'Katalog Digital Produk SAPRODI'
 
-    const { query } = useRouter()
-    const warehouse = query.warehouse?.toString() ?? 'muai'
+    const searchParams = useSearchParams()
+    const warehouse = searchParams?.get('warehouse') ?? 'muai'
 
     return (
-        <PublicLayout
-            title={`${pageTitle} — ${process.env.NEXT_PUBLIC_APP_NAME}`}>
+        <>
+            <Head>
+                <title>
+                    {pageTitle} — {process.env.NEXT_PUBLIC_APP_NAME}
+                </title>
+            </Head>
+
             <Box mb={2}>
                 <Typography variant="h4" component="h1">
                     {pageTitle}
@@ -85,7 +90,7 @@ export default function KatalogProdukSaprodi() {
                     </Typography>
                 </Box>
             </Box>
-        </PublicLayout>
+        </>
     )
 }
 

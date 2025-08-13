@@ -2,34 +2,20 @@
 import type { ReactNode } from 'react'
 //vendors
 import Box from '@mui/material/Box'
-import Container, { type ContainerProps } from '@mui/material/Container'
-import Head from 'next/head'
+import Container from '@mui/material/Container'
 // components
 import BackButton from '@/components/back-button'
 // parts
-import Footer from './_parts/footer'
-import DarkModeSwitch from './_parts/TopBar/components/DarkModeSwitch'
+import Footer from '@/components/Layouts/_parts/footer'
+import DarkModeSwitch from '@/components/Layouts/_parts/TopBar/components/DarkModeSwitch'
 
-export default function PublicLayout({
-    children,
-    title,
-    maxWidth = 'md',
-}: {
-    title: string
-    children: ReactNode
-    maxWidth?: ContainerProps['maxWidth']
-}) {
+export default function Layout({ children }: { children: ReactNode }) {
     return (
         <Container
-            maxWidth={maxWidth}
+            maxWidth="md"
             sx={{
-                // py: 3,
                 p: 4,
             }}>
-            <Head>
-                <title>{title}</title>
-            </Head>
-
             <Box
                 display="flex"
                 justifyContent="space-between"

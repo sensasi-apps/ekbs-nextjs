@@ -1,5 +1,7 @@
+'use client'
+
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 // materials
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
@@ -9,8 +11,9 @@ import ToggleButton from '@mui/material/ToggleButton'
 import Warehouse from '@/enums/Warehouse'
 
 export default function WarehouseSelectionButton() {
-    const { query, replace } = useRouter()
-    const warehouse = query.warehouse ?? 'muai'
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
+    const warehouse = searchParams?.get('warehouse') ?? 'muai'
 
     return (
         <FormControl margin="normal">
@@ -21,9 +24,7 @@ export default function WarehouseSelectionButton() {
                 color="primary"
                 value={warehouse}
                 exclusive
-                onChange={(_, value) =>
-                    replace({ query: { ...query, warehouse: value } })
-                }>
+                onChange={(_, value) => replace(`?warehouse=${value}`)}>
                 {Object.values(Warehouse).map((warehouse, i) => (
                     <ToggleButton key={i} value={warehouse}>
                         {warehouse}

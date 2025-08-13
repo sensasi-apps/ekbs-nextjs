@@ -8,5 +8,5 @@ import Box, { type BoxProps } from '@mui/material/Box'
  * - gap: 1
  */
 export default function FlexBox(props: BoxProps) {
-    return <Box display="flex" gap={1} {...props} />
+    return <Box display="flex" alignItems="center" gap={1} {...props} />
 }

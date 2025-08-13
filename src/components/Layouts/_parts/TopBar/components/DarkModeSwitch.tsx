@@ -1,3 +1,5 @@
+'use client'
+
 import { useColorScheme } from '@mui/material/styles'
 
 import FormControlLabel from '@mui/material/FormControlLabel'
