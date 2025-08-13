@@ -10,7 +10,7 @@ import ArrowBack from '@mui/icons-material/ArrowBack'
 import GoogleIcon from '@mui/icons-material/Google'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // components
-import GuestFormLayout from '@/components/guest-form-layout'
+import GuestWithFormSubLayout from '@/app/(guest)/_parts/guest-with-form-sub-layout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 // parts
 import useHooks from './_parts/use-hooks'
@@ -21,7 +21,7 @@ export default function Page() {
     const { isOffline } = useIsOnline()
 
     return (
-        <GuestFormLayout
+        <GuestWithFormSubLayout
             title="Login"
             icon={<LockOutlinedIcon />}
             isLoading={isLoading}
@@ -62,6 +62,6 @@ export default function Page() {
                 startIcon={<ArrowBack />}>
                 Kembali ke halaman depan
             </Button>
-        </GuestFormLayout>
+        </GuestWithFormSubLayout>
     )
 }

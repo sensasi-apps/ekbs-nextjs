@@ -9,14 +9,13 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 // components
-import LayoutWithImageBackground from '@/app/_parts/layout-with-image-background'
-import ErrorCenter from './Statuses/ErrorCenter'
-import LoadingCenter from './Statuses/LoadingCenter'
+import ErrorCenter from '../../../components/Statuses/ErrorCenter'
+import LoadingCenter from '../../../components/Statuses/LoadingCenter'
 import RedirectIfAuth from '@/components/redirect-if-auth'
 // parts
-import GuestBackButton from '@/components/guest-form-layout.back-button'
+import GuestBackButton from '@/app/(guest)/_parts/guest-with-form-sub-layout.back-button'
 
-export default function GuestFormLayout({
+export default function GuestWithFormSubLayout({
     children,
     title,
     icon,
@@ -32,12 +31,7 @@ export default function GuestFormLayout({
     title: string
 }) {
     return (
-        <LayoutWithImageBackground
-            slotProps={{
-                wrapperBox: {
-                    width: '100%',
-                },
-            }}>
+        <>
             <Head>
                 <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
@@ -101,6 +95,6 @@ export default function GuestFormLayout({
                     </CardContent>
                 </Card>
             </Box>
-        </LayoutWithImageBackground>
+        </>
     )
 }

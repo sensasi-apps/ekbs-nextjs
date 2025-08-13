@@ -13,7 +13,7 @@ import SyncLockIcon from '@mui/icons-material/SyncLock'
 // components
 import BackButton from '@/components/back-button'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
-import GuestFormLayout from '@/components/guest-form-layout'
+import GuestWithFormSubLayout from '@/app/(guest)/_parts/guest-with-form-sub-layout'
 
 export default function Page() {
     // form data
@@ -58,7 +58,7 @@ export default function Page() {
     }
 
     return (
-        <GuestFormLayout
+        <GuestWithFormSubLayout
             title="Lupa kata sandi"
             icon={<SyncLockIcon />}
             isLoading={isLoading}
@@ -93,6 +93,6 @@ export default function Page() {
                 </>
             )}
             <BackButton sx={{ mt: 2 }} />
-        </GuestFormLayout>
+        </GuestWithFormSubLayout>
     )
 }

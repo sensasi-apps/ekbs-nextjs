@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import LockResetIcon from '@mui/icons-material/LockReset'
 // components
-import GuestFormLayout from '@/components/guest-form-layout'
+import GuestWithFormSubLayout from '@/app/(guest)/_parts/guest-with-form-sub-layout'
 
 export default function Page({
     params,
@@ -71,7 +71,7 @@ export default function Page({
     }
 
     return (
-        <GuestFormLayout
+        <GuestWithFormSubLayout
             title="Atur kata sandi"
             icon={<LockResetIcon />}
             isError={Boolean(validationErrors?.message)}
@@ -129,6 +129,6 @@ export default function Page({
                     Simpan kata sandi
                 </Button>
             </form>
-        </GuestFormLayout>
+        </GuestWithFormSubLayout>
     )
 }

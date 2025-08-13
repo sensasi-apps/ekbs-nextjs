@@ -8,20 +8,16 @@ import Insights from '@mui/icons-material/Insights'
 import Login from '@mui/icons-material/Login'
 import OpenInNew from '@mui/icons-material/OpenInNew'
 import Warehouse from '@mui/icons-material/Warehouse'
-//
-import LayoutWithImageBackground from '@/app/_parts/layout-with-image-background'
 
 export default function Landing() {
     return (
-        <LayoutWithImageBackground>
-            <Box display="flex" flexDirection="column" gap={2}>
-                <HeroSection />
+        <Box display="flex" flexDirection="column" gap={2}>
+            <HeroSection />
 
-                <PublicPagesSection />
+            <PublicPagesSection />
 
-                <EtcSection />
-            </Box>
-        </LayoutWithImageBackground>
+            <EtcSection />
+        </Box>
     )
 }
 

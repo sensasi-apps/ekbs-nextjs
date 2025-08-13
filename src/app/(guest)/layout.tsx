@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
 // materials
 import { ThemeProvider } from '@mui/material/styles'
-import Box, { type BoxProps } from '@mui/material/Box'
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 // components
 import Footer from '@/components/Layouts/_parts/footer'
 // parts
-import THEME from './layout-with-image-background.THEME'
+import THEME from '@/app/(guest)/_parts/THEME'
 
 const BG_IMG_URL =
     'https://belayansejahtera.org/wp-content/uploads/2025/02/FJR00081-scaled.jpg'
@@ -17,16 +17,7 @@ const BG_IMG_URL =
  *
  * It contains a main section with a fade in animation and a footer section.
  */
-export default function LayoutWithImageBackground({
-    children,
-    slotProps,
-}: {
-    children: ReactNode
-
-    slotProps?: {
-        wrapperBox?: BoxProps
-    }
-}) {
+export default function Layout({ children }: { children: ReactNode }) {
     return (
         <ThemeProvider theme={THEME}>
             <Box
@@ -62,7 +53,7 @@ export default function LayoutWithImageBackground({
                         timeout={{
                             enter: 1000,
                         }}>
-                        <Box {...slotProps?.wrapperBox}>{children}</Box>
+                        <Box width="100%">{children}</Box>
                     </Fade>
                 </Container>
 
