@@ -13,8 +13,8 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 import PhoneIcon from '@mui/icons-material/Phone'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 // features
-import type Social from '../../user/types/social'
-import type PublicProfile from '../types/public-profile'
+import type Social from '@/features/user/types/social'
+import type PublicProfile from '../_types/public-profile'
 
 export default function Profile({ data }: { data: PublicProfile }) {
     const { name } = data
