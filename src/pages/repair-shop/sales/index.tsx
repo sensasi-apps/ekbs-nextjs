@@ -12,8 +12,8 @@ import AuthLayout from '@/components/auth-layout'
 // features
 import type { Sale } from '@/features/repair-shop--sale/types/sale'
 import TextShortener from '@/components/text-shortener'
-import formatNumber from '@/utils/formatNumber'
-import toDmy from '@/utils/toDmy'
+import formatNumber from '@/utils/format-number'
+import toDmy from '@/utils/to-dmy'
 import PrintHandler from '@/components/PrintHandler'
 import Receipt from '@/features/repair-shop--sale/components/receipt'
 

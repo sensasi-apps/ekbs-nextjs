@@ -18,7 +18,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 // components
 import { ContactList } from '@/components/User/Socials/CrudBox'
 import TbsPerformanceChart from './CrediturCard/TbsPerformanceChart'
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export default function CrediturCard({ data: creditur }: { data: UserType }) {
     const [isCollapsed, setIsCollapsed] = useState(true)

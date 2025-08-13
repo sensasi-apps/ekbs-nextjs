@@ -17,8 +17,8 @@ import FormikForm, {
 //
 import myAxios from '@/lib/axios'
 // utils
-import handle422 from '@/utils/errorCatcher'
-import toDmy from '@/utils/toDmy'
+import handle422 from '@/utils/handle-422'
+import toDmy from '@/utils/to-dmy'
 
 export type FormData = Partial<{
     id: number

@@ -12,10 +12,10 @@ import Grid from '@mui/material/GridLegacy'
 // components
 import NumericFormat from '@/components/NumericFormat'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 import FormikForm from '../FormikForm'
 import TextFieldFastableComponent from '../TextField/FastableComponent'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'
 
 export default function ProductForm({

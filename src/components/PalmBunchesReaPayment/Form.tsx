@@ -34,10 +34,10 @@ import NumericFormat from '@/components/Global/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import Text from '@/components/Global/Text'
 import DatePicker from '@/components/DatePicker'
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
 import fileDownload from 'js-file-download'
 
 export default function PalmBuncesReaPaymentForm({

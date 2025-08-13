@@ -40,11 +40,11 @@ import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserActivityLogs from '@/components/UserActivityLogs'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import txAccounts from '../../../../features/transaction/statics/tx-accounts'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import type LaravelValidationException from '@/types/LaravelValidationException'
-import shortUuid from '@/utils/uuidToShort'
+import shortUuid from '@/utils/short-uuid'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums

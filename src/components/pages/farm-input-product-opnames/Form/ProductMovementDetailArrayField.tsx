@@ -21,7 +21,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // utils
 import debounce from '@/utils/debounce'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import { EMPTY_FORM_DATA } from '../Form'
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
 

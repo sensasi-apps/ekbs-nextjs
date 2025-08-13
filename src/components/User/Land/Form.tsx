@@ -22,7 +22,7 @@ import Autocomplete from '@/components/Inputs/Autocomplete'
 import DatePicker from '@/components/DatePicker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import NumericFormat from '@/components/NumericFormat'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 const INITIAL_STATE = {
     n_area_hectares: undefined,

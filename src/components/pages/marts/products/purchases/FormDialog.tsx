@@ -10,7 +10,7 @@ import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import Form, { type FormValues } from './Form'
 import getAxiosRequest from './getAxiosRequest'
-import { transformToFormikErrors } from '@/functions/transform-to-formik-errors'
+import { transformToFormikErrors } from '@/utils/transform-to-formik-errors'
 
 export default function FormDialog({
     formValues,

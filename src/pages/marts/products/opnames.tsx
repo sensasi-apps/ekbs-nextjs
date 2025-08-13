@@ -21,7 +21,7 @@ import AuthLayout from '@/components/auth-layout'
 import FormDialog from '@/components/pages/marts/products/opnames/FormDialog'
 import ChipSmall from '@/components/ChipSmall'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums

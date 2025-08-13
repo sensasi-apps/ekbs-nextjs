@@ -12,7 +12,7 @@ import InOutLineChart, {
 // page components
 import SppSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Spp'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 import useSWR from 'swr'
 
 export default function UserLoansStatistics() {

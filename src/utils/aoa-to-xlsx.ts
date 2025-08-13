@@ -2,7 +2,11 @@ import dayjs from 'dayjs'
 import { utils, writeFileXLSX } from 'xlsx'
 import packageJson from '@/../package.json'
 
-export function aoaToXlsx(fileName: string, rows: AoaRows, header?: string[]) {
+export default function aoaToXlsx(
+    fileName: string,
+    rows: AoaRows,
+    header?: string[],
+) {
     const generatedAt = ' — ' + dayjs().format('YYYY-MM-DD HH:mm:ss')
     const finalFileName = fileName + ' ' + generatedAt + '.xlsx'
 

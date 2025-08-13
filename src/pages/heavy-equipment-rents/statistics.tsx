@@ -14,7 +14,7 @@ import InOutLineChart, {
 // page components
 import AlatBeratSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/AlatBerat'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export default function HeavyEquipmentRentsStatistics() {
     const { data, isLoading } = useSWR<{

@@ -17,7 +17,7 @@ import HeavyEquipmentRentFinishTaskForm, {
     type HerFinishTaskFormValues,
 } from '@/components/pages/heavy-equipments-rents/Form/FinishTask'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-rents/Datatable'
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
 

@@ -13,7 +13,7 @@ import {
 // materials
 import Typography from '@mui/material/Typography'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 /**
  * LineChart component renders a line chart using Recharts library.

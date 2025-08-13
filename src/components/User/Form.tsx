@@ -19,7 +19,7 @@ import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 // etcs
 import useFormData from '@/providers/FormData'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 const UserForm = () => {
     const { data, handleClose } = useFormData()

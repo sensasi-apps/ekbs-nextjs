@@ -38,8 +38,8 @@ import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import blinkSxValue from '@/utils/blinkSxValue'
+import formatNumber from '@/utils/format-number'
+import blinkSxValue from '@/utils/blink-sx-value'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

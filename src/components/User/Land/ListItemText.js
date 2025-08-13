@@ -2,7 +2,7 @@
 import dayjs from 'dayjs'
 import ListItemText from '@mui/material/ListItemText'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 export default function UserLandListItemText({ data: land = {} }) {
     const { n_area_hectares } = land

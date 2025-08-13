@@ -24,9 +24,9 @@ import debounce from '@/utils/debounce'
 import useFormData from '@/providers/useFormData'
 import FormActions from '../Global/Form/Actions'
 import { dbPromise } from '@/lib/idb'
-import errorCatcher from '@/utils/errorCatcher'
-import weekOfMonths from '@/utils/weekOfMonth'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorCatcher from '@/utils/handle-422'
+import weekOfMonths from '@/utils/week-of-month'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 const nameIdFormatter = (validFrom: Ymd) =>
     `${dayjs(validFrom).format('MMMM ')}#${weekOfMonths(validFrom)}`

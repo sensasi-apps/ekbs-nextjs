@@ -21,7 +21,7 @@ import HeavyEquipmentRentForm, {
 } from '@/components/pages/heavy-equipments-rents/Form'
 import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-rents/Datatable'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 // enums
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
 import HerPermission from '@/enums/permissions/HeavyEquipmentRent'

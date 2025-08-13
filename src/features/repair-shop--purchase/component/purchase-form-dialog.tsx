@@ -14,7 +14,7 @@ import Grid from '@mui/material/Grid'
 // components
 import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import myAxios from '@/lib/axios'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 // feature scope
 import type SparePartMovement from '../../repair-shop/types/spare-part-movement'
 import Endpoint from '../enums/endpoint'

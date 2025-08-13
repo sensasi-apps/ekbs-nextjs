@@ -26,8 +26,8 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 //
 import type BusinessUnitCash from '@/dataTypes/BusinessUnitCash'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import numberToCurrency from '@/utils/number-to-currency'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import ScrollableXBox from '@/components/ScrollableXBox'
 
 interface CashOption {

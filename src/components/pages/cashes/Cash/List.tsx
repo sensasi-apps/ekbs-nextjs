@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 

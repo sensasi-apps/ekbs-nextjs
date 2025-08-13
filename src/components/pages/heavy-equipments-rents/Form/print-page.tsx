@@ -3,9 +3,9 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Image from 'next/image'
 import DefaultItemDesc from './default-item-desc'
-import toDmy from '@/utils/toDmy'
-import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
+import toDmy from '@/utils/to-dmy'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export default function PrintPage({
     data,

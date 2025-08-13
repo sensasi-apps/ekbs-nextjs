@@ -11,8 +11,8 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import toDmy from '@/utils/toDmy'
+import formatNumber from '@/utils/format-number'
+import toDmy from '@/utils/to-dmy'
 
 const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
     data: {

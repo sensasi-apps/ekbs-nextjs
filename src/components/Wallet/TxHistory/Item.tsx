@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import Chip, { type ChipProps } from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export default function TxHistoryItem({
     desc,

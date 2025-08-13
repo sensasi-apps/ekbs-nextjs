@@ -8,7 +8,7 @@ import SimpleDialog from '@/components/SimpleDialog'
 // children components
 import UserLoanInstallmentDialogTable from './InstallmentDialog/Table'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export default function UserLoanInstallmentDialog({
     data: loanValues,

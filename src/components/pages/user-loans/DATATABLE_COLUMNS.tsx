@@ -5,9 +5,9 @@ import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // utils
 import { type DatatableProps, getRowData } from '@/components/Datatable'
-import toDmy from '@/utils/toDmy'
-import getLoanStatusColor from '@/utils/getLoanStatusColor'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import getLoanStatusColor from '@/utils/get-loan-status-color'
+import formatNumber from '@/utils/format-number'
 
 const DATATABLE_COLUMNS: DatatableProps<UserLoanType>['columns'] = [
     {

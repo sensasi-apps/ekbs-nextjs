@@ -31,7 +31,7 @@ import NumericFormat from '@/components/NumericFormat'
 // enums
 import Statistic from '@/enums/ApiUrl/Mart/Statistic'
 //
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 type DataFromResponse = {
     id: Product['id']

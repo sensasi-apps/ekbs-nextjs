@@ -27,8 +27,8 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 // page components
 import CrediturCard from '../../user-loans/CrediturCard'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import numberToCurrency from '@/utils/numberToCurrency'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export default function HerPaymentFields({
     values: {

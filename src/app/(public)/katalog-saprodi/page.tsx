@@ -14,8 +14,8 @@ import Datatable from '@/components/Datatable'
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 import WarehouseSelectionButton from '@/app/(public)/katalog-saprodi/_parts/warehouse-selection-button'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
-import formatNumber from '@/utils/formatNumber'
+import numberToCurrency from '@/utils/number-to-currency'
+import formatNumber from '@/utils/format-number'
 
 interface DataType extends Omit<ProductType, 'warehouses'> {
     qty: number

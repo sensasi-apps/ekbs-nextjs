@@ -24,7 +24,7 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 import UserAutocomplete from '@/components/UserAutocomplete'
 // utils
 import debounce from '@/utils/debounce'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import dayjs from 'dayjs'
 
 export default function BaseTaskFields({

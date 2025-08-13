@@ -19,9 +19,9 @@ import Datatable, {
 } from '@/components/Datatable'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // utils
-import toDmy from '@/utils/toDmy'
-import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import nowrapMuiDatatableCellPropsFn from '@/utils/nowrap-mui-datatable-cell-props-fn'
+import formatNumber from '@/utils/format-number'
 import BigNumberCard from '@/components/big-number-card'
 import { type ApiResponseType, LineChartCard } from '@/pages/me/participations'
 

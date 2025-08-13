@@ -15,7 +15,7 @@ import UserLoanDisburseDatatable from '@/components/pages/user-loans/disburse/Da
 import DialogWithTitle from '@/components/DialogWithTitle'
 // utils
 import useDisablePage from '@/hooks/useDisablePage'
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 // enums
 import ApiUrlEnum from '@/components/pages/user-loans/ApiUrlEnum'
 

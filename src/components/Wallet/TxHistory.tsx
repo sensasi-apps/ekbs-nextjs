@@ -33,9 +33,9 @@ import SummaryByTag from './TxHistory/summary-by-tag'
 import TxHistoryItem from './TxHistory/Item'
 import WalletTxButtonAndForm from './TxButtonAndForm'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 import PrintHandler from '../PrintHandler'
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 // enums
 import Wallet from '@/enums/permissions/Wallet'
 import InstallmentDataTable from './tx-form/installment-datatable'

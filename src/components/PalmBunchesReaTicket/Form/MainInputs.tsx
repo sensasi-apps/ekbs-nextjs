@@ -21,8 +21,8 @@ import type UserType from '@/features/user/types/user'
 import SpbNoInput from './MainInputs/SpbNoInput'
 import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
 // libs
-import { wholeNumber } from '@/utils/RegExps'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import { wholeNumber } from '@/utils/regexs'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

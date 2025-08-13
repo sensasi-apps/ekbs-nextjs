@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 // component
 import { NumericField } from '@/components/FormikForm'
 import RemoveButton from '@/components/remove-button'

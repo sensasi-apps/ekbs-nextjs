@@ -26,8 +26,8 @@ import PrintHandler from '@/components/PrintHandler'
 // enums
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
 // utils
-import { aoaToXlsx } from '@/functions/aoaToXlsx'
-import formatNumber from '@/utils/formatNumber'
+import aoaToXlsx from '@/utils/aoa-to-xlsx'
+import formatNumber from '@/utils/format-number'
 import BackButton from '@/components/back-button'
 
 export default function Opnames() {

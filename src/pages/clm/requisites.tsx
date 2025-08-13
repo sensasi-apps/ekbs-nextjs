@@ -26,7 +26,7 @@ import Switch from '@/components/FormikForm/switch'
 import IconButton from '@/components/IconButton'
 //
 import myAxios from '@/lib/axios'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import type Requisite from '@/features/clm/types/requisite'
 
 type FormData = Omit<Requisite, 'id' | 'is_optional'> & {

@@ -7,7 +7,7 @@ import NumericFormat, {
     type NumericFormatProps,
 } from '@/components/NumericFormat'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 interface NumericFieldProps {
     name: string

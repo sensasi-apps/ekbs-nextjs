@@ -27,9 +27,9 @@ import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 import UserAutocomplete from '@/components/UserAutocomplete'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import debounce from '@/utils/debounce'
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 // enums
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
 import Warehouse from '@/enums/Warehouse'

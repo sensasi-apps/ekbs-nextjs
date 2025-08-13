@@ -30,9 +30,9 @@ import IconButton from '@/components/IconButton'
 import ScrollToTopFab from '@/components/ScrollToTopFab'
 import PrintHandler from '@/components/PrintHandler'
 // utils
-import toDmy from '@/utils/toDmy'
-import getInstallmentType from '@/utils/getInstallmentType'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import getInstallmentType from '@/utils/get-installment-type'
+import formatNumber from '@/utils/format-number'
 
 export default function ReceivableReport() {
     const { query } = useRouter()

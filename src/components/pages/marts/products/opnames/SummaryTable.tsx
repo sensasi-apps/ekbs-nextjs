@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow'
 // icons-materials
 import Edit from '@mui/icons-material/Edit'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 import FormDialog from './FormDialog'
 import { type CreateFormValues } from './Form'
 

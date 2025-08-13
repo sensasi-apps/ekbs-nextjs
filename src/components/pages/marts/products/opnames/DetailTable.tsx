@@ -18,7 +18,7 @@ import axios from '@/lib/axios'
 import IconButton from '@/components/IconButton'
 import NumericFormat from '@/components/NumericFormat'
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 export default function DetailTable({
     data,

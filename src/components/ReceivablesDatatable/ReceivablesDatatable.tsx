@@ -9,7 +9,7 @@ import dayjs from 'dayjs'
 // vendors
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
-import shortUuid from '@/utils/uuidToShort'
+import shortUuid from '@/utils/short-uuid'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -23,10 +23,10 @@ import StateFilterChips from './components/StateFilterChips'
 import TypeFilterChips from './components/TypeFilterChips'
 // utils
 import type { Installment } from '@/dataTypes/Installment'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import ReceivablePaymentForm from './PaymentForm'
-import formatNumber from '@/utils/formatNumber'
-import getInstallmentColor from '@/utils/getInstallmentColor'
+import formatNumber from '@/utils/format-number'
+import getInstallmentColor from '@/utils/get-installment-color'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 

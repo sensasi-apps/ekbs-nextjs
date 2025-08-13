@@ -33,14 +33,14 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserAutocomplete from '@/components/UserAutocomplete'
 // utils
-import getLoanStatusColor from '@/utils/getLoanStatusColor'
-import errorCatcher from '@/utils/errorCatcher'
+import getLoanStatusColor from '@/utils/get-loan-status-color'
+import errorCatcher from '@/utils/handle-422'
 // local components
 import type { UserLoanFormDataType } from './Form/types'
 import UserLoanInstallmentDialog from './InstallmentDialog'
 // utils
 import debounce from '@/utils/debounce'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import Role from '@/enums/Role'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks

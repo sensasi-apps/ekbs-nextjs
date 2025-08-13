@@ -21,13 +21,13 @@ import ProductForm from '@/components/Product/Form'
 // page components
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
-import formatNumber from '@/utils/formatNumber'
+import numberToCurrency from '@/utils/number-to-currency'
+import formatNumber from '@/utils/format-number'
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import axios from '@/lib/axios'
 import ApiUrlEnum from '@/components/Product/ApiUrlEnum'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 // enums
 import Warehouse from '@/enums/Warehouse'
 // hooks

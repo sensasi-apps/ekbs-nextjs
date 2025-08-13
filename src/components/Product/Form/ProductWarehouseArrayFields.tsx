@@ -13,7 +13,7 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
 import debounce from '@/utils/debounce'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function ProductWarehouseArrayFields({
     replace,

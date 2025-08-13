@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // components
 import FormikForm, { DateField, TextField } from '@/components/FormikForm'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import myAxios from '@/lib/axios'
 import UserSelect from '@/components/FormikForm/user-select'
 // features
@@ -19,7 +19,7 @@ import ServicesArrayField from './services-array-field'
 // utils
 import type Service from '@/features/repair-shop--service/types/service'
 import type SparePart from '@/features/repair-shop--spare-part/types/spare-part'
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export type FormData = Partial<{
     uuid: string

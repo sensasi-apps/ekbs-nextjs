@@ -28,10 +28,10 @@ import ProductSaleForm, {
 import ReceiptIcon from '@mui/icons-material/Receipt'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
-import toDmy from '@/utils/toDmy'
-import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
+import errorCatcher from '@/utils/handle-422'
+import toDmy from '@/utils/to-dmy'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
 import PrintHandler from '@/components/PrintHandler'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // enums

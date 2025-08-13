@@ -23,10 +23,10 @@ import Fab from '@/components/Fab'
 import FinanceApiUrlEnum from '@/components/pages/finances/ApiUrlEnum'
 import FinancesPayrollsForm from '@/components/pages/finances/payrolls/Form'
 // etc
-import handle422 from '@/utils/errorCatcher'
-import numberToCurrency from '@/utils/numberToCurrency'
-import toDmy from '@/utils/toDmy'
-import ucWords from '@/utils/ucWords'
+import handle422 from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
+import toDmy from '@/utils/to-dmy'
+import ucWords from '@/utils/uc-words'
 
 let getRowData: GetRowDataType<Payroll>
 

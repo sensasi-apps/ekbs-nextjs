@@ -11,7 +11,7 @@ import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayField'
 
 const ProductOpnameForm = memo(function ProductOpnameForm({

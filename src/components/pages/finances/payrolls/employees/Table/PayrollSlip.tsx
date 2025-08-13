@@ -19,7 +19,7 @@ import FlexColumnBox from '@/components/FlexColumnBox'
 import InfoBox from '@/components/InfoBox'
 import Image from 'next/image'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 const SX_BORDER_LEFT = {
     borderLeft: '1px solid',

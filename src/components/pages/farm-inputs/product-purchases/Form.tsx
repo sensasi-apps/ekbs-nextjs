@@ -31,8 +31,8 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 import ProductMovementCostArrayField from './Form/ProductMovementCostArrayField'
 import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayField'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import numberToCurrency from '@/utils/numberToCurrency'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import numberToCurrency from '@/utils/number-to-currency'
 // enums
 import Role from '@/enums/Role'
 import Warehouse from '@/enums/Warehouse'

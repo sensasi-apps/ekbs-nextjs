@@ -12,8 +12,8 @@ import type Payroll from '@/dataTypes/Payroll'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import DatePicker from '@/components/DatePicker'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import ucWords from '@/utils/ucWords'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import ucWords from '@/utils/uc-words'
 
 export default function FinancesPayrollsForm({
     dirty,

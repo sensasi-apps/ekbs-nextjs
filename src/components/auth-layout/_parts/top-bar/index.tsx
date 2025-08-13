@@ -9,7 +9,7 @@ import NoInternetIndicator from '@/components/no-internet-indicator'
 // parts
 import TopBarNavbarToggleButton from './_parts/toggle-button'
 
-export function TopBar({
+export default function TopBar({
     title,
     subtitle,
 }: {

@@ -17,7 +17,7 @@ import ProductOpanmeForm, {
 // icons
 import ChecklistIcon from '@mui/icons-material/Checklist'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 import { ApiUrlEnum } from '@/components/pages/farm-input-product-in-outs/Datatable.type'
 import { DATATABLE_COLUMNS } from '@/components/pages/farm-input-product-in-outs/Datatable'
 // hooks

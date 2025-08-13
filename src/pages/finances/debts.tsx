@@ -25,10 +25,10 @@ import FinancesDebtForm, {
 import SettlementForm from '@/components/pages/finances/debts/SettlementForm'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // utils
-import handle422 from '@/utils/errorCatcher'
-import numberToCurrency from '@/utils/numberToCurrency'
-import shortUuid from '@/utils/uuidToShort'
-import toDmy from '@/utils/toDmy'
+import handle422 from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
+import shortUuid from '@/utils/short-uuid'
+import toDmy from '@/utils/to-dmy'
 // enums
 import Finance from '@/enums/permissions/Finance'
 // hooks

@@ -12,7 +12,7 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
 // utils
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import WalletTxForm from './TxForm'
 
 export default function WalletTxButtonAndForm({

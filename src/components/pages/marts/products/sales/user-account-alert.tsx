@@ -5,7 +5,7 @@ import Alert from '@mui/material/Alert'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 //
-import blinkSxValue from '@/utils/blinkSxValue'
+import blinkSxValue from '@/utils/blink-sx-value'
 
 export function UserAccountAlert() {
     const [showWarning, setShowWarning] = useState(true)

@@ -14,7 +14,7 @@ import InOutLineChart, {
 // page components
 import TbsSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Tbs'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export default function FarmInputsStatistics() {
     const { data, isLoading } = useSWR<{

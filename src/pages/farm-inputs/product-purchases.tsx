@@ -28,11 +28,11 @@ import ProductPurchaseForm, {
 // icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
-import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
-import replaceNullPropValuesWithUndefined from '@/utils/replaceNullPropValuesWithUndefined'
-import toDmy from '@/utils/toDmy'
+import errorCatcher from '@/utils/handle-422'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
+import replaceNullPropValuesWithUndefined from '@/utils/replace-null-prop-values-with-undefined'
+import toDmy from '@/utils/to-dmy'
 // enums
 import FarmInput from '@/enums/permissions/FarmInput'
 import ApiUrlEnum from '@/components/pages/farm-inputs/ApiUrlEnum'

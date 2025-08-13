@@ -11,8 +11,8 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
 
 function roundedCurrencyFormat(value: number) {
     return numberToCurrency(value, { maximumFractionDigits: 0 })

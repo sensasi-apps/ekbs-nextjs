@@ -24,15 +24,15 @@ import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserActivityLogs from '@/components/UserActivityLogs'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import numberToCurrency from '@/utils/numberToCurrency'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import numberToCurrency from '@/utils/number-to-currency'
 // enums
 import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
 import HerPaymentFields from './Form/PaymentFields'
 import HerTaskDetail from './HerTaskDetail'
 import BaseTaskFields from './Form/BaseTaskFields'
 import ApiUrlEnum from './ApiUrlEnum'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import PrintHandler from '@/components/PrintHandler'
 import PrintPage from './Form/print-page'
 // hooks

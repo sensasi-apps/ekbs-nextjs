@@ -15,7 +15,7 @@ import TextField from '@/components/TextField'
 // page components
 import HerTaskDetail from '@/components/pages/heavy-equipments-rents/HerTaskDetail'
 // uitls
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function HeavyEquipmentRentFinishTaskForm({
     dirty,

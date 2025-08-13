@@ -5,7 +5,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import txAccounts from '@/features/transaction/statics/tx-accounts'
 import TextField from '@/components/TextField'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function TxTagField({
     name,

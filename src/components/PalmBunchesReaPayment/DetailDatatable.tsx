@@ -11,8 +11,8 @@ import Datatable, { type DatatableProps } from '@/components/Datatable'
 // enums
 import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'
 // utils
-import toDmy from '@/utils/toDmy'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import formatNumber from '@/utils/format-number'
 
 export default function PalmBuncesReaPaymentDetailDatatableModal({
     uuid,

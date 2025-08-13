@@ -2,7 +2,7 @@ import { memo } from 'react'
 import MuiTableFooter from '@mui/material/TableFooter'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
-import globalFormatNumber from '@/utils/formatNumber'
+import globalFormatNumber from '@/utils/format-number'
 import type { ProductSale } from '@/dataTypes/ProductSale'
 import ChipSmall from '@/components/ChipSmall'
 

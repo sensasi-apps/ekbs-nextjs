@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 
 export default function EmployeeDetailBox({
     data: employee,

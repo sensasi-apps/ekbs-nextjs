@@ -22,7 +22,7 @@ import PrintHandler from '@/components/PrintHandler'
 import Skeletons from '@/components/Global/Skeletons'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 import useDisablePage from '@/hooks/useDisablePage'
 
 type ApiResponseType = {

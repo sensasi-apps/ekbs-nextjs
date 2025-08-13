@@ -22,13 +22,13 @@ import Close from '@mui/icons-material/Close'
 import Sync from '@mui/icons-material/Sync'
 //
 import { type FormattedEntry } from '@/sw/functions/handle-message'
-import { postToSw } from '@/functions/post-to-sw'
+import { postToSw } from '@/utils/post-to-sw'
 import { type SubmittedData } from '../formik-wrapper/@types/submitted-data'
 import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../@shared-subcomponents/receipt'
-import numberToCurrency from '@/utils/numberToCurrency'
-import formatNumber from '@/utils/formatNumber'
-import blinkSxValue from '@/utils/blinkSxValue'
+import numberToCurrency from '@/utils/number-to-currency'
+import formatNumber from '@/utils/format-number'
+import blinkSxValue from '@/utils/blink-sx-value'
 
 export function BgSyncPanelDialogAndButton() {
     const [open, setOpen] = useState(false)

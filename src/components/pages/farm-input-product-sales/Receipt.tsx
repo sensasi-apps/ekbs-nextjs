@@ -11,8 +11,8 @@ import Typography from '@mui/material/Typography'
 // components
 import ReceiptInstalmentTable from '@/components/pages/farm-input-product-sales/Receipt/InstallmentTable'
 // utils
-import toDmy from '@/utils/toDmy'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import formatNumber from '@/utils/format-number'
 import dayjs from 'dayjs'
 
 const ProductSaleReceipt = memo(function ProductSaleReceipt({

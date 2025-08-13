@@ -4,8 +4,8 @@ import type { ApiResponseType } from '../AlatBerat'
 import LineChart from '@/components/Chart/Line/Line'
 import StatCard from '@/components/StatCard'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import getMuiColors from '@/utils/getMuiColors'
+import formatNumber from '@/utils/format-number'
+import getMuiColors from '@/utils/get-mui-colors'
 
 export default function GasPurchaseChartCard({
     data,

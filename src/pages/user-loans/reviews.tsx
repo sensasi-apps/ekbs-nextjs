@@ -12,7 +12,7 @@ import LoanReviewForm from '@/components/pages/user-loans/reviews/Form'
 import ReviewDatatable from '@/components/pages/user-loans/reviews/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 import useDisablePage from '@/hooks/useDisablePage'
 
 export default function UserLoansReviews() {

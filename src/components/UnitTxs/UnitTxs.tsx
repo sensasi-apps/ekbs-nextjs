@@ -28,10 +28,10 @@ import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import handle422 from '@/utils/errorCatcher'
-import numberToCurrency from '@/utils/numberToCurrency'
-import toDmy from '@/utils/toDmy'
+import formatNumber from '@/utils/format-number'
+import handle422 from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
+import toDmy from '@/utils/to-dmy'
 // enums
 import BusinessUnit from '@/enums/BusinessUnit'
 

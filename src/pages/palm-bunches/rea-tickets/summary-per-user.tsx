@@ -11,14 +11,14 @@ import LinearProgress from '@mui/material/LinearProgress'
 import Download from '@mui/icons-material/Download'
 import Refresh from '@mui/icons-material/Refresh'
 // global components
-import { toYmd } from '@/functions/toYmd'
+import { toYmd } from '@/utils/to-ymd'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 import AuthLayout from '@/components/auth-layout'
 // page components
 import { AoaTable } from '@/components/aoa-table'
 import { useRouter } from 'next/router'
-import { aoaToXlsx, type AoaRows } from '@/functions/aoaToXlsx'
+import aoaToXlsx, { type AoaRows } from '@/utils/aoa-to-xlsx'
 import { useEffect, useState } from 'react'
 import BackButton from '@/components/back-button'
 // enums

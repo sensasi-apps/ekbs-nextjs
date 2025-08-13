@@ -13,9 +13,9 @@ import Datatable, {
     type OnRowClickType,
 } from '@/components/Datatable'
 // utils
-import toDmy from '@/utils/toDmy'
-import numberToCurrency from '@/utils/numberToCurrency'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import numberToCurrency from '@/utils/number-to-currency'
+import formatNumber from '@/utils/format-number'
 // enums
 import { ApiUrlEnum } from './Datatable.type'
 import { ProductMovementTypeEnum } from '@/dataTypes/ProductMovement'

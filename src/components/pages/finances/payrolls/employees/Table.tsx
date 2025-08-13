@@ -25,8 +25,8 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import PayrollEmployeeDetailsForm, { type FormikValues } from './DetailForm'
 import IconButton from '@/components/IconButton'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
-import handle422 from '@/utils/errorCatcher'
+import numberToCurrency from '@/utils/number-to-currency'
+import handle422 from '@/utils/handle-422'
 // enums
 import FinanceApiUrlEnum from '../../ApiUrlEnum'
 import dayjs from 'dayjs'

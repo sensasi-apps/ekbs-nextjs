@@ -22,8 +22,8 @@ import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import PalmBunchRatesForm from '@/components/PalmBunchRates/Form'
 // utils
-import toDmy from '@/utils/toDmy'
-import numberToCurrency from '@/utils/numberToCurrency'
+import toDmy from '@/utils/to-dmy'
+import numberToCurrency from '@/utils/number-to-currency'
 
 function Crud() {
     const {

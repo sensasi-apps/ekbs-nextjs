@@ -25,7 +25,7 @@ import LineChart from '@/components/Chart/Line'
 import BigNumber from '@/components/StatCard/BigNumber'
 import StatCard, { type StatCardProps } from '@/components/StatCard'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 
 export default function Page() {
     const {

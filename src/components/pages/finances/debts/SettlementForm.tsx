@@ -13,8 +13,8 @@ import FormikForm, {
 } from '@/components/FormikForm'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // utils
-import shortUuid from '@/utils/uuidToShort'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import shortUuid from '@/utils/short-uuid'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function SettlementForm({
     dirty,

@@ -12,7 +12,7 @@ import Fab from '@/components/Fab'
 import AuthLayout from '@/components/auth-layout'
 import TextShortener from '@/components/text-shortener'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 // feature scope
 import type SparePart from '@/features/repair-shop--spare-part/types/spare-part'
 import type VehicleType from '@/features/repair-shop--spare-part/enums/vehicle-type'

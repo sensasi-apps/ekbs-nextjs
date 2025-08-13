@@ -21,7 +21,7 @@ import ApiUrl from '../@enums/api-url'
 import BarcodeReader from 'react-barcode-reader'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import ResultNav from './components/result-nav'
-import { postToSw } from '@/functions/post-to-sw'
+import { postToSw } from '@/utils/post-to-sw'
 
 let detailsTemp: FormValuesType['details'] = []
 let entries: FormattedEntry<SubmittedData>[] = []

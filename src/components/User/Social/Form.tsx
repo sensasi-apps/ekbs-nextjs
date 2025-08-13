@@ -16,8 +16,8 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextField from '@/components/TextField'
 // utils
-import handle422 from '@/utils/errorCatcher'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import handle422 from '@/utils/handle-422'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function SocialForm({
     isShow,

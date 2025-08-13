@@ -3,8 +3,8 @@ import type { ColumnDefinitionObject } from 'mui-datatable-delight'
 // components
 import Datatable from '@/components/Datatable'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import toDmy from '@/utils/toDmy'
+import formatNumber from '@/utils/format-number'
+import toDmy from '@/utils/to-dmy'
 
 export default function InstallmentDataTable({
     userUuid,

@@ -6,7 +6,7 @@ import InventoryItemForm, {
     type InventoryItemFormValues,
 } from '@/components/pages/inventory-items/Form'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 
 const InventoryItemFormWithFormik = ({
     initialValues,

@@ -15,7 +15,7 @@ import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextField from '@/components/TextField'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 function CostItem({
     index,

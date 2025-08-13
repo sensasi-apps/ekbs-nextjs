@@ -26,9 +26,9 @@ import FormikForm, {
     TextField,
 } from '@/components/FormikForm'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import shortUuid from '@/utils/uuidToShort'
-import ucWords from '@/utils/ucWords'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import shortUuid from '@/utils/short-uuid'
+import ucWords from '@/utils/uc-words'
 // enums
 import TermUnit from '@/dataTypes/enums/DbColumns/Debts/TermUnit'
 import InterestUnit from '@/dataTypes/enums/DbColumns/Debts/InterestUnit'

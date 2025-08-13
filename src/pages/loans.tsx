@@ -15,7 +15,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 
 export default function Loans() {
     const [values, setValues] = useState(INITIAL_VALUES)

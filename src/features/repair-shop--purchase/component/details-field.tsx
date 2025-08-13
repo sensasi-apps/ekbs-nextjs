@@ -17,7 +17,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // utils
 import Endpoint from '../enums/endpoint'
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 // component
 import { NumericField } from '@/components/FormikForm'
 // features

@@ -13,7 +13,7 @@ import useSWR from 'swr'
 // components
 import StatCard from '@/components/StatCard'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 const MIN_WIDTH = 600
 

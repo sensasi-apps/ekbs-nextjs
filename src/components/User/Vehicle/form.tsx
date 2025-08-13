@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 // components
 import NumericFormat from '@/components/NumericFormat'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 
 export default function UserVehicleForm({

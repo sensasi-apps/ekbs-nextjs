@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow'
 // components
 import StatCard from '@/components/StatCard'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 export default function HmTableCard({
     data,

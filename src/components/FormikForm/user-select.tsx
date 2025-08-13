@@ -16,7 +16,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import TextField, { type TextFieldProps } from '@mui/material/TextField'
 //
 import type User from '@/features/user/types/user'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 /**
  * API response from `data/minimal-users`.

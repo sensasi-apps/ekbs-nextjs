@@ -21,7 +21,7 @@ import DatePicker from '@/components/DatePicker'
 import Dialog from '@/components/Global/Dialog'
 import TxHistory from '@/components/Wallet/TxHistory'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 export type DataType = Wallet & {
     unpaid_installment_total_rp: number

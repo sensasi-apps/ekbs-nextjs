@@ -10,7 +10,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FinanceApiUrlEnum from '../ApiUrlEnum'
 import FormDeleteButton from '@/components/form/FormDeleteButton'
 import type LaravelValidationException from '@/types/LaravelValidationException'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 
 export default function PayrollDeleteForm({
     uuid,
