@@ -12,7 +12,6 @@ import userHasPermission from './Auth/userHasPermission'
 import useAuthInfoState from '@/hooks/use-auth-info-state'
 
 interface AuthContextType {
-    onAgreeTncp: () => void
     userHasPermission: (
         permissionName: string | string[],
         userParam?: AuthInfo,
@@ -21,7 +20,6 @@ interface AuthContextType {
 }
 
 const DEFAULT_CONTEXT_VALUE: AuthContextType = {
-    onAgreeTncp: () => {},
     userHasPermission: () => false,
     userHasRole: () => false,
 }
@@ -29,20 +27,11 @@ const DEFAULT_CONTEXT_VALUE: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(DEFAULT_CONTEXT_VALUE)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useAuthInfoState()
+    const [user] = useAuthInfoState()
 
     return (
         <AuthContext.Provider
             value={{
-                onAgreeTncp: () => {
-                    if (user) {
-                        setUser({
-                            ...user,
-                            is_agreed_tncp: true,
-                        })
-                    }
-                },
-
                 userHasPermission: (permissionName, userParam) =>
                     userHasPermission(
                         permissionName,

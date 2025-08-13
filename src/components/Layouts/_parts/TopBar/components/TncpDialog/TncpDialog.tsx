@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { FormEvent } from 'react'
 // vendors
@@ -9,10 +11,9 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 // hooks
-import useAuth from '@/providers/Auth'
+import useAuthInfoState from '@/hooks/use-auth-info-state'
 // components
 import { TncpDialogContent } from './components/TncpDialogContent'
-import useAuthInfo from '@/hooks/use-auth-info'
 
 export function TncpDialog({
     open,
@@ -21,8 +22,7 @@ export function TncpDialog({
     open: boolean
     handleClose: () => void
 }) {
-    const user = useAuthInfo()
-    const { onAgreeTncp } = useAuth()
+    const [authInfo, setAuthInfo] = useAuthInfoState()
 
     const { push } = useRouter()
     const pathname = usePathname()
@@ -31,25 +31,37 @@ export function TncpDialog({
     const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
-        if (user && user.is_agreed_tncp === false && pathname !== '/logout') {
+        if (
+            authInfo &&
+            authInfo.is_agreed_tncp === false &&
+            pathname !== '/logout'
+        ) {
             setIsOpen(true)
         }
-    }, [user, pathname])
+    }, [authInfo, pathname])
 
     const handleSubmit = useCallback(
         (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault()
 
-            setIsLoading(true)
+            if (authInfo) {
+                setIsLoading(true)
 
-            axios.post(`/users/agree-tcnp`).then(() => {
-                setIsOpen(false)
-                setIsLoading(false)
-                onAgreeTncp()
-            })
+                axios.post(`/users/agree-tcnp`).then(() => {
+                    setIsOpen(false)
+                    setIsLoading(false)
+
+                    setAuthInfo({
+                        ...authInfo,
+                        is_agreed_tncp: true,
+                    })
+                })
+            }
         },
-        [onAgreeTncp],
+        [authInfo, setAuthInfo],
     )
+
+    if (!authInfo) return null
 
     return (
         <Dialog open={isOpen || open}>
@@ -61,15 +73,15 @@ export function TncpDialog({
                     onClick={() => {
                         setIsOpen(false)
                         handleClose()
-                        if (user?.is_agreed_tncp === false) {
+                        if (authInfo?.is_agreed_tncp === false) {
                             push('/logout')
                         }
                     }}>
-                    {user?.is_agreed_tncp === false
+                    {authInfo.is_agreed_tncp === false
                         ? 'Saya tidak menyetujui Syarat, Ketentuan, dan Kebijakan (logout)'
                         : 'Tutup'}
                 </Button>
-                {user?.is_agreed_tncp === false && (
+                {authInfo.is_agreed_tncp === false && (
                     <form onSubmit={handleSubmit}>
                         <Button
                             loading={isLoading}
