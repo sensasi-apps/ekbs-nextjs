@@ -9,11 +9,11 @@ import Login from '@mui/icons-material/Login'
 import OpenInNew from '@mui/icons-material/OpenInNew'
 import Warehouse from '@mui/icons-material/Warehouse'
 //
-import { Background } from '@/components/Layouts/background'
+import LayoutWithImageBackground from '@/components/layout-with-image-background'
 
 export default function Landing() {
     return (
-        <Background>
+        <LayoutWithImageBackground>
             <Box display="flex" flexDirection="column" gap={2}>
                 <HeroSection />
 
@@ -21,7 +21,7 @@ export default function Landing() {
 
                 <EtcSection />
             </Box>
-        </Background>
+        </LayoutWithImageBackground>
     )
 }
 

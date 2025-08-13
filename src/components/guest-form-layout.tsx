@@ -9,7 +9,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 // components
-import { Background } from './Layouts/background'
+import LayoutWithImageBackground from '@/components/layout-with-image-background'
 import ErrorCenter from './Statuses/ErrorCenter'
 import LoadingCenter from './Statuses/LoadingCenter'
 import RedirectIfAuth from '@/components/redirect-if-auth'
@@ -32,7 +32,7 @@ export default function GuestFormLayout({
     title: string
 }) {
     return (
-        <Background
+        <LayoutWithImageBackground
             slotProps={{
                 wrapperBox: {
                     width: '100%',
@@ -101,6 +101,6 @@ export default function GuestFormLayout({
                     </CardContent>
                 </Card>
             </Box>
-        </Background>
+        </LayoutWithImageBackground>
     )
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import type { ReactNode } from 'react'
 // materials
 import { createTheme, THEME_ID, ThemeProvider } from '@mui/material/styles'
@@ -28,7 +30,12 @@ const PAGE_THEME = createTheme({
 const BG_IMG_URL =
     'https://belayansejahtera.org/wp-content/uploads/2025/02/FJR00081-scaled.jpg'
 
-export function Background({
+/**
+ * A layout component that provides a background image with a darkened overlay.
+ *
+ * It contains a main section with a fade in animation and a footer section.
+ */
+export default function LayoutWithImageBackground({
     children,
     slotProps,
 }: {
