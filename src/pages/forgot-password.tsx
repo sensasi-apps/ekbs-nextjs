@@ -13,7 +13,7 @@ import SyncLockIcon from '@mui/icons-material/SyncLock'
 // components
 import BackButton from '@/components/back-button'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
-import GuestFormLayout from '@/components/Layouts/guest-form'
+import GuestFormLayout from '@/components/guest-form-layout'
 
 export default function ForgotPassword() {
     // form data

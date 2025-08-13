@@ -1,22 +1,22 @@
 // types
 import type { ReactNode } from 'react'
 // vendors
-import ArrowBack from '@mui/icons-material/ArrowBack'
+import Head from 'next/head'
+// materials
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Fab from '@mui/material/Fab'
 import Typography from '@mui/material/Typography'
-import { useRouter } from 'next/router'
-import Head from 'next/head'
 // components
-import { Background } from './background'
-import { useGuestOnly } from './@hooks/use-guest-only'
-import ErrorCenter from '../Statuses/ErrorCenter'
-import LoadingCenter from '../Statuses/LoadingCenter'
+import { Background } from './Layouts/background'
+import ErrorCenter from './Statuses/ErrorCenter'
+import LoadingCenter from './Statuses/LoadingCenter'
+import RedirectIfAuth from '@/components/redirect-if-auth'
+// parts
+import GuestBackButton from '@/components/guest-form-layout.back-button'
 
-export default function GuestForm({
+export default function GuestFormLayout({
     children,
     title,
     icon,
@@ -31,9 +31,6 @@ export default function GuestForm({
     message?: string
     title: string
 }) {
-    useGuestOnly()
-    const { back, push } = useRouter()
-
     return (
         <Background
             slotProps={{
@@ -45,6 +42,8 @@ export default function GuestForm({
                 <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
             </Head>
 
+            <RedirectIfAuth />
+
             <Box
                 display="flex"
                 width="100%"
@@ -54,28 +53,7 @@ export default function GuestForm({
                         md: 'space-between',
                     },
                 }}>
-                <Fab
-                    variant="extended"
-                    color="warning"
-                    onClick={() =>
-                        window.history.length > 1 ? back() : push('/')
-                    }
-                    sx={{
-                        display: {
-                            xs: 'none',
-                            sm: 'none',
-                            md: 'inline-flex',
-                        },
-                        backgroundColor:
-                            'hsl(from var(--mui-palette-warning-dark) h s l / 20%)',
-                        '&:hover': {
-                            backgroundColor:
-                                'hsl(from var(--mui-palette-warning-dark) h s l / 40%)',
-                        },
-                    }}>
-                    <ArrowBack sx={{ mr: 1 }} />
-                    Kembali
-                </Fab>
+                <GuestBackButton />
 
                 <Card
                     sx={{

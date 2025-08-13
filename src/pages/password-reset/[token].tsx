@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import LockResetIcon from '@mui/icons-material/LockReset'
 // components
-import GuestFormLayout from '@/components/Layouts/guest-form'
+import GuestFormLayout from '@/components/guest-form-layout'
 
 export default function PasswordReset() {
     const {
