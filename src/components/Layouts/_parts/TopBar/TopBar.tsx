@@ -3,11 +3,11 @@ import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+// components
+import AccountButton from '@/components/account-button'
+import NoInternetIndicator from '@/components/no-internet-indicator'
 // parts
 import TopBarNavbarToggleButton from './_parts/toggle-button'
-// utils
-import AccountButton from './components/AccountButton'
-import NoInternetIndicator from '@/components/no-internet-indicator'
 
 export function TopBar({
     title,

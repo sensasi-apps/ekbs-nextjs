@@ -17,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem'
 import GradingIcon from '@mui/icons-material/Grading'
 // hooks
 import useAuthInfoState from '@/hooks/use-auth-info-state'
-import TncpDialogContent from './account-button.tncp-menu-item.dialog-content'
+import TncpDialogContent from './tncp-menu-item.dialog-content'
 // components
 
 export default function TncpMenuItem() {

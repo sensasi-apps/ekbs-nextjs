@@ -17,9 +17,9 @@ import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
 import FooterBox from '@/components/Layouts/FooterBox'
 // parts
-import DarkModeSwitch from './DarkModeSwitch'
-import FullscreenMenuItem from './FullscreenMenuItem'
-import TncpMenuItem from './account-button.tncp-menu-item'
+import DarkModeSwitch from '../Layouts/_parts/TopBar/components/DarkModeSwitch'
+import FullscreenMenuItem from '../Layouts/_parts/TopBar/components/FullscreenMenuItem'
+import TncpMenuItem from './_parts/tncp-menu-item'
 // icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
