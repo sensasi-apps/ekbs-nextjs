@@ -5,7 +5,6 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
 // providers
-import { AuthProvider } from '@/providers/Auth'
 import { SWRProvider } from './swr'
 // statics
 import THEME from '@/providers/@statics/theme'
@@ -20,7 +19,6 @@ locale('id')
  * AppProviders component is a wrapper that provides various context providers and global styles
  * for the application. It includes:
  *
- * - `AuthProvider`: Provides authentication context.
  * - `CssBaseline`: Provides a consistent baseline for CSS.
  * - `GlobalStyles`: Applies global CSS styles, including custom scrollbar styles.
  * - `Head`: Sets meta tags and the title for the application.
@@ -60,9 +58,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
             <SnackbarProvider />
 
-            <SWRProvider>
-                <AuthProvider>{children}</AuthProvider>
-            </SWRProvider>
+            <SWRProvider>{children}</SWRProvider>
         </ThemeProvider>
     )
 }

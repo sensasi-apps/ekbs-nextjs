@@ -34,7 +34,6 @@ import MainForm from '@/components/PalmBunchesReaTicket/Form'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 // providers
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
-import useAuth from '@/providers/Auth'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'
@@ -44,6 +43,7 @@ import blinkSxValue from '@/utils/blinkSxValue'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 let currentUserUuid: UUID | undefined
 
@@ -417,7 +417,7 @@ const SX_FOR_BADGE = {
 }
 
 function FilterChips() {
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
     const { query, replace } = useRouter()
     const filter = query.filter
 
@@ -443,7 +443,7 @@ function FilterChips() {
 
             <div>
                 <Collapse
-                    in={userHasRole(Role.PALM_BUNCH_MANAGER)}
+                    in={isAuthHasRole(Role.PALM_BUNCH_MANAGER)}
                     orientation="horizontal">
                     <Chip
                         sx={stats?.unvalidated ? SX_FOR_BADGE : undefined}

@@ -33,9 +33,11 @@ import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayFi
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
-import useAuth from '@/providers/Auth'
+// enums
 import Role from '@/enums/Role'
 import Warehouse from '@/enums/Warehouse'
+// hooks
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 const ProductPurchaseForm = memo(function ProductPurchaseForm({
     dirty,
@@ -56,16 +58,16 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
     status,
     setFieldValue,
 }: FormikProps<FormValuesType>) {
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
 
     const isNew = !status.uuid
     const isPropcessing = isSubmitting
     const isDisabled =
         isPropcessing ||
-        (status.hasTransaction && !userHasRole(Role.FARM_INPUT_MANAGER))
+        (status.hasTransaction && !isAuthHasRole(Role.FARM_INPUT_MANAGER))
 
     const isDisableProductMovementDetailFields =
-        isDisabled || (received && !userHasRole(Role.FARM_INPUT_MANAGER))
+        isDisabled || (received && !isAuthHasRole(Role.FARM_INPUT_MANAGER))
 
     const totalRpCost = (costs ?? []).reduce(
         (acc, cur) => acc + (cur?.rp ?? 0),

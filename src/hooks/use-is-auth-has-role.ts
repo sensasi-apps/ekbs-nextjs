@@ -1,9 +1,16 @@
 import type AuthInfo from '@/features/user--auth/types/auth-info'
 import Role from '@/enums/Role'
+import useAuthInfo from './use-auth-info'
 
-export default function userHasRole(
+export default function useIsAuthHasRole() {
+    const authInfo = useAuthInfo()
+
+    return (roleName: Role | Role[]) => isUserHasRole(roleName, authInfo)
+}
+
+export function isUserHasRole(
     roleName: Role | Role[],
-    userParam: AuthInfo | undefined = undefined,
+    userParam: AuthInfo | undefined,
 ) {
     if (!userParam) return false
 

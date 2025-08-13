@@ -4,8 +4,9 @@ import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 import type NavItemGroup from '../../types/nav-item-group'
 import NavBarListItem from './_parts/list-item'
-import useAuth from '@/providers/Auth'
+// hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 export default function NavBarItemGroup({
     data: { label, items },
@@ -47,18 +48,18 @@ export default function NavBarItemGroup({
 
 function useIsShowMenu() {
     const isAuthHasPermission = useIsAuthHasPermission()
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
 
     return function getIsShowMenuItemToUser(
         forRole: NavItemGroup['items'][number]['forRole'],
         forPermission: NavItemGroup['items'][number]['forPermission'],
     ): boolean {
         if (forRole && forPermission) {
-            return userHasRole(forRole) || isAuthHasPermission(forPermission)
+            return isAuthHasRole(forRole) || isAuthHasPermission(forPermission)
         }
 
         if (forRole) {
-            return userHasRole(forRole)
+            return isAuthHasRole(forRole)
         }
 
         if (forPermission) {

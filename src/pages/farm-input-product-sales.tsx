@@ -27,8 +27,6 @@ import ProductSaleForm, {
 // icons
 import ReceiptIcon from '@mui/icons-material/Receipt'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import toDmy from '@/utils/toDmy'
@@ -44,13 +42,14 @@ import Warehouse from '@/enums/Warehouse'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import FarmInputPermission from '@/enums/permissions/FarmInput'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 let getRowData: GetRowDataType<ProductSale>
 let mutate: MutateType<ProductSale>
 
 export default function FarmInputProductSales() {
     const isAuthHasPermission = useIsAuthHasPermission()
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -104,15 +103,15 @@ export default function FarmInputProductSales() {
     const isNew = !initialFormikStatus?.uuid
 
     const isNeedToDetermineWarehouse =
-        userHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE) ===
-        userHasRole(Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE)
+        isAuthHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE) ===
+        isAuthHasRole(Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE)
 
     return (
         <AuthLayout title="Penjualan">
             <Box
                 mb={2}
                 display={
-                    userHasRole(Role.FARM_INPUT_MANAGER) ? 'block' : 'none'
+                    isAuthHasRole(Role.FARM_INPUT_MANAGER) ? 'block' : 'none'
                 }>
                 <Button
                     href="/farm-input-product-sales/report"
@@ -143,7 +142,7 @@ export default function FarmInputProductSales() {
                             'Data Penjualan' +
                             (!isNeedToDetermineWarehouse
                                 ? ' Gudang ' +
-                                  (userHasRole(
+                                  (isAuthHasRole(
                                       Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
                                   )
                                       ? Warehouse.MUAI

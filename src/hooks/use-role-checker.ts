@@ -1,23 +1,23 @@
 import Role from '@/enums/Role'
-import useAuth from '@/providers/Auth'
 import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import useAuthInfo from './use-auth-info'
+import useIsAuthHasRole from './use-is-auth-has-role'
 
 export function useRoleChecker(
     roles: Role[] | Role,
     onUnauthorized: () => void = defaultOnUnauthorized,
 ) {
     const user = useAuthInfo()
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
     const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null)
 
     useEffect(() => {
         if (user) {
-            const isAuthorizedLocal = userHasRole(roles)
+            const isAuthorizedLocal = isAuthHasRole(roles)
             setIsAuthorized(isAuthorizedLocal)
         }
-    }, [user, roles, userHasRole])
+    }, [user, roles, isAuthHasRole])
 
     if (isAuthorized === false) onUnauthorized()
 

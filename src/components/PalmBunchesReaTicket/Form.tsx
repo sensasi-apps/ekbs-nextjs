@@ -25,13 +25,13 @@ import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useValidationErrors from '@/hooks/useValidationErrors'
-import useAuth from '@/providers/Auth'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 // enums
 import Role from '@/enums/Role'
 import ReaTiketPaymentDetailView from './Form/ReaTiketPaymentDetailView'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 
-export default function PalmBuncesReaTicketForm({
+export default function PalmBunchesReaTicketForm({
     data,
     actionsSlot,
     loading,
@@ -39,11 +39,11 @@ export default function PalmBuncesReaTicketForm({
     onSubmitted,
 }: FormType<PalmBunchesReaTicket>) {
     const isAuthHasPermission = useIsAuthHasPermission()
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
 
     const disabled =
         Boolean(loading || (data?.delivery?.transactions?.length || 0) > 0) ||
-        !userHasRole([Role.PALM_BUNCH_MANAGER, Role.PALM_BUNCH_ADMIN])
+        !isAuthHasRole([Role.PALM_BUNCH_MANAGER, Role.PALM_BUNCH_ADMIN])
 
     const { validationErrors, setValidationErrors, clearByName } =
         useValidationErrors()
@@ -110,7 +110,7 @@ export default function PalmBuncesReaTicketForm({
                 clearByName={clearByName}
             />
 
-            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
+            {isAuthHasRole(Role.PALM_BUNCH_MANAGER) && (
                 <>
                     <ReaTiketPaymentDetailView data={data} />
 
@@ -144,7 +144,7 @@ export default function PalmBuncesReaTicketForm({
                 actionsSlot}
 
             {/* TODO: refactor to permission based */}
-            {userHasRole(Role.PALM_BUNCH_MANAGER) &&
+            {isAuthHasRole(Role.PALM_BUNCH_MANAGER) &&
                 data.id &&
                 data.delivery && (
                     <UserActivityLog
