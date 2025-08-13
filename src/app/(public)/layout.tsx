@@ -6,8 +6,8 @@ import Container from '@mui/material/Container'
 // components
 import BackButton from '@/components/back-button'
 // parts
+import DarkModeSwitch from './_parts/dark-mode-switch'
 import Footer from '@/components/Layouts/_parts/footer'
-import DarkModeSwitch from '@/components/Layouts/_parts/TopBar/components/DarkModeSwitch'
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 mb={4}>
                 <BackButton />
 
-                <DarkModeSwitch disablePm />
+                <DarkModeSwitch />
             </Box>
 
             <Box

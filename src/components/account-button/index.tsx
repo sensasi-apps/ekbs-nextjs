@@ -17,7 +17,7 @@ import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
 import FooterBox from '@/components/Layouts/FooterBox'
 // parts
-import DarkModeSwitch from '../Layouts/_parts/TopBar/components/DarkModeSwitch'
+import DarkModeSwitch from './_parts/dark-mode-switch-menu-item'
 import FullscreenMenuItem from '../Layouts/_parts/TopBar/components/FullscreenMenuItem'
 import TncpMenuItem from './_parts/tncp-menu-item'
 // icons
