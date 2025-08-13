@@ -1,11 +1,11 @@
+'use client'
+
 // types
 import { AxiosError } from 'axios'
 // vendors
 import { useState, type FormEvent } from 'react'
 import axios from '@/lib/axios'
 // materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Fab from '@mui/material/Fab'
 import TextField from '@mui/material/TextField'
 // icons
@@ -15,7 +15,7 @@ import BackButton from '@/components/back-button'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 import GuestFormLayout from '@/components/guest-form-layout'
 
-export default function ForgotPassword() {
+export default function Page() {
     // form data
     const [email, setEmail] = useState('')
 
@@ -64,20 +64,7 @@ export default function ForgotPassword() {
             isLoading={isLoading}
             isError={isError}
             message={msg}>
-            {!isError && Boolean(msg) && (
-                <>
-                    <CompleteCenter message={msg} />
-
-                    <Box display="flex" mt={-3} mb={1} justifyContent="center">
-                        <Button
-                            variant="contained"
-                            color="warning"
-                            onClick={() => close()}>
-                            Tutup halaman
-                        </Button>
-                    </Box>
-                </>
-            )}
+            {!isError && Boolean(msg) && <CompleteCenter message={msg} />}
 
             {!(!isError && Boolean(msg)) && (
                 <>

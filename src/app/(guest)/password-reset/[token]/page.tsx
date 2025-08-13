@@ -1,8 +1,10 @@
+'use client'
+
 import type { AxiosError } from 'axios'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
 import { useState, type FormEvent } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import axios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'
@@ -14,11 +16,18 @@ import LockResetIcon from '@mui/icons-material/LockReset'
 // components
 import GuestFormLayout from '@/components/guest-form-layout'
 
-export default function PasswordReset() {
-    const {
-        push,
-        query: { token, email },
-    } = useRouter()
+export default function Page({
+    params,
+}: {
+    params: Promise<{ token: string }>
+}) {
+    const [token, setToken] = useState<string>()
+    const { push } = useRouter()
+
+    params.then(({ token }) => setToken(token))
+
+    const searchParam = useSearchParams()
+    const email = searchParam?.get('email')
 
     const [isLoading, setIsLoading] = useState(false)
     const [validationErrors, setValidationErrors] =

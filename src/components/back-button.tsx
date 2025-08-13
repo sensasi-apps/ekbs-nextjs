@@ -1,7 +1,7 @@
 'use client'
 
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 // materials
 import Button, { type ButtonProps } from '@mui/material/Button'
 // icons
