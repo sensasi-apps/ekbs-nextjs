@@ -1,8 +1,15 @@
+'use client'
 import useAuthInfo from '@/hooks/use-auth-info'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
-export function useGuestOnly() {
+export default function RedirectIfAuth() {
+    useGuestOnly()
+
+    return null
+}
+
+function useGuestOnly() {
     const authInfo = useAuthInfo()
     const pathname = usePathname()
     const query = useSearchParams()
