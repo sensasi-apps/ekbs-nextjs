@@ -1,5 +1,5 @@
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import UnitTxs from '@/components/UnitTxs'
 // utils
 import BusinessUnit from '@/enums/BusinessUnit'

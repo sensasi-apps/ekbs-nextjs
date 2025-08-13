@@ -9,7 +9,7 @@ import TrendingDown from '@mui/icons-material/TrendingDown'
 import TrendingUp from '@mui/icons-material/TrendingUp'
 //
 import StatCard from '../StatCard'
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 export default function BigNumberCard({
     title,

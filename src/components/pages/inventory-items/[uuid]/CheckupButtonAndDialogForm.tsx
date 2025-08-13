@@ -13,7 +13,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import FormikForm from '@/components/FormikForm'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

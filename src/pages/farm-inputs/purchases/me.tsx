@@ -12,16 +12,16 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Grid from '@mui/material/Grid'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // utils
-import toDmy from '@/utils/toDmy'
-import nowrapMuiDatatableCellPropsFn from '@/utils/nowrapMuiDatatableCellPropsFn'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import nowrapMuiDatatableCellPropsFn from '@/utils/nowrap-mui-datatable-cell-props-fn'
+import formatNumber from '@/utils/format-number'
 import BigNumberCard from '@/components/big-number-card'
 import { type ApiResponseType, LineChartCard } from '@/pages/me/participations'
 

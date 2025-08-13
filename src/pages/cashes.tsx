@@ -2,7 +2,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/GridLegacy'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import CashCrud from '@/components/pages/cashes/Cash/Crud'
 import TransactionsCrud from '@/components/pages/cashes/Transaction/Crud'
 import InOutCashChart from '@/components/pages/cashes/Cash/InOutChart'

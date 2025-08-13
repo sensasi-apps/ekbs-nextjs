@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 import { NumericField, TextField } from '@/components/FormikForm'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 // icons
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import AddCircleIcon from '@mui/icons-material/AddCircle'

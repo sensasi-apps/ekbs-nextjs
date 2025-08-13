@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip'
 // components
 import ImageButtonAndModal from '@/components/ImageButtonAndModal'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 
 export default function UserDetailBox({
     data: userDetail,

@@ -5,7 +5,7 @@ import { useState } from 'react'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     getNoWrapCellProps,
@@ -17,8 +17,8 @@ import FormDialog from '@/components/pages/marts/products/purchases/FormDialog'
 import { type FormValues } from '@/components/pages/marts/products/purchases/Form'
 import ApiUrl from '@/components/pages/marts/products/purchases/ApiUrl'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import toDmy from '@/utils/toDmy'
+import formatNumber from '@/utils/format-number'
+import toDmy from '@/utils/to-dmy'
 // etc
 import ChipSmall from '@/components/ChipSmall'
 // enums

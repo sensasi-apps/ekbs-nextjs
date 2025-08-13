@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import IconButton from '@/components/IconButton'
@@ -22,7 +22,7 @@ import PrintHandler from '@/components/PrintHandler'
 import Skeletons from '@/components/Global/Skeletons'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 import useDisablePage from '@/hooks/useDisablePage'
 
 type ApiResponseType = {

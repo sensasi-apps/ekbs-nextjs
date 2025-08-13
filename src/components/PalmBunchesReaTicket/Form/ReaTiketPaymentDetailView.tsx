@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import InfoIcon from '@mui/icons-material/Info'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 
 export default function ReaTiketPaymentDetailView({
     data,

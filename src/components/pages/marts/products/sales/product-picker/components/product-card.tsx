@@ -16,10 +16,10 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import type Product from '@/dataTypes/mart/Product'
 import ChipSmall from '@/components/ChipSmall'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 import { useFormikContext } from 'formik'
 import type { FormikStatusType } from '../../formik-wrapper'
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 function ProductCard({
     qty,

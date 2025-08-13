@@ -6,13 +6,13 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 // assets
 // import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
 import type { Sale } from '../types/sale'
 import type SparePartMovement from '@/features/repair-shop/types/spare-part-movement'
 // utils
-import shortUuid from '@/utils/uuidToShort'
+import shortUuid from '@/utils/short-uuid'
 
 export default function Receipt({ data }: { data: Sale }) {
     const totalRpSparePart =

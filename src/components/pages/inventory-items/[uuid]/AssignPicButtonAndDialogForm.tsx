@@ -14,8 +14,8 @@ import FormikForm from '@/components/FormikForm'
 import TypographyWithLabel from '@/components/pages/user-loans/SummaryBox/TypographyWithLabel'
 import UserAutocomplete from '@/components/UserAutocomplete'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorCatcher from '@/utils/handle-422'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

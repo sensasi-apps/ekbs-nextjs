@@ -16,7 +16,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable from '@/components/Datatable'
 import InventoryItemFormWithFormik from '@/components/pages/inventory-items/Form/WithFormik'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'

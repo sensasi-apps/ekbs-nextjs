@@ -1,5 +1,5 @@
 import type { Ymd } from '@/types/DateString'
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 import TypographyWithLabel from './TypographyWithLabel'
 import Typography from '@mui/material/Typography'
 // dayjs

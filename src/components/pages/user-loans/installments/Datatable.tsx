@@ -84,12 +84,12 @@ const UserLoanInstallmentDatatable = memo(
 
 export default UserLoanInstallmentDatatable
 
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 import type {
     InstallmentUserLoan,
     InstallmentWithTransactionType,
 } from '@/dataTypes/Installment'
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 

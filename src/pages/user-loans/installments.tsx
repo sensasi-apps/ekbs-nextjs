@@ -7,7 +7,7 @@ import type {
 import { Formik } from 'formik'
 import { useState } from 'react'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import { mutate } from '@/components/Datatable'
 // local components
@@ -17,7 +17,7 @@ import UserLoanInstallmentForm, {
 } from '@/components/pages/user-loans/installments/Form'
 import axios from '@/lib/axios'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 
 export default function UserLoansInstallments() {
     const [formData, setFormData] = useState(

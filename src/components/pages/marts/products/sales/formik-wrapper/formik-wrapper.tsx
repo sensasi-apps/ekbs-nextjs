@@ -12,7 +12,7 @@ import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
 import ProductPicker from '../product-picker'
 import CreateSaleFormWrapper from './components/create-sale-form-wrapper'
 // etc
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import { VALIDATION_SCHEMA } from './statics/validation-scheme'
 
 export function FormikWrapper() {

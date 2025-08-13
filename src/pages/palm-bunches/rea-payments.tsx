@@ -10,7 +10,7 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
@@ -24,10 +24,10 @@ import PalmBuncesReaPaymentDetailDatatableModal from '@/components/PalmBunchesRe
 // providers
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 import ApiUrlEnum from '../../components/PalmBunchesReaPayment/ApiUrlEnum'
-import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
 
 let getRowData: GetRowDataType<PalmBunchesReaPaymentDataType>
 let mutate: MutateType<PalmBunchesReaPaymentDataType>

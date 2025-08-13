@@ -1,4 +1,4 @@
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 import TypographyWithLabel from './TypographyWithLabel'
 
 export default function UserLoanSummaryBoxProposedRp({

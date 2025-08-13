@@ -8,8 +8,8 @@ import TableRow from '@mui/material/TableRow'
 import TableContainer from '@mui/material/TableContainer'
 // components
 import { type ApiResponseType } from '../Tbs'
-import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
 
 const CELL_SX_BORDER_LEFT = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',

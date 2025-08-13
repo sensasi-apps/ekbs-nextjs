@@ -10,8 +10,8 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
-import toDmy from '@/utils/toDmy'
+import numberToCurrency from '@/utils/number-to-currency'
+import toDmy from '@/utils/to-dmy'
 
 type DraftInstallment = {
     n_th: number

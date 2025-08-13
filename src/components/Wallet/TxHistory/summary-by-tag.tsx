@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 // enums
 import TransactionTag from '@/features/transaction/enums/transaction-tag'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 type TxsGroup = { name: string; data: Transaction[] }
 

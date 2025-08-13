@@ -11,13 +11,13 @@ import type {
     GetRowDataType,
     MutateType,
 } from '@/components/Datatable'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import TextShortener from '@/components/text-shortener'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import toDmy from '@/utils/toDmy'
+import formatNumber from '@/utils/format-number'
+import toDmy from '@/utils/to-dmy'
 // features
 import type SparePartMovement from '@/features/repair-shop/types/spare-part-movement'
 import Endpoint from '@/features/repair-shop--purchase/enums/endpoint'

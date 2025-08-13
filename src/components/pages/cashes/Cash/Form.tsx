@@ -19,8 +19,8 @@ import FormLoadingBar from '@/components/Dialog/LoadingBar'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
 import { mutate } from './List'
-import errorCatcher from '@/utils/errorCatcher'
-import numberToCurrency from '@/utils/numberToCurrency'
+import errorCatcher from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums

@@ -15,13 +15,13 @@ import Collapse from '@mui/material/Collapse'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import DownloadIcon from '@mui/icons-material/Download'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable from '@/components/Datatable'
 import DatePicker from '@/components/DatePicker'
 import Dialog from '@/components/Global/Dialog'
 import TxHistory from '@/components/Wallet/TxHistory'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 export type DataType = Wallet & {
     unpaid_installment_total_rp: number

@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography'
 import BackupTable from '@mui/icons-material/BackupTable'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     getRowData,
@@ -38,8 +38,8 @@ import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import blinkSxValue from '@/utils/blinkSxValue'
+import formatNumber from '@/utils/format-number'
+import blinkSxValue from '@/utils/blink-sx-value'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

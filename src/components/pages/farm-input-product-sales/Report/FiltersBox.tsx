@@ -10,7 +10,7 @@ import IconButton from '@/components/IconButton'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import type { ProductSale } from '@/dataTypes/ProductSale'
-import { aoaToXlsx } from '@/functions/aoaToXlsx'
+import aoaToXlsx from '@/utils/aoa-to-xlsx'
 
 const MAX_DATE = dayjs().endOf('month')
 const MIN_DATE = dayjs('2024-01-01')

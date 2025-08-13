@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import BigNumber from '@/components/StatCard/BigNumber'
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
@@ -12,7 +12,7 @@ import InOutLineChart, {
 // page components
 import SaprodiSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Saprodi'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 import useSWR from 'swr'
 
 export default function FarmInputsStatistics() {

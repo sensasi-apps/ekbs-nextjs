@@ -8,7 +8,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 //
 import type { FormValuesType } from '../formik-wrapper'
 import IconButton from '@/components/IconButton'
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 function DetailItem({
     data: { qty, rp_per_unit, product },

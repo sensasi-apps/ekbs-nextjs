@@ -12,10 +12,10 @@ import TextField from '@/components/TextField'
 import useUserWithDetails from '@/providers/UserWithDetails'
 import useFormData from '@/providers/FormData'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 import dayjs from 'dayjs'
 
 export default function MemberForm() {

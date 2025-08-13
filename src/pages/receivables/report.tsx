@@ -19,7 +19,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
@@ -30,9 +30,9 @@ import IconButton from '@/components/IconButton'
 import ScrollToTopFab from '@/components/ScrollToTopFab'
 import PrintHandler from '@/components/PrintHandler'
 // utils
-import toDmy from '@/utils/toDmy'
-import getInstallmentType from '@/utils/getInstallmentType'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import getInstallmentType from '@/utils/get-installment-type'
+import formatNumber from '@/utils/format-number'
 
 export default function ReceivableReport() {
     const { query } = useRouter()

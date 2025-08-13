@@ -7,7 +7,7 @@ import axios from '@/lib/axios'
 import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 // import Fab from '@/components/Fab'
 import { mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
@@ -15,7 +15,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 
 export default function Loans() {
     const [values, setValues] = useState(INITIAL_VALUES)

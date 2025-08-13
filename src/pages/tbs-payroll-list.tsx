@@ -17,18 +17,18 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import IconButton from '@/components/IconButton'
 import PrintHandler from '@/components/PrintHandler'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 //icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import InfoBox from '@/components/InfoBox'
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 import ScrollToTopFab from '@/components/ScrollToTopFab'
 
 const ApiUrl = '/transactions/gajian-tbs/data'

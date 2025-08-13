@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import ApiUrl from '@/components/pages/marts/products/ApiUrl'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
     type DatatableProps,
@@ -28,15 +28,15 @@ import ProductForm, {
     type FormValues,
 } from '@/components/pages/marts/products/Form'
 // utils
-import handle422 from '@/utils/errorCatcher'
-import formatNumber from '@/utils/formatNumber'
+import handle422 from '@/utils/handle-422'
+import formatNumber from '@/utils/format-number'
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 // enums
 import Mart from '@/enums/permissions/Mart'
 import Warehouse from '@/dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
 // utils
-import { aoaToXlsx } from '@/functions/aoaToXlsx'
+import aoaToXlsx from '@/utils/aoa-to-xlsx'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 

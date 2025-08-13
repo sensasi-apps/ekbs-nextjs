@@ -10,7 +10,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import CashForm, { INITIAL_VALUES } from './Form'
 import CashList, { mutate } from './List'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import Cash from '@/enums/permissions/Cash'
 

@@ -12,9 +12,9 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
-import toDmy from '@/utils/toDmy'
-import shortUuid from '@/utils/uuidToShort'
+import numberToCurrency from '@/utils/number-to-currency'
+import toDmy from '@/utils/to-dmy'
+import shortUuid from '@/utils/short-uuid'
 
 type RowType = {
     uuid?: Debt['details'][0]['uuid']

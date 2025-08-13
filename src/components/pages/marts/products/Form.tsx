@@ -17,7 +17,7 @@ import Grid from '@mui/material/Grid'
 import FormikForm, { NumericField, TextField } from '@/components/FormikForm'
 import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 
 export default function ProductForm({
     isSubmitting,

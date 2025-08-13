@@ -11,7 +11,7 @@ import GroupsIcon from '@mui/icons-material/Groups'
 import type Land from '@/types/Land'
 import ChipSmall from '@/components/ChipSmall'
 // utils
-import shortUuid from '@/utils/uuidToShort'
+import shortUuid from '@/utils/short-uuid'
 
 export default function LandCard({ land }: { land: Land }) {
     return (

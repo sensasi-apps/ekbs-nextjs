@@ -17,7 +17,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import DateTimePicker from '@/components/DateTimePicker'
 import IconButton from '@/components/IconButton'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 import PrintHandler from '@/components/PrintHandler'
 
 type BalanceInSummaryRow = {

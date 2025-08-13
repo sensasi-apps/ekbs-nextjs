@@ -18,8 +18,8 @@ import FormikForm from '@/components/FormikForm'
 // local components
 import TypographyWithLabel from '../SummaryBox/TypographyWithLabel'
 // utils
-import toDmy from '@/utils/toDmy'
-import numberToCurrency from '@/utils/numberToCurrency'
+import toDmy from '@/utils/to-dmy'
+import numberToCurrency from '@/utils/number-to-currency'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 

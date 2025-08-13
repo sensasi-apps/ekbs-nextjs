@@ -7,7 +7,7 @@ import Container from '@mui/material/Container'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 // etc
-import FooterBox from '@/components/Layouts/FooterBox'
+import FooterBox from '@/components/footer-box'
 
 export default function NotFound({ layout }: { layout: 'root' | 'auth' }) {
     return (

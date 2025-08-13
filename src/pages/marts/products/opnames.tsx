@@ -17,11 +17,11 @@ import Fab from '@/components/Fab'
 // layouts
 import type { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
 import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import FormDialog from '@/components/pages/marts/products/opnames/FormDialog'
 import ChipSmall from '@/components/ChipSmall'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums

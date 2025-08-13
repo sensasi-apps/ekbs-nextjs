@@ -27,7 +27,7 @@ import type { FormikStatusType } from '../../../../..'
 import TextField from '@/components/TextField'
 // icons
 import { List, type ListRowProps } from 'react-virtualized'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 type UserSelectItemData = {
     id: User['id']

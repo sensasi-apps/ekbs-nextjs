@@ -6,7 +6,7 @@ import DefaultDatatable, {
     type GetRowDataType,
 } from '@/components/Datatable'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../../@shared-subcomponents/receipt'
 

@@ -30,7 +30,7 @@ import useFormData from '@/providers/FormData'
 import useUserWithDetails from '@/providers/UserWithDetails'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import MaritalStatusEnum from '@/dataTypes/enums/MaritalStatus'
 import type DistrictType from '@/dataTypes/District'

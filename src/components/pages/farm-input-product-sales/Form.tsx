@@ -43,8 +43,8 @@ import UserAutocomplete from '@/components/UserAutocomplete'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 // utils
 import debounce from '@/utils/debounce'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import numberToCurrency from '@/utils/numberToCurrency'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import numberToCurrency from '@/utils/number-to-currency'
 import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums

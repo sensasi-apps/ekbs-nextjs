@@ -19,7 +19,7 @@ import { CostsTable } from './Form/CostsTable'
 import ProductMovementDetailArrayFields from './Form/ProductMovementDetailArrayFields'
 import ProductMovementCostArrayFields from './Form/ProductMovementCostArrayFields'
 // enums
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function Form({
     isSubmitting,

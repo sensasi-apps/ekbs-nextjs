@@ -39,11 +39,11 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextField from '@/components/TextField'
 // utils
 import debounce from '@/utils/debounce'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-import numberToCurrency from '@/utils/numberToCurrency'
-import handle422 from '@/utils/errorCatcher'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import numberToCurrency from '@/utils/number-to-currency'
+import handle422 from '@/utils/handle-422'
 import FinanceApiUrlEnum from '../ApiUrlEnum'
-import ucWords from '@/utils/ucWords'
+import ucWords from '@/utils/uc-words'
 
 const SX_NOWRAP = { whiteSpace: 'nowrap' }
 

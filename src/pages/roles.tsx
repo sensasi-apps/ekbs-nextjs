@@ -2,7 +2,7 @@ import type Role from '@/dataTypes/Role'
 
 import { type FC } from 'react'
 
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 

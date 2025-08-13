@@ -13,7 +13,7 @@ import Chip, { type ChipOwnProps } from '@mui/material/Chip'
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
 import { type MutateType } from '@/components/Datatable'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Fab from '@/components/Fab'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import ScrollableXBox from '@/components/ScrollableXBox'
@@ -21,7 +21,7 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 // utils
-import errorCatcher from '@/utils/errorCatcher'
+import errorCatcher from '@/utils/handle-422'
 import UserLoan from '@/enums/permissions/UserLoan'
 import FlexColumnBox from '@/components/FlexColumnBox'
 // hooks

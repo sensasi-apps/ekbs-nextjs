@@ -22,7 +22,7 @@ import DoneAll from '@mui/icons-material/DoneAll'
 import MonetizationOn from '@mui/icons-material/MonetizationOn'
 import WorkHistory from '@mui/icons-material/WorkHistory'
 //
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 /**
  * @deprecated UNUSED will be removed if not used in future

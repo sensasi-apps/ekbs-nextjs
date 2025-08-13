@@ -14,7 +14,7 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 // page components
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
+import numberToCurrency from '@/utils/number-to-currency'
 
 type DataType = {
     installmentable_classname: Installment['installmentable_classname']

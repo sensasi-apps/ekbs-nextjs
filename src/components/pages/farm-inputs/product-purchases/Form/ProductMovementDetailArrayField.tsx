@@ -24,7 +24,7 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextField from '@/components/TextField'
 // utils
 import debounce from '@/utils/debounce'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
 import { type FormValuesType } from '../Form'
 

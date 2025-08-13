@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 //
 import type UserType from '@/features/user/types/user'
 import UserAutocomplete from '@/components/UserAutocomplete'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import FinanceApiUrlEnum from '../ApiUrlEnum'
 
 export default function PayrollUsersForm({

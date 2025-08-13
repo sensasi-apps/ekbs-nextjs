@@ -16,7 +16,7 @@ import CostsFieldComponent from './components/costs-field-component'
 import DefaultItemDesc from '../../../../../@shared-subcomponents/default-item-desc'
 import DetailsFieldComponent from './components/details-field-component'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 

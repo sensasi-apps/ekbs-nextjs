@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography'
 // components
 import DefaultItemDesc from './default-item-desc'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 // assets
 import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
 

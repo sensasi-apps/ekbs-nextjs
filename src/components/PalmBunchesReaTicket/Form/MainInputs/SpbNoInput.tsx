@@ -10,7 +10,7 @@ import TextField from '@/components/TextField'
 // providers
 import useFormData from '@/providers/useFormData'
 // utils
-import { alpaNumeric } from '@/utils/RegExps'
+import { alpaNumeric } from '@/utils/regexs'
 
 let tempValue: string | undefined
 

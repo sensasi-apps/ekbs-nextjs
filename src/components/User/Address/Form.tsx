@@ -11,7 +11,7 @@ import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import useValidationErrors from '@/hooks/useValidationErrors'
 import NumericFormat from '@/components/NumericFormat'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function AddressForm({
     isShow,

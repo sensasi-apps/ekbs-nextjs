@@ -17,7 +17,7 @@ import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import Warehouse from '@mui/icons-material/Warehouse'
 // components
 import LineChart from '@/components/Chart/Line'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import StatCard from '@/components/StatCard'
 // utils
 import Role from '@/enums/Role'

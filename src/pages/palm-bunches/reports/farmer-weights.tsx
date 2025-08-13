@@ -15,7 +15,7 @@ import TableFooter from '@mui/material/TableFooter'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import IconButton from '@/components/IconButton'
@@ -27,8 +27,8 @@ import Skeletons from '@/components/Global/Skeletons'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 // utils
-import toDmy from '@/utils/toDmy'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import formatNumber from '@/utils/format-number'
 import Image from 'next/image'
 
 type ApiResponseType = {

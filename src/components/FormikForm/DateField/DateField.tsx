@@ -9,7 +9,7 @@ import dayjs from 'dayjs'
 // components
 import DatePicker, { type DatePickerProps } from '@/components/DatePicker'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 type DateFieldProps = {
     name: string

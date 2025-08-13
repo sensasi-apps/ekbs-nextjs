@@ -3,7 +3,7 @@ import type AuthInfo from '@/features/user--auth/types/auth-info'
 // vendors
 import { useState } from 'react'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import UserAutocomplete from '@/components/UserAutocomplete'
 import axios from '@/lib/axios'
 import { useRouter } from 'next/navigation'

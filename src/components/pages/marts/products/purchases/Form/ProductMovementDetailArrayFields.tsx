@@ -19,9 +19,9 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 // utils
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 import useSWR from 'swr'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import ApiUrl from '../../sales/@enums/api-url'
 
 export default function ProductMovementDetailArrayFields({

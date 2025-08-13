@@ -5,7 +5,7 @@ import type { TextFieldProps } from '@mui/material/TextField'
 import { useCallback, useState } from 'react'
 // components
 import TextField from '@/components/TextField'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // utils
 import debounce from '@/utils/debounce'
 

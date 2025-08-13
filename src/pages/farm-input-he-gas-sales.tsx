@@ -9,7 +9,7 @@ import { Formik } from 'formik'
 // materials
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
@@ -22,10 +22,10 @@ import FarmInputHeGasSaleForm, {
 // icons
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation'
 // utils
-import toDmy from '@/utils/toDmy'
-import formatNumber from '@/utils/formatNumber'
-import numberToCurrency from '@/utils/numberToCurrency'
-import handle422 from '@/utils/errorCatcher'
+import toDmy from '@/utils/to-dmy'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
+import handle422 from '@/utils/handle-422'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums

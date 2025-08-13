@@ -1,7 +1,7 @@
 'use client'
 
 import { useIsCanReachItself } from '@/hooks/use-is-can-reach-itself'
-import blinkSxValue from '@/utils/blinkSxValue'
+import blinkSxValue from '@/utils/blink-sx-value'
 import SignalWifiStatusbarConnectedNoInternet4 from '@mui/icons-material/SignalWifiStatusbarConnectedNoInternet4'
 import Alert from '@mui/material/Alert'
 import Tooltip from '@mui/material/Tooltip'

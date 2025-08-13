@@ -5,9 +5,9 @@ import { green } from '@mui/material/colors'
 // components
 import Datatable from '@/components/Datatable'
 // utils
-import toDmy from '@/utils/toDmy'
-import shortUuid from '@/utils/uuidToShort'
-import formatNumber from '@/utils/formatNumber'
+import toDmy from '@/utils/to-dmy'
+import shortUuid from '@/utils/short-uuid'
+import formatNumber from '@/utils/format-number'
 
 export default function CorrectionTxDataTable({
     userUuid,

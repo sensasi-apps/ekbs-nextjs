@@ -24,8 +24,8 @@ import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextField from '@/components/TextField'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import numberToCurrency from '@/utils/number-to-currency'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import debounce from '@/utils/debounce'
 
 export default function PayrollEmployeeDetailsForm({

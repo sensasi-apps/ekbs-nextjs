@@ -1,5 +1,5 @@
 import BigNumber from '@/components/StatCard/BigNumber'
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 import { memo } from 'react'
 
 const TotalMemberParticipationBigNumber = memo(

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import useUserWithDetails from '@/providers/UserWithDetails'
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 
 const Row = ({ title, children, helperText, ...props }) => {
     return (

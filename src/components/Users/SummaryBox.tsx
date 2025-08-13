@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // etc
 import { getRoleIconByIdName } from '../User/RoleChips'
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 interface ApiResponseItemType {
     role_name_id: string

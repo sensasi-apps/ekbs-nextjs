@@ -1,0 +1,134 @@
+'use client'
+
+import type { AxiosError } from 'axios'
+import type LaravelValidationException from '@/types/LaravelValidationException'
+// vendors
+import { useState, type FormEvent } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import axios from '@/lib/axios'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+// icons
+import LockResetIcon from '@mui/icons-material/LockReset'
+// components
+import GuestWithFormSubLayout from '@/app/(guest)/_parts/guest-with-form-sub-layout'
+
+export default function Page({
+    params,
+}: {
+    params: Promise<{ token: string }>
+}) {
+    const [token, setToken] = useState<string>()
+    const { push } = useRouter()
+
+    params.then(({ token }) => setToken(token))
+
+    const searchParam = useSearchParams()
+    const email = searchParam?.get('email')
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [validationErrors, setValidationErrors] =
+        useState<LaravelValidationException>()
+
+    function submitForm(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+
+        const formEl = event.currentTarget
+        if (!formEl.checkValidity()) {
+            formEl.reportValidity()
+            return
+        }
+
+        setIsLoading(true)
+
+        const formData = new FormData(formEl)
+
+        axios
+            .post('reset-password', formData)
+            .then(() =>
+                push(
+                    '/login?response=' +
+                        btoa(
+                            JSON.stringify({
+                                status: 201,
+                                message:
+                                    'Kata sandi berhasil diatur ulang. Silakan melakukan login dengan kata sandi baru Anda.',
+                            }),
+                        ),
+                ),
+            )
+            .catch((err: AxiosError<LaravelValidationException>) => {
+                const { response } = err
+
+                if (!response || response.status !== 422) throw err
+
+                setValidationErrors(response.data)
+            })
+            .finally(() => setIsLoading(false))
+    }
+
+    return (
+        <GuestWithFormSubLayout
+            title="Atur kata sandi"
+            icon={<LockResetIcon />}
+            isError={Boolean(validationErrors?.message)}
+            message={validationErrors?.message.toString()}
+            isLoading={isLoading}>
+            <form
+                onSubmit={submitForm}
+                style={{ marginTop: '1rem' }}
+                autoComplete="off">
+                <input
+                    type="hidden"
+                    name="token"
+                    value={token ?? ''}
+                    readOnly
+                />
+
+                <input
+                    type="hidden"
+                    name="email"
+                    value={email ?? ''}
+                    readOnly
+                />
+
+                <Box mb={2}>
+                    <Typography variant="body2">Alamat email:</Typography>
+                    <Typography variant="h6">{email}</Typography>
+                </Box>
+
+                <TextField
+                    required
+                    fullWidth
+                    margin="normal"
+                    label="Kata sandi baru"
+                    type="password"
+                    name="password"
+                    onChange={() => setValidationErrors(undefined)}
+                    error={Boolean(validationErrors?.errors?.password)}
+                    helperText={validationErrors?.errors?.password}
+                />
+
+                <TextField
+                    required
+                    fullWidth
+                    margin="dense"
+                    label="Ulangi kata sandi baru"
+                    type="password"
+                    name="password_confirmation"
+                />
+
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 1 }}>
+                    Simpan kata sandi
+                </Button>
+            </form>
+        </GuestWithFormSubLayout>
+    )
+}

@@ -11,7 +11,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 // icons
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 // utils
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import FarmInput from '@/enums/permissions/FarmInput'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 

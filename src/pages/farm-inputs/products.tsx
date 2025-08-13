@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     getNoWrapCellProps,
@@ -21,13 +21,13 @@ import ProductForm from '@/components/Product/Form'
 // page components
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 // utils
-import numberToCurrency from '@/utils/numberToCurrency'
-import formatNumber from '@/utils/formatNumber'
+import numberToCurrency from '@/utils/number-to-currency'
+import formatNumber from '@/utils/format-number'
 import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import axios from '@/lib/axios'
 import ApiUrlEnum from '@/components/Product/ApiUrlEnum'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 // enums
 import Warehouse from '@/enums/Warehouse'
 // hooks

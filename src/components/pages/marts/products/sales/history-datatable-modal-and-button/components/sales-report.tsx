@@ -21,9 +21,9 @@ import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 // utils
 import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
-import formatNumber from '@/utils/formatNumber'
-import toDmy from '@/utils/toDmy'
-import { aoaToXlsx } from '@/functions/aoaToXlsx'
+import formatNumber from '@/utils/format-number'
+import toDmy from '@/utils/to-dmy'
+import aoaToXlsx from '@/utils/aoa-to-xlsx'
 import { useRouter } from 'next/router'
 
 export default function SalesReport() {

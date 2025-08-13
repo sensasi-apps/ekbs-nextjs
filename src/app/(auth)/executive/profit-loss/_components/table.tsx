@@ -13,8 +13,8 @@ import Tooltip from '@mui/material/Tooltip'
 // icons-materials
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
 // utils
-import formatNumber from '@/utils/formatNumber'
-import blinkSxValue from '@/utils/blinkSxValue'
+import formatNumber from '@/utils/format-number'
+import blinkSxValue from '@/utils/blink-sx-value'
 
 export type ItemRow = {
     name: string

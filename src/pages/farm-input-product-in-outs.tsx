@@ -1,5 +1,5 @@
 // page components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import FarmInputProductInOutDatatable from '@/components/pages/farm-input-product-in-outs/Datatable'
 import useDisablePage from '@/hooks/useDisablePage'
 

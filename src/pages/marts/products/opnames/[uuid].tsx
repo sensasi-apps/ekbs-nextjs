@@ -16,7 +16,7 @@ import axios from '@/lib/axios'
 //
 import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
 import BackButton from '@/components/back-button'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import AddProductFormDialog from '@/components/pages/marts/products/opnames/AddProductsFormDialog'
 import DetailTable from '@/components/pages/marts/products/opnames/DetailTable'
 import SummaryTable from '@/components/pages/marts/products/opnames/SummaryTable'

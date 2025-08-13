@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation'
 // materials
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
@@ -23,7 +23,7 @@ import InventoryItemFormWithFormik from '@/components/pages/inventory-items/Form
 import WarningIcon from '@mui/icons-material/Warning'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 

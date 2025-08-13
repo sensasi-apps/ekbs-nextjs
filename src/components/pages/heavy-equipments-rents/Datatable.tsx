@@ -16,7 +16,7 @@ import Datatable, {
 } from '@/components/Datatable'
 import DatePicker from '@/components/DatePicker'
 // utils
-import toDmy from '@/utils/toDmy'
+import toDmy from '@/utils/to-dmy'
 // enums
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
 

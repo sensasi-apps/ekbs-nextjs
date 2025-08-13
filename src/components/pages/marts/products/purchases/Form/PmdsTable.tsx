@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 //
 import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
-import formatNumber from '@/utils/formatNumber'
+import formatNumber from '@/utils/format-number'
 
 export function PmdsTable({ data }: { data: ProductMovementDetail[] }) {
     return (

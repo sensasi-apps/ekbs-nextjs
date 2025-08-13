@@ -1,4 +1,4 @@
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 export default function PalmBuncesDeliveryRates() {
@@ -24,8 +24,8 @@ import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import PalmBunchDeliveryRatesForm from '@/components/PalmBunchDeliveryRates/Form'
 // utils
-import toDmy from '@/utils/toDmy'
-import numberToCurrency from '@/utils/numberToCurrency'
+import toDmy from '@/utils/to-dmy'
+import numberToCurrency from '@/utils/number-to-currency'
 
 function Crud() {
     const {

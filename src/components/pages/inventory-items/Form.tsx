@@ -22,7 +22,7 @@ import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
-import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 

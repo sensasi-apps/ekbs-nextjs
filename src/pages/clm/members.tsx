@@ -14,10 +14,10 @@ import Datatable, {
     type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-import AuthLayout from '@/components/Layouts/AuthLayout'
+import AuthLayout from '@/components/auth-layout'
 import UserSelect from '@/components/FormikForm/user-select'
 import myAxios from '@/lib/axios'
-import handle422 from '@/utils/errorCatcher'
+import handle422 from '@/utils/handle-422'
 import type User from '@/features/user/types/user'
 import { useRouter } from 'next/router'
 import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
