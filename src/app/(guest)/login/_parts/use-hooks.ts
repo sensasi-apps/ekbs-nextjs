@@ -2,7 +2,7 @@
 import { AxiosError } from 'axios'
 import { sha3_256 } from 'js-sha3'
 import { useEffect, useState, useCallback, type FormEvent } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 //
 import type AuthInfo from '@/features/user--auth/types/auth-info'
 import axios from '@/lib/axios'
@@ -77,9 +77,11 @@ function buildErrorResponse(err: AxiosError<{ message?: string }>) {
 // ============================
 // Hook
 // ============================
-export function useHooks() {
+export default function useHooks() {
     const [, setAuthInfo] = useAuthInfoState()
-    const { query, replace } = useRouter()
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
+    const query = Object.fromEntries(searchParams?.entries() ?? [])
     const { response } = query
 
     const [isError, setIsError] = useState(false)

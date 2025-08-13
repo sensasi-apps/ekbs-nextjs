@@ -4,7 +4,7 @@ import Fab from '@mui/material/Fab'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 
-export function Form({
+export default function LoginForm({
     handleSubmit,
 }: {
     handleSubmit: HTMLFormElement['onSubmit']

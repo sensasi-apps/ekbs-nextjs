@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { useIsOnline } from 'react-use-is-online'
 // materials
@@ -8,12 +10,13 @@ import ArrowBack from '@mui/icons-material/ArrowBack'
 import GoogleIcon from '@mui/icons-material/Google'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // components
-import { Form } from '../components/pages/login/Form'
-import { useHooks } from '@/components/pages/login/useHooks'
-import GuestFormLayout from '@/components/Layouts/guest-form'
+import GuestFormLayout from '@/components/guest-form-layout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
+// parts
+import useHooks from './_parts/use-hooks'
+import LoginForm from './_parts/form'
 
-export default function LoginPage() {
+export default function Page() {
     const { message, isLoading, isError, handleSubmit } = useHooks()
     const { isOffline } = useIsOnline()
 
@@ -29,7 +32,7 @@ export default function LoginPage() {
                 message={message}
             />
 
-            <Form handleSubmit={handleSubmit} />
+            <LoginForm handleSubmit={handleSubmit} />
 
             <Divider
                 sx={{
@@ -59,7 +62,6 @@ export default function LoginPage() {
                 startIcon={<ArrowBack />}>
                 Kembali ke halaman depan
             </Button>
-            {/* </Box> */}
         </GuestFormLayout>
     )
 }
