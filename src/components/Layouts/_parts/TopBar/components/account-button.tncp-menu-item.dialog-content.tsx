@@ -1,7 +1,7 @@
 import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 
-export function TncpDialogContent() {
+export default function TncpDialogContent() {
     return (
         <DialogContent>
             <Typography variant="caption" gutterBottom>

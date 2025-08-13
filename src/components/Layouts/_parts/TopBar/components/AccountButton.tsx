@@ -1,7 +1,7 @@
 'use client'
 
 // vendors
-import { useState } from 'react'
+import { useCallback, useState, type MouseEventHandler } from 'react'
 // materials
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
@@ -16,76 +16,58 @@ import Typography from '@mui/material/Typography'
 import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
 import FooterBox from '@/components/Layouts/FooterBox'
-// local components
+// parts
 import DarkModeSwitch from './DarkModeSwitch'
 import FullscreenMenuItem from './FullscreenMenuItem'
-import GradingIcon from '@mui/icons-material/Grading'
-import LogoutIcon from '@mui/icons-material/Logout'
-import TncpDialog from './TncpDialog'
+import TncpMenuItem from './account-button.tncp-menu-item'
 // icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import LogoutIcon from '@mui/icons-material/Logout'
 import SyncIcon from '@mui/icons-material/Sync'
 // providers
 import useAuthInfo from '@/hooks/use-auth-info'
 
+type Color =
+    | 'inherit'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'error'
+    | 'info'
+    | 'warning'
+
+interface AccountButtonProps {
+    color?: Color
+}
+
 export default function AccountButton({
     color = 'inherit',
-}: {
-    color?:
-        | 'inherit'
-        | 'primary'
-        | 'secondary'
-        | 'success'
-        | 'error'
-        | 'info'
-        | 'warning'
-}) {
+}: AccountButtonProps) {
     const user = useAuthInfo()
-
-    const [isOpenTncp, setIsOpenTncp] = useState(false)
     const [anchorEl, setAnchorEl] = useState<Element>()
+
+    const handleOpenMenu = useCallback<MouseEventHandler>(
+        event => setAnchorEl(event.currentTarget as Element),
+        [],
+    )
+
+    const handleCloseMenu = useCallback(() => setAnchorEl(undefined), [])
 
     if (!user) return null
 
     return (
         <>
-            <IconButton
-                aria-label="akun"
-                onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
+            <MobileAccountButton color={color} onClick={handleOpenMenu} />
+            <DesktopAccountButton
                 color={color}
-                sx={{
-                    display: {
-                        xs: 'inline-flex',
-                        sm: 'none',
-                    },
-                }}>
-                <AccountCircleIcon />
-            </IconButton>
-
-            <Chip
-                aria-label="akun"
-                icon={
-                    <AccountCircleIcon
-                        color={color === 'inherit' ? 'inherit' : undefined}
-                    />
-                }
                 label={user.name}
-                variant="filled"
-                color={color === 'inherit' ? undefined : color}
-                sx={{
-                    color: color === 'inherit' ? '#e0e0e0' : undefined,
-                    display: {
-                        xs: 'none',
-                        sm: 'inline-flex',
-                    },
-                }}
-                onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
+                onClick={handleOpenMenu}
             />
 
             <Menu
                 anchorEl={anchorEl}
-                open={!!anchorEl}
-                onClose={() => setAnchorEl(undefined)}>
+                open={Boolean(anchorEl)}
+                onClose={handleCloseMenu}>
                 <FlexBox alignItems="center" justifyContent="center" my={1}>
                     <ChipSmall
                         label={`#${user.id}`}
@@ -100,32 +82,20 @@ export default function AccountButton({
                 <Divider sx={{ pt: 1 }} />
 
                 <DarkModeSwitch />
-
                 <FullscreenMenuItem />
 
                 <MenuItem onClick={() => window.location.reload()}>
                     <ListItemIcon>
                         <SyncIcon />
                     </ListItemIcon>
-
                     <ListItemText>Muat Ulang Halaman</ListItemText>
-
                     <Typography variant="body2" color="text.secondary">
                         F5
                     </Typography>
                 </MenuItem>
 
                 <Divider />
-
-                <MenuItem onClick={() => setIsOpenTncp(true)}>
-                    <ListItemIcon>
-                        <GradingIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>
-                        Syarat, Ketentuan, dan Kebijakan Privasi
-                    </ListItemText>
-                </MenuItem>
-
+                <TncpMenuItem />
                 <Divider />
 
                 <MenuItem href="/logout" component={Link}>
@@ -137,11 +107,56 @@ export default function AccountButton({
 
                 <FooterBox mt={2} mb={1} component="div" />
             </Menu>
-
-            <TncpDialog
-                open={isOpenTncp}
-                handleClose={() => setIsOpenTncp(false)}
-            />
         </>
+    )
+}
+
+interface DesktopAccountButtonProps {
+    color: Color
+    label: string
+    onClick: MouseEventHandler<HTMLDivElement>
+}
+
+function DesktopAccountButton({
+    color,
+    label,
+    onClick,
+}: DesktopAccountButtonProps) {
+    const isInherit = color === 'inherit'
+
+    return (
+        <Chip
+            aria-label="akun desktop"
+            icon={
+                <AccountCircleIcon color={isInherit ? 'inherit' : undefined} />
+            }
+            label={label}
+            variant="filled"
+            color={isInherit ? undefined : color}
+            sx={{
+                color: isInherit ? '#e0e0e0' : undefined,
+                display: { xs: 'none', sm: 'inline-flex' },
+            }}
+            onClick={onClick}
+        />
+    )
+}
+
+interface MobileAccountButtonProps {
+    color: Color
+    onClick: MouseEventHandler<HTMLButtonElement>
+}
+
+function MobileAccountButton({ color, onClick }: MobileAccountButtonProps) {
+    const isInherit = color === 'inherit'
+
+    return (
+        <IconButton
+            color={isInherit ? 'inherit' : undefined}
+            onClick={onClick}
+            aria-label="akun mobile"
+            sx={{ display: { xs: 'inline-flex', sm: 'none' } }}>
+            <AccountCircleIcon />
+        </IconButton>
     )
 }
