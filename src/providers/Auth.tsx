@@ -8,7 +8,6 @@ import { createContext, useContext, type ReactNode } from 'react'
 // functions
 import userHasRole from './Auth/userHasRole'
 import userHasPermission from './Auth/userHasPermission'
-import { login } from './Auth/login'
 // hooks
 import useAuthInfoState from '@/hooks/use-auth-info-state'
 
@@ -19,14 +18,12 @@ interface AuthContextType {
         userParam?: AuthInfo,
     ) => boolean
     userHasRole: (roleName: Role | Role[], userParam?: AuthInfo) => boolean
-    login: (email: string, password: string) => Promise<void>
 }
 
 const DEFAULT_CONTEXT_VALUE: AuthContextType = {
     onAgreeTncp: () => {},
     userHasPermission: () => false,
     userHasRole: () => false,
-    login: async () => {},
 }
 
 const AuthContext = createContext<AuthContextType>(DEFAULT_CONTEXT_VALUE)
@@ -54,8 +51,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
                 userHasRole: (roleName, userParam) =>
                     userHasRole(roleName, userParam ?? user ?? undefined),
-
-                login: (email, password) => login(email, password, setUser),
             }}>
             {children}
         </AuthContext.Provider>
