@@ -21,9 +21,10 @@ import GradingItemInputs from './Form/GradingItemInputs'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
 import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
-// hooks
-import useValidationErrors from '@/hooks/useValidationErrors'
 import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useValidationErrors from '@/hooks/useValidationErrors'
 import useAuth from '@/providers/Auth'
 // enums
 import Role from '@/enums/Role'
@@ -37,7 +38,8 @@ export default function PalmBuncesReaTicketForm({
     setSubmitting,
     onSubmitted,
 }: FormType<PalmBunchesReaTicket>) {
-    const { userHasRole, userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
+    const { userHasRole } = useAuth()
 
     const disabled =
         Boolean(loading || (data?.delivery?.transactions?.length || 0) > 0) ||
@@ -135,7 +137,7 @@ export default function PalmBuncesReaTicketForm({
             )}
 
             {!data?.delivery?.transactions?.length &&
-                userHasPermission([
+                isAuthHasPermission([
                     PalmBunch.CREATE_TICKET,
                     PalmBunch.UPDATE_TICKET,
                 ]) &&

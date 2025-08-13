@@ -12,8 +12,8 @@ import FormHelperText from '@mui/material/FormHelperText'
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 // utils
 import handle422 from '@/utils/errorCatcher'
-import useAuth from '@/providers/Auth'
 import FarmInput from '@/enums/permissions/FarmInput'
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 export default function RefundForm({
     data,
@@ -22,7 +22,7 @@ export default function RefundForm({
     data: ProductSale
     mutate: MutateType<ProductSale>
 }) {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const [isRefunding, setIsRefunding] = useState(false)
     const [errors, setErrors] = useState<LaravelValidationException['errors']>(
         {},
@@ -50,7 +50,7 @@ export default function RefundForm({
                 variant="outlined"
                 loading={isRefunding}
                 disabled={
-                    !userHasPermission(FarmInput.REFUND_PRODUCT_SALE) ||
+                    !isAuthHasPermission(FarmInput.REFUND_PRODUCT_SALE) ||
                     Boolean(data.refund_product_sale) ||
                     Boolean(data.refund_from_product_sale) ||
                     !data.is_paid

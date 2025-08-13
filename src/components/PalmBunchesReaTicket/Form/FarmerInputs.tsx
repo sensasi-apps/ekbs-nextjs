@@ -21,8 +21,9 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/UserAutocomplete'
 // providers
 import useFormData from '@/providers/useFormData'
-import useAuth from '@/providers/Auth'
 import PalmBunch from '@/enums/permissions/PalmBunch'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 function PalmBunchesReaDeliveryFarmerInputs({
     disabled,
@@ -33,7 +34,7 @@ function PalmBunchesReaDeliveryFarmerInputs({
     validationErrors: ValidationErrorsType
     clearByName: (name: string) => void
 }) {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const { data, setData } = useFormData<PalmBunchesReaTicket>()
 
@@ -120,7 +121,7 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                     value={palmBunch.owner_user_uuid || ''}
                                 />
 
-                                {userHasPermission(PalmBunch.SEARCH_USER) ? (
+                                {isAuthHasPermission(PalmBunch.SEARCH_USER) ? (
                                     <UserAutocomplete
                                         label="Nama"
                                         showNickname

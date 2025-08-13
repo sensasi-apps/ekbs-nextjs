@@ -39,14 +39,16 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserActivityLogs from '@/components/UserActivityLogs'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import txAccounts from '../../../../features/transaction/statics/tx-accounts'
 import handle422 from '@/utils/errorCatcher'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 import shortUuid from '@/utils/uuidToShort'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// enums
+import TransactionPermission from '@/enums/permissions/Transaction'
 
 export default function TransactionForm({
     dirty,
@@ -74,8 +76,8 @@ export default function TransactionForm({
                 }),
     })
 
-    const { userHasPermission } = useAuth()
-    const isUserCanDelete = userHasPermission('transactions delete')
+    const isAuthHasPermission = useIsAuthHasPermission()
+    const isUserCanDelete = isAuthHasPermission(TransactionPermission.DELETE)
 
     const isProcessing = isSubmitting || isDeleting
 

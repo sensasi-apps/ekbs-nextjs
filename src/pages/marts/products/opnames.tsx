@@ -18,17 +18,20 @@ import Fab from '@/components/Fab'
 import type { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
 import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
 import AuthLayout from '@/components/Layouts/AuthLayout'
-import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
-import Mart from '@/enums/permissions/Mart'
-import useAuth from '@/providers/Auth'
 import FormDialog from '@/components/pages/marts/products/opnames/FormDialog'
 import ChipSmall from '@/components/ChipSmall'
+// utils
 import formatNumber from '@/utils/formatNumber'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// enums
+import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import Mart from '@/enums/permissions/Mart'
 
 let getRowData: GetRowDataType<ProductMovementOpname>
 
 export default function Opnames() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const { push } = useRouter()
 
     const [formValues, setFormValues] = useState<CreateFormValues>()
@@ -69,7 +72,7 @@ export default function Opnames() {
             />
 
             <Fab
-                in={userHasPermission(Mart.CREATE_OPNAME)}
+                in={isAuthHasPermission(Mart.CREATE_OPNAME)}
                 disabled={!!formValues}
                 onClick={() =>
                     setFormValues({

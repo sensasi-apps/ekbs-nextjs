@@ -38,12 +38,12 @@ import PrintHandler from '../PrintHandler'
 import toDmy from '@/utils/toDmy'
 // enums
 import Wallet from '@/enums/permissions/Wallet'
-// providers
-import useAuth from '@/providers/Auth'
 import InstallmentDataTable from './tx-form/installment-datatable'
 // pages type
 import type { DataType } from '@/pages/wallets'
 import CorrectionTxDataTable from './tx-form/correction-tx-datatable'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 export type ApiResponseType = {
     balanceFrom: number
@@ -60,7 +60,7 @@ export default function TxHistory({
     canPrint?: boolean
     canExportExcel?: boolean
 }) {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const [activeTab, setActiveTab] = useState<'rangkuman' | 'rincian'>(
         'rangkuman',
     )
@@ -115,7 +115,7 @@ export default function TxHistory({
                 {(canPrint || canExportExcel) && (
                     <Box display="inline-flex">
                         <Box flexGrow={1}>
-                            {userHasPermission(
+                            {isAuthHasPermission(
                                 Wallet.CREATE_USER_WALLET_TRANSACTION,
                             ) && (
                                 <WalletTxButtonAndForm

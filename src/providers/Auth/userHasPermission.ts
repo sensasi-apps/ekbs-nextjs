@@ -1,8 +1,9 @@
 import type AuthInfo from '@/features/user--auth/types/auth-info'
 import Role from '@/enums/Role'
+import type { Permission } from '@/types/permission'
 
 export default function userHasPermission(
-    permissionName: string | string[],
+    permissionName: Permission | Permission[],
     userParam?: AuthInfo,
 ) {
     if (!userParam) return false

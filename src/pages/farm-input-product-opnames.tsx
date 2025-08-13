@@ -16,18 +16,19 @@ import ProductOpanmeForm, {
 } from '@/components/pages/farm-input-product-opnames/Form'
 // icons
 import ChecklistIcon from '@mui/icons-material/Checklist'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import { ApiUrlEnum } from '@/components/pages/farm-input-product-in-outs/Datatable.type'
 import { DATATABLE_COLUMNS } from '@/components/pages/farm-input-product-in-outs/Datatable'
+// hooks
 import useDisablePage from '@/hooks/useDisablePage'
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import FarmInputPermission from '@/enums/permissions/FarmInput'
 
 export default function FarmInputProductOpnames() {
     useDisablePage()
 
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -105,9 +106,9 @@ export default function FarmInputProductOpnames() {
                 />
             </DialogWithTitle>
 
-            {userHasPermission([
-                'create product purchase',
-                'update product purchase',
+            {isAuthHasPermission([
+                FarmInputPermission.CREATE_PRODUCT_PURCHASE,
+                FarmInputPermission.UPDATE_PRODUCT_PURCHASE,
             ]) && (
                 <Fab onClick={handleNew}>
                     <ChecklistIcon />

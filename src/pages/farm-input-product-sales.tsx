@@ -41,12 +41,16 @@ import Role from '@/enums/Role'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
 import { CashableClassname } from '@/dataTypes/Transaction'
 import Warehouse from '@/enums/Warehouse'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import FarmInputPermission from '@/enums/permissions/FarmInput'
 
 let getRowData: GetRowDataType<ProductSale>
 let mutate: MutateType<ProductSale>
 
 export default function FarmInputProductSales() {
-    const { userHasPermission, userHasRole } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
+    const { userHasRole } = useAuth()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -131,7 +135,7 @@ export default function FarmInputProductSales() {
                 mutateCallback={fn => (mutate = fn)}
             />
 
-            {userHasPermission('create product sale') && (
+            {isAuthHasPermission(FarmInputPermission.CREATE_PRODUCT_SALE) && (
                 <>
                     <DialogWithTitle
                         title={
@@ -174,7 +178,9 @@ export default function FarmInputProductSales() {
 
             <Fab
                 onClick={handleNew}
-                in={userHasPermission('create product sale')}>
+                in={isAuthHasPermission(
+                    FarmInputPermission.CREATE_PRODUCT_SALE,
+                )}>
                 <ReceiptIcon />
             </Fab>
         </AuthLayout>

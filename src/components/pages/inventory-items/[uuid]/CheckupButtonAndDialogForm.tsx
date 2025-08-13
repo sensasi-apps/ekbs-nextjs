@@ -12,11 +12,11 @@ import RateReview from '@mui/icons-material/RateReview'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import FormikForm from '@/components/FormikForm'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import useAuthInfo from '@/hooks/use-auth-info'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 const CheckupButtonAndDialogForm = memo(function CheckupButtonAndDialogForm({
     uuid,
@@ -29,12 +29,12 @@ const CheckupButtonAndDialogForm = memo(function CheckupButtonAndDialogForm({
 }) {
     const user = useAuthInfo()
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const { pic_user } = latestPic ?? {}
 
     const userCanUpdate =
-        userHasPermission(['inventory item update']) ||
+        isAuthHasPermission(['inventory item update']) ||
         user?.uuid === pic_user?.uuid
 
     return (

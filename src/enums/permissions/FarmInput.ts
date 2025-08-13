@@ -1,4 +1,4 @@
-enum FarmInput {
+enum FarmInputPermission {
     CREATE_PRODUCT = 'create product',
     UPDATE_PRODUCT = 'update product',
     READ_PRODUCT = 'read products', //TODO=sync this
@@ -21,4 +21,4 @@ enum FarmInput {
     READ_RECEIVABLE = 'read farm input receivable',
 }
 
-export default FarmInput
+export default FarmInputPermission

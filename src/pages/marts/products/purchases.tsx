@@ -20,15 +20,17 @@ import ApiUrl from '@/components/pages/marts/products/purchases/ApiUrl'
 import formatNumber from '@/utils/formatNumber'
 import toDmy from '@/utils/toDmy'
 // etc
-import useAuth from '@/providers/Auth'
 import ChipSmall from '@/components/ChipSmall'
+// enums
 import Mart from '@/enums/permissions/Mart'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let mutate: MutateType<ProductMovement>
 let getRowData: GetRowDataType<ProductMovement>
 
 export default function ProductPurchases() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const [selectedRow, setSelectedRow] = useState<ProductMovement>()
     const [formValues, setFormValues] = useState<FormValues>()
@@ -91,7 +93,7 @@ export default function ProductPurchases() {
             />
 
             <Fab
-                in={userHasPermission(Mart.CREATE_PURCHASE)}
+                in={isAuthHasPermission(Mart.CREATE_PURCHASE)}
                 disabled={!!formValues}
                 onClick={() => {
                     setFormValues({})

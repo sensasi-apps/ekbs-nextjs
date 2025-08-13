@@ -22,16 +22,16 @@ import InventoryItemFormWithFormik from '@/components/pages/inventory-items/Form
 // icons
 import WarningIcon from '@mui/icons-material/Warning'
 import ReceiptIcon from '@mui/icons-material/Receipt'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import toDmy from '@/utils/toDmy'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let mutate: MutateType<InventoryItem>
 let getRowData: GetRowDataType<InventoryItem>
 
 export default function InventoryItems() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const { push } = useRouter()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -70,7 +70,7 @@ export default function InventoryItems() {
                 getRowDataCallback={fn => (getRowData = fn)}
             />
 
-            {userHasPermission('create inventory item') && (
+            {isAuthHasPermission('create inventory item') && (
                 <DialogWithTitle
                     title={`${isNew ? 'Tambah' : 'Perbaharui'} Inventaris`}
                     open={isDialogOpen}>
@@ -86,7 +86,7 @@ export default function InventoryItems() {
             )}
 
             <Fab
-                in={userHasPermission('create inventory item') ?? false}
+                in={isAuthHasPermission('create inventory item') ?? false}
                 onClick={handleNew}>
                 <ReceiptIcon />
             </Fab>

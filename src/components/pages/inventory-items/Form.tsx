@@ -17,14 +17,14 @@ import Switch from '@mui/material/Switch'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
+import NumericFormat from '@/components/NumericFormat'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
-// providers
-import useAuth from '@/providers/Auth'
-import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 const InventoryItemForm = memo(function InventoryItemForm({
     dirty,
@@ -46,7 +46,7 @@ const InventoryItemForm = memo(function InventoryItemForm({
     },
     setFieldValue,
 }: FormikProps<InventoryItemFormValues>) {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const [isDisowned, setIsDisowned] = useState(!!disowned_at)
     const [isFunctional, setIsFunctional] = useState(!unfunctional_note)
     const [isRentable, setIsRentable] = useState<boolean>(
@@ -57,7 +57,7 @@ const InventoryItemForm = memo(function InventoryItemForm({
     const isPropcessing = isSubmitting
     const isDisabled =
         isPropcessing ||
-        !userHasPermission(['create inventory item', 'update inventory item'])
+        !isAuthHasPermission(['create inventory item', 'update inventory item'])
 
     return (
         <FormikForm

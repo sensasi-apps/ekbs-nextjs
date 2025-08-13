@@ -21,19 +21,21 @@ import FarmInputHeGasSaleForm, {
 // import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // icons
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import toDmy from '@/utils/toDmy'
 import formatNumber from '@/utils/formatNumber'
 import numberToCurrency from '@/utils/numberToCurrency'
 import handle422 from '@/utils/errorCatcher'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// enums
+import FarmInputPermission from '@/enums/permissions/FarmInput'
 
 /**
  * gas sales to heavy equipment rental unit
  */
 export default function FarmInputHeGasSales() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -107,7 +109,9 @@ export default function FarmInputHeGasSales() {
             />
 
             <Fab
-                in={userHasPermission('create product sale')}
+                in={isAuthHasPermission(
+                    FarmInputPermission.CREATE_PRODUCT_SALE,
+                )}
                 onClick={handleNew}>
                 <LocalGasStationIcon />
             </Fab>

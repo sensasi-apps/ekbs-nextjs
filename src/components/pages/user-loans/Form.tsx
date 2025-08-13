@@ -44,6 +44,8 @@ import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import Role from '@/enums/Role'
 import useAuthInfo from '@/hooks/use-auth-info'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 export default function LoanForm({
     errors,
@@ -60,8 +62,9 @@ export default function LoanForm({
     }
 
     const currentUser = useAuthInfo()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
-    const { userHasRole, userHasPermission } = useAuth()
+    const { userHasRole } = useAuth()
 
     const mode: 'applier' | 'manager' = status.mode
     const userLoanFromDb: UserLoanType | null = status.userLoanFromDb
@@ -126,7 +129,7 @@ export default function LoanForm({
 
     const isUserCanDelete =
         !isNew &&
-        userHasPermission('delete own loan') &&
+        isAuthHasPermission('delete own loan') &&
         isCreatedByCurrentUser &&
         !hasResponses
 

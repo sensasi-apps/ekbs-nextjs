@@ -20,11 +20,12 @@ import useFormData from '@/providers/useFormData'
 import type UserType from '@/features/user/types/user'
 import SpbNoInput from './MainInputs/SpbNoInput'
 import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
-//libs
+// libs
 import { wholeNumber } from '@/utils/RegExps'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import PalmBunch from '@/enums/permissions/PalmBunch'
-import useAuth from '@/providers/Auth'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 interface MainInputProps {
     clearByName: (name: string) => void
@@ -42,7 +43,7 @@ function PalmBunchesReaDeliveryMainInputs({
     validationErrors,
     disabled,
 }: MainInputProps) {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const { data, setData } = useFormData<PalmBunchesReaTicket>()
 
     // ticket props
@@ -381,7 +382,7 @@ function PalmBunchesReaDeliveryMainInputs({
                 value={courierUser?.uuid || ''}
             />
 
-            {userHasPermission(PalmBunch.SEARCH_USER) ? (
+            {isAuthHasPermission(PalmBunch.SEARCH_USER) ? (
                 <UserAutocomplete
                     label="Pengangkut"
                     disabled={disabled}

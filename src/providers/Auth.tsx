@@ -7,20 +7,14 @@ import type Role from '@/enums/Role'
 import { createContext, useContext, type ReactNode } from 'react'
 // functions
 import userHasRole from './Auth/userHasRole'
-import userHasPermission from './Auth/userHasPermission'
 // hooks
 import useAuthInfoState from '@/hooks/use-auth-info-state'
 
 interface AuthContextType {
-    userHasPermission: (
-        permissionName: string | string[],
-        userParam?: AuthInfo,
-    ) => boolean
     userHasRole: (roleName: Role | Role[], userParam?: AuthInfo) => boolean
 }
 
 const DEFAULT_CONTEXT_VALUE: AuthContextType = {
-    userHasPermission: () => false,
     userHasRole: () => false,
 }
 
@@ -32,12 +26,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return (
         <AuthContext.Provider
             value={{
-                userHasPermission: (permissionName, userParam) =>
-                    userHasPermission(
-                        permissionName,
-                        userParam ?? user ?? undefined,
-                    ),
-
                 userHasRole: (roleName, userParam) =>
                     userHasRole(roleName, userParam ?? user ?? undefined),
             }}>

@@ -64,9 +64,6 @@ export default function UnitTxForm({
     //             .catch(error => errorCatcher(error, setErrors)),
     // })
 
-    // const { userHasPermission } = useAuth()
-    // const isUserCanDelete = userHasPermission('transactions delete')
-
     const isProcessing = isSubmitting //|| isDeleting
 
     const isDisabled = isProcessing

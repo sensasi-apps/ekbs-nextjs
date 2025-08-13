@@ -43,18 +43,19 @@ import formatNumber from '@/utils/formatNumber'
 import blinkSxValue from '@/utils/blinkSxValue'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let currentUserUuid: UUID | undefined
 
 export default function Page() {
     const user = useAuthInfo()
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     currentUserUuid = user?.uuid
 
     return (
         <AuthLayout title="Daftar Tiket REA">
-            {userHasPermission(PalmBunch.READ_STATISTIC) && (
+            {isAuthHasPermission(PalmBunch.READ_STATISTIC) && (
                 <Box mb={4} display="flex" gap={1}>
                     <Button
                         startIcon={<BackupTable />}
@@ -80,7 +81,7 @@ export default function Page() {
 }
 
 function Crud() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const { query } = useRouter()
 
     const {
@@ -174,7 +175,7 @@ function Crud() {
             </Dialog>
 
             <Fab
-                in={userHasPermission(PalmBunch.CREATE_TICKET)}
+                in={isAuthHasPermission(PalmBunch.CREATE_TICKET)}
                 disabled={formOpen}
                 onClick={handleCreate}>
                 <ReceiptIcon />
