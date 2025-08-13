@@ -21,11 +21,13 @@ import { useRouter } from 'next/router'
 import { aoaToXlsx, type AoaRows } from '@/functions/aoaToXlsx'
 import { useEffect, useState } from 'react'
 import BackButton from '@/components/back-button'
-import useAuth from '@/providers/Auth'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
 
 export default function Page() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const {
         query: { from_date, till_date },
@@ -45,7 +47,7 @@ export default function Page() {
             : null,
     )
 
-    if (!userHasPermission(PalmBunch.READ_STATISTIC)) {
+    if (!isAuthHasPermission(PalmBunch.READ_STATISTIC)) {
         return null
     }
 

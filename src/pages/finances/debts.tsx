@@ -29,14 +29,16 @@ import handle422 from '@/utils/errorCatcher'
 import numberToCurrency from '@/utils/numberToCurrency'
 import shortUuid from '@/utils/uuidToShort'
 import toDmy from '@/utils/toDmy'
-import useAuth from '@/providers/Auth'
+// enums
 import Finance from '@/enums/permissions/Finance'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let getRowData: GetRowDataType<Debt>
 let mutate: Mutate<Debt>
 
 export default function Debts() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const [formValues, setFormValues] = useState<FormValuesType>()
     const [debtDetail, setDebtDetail] = useState<Debt['details'][0]>()
     const [debtData, setDebtData] = useState<Partial<Debt>>()
@@ -139,7 +141,7 @@ export default function Debts() {
             </DialogWithTitle>
 
             <Fab
-                in={userHasPermission(Finance.CREATE_DEBT)}
+                in={isAuthHasPermission(Finance.CREATE_DEBT)}
                 disabled={!!formValues}
                 onClick={() => {
                     setFormValues({

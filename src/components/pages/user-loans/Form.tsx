@@ -34,7 +34,6 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 import UserAutocomplete from '@/components/UserAutocomplete'
 // utils
 import getLoanStatusColor from '@/utils/getLoanStatusColor'
-import useAuth from '@/providers/Auth'
 import errorCatcher from '@/utils/errorCatcher'
 // local components
 import type { UserLoanFormDataType } from './Form/types'
@@ -44,6 +43,9 @@ import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import Role from '@/enums/Role'
 import useAuthInfo from '@/hooks/use-auth-info'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 export default function LoanForm({
     errors,
@@ -61,7 +63,8 @@ export default function LoanForm({
 
     const currentUser = useAuthInfo()
 
-    const { userHasRole, userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
+    const isAuthHasRole = useIsAuthHasRole()
 
     const mode: 'applier' | 'manager' = status.mode
     const userLoanFromDb: UserLoanType | null = status.userLoanFromDb
@@ -71,7 +74,7 @@ export default function LoanForm({
     )
 
     const isApplierMode = mode === 'applier'
-    const isManager = userHasRole(Role.USER_LOAN_MANAGER) && !isApplierMode
+    const isManager = isAuthHasRole(Role.USER_LOAN_MANAGER) && !isApplierMode
 
     const { handleSubmit: handleDelete, isSubmitting: isDeleting } = useFormik({
         initialValues: {},
@@ -126,7 +129,7 @@ export default function LoanForm({
 
     const isUserCanDelete =
         !isNew &&
-        userHasPermission('delete own loan') &&
+        isAuthHasPermission('delete own loan') &&
         isCreatedByCurrentUser &&
         !hasResponses
 
@@ -302,7 +305,7 @@ export default function LoanForm({
 
                 <NumericFormat
                     label={'Persentase Jasa per ' + values.term_unit}
-                    disabled={isDisabled || !userHasRole(Role.EMPLOYEE)}
+                    disabled={isDisabled || !isAuthHasRole(Role.EMPLOYEE)}
                     decimalScale={1}
                     value={values.interest_percent}
                     name={'interest_percent'}

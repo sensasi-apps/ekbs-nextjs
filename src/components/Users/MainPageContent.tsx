@@ -22,13 +22,13 @@ import UserSocialsCrudBox from '@/components/User/Socials/CrudBox'
 import UserVehiclesCrudBox from '@/components/User/Vehicles/CrudBox'
 // utils
 import useUserWithDetails from '@/providers/UserWithDetails'
-import useAuth from '@/providers/Auth'
 import Role from '@/enums/Role'
 import UserCard from '../User/Card'
+// hooks
+import { isUserHasRole } from '@/hooks/use-is-auth-has-role'
 
 export default function UsersMainPageContent() {
     const { replace, query } = useRouter()
-    const { userHasRole } = useAuth()
 
     const {
         data: userWithDetails = {},
@@ -99,7 +99,7 @@ export default function UsersMainPageContent() {
                 </Card>
 
                 <Fade
-                    in={userHasRole(Role.EMPLOYEE, userWithDetails)}
+                    in={isUserHasRole(Role.EMPLOYEE, userWithDetails)}
                     unmountOnExit
                     exit={false}>
                     <Card>
@@ -115,14 +115,14 @@ export default function UsersMainPageContent() {
                 </Fade>
 
                 <Fade
-                    in={userHasRole(Role.MEMBER, userWithDetails)}
+                    in={isUserHasRole(Role.MEMBER, userWithDetails)}
                     unmountOnExit
                     exit={false}>
                     <UserMemberCrudCard />
                 </Fade>
 
                 <Fade
-                    in={userHasRole(Role.FARMER, userWithDetails)}
+                    in={isUserHasRole(Role.FARMER, userWithDetails)}
                     unmountOnExit
                     exit={false}>
                     <Card>
@@ -138,7 +138,7 @@ export default function UsersMainPageContent() {
                 </Fade>
 
                 <Fade
-                    in={userHasRole(Role.DRIVER, userWithDetails)}
+                    in={isUserHasRole(Role.DRIVER, userWithDetails)}
                     unmountOnExit
                     exit={false}>
                     <Card>
@@ -157,7 +157,7 @@ export default function UsersMainPageContent() {
                 </Fade>
 
                 <Fade
-                    in={userHasRole(Role.DRIVER, userWithDetails)}
+                    in={isUserHasRole(Role.DRIVER, userWithDetails)}
                     unmountOnExit
                     exit={false}>
                     <Card>
@@ -176,7 +176,7 @@ export default function UsersMainPageContent() {
                 </Fade>
 
                 <Fade
-                    in={userHasRole(Role.DRIVER, userWithDetails)}
+                    in={isUserHasRole(Role.DRIVER, userWithDetails)}
                     unmountOnExit
                     exit={false}>
                     <Card>

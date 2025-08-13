@@ -20,18 +20,19 @@ import HeavyEquipmentRentForm, {
     type HeavyEquipmentRentFormValues,
 } from '@/components/pages/heavy-equipments-rents/Form'
 import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-rents/Datatable'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 // enums
 import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
+import HerPermission from '@/enums/permissions/HeavyEquipmentRent'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let mutate: MutateType<RentItemRent>
 let getRowData: GetRowDataType<RentItemRent>
 
 export default function HeavyEquipmentRent() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -144,7 +145,7 @@ export default function HeavyEquipmentRent() {
             </DialogWithTitle>
 
             <Fab
-                in={userHasPermission('create heavy equipment rent') ?? false}
+                in={isAuthHasPermission(HerPermission.CREATE) ?? false}
                 onClick={handleNew}>
                 <EventNoteIcon />
             </Fab>

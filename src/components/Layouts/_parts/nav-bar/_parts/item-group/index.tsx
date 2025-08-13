@@ -4,22 +4,19 @@ import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 import type NavItemGroup from '../../types/nav-item-group'
 import NavBarListItem from './_parts/list-item'
-import useAuth from '@/providers/Auth'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 export default function NavBarItemGroup({
     data: { label, items },
 }: {
     data: NavItemGroup
 }) {
-    const { userHasRole, userHasPermission } = useAuth()
+    const getIsShowMenuItemToUser = useIsShowMenu()
 
     const filteredItems = items.filter(({ forRole, forPermission }) =>
-        getIsShowMenuItemToUser(
-            forRole,
-            forPermission,
-            userHasRole,
-            userHasPermission,
-        ),
+        getIsShowMenuItemToUser(forRole, forPermission),
     )
 
     if (filteredItems.length === 0) return
@@ -49,25 +46,26 @@ export default function NavBarItemGroup({
     )
 }
 
-type AuthContextType = ReturnType<typeof useAuth>
+function useIsShowMenu() {
+    const isAuthHasPermission = useIsAuthHasPermission()
+    const isAuthHasRole = useIsAuthHasRole()
 
-function getIsShowMenuItemToUser(
-    forRole: NavItemGroup['items'][0]['forRole'],
-    forPermission: NavItemGroup['items'][0]['forPermission'],
-    userHasRole: AuthContextType['userHasRole'],
-    userHasPermission: AuthContextType['userHasPermission'],
-): boolean {
-    if (forRole && forPermission) {
-        return userHasRole(forRole) || userHasPermission(forPermission)
+    return function getIsShowMenuItemToUser(
+        forRole: NavItemGroup['items'][number]['forRole'],
+        forPermission: NavItemGroup['items'][number]['forPermission'],
+    ): boolean {
+        if (forRole && forPermission) {
+            return isAuthHasRole(forRole) || isAuthHasPermission(forPermission)
+        }
+
+        if (forRole) {
+            return isAuthHasRole(forRole)
+        }
+
+        if (forPermission) {
+            return isAuthHasPermission(forPermission)
+        }
+
+        return true
     }
-
-    if (forRole) {
-        return userHasRole(forRole)
-    }
-
-    if (forPermission) {
-        return userHasPermission(forPermission)
-    }
-
-    return true
 }

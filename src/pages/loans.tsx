@@ -6,8 +6,6 @@ import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/ty
 import axios from '@/lib/axios'
 import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
-// icons
-// import PaymentsIcon from '@mui/icons-material/Payments'
 // components
 import AuthLayout from '@/components/Layouts/AuthLayout'
 // import Fab from '@/components/Fab'
@@ -17,22 +15,14 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 // utils
-// import useAuth from '@/providers/Auth'
 import errorCatcher from '@/utils/errorCatcher'
 
 export default function Loans() {
-    // const { userHasPermission } = useAuth()
     const [values, setValues] = useState(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [userLoanFromDb, setUserLoanFromDb] = useState<UserLoanType | null>(
         null,
     )
-
-    // const handleNew = useCallback(() => {
-    //     setValues(INITIAL_VALUES)
-    //     setUserLoanFromDb(null)
-    //     setDialogOpen(true)
-    // }, [])
 
     const handleEdit = useCallback((values: UserLoanType) => {
         setValues({
@@ -69,8 +59,6 @@ export default function Loans() {
             .catch(error => errorCatcher(error, setErrors))
     }
 
-    // if (userHasPermission('cashes read') === false) return null
-
     const title = !userLoanFromDb
         ? 'Ajukan Pinjaman Baru'
         : userLoanFromDb.responses?.length > 0
@@ -93,10 +81,6 @@ export default function Loans() {
                     component={LoanForm}
                 />
             </DialogWithTitle>
-
-            {/* <Fab onClick={handleNew} aria-label="Ajukan pinjaman baru">
-                <PaymentsIcon />
-            </Fab> */}
         </AuthLayout>
     )
 }

@@ -21,27 +21,29 @@ import GradingItemInputs from './Form/GradingItemInputs'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
 import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
-// hooks
-import useValidationErrors from '@/hooks/useValidationErrors'
 import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
-import useAuth from '@/providers/Auth'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useValidationErrors from '@/hooks/useValidationErrors'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 // enums
 import Role from '@/enums/Role'
 import ReaTiketPaymentDetailView from './Form/ReaTiketPaymentDetailView'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 
-export default function PalmBuncesReaTicketForm({
+export default function PalmBunchesReaTicketForm({
     data,
     actionsSlot,
     loading,
     setSubmitting,
     onSubmitted,
 }: FormType<PalmBunchesReaTicket>) {
-    const { userHasRole, userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
+    const isAuthHasRole = useIsAuthHasRole()
 
     const disabled =
         Boolean(loading || (data?.delivery?.transactions?.length || 0) > 0) ||
-        !userHasRole([Role.PALM_BUNCH_MANAGER, Role.PALM_BUNCH_ADMIN])
+        !isAuthHasRole([Role.PALM_BUNCH_MANAGER, Role.PALM_BUNCH_ADMIN])
 
     const { validationErrors, setValidationErrors, clearByName } =
         useValidationErrors()
@@ -108,7 +110,7 @@ export default function PalmBuncesReaTicketForm({
                 clearByName={clearByName}
             />
 
-            {userHasRole(Role.PALM_BUNCH_MANAGER) && (
+            {isAuthHasRole(Role.PALM_BUNCH_MANAGER) && (
                 <>
                     <ReaTiketPaymentDetailView data={data} />
 
@@ -135,14 +137,14 @@ export default function PalmBuncesReaTicketForm({
             )}
 
             {!data?.delivery?.transactions?.length &&
-                userHasPermission([
+                isAuthHasPermission([
                     PalmBunch.CREATE_TICKET,
                     PalmBunch.UPDATE_TICKET,
                 ]) &&
                 actionsSlot}
 
             {/* TODO: refactor to permission based */}
-            {userHasRole(Role.PALM_BUNCH_MANAGER) &&
+            {isAuthHasRole(Role.PALM_BUNCH_MANAGER) &&
                 data.id &&
                 data.delivery && (
                     <UserActivityLog

@@ -27,8 +27,6 @@ import ProductPurchaseForm, {
 } from '@/components/pages/farm-inputs/product-purchases/Form'
 // icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
 import formatNumber from '@/utils/formatNumber'
@@ -38,12 +36,14 @@ import toDmy from '@/utils/toDmy'
 // enums
 import FarmInput from '@/enums/permissions/FarmInput'
 import ApiUrlEnum from '@/components/pages/farm-inputs/ApiUrlEnum'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let getRowData: GetRowDataType<ProductPurchaseType>
 let mutate: MutateType<ProductPurchaseType>
 
 export default function FarmInputsProducts() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -109,7 +109,7 @@ export default function FarmInputsProducts() {
                 mutateCallback={fn => (mutate = fn)}
             />
 
-            {userHasPermission([
+            {isAuthHasPermission([
                 FarmInput.CREATE_PRODUCT_PURCHASE,
                 FarmInput.UPDATE_PRODUCT_PURCHASE,
             ]) && (
@@ -131,7 +131,7 @@ export default function FarmInputsProducts() {
 
             <Fab
                 onClick={handleNew}
-                in={userHasPermission(FarmInput.CREATE_PRODUCT_PURCHASE)}>
+                in={isAuthHasPermission(FarmInput.CREATE_PRODUCT_PURCHASE)}>
                 <ShoppingCartIcon />
             </Fab>
         </AuthLayout>

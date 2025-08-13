@@ -3,6 +3,8 @@
 // types
 import type CashType from '@/dataTypes/Cash'
 import type { KeyedMutator } from 'swr'
+// enums
+import CashPermission from '@/enums/permissions/Cash'
 // vendors
 import useSWR from 'swr'
 import { memo } from 'react'
@@ -17,10 +19,10 @@ import Typography from '@mui/material/Typography'
 // icons
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 export let mutate: KeyedMutator<CashType[]>
 
@@ -31,7 +33,7 @@ const CashList = memo(function CashList({
     onNew: () => void
     onEdit: (values: CashType) => void
 }) {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const {
         data: cashes = [],
@@ -57,7 +59,7 @@ const CashList = memo(function CashList({
         )
     }
 
-    if (userHasPermission('cashes read') === false) return null
+    if (isAuthHasPermission(CashPermission.READ) === false) return null
 
     return (
         <Box
@@ -75,7 +77,7 @@ const CashList = memo(function CashList({
                 </div>
             ))}
 
-            {!isLoading && userHasPermission('cashes create') && (
+            {!isLoading && isAuthHasPermission(CashPermission.CREATE) && (
                 <Button
                     fullWidth
                     sx={{
@@ -101,9 +103,9 @@ const ThisCard = ({
     data: CashType
     onEdit: (values: CashType) => void
 }) => {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
-    const isUserCanUpdate = userHasPermission('cashes update')
+    const isUserCanUpdate = isAuthHasPermission(CashPermission.UPDATE)
 
     const { code, name, balance } = data
 

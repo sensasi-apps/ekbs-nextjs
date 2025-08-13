@@ -11,10 +11,11 @@ import CashForm, { INITIAL_VALUES } from './Form'
 import CashList, { mutate } from './List'
 // utils
 import errorCatcher from '@/utils/errorCatcher'
-import useAuth from '@/providers/Auth'
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import Cash from '@/enums/permissions/Cash'
 
 export default function CashCrud() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const [values, setValues] = useState<Partial<CashType>>(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -43,7 +44,7 @@ export default function CashCrud() {
             [],
         )
 
-    if (userHasPermission('cashes read') === false) return null
+    if (isAuthHasPermission(Cash.READ) === false) return null
 
     return (
         <>

@@ -12,17 +12,19 @@ import Grid from '@mui/material/GridLegacy'
 import Typography from '@mui/material/Typography'
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
-// providers
-import useAuth from '@/providers/Auth'
 // components
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
 import FormLoadingBar from '@/components/Dialog/LoadingBar'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
+import { mutate } from './List'
 import errorCatcher from '@/utils/errorCatcher'
 import numberToCurrency from '@/utils/numberToCurrency'
-import { mutate } from './List'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// enums
+import CashPermission from '@/enums/permissions/Cash'
 
 export const INITIAL_VALUES: Partial<CashType> = {}
 
@@ -34,10 +36,10 @@ export default function CashForm({
     handleReset,
     setErrors,
 }: FormikProps<Partial<CashType>>) {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const isNew = !values.uuid
-    const isUserCanDelete = userHasPermission('cashes delete')
+    const isUserCanDelete = isAuthHasPermission(CashPermission.DELETE)
     const isZeroBalance = values?.balance === 0
     const isDeletable = !isNew && isUserCanDelete && isZeroBalance
 

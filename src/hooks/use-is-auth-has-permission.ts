@@ -1,9 +1,18 @@
+import type { Permission } from '@/types/permission'
+import useAuthInfo from './use-auth-info'
 import type AuthInfo from '@/features/user--auth/types/auth-info'
 import Role from '@/enums/Role'
 
-export default function userHasPermission(
-    permissionName: string | string[],
-    userParam?: AuthInfo,
+export default function useIsAuthHasPermission() {
+    const authInfo = useAuthInfo()
+
+    return (permissionName: Permission | Permission[]) =>
+        isUserHasPermission(permissionName, authInfo)
+}
+
+function isUserHasPermission(
+    permissionName: Permission | Permission[],
+    userParam: AuthInfo | undefined,
 ) {
     if (!userParam) return false
 

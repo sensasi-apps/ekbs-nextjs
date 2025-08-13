@@ -20,8 +20,6 @@ import Fab from '@/components/Fab'
 import ProductForm from '@/components/Product/Form'
 // page components
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
-// providers
-import useAuth from '@/providers/Auth'
 // utils
 import numberToCurrency from '@/utils/numberToCurrency'
 import formatNumber from '@/utils/formatNumber'
@@ -30,13 +28,17 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import axios from '@/lib/axios'
 import ApiUrlEnum from '@/components/Product/ApiUrlEnum'
 import handle422 from '@/utils/errorCatcher'
+// enums
 import Warehouse from '@/enums/Warehouse'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import FarmInputPermission from '@/enums/permissions/FarmInput'
 
 let mutate: MutateType<ProductType>
 let getRowData: GetRowDataType<ProductType>
 
 export default function FarmInputsProducts() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const [isFormOpen, setIsFormOpen] = useState(false)
 
@@ -112,8 +114,10 @@ export default function FarmInputsProducts() {
 
             <Fab
                 in={
-                    userHasPermission(['create product', 'update product']) ??
-                    false
+                    isAuthHasPermission([
+                        FarmInputPermission.CREATE_PRODUCT,
+                        FarmInputPermission.UPDATE_PRODUCT,
+                    ]) ?? false
                 }
                 onClick={() => {
                     setInitialFormikValues({

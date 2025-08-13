@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography'
 import FireTruck from '@mui/icons-material/FireTruck'
 import Forest from '@mui/icons-material/Forest'
 // components
-import useAuth from '@/providers/Auth'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import BigNumberCard, {
     type BigNumberCardProps,
@@ -20,7 +19,9 @@ import BigNumberCard, {
 import AlertListCard from '@/components/pages/dashboard/AlertListCard'
 // enums
 import Role from '@/enums/Role'
+// hooks
 import useAuthInfo from '@/hooks/use-auth-info'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 /**
  * The `Page` component represents the dashboard page of the application.
@@ -30,17 +31,17 @@ import useAuthInfo from '@/hooks/use-auth-info'
  */
 export default function Page() {
     const user = useAuthInfo()
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
 
     const { data: { palmBunchesDelivery, palmBunches } = {} } =
         useSWR<ApiResponseType>(
-            userHasRole([Role.FARMER, Role.COURIER])
+            isAuthHasRole([Role.FARMER, Role.COURIER])
                 ? 'me/participations'
                 : null,
         )
 
     const { data = [] } = useSWR<BigNumberCardProps[]>(
-        userHasRole([Role.SUPERMAN]) ? 'data/dashboard' : null,
+        isAuthHasRole([Role.SUPERMAN]) ? 'data/dashboard' : null,
     )
 
     return (
@@ -72,7 +73,7 @@ export default function Page() {
                     },
                 }}
                 mb={6}>
-                {userHasRole(Role.FARMER) && palmBunches && (
+                {isAuthHasRole(Role.FARMER) && palmBunches && (
                     <BigNumberCard
                         {...palmBunches.bigNumber1}
                         title={
@@ -84,7 +85,7 @@ export default function Page() {
                     />
                 )}
 
-                {userHasRole(Role.COURIER) && palmBunchesDelivery && (
+                {isAuthHasRole(Role.COURIER) && palmBunchesDelivery && (
                     <BigNumberCard
                         {...palmBunchesDelivery.bigNumber1}
                         title={

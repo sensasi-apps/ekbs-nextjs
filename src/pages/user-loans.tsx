@@ -21,17 +21,18 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 // utils
-import useAuth from '@/providers/Auth'
 import errorCatcher from '@/utils/errorCatcher'
 import UserLoan from '@/enums/permissions/UserLoan'
 import FlexColumnBox from '@/components/FlexColumnBox'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let mutateUserLoans: MutateType<UserLoanType>
 
 export default function UserLoans() {
     const { query } = useRouter()
 
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const [values, setValues] = useState(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [userLoanFromDb, setUserLoanFromDb] = useState<UserLoanType | null>(
@@ -114,7 +115,7 @@ export default function UserLoans() {
             <Fab
                 aria-label="Ajukan pinjaman baru"
                 onClick={handleNew}
-                in={userHasPermission(UserLoan.CREATE)}>
+                in={isAuthHasPermission(UserLoan.CREATE)}>
                 <PaymentsIcon />
             </Fab>
         </AuthLayout>

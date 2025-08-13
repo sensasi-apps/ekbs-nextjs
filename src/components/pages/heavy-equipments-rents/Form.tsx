@@ -26,8 +26,6 @@ import UserActivityLogs from '@/components/UserActivityLogs'
 // utils
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
-// providers
-import useAuth from '@/providers/Auth'
 // enums
 import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
 import HerPaymentFields from './Form/PaymentFields'
@@ -37,6 +35,8 @@ import ApiUrlEnum from './ApiUrlEnum'
 import handle422 from '@/utils/errorCatcher'
 import PrintHandler from '@/components/PrintHandler'
 import PrintPage from './Form/print-page'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     dirty,
@@ -50,7 +50,7 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
 }: FormikProps<HeavyEquipmentRentFormValues> & {
     mutate: () => void
 }) {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const {
         uuid,
@@ -89,14 +89,14 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     const isDisabled =
         is_paid ||
         isPropcessing ||
-        !userHasPermission([
+        !isAuthHasPermission([
             HeavyEquipmentRent.CREATE,
             HeavyEquipmentRent.UPDATE,
         ]) ||
         isDeleting
 
     const isRentCanBeDeleted =
-        userHasPermission(HeavyEquipmentRent.DELETE) &&
+        isAuthHasPermission(HeavyEquipmentRent.DELETE) &&
         !isHerTaskFinished &&
         !isNew
 

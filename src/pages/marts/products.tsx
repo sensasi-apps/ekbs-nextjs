@@ -32,19 +32,19 @@ import handle422 from '@/utils/errorCatcher'
 import formatNumber from '@/utils/formatNumber'
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 import numberToCurrency from '@/utils/numberToCurrency'
-// etc
-import useAuth from '@/providers/Auth'
 // enums
 import Mart from '@/enums/permissions/Mart'
 import Warehouse from '@/dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
 // utils
 import { aoaToXlsx } from '@/functions/aoaToXlsx'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let mutate: MutateType<Product>
 let getRowData: GetRowDataType<Product>
 
 export default function Products() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const [selectedRow, setSelectedRow] = useState<Product>()
     const [formValues, setFormValues] = useState<FormValues>()
@@ -146,7 +146,7 @@ export default function Products() {
             </DialogWithTitle>
 
             <Fab
-                in={userHasPermission(Mart.CREATE_PRODUCT)}
+                in={isAuthHasPermission(Mart.CREATE_PRODUCT)}
                 disabled={!!formValues}
                 onClick={() => {
                     setFormValues({

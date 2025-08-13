@@ -7,19 +7,21 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 // icons-materials
 import HistoryIcon from '@mui/icons-material/History'
-//
+// components
 import IconButton from '@/components/IconButton'
 import Datatable from './components/datatable'
 import BalanceInSummary from './components/balance-in-summary'
 import SalesReport from './components/sales-report'
-import useAuth from '@/providers/Auth'
+// enums
 import Mart from '@/enums/permissions/Mart'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 export default function HistoryDatatableModalAndButton() {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState(0)
 
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     const handleChange = (_: unknown, newValue: number) => {
         setValue(newValue)
@@ -48,7 +50,7 @@ export default function HistoryDatatableModalAndButton() {
                         <Tab label="Semua" {...a11yProps(0)} />
                         <Tab label="Saldo Masuk" {...a11yProps(1)} />
 
-                        {userHasPermission(Mart.READ_SALE_REPORT) && (
+                        {isAuthHasPermission(Mart.READ_SALE_REPORT) && (
                             <Tab label="Rincian Marjin" {...a11yProps(2)} />
                         )}
                     </Tabs>
@@ -62,7 +64,7 @@ export default function HistoryDatatableModalAndButton() {
                     </Box>
                 </CustomTabPanel>
 
-                {userHasPermission(Mart.READ_SALE_REPORT) && (
+                {isAuthHasPermission(Mart.READ_SALE_REPORT) && (
                     <CustomTabPanel value={value} index={2}>
                         <Box p={4}>
                             <SalesReport />

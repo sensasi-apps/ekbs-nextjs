@@ -1,5 +1,5 @@
 // types
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 // vendors
 import useSWR from 'swr'
 // materials
@@ -20,11 +20,11 @@ import LineChart from '@/components/Chart/Line'
 import AuthLayout from '@/components/Layouts/AuthLayout'
 import StatCard from '@/components/StatCard'
 // utils
-import useAuth from '@/providers/Auth'
 import Role from '@/enums/Role'
 import BigNumberCard, {
     type BigNumberCardProps,
 } from '@/components/big-number-card'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 export interface ApiResponseType {
     palmBunches: SectionData
@@ -37,18 +37,18 @@ export interface ApiResponseType {
  * Participations mean the user's activities in the cooperative's business units.
  */
 export default function Page() {
-    const { userHasRole } = useAuth()
+    const isUserHasRole = useIsAuthHasRole()
 
     const { data: { farmInputs, palmBunchesDelivery, palmBunches } = {} } =
         useSWR<ApiResponseType>(
-            userHasRole(Role.MEMBER) ? 'me/participations' : null,
+            isUserHasRole(Role.MEMBER) ? 'me/participations' : null,
         )
 
-    if (!userHasRole(Role.MEMBER)) return <NonMemberPage />
+    if (!isUserHasRole(Role.MEMBER)) return <NonMemberPage />
 
     return (
         <AuthLayout title="Partisipasi Anda">
-            {userHasRole(Role.FARMER) && (
+            {isUserHasRole(Role.FARMER) && (
                 <Section
                     title="TBS — Jual"
                     iconTitle={<Forest />}
@@ -57,7 +57,7 @@ export default function Page() {
                 />
             )}
 
-            {userHasRole(Role.COURIER) && (
+            {isUserHasRole(Role.COURIER) && (
                 <Section
                     title="TBS — Angkut"
                     iconTitle={<Forest />}

@@ -45,13 +45,14 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errorsToHelperTextObj'
 import numberToCurrency from '@/utils/numberToCurrency'
-import useAuth from '@/providers/Auth'
 import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums
-import Role from '@/enums/Role'
 import type ProductMovement from '@/dataTypes/ProductMovement'
+import Role from '@/enums/Role'
 import Warehouse from '@/enums/Warehouse'
+// hooks
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 const ProductSaleForm = memo(function ProductSaleForm({
     dirty,
@@ -77,7 +78,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
     const [userAutocompleteValue, setUserAutocompleteValue] =
         useState<User | null>(buyer_user ?? null)
 
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
 
     const totalRp =
         product_sale_details?.reduce(
@@ -97,12 +98,12 @@ const ProductSaleForm = memo(function ProductSaleForm({
     const isDisabled = isPropcessing || !isNew
     const isBalanceEnough = (wallet?.balance ?? 0) >= totalRp
     const isNeedToDetermineWarehouse =
-        userHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE) ===
-        userHasRole(Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE)
+        isAuthHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE) ===
+        isAuthHasRole(Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE)
 
     const warehouseAuto = isNeedToDetermineWarehouse
         ? undefined
-        : userHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE)
+        : isAuthHasRole(Role.FARM_INPUT_SALES_MUAI_WAREHOUSE)
           ? Warehouse.MUAI
           : Warehouse.PULAU_PINANG
 
@@ -527,7 +528,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
                 </>
             )}
 
-            {userHasRole(Role.FARM_INPUT_MANAGER) && !isNew && (
+            {isAuthHasRole(Role.FARM_INPUT_MANAGER) && !isNew && (
                 <UserActivityLogs
                     data={typedStatus?.user_activity_logs ?? []}
                 />

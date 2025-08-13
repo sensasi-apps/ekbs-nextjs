@@ -1,13 +1,84 @@
-// types
-import type { AxiosError } from 'axios'
 // vendors
-import { useEffect, useState, type FormEvent } from 'react'
+import { AxiosError } from 'axios'
+import { sha3_256 } from 'js-sha3'
+import { useEffect, useState, useCallback, type FormEvent } from 'react'
 import { useRouter } from 'next/router'
-// hooks
-import useAuth from '@/providers/Auth'
+//
+import type AuthInfo from '@/features/user--auth/types/auth-info'
+import axios from '@/lib/axios'
+import useAuthInfoState from '@/hooks/use-auth-info-state'
 
+// ============================
+// Helpers
+// ============================
+function parseBase64Response(encoded: string) {
+    try {
+        return JSON.parse(atob(encoded)) as { status: number; message: string }
+    } catch {
+        return { status: 500, message: 'Terjadi kesalahan' }
+    }
+}
+
+function createAuthInfoKey(email: string, password: string) {
+    return sha3_256(email + password)
+}
+
+function getStoredAuthInfo(
+    email: string,
+    password: string,
+): AuthInfo | undefined {
+    const key = createAuthInfoKey(email, password)
+    const stored = localStorage.getItem(key)
+    return stored ? (JSON.parse(stored) as AuthInfo) : undefined
+}
+
+async function loginUser(
+    email: string,
+    password: string,
+    setAuthInfo: (info: AuthInfo | undefined) => void,
+) {
+    const key = createAuthInfoKey(email, password)
+    const storedAuthInfo = getStoredAuthInfo(email, password)
+
+    setAuthInfo(storedAuthInfo)
+
+    try {
+        const { data } = await axios.post<AuthInfo>('/login', {
+            email,
+            password,
+        })
+        const dataJson = JSON.stringify(data)
+
+        if (JSON.stringify(storedAuthInfo) !== dataJson) {
+            setAuthInfo(data)
+            localStorage.setItem(key, dataJson)
+        }
+    } catch (err) {
+        const error = err as AxiosError<{ message?: string }>
+        if (error.code === AxiosError.ERR_NETWORK && storedAuthInfo) {
+            return
+        }
+
+        setAuthInfo(undefined)
+        throw error
+    }
+}
+
+function buildErrorResponse(err: AxiosError<{ message?: string }>) {
+    return {
+        status: err.response?.status,
+        message:
+            err.response?.data.message ??
+            err.response?.statusText ??
+            err.message,
+    }
+}
+
+// ============================
+// Hook
+// ============================
 export function useHooks() {
-    const { login } = useAuth()
+    const [, setAuthInfo] = useAuthInfoState()
     const { query, replace } = useRouter()
     const { response } = query
 
@@ -15,43 +86,24 @@ export function useHooks() {
     const [message, setMessage] = useState<string>()
     const [isLoading, setIsLoading] = useState(false)
 
-    /**
-     * Handle response from url params
-     * redirection from:
-     *  - oauth-backend redirection
-     *  - reset-password page
-     */
+    // Handle response from URL params (OAuth / Reset Password redirection)
     useEffect(() => {
-        if (response) {
-            let temp: {
-                status: number
-                message: string
-            }
+        if (!response) return
+        const parsed = parseBase64Response(response as string)
 
-            try {
-                temp = JSON.parse(atob(response as string))
-            } catch {
-                temp = { status: 500, message: 'Terjadi kesalahan' }
-            }
-
-            if (temp.status === 200) {
-                setIsLoading(true)
-            } else {
-                setMessage(temp.message)
-                setIsError(temp.status >= 400)
-            }
+        if (parsed.status === 200) {
+            setIsLoading(true)
+        } else {
+            setMessage(parsed.message)
+            setIsError(parsed.status >= 400)
         }
     }, [response])
 
-    return {
-        isLoading,
-        isError,
-        message,
-        handleSubmit: (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = useCallback(
+        async (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault()
 
             const formEl = event.currentTarget
-
             if (!formEl.checkValidity()) {
                 formEl.reportValidity()
                 return
@@ -62,32 +114,23 @@ export function useHooks() {
             setMessage(undefined)
 
             const formData = new FormData(formEl)
+            const email = formData.get('email') as string
+            const password = formData.get('password') as string
 
-            login(
-                formData.get('email') as string,
-                formData.get('password') as string,
-            ).catch(
-                ({
-                    response,
-                    message,
-                }: AxiosError<{
-                    message?: string
-                }>) => {
-                    const errorResponse = {
-                        status: response?.status,
-                        message:
-                            response?.data.message ??
-                            response?.statusText ??
-                            message,
-                    }
-
-                    setIsLoading(false)
-
-                    replace(
-                        `/login?response=${btoa(JSON.stringify(errorResponse))}`,
-                    )
-                },
-            )
+            try {
+                await loginUser(email, password, setAuthInfo)
+            } catch (err) {
+                const errorResponse = buildErrorResponse(
+                    err as AxiosError<{ message?: string }>,
+                )
+                setIsLoading(false)
+                replace(
+                    `/login?response=${btoa(JSON.stringify(errorResponse))}`,
+                )
+            }
         },
-    }
+        [setAuthInfo, replace],
+    )
+
+    return { isLoading, isError, message, handleSubmit }
 }

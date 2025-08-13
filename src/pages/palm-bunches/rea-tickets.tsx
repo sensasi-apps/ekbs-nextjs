@@ -34,7 +34,6 @@ import MainForm from '@/components/PalmBunchesReaTicket/Form'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 // providers
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
-import useAuth from '@/providers/Auth'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/Role'
@@ -43,18 +42,20 @@ import formatNumber from '@/utils/formatNumber'
 import blinkSxValue from '@/utils/blinkSxValue'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 let currentUserUuid: UUID | undefined
 
 export default function Page() {
     const user = useAuthInfo()
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     currentUserUuid = user?.uuid
 
     return (
         <AuthLayout title="Daftar Tiket REA">
-            {userHasPermission(PalmBunch.READ_STATISTIC) && (
+            {isAuthHasPermission(PalmBunch.READ_STATISTIC) && (
                 <Box mb={4} display="flex" gap={1}>
                     <Button
                         startIcon={<BackupTable />}
@@ -80,7 +81,7 @@ export default function Page() {
 }
 
 function Crud() {
-    const { userHasPermission } = useAuth()
+    const isAuthHasPermission = useIsAuthHasPermission()
     const { query } = useRouter()
 
     const {
@@ -174,7 +175,7 @@ function Crud() {
             </Dialog>
 
             <Fab
-                in={userHasPermission(PalmBunch.CREATE_TICKET)}
+                in={isAuthHasPermission(PalmBunch.CREATE_TICKET)}
                 disabled={formOpen}
                 onClick={handleCreate}>
                 <ReceiptIcon />
@@ -416,7 +417,7 @@ const SX_FOR_BADGE = {
 }
 
 function FilterChips() {
-    const { userHasRole } = useAuth()
+    const isAuthHasRole = useIsAuthHasRole()
     const { query, replace } = useRouter()
     const filter = query.filter
 
@@ -442,7 +443,7 @@ function FilterChips() {
 
             <div>
                 <Collapse
-                    in={userHasRole(Role.PALM_BUNCH_MANAGER)}
+                    in={isAuthHasRole(Role.PALM_BUNCH_MANAGER)}
                     orientation="horizontal">
                     <Chip
                         sx={stats?.unvalidated ? SX_FOR_BADGE : undefined}

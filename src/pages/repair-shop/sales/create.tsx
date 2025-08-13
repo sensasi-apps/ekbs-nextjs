@@ -1,14 +1,19 @@
 // vendors
 import { useRouter } from 'next/router'
-import userHasPermission from '@/providers/Auth/userHasPermission'
 // features
-import Permission from '@/features/repair-shop--sale/enums/permission'
+// import Permission from '@/features/repair-shop--sale/enums/permission'
 import SaleFormDialog from '@/features/repair-shop--sale/components/sale-form-dialog'
 import { The401Protection } from '@/components/Layouts/auth-layout.401-protection'
 
 export default function Page() {
     const { back } = useRouter()
-    userHasPermission(Permission.CREATE)
+
+    /**
+     * TODO: will create hook that will disabled page is auth has no permission
+     *
+     * @see https://github.com/sensasi-apps/ekbs-nextjs/issues/372
+     */
+    // isAuthHasPermission(Permission.CREATE)
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { getCurrentAuthInfo } from '@/providers/Auth/functions/getCurrentAuthInfo'
+import { getCurrentAuthInfo } from '@/utils/get-current-auth-info'
 import * as Sentry from '@sentry/nextjs'
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart
