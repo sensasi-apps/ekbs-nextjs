@@ -5,10 +5,10 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
 // providers
-import { SWRProvider } from './swr'
 // statics
 import THEME from '@/providers/@statics/theme'
 // parts
+import SWRProvider from './_parts/swr-provider'
 import SnackbarProvider from './_parts/snackbar-provider'
 // dayjs
 import { locale } from 'dayjs'
