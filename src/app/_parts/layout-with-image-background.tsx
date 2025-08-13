@@ -1,31 +1,13 @@
-'use client'
-
 import type { ReactNode } from 'react'
 // materials
-import { createTheme, THEME_ID, ThemeProvider } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/material/styles'
 import Box, { type BoxProps } from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
-//
+// components
 import Footer from '@/components/Layouts/_parts/footer'
-import THEME from '@/providers/@statics/theme'
-
-const LIGHT = createTheme({
-    palette: {
-        mode: 'light',
-    },
-})
-
-const PAGE_THEME = createTheme({
-    palette: {
-        mode: 'dark',
-        primary: LIGHT.palette.primary,
-        success: LIGHT.palette.success,
-        warning: LIGHT.palette.warning,
-        error: LIGHT.palette.error,
-    },
-    components: THEME.components,
-})
+// parts
+import THEME from './layout-with-image-background.THEME'
 
 const BG_IMG_URL =
     'https://belayansejahtera.org/wp-content/uploads/2025/02/FJR00081-scaled.jpg'
@@ -46,7 +28,7 @@ export default function LayoutWithImageBackground({
     }
 }) {
     return (
-        <ThemeProvider theme={{ [THEME_ID]: PAGE_THEME }}>
+        <ThemeProvider theme={THEME}>
             <Box
                 sx={{
                     color: 'grey.500',

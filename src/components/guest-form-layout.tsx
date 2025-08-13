@@ -9,7 +9,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 // components
-import LayoutWithImageBackground from '@/components/layout-with-image-background'
+import LayoutWithImageBackground from '@/app/_parts/layout-with-image-background'
 import ErrorCenter from './Statuses/ErrorCenter'
 import LoadingCenter from './Statuses/LoadingCenter'
 import RedirectIfAuth from '@/components/redirect-if-auth'
