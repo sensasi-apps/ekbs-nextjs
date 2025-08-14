@@ -1,3 +1,5 @@
+'use client'
+
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 import { type GetRowData } from '@/components/Datatable/@types'
 import Fab from '@/components/Fab'

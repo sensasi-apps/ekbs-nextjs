@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import axios from '@/lib/axios'
 // materials
