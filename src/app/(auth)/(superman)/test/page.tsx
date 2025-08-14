@@ -1,18 +1,22 @@
+'use client'
+
 // vendors
 import axios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 //
-import AuthLayout from '@/components/auth-layout'
 import Role from '@/enums/Role'
 import { useRoleChecker } from '@/hooks/use-role-checker'
+import PageTitle from '@/components/page-title'
 
 export default function Page() {
     if (!useRoleChecker(Role.SUPERMAN)) return null
 
     return (
-        <AuthLayout title="BE Request Test">
+        <>
+            <PageTitle title="BE Request Test" />
+
             <Box display="flex" gap={2}>
                 <Button
                     size="large"
@@ -30,6 +34,6 @@ export default function Page() {
                     Throw New Error
                 </Button>
             </Box>
-        </AuthLayout>
+        </>
     )
 }

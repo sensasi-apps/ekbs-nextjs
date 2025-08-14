@@ -1,21 +1,31 @@
+'use client'
+
 // types
 import type AuthInfo from '@/features/user--auth/types/auth-info'
 // vendors
-import { useState } from 'react'
-// components
-import AuthLayout from '@/components/auth-layout'
-import UserAutocomplete from '@/components/UserAutocomplete'
-import axios from '@/lib/axios'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import axios from '@/lib/axios'
+// components
+import UserAutocomplete from '@/components/UserAutocomplete'
 import useAuthInfoState from '@/hooks/use-auth-info-state'
+import PageTitle from '@/components/page-title'
+// enums
+import Role from '@/enums/Role'
+// hooks
+import { useRoleChecker } from '@/hooks/use-role-checker'
 
 export default function ActingAs() {
     const router = useRouter()
     const [, setCurrentAuthInfo] = useAuthInfoState()
     const [loading, setLoading] = useState(false)
 
+    if (!useRoleChecker(Role.SUPERMAN)) return null
+
     return (
-        <AuthLayout title="">
+        <>
+            <PageTitle title="Acting As" />
+
             <UserAutocomplete
                 label="Pilih User"
                 disabled={loading}
@@ -33,6 +43,6 @@ export default function ActingAs() {
                         .catch(() => setLoading(false))
                 }}
             />
-        </AuthLayout>
+        </>
     )
 }

@@ -1,8 +1,8 @@
+'use client'
+
 import type Role from '@/dataTypes/Role'
 
 import { type FC } from 'react'
-
-import AuthLayout from '@/components/auth-layout'
 
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
@@ -11,14 +11,21 @@ import FormActions from '@/components/Global/Form/Actions'
 import Dialog from '@/components/Global/Dialog'
 
 import RoleForm from '@/components/Role/Form'
+import { useRoleChecker } from '@/hooks/use-role-checker'
+import RoleEnum from '@/enums/Role'
+import PageTitle from '@/components/page-title'
 
 const RolesPage: FC = () => {
+    if (!useRoleChecker(RoleEnum.SUPERMAN)) return null
+
     return (
-        <AuthLayout title="Peran">
+        <>
+            <PageTitle title="Pengaturan Peran" />
+
             <FormDataProvider>
                 <PalmBunchDeliveryRatesCrudWithUseFormData />
             </FormDataProvider>
-        </AuthLayout>
+        </>
     )
 }
 

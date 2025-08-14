@@ -1,25 +1,29 @@
+'use client'
+
 // vendors
 import dayjs from 'dayjs'
 // materials
 import Typography from '@mui/material/Typography'
 //
 import Datatable, { type DatatableProps } from '@/components/Datatable'
-import AuthLayout from '@/components/auth-layout'
 import Role from '@/enums/Role'
 import { useRoleChecker } from '@/hooks/use-role-checker'
+import PageTitle from '@/components/page-title'
 
 export default function Page() {
     if (!useRoleChecker(Role.SUPERMAN)) return null
 
     return (
-        <AuthLayout title="Logs">
+        <>
+            <PageTitle title="Logs" />
+
             <Datatable
                 tableId="logs-table"
                 apiUrl="_/logs-datatable-data"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={DEFAULT_SORT_ORDER}
             />
-        </AuthLayout>
+        </>
     )
 }
 
