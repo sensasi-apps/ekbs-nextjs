@@ -6,25 +6,35 @@ import useAuthInfo from '@/hooks/use-auth-info'
 import { isUserHasPermission } from '@/hooks/use-is-auth-has-permission'
 import { isUserHasRole } from '@/hooks/use-is-auth-has-role'
 import { usePathname } from 'next/navigation'
+import type AuthInfo from '@/features/user--auth/types/auth-info'
+import LoadingCenter from '@/components/loading-center'
 
 export default function ContentGuard({
     children,
 }: {
     children: React.ReactNode
 }) {
-    if (!useIsPassed()) return <ErrorMessageView code={403} />
+    const authInfo = useAuthInfo()
+    const pathname = usePathname()
 
-    return <>{children}</>
+    if (!authInfo || !pathname) return <LoadingCenter />
+
+    if (pathname === '/logout') return children
+
+    if (!authInfo?.is_active) return <ErrorMessageView code="inactive" />
+
+    if (!isAuthHasRoleOrPermissionForPath(authInfo, pathname))
+        return <ErrorMessageView code={403} />
+
+    return children
 }
 
 const NAV_ITEMS = NAV_ITEM_GROUPS.flatMap(group => group.items)
 
-function useIsPassed() {
-    const authInfo = useAuthInfo()
-    const pathname = usePathname()
-
-    if (!pathname) return false
-
+function isAuthHasRoleOrPermissionForPath(
+    authInfo: AuthInfo,
+    pathname: string,
+) {
     const navItem = NAV_ITEMS.find(
         item => item.href === pathname || item.pathname?.includes(pathname),
     )

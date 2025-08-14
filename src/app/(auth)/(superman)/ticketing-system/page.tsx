@@ -4,8 +4,6 @@ import Datatable, { type DatatableProps } from '@/components/Datatable'
 import { type GetRowData } from '@/components/Datatable/@types'
 import Fab from '@/components/Fab'
 import type User from '@/features/user/types/user'
-import Role from '@/enums/Role'
-import { useRoleChecker } from '@/hooks/use-role-checker'
 import Add from '@mui/icons-material/Add'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
@@ -14,9 +12,7 @@ import PageTitle from '@/components/page-title'
 
 let getRowData: GetRowData<Ticket>
 
-export default function TicketingSystemPage() {
-    if (!useRoleChecker(Role.SUPERMAN)) return null
-
+export default function Page() {
     return (
         <>
             <PageTitle title="Ticketing System" />

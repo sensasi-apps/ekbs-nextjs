@@ -6,13 +6,9 @@ import axios from '@/lib/axios'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 //
-import Role from '@/enums/Role'
-import { useRoleChecker } from '@/hooks/use-role-checker'
 import PageTitle from '@/components/page-title'
 
 export default function Page() {
-    if (!useRoleChecker(Role.SUPERMAN)) return null
-
     return (
         <>
             <PageTitle title="BE Request Test" />

@@ -10,17 +10,11 @@ import axios from '@/lib/axios'
 import UserAutocomplete from '@/components/UserAutocomplete'
 import useAuthInfoState from '@/hooks/use-auth-info-state'
 import PageTitle from '@/components/page-title'
-// enums
-import Role from '@/enums/Role'
-// hooks
-import { useRoleChecker } from '@/hooks/use-role-checker'
 
-export default function ActingAs() {
+export default function Page() {
     const router = useRouter()
     const [, setCurrentAuthInfo] = useAuthInfoState()
     const [loading, setLoading] = useState(false)
-
-    if (!useRoleChecker(Role.SUPERMAN)) return null
 
     return (
         <>

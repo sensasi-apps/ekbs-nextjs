@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { enqueueSnackbar } from 'notistack'
 import axios, { AxiosError } from 'axios'

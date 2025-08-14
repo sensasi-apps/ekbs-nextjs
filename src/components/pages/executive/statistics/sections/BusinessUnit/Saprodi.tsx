@@ -18,12 +18,12 @@ import StatCard from '@/components/StatCard'
 // page components
 import ProductMovementTable, {
     type ProductMovementTableProp,
-} from '@/pages/farm-inputs/statitistics/ProductMovementTable'
+} from './saprodi/ProductMovementTable'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import DatePicker from '@/components/DatePicker'
 import DynamicProductMovementTable, {
     type DynamicProductMovementTableProp,
-} from '@/pages/farm-inputs/statitistics/DynamicProductMovementTable'
+} from './saprodi/DynamicProductMovementTable'
 import IconButton from '@/components/IconButton'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'

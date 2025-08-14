@@ -23,7 +23,7 @@ export default function SWRProvider({
         setIsClient(true)
     }, [])
 
-    if (!isClient) return <LoadingCenter />
+    if (!isClient) return <LoadingCenter position="absolute" />
 
     return (
         <SWRConfig

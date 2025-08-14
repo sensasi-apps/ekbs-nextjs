@@ -5,7 +5,6 @@ import type FileFromDb from '@/dataTypes/File'
 import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
-import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -84,8 +83,7 @@ export default function ImageButtonAndModal({
                         sx={{
                             p: 0,
                         }}>
-                        <Image
-                            unoptimized
+                        <img // eslint-disable-line
                             src={fileCreatedUrl}
                             alt={alt}
                             style={{
@@ -102,11 +100,10 @@ export default function ImageButtonAndModal({
             </Box>
 
             <Dialog open={open} onClose={handleClose}>
-                <CloseIiconButton onClick={handleClose} />
+                <CloseIconButton onClick={handleClose} />
 
                 {fileCreatedUrl && (
-                    <Image
-                        unoptimized
+                    <img // eslint-disable-line
                         src={fileCreatedUrl}
                         alt={alt}
                         style={{ width: '100%', height: 'auto' }}
@@ -117,7 +114,7 @@ export default function ImageButtonAndModal({
     )
 }
 
-function CloseIiconButton({ onClick }: { onClick: () => void }) {
+function CloseIconButton({ onClick }: { onClick: () => void }) {
     return (
         <IconButton
             onClick={onClick}

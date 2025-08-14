@@ -8,7 +8,9 @@ import useSWR from 'swr'
 // materials
 import Fade from '@mui/material/Fade'
 // components
-import LoadingCenterLayout from '@/components/loading-center-layout'
+import FlexColumnBox from '@/components/FlexColumnBox'
+import LoadingCenter from '@/components/loading-center'
+import PageTitle from '@/components/page-title'
 // page components
 import { TabChips } from '@/app/(auth)/executive/profit-loss/_components/tab-chips'
 import Table, {
@@ -17,16 +19,8 @@ import Table, {
 // enums
 import BusinessUnit from '@/enums/BusinessUnit'
 import myAxios from '@/lib/axios'
-import FlexColumnBox from '@/components/FlexColumnBox'
-import PageTitle from '@/components/page-title'
-// import type { Metadata } from 'next'
 
 const CURR_YEAR = dayjs().format('YYYY')
-
-// export const metadata: Metadata = {
-//     title: 'Laporan Laba-Rugi — ' + process.env.NEXT_PUBLIC_APP_NAME,
-//     description: 'Laporan Laba-Rugi',
-// }
 
 export default function Page() {
     const isRecache = useRef(false)
@@ -62,7 +56,7 @@ export default function Page() {
         fetcher,
     )
 
-    if (isLoading || isValidating) return <LoadingCenterLayout />
+    if (isLoading || isValidating) return <LoadingCenter />
 
     return (
         <FlexColumnBox gap={4}>

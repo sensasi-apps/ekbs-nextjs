@@ -9,13 +9,6 @@ import PurchaseFormDialog from '@/features/repair-shop--purchase/component/purch
 export default function Page() {
     const { back } = useRouter()
 
-    /**
-     * TODO: will create hook that will disabled page is auth has no permission
-     *
-     * @see https://github.com/sensasi-apps/ekbs-nextjs/issues/372
-     */
-    // isAuthHasPermission(Permission.CREATE)
-
     return (
         <PurchaseFormDialog
             formData={{
