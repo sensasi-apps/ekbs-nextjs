@@ -35,8 +35,13 @@ export default function ErrorMessageView({
                         {error.title}
                     </Typography>
 
-                    <Typography variant="body1" color="text.secondary" mb={3}>
+                    <Typography variant="body1" color="text.secondary" mb={6}>
                         {error.message}
+                    </Typography>
+
+                    <Typography variant="caption" color="textDisabled">
+                        Silakan hubungi admin jika Anda merasa ini adalah
+                        kekeliruan.
                     </Typography>
                 </Box>
             </Box>
@@ -47,8 +52,13 @@ export default function ErrorMessageView({
 const ERRORS = {
     403: {
         title: 'Akses Ditolak',
-        message:
-            'Kamu tidak memiliki izin untuk mengakses halaman ini. Silakan hubungi admin jika kamu merasa ini adalah kesalahan.',
+        message: 'Anda tidak memiliki izin untuk mengakses halaman ini.',
         image: '/assets/illustrations/undraw_secure-server_lz9x.svg',
+    },
+
+    inactive: {
+        title: 'Akun Tidak Aktif',
+        message: 'Akun anda belum aktif atau telah dinonaktifkan.',
+        image: '/assets/illustrations/undraw_security_0ubl.svg',
     },
 }
