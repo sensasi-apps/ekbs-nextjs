@@ -1,7 +1,8 @@
+'use client'
+
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 import { type GetRowData } from '@/components/Datatable/@types'
 import Fab from '@/components/Fab'
-import AuthLayout from '@/components/auth-layout'
 import type User from '@/features/user/types/user'
 import Role from '@/enums/Role'
 import { useRoleChecker } from '@/hooks/use-role-checker'
@@ -9,6 +10,7 @@ import Add from '@mui/icons-material/Add'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import PageTitle from '@/components/page-title'
 
 let getRowData: GetRowData<Ticket>
 
@@ -16,7 +18,9 @@ export default function TicketingSystemPage() {
     if (!useRoleChecker(Role.SUPERMAN)) return null
 
     return (
-        <AuthLayout title="Tiket">
+        <>
+            <PageTitle title="Ticketing System" />
+
             <Datatable
                 title="Daftar Tiket"
                 tableId="tickets-datatable"
@@ -29,7 +33,7 @@ export default function TicketingSystemPage() {
             <Fab component={Link} href="ticketing-system/create">
                 <Add />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 
