@@ -1,8 +1,8 @@
-import Box from '@mui/material/Box'
+import Box, { type BoxProps } from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 
-export default function LoadingCenter() {
+export default function LoadingCenter(props: BoxProps) {
     return (
         <Box
             display="flex"
@@ -12,7 +12,7 @@ export default function LoadingCenter() {
             alignItems="center"
             height="100%"
             width="100%"
-            position="absolute">
+            {...props}>
             <CircularProgress />
             <Typography variant="body2" color="primary">
                 Sedang memuat...
