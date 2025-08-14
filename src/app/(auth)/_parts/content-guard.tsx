@@ -17,9 +17,9 @@ export default function ContentGuard({
     const authInfo = useAuthInfo()
     const pathname = usePathname()
 
-    if (pathname === '/logout') return children
+    if (!authInfo || !pathname) return <LoadingCenter />
 
-    if (!authInfo) return <LoadingCenter />
+    if (pathname === '/logout') return children
 
     if (!authInfo?.is_active) return <ErrorMessageView code="inactive" />
 
@@ -32,11 +32,9 @@ export default function ContentGuard({
 const NAV_ITEMS = NAV_ITEM_GROUPS.flatMap(group => group.items)
 
 function isAuthHasRoleOrPermissionForPath(
-    authInfo: AuthInfo | undefined,
-    pathname: string | null,
+    authInfo: AuthInfo,
+    pathname: string,
 ) {
-    if (!pathname) return false
-
     const navItem = NAV_ITEMS.find(
         item => item.href === pathname || item.pathname?.includes(pathname),
     )
