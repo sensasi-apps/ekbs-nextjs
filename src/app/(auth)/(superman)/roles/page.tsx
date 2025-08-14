@@ -1,35 +1,26 @@
 'use client'
 
 import type Role from '@/dataTypes/Role'
-
-import { type FC } from 'react'
-
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
-
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import FormActions from '@/components/Global/Form/Actions'
 import Dialog from '@/components/Global/Dialog'
-
 import RoleForm from '@/components/Role/Form'
-import { useRoleChecker } from '@/hooks/use-role-checker'
-import RoleEnum from '@/enums/Role'
 import PageTitle from '@/components/page-title'
 
-const RolesPage: FC = () => {
-    if (!useRoleChecker(RoleEnum.SUPERMAN)) return null
-
+export default function Page() {
     return (
         <>
             <PageTitle title="Pengaturan Peran" />
 
             <FormDataProvider>
-                <PalmBunchDeliveryRatesCrudWithUseFormData />
+                <CrudForm />
             </FormDataProvider>
         </>
     )
 }
 
-const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
+function CrudForm() {
     const {
         handleEdit,
         data,
@@ -100,5 +91,3 @@ const PalmBunchDeliveryRatesCrudWithUseFormData: FC = () => {
         </>
     )
 }
-
-export default RolesPage

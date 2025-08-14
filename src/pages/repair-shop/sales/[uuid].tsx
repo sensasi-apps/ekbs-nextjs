@@ -13,13 +13,6 @@ import SaleFormDialog, {
 export default function Page() {
     const { back, query } = useRouter()
 
-    /**
-     * TODO: will create hook that will disabled page is auth has no permission
-     *
-     * @see https://github.com/sensasi-apps/ekbs-nextjs/issues/372
-     */
-    // isAuthHasPermission(Permission.CREATE)
-
     const { data, isLoading } = useSWR<FormData>(
         query.uuid ? 'repair-shop/sales/' + (query.uuid as string) : null,
     )

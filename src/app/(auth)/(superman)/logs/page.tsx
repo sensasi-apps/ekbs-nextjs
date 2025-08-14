@@ -1,18 +1,12 @@
-'use client'
-
 // vendors
 import dayjs from 'dayjs'
 // materials
 import Typography from '@mui/material/Typography'
 //
 import Datatable, { type DatatableProps } from '@/components/Datatable'
-import Role from '@/enums/Role'
-import { useRoleChecker } from '@/hooks/use-role-checker'
 import PageTitle from '@/components/page-title'
 
 export default function Page() {
-    if (!useRoleChecker(Role.SUPERMAN)) return null
-
     return (
         <>
             <PageTitle title="Logs" />
