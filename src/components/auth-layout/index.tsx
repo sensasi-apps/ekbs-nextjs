@@ -12,6 +12,7 @@ import FooterBox from '../footer-box'
 import TopBar from './_parts/top-bar'
 import NavBar from './_parts/nav-bar'
 import WIDTH from './_parts/nav-bar/WIDTH'
+import ContentGuard from '@/app/(auth)/_parts/content-guard'
 
 export default function AuthLayout({
     title,
@@ -63,7 +64,7 @@ export default function AuthLayout({
                             sm: 6,
                         },
                     }}>
-                    {children}
+                    <ContentGuard>{children}</ContentGuard>
                 </Box>
 
                 <FooterBox mt={10} mb={0} />
