@@ -10,7 +10,7 @@ export default function useIsAuthHasPermission() {
         isUserHasPermission(permissionName, authInfo)
 }
 
-function isUserHasPermission(
+export function isUserHasPermission(
     permissionName: Permission | Permission[],
     userParam: AuthInfo | undefined,
 ) {
