@@ -67,7 +67,7 @@ export default function AuthLayout({
                     <ContentGuard>{children}</ContentGuard>
                 </Box>
 
-                <FooterBox mt={10} mb={0} />
+                <FooterBox mt={10} mb={6} />
             </Box>
         </div>
     )
