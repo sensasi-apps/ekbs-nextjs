@@ -1,13 +1,12 @@
 'use client'
 
 // vendors
-import type AuthInfo from '@/features/user--auth/types/auth-info'
-import { useLocalStorage } from '@uidotdev/usehooks'
+import { useEffect } from 'react'
+import myAxios from '@/lib/axios'
 // components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import myAxios from '@/lib/axios'
-import { LS_KEY } from '@/hooks/use-auth-info'
-// etc
+// hooks
+import useAuthInfoState from '@/hooks/use-auth-info-state'
 
 export default function Page() {
     useLogout()
@@ -20,13 +19,15 @@ export default function Page() {
 }
 
 function useLogout() {
-    const [authInfo, setAuthInfo] = useLocalStorage<AuthInfo | undefined>(
-        LS_KEY,
-    )
+    const [authInfo, setAuthInfo] = useAuthInfoState()
 
-    if (authInfo?.should_revoke_access_token_on_logout) {
-        myAxios.post('/revoke-access-token')
-    }
+    useEffect(() => {
+        if (!authInfo) return
 
-    setAuthInfo(undefined)
+        if (authInfo?.should_revoke_access_token_on_logout) {
+            myAxios.post('/revoke-access-token')
+        }
+
+        setAuthInfo(undefined)
+    }, [authInfo, setAuthInfo])
 }
