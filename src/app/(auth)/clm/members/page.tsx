@@ -2,8 +2,7 @@
 
 // vendors
 import { Formik, type FormikProps } from 'formik'
-import { useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import myAxios from '@/lib/axios'
 // materials
 import Button from '@mui/material/Button'
@@ -13,14 +12,9 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 // components
 import type User from '@/features/user/types/user'
-import Datatable, {
-    type DatatableProps,
-    type GetRowDataType,
-    type MutateType,
-} from '@/components/Datatable'
+import DataTableV2, { type DataTableV2Props } from '@/components/datatable-v2'
 import Fab from '@/components/Fab'
 import UserSelect from '@/components/FormikForm/user-select'
-import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import TextShortener from '@/components/text-shortener'
 import PageTitle from '@/components/page-title'
 // utils
@@ -32,10 +26,7 @@ interface Member {
 }
 
 export default function Members() {
-    const { push } = useRouter()
     const [open, setOpen] = useState(false)
-    const mutateRef = useRef<MutateType<Member> | undefined>(undefined)
-    const getRowDataRef = useRef<GetRowDataType<Member> | undefined>(undefined)
 
     function handleClose() {
         setOpen(false)
@@ -45,24 +36,10 @@ export default function Members() {
         <>
             <PageTitle title="Anggota Sertifikasi" />
 
-            <Datatable<Member>
-                apiUrl="/clm/members/get-datatable-data"
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'created_at', direction: 'desc' }}
-                onRowClick={(_, { dataIndex }, event) => {
-                    if (event.detail === 2) {
-                        // console.log(data)
-                        const member = getRowDataRef.current?.(dataIndex)
-
-                        if (member) {
-                            push('/clm/members/' + member.user_uuid)
-                        }
-                    }
-                }}
-                mutateCallback={fn => (mutateRef.current = fn)}
-                getRowDataCallback={fn => (getRowDataRef.current = fn)}
-                tableId="clm-members-datatable"
-                title="Daftar Anggota"
+            <DataTableV2
+                columns={columns}
+                url="/api/clm/members/get-datatable-data"
+                onRowClick={console.log}
             />
 
             <Formik<{
@@ -75,7 +52,6 @@ export default function Members() {
                     myAxios
                         .post('/clm/members', values)
                         .then(() => {
-                            mutateRef.current?.()
                             handleClose()
                         })
                         .catch(error => handle422(error, setErrors))
@@ -126,51 +102,56 @@ export default function Members() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Member>['columns'] = [
+const columns: DataTableV2Props['columns'] = [
     {
-        name: 'user.id',
-        label: 'ID',
+        data: 'created_at',
+        title: 'Dibuat Pada',
+        visible: false,
     },
     {
-        name: 'user.name',
-        label: 'Nama',
+        data: 'user.id',
+        title: 'ID',
+        orderable: false,
     },
-
     {
-        name: 'user.lands',
-        label: 'Lahan',
-        options: {
-            searchable: false,
-            sort: false,
-            customBodyRender: (value: Member['user']['lands']) => {
-                return (
-                    <ListInsideMuiDatatableCell
-                        listItems={value ?? []}
-                        renderItem={land => (
-                            <>
-                                <TextShortener text={land.uuid} /> (
-                                {land.n_area_hectares} Ha)
-                            </>
-                        )}
-                    />
-                )
-            },
-        },
+        data: 'user.name',
+        title: 'Nama',
+        orderable: false,
     },
-
     {
-        name: 'status',
-        label: 'Status',
-        options: {
-            searchable: false,
-            sort: false,
-        },
+        data: 'user.lands',
+        title: 'Lahan',
+        orderable: false,
+        render: (lands: Member['user']['lands']) => (
+            <ul>
+                {lands?.map(land => (
+                    <li key={land.uuid}>
+                        <TextShortener text={land.uuid} /> (
+                        {land.n_area_hectares} Ha)
+                    </li>
+                ))}
+            </ul>
+        ),
     },
-
+    // {
+    //     data: 'status',
+    //     title: 'Status',
+    //     searchable: false,
+    //     orderable: false,
+    // },
     {
-        name: 'created_at',
-        options: {
-            display: 'excluded',
-        },
+        data: null,
+        name: 'actions',
+        title: 'Aksi',
+        orderable: false,
+        searchable: false,
+        render: (data: Member) => (
+            <Button
+                variant="outlined"
+                size="small"
+                href={'/clm/members/' + data.user_uuid}>
+                Detail
+            </Button>
+        ),
     },
 ]
