@@ -39,7 +39,6 @@ export default function Members() {
             <DataTableV2
                 columns={columns}
                 url="/api/clm/members/get-datatable-data"
-                onRowClick={console.log}
             />
 
             <Formik<{
