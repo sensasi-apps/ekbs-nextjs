@@ -10,7 +10,7 @@ import FlatFooter from '@/app/_parts/flat-footer'
 import THEME from '@/app/(guest)/_parts/THEME'
 
 const BG_IMG_URL =
-    'https://belayansejahtera.org/wp-content/uploads/2025/02/FJR00081-scaled.jpg'
+    'https://belayansejahtera.org/wp-content/uploads/2025/02/FJR00081-scaled-e1755241368530.jpg'
 
 /**
  * A layout component that provides a background image with a darkened overlay.
