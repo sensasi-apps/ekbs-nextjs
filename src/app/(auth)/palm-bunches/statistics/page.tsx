@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import useSWR from 'swr'
 // materials
@@ -5,7 +7,6 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 // components
-import AuthLayout from '@/components/auth-layout'
 import BigNumber from '@/components/StatCard/BigNumber'
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
@@ -15,6 +16,7 @@ import InOutLineChart, {
 import TbsSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Tbs'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
+import PageTitle from '@/components/page-title'
 
 export default function FarmInputsStatistics() {
     const { data, isLoading } = useSWR<{
@@ -22,7 +24,9 @@ export default function FarmInputsStatistics() {
         in_out_balance: InOutLineChartProps['data']
     }>('palm-bunches/statistic-data')
     return (
-        <AuthLayout title="Statistik Unit Bisnis TBS">
+        <>
+            <PageTitle title="Statistik Unit Bisnis TBS" />
+
             <Grid container mb={1} spacing={1.5}>
                 <Grid
                     display="flex"
@@ -63,6 +67,6 @@ export default function FarmInputsStatistics() {
                 </Grid>
             </Grid>
             <TbsSubsection />
-        </AuthLayout>
+        </>
     )
 }

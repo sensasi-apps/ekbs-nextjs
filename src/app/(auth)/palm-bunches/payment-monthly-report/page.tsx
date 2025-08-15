@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
@@ -14,7 +16,6 @@ import Typography from '@mui/material/Typography'
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'
 // components
-import AuthLayout from '@/components/auth-layout'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import IconButton from '@/components/IconButton'
@@ -24,6 +25,7 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 // utils
 import formatNumber from '@/utils/format-number'
 import useDisablePage from '@/hooks/useDisablePage'
+import PageTitle from '@/components/page-title'
 
 type ApiResponseType = {
     name: string
@@ -36,7 +38,7 @@ type ApiResponseType = {
  * PENDING FEATURE
  * @returns useDisablePage
  */
-export default function PalmBuncesPayrollMonthlyReport() {
+export default function PalmBunchesPayrollMonthlyReport() {
     useDisablePage()
 
     const { query } = useRouter()
@@ -54,7 +56,8 @@ export default function PalmBuncesPayrollMonthlyReport() {
     ])
 
     return (
-        <AuthLayout title="Alur Penerimaan TBS">
+        <>
+            <PageTitle title="Alur Penerimaan TBS" />
             <Container maxWidth="sm">
                 <FlexColumnBox>
                     <ScrollableXBox>
@@ -105,7 +108,7 @@ export default function PalmBuncesPayrollMonthlyReport() {
                     )}
                 </FlexColumnBox>
             </Container>
-        </AuthLayout>
+        </>
     )
 }
 

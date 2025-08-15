@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { Formik } from 'formik'
 import { useRef, useState, type MutableRefObject } from 'react'

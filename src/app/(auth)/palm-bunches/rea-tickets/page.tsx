@@ -1,9 +1,11 @@
+'use client'
+
 import type { UUID } from 'crypto'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 import type PalmBunchType from '@/dataTypes/PalmBunch'
 import type Land from '@/types/Land'
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
@@ -17,7 +19,6 @@ import Typography from '@mui/material/Typography'
 import BackupTable from '@mui/icons-material/BackupTable'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 // components
-import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     getRowData,
@@ -44,6 +45,7 @@ import blinkSxValue from '@/utils/blink-sx-value'
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import PageTitle from '@/components/page-title'
 
 let currentUserUuid: UUID | undefined
 
@@ -54,7 +56,8 @@ export default function Page() {
     currentUserUuid = user?.uuid
 
     return (
-        <AuthLayout title="Daftar Tiket REA">
+        <>
+            <PageTitle title="Daftar Tiket REA" />
             {isAuthHasPermission(PalmBunch.READ_STATISTIC) && (
                 <Box mb={4} display="flex" gap={1}>
                     <Button
@@ -76,13 +79,13 @@ export default function Page() {
             <FormDataProvider>
                 <Crud />
             </FormDataProvider>
-        </AuthLayout>
+        </>
     )
 }
 
 function Crud() {
     const isAuthHasPermission = useIsAuthHasPermission()
-    const { query } = useRouter()
+    const searchParams = useSearchParams()
 
     const {
         data,
@@ -108,7 +111,7 @@ function Crud() {
                 tableId="PalmBunchDeliveryRateDatatable"
                 apiUrl={PalmBunchApiUrlEnum.TICKET_DATATABLE_DATA}
                 apiUrlParams={{
-                    filter: query.filter as string,
+                    filter: searchParams?.get('filter') ?? '',
                 }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
@@ -418,8 +421,16 @@ const SX_FOR_BADGE = {
 
 function FilterChips() {
     const isAuthHasRole = useIsAuthHasRole()
-    const { query, replace } = useRouter()
-    const filter = query.filter
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
+    const filter = searchParams?.get('filter')
+
+    function handleTabChange(tab: string) {
+        const params = new URLSearchParams(searchParams ?? '')
+        params.set('filter', tab)
+
+        replace(`?${params.toString()}`)
+    }
 
     const { data: stats } = useSWR<{
         unvalidated: number
@@ -432,13 +443,7 @@ function FilterChips() {
             <Chip
                 label="Semua"
                 color={!filter ? 'success' : undefined}
-                onClick={() =>
-                    replace({
-                        query: {
-                            filter: '',
-                        },
-                    })
-                }
+                onClick={() => handleTabChange('')}
             />
 
             <div>
@@ -455,13 +460,7 @@ function FilterChips() {
                         }
                         disabled={!stats?.unvalidated}
                         color={filter === 'unvalidated' ? 'success' : undefined}
-                        onClick={() =>
-                            replace({
-                                query: {
-                                    filter: 'unvalidated',
-                                },
-                            })
-                        }
+                        onClick={() => handleTabChange('unvalidated')}
                     />
                 </Collapse>
             </div>
@@ -473,13 +472,7 @@ function FilterChips() {
                 }
                 color={filter === 'waiting' ? 'success' : undefined}
                 disabled={!stats?.waiting}
-                onClick={() =>
-                    replace({
-                        query: {
-                            filter: 'waiting',
-                        },
-                    })
-                }
+                onClick={() => handleTabChange('waiting')}
             />
 
             <Chip
@@ -490,13 +483,7 @@ function FilterChips() {
                 color={filter === 'unsynced' ? 'success' : undefined}
                 disabled={!stats?.unsynced}
                 sx={stats?.unsynced ? SX_FOR_BADGE : undefined}
-                onClick={() =>
-                    replace({
-                        query: {
-                            filter: 'unsynced',
-                        },
-                    })
-                }
+                onClick={() => handleTabChange('unsynced')}
             />
         </>
     )

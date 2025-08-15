@@ -1,7 +1,9 @@
+'use client'
+
 // types
 import type User from '@/features/user/types/user'
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
@@ -15,10 +17,10 @@ import TableFooter from '@mui/material/TableFooter'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/auth-layout'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import IconButton from '@/components/IconButton'
+import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/PrintHandler'
 import ScrollToTopFab from '@/components/ScrollToTopFab'
 import ScrollableXBox from '@/components/ScrollableXBox'
@@ -44,7 +46,9 @@ const DEFAULT_START_DATE = dayjs().startOf('month')
 const DEFAULT_END_DATE = dayjs().endOf('month')
 
 export default function FarmerWeights() {
-    const { query, replace } = useRouter()
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
+    const query = Object.fromEntries(searchParams?.entries() ?? [])
 
     const from = query.from ? dayjs(query.from as string) : DEFAULT_START_DATE
 
@@ -59,7 +63,8 @@ export default function FarmerWeights() {
     ])
 
     return (
-        <AuthLayout title="Laporan Bobot TBS">
+        <>
+            <PageTitle title="Laporan Bobot TBS" />
             <FlexColumnBox>
                 <ScrollableXBox>
                     <DatePicker
@@ -72,12 +77,9 @@ export default function FarmerWeights() {
                             },
                         }}
                         onChange={date =>
-                            replace({
-                                query: {
-                                    ...query,
-                                    from: dayjs(date).format('YYYY-MM-DD'),
-                                },
-                            })
+                            replace(
+                                `?from=${date?.format('YYYY-MM-DD')}&to=${to.format('YYYY-MM-DD')}`,
+                            )
                         }
                     />
                     <DatePicker
@@ -90,12 +92,7 @@ export default function FarmerWeights() {
                             },
                         }}
                         onChange={date =>
-                            replace({
-                                query: {
-                                    ...query,
-                                    to: dayjs(date).format('YYYY-MM-DD'),
-                                },
-                            })
+                            replace(`?to=${date?.format('YYYY-MM-DD')}`)
                         }
                     />
                     <IconButton
@@ -171,7 +168,7 @@ export default function FarmerWeights() {
             </FlexColumnBox>
 
             <ScrollToTopFab />
-        </AuthLayout>
+        </>
     )
 }
 
