@@ -4,26 +4,26 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 export default function RedirectIfAuth() {
-    useGuestOnly()
+    useAuthOnly()
 
     return null
 }
 
-function useGuestOnly() {
+function useAuthOnly() {
     const authInfo = useAuthInfo()
     const pathname = usePathname()
-    const query = useSearchParams()
+    const searchParams = useSearchParams()
     const { replace } = useRouter()
 
     useEffect(() => {
-        if (authInfo) {
-            const redirectTo = query?.get('redirectTo')
+        if (
+            authInfo &&
+            pathname &&
+            !['/logout', '/policy'].includes(pathname)
+        ) {
+            const redirectTo = searchParams?.get('redirectTo') ?? '/dashboard'
 
-            if (redirectTo) {
-                replace(redirectTo.toString())
-            } else {
-                replace('/dashboard')
-            }
+            replace(redirectTo)
         }
-    }, [authInfo, replace, pathname, query])
+    }, [authInfo, pathname, replace, searchParams])
 }
