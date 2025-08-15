@@ -34,8 +34,8 @@ export default function Fab({
                     component="span"
                     sx={{
                         position: 'fixed',
-                        bottom: 16,
-                        right: 16,
+                        bottom: 32,
+                        right: 32,
                     }}
                     {...props}>
                     {children ?? <Icon />}
