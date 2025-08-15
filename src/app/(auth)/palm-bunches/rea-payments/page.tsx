@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { UUID } from 'crypto'
 import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
@@ -10,7 +12,6 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
@@ -25,20 +26,22 @@ import PalmBuncesReaPaymentDetailDatatableModal from '@/components/PalmBunchesRe
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 // utils
 import toDmy from '@/utils/to-dmy'
-import ApiUrlEnum from '../../components/PalmBunchesReaPayment/ApiUrlEnum'
+import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
+import PageTitle from '@/components/page-title'
 
 let getRowData: GetRowDataType<PalmBunchesReaPaymentDataType>
 let mutate: MutateType<PalmBunchesReaPaymentDataType>
 
 export default function PalmBuncesReaPaymentsPage() {
     return (
-        <AuthLayout title="Pembayaran dari REA">
+        <>
+            <PageTitle title="Pembayaran dari REA" />
             <FormDataProvider>
                 <PalmBunchDeliveryRatesCrudWithUseFormData />
             </FormDataProvider>
-        </AuthLayout>
+        </>
     )
 }
 

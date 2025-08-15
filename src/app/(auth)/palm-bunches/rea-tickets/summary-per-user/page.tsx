@@ -1,5 +1,9 @@
+'use client'
+
 import type { Ymd } from '@/types/DateString'
 // vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
@@ -11,28 +15,21 @@ import LinearProgress from '@mui/material/LinearProgress'
 import Download from '@mui/icons-material/Download'
 import Refresh from '@mui/icons-material/Refresh'
 // global components
+import { AoaTable } from '@/components/aoa-table'
 import { toYmd } from '@/utils/to-ymd'
+import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
-import AuthLayout from '@/components/auth-layout'
-// page components
-import { AoaTable } from '@/components/aoa-table'
-import { useRouter } from 'next/router'
+import PageTitle from '@/components/page-title'
+// utils
 import aoaToXlsx, { type AoaRows } from '@/utils/aoa-to-xlsx'
-import { useEffect, useState } from 'react'
-import BackButton from '@/components/back-button'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-// enums
-import PalmBunch from '@/enums/permissions/PalmBunch'
 
 export default function Page() {
-    const isAuthHasPermission = useIsAuthHasPermission()
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
 
-    const {
-        query: { from_date, till_date },
-        replace,
-    } = useRouter()
+    const from_date = searchParams?.get('from_date') as Ymd | null
+    const till_date = searchParams?.get('till_date') as Ymd | null
 
     const {
         data = [],
@@ -41,32 +38,33 @@ export default function Page() {
     } = useSWR<AoaRows>(
         from_date && till_date
             ? [
-                  '/palm-bunches/rea-tickets/get-export-data',
+                  '/palm-bunches/rea-tickets/get-summary-per-user-data',
                   { from_date, till_date },
               ]
             : null,
     )
 
-    if (!isAuthHasPermission(PalmBunch.READ_STATISTIC)) {
-        return null
-    }
-
     return (
-        <AuthLayout title="Data tiket">
+        <>
             <BackButton />
+
+            <PageTitle title="Rangkuman Per Pengguna" />
 
             <Box display="flex" gap={2} alignItems="center" my={2}>
                 <Filters
                     disabled={isLoading}
                     onRefresh={(from_date, till_date) => {
-                        replace({ query: { from_date, till_date } })
+                        const query = new URLSearchParams(
+                            searchParams?.toString() ?? '',
+                        )
+                        query.set('from_date', from_date)
+                        query.set('till_date', till_date)
+
+                        replace(`?${query.toString()}`)
                         mutate()
                     }}
                     onDownload={() =>
-                        aoaToXlsx(
-                            `Rangkuman Tiket per Pengguna ${from_date}-${till_date}`,
-                            data,
-                        )
+                        aoaToXlsx(`Tiket TBS ${from_date}-${till_date}`, data)
                     }
                 />
             </Box>
@@ -91,7 +89,7 @@ export default function Page() {
                     dataRows={data.slice(1)}
                 />
             )}
-        </AuthLayout>
+        </>
     )
 }
 
@@ -104,9 +102,9 @@ function Filters({
     onDownload: () => void
     disabled: boolean
 }) {
-    const {
-        query: { from_date, till_date },
-    } = useRouter()
+    const searchParams = useSearchParams()
+    const from_date = searchParams?.get('from_date')
+    const till_date = searchParams?.get('till_date')
 
     const [fromDate, setFromDate] = useState<Ymd | null>(
         from_date ? (from_date as Ymd) : null,

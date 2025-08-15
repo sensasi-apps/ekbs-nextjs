@@ -1,13 +1,16 @@
-import AuthLayout from '@/components/auth-layout'
+'use client'
+
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
-export default function PalmBuncesRates() {
+export default function PalmBunchesRates() {
     return (
-        <AuthLayout title="Harga Sawit">
+        <>
+            <PageTitle title="Harga Sawit" />
+
             <FormDataProvider>
                 <Crud />
             </FormDataProvider>
-        </AuthLayout>
+        </>
     )
 }
 
@@ -24,6 +27,7 @@ import PalmBunchRatesForm from '@/components/PalmBunchRates/Form'
 // utils
 import toDmy from '@/utils/to-dmy'
 import numberToCurrency from '@/utils/number-to-currency'
+import PageTitle from '@/components/page-title'
 
 function Crud() {
     const {
