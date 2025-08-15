@@ -10,10 +10,7 @@ import THEME from '@/providers/@statics/theme'
 // parts
 import SWRProvider from './_parts/swr-provider'
 import SnackbarProvider from './_parts/snackbar-provider'
-// dayjs
-import { locale } from 'dayjs'
-import 'dayjs/locale/id'
-locale('id')
+import './_parts/setup-dayjs-locale'
 
 /**
  * AppProviders component is a wrapper that provides various context providers and global styles
