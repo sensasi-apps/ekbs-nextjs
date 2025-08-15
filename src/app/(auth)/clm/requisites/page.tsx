@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { Formik, type FormikProps } from 'formik'
 import { useState } from 'react'
@@ -20,7 +22,6 @@ import ForestIcon from '@mui/icons-material/Forest'
 // components
 import { AoaTable } from '@/components/aoa-table'
 import { Radio, TextField } from '@/components/FormikForm'
-import AuthLayout from '@/components/auth-layout'
 import Fab from '@/components/Fab'
 import Switch from '@/components/FormikForm/switch'
 import IconButton from '@/components/IconButton'
@@ -28,6 +29,7 @@ import IconButton from '@/components/IconButton'
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
 import type Requisite from '@/features/clm/types/requisite'
+import PageTitle from '@/components/page-title'
 
 type FormData = Omit<Requisite, 'id' | 'is_optional'> & {
     id?: number
@@ -86,9 +88,12 @@ export default function Page() {
         ])
 
     return (
-        <AuthLayout
-            title="Syarat Sertifikasi"
-            subtitle="Pengaturan syarat yang akan berlaku untuk semua anggota dan lahan">
+        <>
+            <PageTitle
+                title="Syarat Sertifikasi"
+                subtitle="Pengaturan syarat yang akan berlaku untuk semua anggota dan lahan"
+            />
+
             <Grid container spacing={4}>
                 <Grid
                     size={{
@@ -172,7 +177,7 @@ export default function Page() {
                 }>
                 <Add />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 

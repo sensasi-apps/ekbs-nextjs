@@ -1,5 +1,7 @@
+'use client'
+
 // vendors
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
@@ -10,19 +12,24 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import CropIcon from '@mui/icons-material/Crop'
 import ForestIcon from '@mui/icons-material/Forest'
 // components
-import AuthLayout from '@/components/auth-layout'
 import BackButton from '@/components/back-button'
 import ChipSmall from '@/components/ChipSmall'
+import LoadingCenter from '@/components/loading-center'
 // features
 import type ApiResponse from '@/features/clm-member-detail/types/api-response'
 import Tabs from '@/features/clm-member-detail/tabs'
 import UserStatCard from '@/features/clm-member-detail/user-stat-card'
 
 export default function MemberDetailPage() {
-    const { query } = useRouter()
-    const { uuid } = query
+    const params = useParams<{
+        uuid?: string
+    }>()
+
+    const uuid = params?.uuid
 
     const { data } = useSWR<ApiResponse>(uuid ? `/clm/members/${uuid}` : null)
+
+    if (!data) return <LoadingCenter />
 
     const { user, lands = [], requisite_users = [] } = data ?? {}
     const userLands = user?.lands ?? []
@@ -54,10 +61,8 @@ export default function MemberDetailPage() {
     ]
 
     return (
-        <AuthLayout title="Rincian Anggota">
-            <Box mb={2}>
-                <BackButton />
-            </Box>
+        <>
+            <BackButton />
 
             <Box
                 mb={8}
@@ -101,6 +106,6 @@ export default function MemberDetailPage() {
             </Grid>
 
             <Tabs data={data} />
-        </AuthLayout>
+        </>
     )
 }

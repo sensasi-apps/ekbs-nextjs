@@ -1,6 +1,10 @@
+'use client'
+
 // vendors
 import { Formik, type FormikProps } from 'formik'
 import { useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import myAxios from '@/lib/axios'
 // materials
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -8,20 +12,19 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 // components
+import type User from '@/features/user/types/user'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
     type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-import AuthLayout from '@/components/auth-layout'
 import UserSelect from '@/components/FormikForm/user-select'
-import myAxios from '@/lib/axios'
-import handle422 from '@/utils/handle-422'
-import type User from '@/features/user/types/user'
-import { useRouter } from 'next/router'
 import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import TextShortener from '@/components/text-shortener'
+import PageTitle from '@/components/page-title'
+// utils
+import handle422 from '@/utils/handle-422'
 
 interface Member {
     user_uuid: string
@@ -29,7 +32,7 @@ interface Member {
 }
 
 export default function Members() {
-    const { replace } = useRouter()
+    const { push } = useRouter()
     const [open, setOpen] = useState(false)
     const mutateRef = useRef<MutateType<Member> | undefined>(undefined)
     const getRowDataRef = useRef<GetRowDataType<Member> | undefined>(undefined)
@@ -39,7 +42,9 @@ export default function Members() {
     }
 
     return (
-        <AuthLayout title="Anggota Sertifikasi">
+        <>
+            <PageTitle title="Anggota Sertifikasi" />
+
             <Datatable<Member>
                 apiUrl="/clm/members/get-datatable-data"
                 columns={DATATABLE_COLUMNS}
@@ -50,7 +55,7 @@ export default function Members() {
                         const member = getRowDataRef.current?.(dataIndex)
 
                         if (member) {
-                            replace('/clm/members/' + member.user_uuid)
+                            push('/clm/members/' + member.user_uuid)
                         }
                     }
                 }}
@@ -117,7 +122,7 @@ export default function Members() {
             />
 
             <Fab onClick={() => setOpen(true)} disabled={open} />
-        </AuthLayout>
+        </>
     )
 }
 
