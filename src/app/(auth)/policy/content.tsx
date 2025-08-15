@@ -1,9 +1,13 @@
-import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 
-export default function TncpDialogContent() {
+/**
+ * Renders the content for the Terms and Conditions (TNC) and Privacy
+ * Policy (PP) of the e-KBS application. This component displays the latest
+ * version date and the content of the TNC and PP.
+ */
+export default function PolicyContent() {
     return (
-        <DialogContent>
+        <>
             <Typography variant="caption" gutterBottom>
                 Terakhir diperbaharui: 31 Juli 2023
             </Typography>
@@ -114,6 +118,6 @@ export default function TncpDialogContent() {
                 Perubahan akan diumumkan melalui aplikasi, email, atau sarana
                 penyebaran informasi lainnya.
             </Typography>
-        </DialogContent>
+        </>
     )
 }

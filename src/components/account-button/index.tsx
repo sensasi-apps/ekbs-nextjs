@@ -6,9 +6,9 @@ import { useCallback, useState, type MouseEventHandler } from 'react'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
+import Link from '@mui/material/Link'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import Link from '@mui/material/Link'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
@@ -19,9 +19,9 @@ import FooterBox from '@/components/footer-box'
 // parts
 import DarkModeSwitch from './_parts/dark-mode-switch-menu-item'
 import FullscreenMenuItem from './_parts/fullscreen-menu-item'
-import TncpMenuItem from './_parts/tncp-menu-item'
 // icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import GradingIcon from '@mui/icons-material/Grading'
 import LogoutIcon from '@mui/icons-material/Logout'
 import SyncIcon from '@mui/icons-material/Sync'
 // providers
@@ -95,14 +95,25 @@ export default function AccountButton({
                 </MenuItem>
 
                 <Divider />
-                <TncpMenuItem />
+
+                <MenuItem href="/policy" component={Link}>
+                    <ListItemIcon>
+                        <GradingIcon fontSize="small" />
+                    </ListItemIcon>
+
+                    <ListItemText>
+                        Syarat, Ketentuan, dan Kebijakan Privasi
+                    </ListItemText>
+                </MenuItem>
+
                 <Divider />
 
                 <MenuItem href="/logout" component={Link}>
                     <ListItemIcon>
                         <LogoutIcon fontSize="small" />
                     </ListItemIcon>
-                    Logout
+
+                    <ListItemText>Logout</ListItemText>
                 </MenuItem>
 
                 <FooterBox mt={2} mb={1} component="div" />
