@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { UserLoanType } from '@/dataTypes/Loan'
 import type { FormikConfig } from 'formik'
@@ -5,17 +7,18 @@ import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/ty
 // vendors
 import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import axios from '@/lib/axios'
 // materials
-import Chip, { type ChipOwnProps } from '@mui/material/Chip'
+import Chip from '@mui/material/Chip'
+import Link from '@mui/material/Link'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
 import { type MutateType } from '@/components/Datatable'
-import AuthLayout from '@/components/auth-layout'
 import Fab from '@/components/Fab'
 import DialogWithTitle from '@/components/DialogWithTitle'
+import PageTitle from '@/components/page-title'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // page components
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
@@ -30,7 +33,8 @@ import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 let mutateUserLoans: MutateType<UserLoanType>
 
 export default function UserLoans() {
-    const { query } = useRouter()
+    const searchParams = useSearchParams()
+    const query = Object.fromEntries(searchParams?.entries() ?? [])
 
     const isAuthHasPermission = useIsAuthHasPermission()
     const [values, setValues] = useState(INITIAL_VALUES)
@@ -87,7 +91,8 @@ export default function UserLoans() {
           : 'Perbarui Pinjaman'
 
     return (
-        <AuthLayout title="Kelola Pinjaman">
+        <>
+            <PageTitle title="Kelola Pinjaman" />
             <FlexColumnBox>
                 <FilterChips />
 
@@ -118,50 +123,52 @@ export default function UserLoans() {
                 in={isAuthHasPermission(UserLoan.CREATE)}>
                 <PaymentsIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 
-const CHIP_DEFAULT_PROPS: ChipOwnProps = {
+const FAKE_ON_CLICK = () => undefined
+
+const CHIP_DEFAULT_PROPS = {
     size: 'small',
-}
+    component: Link,
+} as const
 
 function FilterChips() {
-    const { replace, query } = useRouter()
-
-    function handleTypeChange(value?: 'active' | 'waiting' | 'finished') {
-        replace({
-            query: {
-                ...query,
-                type: value,
-            },
-        })
-    }
+    const searchParams = useSearchParams()
+    const query = Object.fromEntries(searchParams?.entries() ?? [])
 
     return (
         <ScrollableXBox>
             <Chip
                 {...CHIP_DEFAULT_PROPS}
                 label="Semua"
-                onClick={() => handleTypeChange(undefined)}
+                href="?type="
+                onClick={!query.type ? undefined : FAKE_ON_CLICK}
                 color={query.type ? undefined : 'success'}
             />
+
             <Chip
                 {...CHIP_DEFAULT_PROPS}
                 label="Angsuran Aktif"
-                onClick={() => handleTypeChange('active')}
+                href="?type=active"
+                onClick={query.type === 'active' ? undefined : FAKE_ON_CLICK}
                 color={query.type === 'active' ? 'success' : undefined}
             />
+
             <Chip
                 {...CHIP_DEFAULT_PROPS}
                 label="Belum Dicairkan"
-                onClick={() => handleTypeChange('waiting')}
+                href="?type=waiting"
+                onClick={query.type === 'waiting' ? undefined : FAKE_ON_CLICK}
                 color={query.type === 'waiting' ? 'success' : undefined}
             />
+
             <Chip
                 {...CHIP_DEFAULT_PROPS}
                 label="Selesai"
-                onClick={() => handleTypeChange('finished')}
+                href="?type=finished"
+                onClick={query.type === 'finished' ? undefined : FAKE_ON_CLICK}
                 color={query.type === 'finished' ? 'success' : undefined}
             />
         </ScrollableXBox>

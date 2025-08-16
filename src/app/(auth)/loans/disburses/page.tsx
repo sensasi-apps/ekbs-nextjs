@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { FormikConfig } from 'formik'
 import type { UserLoanType } from '@/dataTypes/Loan'
@@ -7,19 +9,19 @@ import { Formik } from 'formik'
 import axios from '@/lib/axios'
 // components
 import { mutate } from '@/components/Datatable'
-import AuthLayout from '@/components/auth-layout'
+import DialogWithTitle from '@/components/DialogWithTitle'
+import PageTitle from '@/components/page-title'
 import UserLoanDisburseForm, {
     type FormValuesType,
 } from '@/components/pages/user-loans/disburse/Form'
 import UserLoanDisburseDatatable from '@/components/pages/user-loans/disburse/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
 // utils
 import useDisablePage from '@/hooks/useDisablePage'
 import errorCatcher from '@/utils/handle-422'
 // enums
 import ApiUrlEnum from '@/components/pages/user-loans/ApiUrlEnum'
 
-export default function UserLoansDisburses() {
+export default function UserLoansDisbursesPage() {
     useDisablePage()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -53,7 +55,8 @@ export default function UserLoansDisburses() {
     }
 
     return (
-        <AuthLayout title="Pencairan Pinjaman">
+        <>
+            <PageTitle title="Pencairan Pinjaman" />
             <UserLoanDisburseDatatable onEdit={handleEdit} />
 
             <DialogWithTitle title="Pencairan Pinjaman" open={isDialogOpen}>
@@ -67,6 +70,6 @@ export default function UserLoansDisburses() {
                     component={UserLoanDisburseForm}
                 />
             </DialogWithTitle>
-        </AuthLayout>
+        </>
     )
 }
