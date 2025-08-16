@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type {
     InstallmentUserLoan,
@@ -7,7 +9,6 @@ import type {
 import { Formik } from 'formik'
 import { useState } from 'react'
 // components
-import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import { mutate } from '@/components/Datatable'
 // local components
@@ -18,8 +19,9 @@ import UserLoanInstallmentForm, {
 import axios from '@/lib/axios'
 // utils
 import errorCatcher from '@/utils/handle-422'
+import PageTitle from '@/components/page-title'
 
-export default function UserLoansInstallments() {
+export default function UserLoansInstallmentsPage() {
     const [formData, setFormData] = useState(
         UserLoanInstallmentFormInitialValues,
     )
@@ -41,7 +43,9 @@ export default function UserLoansInstallments() {
     }
 
     return (
-        <AuthLayout title="Pembayaran Angsuran">
+        <>
+            <PageTitle title="Pembayaran Angsuran" />
+
             <UserLoanInstallmentDatatable onEdit={handleEdit} />
 
             <DialogWithTitle title="Pembayaran Angsuran" open={isOpenDialog}>
@@ -66,6 +70,6 @@ export default function UserLoansInstallments() {
                     component={UserLoanInstallmentForm}
                 />
             </DialogWithTitle>
-        </AuthLayout>
+        </>
     )
 }

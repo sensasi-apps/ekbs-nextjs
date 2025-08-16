@@ -14,18 +14,18 @@ export const loans: NavItemGroup = {
     items: [
         {
             label: 'Statistik',
-            href: '/user-loans/statistics',
+            href: '/loans/statistics',
             icon: AlignHorizontalLeft,
             forPermission: UserLoan.READ_STATISTIC,
         },
         {
             label: 'Kas',
-            href: '/user-loans/cashes',
+            href: '/loans/cashes',
             icon: AutoStories,
             forPermission: UserLoan.READ_STATISTIC,
         },
         {
-            href: '/user-loans',
+            href: '/loans/manages',
             label: 'Kelola',
             icon: BackupTable,
             forPermission: UserLoan.READ,
@@ -45,7 +45,7 @@ export const loans: NavItemGroup = {
         //     forPermission: UserLoan.READ_NEED_DISBURSE,
         // },
         {
-            href: '/user-loans/installments',
+            href: '/loans/installments',
             label: 'Angsuran',
             icon: PointOfSale,
             forPermission: UserLoan.READ_INSTALLMENT,

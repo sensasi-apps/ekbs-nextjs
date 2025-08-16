@@ -1,10 +1,14 @@
+'use client'
+
 // vendors
+import useSWR from 'swr'
+// materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 // components
-import AuthLayout from '@/components/auth-layout'
 import BigNumber from '@/components/StatCard/BigNumber'
+import PageTitle from '@/components/page-title'
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
     type InOutLineChartProps,
@@ -13,7 +17,6 @@ import InOutLineChart, {
 import SppSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Spp'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
-import useSWR from 'swr'
 
 export default function UserLoansStatistics() {
     const { data, isLoading } = useSWR<{
@@ -23,7 +26,9 @@ export default function UserLoansStatistics() {
         in_out_balance: InOutLineChartProps['data']
     }>('user-loans/statistic-data')
     return (
-        <AuthLayout title="Statistik Unit Bisnis SPP">
+        <>
+            <PageTitle title="Statistik Unit Bisnis SPP" />
+
             <Grid container mb={1} spacing={1.5}>
                 <Grid
                     display="flex"
@@ -98,6 +103,6 @@ export default function UserLoansStatistics() {
                 </Grid>
             </Grid>
             <SppSubsection />
-        </AuthLayout>
+        </>
     )
 }

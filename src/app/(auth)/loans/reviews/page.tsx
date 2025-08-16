@@ -1,18 +1,23 @@
+'use client'
+
 // types
 import type { UserLoanType } from '@/dataTypes/Loan'
-import type { FormDataType } from '@/components/pages/user-loans/reviews/Form'
 // vendors
 import { useState } from 'react'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
 // components
 import { mutate } from '@/components/Datatable'
-import AuthLayout from '@/components/auth-layout'
-import LoanReviewForm from '@/components/pages/user-loans/reviews/Form'
-import ReviewDatatable from '@/components/pages/user-loans/reviews/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
+import PageTitle from '@/components/page-title'
+// page parts
+import LoanReviewForm, {
+    type FormDataType,
+} from '@/app/(auth)/loans/reviews/form'
+import ReviewDatatable from '@/app/(auth)/loans/reviews/datatable'
 // utils
 import errorCatcher from '@/utils/handle-422'
+// hooks
 import useDisablePage from '@/hooks/useDisablePage'
 
 export default function UserLoansReviews() {
@@ -25,7 +30,9 @@ export default function UserLoansReviews() {
     const handleClose = () => setState(CLOSE_STATE)
 
     return (
-        <AuthLayout title="Persetujuan Pinjaman">
+        <>
+            <PageTitle title="Persetujuan Pinjaman" />
+
             <ReviewDatatable onSetReviewState={setState} />
 
             <DialogWithTitle
@@ -52,7 +59,7 @@ export default function UserLoansReviews() {
                     component={LoanReviewForm}
                 />
             </DialogWithTitle>
-        </AuthLayout>
+        </>
     )
 }
 

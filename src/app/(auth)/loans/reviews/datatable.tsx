@@ -1,6 +1,6 @@
 // types
 import type { UserLoanType } from '@/dataTypes/Loan'
-import type { FormOpenStateType } from '@/pages/user-loans/reviews'
+import type { FormOpenStateType } from '@/app/(auth)/loans/reviews/page'
 // vendors
 import { useState } from 'react'
 import Chip from '@mui/material/Chip'

@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { UserLoanType } from '@/dataTypes/Loan'
 import type { FormikConfig } from 'formik'
@@ -7,9 +9,8 @@ import axios from '@/lib/axios'
 import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
 // components
-import AuthLayout from '@/components/auth-layout'
-// import Fab from '@/components/Fab'
 import { mutate } from '@/components/Datatable'
+import PageTitle from '@/components/page-title'
 import DialogWithTitle from '@/components/DialogWithTitle'
 // page components
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
@@ -17,7 +18,10 @@ import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 // utils
 import errorCatcher from '@/utils/handle-422'
 
-export default function Loans() {
+/**
+ * This page is used to see users own loans.
+ */
+export default function LoansPage() {
     const [values, setValues] = useState(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [userLoanFromDb, setUserLoanFromDb] = useState<UserLoanType | null>(
@@ -66,7 +70,9 @@ export default function Loans() {
           : 'Perbarui Pinjaman'
 
     return (
-        <AuthLayout title="Pinjaman Anda">
+        <>
+            <PageTitle title="Pinjaman Anda" />
+
             <LoansDatatable mode="applier" onEdit={handleEdit} />
 
             <DialogWithTitle open={dialogOpen} title={title}>
@@ -81,6 +87,6 @@ export default function Loans() {
                     component={LoanForm}
                 />
             </DialogWithTitle>
-        </AuthLayout>
+        </>
     )
 }
