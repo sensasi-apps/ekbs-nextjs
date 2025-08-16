@@ -12,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 // components
 import type User from '@/features/user/types/user'
-import DataTableV2, { type DataTableV2Props } from '@/components/datatable-v2'
+import DataTableV2, { type DataTableV2Props } from '@/components/data-table-v2'
 import Fab from '@/components/Fab'
 import UserSelect from '@/components/FormikForm/user-select'
 import TextShortener from '@/components/text-shortener'
@@ -37,6 +37,7 @@ export default function Members() {
             <PageTitle title="Anggota Sertifikasi" />
 
             <DataTableV2
+                id="clm-members-datatable"
                 columns={columns}
                 url="/api/clm/members/get-datatable-data"
             />

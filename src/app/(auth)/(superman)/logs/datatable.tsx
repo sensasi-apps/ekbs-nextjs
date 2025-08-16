@@ -1,6 +1,6 @@
 'use client'
 
-import DataTableV2, { type DataTableV2Props } from '@/components/datatable-v2'
+import DataTableV2, { type DataTableV2Props } from '@/components/data-table-v2'
 import dayjs from 'dayjs'
 import Typography from '@mui/material/Typography'
 
