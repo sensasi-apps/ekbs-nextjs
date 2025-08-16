@@ -18,7 +18,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import DatePicker from '@/components/DatePicker'
 import CalendarTable from '@/components/CalendarTable'
 // enums
-import ApiUrlEnum from './ApiUrlEnum'
+import ApiUrlEnum from './api-url-enum'
 
 const CURRENT_DATE = dayjs()
 

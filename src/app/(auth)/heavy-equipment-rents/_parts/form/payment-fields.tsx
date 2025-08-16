@@ -1,6 +1,6 @@
 // types
 import type { FormikProps } from 'formik'
-import type { HeavyEquipmentRentFormValues } from '../Form'
+import type { HeavyEquipmentRentFormValues } from '.'
 import type CashType from '@/dataTypes/Cash'
 import type WalletType from '@/dataTypes/Wallet'
 // vendors
@@ -25,7 +25,7 @@ import LoadingAddorment from '@/components/LoadingAddorment'
 import NumericFormat from '@/components/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // page components
-import CrediturCard from '../../user-loans/CrediturCard'
+import CrediturCard from '../../../../../components/pages/user-loans/CrediturCard'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'

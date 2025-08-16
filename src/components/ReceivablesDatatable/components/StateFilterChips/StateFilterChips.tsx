@@ -1,57 +1,55 @@
+'use client'
+
 // vendors
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
+// materials
+import Chip from '@mui/material/Chip'
+import Link from '@mui/material/Link'
 // components
-import ChipSmall from '@/components/ChipSmall'
 import ScrollableXBox from '@/components/ScrollableXBox'
 
+const FAKE_ONCLICK = () => undefined
+
 export function StateFilterChips() {
-    const { replace, query, isReady } = useRouter()
-    const { state } = query
+    const searchParams = useSearchParams()
 
-    useEffect(() => {
-        if (isReady && query.state === undefined) {
-            replace({
-                query: {
-                    ...query,
-                    state: 'due',
-                },
-            })
-        }
-    }, [isReady, query, replace])
-
-    function handleStateChange(value: string | null) {
-        replace({
-            query: {
-                ...query,
-                state: value,
-            },
-        })
-    }
+    const state = searchParams?.get('state')
 
     return (
         <ScrollableXBox>
-            <ChipSmall
+            <Chip
+                size="small"
+                component={Link}
                 label="Semua"
-                onClick={() => handleStateChange(null)}
+                href="?state="
+                onClick={!state ? undefined : FAKE_ONCLICK}
                 color={state ? undefined : 'success'}
             />
 
-            <ChipSmall
+            <Chip
+                size="small"
+                component={Link}
                 label="Dekat Jatuh Tempo"
-                onClick={() => handleStateChange('due-soon')}
+                href="?state=due-soon"
+                onClick={state === 'due-soon' ? undefined : FAKE_ONCLICK}
                 color={state === 'due-soon' ? 'success' : undefined}
             />
 
-            <ChipSmall
+            <Chip
+                size="small"
+                component={Link}
                 label="Jatuh Tempo"
-                onClick={() => handleStateChange('due')}
+                href="?state=due"
+                onClick={state === 'due' ? undefined : FAKE_ONCLICK}
                 color={state === 'due' ? 'success' : undefined}
             />
 
-            <ChipSmall
+            <Chip
+                size="small"
+                component={Link}
                 label="Lunas"
-                onClick={() => handleStateChange('paid')}
+                href="?state=paid"
+                onClick={state === 'paid' ? undefined : FAKE_ONCLICK}
                 color={state === 'paid' ? 'success' : undefined}
             />
         </ScrollableXBox>

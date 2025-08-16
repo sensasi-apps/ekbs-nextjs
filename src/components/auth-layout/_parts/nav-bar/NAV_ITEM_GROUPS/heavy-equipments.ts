@@ -6,7 +6,7 @@ import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
 import CreditCard from '@mui/icons-material/CreditCard'
 import EventNote from '@mui/icons-material/EventNote'
 // enums
-import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
+import HeavyEquipmentRent from '@/enums/permissions/heavy-equipment-rent'
 
 export const heavyEquipments: NavItemGroup = {
     label: 'Alat Berat',
@@ -30,7 +30,7 @@ export const heavyEquipments: NavItemGroup = {
             forPermission: HeavyEquipmentRent.READ_RECEIVABLE,
         },
         {
-            href: '/heavy-equipment-rents',
+            href: '/heavy-equipment-rents/rents',
             label: 'Penyewaan',
             icon: EventNote,
             forPermission: [

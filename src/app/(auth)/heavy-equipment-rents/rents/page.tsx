@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type RentItemRent from '@/dataTypes/RentItemRent'
 import type {
@@ -12,19 +14,19 @@ import axios from '@/lib/axios'
 // icons
 import EventNoteIcon from '@mui/icons-material/EventNote'
 // components
-import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import PageTitle from '@/components/page-title'
 // page components
 import HeavyEquipmentRentForm, {
     type HeavyEquipmentRentFormValues,
-} from '@/components/pages/heavy-equipments-rents/Form'
-import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-rents/Datatable'
+} from '@/app/(auth)/heavy-equipment-rents/_parts/form'
+import HeavyEquipmentRentsDatatable from '@/app/(auth)/heavy-equipment-rents/_parts/her-datatable'
 // utils
 import errorCatcher from '@/utils/handle-422'
 // enums
-import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
-import HerPermission from '@/enums/permissions/HeavyEquipmentRent'
+import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
+import HerPermission from '@/enums/permissions/heavy-equipment-rent'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
@@ -82,7 +84,9 @@ export default function HeavyEquipmentRent() {
     const isNew = !initialFormikValues.uuid
 
     return (
-        <AuthLayout title="Penyewaan Alat Berat">
+        <>
+            <PageTitle title="Penyewaan Alat Berat" />
+
             <HeavyEquipmentRentsDatatable
                 handleRowClick={handleRowClick}
                 mutateCallback={fn => (mutate = fn)}
@@ -149,6 +153,6 @@ export default function HeavyEquipmentRent() {
                 onClick={handleNew}>
                 <EventNoteIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }

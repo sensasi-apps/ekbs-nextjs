@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type RentItemRent from '@/dataTypes/RentItemRent'
 import type {
@@ -10,16 +12,16 @@ import { Formik } from 'formik'
 import { useState } from 'react'
 import axios from '@/lib/axios'
 // components
-import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 // page components
 import HeavyEquipmentRentFinishTaskForm, {
     type HerFinishTaskFormValues,
-} from '@/components/pages/heavy-equipments-rents/Form/FinishTask'
+} from '@/app/(auth)/heavy-equipment-rents/_parts/form/finish-task'
 // utils
 import errorCatcher from '@/utils/handle-422'
-import HeavyEquipmentRentsDatatable from '@/components/pages/heavy-equipments-rents/Datatable'
-import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
+import HeavyEquipmentRentsDatatable from '@/app/(auth)/heavy-equipment-rents/_parts/her-datatable'
+import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
+import PageTitle from '@/components/page-title'
 
 let mutate: MutateType<RentItemRent>
 let getRowData: GetRowDataType<RentItemRent>
@@ -61,7 +63,9 @@ export default function HeavyEquipmentRentsTasks() {
     const isNew = !initialFormikValues.uuid
 
     return (
-        <AuthLayout title="Tugas Alat Berat">
+        <>
+            <PageTitle title="Tugas Alat Berat" />
+
             <HeavyEquipmentRentsDatatable
                 handleRowClick={handleRowClick}
                 mutateCallback={fn => (mutate = fn)}
@@ -103,6 +107,6 @@ export default function HeavyEquipmentRentsTasks() {
                     component={HeavyEquipmentRentFinishTaskForm}
                 />
             </DialogWithTitle>
-        </AuthLayout>
+        </>
     )
 }

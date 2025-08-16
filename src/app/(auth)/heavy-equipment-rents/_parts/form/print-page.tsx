@@ -1,4 +1,4 @@
-import type { HeavyEquipmentRentFormValues } from '../Form'
+import type { HeavyEquipmentRentFormValues } from '.'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Image from 'next/image'

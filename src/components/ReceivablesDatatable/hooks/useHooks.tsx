@@ -1,13 +1,11 @@
 import type { FormValuesType } from '../PaymentForm'
 import type { Installment } from '@/dataTypes/Installment'
+import { useSearchParams } from 'next/navigation'
 // vendors
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 export function useHooks() {
-    const {
-        query: { type, state },
-    } = useRouter()
+    const searchParams = useSearchParams()
 
     const [formikProps, setFormikProps] = useState<{
         values: FormValuesType
@@ -16,8 +14,8 @@ export function useHooks() {
 
     return {
         formikProps,
-        type,
-        state,
+        type: searchParams?.get('type'),
+        state: searchParams?.get('state'),
         setFormikProps,
         closeFormDialog: () => setFormikProps(undefined),
     }

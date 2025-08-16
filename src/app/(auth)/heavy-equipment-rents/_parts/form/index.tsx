@@ -22,19 +22,20 @@ import ImageButtonAndModal from '@/components/ImageButtonAndModal'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import PrintHandler from '@/components/PrintHandler'
 import UserActivityLogs from '@/components/UserActivityLogs'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
 // enums
-import HeavyEquipmentRent from '@/enums/permissions/HeavyEquipmentRent'
-import HerPaymentFields from './Form/PaymentFields'
-import HerTaskDetail from './HerTaskDetail'
-import BaseTaskFields from './Form/BaseTaskFields'
-import ApiUrlEnum from './ApiUrlEnum'
+import HeavyEquipmentRent from '@/enums/permissions/heavy-equipment-rent'
 import handle422 from '@/utils/handle-422'
-import PrintHandler from '@/components/PrintHandler'
-import PrintPage from './Form/print-page'
+// parts
+import ApiUrlEnum from '../api-url-enum'
+import PrintPage from './print-page'
+import HerPaymentFields from './payment-fields'
+import HerTaskDetail from '../her-task-detail'
+import BaseTaskFields from './base-task-fields'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 

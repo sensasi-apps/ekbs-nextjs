@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import useSWR from 'swr'
 // materials
@@ -5,8 +7,8 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 // components
-import AuthLayout from '@/components/auth-layout'
 import BigNumber from '@/components/StatCard/BigNumber'
+import PageTitle from '@/components/page-title'
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
     type InOutLineChartProps,
@@ -24,7 +26,9 @@ export default function HeavyEquipmentRentsStatistics() {
         in_out_balance: InOutLineChartProps['data']
     }>('heavy-equipment-rents/statistic-data')
     return (
-        <AuthLayout title="Statistik Unit Bisnis Alat Berat">
+        <>
+            <PageTitle title="Statistik Unit Bisnis Alat Berat" />
+
             <Grid container mb={1} spacing={1.5}>
                 <Grid
                     display="flex"
@@ -99,6 +103,6 @@ export default function HeavyEquipmentRentsStatistics() {
                 </Grid>
             </Grid>
             <AlatBeratSubsection />
-        </AuthLayout>
+        </>
     )
 }
