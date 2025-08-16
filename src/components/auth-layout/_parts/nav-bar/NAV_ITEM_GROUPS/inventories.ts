@@ -5,9 +5,8 @@ export const inventories: NavItemGroup = {
     label: 'Inventaris',
     items: [
         {
-            href: '/inventory-items',
+            href: '/inventories/items',
             label: 'Barang',
-            pathname: ['/inventory-items', '/inventory-items/[uuid]'],
             icon: FeaturedPlayList,
         },
     ],
