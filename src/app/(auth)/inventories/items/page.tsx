@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
 import type {
@@ -13,10 +15,10 @@ import { useRouter } from 'next/navigation'
 // materials
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/auth-layout'
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import PageTitle from '@/components/page-title'
 // page components
 import InventoryItemFormWithFormik from '@/components/pages/inventory-items/Form/WithFormik'
 // icons
@@ -58,7 +60,9 @@ export default function InventoryItems() {
     const isNew = !initialFormikValues.uuid
 
     return (
-        <AuthLayout title="Inventaris">
+        <>
+            <PageTitle title="Inventaris" />
+
             <Datatable
                 title="Daftar"
                 tableId="inventory-item-table"
@@ -90,7 +94,7 @@ export default function InventoryItems() {
                 onClick={handleNew}>
                 <ReceiptIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 

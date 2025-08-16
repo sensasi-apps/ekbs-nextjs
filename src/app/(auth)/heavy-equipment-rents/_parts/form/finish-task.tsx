@@ -13,7 +13,7 @@ import FormikForm from '@/components/FormikForm'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 // page components
-import HerTaskDetail from '@/components/pages/heavy-equipments-rents/HerTaskDetail'
+import HerTaskDetail from '@/app/(auth)/heavy-equipment-rents/_parts/her-task-detail'
 // uitls
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 

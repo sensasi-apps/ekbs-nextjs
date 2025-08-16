@@ -1,6 +1,6 @@
 // vendors
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 // types
 import type RentItemRent from '@/dataTypes/RentItemRent'
@@ -18,7 +18,7 @@ import DatePicker from '@/components/DatePicker'
 // utils
 import toDmy from '@/utils/to-dmy'
 // enums
-import ApiUrlEnum from '@/components/pages/heavy-equipments-rents/ApiUrlEnum'
+import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
 
 let getRowData: GetRowDataType<RentItemRent>
 const CURRENT_DATE = dayjs()
@@ -36,40 +36,22 @@ export default function HeavyEquipmentRentsDatatable({
     getRowDataCallback: DatatableProps<RentItemRent>['getRowDataCallback']
     as: 'admin' | 'operator'
 }) {
-    const { query, replace } = useRouter()
-    const [isClient, setIsClient] = useState(false)
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
+    const year = searchParams?.get('year') ?? CURRENT_DATE.format('YYYY')
+    const month = searchParams?.get('month') ?? CURRENT_DATE.format('MM')
+
     const [type, setType] = useState<DataCategory>(
         as === 'operator' ? 'unfinished' : 'all',
     )
 
-    const selectedDate = query.year
-        ? dayjs(
-              `${query.year ?? CURRENT_DATE.format('YYYY')}-${
-                  query.month ?? CURRENT_DATE.format('MM')
-              }-01`,
-          )
-        : null
+    const selectedDate = dayjs(`${year}-${month}-01`)
 
     let columns = [...DATATABLE_COLUMNS]
 
     if (as === 'operator') {
         columns = columns.filter(col => col.label !== 'Operator')
     }
-
-    useEffect(() => {
-        if (query.year === undefined || query.month === undefined) {
-            replace({
-                query: {
-                    year: CURRENT_DATE.format('YYYY'),
-                    month: CURRENT_DATE.format('MM'),
-                },
-            })
-        }
-
-        setIsClient(true)
-    }, [query.year, query.month, replace])
-
-    if (!isClient) return null
 
     return (
         <Box display="flex" gap={3} flexDirection="column">
@@ -79,16 +61,14 @@ export default function HeavyEquipmentRentsDatatable({
                     openTo="month"
                     format="MMMM YYYY"
                     value={selectedDate}
-                    onAccept={date =>
-                        date
-                            ? replace({
-                                  query: {
-                                      year: date?.format('YYYY'),
-                                      month: date?.format('MM'),
-                                  },
-                              })
-                            : undefined
-                    }
+                    onAccept={date => {
+                        if (!date) return
+
+                        const newYear = date.format('YYYY')
+                        const newMonth = date.format('MM')
+
+                        replace(`?year=${newYear}&month=${newMonth}`)
+                    }}
                     views={['year', 'month']}
                     sx={{
                         mr: 1,
@@ -97,12 +77,7 @@ export default function HeavyEquipmentRentsDatatable({
                         field: {
                             clearable: true,
                             onClear: () => {
-                                replace({
-                                    query: {
-                                        year: undefined,
-                                        month: undefined,
-                                    },
-                                })
+                                replace('')
                             },
                         },
                         textField: {

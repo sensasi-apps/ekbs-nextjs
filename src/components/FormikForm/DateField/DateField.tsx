@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { Ymd } from '@/types/DateString'
 import type { TextFieldProps } from '@mui/material/TextField'

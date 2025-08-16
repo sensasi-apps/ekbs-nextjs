@@ -1,6 +1,6 @@
 import type FarmerGroupType from '@/dataTypes/FarmerGroup'
 import type RentItemType from '@/dataTypes/RentItem'
-import type { HeavyEquipmentRentFormValues } from '../Form'
+import type { HeavyEquipmentRentFormValues } from '.'
 // vendors
 import { FastField, type FormikProps } from 'formik'
 // materials

@@ -1,4 +1,4 @@
-enum HeavyEquipmentRent {
+enum HeavyEquipmentRentPermission {
     CREATE = 'create heavy equipment rent',
     READ = 'read heavy equipment rent',
     UPDATE = 'update heavy equipment rent',
@@ -9,4 +9,4 @@ enum HeavyEquipmentRent {
     READ_RECEIVABLE = 'read heavy equipment rent receivable',
 }
 
-export default HeavyEquipmentRent
+export default HeavyEquipmentRentPermission
