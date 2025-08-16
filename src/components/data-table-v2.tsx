@@ -6,6 +6,7 @@ import DataTable, {
 } from 'datatables.net-react'
 // datatables
 import DT, { type Config } from 'datatables.net-dt'
+import languageID from 'datatables.net-plugins/i18n/id.json'
 import 'datatables.net-dt/css/dataTables.dataTables.css'
 // utils
 import { getCurrentAuthToken } from '@/lib/axios/getCurrentAuthToken'
@@ -17,6 +18,7 @@ export type DataTableV2Props = Omit<
     DataTablePropsVendor,
     'options' | 'ajax'
 > & {
+    id: string
     url: string
     order?: Config['order']
 }
@@ -32,15 +34,18 @@ export default function DataTableV2({
                 {...props}
                 className="display dataTable"
                 ajax={{
-                    url: process.env.NEXT_PUBLIC_BACKEND_URL + url,
+                    url: process.env.NEXT_PUBLIC_BACKEND_URL + '/api' + url,
                     headers: {
                         Authorization: `Bearer ${getCurrentAuthToken()}`,
                     },
                 }}
                 options={{
+                    destroy: true,
+                    deferRender: true,
                     serverSide: true,
                     processing: true,
                     order: order,
+                    language: languageID,
                 }}
             />
         </div>
