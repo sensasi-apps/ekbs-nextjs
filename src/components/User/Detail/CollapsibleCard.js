@@ -10,7 +10,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 //
 import UserDetailBox from './Box'
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 
 const CARD_CONTENT_SX = {
     pt: 0,

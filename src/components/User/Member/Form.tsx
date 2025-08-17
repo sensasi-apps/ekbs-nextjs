@@ -9,7 +9,7 @@ import Button from '@mui/material/Button'
 import DatePicker from '@/components/DatePicker'
 import TextField from '@/components/TextField'
 // providers
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import useFormData from '@/providers/FormData'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'

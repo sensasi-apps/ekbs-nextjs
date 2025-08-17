@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type Land from '@/types/Land'
 import Dialog from '@/components/Global/Dialog'
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import UserLandForm from '@/components/User/Land/Form'
 import useFormData from '@/providers/useFormData'
 

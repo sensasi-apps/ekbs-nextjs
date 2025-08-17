@@ -18,7 +18,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 //
 import UserBankAccForm from './form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 
 const ListItem = ({ data: { uuid, no_decrypted, name }, userUuid }) => {
     const [isDeleting, setIsDeleting] = useState(false)

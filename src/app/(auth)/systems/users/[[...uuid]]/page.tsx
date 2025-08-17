@@ -1,23 +1,29 @@
+'use client'
+
 // vendors
-import { useRouter } from 'next/router'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import Grid from '@mui/material/Grid'
 // components
 import { FormDataProvider } from '@/providers/FormData'
-import { UserWithDetailsProvider } from '@/providers/UserWithDetails'
 import Datatable, { type DatatableProps } from '@/components/Datatable'
-import AuthLayout from '@/components/auth-layout'
 import UserRoleChips from '@/components/User/RoleChips'
-import UsersMainPageContent from '@/components/Users/MainPageContent'
-import UsersSummaryBox from '@/components/Users/SummaryBox'
-import UserDialogFormWithFab from '@/components/User/DialogFormWithFab'
+// parts
+import { UserSummaryBox } from '@/app/(auth)/systems/users/[[...uuid]]/_parts/summary-box'
+import { UserWithDetailsProvider } from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
+import UserDialogFormWithFab from '@/app/(auth)/systems/users/[[...uuid]]/_parts/dialog-form-with-fab'
+import UsersMainPageContent from '@/app/(auth)/systems/users/[[...uuid]]/_parts/main-page-content'
 
 export default function Page() {
-    const { push, query } = useRouter()
+    const { push } = useRouter()
+    const params = useParams()
+
+    const searchParams = useSearchParams()
+    const selectedRole = searchParams?.get('role') ?? ''
 
     return (
-        <AuthLayout title="Pengguna">
+        <>
             <Grid
                 container
                 spacing={3}
@@ -30,7 +36,7 @@ export default function Page() {
                 <Grid size={{ xs: 12, md: 8 }}>
                     <UserWithDetailsProvider>
                         <FormDataProvider>
-                            <Collapse in={Boolean(query.uuid)} unmountOnExit>
+                            <Collapse in={Boolean(params?.uuid)} unmountOnExit>
                                 <UsersMainPageContent />
                             </Collapse>
 
@@ -41,30 +47,34 @@ export default function Page() {
                     <Datatable
                         apiUrl="users/get-datatable-data"
                         apiUrlParams={{
-                            role: query.role as string,
+                            role: selectedRole,
                         }}
                         columns={DATATABLE_COLUMNS}
                         defaultSortOrder={DEFAULT_SORT_ORDER}
                         viewColumns={false}
-                        onRowClick={(data, _, { detail }) =>
-                            detail === 2 &&
-                            push({
-                                pathname: `/users/${data[1]}`,
-                                query: {
-                                    role: query.role,
-                                },
-                            })
-                        }
+                        onRowClick={(data, _, { detail }) => {
+                            if (detail === 2) {
+                                push(
+                                    '/systems/users/' +
+                                        /**
+                                         * data[1] is the UUID. declared on `DATATABLE_COLUMNS`
+                                         */
+                                        data[1] +
+                                        '?role=' +
+                                        selectedRole,
+                                )
+                            }
+                        }}
                         tableId="users-table"
                         title="Daftar Pengguna"
                     />
                 </Grid>
 
                 <Grid size={{ xs: 12, md: 4 }}>
-                    <UsersSummaryBox />
+                    <UserSummaryBox />
                 </Grid>
             </Grid>
-        </AuthLayout>
+        </>
     )
 }
 

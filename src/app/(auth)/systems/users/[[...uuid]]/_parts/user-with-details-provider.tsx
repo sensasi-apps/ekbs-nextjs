@@ -1,5 +1,5 @@
 import { createContext, type ReactNode, useContext } from 'react'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import useSWR, { type SWRResponse } from 'swr'
 //
 import axios from '@/lib/axios'
@@ -10,9 +10,12 @@ const UserWithDetailsCtx = createContext<SWRResponse>({} as SWRResponse)
 const userWithDetailsFetcher = (url: string) =>
     axios.get(url).then(response => response.data)
 
+/**
+ * @deprecated use formik instead
+ */
 export function UserWithDetailsProvider({ children }: { children: ReactNode }) {
-    const router = useRouter()
-    const uuid = router.query.uuid
+    const params = useParams()
+    const uuid = params?.uuid as string | undefined
 
     const swr = useSWR<User>(
         uuid ? `users/${uuid}` : null,
@@ -26,6 +29,9 @@ export function UserWithDetailsProvider({ children }: { children: ReactNode }) {
     )
 }
 
+/**
+ * @deprecated use formik instead
+ */
 const useUserWithDetails = () => useContext(UserWithDetailsCtx)
 
 export default useUserWithDetails

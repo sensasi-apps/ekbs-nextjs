@@ -6,10 +6,10 @@ import Fab from '@mui/material/Fab'
 
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
-import UserForm from './Form'
+import UserForm from '@/components/User/Form'
 
 import useFormData from '@/providers/FormData'
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 
 const UserDialogFormWithFab = () => {
     const { isLoading } = useUserWithDetails()

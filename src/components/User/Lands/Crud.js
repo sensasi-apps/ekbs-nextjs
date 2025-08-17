@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 
 import AddIcon from '@mui/icons-material/Add'
 
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import LandsView from './View'
 import UserLandFormhDialogWithUseContexts from '../Land/Form/DialogWithContexts'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'

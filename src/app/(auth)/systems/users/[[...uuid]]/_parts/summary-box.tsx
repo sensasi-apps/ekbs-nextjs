@@ -1,17 +1,17 @@
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
-import Skeleton from '@mui/material/Skeleton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // etc
-import { getRoleIconByIdName } from '../User/RoleChips'
+import { getRoleIconByIdName } from '@/components/User/RoleChips'
 import formatNumber from '@/utils/format-number'
+import LoadingCenter from '@/components/loading-center'
 
 interface ApiResponseItemType {
     role_name_id: string
@@ -20,10 +20,10 @@ interface ApiResponseItemType {
     user_names: string[]
 }
 
-export default function UsersSummaryBox() {
-    const { data, isLoading } = useSWR<ApiResponseItemType[]>(
-        'users/get-summary-data',
-    )
+export function UserSummaryBox() {
+    const { data } = useSWR<ApiResponseItemType[]>('users/get-summary-data')
+
+    if (!data) return <LoadingCenter />
 
     return (
         <Box
@@ -39,15 +39,7 @@ export default function UsersSummaryBox() {
                     md: 'column',
                 },
             }}>
-            {isLoading && (
-                <>
-                    <Skeleton variant="rounded" width={300} height={118} />
-                    <Skeleton variant="rounded" width={300} height={118} />
-                    <Skeleton variant="rounded" width={300} height={118} />
-                </>
-            )}
-
-            {data?.map((item, i) => (
+            {data.map((item, i) => (
                 <SummaryCard key={i} data={item} />
             ))}
         </Box>
@@ -59,29 +51,25 @@ function SummaryCard({
 }: {
     data: ApiResponseItemType
 }) {
-    const { replace, query } = useRouter()
+    const { replace } = useRouter()
+
+    const searchParams = useSearchParams()
+    const role = searchParams?.get('role') ?? ''
 
     return (
         <Card
-            variant={query.role === role_name ? 'outlined' : 'elevation'}
+            variant={role === role_name ? 'outlined' : 'elevation'}
             sx={{
                 minWidth: {
                     xs: 300,
                     md: undefined,
                 },
-                borderColor:
-                    query.role === role_name ? 'success.main' : undefined,
-                color: query.role === role_name ? 'success.main' : undefined,
+                borderColor: role === role_name ? 'success.main' : undefined,
+                color: role === role_name ? 'success.main' : undefined,
             }}>
             <CardActionArea
                 disabled={!qty}
-                onClick={() =>
-                    replace({
-                        query: {
-                            role: query.role === role_name ? '' : role_name,
-                        },
-                    })
-                }>
+                onClick={() => replace(`?role=${role_name}`)}>
                 <Tooltip
                     arrow
                     placement="left"

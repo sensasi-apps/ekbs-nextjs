@@ -1,10 +1,11 @@
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
+import Link from '@mui/material/Link'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 // icons-materials
@@ -12,22 +13,21 @@ import Close from '@mui/icons-material/Close'
 import Edit from '@mui/icons-material/Edit'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 // global components
-import IconButton from '../IconButton'
+import IconButton from '@/components/IconButton'
 import LoadingCenter from '@/components/loading-center'
+import ChipSmall from '@/components/ChipSmall'
+import FlexBox from '@/components/flex-box'
 // local components
-import RolesAndPermissionButtonAndDialogForm from './RolesAndPermissions/ButtonAndDialogForm'
-import SetPasswordButtonAndDialogForm from './SetPasswordButtonAndDialogForm'
-import IsActiveDisplay from './IsActiveDisplay'
-import UserRoleChips from './RoleChips'
+import RolesAndPermissionButtonAndDialogForm from '@/components/User/RolesAndPermissions/ButtonAndDialogForm'
+import SetPasswordButtonAndDialogForm from '@/components/User/SetPasswordButtonAndDialogForm'
+import IsActiveDisplay from '@/components/User/IsActiveDisplay'
+import UserRoleChips from '@/components/User/RoleChips'
 // providers
 import useFormData from '@/providers/FormData'
-import useUserWithDetails from '@/providers/UserWithDetails'
-import ChipSmall from '../ChipSmall'
-import FlexBox from '../flex-box'
-import Link from '@mui/material/Link'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 
 export default function UserCard() {
-    const { push, query } = useRouter()
+    const { back } = useRouter()
     const { handleEdit } = useFormData()
     const { data: userWithDetails, isLoading } = useUserWithDetails()
 
@@ -58,10 +58,7 @@ export default function UserCard() {
                         icon={Close}
                         color="warning"
                         onClick={() => {
-                            push({
-                                pathname: '/users',
-                                query: { role: query.role },
-                            })
+                            back()
                         }}
                     />
                 </Box>

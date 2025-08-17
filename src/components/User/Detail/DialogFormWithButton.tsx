@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close'
 // components
 import UserDetailForm from './Form'
 // providers
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import useFormData from '@/providers/FormData'
 
 export default function UserDetailDialogFormWithButton() {

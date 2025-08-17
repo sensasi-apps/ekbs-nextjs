@@ -1,5 +1,5 @@
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -21,14 +21,16 @@ import UserMemberCrudCard from '@/components/User/Member/CrudCard'
 import UserSocialsCrudBox from '@/components/User/Socials/CrudBox'
 import UserVehiclesCrudBox from '@/components/User/Vehicles/CrudBox'
 // utils
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import Role from '@/enums/Role'
-import UserCard from '../User/Card'
+import UserCard from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-card'
 // hooks
 import { isUserHasRole } from '@/hooks/use-is-auth-has-role'
+import { useSearchParams } from 'next/navigation'
 
 export default function UsersMainPageContent() {
-    const { replace, query } = useRouter()
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
 
     const {
         data: userWithDetails = {},
@@ -37,10 +39,7 @@ export default function UsersMainPageContent() {
     } = useUserWithDetails()
 
     if (error?.response?.status === 404) {
-        replace({
-            pathname: '/users',
-            query: { role: query.role },
-        })
+        replace('/systems/users?role=' + searchParams?.get('role'))
     }
 
     const {
