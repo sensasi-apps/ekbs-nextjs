@@ -5,10 +5,10 @@ import Assessment from '@mui/icons-material/Assessment'
 import Dashboard from '@mui/icons-material/Dashboard'
 import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 // nav items
-import { accountings } from './accountings'
 import { clms } from './clm'
 import { executives } from './executives'
 import { farmInputs } from './farm-Inputs'
+import { financesNavItemGroup } from './finances'
 import { heavyEquipments } from './heavy-equipments'
 import { inventories } from './inventories'
 import { loans } from './loans'
@@ -51,7 +51,7 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
     marts,
     repairShop,
     clms,
-    accountings,
+    financesNavItemGroup,
     systemsNavItemGroup,
     supermans,
 ]

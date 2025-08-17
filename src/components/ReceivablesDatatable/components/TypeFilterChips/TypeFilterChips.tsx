@@ -1,40 +1,57 @@
-import { useRouter } from 'next/router'
+// vendors
+import { useSearchParams } from 'next/navigation'
+// materials
+import Chip from '@mui/material/Chip'
+import Link from '@mui/material/Link'
+// components
 import ScrollableXBox from '@/components/ScrollableXBox'
-import ChipSmall from '@/components/ChipSmall'
+
+const FAKE_ONCLICK = () => undefined
 
 export function TypeFilterChips() {
-    const { replace, query } = useRouter()
+    const searchParams = useSearchParams()
+    const type = searchParams?.get('type')
 
-    function handleTypeChange(value?: string) {
-        replace({
-            query: {
-                ...query,
-                type: value,
-            },
-        })
-    }
+    /**
+     * state value is set on StateFilterChips component
+     *
+     * @see [`<StateFilterChips />`](..\StateFilterChips\StateFilterChips.tsx)
+     */
+    const state = searchParams?.get('state') ?? ''
 
     return (
         <ScrollableXBox>
-            <ChipSmall
+            <Chip
                 label="Semua"
-                onClick={() => handleTypeChange(undefined)}
-                color={query.type ? undefined : 'success'}
+                onClick={type ? undefined : FAKE_ONCLICK}
+                color={type ? undefined : 'success'}
+                href={'?type=&state=' + state}
+                component={Link}
+                size="small"
             />
-            <ChipSmall
+            <Chip
                 label="Penjualan Produk (SAPRODI)"
-                onClick={() => handleTypeChange('product-sale')}
-                color={query.type === 'product-sale' ? 'success' : undefined}
+                onClick={type === 'product-sale' ? undefined : FAKE_ONCLICK}
+                color={type === 'product-sale' ? 'success' : undefined}
+                href={'?type=product-sale&state=' + state}
+                component={Link}
+                size="small"
             />
-            <ChipSmall
+            <Chip
                 label="Pinjaman (SPP)"
-                onClick={() => handleTypeChange('user-loan')}
-                color={query.type === 'user-loan' ? 'success' : undefined}
+                onClick={type === 'user-loan' ? undefined : FAKE_ONCLICK}
+                color={type === 'user-loan' ? 'success' : undefined}
+                href={'?type=user-loan' + '&state=' + state}
+                component={Link}
+                size="small"
             />
-            <ChipSmall
+            <Chip
                 label="Sewa Alat Berat"
-                onClick={() => handleTypeChange('rent-item-rent')}
-                color={query.type === 'rent-item-rent' ? 'success' : undefined}
+                onClick={type === 'rent-item-rent' ? undefined : FAKE_ONCLICK}
+                color={type === 'rent-item-rent' ? 'success' : undefined}
+                href={'?type=rent-item-rent' + '&state=' + state}
+                component={Link}
+                size="small"
             />
         </ScrollableXBox>
     )
