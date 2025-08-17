@@ -4,10 +4,10 @@ import TopicIcon from '@mui/icons-material/Topic'
 import CartIcon from '@mui/icons-material/ShoppingCart'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 // enums
-import PurchasePermission from '@/features/repair-shop--purchase/enums/permission'
-import SparePartPermission from '@/features/repair-shop--spare-part/enums/permission'
-import ServicePermission from '@/features/repair-shop--service/enums/permission'
-import SalePermission from '@/features/repair-shop--sale/enums/permission'
+import PurchasePermission from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/permission'
+import SparePartPermission from '@/app/(auth)/repair-shop/spare-parts/_enums/permission'
+import ServicePermission from '@/app/(auth)/repair-shop/services/_parts/enums/permission'
+import SalePermission from '@/app/(auth)/repair-shop/sales/_parts/enums/permission'
 
 export const repairShop: NavItemGroup = {
     label: 'Belayan Spare Parts',

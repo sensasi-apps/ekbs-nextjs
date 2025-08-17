@@ -9,10 +9,10 @@ import type Transaction from '@/enums/permissions/Transaction'
 import type UserLoan from '@/enums/permissions/UserLoan'
 import type Wallet from '@/enums/permissions/Wallet'
 // repair-shop features
-import type RepairShopPurchasePermission from '@/features/repair-shop--purchase/enums/permission'
-import type RepairShopSalePermission from '@/features/repair-shop--sale/enums/permission'
-import type RepairShopSparePartPermission from '@/features/repair-shop--spare-part/enums/permission'
-import type RepairShopServicePermission from '@/features/repair-shop--service/enums/permission'
+import type RepairShopPurchasePermission from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/permission'
+import type RepairShopSalePermission from '@/app/(auth)/repair-shop/sales/_parts/enums/permission'
+import type RepairShopSparePartPermission from '@/app/(auth)/repair-shop/spare-parts/_enums/permission'
+import type RepairShopServicePermission from '@/app/(auth)/repair-shop/services/_parts/enums/permission'
 
 export type Permission =
     | Cash
