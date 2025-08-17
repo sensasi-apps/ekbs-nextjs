@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 // page components
 import InventoryItemForm, {
     type InventoryItemFormValues,
-} from '@/components/pages/inventory-items/Form'
+} from '@/app/(auth)/inventories/items/[uuid]/_parts/form'
 // utils
 import errorCatcher from '@/utils/handle-422'
 
