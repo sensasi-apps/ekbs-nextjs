@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type { InventoryItemFormValues } from '@/components/pages/inventory-items/Form'
+import type { InventoryItemFormValues } from '@/app/(auth)/inventories/items/[uuid]/_parts/form'
 import type {
     DatatableProps,
     GetRowDataType,
@@ -20,7 +20,7 @@ import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
 // page components
-import InventoryItemFormWithFormik from '@/components/pages/inventory-items/Form/WithFormik'
+import InventoryItemFormWithFormik from '@/app/(auth)/inventories/items/[uuid]/_parts/form/with-formik'
 // icons
 import WarningIcon from '@mui/icons-material/Warning'
 import ReceiptIcon from '@mui/icons-material/Receipt'
@@ -46,7 +46,7 @@ export default function InventoryItems() {
             const inventoryItem = getRowData(dataIndex)
             if (!inventoryItem) return
 
-            push(`/inventory-items/${inventoryItem.uuid}`)
+            push(`/inventories/items/${inventoryItem.uuid}`)
         }
     }
 
