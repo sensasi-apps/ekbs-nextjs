@@ -5,16 +5,16 @@ import Assessment from '@mui/icons-material/Assessment'
 import Dashboard from '@mui/icons-material/Dashboard'
 import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 // nav items
-import { accountings } from './accountings'
 import { clms } from './clm'
 import { executives } from './executives'
 import { farmInputs } from './farm-Inputs'
+import { financesNavItemGroup } from './finances'
 import { heavyEquipments } from './heavy-equipments'
 import { inventories } from './inventories'
 import { loans } from './loans'
 import { palmBunches } from './palm-bunches'
 import { supermans } from './supermans'
-import { systems } from './systems'
+import { systemsNavItemGroup } from './systems'
 import { marts } from './marts'
 import { repairShop } from './repair-shop'
 // enums
@@ -51,8 +51,8 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
     marts,
     repairShop,
     clms,
-    accountings,
-    systems,
+    financesNavItemGroup,
+    systemsNavItemGroup,
     supermans,
 ]
 

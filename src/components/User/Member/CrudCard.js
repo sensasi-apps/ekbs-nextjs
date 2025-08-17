@@ -16,7 +16,7 @@ import useFormData, { FormDataProvider } from '@/providers/FormData'
 
 import MemberForm from './Form'
 import MemberBox from './Box'
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import { getRoleIconByIdName } from '../RoleChips'
 
 const TITLE_TYPORAPHY_PROPS = {

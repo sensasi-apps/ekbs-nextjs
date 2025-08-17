@@ -8,12 +8,12 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
 // page components
-import AllCashChart from '@/components/pages/cashes/Cash/AllCashChart'
+import AllCashChart from '@/app/(auth)/finances/cashes/_parts/cash/all-cash-chart'
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
 import Heading3 from '@/components/pages/executive/statistics/Heading3'
 import InOutCashChart, {
     type InOutCashChartDataType,
-} from '@/components/pages/cashes/Cash/InOutChart'
+} from '@/app/(auth)/finances/cashes/_parts/cash/in-out-chart'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../SX_SCROLL_MARGIN_TOP'
 

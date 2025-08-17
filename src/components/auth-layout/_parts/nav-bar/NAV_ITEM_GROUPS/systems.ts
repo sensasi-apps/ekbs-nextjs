@@ -6,20 +6,18 @@ import SettingsIcon from '@mui/icons-material/Settings'
 // enums
 import Role from '@/enums/Role'
 
-export const systems: NavItemGroup = {
+export const systemsNavItemGroup: NavItemGroup = {
     label: 'Sistem',
     items: [
         {
-            href: '/users',
+            href: '/systems/users',
             label: 'Pengguna',
-            pathname: '/users/[[...uuid]]',
             icon: GroupIcon,
             forRole: Role.USER_ADMIN,
         },
         {
-            href: '/settings',
+            href: '/systems/settings',
             label: 'Pengaturan',
-            pathname: '/settings',
             icon: SettingsIcon,
             forRole: Role.SYSTEM_CONFIGURATOR,
         },

@@ -27,7 +27,7 @@ import ImageInput from '@/components/image-input'
 import TextField from '@/components/TextField'
 // providers
 import useFormData from '@/providers/FormData'
-import useUserWithDetails from '@/providers/UserWithDetails'
+import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'

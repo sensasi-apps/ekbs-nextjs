@@ -40,7 +40,7 @@ import toDmy from '@/utils/to-dmy'
 import Wallet from '@/enums/permissions/Wallet'
 import InstallmentDataTable from './tx-form/installment-datatable'
 // pages type
-import type { DataType } from '@/pages/wallets'
+import type { DataType } from '@/app/(auth)/finances/wallets/page'
 import CorrectionTxDataTable from './tx-form/correction-tx-datatable'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
