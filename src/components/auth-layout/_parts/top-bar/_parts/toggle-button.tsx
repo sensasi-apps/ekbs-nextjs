@@ -12,7 +12,7 @@ export default function TopBarNavbarToggleButton() {
             aria-label="open drawer"
             edge="start"
             onClick={toggleDrawer}
-            sx={{ mr: 2, display: { sm: 'none' } }}>
+            sx={{ mr: 2, visibility: { sm: 'hidden' } }}>
             <MenuIcon />
         </IconButton>
     )

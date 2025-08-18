@@ -1,7 +1,5 @@
 // types
 import { type ReactNode } from 'react'
-// vendors
-import Head from 'next/head'
 // materials
 import Box from '@mui/material/Box'
 // components
@@ -14,15 +12,7 @@ import NavBar from './_parts/nav-bar'
 import WIDTH from './_parts/nav-bar/WIDTH'
 import ContentGuard from '@/app/(auth)/_parts/content-guard'
 
-export default function AuthLayout({
-    title,
-    children,
-    subtitle,
-}: {
-    title: string
-    children: ReactNode
-    subtitle?: string
-}) {
+export default function AuthLayout({ children }: { children: ReactNode }) {
     return (
         <div
             style={{
@@ -32,20 +22,6 @@ export default function AuthLayout({
 
             <The401Protection />
 
-            <Head>
-                {title !== '' && (
-                    <title>{`${title} — ${process.env.NEXT_PUBLIC_APP_NAME}`}</title>
-                )}
-
-                {subtitle && <meta name="description" content={subtitle} />}
-
-                <meta
-                    name="robots"
-                    content="noindex, nofollow, noarchive, nosnippet, noimageindex"
-                />
-                <meta name="googlebot" content="noindex, nofollow" />
-            </Head>
-
             <NavBar />
 
             <Box
@@ -54,7 +30,7 @@ export default function AuthLayout({
                     xs: '100%',
                     sm: `calc(100% - ${WIDTH}px)`,
                 }}>
-                <TopBar title={title} subtitle={subtitle} />
+                <TopBar />
 
                 <Box
                     component="main"

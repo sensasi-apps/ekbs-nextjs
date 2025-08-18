@@ -29,7 +29,7 @@ export default function NotFound() {
         )
 
     return (
-        <AuthLayout title="">
+        <AuthLayout>
             <Content />
         </AuthLayout>
     )
