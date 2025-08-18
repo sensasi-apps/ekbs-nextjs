@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type Product from '@/dataTypes/mart/Product'
 import type { YajraDatatable } from '@/types/responses/YajraDatatable'
@@ -14,7 +16,6 @@ import Typography from '@mui/material/Typography'
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
 import ApiUrl from '@/components/pages/marts/products/ApiUrl'
-import AuthLayout from '@/components/auth-layout'
 import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
     type DatatableProps,
@@ -55,17 +56,18 @@ export default function Products() {
         setFormValues(undefined)
     }
 
-    function onSumbitted() {
+    function onSubmitted() {
         mutate()
         handleClose()
     }
 
     return (
-        <AuthLayout title="Produk">
+        <>
             <Fade in={isDownloading}>
                 <LinearProgress
                     sx={{
                         transform: 'translateY(0.2em)',
+                        zIndex: 1,
                     }}
                 />
             </Fade>
@@ -128,7 +130,7 @@ export default function Products() {
                         product: selectedRow,
                         handleDelete: () =>
                             getAxiosRequest('delete', selectedRow?.id).then(
-                                onSumbitted,
+                                onSubmitted,
                             ),
                     }}
                     onSubmit={(values, { setErrors }) =>
@@ -137,7 +139,7 @@ export default function Products() {
                             selectedRow?.id,
                             values,
                         )
-                            .then(onSumbitted)
+                            .then(onSubmitted)
                             .catch(error => handle422(error, setErrors))
                     }
                     onReset={handleClose}
@@ -163,7 +165,7 @@ export default function Products() {
                 title="Tambah Produk">
                 <InventoryIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 

@@ -1,6 +1,8 @@
+'use client'
+
 // vendors
 import { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
@@ -14,12 +16,12 @@ import Datatable, {
     type GetRowDataType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-// layouts
-import type { CreateFormValues } from '@/components/pages/marts/products/opnames/Form'
-import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
-import AuthLayout from '@/components/auth-layout'
-import FormDialog from '@/components/pages/marts/products/opnames/FormDialog'
+import PageTitle from '@/components/page-title'
 import ChipSmall from '@/components/ChipSmall'
+// parts
+import type { CreateFormValues } from '@/app/(auth)/marts/products/opnames/_parts/form'
+import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
+import FormDialog from '@/app/(auth)/marts/products/opnames/_parts/form-dialog'
 // utils
 import formatNumber from '@/utils/format-number'
 // hooks
@@ -41,7 +43,8 @@ export default function Opnames() {
     }
 
     return (
-        <AuthLayout title="Opname">
+        <>
+            <PageTitle title="Opname" />
             <Box mb={2}>
                 <Button startIcon={<BackupTable />} href="opnames/reports">
                     Laporan
@@ -79,10 +82,10 @@ export default function Opnames() {
                         at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                     })
                 }
-                title="Tambah Produk">
+                title="Tambah Opname">
                 <InventoryIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 

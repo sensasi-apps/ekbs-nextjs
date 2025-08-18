@@ -1,5 +1,7 @@
+'use client'
+
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
@@ -19,21 +21,21 @@ import Typography from '@mui/material/Typography'
 import Download from '@mui/icons-material/Download'
 import Refresh from '@mui/icons-material/Refresh'
 // components
+import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
-import AuthLayout from '@/components/auth-layout'
 import PrintHandler from '@/components/PrintHandler'
+import PageTitle from '@/components/page-title'
 // enums
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
 // utils
 import aoaToXlsx from '@/utils/aoa-to-xlsx'
 import formatNumber from '@/utils/format-number'
-import BackButton from '@/components/back-button'
 
-export default function Opnames() {
-    const {
-        query: { from_at, to_at },
-    } = useRouter()
+export default function OpnameReportPage() {
+    const searchParams = useSearchParams()
+    const from_at = searchParams?.get('from_at')
+    const to_at = searchParams?.get('to_at')
 
     const swr = useSWR<OpnameReportItem[]>(
         from_at && to_at
@@ -52,7 +54,9 @@ export default function Opnames() {
     const isLoading = swr.isLoading || swr.isValidating
 
     return (
-        <AuthLayout title="Laporan Opname per Kategori">
+        <>
+            <PageTitle title="Laporan Opname per Kategori" />
+
             <BackButton />
 
             <Box display="flex" alignItems="center" mb={2} mt={1}>
@@ -103,7 +107,7 @@ export default function Opnames() {
             </Fade>
 
             <ReportTable data={data} />
-        </AuthLayout>
+        </>
     )
 }
 
@@ -122,10 +126,11 @@ function FiltersBox({
     mutate: () => void
     isLoading: boolean
 }) {
-    const {
-        query: { from_at, to_at },
-        replace,
-    } = useRouter()
+    const { replace } = useRouter()
+
+    const searchParams = useSearchParams()
+    const from_at = searchParams?.get('from_at')
+    const to_at = searchParams?.get('to_at')
 
     const [isClient, setIsClient] = useState(false)
 
@@ -142,24 +147,18 @@ function FiltersBox({
                 name="from_at"
                 value={from_at ? dayjs(from_at as string) : null}
                 onChange={value =>
-                    replace({
-                        query: {
-                            from_at: value?.format('YYYY-MM-DD'),
-                            to_at: to_at,
-                        },
-                    })
+                    replace(
+                        `?from_at=${value?.format('YYYY-MM-DD')}&to_at=${to_at}`,
+                    )
                 }
             />
             <DatePicker
                 name="to_at"
                 value={to_at ? dayjs(to_at as string) : null}
                 onChange={value =>
-                    replace({
-                        query: {
-                            from_at: from_at,
-                            to_at: value?.format('YYYY-MM-DD'),
-                        },
-                    })
+                    replace(
+                        `?from_at=${from_at}&to_at=${value?.format('YYYY-MM-DD')}`,
+                    )
                 }
             />
 

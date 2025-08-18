@@ -2,7 +2,7 @@
 import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
 // vendors
 import { memo, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
 // materials
 import IconButton from '@mui/material/IconButton'
@@ -14,11 +14,11 @@ import TableRow from '@mui/material/TableRow'
 import Edit from '@mui/icons-material/Edit'
 // utils
 import formatNumber from '@/utils/format-number'
-import FormDialog from './FormDialog'
-import { type CreateFormValues } from './Form'
+import FormDialog from './form-dialog'
+import { type CreateFormValues } from './form'
 
 function SummaryTable({ data }: { data: ProductMovementOpname }) {
-    const { reload } = useRouter()
+    const { refresh } = useRouter()
     const [formValues, setFormValues] = useState<CreateFormValues>()
 
     function handleClose() {
@@ -186,7 +186,7 @@ function SummaryTable({ data }: { data: ProductMovementOpname }) {
                         <FormDialog
                             formValues={formValues}
                             selectedRow={data}
-                            onSubmitted={() => reload()}
+                            onSubmitted={() => refresh()}
                             onClose={handleClose}
                         />
                     </TableCell>

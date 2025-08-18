@@ -1,5 +1,7 @@
+'use client'
+
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import dayjs, { type Dayjs } from 'dayjs'
@@ -44,10 +46,13 @@ const DEFAULT_SPEED = 100
 const MIN_ROW = 8
 
 export default function Statistics() {
-    const {
-        query: { from, to, min_qty_speed },
-        replace,
-    } = useRouter()
+    const { replace } = useRouter()
+
+    const searchParams = useSearchParams()
+
+    const from = searchParams?.get('from')
+    const to = searchParams?.get('to')
+    const min_qty_speed = searchParams?.get('min_qty_speed')
 
     const isQueryValid = from && to
 
@@ -65,13 +70,8 @@ export default function Statistics() {
 
     const setMinQtySpeedDebounced = useDebouncedCallback((newSpeed: number) => {
         setQtyMinSpeed(newSpeed)
-        replace({
-            query: {
-                from,
-                to,
-                min_qty_speed: newSpeed,
-            },
-        })
+
+        replace(`?from=${from}&to=${to}&min_qty_speed=${newSpeed}`)
     }, 500)
 
     return (
@@ -153,10 +153,12 @@ function FiltersBox({
     disabled: boolean
     onQtySpeedChange: (newSpeed: number) => void
 }) {
-    const {
-        replace,
-        query: { from, to, min_qty_speed },
-    } = useRouter()
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
+
+    const from = searchParams?.get('from')
+    const to = searchParams?.get('to')
+    const min_qty_speed = searchParams?.get('min_qty_speed')
 
     const [fromDate, setFromDate] = useState<Dayjs | null>(null)
     const [toDate, setToDate] = useState<Dayjs | null>(null)
@@ -196,13 +198,9 @@ function FiltersBox({
                 disabled={disabled || !fromDate || !toDate}
                 title="Segarkan"
                 onClick={() =>
-                    replace({
-                        query: {
-                            from: fromDate?.format('YYYY-MM-DD'),
-                            to: toDate?.format('YYYY-MM-DD'),
-                            min_qty_speed,
-                        },
-                    })
+                    replace(
+                        `?from=${fromDate?.format('YYYY-MM-DD')}&to=${toDate?.format('YYYY-MM-DD')}&min_qty_speed=${min_qty_speed}`,
+                    )
                 }
             />
 

@@ -1,4 +1,4 @@
-import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
+import ApiUrl from '@/app/mart-product-sales/_parts/enums/api-url'
 
 enum OpnameApiUrl {
     CATEGORIES_DATA = 'marts/products/opnames/data/categories',

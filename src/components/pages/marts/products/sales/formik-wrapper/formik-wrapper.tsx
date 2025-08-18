@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { FormValuesType, FormikStatusType } from '.'
 import type { AxiosError } from 'axios'
@@ -8,7 +10,7 @@ import axios from '@/lib/axios'
 import dayjs from 'dayjs'
 import Grid from '@mui/material/Grid'
 // local components
-import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
+import ApiUrl from '@/app/mart-product-sales/_parts/enums/api-url'
 import ProductPicker from '../product-picker'
 import CreateSaleFormWrapper from './components/create-sale-form-wrapper'
 // etc

@@ -1,6 +1,6 @@
 // types
 import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
-import type { FormValues } from '../Form'
+import type { FormValues } from '../form'
 // vendors
 import type { FieldArrayRenderProps } from 'formik'
 // materials

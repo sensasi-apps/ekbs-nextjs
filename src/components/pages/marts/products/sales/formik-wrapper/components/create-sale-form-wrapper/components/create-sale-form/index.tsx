@@ -13,7 +13,7 @@ import { NumericField } from '@/components/FormikForm'
 import BuyerUserUuidFieldComponent from './components/buyer-user-uuid-field-component'
 import CashableUuidFieldComponent from './components/cashable-uuid-field-component'
 import CostsFieldComponent from './components/costs-field-component'
-import DefaultItemDesc from '../../../../../@shared-subcomponents/default-item-desc'
+import DefaultItemDesc from '../../../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/default-item-desc'
 import DetailsFieldComponent from './components/details-field-component'
 // utils
 import formatNumber from '@/utils/format-number'

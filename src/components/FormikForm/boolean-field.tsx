@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { Field, type FieldProps } from 'formik'
 import { useDebouncedCallback } from 'use-debounce'

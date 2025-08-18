@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { FieldProps } from 'formik'
 import type Product from '@/dataTypes/mart/Product'
@@ -17,7 +19,7 @@ import Masonry from '@mui/lab/Masonry'
 import CategoryChips from './components/category-chips'
 import ProductCard from './components/product-card'
 import SearchTextField from './components/search-text-field'
-import ApiUrl from '../@enums/api-url'
+import ApiUrl from '../../../../../../app/mart-product-sales/_parts/enums/api-url'
 import BarcodeReader from 'react-barcode-reader'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import ResultNav from './components/result-nav'

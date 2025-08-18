@@ -15,7 +15,7 @@ import { loans } from './loans'
 import { palmBunches } from './palm-bunches'
 import { supermans } from './supermans'
 import { systemsNavItemGroup } from './systems'
-import { marts } from './marts'
+import { martsNavItemGroup } from './marts'
 import { repairShop } from './repair-shop'
 // enums
 import Role from '@/enums/Role'
@@ -48,7 +48,7 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
     farmInputs,
     inventories,
     heavyEquipments,
-    marts,
+    martsNavItemGroup,
     repairShop,
     clms,
     financesNavItemGroup,

@@ -1,5 +1,7 @@
+'use client'
+
 // types
-import type { FormValuesType } from '../formik-wrapper'
+import type { FormValuesType } from '../../../../components/pages/marts/products/sales/formik-wrapper'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 // vendors
 import type { FieldProps, FormikErrors } from 'formik'

@@ -1,4 +1,4 @@
-import ApiUrl from '@/components/pages/marts/products/sales/@enums/api-url'
+import ApiUrl from '@/app/mart-product-sales/_parts/enums/api-url'
 import { martSales } from '@/sw/statics/bg-sync-queue-instances/mart-sales'
 
 /**

@@ -1,3 +1,5 @@
+'use client'
+
 import type { FieldProps } from 'formik'
 import { memo, useState } from 'react'
 // materials
@@ -8,7 +10,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 // sub-components
 import type { FormikStatusType, FormValuesType } from '../../../../../..'
-import DetailItem from '../../../../../../../@shared-subcomponents/detail-item'
+import DetailItem from '../../../../../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/detail-item'
 import { DetailItemFormDialog } from './components/detail-item-form-dialog'
 
 function DetailsFieldComponent({

@@ -1,5 +1,5 @@
 // types
-import type { FormValues } from '../Form'
+import type { FormValues } from '../form'
 import type Product from '@/dataTypes/mart/Product'
 // vendors
 import { Field, type FieldArrayRenderProps, type FieldProps } from 'formik'
@@ -22,7 +22,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import formatNumber from '@/utils/format-number'
 import useSWR from 'swr'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import ApiUrl from '../../sales/@enums/api-url'
+import ApiUrl from '@/app/mart-product-sales/_parts/enums/api-url'
 
 export default function ProductMovementDetailArrayFields({
     push,
