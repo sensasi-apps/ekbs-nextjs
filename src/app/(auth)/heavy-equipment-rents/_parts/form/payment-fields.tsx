@@ -25,7 +25,7 @@ import LoadingAddorment from '@/components/LoadingAddorment'
 import NumericFormat from '@/components/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // page components
-import CrediturCard from '../../../../../components/pages/user-loans/CrediturCard'
+import CrediturCard from '../../../../../components/pages/user-loans/creditor-card'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'

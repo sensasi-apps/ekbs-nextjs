@@ -5,7 +5,7 @@ import type { KeyedMutator } from 'swr'
 import type { YajraDatatable } from '@/types/responses/YajraDatatable'
 // vendors
 import { memo } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
@@ -31,7 +31,9 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
         mutator: KeyedMutator<YajraDatatable<RentItemRent>>,
     ) => void
 }) {
-    const { query, replace } = useRouter()
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
+    const query = Object.fromEntries(searchParams?.entries() ?? [])
 
     const selectedDate = dayjs(
         `${query.year ?? CURRENT_DATE.format('YYYY')}-${
@@ -63,12 +65,9 @@ const HerMonthlyCalendar = memo(function HerMonthlyCalendar({
                     value={selectedDate}
                     onAccept={date =>
                         date
-                            ? replace({
-                                  query: {
-                                      year: date?.format('YYYY'),
-                                      month: date?.format('MM'),
-                                  },
-                              })
+                            ? replace(
+                                  `?year=${date.format('YYYY')}&month=${date.format('MM')}`,
+                              )
                             : undefined
                     }
                     views={['year', 'month']}

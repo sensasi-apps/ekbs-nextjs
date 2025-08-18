@@ -29,7 +29,7 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 // components
-import CrediturCard from '../user-loans/CrediturCard'
+import CrediturCard from '../user-loans/creditor-card'
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/FormikForm'
 import LoadingAddorment from '@/components/LoadingAddorment'

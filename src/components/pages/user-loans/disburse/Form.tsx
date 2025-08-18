@@ -7,7 +7,7 @@ import { memo } from 'react'
 import { FastField } from 'formik'
 import Box from '@mui/material/Box'
 // components
-import CrediturCard from '../CrediturCard'
+import CrediturCard from '../creditor-card'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import FormikForm from '@/components/FormikForm'
 // local components

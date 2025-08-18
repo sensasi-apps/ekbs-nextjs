@@ -1,5 +1,6 @@
 // vendors
-import React, { type ReactNode, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { type ReactNode, useState } from 'react'
 import dayjs, { type Dayjs } from 'dayjs'
 import useSWR from 'swr'
 // materials
@@ -24,13 +25,15 @@ import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 import aoaToXlsx from '@/utils/aoa-to-xlsx'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 
 export default function SalesReport() {
-    const {
-        replace,
-        query: { fromAt: fromAtQuery, toAt: toAtQuery },
-    } = useRouter()
+    const { replace } = useRouter()
+
+    const searchParams = useSearchParams()
+    const { fromAt: fromAtQuery, toAt: toAtQuery } = Object.fromEntries(
+        searchParams?.entries() ?? [],
+    )
 
     const [fromAt, setFromAt] = useState<Dayjs | undefined>(
         fromAtQuery ? dayjs(fromAtQuery as string) : undefined,
@@ -86,12 +89,9 @@ export default function SalesReport() {
                                 fromAt?.format('YYYY-MM-DD') !== fromAtQuery ||
                                 toAt?.format('YYYY-MM-DD') !== toAtQuery
                             ) {
-                                replace({
-                                    query: {
-                                        fromAt: fromAt?.format('YYYY-MM-DD'),
-                                        toAt: toAt?.format('YYYY-MM-DD'),
-                                    },
-                                })
+                                replace(
+                                    `?fromAt=${fromAt?.format('YYYY-MM-DD')}&toAt=${toAt?.format('YYYY-MM-DD')}`,
+                                )
                             } else {
                                 mutate()
                             }
