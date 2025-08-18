@@ -6,7 +6,7 @@ import Fab from '@mui/material/Fab'
 
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
-import UserForm from '@/components/User/Form'
+import UserForm from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-form'
 
 import useFormData from '@/providers/FormData'
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
