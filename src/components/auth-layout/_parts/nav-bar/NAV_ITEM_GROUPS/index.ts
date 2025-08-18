@@ -34,8 +34,8 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
                 icon: Assessment,
             },
             {
-                href: '/me/participations',
-                label: 'Partisipasi Anda',
+                href: '/me/participation',
+                label: 'Partisipasiku',
                 icon: VolunteerActivism,
                 forRole: Role.MEMBER,
             },
