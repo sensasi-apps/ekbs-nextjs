@@ -17,14 +17,15 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 // components
 import { ContactList } from '@/components/User/Socials/CrudBox'
-import TbsPerformanceChart from './CrediturCard/TbsPerformanceChart'
+import TbsPerformanceChart from './tbs-performance-chart'
+// utils
 import numberToCurrency from '@/utils/number-to-currency'
 
-export default function CrediturCard({ data: creditur }: { data: UserType }) {
+export default function CreditorCard({ data: creditor }: { data: UserType }) {
     const [isCollapsed, setIsCollapsed] = useState(true)
 
     const { data: totalRpActiveInstallment = 0, isLoading } = useSWR<number>(
-        `users/${creditur.uuid}/get-total-rp-active-installments`,
+        `users/${creditor.uuid}/get-total-rp-active-installments`,
     )
 
     return (
@@ -39,10 +40,10 @@ export default function CrediturCard({ data: creditur }: { data: UserType }) {
                             alignItems="center">
                             <Box display="flex" gap={1}>
                                 <Typography color="GrayText" component="span">
-                                    #{creditur?.id}
+                                    #{creditor?.id}
                                 </Typography>
                                 <Typography component="span">
-                                    {creditur?.name}
+                                    {creditor?.name}
                                 </Typography>
                             </Box>
 
@@ -64,7 +65,7 @@ export default function CrediturCard({ data: creditur }: { data: UserType }) {
                         Kontak:
                     </Typography>
 
-                    <ContactList data={creditur?.socials ?? []} readMode />
+                    <ContactList data={creditor?.socials ?? []} readMode />
 
                     <Typography color="GrayText" mt={1}>
                         Total Angsuran Aktif Saat Ini:
@@ -82,7 +83,7 @@ export default function CrediturCard({ data: creditur }: { data: UserType }) {
                         Performa:
                     </Typography>
 
-                    <TbsPerformanceChart user={creditur} />
+                    <TbsPerformanceChart user={creditor} />
                 </CardContent>
             </Collapse>
         </Card>

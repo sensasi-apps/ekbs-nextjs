@@ -1,5 +1,7 @@
 // materials
 import Box from '@mui/material/Box'
+// component
+import ContentGuard from '@/components/content-guard'
 import RedirectIfUnauth from '@/components/redirect-if-unauth'
 import The401Protection from '@/components/the-401-protection'
 import FooterBox from '@/components/footer-box'
@@ -18,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             <The401Protection />
 
-            {children}
+            <ContentGuard>{children}</ContentGuard>
 
             <FooterBox />
         </Box>

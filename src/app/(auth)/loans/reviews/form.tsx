@@ -10,7 +10,7 @@ import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 // components
-import CrediturCard from '../../../../components/pages/user-loans/CrediturCard'
+import CrediturCard from '../../../../components/pages/user-loans/creditor-card'
 import UserLoanSummaryBox from '../../../../components/pages/user-loans/SummaryBox'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'

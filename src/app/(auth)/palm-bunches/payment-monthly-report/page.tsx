@@ -1,7 +1,7 @@
 'use client'
 
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 // materials
@@ -19,13 +19,13 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import IconButton from '@/components/IconButton'
+import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/PrintHandler'
 import Skeletons from '@/components/Global/Skeletons'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // utils
 import formatNumber from '@/utils/format-number'
 import useDisablePage from '@/hooks/useDisablePage'
-import PageTitle from '@/components/page-title'
 
 type ApiResponseType = {
     name: string
@@ -41,7 +41,8 @@ type ApiResponseType = {
 export default function PalmBunchesPayrollMonthlyReport() {
     useDisablePage()
 
-    const { query } = useRouter()
+    const searchParams = useSearchParams()
+    const query = Object.fromEntries(searchParams?.entries() ?? [])
 
     const selectedDate = dayjs(
         `${query.year ?? CURR_MONTH.format('YYYY')}-${query.month ?? CURR_MONTH.format('MM')}-01`,
@@ -121,7 +122,10 @@ const BOLD_ROW_SX = {
 }
 
 function MonthPicker({ disabled }: { disabled: boolean }) {
-    const { query, replace } = useRouter()
+    const { replace } = useRouter()
+
+    const searchParams = useSearchParams()
+    const query = Object.fromEntries(searchParams?.entries() ?? [])
 
     const value = dayjs(
         `${query.year ?? CURR_MONTH.format('YYYY')}-${query.month ?? CURR_MONTH.format('MM')}-01`,
@@ -138,12 +142,9 @@ function MonthPicker({ disabled }: { disabled: boolean }) {
             maxDate={dayjs().startOf('month')}
             onAccept={date =>
                 date
-                    ? replace({
-                          query: {
-                              year: date?.format('YYYY'),
-                              month: date?.format('MM'),
-                          },
-                      })
+                    ? replace(
+                          `?year=${date.format('YYYY')}&month=${date.format('MM')}`,
+                      )
                     : undefined
             }
             views={['year', 'month']}

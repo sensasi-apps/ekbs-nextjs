@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import { type ReactNode } from 'react'
 // vendors
@@ -17,13 +19,14 @@ import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import Warehouse from '@mui/icons-material/Warehouse'
 // components
 import LineChart from '@/components/Chart/Line'
-import AuthLayout from '@/components/auth-layout'
+import PageTitle from '@/components/page-title'
 import StatCard from '@/components/StatCard'
 // utils
 import Role from '@/enums/Role'
 import BigNumberCard, {
     type BigNumberCardProps,
 } from '@/components/big-number-card'
+// hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 export interface ApiResponseType {
@@ -33,8 +36,8 @@ export interface ApiResponseType {
 }
 
 /**
- * Page component that displays user participations based on their roles.
- * Participations mean the user's activities in the cooperative's business units.
+ * Page component that displays user participation based on their roles.
+ * Participation mean the user's activities in the cooperative's business units.
  */
 export default function Page() {
     const isUserHasRole = useIsAuthHasRole()
@@ -44,10 +47,10 @@ export default function Page() {
             isUserHasRole(Role.MEMBER) ? 'me/participations' : null,
         )
 
-    if (!isUserHasRole(Role.MEMBER)) return <NonMemberPage />
-
     return (
-        <AuthLayout title="Partisipasi Anda">
+        <>
+            <PageTitle title="Partisipasiku" />
+
             {isUserHasRole(Role.FARMER) && (
                 <Section
                     title="TBS — Jual"
@@ -70,7 +73,7 @@ export default function Page() {
                 title="SAPRODI"
                 iconTitle={<Warehouse />}
                 data={farmInputs}
-                detailHref="/farm-inputs/purchases/me"
+                detailHref="/farm-inputs/my-purchases"
             />
 
             <ComingSoonSection title="Alat Berat" iconTitle={<Agriculture />} />
@@ -89,17 +92,7 @@ export default function Page() {
                 title="Belayan Spare Parts"
                 iconTitle={<BikeScooter />}
             />
-        </AuthLayout>
-    )
-}
-
-function NonMemberPage() {
-    return (
-        <AuthLayout title="Partisipasi Anda">
-            <Typography variant="body2" color="grey" mt={1}>
-                Halaman ini hanya dapat diakses oleh anggota koperasi
-            </Typography>
-        </AuthLayout>
+        </>
     )
 }
 

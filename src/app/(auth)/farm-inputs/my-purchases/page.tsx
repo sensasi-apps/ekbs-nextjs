@@ -20,7 +20,10 @@ import PageTitle from '@/components/page-title'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 //
 import type { ProductSale } from '@/dataTypes/ProductSale'
-import { type ApiResponseType, LineChartCard } from '@/pages/me/participations'
+import {
+    type ApiResponseType,
+    LineChartCard,
+} from '@/app/(auth)/me/participation/page'
 // utils
 import toDmy from '@/utils/to-dmy'
 import nowrapMuiDatatableCellPropsFn from '@/utils/nowrap-mui-datatable-cell-props-fn'

@@ -1,6 +1,7 @@
 'use client'
 
 // vendors
+import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 // components
@@ -54,6 +55,13 @@ function isAuthHasRoleOrPermissionForPath(
     const navItem = NAV_ITEMS.find(
         item => item.href === pathname || item.pathname?.includes(pathname),
     )
+
+    if (!navItem) {
+        Sentry.captureMessage(
+            '`navItem` is undefined for pathname: ' + pathname,
+            'fatal',
+        )
+    }
 
     if (navItem?.forRole === undefined && navItem?.forPermission === undefined)
         return true

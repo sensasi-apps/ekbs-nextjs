@@ -1,6 +1,6 @@
 'use client'
 
-import type { ApiResponseType } from '../../../pages/me/participations'
+import type { ApiResponseType } from '../me/participation/page'
 // vendors
 import useSWR from 'swr'
 // materials

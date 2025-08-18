@@ -1,7 +1,7 @@
 import type { UUID } from 'crypto'
 import type UserType from '@/features/user/types/user'
 // vendors
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
 // materials
 import Chip from '@mui/material/Chip'
@@ -13,8 +13,10 @@ import StatCard from '@/components/StatCard'
 // etc
 
 export default function TbsPerformanceChart({ user }: { user: UserType }) {
-    const { replace, query } = useRouter()
-    const { dataUnit = 'weeks' } = query
+    const { replace } = useRouter()
+    const searchParams = useSearchParams()
+
+    const dataUnit = searchParams?.get('dataUnit')
 
     const isDailyData = dataUnit === 'days'
     const isWeeklyData = dataUnit === 'weeks'
@@ -29,13 +31,7 @@ export default function TbsPerformanceChart({ user }: { user: UserType }) {
                     onClick={
                         isDailyData
                             ? undefined
-                            : () =>
-                                  replace({
-                                      query: {
-                                          nData: 12,
-                                          dataUnit: 'days',
-                                      },
-                                  })
+                            : () => replace(`?dataUnit=days&nData=12`)
                     }
                 />
                 <Chip
@@ -44,13 +40,7 @@ export default function TbsPerformanceChart({ user }: { user: UserType }) {
                     onClick={
                         isWeeklyData
                             ? undefined
-                            : () =>
-                                  replace({
-                                      query: {
-                                          nData: 12,
-                                          dataUnit: 'weeks',
-                                      },
-                                  })
+                            : () => replace(`?dataUnit=weeks&nData=12`)
                     }
                 />
                 <Chip
@@ -59,13 +49,7 @@ export default function TbsPerformanceChart({ user }: { user: UserType }) {
                     onClick={
                         isMonthlyData
                             ? undefined
-                            : () =>
-                                  replace({
-                                      query: {
-                                          nData: 12,
-                                          dataUnit: 'months',
-                                      },
-                                  })
+                            : () => replace(`?dataUnit=months&nData=12`)
                     }
                 />
             </ScrollableXBox>
@@ -93,8 +77,10 @@ function getXAxisLabel(dataUnit: string) {
 }
 
 function PalmBunchWeightChart({ userUuid }: { userUuid: UUID }) {
-    const router = useRouter()
-    const { dataUnit = 'weeks', nData = 12 } = router.query
+    const searchParams = useSearchParams()
+
+    const dataUnit = searchParams?.get('dataUnit') ?? 'weeks'
+    const nData = searchParams?.get('nData') ?? 12
 
     const { data, isLoading } = useSWR([
         `palm-bunches/farmer/performances/${userUuid}`,
@@ -141,8 +127,10 @@ function PalmBunchWeightChart({ userUuid }: { userUuid: UUID }) {
 }
 
 function PalmBunchDeliveryChart({ userUuid }: { userUuid: UUID }) {
-    const { query } = useRouter()
-    const { dataUnit = 'weeks', nData = 12 } = query
+    const searchParams = useSearchParams()
+
+    const dataUnit = searchParams?.get('dataUnit') ?? 'weeks'
+    const nData = searchParams?.get('nData') ?? 12
 
     const { data, isLoading } = useSWR([
         `palm-bunches/courier/performances/${userUuid}`,
