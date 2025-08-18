@@ -7,6 +7,7 @@ import DataTable, {
 // datatables
 import DT, { type Config } from 'datatables.net-dt'
 import languageID from 'datatables.net-plugins/i18n/id.json'
+// @ts-expect-error will implement import right ways from inside module.css see: https://stackoverflow.com/a/77933424/4899926
 import 'datatables.net-dt/css/dataTables.dataTables.css'
 // utils
 import { getCurrentAuthToken } from '@/lib/axios/getCurrentAuthToken'
