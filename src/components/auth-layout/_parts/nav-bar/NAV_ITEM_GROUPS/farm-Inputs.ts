@@ -12,9 +12,17 @@ import Warehouse from '@mui/icons-material/Warehouse'
 import FarmInput from '@/enums/permissions/FarmInput'
 import Role from '@/enums/Role'
 
-export const farmInputs: NavItemGroup = {
+export const farmInputsNavItemGroup: NavItemGroup = {
     label: 'Saprodi',
     items: [
+        // ################# USER CONTEXT SECTION #################
+        {
+            href: '/farm-inputs/my-purchases',
+            label: 'Pembelianku',
+            icon: ShoppingCart,
+        },
+
+        // ################
         {
             href: '/farm-inputs/products',
             label: 'Produk',
@@ -39,18 +47,6 @@ export const farmInputs: NavItemGroup = {
             icon: CreditCard,
             forPermission: FarmInput.READ_RECEIVABLE,
         },
-        // {
-        //     href: '/farm-input-product-in-outs',
-        //     label: 'Barang Keluar-Masuk',
-        //     icon: Warehouse,
-        //     forPermission: FarmInput.READ_STATISTIC,
-        // },
-        // {
-        //     href: '/farm-input-product-opnames',
-        //     label: 'Opname',
-        //     icon: Checklist,
-        //     forPermission: FarmInput.READ_STATISTIC,
-        // },
         {
             href: '/farm-inputs/product-purchases',
             label: 'Pembelian',
@@ -58,11 +54,11 @@ export const farmInputs: NavItemGroup = {
             forPermission: FarmInput.READ_PRODUCT_PURCHASE,
         },
         {
-            href: '/farm-input-product-sales',
+            href: '/farm-inputs/product-sales',
             label: 'Penjualan',
             pathname: [
-                '/farm-input-product-sales',
-                '/farm-input-product-sales/report',
+                '/farm-inputs/product-sales',
+                '/farm-inputs/product-sales/reports',
             ],
             icon: Receipt,
             forRole: [
@@ -73,7 +69,7 @@ export const farmInputs: NavItemGroup = {
             ],
         },
         {
-            href: '/farm-input-he-gas-sales',
+            href: '/farm-inputs/he-gas-sales',
             label: 'Penjualan BBM ke Alat Berat',
             icon: LocalGasStation,
             forRole: [
@@ -86,13 +82,6 @@ export const farmInputs: NavItemGroup = {
             href: '/katalog-saprodi',
             label: 'Katalog',
             icon: Warehouse,
-        },
-
-        // ################# USER CONTEXT SECTION #################
-        {
-            href: '/farm-inputs/purchases/me',
-            label: 'Pembelian',
-            icon: ShoppingCart,
         },
     ],
 }

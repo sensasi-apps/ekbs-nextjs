@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
 import type { ProductSale } from '@/dataTypes/ProductSale'
@@ -9,16 +11,14 @@ import { Formik } from 'formik'
 // materials
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/auth-layout'
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import PageTitle from '@/components/page-title'
 // page components
 import FarmInputHeGasSaleForm, {
     type FormValues,
 } from '@/components/pages/farm-input-he-gas-sales/Form'
-// import PrintHandler from '@/components/PrintHandler'
-// import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // icons
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation'
 // utils
@@ -98,7 +98,9 @@ export default function FarmInputHeGasSales() {
     const isNew = !initialFormikValues?.uuid
 
     return (
-        <AuthLayout title="Penjualan BBM ke Alat Berat">
+        <>
+            <PageTitle title="Penjualan BBM ke Alat Berat" />
+
             <Datatable
                 title="Riwayat"
                 tableId="farm-input-he-gas-sale-table"
@@ -149,7 +151,7 @@ export default function FarmInputHeGasSales() {
                     component={FarmInputHeGasSaleForm}
                 />
             </DialogWithTitle>
-        </AuthLayout>
+        </>
     )
 }
 

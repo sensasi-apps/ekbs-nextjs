@@ -1,6 +1,6 @@
 // vendors
 import Box from '@mui/material/Box'
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 // components
@@ -24,10 +24,11 @@ export default function FiltersBox({
     disabled: boolean
     onRefresh: () => void
 }) {
-    const {
-        query: { from_date, till_date },
-        replace,
-    } = useRouter()
+    const { replace } = useRouter()
+
+    const searchParams = useSearchParams()
+    const from_date = searchParams?.get('from_date')
+    const till_date = searchParams?.get('till_date')
 
     const [fromDate, setFromDate] = useState<Dayjs | null>(
         from_date ? dayjs(from_date as string) : null,
@@ -93,9 +94,19 @@ export default function FiltersBox({
                         JSON.stringify({ from_date, till_date })
 
                     if (isQueryChanged) {
-                        replace({
-                            query: newQuery,
-                        })
+                        const searchParams = new URLSearchParams()
+
+                        if (newQuery.from_date) {
+                            searchParams.set('from_date', newQuery.from_date)
+                        }
+
+                        if (newQuery.till_date) {
+                            searchParams.set('till_date', newQuery.till_date)
+                        }
+
+                        const finalQuery = searchParams.toString()
+
+                        replace(`?${finalQuery}`)
                     } else {
                         onRefresh()
                     }

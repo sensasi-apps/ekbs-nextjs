@@ -1,13 +1,14 @@
 // components
-import AuthLayout from '@/components/auth-layout'
+import PageTitle from '@/components/page-title'
 import UnitTxs from '@/components/UnitTxs'
 // utils
 import BusinessUnit from '@/enums/BusinessUnit'
 
 export default function Cashes() {
     return (
-        <AuthLayout title="">
+        <>
+            <PageTitle title="Kas SAPRODI" />
             <UnitTxs businessUnit={BusinessUnit.SAPRODI} />
-        </AuthLayout>
+        </>
     )
 }

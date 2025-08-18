@@ -1,10 +1,9 @@
-// types
-import type { ProductSale } from '@/dataTypes/ProductSale'
+'use client'
+
 // vendors
-import useSWR from 'swr'
 import { useState } from 'react'
+import useSWR from 'swr'
 // materials
-import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import Dialog from '@mui/material/Dialog'
@@ -12,18 +11,21 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Grid from '@mui/material/Grid'
 // components
-import AuthLayout from '@/components/auth-layout'
+import BigNumberCard from '@/components/big-number-card'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
+import PageTitle from '@/components/page-title'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
+//
+import type { ProductSale } from '@/dataTypes/ProductSale'
+import { type ApiResponseType, LineChartCard } from '@/pages/me/participations'
 // utils
 import toDmy from '@/utils/to-dmy'
 import nowrapMuiDatatableCellPropsFn from '@/utils/nowrap-mui-datatable-cell-props-fn'
 import formatNumber from '@/utils/format-number'
-import BigNumberCard from '@/components/big-number-card'
-import { type ApiResponseType, LineChartCard } from '@/pages/me/participations'
+import FlexBox from '@/components/flex-box'
 
 let getRowData: GetRowDataType<ProductSale>
 
@@ -37,9 +39,16 @@ export default function Page() {
     } = useSWR<ApiResponseType>('me/participations')
 
     return (
-        <AuthLayout title="Pembelian Anda">
-            <Box mb={2}>
-                <Grid container spacing={2} mb={1}>
+        <>
+            <PageTitle title="Pembelianku" subtitle="SAPRODI" />
+
+            <FlexBox flexDirection="column" gap={2}>
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{
+                        width: '100%',
+                    }}>
                     <Grid
                         size={{
                             xs: 12,
@@ -62,29 +71,41 @@ export default function Page() {
                 </Grid>
 
                 {lineChart && (
-                    <LineChartCard
-                        collapsible
-                        suffix={bigNumber1?.number1Suffix}
-                        {...lineChart}
-                    />
+                    <div
+                        style={{
+                            width: '100%',
+                        }}>
+                        <LineChartCard
+                            collapsible
+                            suffix={bigNumber1?.number1Suffix}
+                            {...lineChart}
+                        />
+                    </div>
                 )}
-            </Box>
-            <Datatable
-                title="Riwayat"
-                tableId="farm-input-my-purchases-table"
-                apiUrl="/farm-inputs/my-purchases/datatable-data"
-                onRowClick={(_, { dataIndex }, event) => {
-                    if (event.detail === 2) {
-                        const data = getRowData(dataIndex)
-                        if (!data) return
 
-                        setReceiptDialogData(data)
-                    }
-                }}
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-            />
+                <div
+                    style={{
+                        width: '100%',
+                    }}>
+                    <Datatable
+                        title="Riwayat"
+                        tableId="farm-input-my-purchases-table"
+                        apiUrl="/farm-inputs/my-purchases/datatable-data"
+                        onRowClick={(_, { dataIndex }, event) => {
+                            if (event.detail === 2) {
+                                const data = getRowData(dataIndex)
+                                if (!data) return
+
+                                setReceiptDialogData(data)
+                            }
+                        }}
+                        columns={DATATABLE_COLUMNS}
+                        defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                        getRowDataCallback={fn => (getRowData = fn)}
+                    />
+                </div>
+            </FlexBox>
+
             <Dialog
                 open={Boolean(receiptDialogData)}
                 onClose={() => setReceiptDialogData(undefined)}>
@@ -110,7 +131,7 @@ export default function Page() {
                     </DialogContent>
                 )}
             </Dialog>
-        </AuthLayout>
+        </>
     )
 }
 

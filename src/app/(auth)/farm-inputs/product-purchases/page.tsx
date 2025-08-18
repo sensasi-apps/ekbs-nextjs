@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
 import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
@@ -16,10 +18,10 @@ import { Formik, type FormikConfig } from 'formik'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // components
-import AuthLayout from '@/components/auth-layout'
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import PageTitle from '@/components/page-title'
 import ProductPurchaseForm, {
     EMPTY_FORM_STATUS,
     type FormValuesType,
@@ -97,7 +99,9 @@ export default function FarmInputsProducts() {
             .catch(error => errorCatcher(error, setErrors))
 
     return (
-        <AuthLayout title="Pembelian Produk">
+        <>
+            <PageTitle title="Pembelian Produk" subtitle="(re-stok)" />
+
             <Datatable
                 title="Riwayat"
                 tableId="product-purchases-table"
@@ -134,7 +138,7 @@ export default function FarmInputsProducts() {
                 in={isAuthHasPermission(FarmInput.CREATE_PRODUCT_PURCHASE)}>
                 <ShoppingCartIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 

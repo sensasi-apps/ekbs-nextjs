@@ -1,5 +1,7 @@
+'use client'
+
 // vendors
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
 // materials
 import Fade from '@mui/material/Fade'
@@ -7,18 +9,19 @@ import LinearProgress from '@mui/material/LinearProgress'
 import Table from '@mui/material/Table'
 import TableContainer from '@mui/material/TableContainer'
 // components
-import type { ProductSale } from '@/dataTypes/ProductSale'
-import AuthLayout from '@/components/auth-layout'
 import BackButton from '@/components/back-button'
-import FiltersBox from '@/components/pages/farm-input-product-sales/Report/FiltersBox'
-import TableHead from '@/components/pages/farm-input-product-sales/Report/Table/TableHead'
-import TableBody from '@/components/pages/farm-input-product-sales/Report/Table/TableBody'
-import TableFooter from '@/components/pages/farm-input-product-sales/Report/Table/TableFooter'
+import PageTitle from '@/components/page-title'
+// parts
+import type { ProductSale } from '@/dataTypes/ProductSale'
+import FiltersBox from './_parts/filters-box'
+import TableHead from './_parts/table/table-head'
+import TableBody from './_parts/table/table-body'
+import TableFooter from './_parts/table/table-footer'
 
 export default function FarmInputProductSalesReport() {
-    const {
-        query: { from_date, till_date },
-    } = useRouter()
+    const searchParams = useSearchParams()
+    const from_date = searchParams?.get('from_date')
+    const till_date = searchParams?.get('till_date')
 
     const {
         data = [],
@@ -38,13 +41,15 @@ export default function FarmInputProductSalesReport() {
     )
 
     return (
-        <AuthLayout title="Laporan Penjualan SAPRODI">
+        <>
             <BackButton
                 size="small"
                 sx={{
                     mb: 2,
                 }}
             />
+
+            <PageTitle title="Laporan Penjualan SAPRODI" />
 
             <FiltersBox
                 data={data}
@@ -78,7 +83,7 @@ export default function FarmInputProductSalesReport() {
                     <TableFooter data={data} />
                 </Table>
             </TableContainer>
-        </AuthLayout>
+        </>
     )
 }
 
