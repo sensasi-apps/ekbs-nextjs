@@ -4,7 +4,7 @@ import type User from '@/features/user/types/user'
 // vendors
 import { type ChangeEvent, type MouseEventHandler, useState } from 'react'
 import { mutate } from 'swr'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'
@@ -27,7 +27,7 @@ const UserForm = () => {
     // TODO: remove casting
     const user = data as User
 
-    const router = useRouter()
+    const { push } = useRouter()
 
     // UI states
     const [validationErrors, setValidationErrors] =
@@ -76,7 +76,7 @@ const UserForm = () => {
                         if (uuid) {
                             mutate(`users/${uuid}`)
                         } else {
-                            router.push('/users/' + res.data)
+                            push('/users/' + res.data)
                         }
                         handleClose()
                     })
