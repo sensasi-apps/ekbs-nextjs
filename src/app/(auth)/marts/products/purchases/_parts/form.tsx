@@ -14,10 +14,10 @@ import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import TextFieldDefault from '@/components/TextField'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // local components
-import { PmdsTable } from './Form/PmdsTable'
-import { CostsTable } from './Form/CostsTable'
-import ProductMovementDetailArrayFields from './Form/ProductMovementDetailArrayFields'
-import ProductMovementCostArrayFields from './Form/ProductMovementCostArrayFields'
+import { PmdsTable } from './form/pmds-table'
+import { CostsTable } from './form/costs-table'
+import ProductMovementDetailArrayFields from './form/detail-array-fields'
+import ProductMovementCostArrayFields from './form/cost-array-fields'
 // enums
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 

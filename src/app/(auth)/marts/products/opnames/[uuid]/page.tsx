@@ -1,5 +1,7 @@
+'use client'
+
 // vendors
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 // materials
@@ -14,20 +16,19 @@ import LockIcon from '@mui/icons-material/Lock'
 // libs
 import axios from '@/lib/axios'
 //
-import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
 import BackButton from '@/components/back-button'
-import AuthLayout from '@/components/auth-layout'
-import AddProductFormDialog from '@/components/pages/marts/products/opnames/AddProductsFormDialog'
-import DetailTable from '@/components/pages/marts/products/opnames/DetailTable'
-import SummaryTable from '@/components/pages/marts/products/opnames/SummaryTable'
 import PrintHandler from '@/components/PrintHandler'
+// parts
+import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import AddProductFormDialog from '@/app/(auth)/marts/products/opnames/_parts/add-products-form-dialog'
+import DetailTable from '@/app/(auth)/marts/products/opnames/_parts/detail-table'
+import SummaryTable from '@/app/(auth)/marts/products/opnames/_parts/summary-table'
 
 export default function OpnameDetail() {
-    const {
-        reload,
-        query: { uuid },
-    } = useRouter()
+    const { refresh } = useRouter()
+    const params = useParams()
+    const uuid = params?.uuid
 
     const { data, isLoading, isValidating } = useSWR<ProductMovementOpname>(
         uuid
@@ -65,7 +66,7 @@ export default function OpnameDetail() {
     if (uuid === undefined) return null
 
     return (
-        <AuthLayout title="Detail Opname">
+        <>
             <Fade in={!data?.finished_at} unmountOnExit>
                 <Alert
                     severity="warning"
@@ -74,13 +75,13 @@ export default function OpnameDetail() {
                         mb: 2,
                     }}>
                     Pastikan untuk tidak melakukan transaksi pada produk yang
-                    sedang diopname hingga proses opname selesai.
+                    sedang di-opname hingga proses opname selesai.
                 </Alert>
             </Fade>
 
             <BackButton />
 
-            <Box display="flex" gap={2}>
+            <Box display="flex" gap={2} mt={2}>
                 <Typography variant="h6" component="p">
                     Rangkuman
                 </Typography>
@@ -102,7 +103,7 @@ export default function OpnameDetail() {
                                         uuid as string,
                                     ),
                                 )
-                                .then(() => reload())
+                                .then(() => refresh())
                         }}>
                         Simpan Permanen
                     </Button>
@@ -166,7 +167,7 @@ export default function OpnameDetail() {
                                 .put(OpnameApiUrl.UPDATE_DETAIL_QTYS, {
                                     pmd_id_and_qtys: detailQtys,
                                 })
-                                .then(() => reload())
+                                .then(() => refresh())
                         }}>
                         Simpan Perubahan
                     </Button>
@@ -193,6 +194,6 @@ export default function OpnameDetail() {
                     })
                 }
             />
-        </AuthLayout>
+        </>
     )
 }

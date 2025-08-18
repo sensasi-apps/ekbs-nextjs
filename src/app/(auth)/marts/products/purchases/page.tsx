@@ -1,11 +1,11 @@
-// types
-import type ProductMovement from '@/dataTypes/mart/ProductMovement'
+'use client'
+
 // vendors
 import { useState } from 'react'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
-import AuthLayout from '@/components/auth-layout'
+import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
     type DatatableProps,
     getNoWrapCellProps,
@@ -13,18 +13,17 @@ import Datatable, {
     type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-import FormDialog from '@/components/pages/marts/products/purchases/FormDialog'
-import { type FormValues } from '@/components/pages/marts/products/purchases/Form'
-import ApiUrl from '@/components/pages/marts/products/purchases/ApiUrl'
 // utils
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
-// etc
-import ChipSmall from '@/components/ChipSmall'
-// enums
-import Mart from '@/enums/permissions/Mart'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// parts
+import type ProductMovement from '@/dataTypes/mart/ProductMovement'
+import { type FormValues } from '@/app/(auth)/marts/products/purchases/_parts/form'
+import Mart from '@/enums/permissions/Mart'
+import FormDialog from '@/app/(auth)/marts/products/purchases/_parts/form-dialog'
+import ApiUrl from '@/app/(auth)/marts/products/purchases/_parts/api-url'
 
 let mutate: MutateType<ProductMovement>
 let getRowData: GetRowDataType<ProductMovement>
@@ -40,13 +39,13 @@ export default function ProductPurchases() {
         setFormValues(undefined)
     }
 
-    function onSumbitted() {
+    function onSubmitted() {
         mutate()
         handleClose()
     }
 
     return (
-        <AuthLayout title="Pembelian">
+        <>
             <Datatable
                 title="Dafar Pembelian"
                 apiUrl={ApiUrl.GET_DATATABLE_DATA}
@@ -88,7 +87,7 @@ export default function ProductPurchases() {
             <FormDialog
                 formValues={formValues}
                 selectedRow={selectedRow}
-                onSumbitted={onSumbitted}
+                onSumbitted={onSubmitted}
                 handleClose={handleClose}
             />
 
@@ -102,7 +101,7 @@ export default function ProductPurchases() {
                 title="Tambah Produk">
                 <InventoryIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 

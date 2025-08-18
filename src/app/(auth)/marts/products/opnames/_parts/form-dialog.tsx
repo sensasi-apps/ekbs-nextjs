@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 // components
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
-import Form, { type CreateFormValues } from './Form'
+import Form, { type CreateFormValues } from './form'
 import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
 // utils
 import handle422 from '@/utils/handle-422'

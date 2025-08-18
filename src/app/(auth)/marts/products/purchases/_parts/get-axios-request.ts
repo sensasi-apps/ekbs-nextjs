@@ -1,6 +1,6 @@
 import axios from '@/lib/axios'
-import type { FormValues } from './Form'
-import ApiUrl from './ApiUrl'
+import type { FormValues } from './form'
+import ApiUrl from './api-url'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 
 export default function getAxiosRequest(

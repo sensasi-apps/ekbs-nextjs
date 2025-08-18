@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 // icons-materials
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 //
-import type { FormValuesType } from '../formik-wrapper'
+import type { FormValuesType } from '../../../../components/pages/marts/products/sales/formik-wrapper'
 import IconButton from '@/components/IconButton'
 import formatNumber from '@/utils/format-number'
 

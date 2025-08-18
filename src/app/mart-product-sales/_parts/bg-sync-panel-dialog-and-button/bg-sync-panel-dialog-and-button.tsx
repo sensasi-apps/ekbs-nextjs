@@ -1,3 +1,5 @@
+'use client'
+
 // vendors
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
@@ -23,9 +25,9 @@ import Sync from '@mui/icons-material/Sync'
 //
 import { type FormattedEntry } from '@/sw/functions/handle-message'
 import { postToSw } from '@/utils/post-to-sw'
-import { type SubmittedData } from '../formik-wrapper/@types/submitted-data'
+import { type SubmittedData } from '../../../../components/pages/marts/products/sales/formik-wrapper/@types/submitted-data'
 import PrintHandler from '@/components/PrintHandler'
-import Receipt from '../@shared-subcomponents/receipt'
+import Receipt from '../shared-subcomponents/receipt'
 import numberToCurrency from '@/utils/number-to-currency'
 import formatNumber from '@/utils/format-number'
 import blinkSxValue from '@/utils/blink-sx-value'

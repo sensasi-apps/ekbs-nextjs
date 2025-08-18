@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid'
 import AddCircle from '@mui/icons-material/AddCircle'
 //
 import type { FormikStatusType, FormValuesType } from '../../../../..'
-import CostItem from '../../../../../../@shared-subcomponents/cost-item'
+import CostItem from '../../../../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/cost-item'
 
 function CostFieldComponent({
     form: { setFieldValue, isSubmitting, errors, status, getFieldMeta },

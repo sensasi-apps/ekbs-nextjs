@@ -8,7 +8,7 @@ import DefaultDatatable, {
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import PrintHandler from '@/components/PrintHandler'
-import Receipt from '../../@shared-subcomponents/receipt'
+import Receipt from '../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/receipt'
 
 let getRowData: GetRowDataType<ProductMovementWithSale>
 

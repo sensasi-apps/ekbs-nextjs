@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField'
 // vendors

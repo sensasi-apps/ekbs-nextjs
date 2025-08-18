@@ -20,7 +20,7 @@ import type {
 import PrintHandler from '@/components/PrintHandler'
 // sub-components
 import CreateSaleForm from './components/create-sale-form'
-import Receipt from '../../../@shared-subcomponents/receipt'
+import Receipt from '../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/receipt'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 
