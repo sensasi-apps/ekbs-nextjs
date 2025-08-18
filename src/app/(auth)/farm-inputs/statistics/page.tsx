@@ -1,19 +1,22 @@
+'use client'
+
+// vendors
+import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 // components
-import AuthLayout from '@/components/auth-layout'
 import BigNumber from '@/components/StatCard/BigNumber'
 import StatCard from '@/components/StatCard'
 import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
+import PageTitle from '@/components/page-title'
 // page components
 import SaprodiSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Saprodi'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
-import useSWR from 'swr'
 
 export default function FarmInputsStatistics() {
     const { data, isLoading } = useSWR<{
@@ -22,8 +25,11 @@ export default function FarmInputsStatistics() {
         receivable_pass_due: number
         in_out_balance: InOutLineChartProps['data']
     }>('farm-inputs/statistic-data')
+
     return (
-        <AuthLayout title="Statistik Unit Bisnis SAPRODI">
+        <>
+            <PageTitle title="Statistik Unit Bisnis SAPRODI" />
+
             <Grid container mb={1} spacing={1.5}>
                 <Grid
                     size={{
@@ -99,6 +105,6 @@ export default function FarmInputsStatistics() {
             </Grid>
 
             <SaprodiSubsection />
-        </AuthLayout>
+        </>
     )
 }

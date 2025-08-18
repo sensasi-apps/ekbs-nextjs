@@ -1,11 +1,13 @@
 // components
-import AuthLayout from '@/components/auth-layout'
+import PageTitle from '@/components/page-title'
 import ReceivablesDatatable from '@/components/ReceivablesDatatable'
 
 export default function Receivables() {
     return (
-        <AuthLayout title="Piutang">
+        <>
+            <PageTitle title="Piutang" />
+
             <ReceivablesDatatable asManager type="product-sale" />
-        </AuthLayout>
+        </>
     )
 }

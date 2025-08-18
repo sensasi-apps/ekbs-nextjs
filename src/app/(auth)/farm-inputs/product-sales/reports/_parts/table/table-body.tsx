@@ -6,7 +6,7 @@ import MuiTableBody from '@mui/material/TableBody'
 import MuiTableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 // components
-import TableRow from './TableRow'
+import TableRow from './table-row'
 
 function TableBody({ data }: { data: ProductSale[] }) {
     return (

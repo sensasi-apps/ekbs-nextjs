@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type {
     DatatableProps,
@@ -17,9 +19,9 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
-import AuthLayout from '@/components/auth-layout'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import PageTitle from '@/components/page-title'
 import ProductSaleForm, {
     EMPTY_FORM_STATUS,
     EMPTY_FORM_DATA,
@@ -35,13 +37,13 @@ import numberToCurrency from '@/utils/number-to-currency'
 import PrintHandler from '@/components/PrintHandler'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // enums
+import { CashableClassname } from '@/dataTypes/Transaction'
+import FarmInputPermission from '@/enums/permissions/FarmInput'
 import Role from '@/enums/Role'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
-import { CashableClassname } from '@/dataTypes/Transaction'
 import Warehouse from '@/enums/Warehouse'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-import FarmInputPermission from '@/enums/permissions/FarmInput'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
 let getRowData: GetRowDataType<ProductSale>
@@ -107,7 +109,9 @@ export default function FarmInputProductSales() {
         isAuthHasRole(Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE)
 
     return (
-        <AuthLayout title="Penjualan">
+        <>
+            <PageTitle title="Penjualan" />
+
             <Box
                 mb={2}
                 display={
@@ -182,7 +186,7 @@ export default function FarmInputProductSales() {
                 )}>
                 <ReceiptIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 

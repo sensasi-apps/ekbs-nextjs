@@ -7,7 +7,7 @@ import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 // nav items
 import { clms } from './clm'
 import { executives } from './executives'
-import { farmInputs } from './farm-Inputs'
+import { farmInputsNavItemGroup } from './farm-Inputs'
 import { financesNavItemGroup } from './finances'
 import { heavyEquipments } from './heavy-equipments'
 import { inventories } from './inventories'
@@ -45,7 +45,7 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
     executives,
     palmBunches,
     loans,
-    farmInputs,
+    farmInputsNavItemGroup,
     inventories,
     heavyEquipments,
     martsNavItemGroup,

@@ -1,3 +1,5 @@
+'use client'
+
 // types
 import type ProductType from '@/dataTypes/Product'
 // vendors
@@ -9,7 +11,6 @@ import Typography from '@mui/material/Typography'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
 // components
-import AuthLayout from '@/components/auth-layout'
 import Datatable, {
     type DatatableProps,
     getNoWrapCellProps,
@@ -17,6 +18,7 @@ import Datatable, {
     type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
+import PageTitle from '@/components/page-title'
 import ProductForm from '@/components/Product/Form'
 // page components
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
@@ -51,7 +53,9 @@ export default function FarmInputsProducts() {
     const isNew = !initialFormikValues?.id
 
     return (
-        <AuthLayout title="Produk">
+        <>
+            <PageTitle title="Produk" />
+
             <Datatable
                 apiUrl={DatatableEndpointEnum.PRODUCTS}
                 columns={columns}
@@ -134,7 +138,7 @@ export default function FarmInputsProducts() {
                 title="Tambah Produk">
                 <InventoryIcon />
             </Fab>
-        </AuthLayout>
+        </>
     )
 }
 
