@@ -25,14 +25,15 @@ import Typography from '@mui/material/Typography'
 // icons-materials
 import RefreshIcon from '@mui/icons-material/Refresh'
 // components
-import type Product from '@/dataTypes/mart/Product'
-import AuthLayout from '@/components/auth-layout'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
+import PageTitle from '@/components/page-title'
 import NumericFormat from '@/components/NumericFormat'
+//
+import type Product from '@/dataTypes/mart/Product'
 // enums
 import Statistic from '@/enums/ApiUrl/Mart/Statistic'
-//
+// utils
 import formatNumber from '@/utils/format-number'
 
 type DataFromResponse = {
@@ -75,14 +76,15 @@ export default function Statistics() {
     }, 500)
 
     return (
-        <AuthLayout title="Produk">
+        <>
+            <PageTitle title="Produk" />
             <FiltersBox
                 disabled={isLoading}
                 onQtySpeedChange={newSpeed => setMinQtySpeedDebounced(newSpeed)}
             />
 
             <FSNCardsGrid data={data ?? []} minQtySpeed={minQtySpeed} />
-        </AuthLayout>
+        </>
     )
 }
 
