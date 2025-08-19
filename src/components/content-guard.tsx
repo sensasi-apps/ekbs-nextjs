@@ -3,7 +3,7 @@
 // vendors
 import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 // components
 import type AuthInfo from '@/features/user--auth/types/auth-info'
 import NAV_ITEM_GROUPS from '@/components/auth-layout/_parts/nav-bar/NAV_ITEM_GROUPS'
@@ -21,17 +21,24 @@ export default function ContentGuard({
 }: {
     children: React.ReactNode
 }) {
-    const authInfo = useAuthInfo()
-    const pathname = usePathname()
     const { push } = useRouter()
+    const authInfo = useAuthInfo()
+    const paramValues = Object.values(useParams()).map(value =>
+        value?.toString(),
+    )
+
+    const route = usePathname()
+        .split('/')
+        .map(path => (paramValues.includes(path) ? '*' : path))
+        .join('/')
 
     useEffect(() => {
         if (authInfo && !authInfo.is_agreed_tncp) return push('/policy')
     }, [authInfo, push])
 
-    if (!authInfo || !pathname) return <LoadingCenter />
+    if (!authInfo || !route) return <LoadingCenter />
 
-    if (EXCLUDE_PATHS.includes(pathname)) return children
+    if (EXCLUDE_PATHS.includes(route)) return children
 
     if (!authInfo?.is_active) return <ErrorMessageView code="inactive" />
 
@@ -40,7 +47,7 @@ export default function ContentGuard({
      */
     if (!authInfo.is_agreed_tncp) return <LoadingCenter />
 
-    if (!isAuthHasRoleOrPermissionForPath(authInfo, pathname))
+    if (!isAuthHasRoleOrPermissionForPath(authInfo, route))
         return <ErrorMessageView code={403} />
 
     return children
@@ -48,17 +55,17 @@ export default function ContentGuard({
 
 const NAV_ITEMS = NAV_ITEM_GROUPS.flatMap(group => group.items)
 
-function isAuthHasRoleOrPermissionForPath(
-    authInfo: AuthInfo,
-    pathname: string,
-) {
+function isAuthHasRoleOrPermissionForPath(authInfo: AuthInfo, route: string) {
     const navItem = NAV_ITEMS.find(
-        item => item.href === pathname || item.pathname?.includes(pathname),
+        item =>
+            item.href === route ||
+            item.pathname === route ||
+            item.pathname?.includes(route),
     )
 
     if (!navItem) {
         Sentry.captureMessage(
-            '`navItem` is undefined for pathname: ' + pathname,
+            '`navItem` is undefined for pathname: ' + route,
             'fatal',
         )
     }

@@ -3,7 +3,7 @@
 // types
 import type NavItemGroup from '../../../types/nav-item-group'
 // vendors
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 // materials
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -15,9 +15,16 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 export default function NavBarListItem({
     data,
 }: {
-    data: NavItemGroup['items'][0]
+    data: NavItemGroup['items'][number]
 }) {
-    const currPathname = usePathname()
+    const paramValues = Object.values(useParams()).map(value =>
+        value?.toString(),
+    )
+
+    const route = usePathname()
+        .split('/')
+        .map(path => (paramValues.includes(path) ? '*' : path))
+        .join('/')
 
     const { href, icon: Icon, label, pathname } = data
 
@@ -25,8 +32,8 @@ export default function NavBarListItem({
 
     const isActive =
         typeof pathnameOrHref === 'string'
-            ? pathnameOrHref === currPathname
-            : pathnameOrHref.includes(currPathname ?? '')
+            ? pathnameOrHref === route
+            : pathnameOrHref.includes(route)
 
     return (
         <ListItem
