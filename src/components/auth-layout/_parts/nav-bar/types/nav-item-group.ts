@@ -5,7 +5,14 @@ import type { ElementType } from 'react'
 interface NavItem {
     href: string
     label: string
+
+    /**
+     * @deprecated use `routeAliases` instead.
+     */
     pathname?: string | string[]
+
+    routeAliases?: string[]
+
     icon: ElementType
 
     /**

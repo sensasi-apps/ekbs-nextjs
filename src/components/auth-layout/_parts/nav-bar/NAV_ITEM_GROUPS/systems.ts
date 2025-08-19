@@ -14,6 +14,7 @@ export const systemsNavItemGroup: NavItemGroup = {
             label: 'Pengguna',
             icon: GroupIcon,
             forRole: Role.USER_ADMIN,
+            pathname: '/systems/users/*',
         },
         {
             href: '/systems/settings',

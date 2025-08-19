@@ -51,7 +51,7 @@ export const financesNavItemGroup: NavItemGroup = {
         {
             href: '/finances/receivables',
             label: 'Piutang',
-            pathname: ['finances/receivables', 'finances/receivables/report'],
+            pathname: ['/finances/receivables/report'],
             icon: Savings,
             forPermission: Cash.READ_ALL_INSTALLMENT,
         },

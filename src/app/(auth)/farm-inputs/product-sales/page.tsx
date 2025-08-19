@@ -118,7 +118,7 @@ export default function FarmInputProductSales() {
                     isAuthHasRole(Role.FARM_INPUT_MANAGER) ? 'block' : 'none'
                 }>
                 <Button
-                    href="/farm-input-product-sales/report"
+                    href="product-sales/reports"
                     startIcon={<BackupTableIcon />}
                     size="small"
                     color="success"
