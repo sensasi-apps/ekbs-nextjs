@@ -7,7 +7,12 @@ import withSerwist from './next.config/serwist'
 
 const nextConfig: NextConfig = {
     experimental: {
-        optimizePackageImports: ['@mui/x-date-pickers', 'recharts'],
+        /**
+         * Not listed all packages because this config has some libraries are optimized by default
+         *
+         * @see https://nextjs.org/docs/app/api-reference/config/next-config-js/optimizePackageImports
+         */
+        optimizePackageImports: ['@mui/x-date-pickers', 'recharts', 'formik'],
     },
 
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
