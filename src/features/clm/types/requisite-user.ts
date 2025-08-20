@@ -1,6 +1,7 @@
 import type { UUID } from 'crypto'
 import type Requisite from './requisite'
 import type User from '@/features/user/types/user'
+import type File from '@/dataTypes/File'
 
 export default interface RequisiteUser {
     uuid: UUID

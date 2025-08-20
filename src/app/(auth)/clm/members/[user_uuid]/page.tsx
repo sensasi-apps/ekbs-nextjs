@@ -16,23 +16,20 @@ import BackButton from '@/components/back-button'
 import ChipSmall from '@/components/ChipSmall'
 import LoadingCenter from '@/components/loading-center'
 // features
-import type ApiResponse from '@/features/clm-member-detail/types/api-response'
-import Tabs from '@/features/clm-member-detail/tabs'
-import UserStatCard from '@/features/clm-member-detail/user-stat-card'
+import type ApiResponse from './_types/api-response'
+import Tabs from './_components/tabs'
+import UserStatCard from './_components/user-stat-card'
 
 export default function MemberDetailPage() {
-    const params = useParams<{
-        uuid?: string
+    const { user_uuid } = useParams<{
+        user_uuid: string
     }>()
 
-    const uuid = params?.uuid
-
-    const { data } = useSWR<ApiResponse>(uuid ? `/clm/members/${uuid}` : null)
+    const { data } = useSWR<ApiResponse>(`/clm/members/${user_uuid}`)
 
     if (!data) return <LoadingCenter />
 
-    const { user, lands = [], requisite_users = [] } = data ?? {}
-    const userLands = user?.lands ?? []
+    const { user, lands, requisite_users } = data
 
     const approvedRequisites = requisite_users.filter(
         req => !!req.approved_by_user_uuid,
@@ -46,10 +43,7 @@ export default function MemberDetailPage() {
         },
         {
             text: 'Total Luas',
-            value: userLands.reduce(
-                (sum, land) => sum + land.n_area_hectares,
-                0,
-            ),
+            value: lands.reduce((sum, land) => sum + land.n_area_hectares, 0),
             unit: 'Ha',
             Icon: CropIcon,
         },

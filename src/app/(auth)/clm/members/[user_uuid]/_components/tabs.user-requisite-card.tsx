@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
+import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 // icons
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
@@ -13,9 +14,9 @@ import ScheduleIcon from '@mui/icons-material/Schedule'
 // components
 import ChipSmall from '@/components/ChipSmall'
 //
-import type RequisiteUser from '../clm/types/requisite-user'
+import type RequisiteUser from '@/features/clm/types/requisite-user'
 
-export default function UserRequisiteCard({
+export default function RequisiteUserCard({
     requisiteUser,
 }: {
     requisiteUser: RequisiteUser
@@ -31,7 +32,13 @@ export default function UserRequisiteCard({
                 mb: 2,
                 opacity: status === 'optional' ? 0.5 : 1,
             }}>
-            <CardActionArea>
+            <CardActionArea
+                href={
+                    requisiteUser.user_uuid +
+                    '/requisite/' +
+                    requisiteUser.requisite_id
+                }
+                component={Link}>
                 <CardContent
                     sx={{
                         display: 'flex',
