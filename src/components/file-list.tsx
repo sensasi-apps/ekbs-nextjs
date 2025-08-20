@@ -1,5 +1,5 @@
 // vendors
-import { useState } from 'react'
+// import { useState } from 'react'
 // materials
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
@@ -25,7 +25,7 @@ export default function FileList({
     files: File[]
     onDelete?: (file: File) => void
 }) {
-    const [fileToBeDeleted, setFileToBeDeleted] = useState<File>()
+    // const [fileToBeDeleted, setFileToBeDeleted] = useState<File>()
 
     if (files.length === 0)
         return <Alert severity="warning">Belum ada berkas</Alert>
@@ -53,9 +53,10 @@ export default function FileList({
                                         <IconButton
                                             edge="end"
                                             aria-label="delete"
-                                            onClick={() =>
-                                                setFileToBeDeleted(file)
-                                            }>
+                                            // onClick={() =>
+                                            //     setFileToBeDeleted(file)
+                                            // }
+                                        >
                                             <DeleteIcon />
                                         </IconButton>
                                     </Tooltip>
