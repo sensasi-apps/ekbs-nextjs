@@ -8,9 +8,9 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 // components
 import type RequisiteUser from '@/features/clm/types/requisite-user'
-import LoadingCenter from '@/components/loading-center'
-import FileList from '@/components/file-list'
 import BackButton from '@/components/back-button'
+import FileList from '@/components/file-list'
+import LoadingCenter from '@/components/loading-center'
 
 type ApiResponse = RequisiteUser & {
     uuid?: string
@@ -28,7 +28,7 @@ export default function RequisiteUserPage() {
 
     if (!data) return <LoadingCenter />
 
-    const { requisite } = data
+    const { requisite, approved_by_user, approved_at } = data
 
     return (
         <>
@@ -37,9 +37,21 @@ export default function RequisiteUserPage() {
             <Typography variant="caption" component="div" mt={2}>
                 Berkas Syarat:
             </Typography>
+
             <Typography variant="h5" component="div">
                 {requisite?.name}
             </Typography>
+
+            {approved_by_user && (
+                <Typography
+                    variant="caption"
+                    component="div"
+                    mt={1}
+                    color="success">
+                    Telah disetujui oleh <b>{approved_by_user.name}</b> pada{' '}
+                    <b>{approved_at}</b>
+                </Typography>
+            )}
 
             <Typography variant="caption" component="div" mt={2}>
                 Catatan:

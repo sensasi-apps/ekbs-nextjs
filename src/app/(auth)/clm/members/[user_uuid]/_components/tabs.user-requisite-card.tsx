@@ -56,7 +56,6 @@ export default function RequisiteUserCard({
                                 fontWeight="bold"
                                 component="div">
                                 {requisiteUser.requisite?.name}
-
                                 {requisiteUser.requisite?.is_optional && (
                                     <Typography
                                         variant="caption"
@@ -72,7 +71,6 @@ export default function RequisiteUserCard({
                                         {requisiteUser.requisite?.description}
                                     </Typography>
                                 )}
-
                                 {requisiteUser?.approved_by_user_uuid && (
                                     <Typography
                                         variant="caption"
@@ -80,6 +78,14 @@ export default function RequisiteUserCard({
                                         Disetujui oleh{' '}
                                         {requisiteUser.approved_by_user?.name}{' '}
                                         pada ({requisiteUser.approved_at})
+                                    </Typography>
+                                )}
+
+                                {(requisiteUser.files?.length ?? 0) > 0 && (
+                                    <Typography
+                                        variant="caption"
+                                        component="div">
+                                        {requisiteUser.files?.length} berkas
                                     </Typography>
                                 )}
                             </Box>
@@ -101,27 +107,9 @@ function getRequisiteStatus(requisiteUser: RequisiteUser): {
     chipColor: 'error' | 'warning' | 'success' | undefined
     icon: JSX.Element
 } {
-    const isApproved = !!requisiteUser?.approved_by_user_uuid
-
-    if (!requisiteUser.requisite?.is_optional) {
-        if (!requisiteUser.uuid) {
-            return {
-                status: 'required',
-                chipLabel: 'belum dilengkapi',
-                chipColor: 'error',
-                icon: <PriorityHighIcon color="error" />,
-            }
-        }
-
-        if (!isApproved) {
-            return {
-                status: 'required',
-                chipLabel: 'perlu ditinjau',
-                chipColor: 'warning',
-                icon: <ScheduleIcon color="warning" />,
-            }
-        }
-    }
+    const isOptional = requisiteUser.requisite?.is_optional ?? false
+    const isApproved = Boolean(requisiteUser?.approved_by_user_uuid)
+    const hasFiles = requisiteUser.files?.length ?? 0 > 0
 
     if (isApproved) {
         return {
@@ -132,10 +120,28 @@ function getRequisiteStatus(requisiteUser: RequisiteUser): {
         }
     }
 
+    if (isOptional && !hasFiles) {
+        return {
+            status: 'optional',
+            chipLabel: null,
+            chipColor: undefined,
+            icon: <Box sx={{ width: 24 }} />,
+        }
+    }
+
+    if (hasFiles && !isApproved) {
+        return {
+            status: 'required',
+            chipLabel: 'perlu ditinjau',
+            chipColor: 'warning',
+            icon: <ScheduleIcon color="warning" />,
+        }
+    }
+
     return {
-        status: 'optional',
-        chipLabel: null,
-        chipColor: undefined,
-        icon: <Box sx={{ width: 24 }} />,
+        status: 'required',
+        chipLabel: 'belum dilengkapi',
+        chipColor: 'error',
+        icon: <PriorityHighIcon color="error" />,
     }
 }
