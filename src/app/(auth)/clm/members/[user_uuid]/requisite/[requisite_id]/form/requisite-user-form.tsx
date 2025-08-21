@@ -1,6 +1,7 @@
 // vendors
-import { Form, Formik } from 'formik'
+import { Form, Formik, type FormikProps } from 'formik'
 // materials
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 // formik
@@ -12,6 +13,7 @@ import type File from '@/dataTypes/File'
 import handle422 from '@/utils/handle-422'
 import myAxios from '@/lib/axios'
 import type RequisiteUser from '@/features/clm/types/requisite-user'
+import type LaravelValidationException from '@/types/LaravelValidationException'
 
 type RequisiteUserFormField = {
     note: RequisiteUser['note']
@@ -51,36 +53,63 @@ export default function RequisiteUserForm({
     )
 }
 
-function FormikForm() {
+function FormikForm({ errors }: FormikProps<RequisiteUserFormField>) {
     return (
-        <Form>
-            <TextField
-                name="note"
-                label="Catatan"
-                textFieldProps={{
-                    multiline: true,
-                    rows: 2,
-                    required: false,
-                }}
-            />
+        <>
+            <Form>
+                <TextField
+                    name="note"
+                    label="Catatan"
+                    textFieldProps={{
+                        multiline: true,
+                        rows: 2,
+                        required: false,
+                    }}
+                />
 
-            <Box mt={2}>
-                <FileField name="files" multiple />
-            </Box>
+                <Box mt={2}>
+                    <FileField name="files" multiple />
+                </Box>
 
-            <Box mt={4}>
-                <Checkbox name="is_approved" innerLabel="Syarat terpenuhi" />
-            </Box>
+                <Box mt={4}>
+                    <Checkbox
+                        name="is_approved"
+                        innerLabel="Syarat terpenuhi"
+                    />
+                </Box>
 
-            <Box mt={5} display="flex" justifyContent="flex-end">
-                <Button type="reset" variant="outlined" color="success">
-                    Batal
-                </Button>
+                <Box mt={5} display="flex" justifyContent="flex-end">
+                    <Button type="reset" variant="outlined" color="success">
+                        Batal
+                    </Button>
 
-                <Button type="submit" variant="contained" color="success">
-                    Simpan
-                </Button>
-            </Box>
-        </Form>
+                    <Button type="submit" variant="contained" color="success">
+                        Simpan
+                    </Button>
+                </Box>
+            </Form>
+
+            <ErrorDisplay errors={errors} />
+        </>
+    )
+}
+
+function ErrorDisplay({
+    errors,
+}: {
+    errors: FormikProps<RequisiteUserFormField>['errors']
+}) {
+    const errorStrings = Object.values(
+        errors as unknown as LaravelValidationException['errors'],
+    ).flatMap(error => (Array.isArray(error) ? error : [error]))
+
+    return (
+        <Box mt={2}>
+            {errorStrings.map((error, i) => (
+                <Alert key={i} severity="error">
+                    {error}
+                </Alert>
+            ))}
+        </Box>
     )
 }
