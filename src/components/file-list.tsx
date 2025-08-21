@@ -1,5 +1,3 @@
-// vendors
-// import { useState } from 'react'
 // materials
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
@@ -11,22 +9,24 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // icons
-import FilePresentIcon from '@mui/icons-material/FilePresent'
-import DeleteIcon from '@mui/icons-material/Delete'
-import DownloadIcon from '@mui/icons-material/Download'
-// import ConfirmationDialog from './ConfirmationDialog'
+import SearchIcon from '@mui/icons-material/Search'
+import DescriptionIcon from '@mui/icons-material/Description'
+import ImageIcon from '@mui/icons-material/Image'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 //
 import type File from '@/dataTypes/File'
+import FileListDeleteButton from './file-list.delete-button'
+import FileListPrimaryItemText from './file-list.primary-item-text'
 
 export default function FileList({
     files,
-    onDelete,
+    showDeleteButton = false,
+    showEditNameButton = false,
 }: {
     files: File[]
-    onDelete?: (file: File) => void
+    showDeleteButton?: boolean
+    showEditNameButton?: boolean
 }) {
-    // const [fileToBeDeleted, setFileToBeDeleted] = useState<File>()
-
     if (files.length === 0)
         return <Alert severity="warning">Belum ada berkas</Alert>
 
@@ -38,38 +38,49 @@ export default function FileList({
                         key={file.uuid}
                         secondaryAction={
                             <Box display="flex" gap={1}>
-                                <Tooltip title="Download">
+                                <Tooltip title="Lihat">
                                     <IconButton
                                         edge="end"
-                                        aria-label="download"
-                                        href={file.uuid}
+                                        aria-label="lihat"
+                                        href={
+                                            '/files/' +
+                                            file.uuid +
+                                            '.' +
+                                            file.extension
+                                        }
                                         target="_blank">
-                                        <DownloadIcon />
+                                        <SearchIcon />
                                     </IconButton>
                                 </Tooltip>
 
-                                {onDelete && (
-                                    <Tooltip title="Delete">
-                                        <IconButton
-                                            edge="end"
-                                            aria-label="delete"
-                                            // onClick={() =>
-                                            //     setFileToBeDeleted(file)
-                                            // }
-                                        >
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </Tooltip>
+                                {showDeleteButton && (
+                                    <FileListDeleteButton
+                                        uuidFileName={
+                                            file.uuid + '.' + file.extension
+                                        }
+                                    />
                                 )}
                             </Box>
                         }>
-                        <ListItemIcon>
-                            <FilePresentIcon />
-                        </ListItemIcon>
+                        <ListItemIcon>{getIcon(file.mime)}</ListItemIcon>
+
                         <ListItemText
-                            primary={file.alias}
+                            primary={
+                                showEditNameButton ? (
+                                    <FileListPrimaryItemText
+                                        fileNameUuid={
+                                            file.uuid + '.' + file.extension
+                                        }
+                                        text={file.alias}
+                                    />
+                                ) : (
+                                    file.alias
+                                )
+                            }
                             secondary={
-                                <Typography variant="caption">
+                                <Typography
+                                    variant="caption"
+                                    color="textSecondary">
                                     {file.mime}
                                 </Typography>
                             }
@@ -79,4 +90,20 @@ export default function FileList({
             </List>
         </>
     )
+}
+
+function getIcon(mime: string) {
+    switch (mime) {
+        case 'image/jpeg':
+        case 'image/png':
+        case 'image/gif':
+        case 'image/webp':
+            return <ImageIcon />
+
+        case 'application/pdf':
+            return <PictureAsPdfIcon />
+
+        default:
+            return <DescriptionIcon />
+    }
 }
