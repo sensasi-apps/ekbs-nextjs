@@ -34,7 +34,7 @@ export default function Checkbox({
                         id={name + '-checkbox'}
                         name={name}
                         checked={Boolean(value)}
-                        control={<MuiCheckbox value={true} />}
+                        control={<MuiCheckbox />}
                         onChange={onChange}
                         label={innerLabel}
                         slotProps={{
