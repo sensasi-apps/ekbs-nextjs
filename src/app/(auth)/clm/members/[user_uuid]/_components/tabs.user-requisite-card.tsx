@@ -71,6 +71,15 @@ export default function RequisiteUserCard({
                                         {requisiteUser.requisite?.description}
                                     </Typography>
                                 )}
+
+                                {(requisiteUser.files?.length ?? 0) > 0 && (
+                                    <Typography
+                                        variant="caption"
+                                        component="div">
+                                        {requisiteUser.files?.length} berkas
+                                    </Typography>
+                                )}
+
                                 {requisiteUser?.approved_by_user_uuid && (
                                     <Typography
                                         variant="caption"
@@ -78,14 +87,6 @@ export default function RequisiteUserCard({
                                         Disetujui oleh{' '}
                                         {requisiteUser.approved_by_user?.name}{' '}
                                         pada ({requisiteUser.approved_at})
-                                    </Typography>
-                                )}
-
-                                {(requisiteUser.files?.length ?? 0) > 0 && (
-                                    <Typography
-                                        variant="caption"
-                                        component="div">
-                                        {requisiteUser.files?.length} berkas
                                     </Typography>
                                 )}
                             </Box>
