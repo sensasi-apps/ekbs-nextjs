@@ -1,27 +1,28 @@
+import { Field, type FieldProps } from 'formik'
+// materials
 import { styled } from '@mui/material/styles'
-import Button from '@mui/material/Button'
-import AddIcon from '@mui/icons-material/Add'
+import Fab, { type FabProps } from '@mui/material/Fab'
+import FormHelperText from '@mui/material/FormHelperText'
 import Typography from '@mui/material/Typography'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
+// icons
+import AddIcon from '@mui/icons-material/Add'
 import PauseIcon from '@mui/icons-material/Pause'
-import { Field, type FieldProps } from 'formik'
-import FormHelperText from '@mui/material/FormHelperText'
 
 interface FileFieldProps {
-    // value?: string
     name: string
     disabled?: boolean
-    // textFieldProps?: Omit<
-    //     MuiTextFieldProps,
-    //     'error' | 'name' | 'id' | 'disabled' | 'label' | 'value' | 'onChange'
-    // >
+    multiple?: boolean
+    slotProps?: {
+        button?: FabProps
+    }
 }
 
 /**
- *
+ * ⚠️ Do not forget to add `'Content-Type': 'multipart/form-data'` to the request.
  */
 export default function FileField(props: FileFieldProps) {
     return <Field component={InnerComponent} {...props} />
@@ -40,57 +41,43 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 function InnerComponent({
-    // formik props
     field: { name },
     form: { setFieldValue, getFieldMeta },
-
-    // additional props
-    // label,
-    // disabled,
-    // textFieldProps,
-    // value: valueProp,
-}: Omit<FieldProps<File[]>, 'meta'>) {
+    slotProps,
+    multiple,
+}: Omit<FieldProps<File[]>, 'meta'> & Omit<FileFieldProps, 'name'>) {
     const { error, value } = getFieldMeta<File[]>(name)
 
     return (
         <>
-            {/* <DefaultTextField
-                id={name}
-                disabled={disabled || isSubmitting}
-                label={label}
-                value={innerValue}
-                onChange={({ target: { value } }) => {
-                    setInnerValue(value)
-                    debounceSetFieldValue(value)
-                }}
-                {...textFieldProps}
-                error={Boolean(error)}
-                helperText={error ?? textFieldProps?.helperText}
-            /> */}
-
-            <Button
-                fullWidth
-                component="label"
-                role={undefined}
-                variant="outlined"
-                startIcon={<AddIcon />}>
-                Tambah Berkas
-                <VisuallyHiddenInput
-                    type="file"
-                    id={name}
-                    // disabled={disabled}
-                    onChange={({ currentTarget: { files } }) => {
-                        setFieldValue(name, Array.from(files ?? []))
-                    }}
-                    multiple
-                />
-            </Button>
+            <div>
+                <Fab
+                    variant="extended"
+                    color="primary"
+                    component="label"
+                    role={undefined}
+                    {...slotProps?.button}>
+                    <VisuallyHiddenInput
+                        type="file"
+                        id={name}
+                        name={name}
+                        onChange={({ currentTarget: { files } }) => {
+                            setFieldValue(name, Array.from(files ?? []))
+                        }}
+                        multiple={multiple ?? false}
+                    />
+                    <AddIcon sx={{ mr: 1 }} />
+                    Tambah Berkas
+                </Fab>
+            </div>
 
             {error && <FormHelperText error>{error}</FormHelperText>}
 
             {value.length > 0 && (
                 <>
-                    <Typography variant="caption">Akan diunggah:</Typography>
+                    <Typography variant="caption" component="div">
+                        Akan diunggah:
+                    </Typography>
 
                     <List
                         dense
@@ -104,10 +91,7 @@ function InnerComponent({
                                     <PauseIcon />
                                 </ListItemIcon>
 
-                                <ListItemText
-                                    primary={file.name}
-                                    // secondary={secondary ? 'Secondary text' : null}
-                                />
+                                <ListItemText primary={file.name} />
                             </ListItem>
                         ))}
                     </List>

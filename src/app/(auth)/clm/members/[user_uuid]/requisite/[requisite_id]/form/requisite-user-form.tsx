@@ -65,7 +65,7 @@ function FormikForm() {
             />
 
             <Box mt={2}>
-                <FileField name="files" />
+                <FileField name="files" multiple />
             </Box>
 
             <Box mt={4}>
