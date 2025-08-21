@@ -12,7 +12,7 @@
         "dev": "next dev -p 4000",
         "build": "next build",
         "start": "next start",
-        "lint": "tsc && next lint",
+        "lint": "eslint ./src",
         "lint:fix": "next lint --fix",
         "test": "jest",
         "test:watch": "jest --watch"
@@ -86,6 +86,7 @@
         "eslint-plugin-prettier": "^5.5.4",
         "jest": "^30.0.5",
         "jest-environment-jsdom": "^30.0.5",
+        "next-rspack": "^15.5.0",
         "prettier": "^3.6.2",
         "serwist": "^9.1.1",
         "typescript": "^5.9.2"
