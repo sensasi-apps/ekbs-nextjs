@@ -19,21 +19,6 @@ const config = [
         rules: {
             'no-console': 'warn',
 
-            // '@next/next/no-img-element': 'off',
-
-            // "import/no-restricted-paths": [
-            //     "error",
-            //     {
-            //         "zones": [
-            //             {
-            //                 "target": "./src",
-            //                 "from": "../",
-            //                 "message": "Hindari impor lintas direktori di luar src"
-            //             }
-            //         ]
-            //     }
-            // ]
-
             'no-restricted-imports': [
                 'error',
                 {
