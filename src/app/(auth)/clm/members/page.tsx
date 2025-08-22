@@ -3,7 +3,7 @@
 // vendors
 import { Formik, type FormikProps } from 'formik'
 import { useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import myAxios from '@/lib/axios'
 // materials
 import Button from '@mui/material/Button'
@@ -19,12 +19,14 @@ import Datatable, {
     type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-import UserSelect from '@/components/FormikForm/user-select'
+import FlexBox from '@/components/flex-box'
 import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import PageTitle from '@/components/page-title'
 import TextShortener from '@/components/text-shortener'
+import UserSelect from '@/components/FormikForm/user-select'
 // utils
 import handle422 from '@/utils/handle-422'
+import ClmMemberFilterChips from './_filter-chips'
 
 interface Member {
     user_uuid: string
@@ -32,6 +34,9 @@ interface Member {
 }
 
 export default function Members() {
+    const searchParams = useSearchParams()
+    const status = searchParams.get('status') ?? ''
+
     const { push } = useRouter()
     const [open, setOpen] = useState(false)
     const mutateRef = useRef<MutateType<Member> | undefined>(undefined)
@@ -45,10 +50,17 @@ export default function Members() {
         <>
             <PageTitle title="Anggota Sertifikasi" />
 
+            <FlexBox mb={2} gap={1}>
+                <ClmMemberFilterChips />
+            </FlexBox>
+
             <Datatable<Member>
                 apiUrl="/clm/members/get-datatable-data"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'created_at', direction: 'desc' }}
+                apiUrlParams={{
+                    status,
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         // console.log(data)
@@ -155,15 +167,6 @@ const DATATABLE_COLUMNS: DatatableProps<Member>['columns'] = [
                     />
                 )
             },
-        },
-    },
-
-    {
-        name: 'status',
-        label: 'Status',
-        options: {
-            searchable: false,
-            sort: false,
         },
     },
 
