@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 // icons
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import WarningIcon from '@mui/icons-material/Warning'
 import CropIcon from '@mui/icons-material/Crop'
 import ForestIcon from '@mui/icons-material/Forest'
 // components
@@ -29,30 +30,7 @@ export default function MemberDetailPage() {
 
     if (!data) return <LoadingCenter />
 
-    const { user, lands, requisite_users } = data
-
-    const approvedRequisites = requisite_users.filter(
-        req => !!req.approved_by_user_uuid,
-    ).length
-
-    const statCardProps = [
-        {
-            text: 'Total Lahan',
-            value: lands.length,
-            Icon: ForestIcon,
-        },
-        {
-            text: 'Total Luas',
-            value: lands.reduce((sum, land) => sum + land.n_area_hectares, 0),
-            unit: 'Ha',
-            Icon: CropIcon,
-        },
-        {
-            text: 'Syarat Perorangan',
-            value: `${approvedRequisites}/${requisite_users.length}`,
-            Icon: CheckCircleOutlineIcon,
-        },
-    ]
+    const { user } = data
 
     return (
         <>
@@ -92,7 +70,7 @@ export default function MemberDetailPage() {
             </Box>
 
             <Grid container spacing={2} mb={4}>
-                {statCardProps.map((props, index) => (
+                {getStatCardProps(data).map((props, index) => (
                     <Grid key={index} size={{ xs: 12, sm: 'auto' }}>
                         <UserStatCard {...props} />
                     </Grid>
@@ -102,4 +80,36 @@ export default function MemberDetailPage() {
             <Tabs data={data} />
         </>
     )
+}
+
+function getStatCardProps({ lands, requisite_users }: ApiResponse) {
+    const nApprovedRequisites = requisite_users.filter(
+        req => !!req.approved_by_user_uuid,
+    ).length
+
+    const nRequiredRequisites = requisite_users.filter(
+        req => !req.requisite?.is_optional,
+    ).length
+
+    const isRequisitesFulfilled = nApprovedRequisites === nRequiredRequisites
+
+    return [
+        {
+            text: 'Total Lahan',
+            value: lands.length,
+            Icon: ForestIcon,
+        },
+        {
+            text: 'Total Luas',
+            value: lands.reduce((sum, land) => sum + land.n_area_hectares, 0),
+            unit: 'Ha',
+            Icon: CropIcon,
+        },
+        {
+            text: 'Syarat Perorangan',
+            value: `${nApprovedRequisites}/${requisite_users.length}`,
+            Icon: isRequisitesFulfilled ? CheckCircleOutlineIcon : WarningIcon,
+            iconColor: isRequisitesFulfilled ? undefined : 'error',
+        },
+    ] as const
 }
