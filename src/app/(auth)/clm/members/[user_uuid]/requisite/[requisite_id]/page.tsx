@@ -20,8 +20,6 @@ type ApiResponse = RequisiteUser & {
 }
 
 export default function RequisiteUserPage() {
-    const [showDeleteFileButton, setShowDeleteFileButton] = useState(false)
-
     const { requisite_id, user_uuid } = useParams<{
         requisite_id: string
         user_uuid: string
@@ -29,11 +27,17 @@ export default function RequisiteUserPage() {
 
     const { data } = useSWR<ApiResponse>(
         `/clm/members/${user_uuid}/${requisite_id}`,
+        null,
+        {
+            revalidateOnMount: true,
+        },
     )
+
+    const [showDeleteFileButton, setShowDeleteFileButton] = useState(false)
 
     if (!data) return <LoadingCenter />
 
-    const { requisite, approved_by_user, approved_at } = data
+    const { requisite, approved_at } = data
 
     return (
         <>
@@ -53,16 +57,7 @@ export default function RequisiteUserPage() {
                 {requisite?.name}
             </Typography>
 
-            {approved_by_user && (
-                <Typography
-                    variant="caption"
-                    component="div"
-                    mt={1}
-                    color="success">
-                    Telah disetujui oleh <b>{approved_by_user.name}</b> pada{' '}
-                    <b>{approved_at}</b>
-                </Typography>
-            )}
+            {getStatus(data)}
 
             <Typography variant="caption" component="div" mt={2}>
                 Catatan:
@@ -77,10 +72,10 @@ export default function RequisiteUserPage() {
             <FileList
                 files={data.files ?? []}
                 showDeleteButton={showDeleteFileButton}
-                showEditNameButton={!approved_by_user}
+                showEditNameButton={!approved_at}
             />
 
-            {(data.files ?? []).length > 0 && !approved_by_user && (
+            {(data.files ?? []).length > 0 && !approved_at && (
                 <FlexBox mt={2}>
                     <Switch
                         id="show-delete-file-button"
@@ -103,5 +98,34 @@ export default function RequisiteUserPage() {
                 </FlexBox>
             )}
         </>
+    )
+}
+
+const BASE_TYPOGRAPHY_PROPS = {
+    variant: 'caption',
+    component: 'div',
+    mt: 1,
+} as const
+
+function getStatus({ approved_by_user, approved_at, files }: ApiResponse) {
+    if (!files?.length)
+        return (
+            <Typography {...BASE_TYPOGRAPHY_PROPS} color="error">
+                Berkas belum diunggah
+            </Typography>
+        )
+
+    if (!approved_by_user)
+        return (
+            <Typography {...BASE_TYPOGRAPHY_PROPS} color="warning">
+                Perlu ditinjau
+            </Typography>
+        )
+
+    return (
+        <Typography {...BASE_TYPOGRAPHY_PROPS} color="success">
+            Telah disetujui oleh <b>{approved_by_user?.name}</b> pada{' '}
+            <b>{approved_at}</b>
+        </Typography>
     )
 }

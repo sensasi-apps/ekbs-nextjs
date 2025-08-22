@@ -66,21 +66,24 @@ export default function RequisiteUserCard({
                             </Typography>
 
                             <Box maxWidth={350}>
-                                {requisiteUser.requisite?.description && (
-                                    <Typography variant="body2" component="div">
-                                        {requisiteUser.requisite?.description}
-                                    </Typography>
-                                )}
+                                <Typography variant="caption" component="div">
+                                    {requisiteUser.requisite?.description}
+                                </Typography>
+
+                                <Typography variant="body2" component="div">
+                                    {requisiteUser.note}
+                                </Typography>
 
                                 {(requisiteUser.files?.length ?? 0) > 0 && (
                                     <Typography
                                         variant="caption"
-                                        component="div">
+                                        component="div"
+                                        color="textSecondary">
                                         {requisiteUser.files?.length} berkas
                                     </Typography>
                                 )}
 
-                                {requisiteUser?.approved_by_user_uuid && (
+                                {requisiteUser.approved_at && (
                                     <Typography
                                         variant="caption"
                                         component="div">
