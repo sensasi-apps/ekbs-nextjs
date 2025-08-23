@@ -4,4 +4,10 @@ export default interface Requisite {
     description: string | null
     type: 'user' | 'land'
     is_optional: boolean
+
+    // relations
+    certifications?: {
+        id: number
+        name: string
+    }[]
 }

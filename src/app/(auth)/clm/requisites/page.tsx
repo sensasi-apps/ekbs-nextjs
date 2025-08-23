@@ -30,10 +30,13 @@ import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
 import type Requisite from '@/features/clm/types/requisite'
 import PageTitle from '@/components/page-title'
+import LoadingCenter from '@/components/loading-center'
+import Checkbox from '@/components/FormikForm/checkbox-fields'
 
-type FormData = Omit<Requisite, 'id' | 'is_optional'> & {
+type FormData = Omit<Requisite, 'id' | 'is_optional' | 'certifications'> & {
     id?: number
     is_required: boolean
+    certifications: string[]
 }
 
 export default function Page() {
@@ -44,16 +47,21 @@ export default function Page() {
         mutate,
         isLoading,
         isValidating,
-    } = useSWR<Requisite[]>('clm/requisites')
+    } = useSWR<
+        (Requisite & {
+            certifications: {
+                id: number
+                name: string
+            }[]
+        })[]
+    >('clm/requisites')
 
     const showLinearProgress = isLoading || isValidating
 
     const aoaUserData = data
         .filter(({ type }) => type === 'user')
         .map(row => [
-            row.name,
-            row.description,
-            row.is_optional ? '' : <Check color="success" />,
+            ...dataToRow(row),
             <IconButton
                 title="Ubah"
                 key={row.id}
@@ -63,6 +71,9 @@ export default function Page() {
                     setFormData({
                         ...row,
                         is_required: !row.is_optional,
+                        certifications: row.certifications.map(
+                            ({ id }) => `${id}`,
+                        ),
                     })
                 }}
             />,
@@ -71,20 +82,22 @@ export default function Page() {
     const aoaLandData = data
         .filter(({ type }) => type === 'land')
         .map(row => [
-            row.name,
-            row.description,
-            row.is_optional ? '' : <Check color="success" />,
-            <Button
+            ...dataToRow(row),
+            <IconButton
+                title="Ubah"
                 key={row.id}
-                size="small"
+                icon={Edit}
+                color="primary"
                 onClick={() => {
                     setFormData({
                         ...row,
                         is_required: !row.is_optional,
+                        certifications: row.certifications.map(
+                            ({ id }) => `${id}`,
+                        ),
                     })
-                }}>
-                Ubah
-            </Button>,
+                }}
+            />,
         ])
 
     return (
@@ -119,7 +132,7 @@ export default function Page() {
                     />
 
                     <AoaTable
-                        headers={['Nama', 'Keterangan', 'Wajib', 'Aksi']}
+                        headers={['Wajib', 'Nama', 'Sertifikasi', 'Aksi']}
                         dataRows={aoaUserData}
                     />
                 </Grid>
@@ -149,7 +162,7 @@ export default function Page() {
                     />
 
                     <AoaTable
-                        headers={['Nama', 'Keterangan', 'Wajib', 'Aksi']}
+                        headers={['Wajib', 'Nama', 'Sertifikasi', 'Aksi']}
                         dataRows={aoaLandData}
                     />
                 </Grid>
@@ -173,6 +186,7 @@ export default function Page() {
                         description: '',
                         is_required: false,
                         type: 'user',
+                        certifications: [],
                     })
                 }>
                 <Add />
@@ -190,9 +204,18 @@ function RequisiteForm({
     onSubmitted: () => void
     onCancel: () => void
 }) {
+    const { data: certifications } = useSWR<
+        {
+            id: number
+            name: string
+        }[]
+    >('clm/certifications/select-data')
+
     if (!formData) {
         return null
     }
+
+    if (!certifications) return <LoadingCenter />
 
     return (
         <Formik<FormData>
@@ -243,6 +266,15 @@ function RequisiteForm({
                                 ]}
                             />
 
+                            <Checkbox
+                                name="certifications"
+                                label="Sertifikasi"
+                                options={certifications.map(({ id, name }) => ({
+                                    label: name,
+                                    value: `${id}`,
+                                }))}
+                            />
+
                             <Switch
                                 name="is_required"
                                 switchLabel="Syarat Wajib"
@@ -272,4 +304,17 @@ function RequisiteForm({
             onReset={onCancel}
         />
     )
+}
+
+function dataToRow(data: Requisite) {
+    return [
+        data.is_optional ? '' : <Check color="success" />,
+        <>
+            {data.name}
+            <Typography variant="caption" component="div">
+                {data.description}
+            </Typography>
+        </>,
+        data.certifications?.map(({ name }) => name).join(', '),
+    ]
 }
