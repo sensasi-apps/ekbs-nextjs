@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 // formik
 import { TextField } from '@/components/FormikForm'
 import FileField from '@/components/FormikForm/file-field'
-import Checkbox from '@/components/FormikForm/checkbox'
+import CheckboxFields from '@/components/FormikForm/checkbox-fields'
 import type File from '@/dataTypes/File'
 // utils
 import handle422 from '@/utils/handle-422'
@@ -72,9 +72,13 @@ function FormikForm({ errors }: FormikProps<RequisiteUserFormField>) {
                 </Box>
 
                 <Box mt={4}>
-                    <Checkbox
+                    <CheckboxFields
                         name="is_approved"
-                        innerLabel="Syarat terpenuhi"
+                        options={[
+                            {
+                                label: 'Disetujui',
+                            },
+                        ]}
                     />
                 </Box>
 
