@@ -9,13 +9,14 @@ import Button from '@mui/material/Button'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 // components
-import type RequisiteUser from '@/features/clm/types/requisite-user'
 import BackButton from '@/components/back-button'
 import FileList from '@/components/file-list'
 import LoadingCenter from '@/components/loading-center'
 import FlexBox from '@/components/flex-box'
+// modules
+import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
 
-type ApiResponse = RequisiteUser & {
+type ApiResponse = RequisiteUserORM & {
     uuid?: string
 }
 

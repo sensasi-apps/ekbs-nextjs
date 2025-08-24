@@ -12,7 +12,7 @@ import type File from '@/dataTypes/File'
 // utils
 import handle422 from '@/utils/handle-422'
 import myAxios from '@/lib/axios'
-import type RequisiteUser from '@/features/clm/types/requisite-user'
+import type RequisiteUser from '@/modules/clm/types/orms/requisite-user'
 import type LaravelValidationException from '@/types/LaravelValidationException'
 
 type RequisiteUserFormField = {

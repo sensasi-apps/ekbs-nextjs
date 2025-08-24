@@ -14,12 +14,12 @@ import ScheduleIcon from '@mui/icons-material/Schedule'
 // components
 import ChipSmall from '@/components/ChipSmall'
 //
-import type RequisiteUser from '@/features/clm/types/requisite-user'
+import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
 
 export default function RequisiteUserCard({
     requisiteUser,
 }: {
-    requisiteUser: RequisiteUser
+    requisiteUser: RequisiteUserORM
 }) {
     const { status, icon, chipColor, chipLabel } =
         getRequisiteStatus(requisiteUser)
@@ -105,7 +105,7 @@ export default function RequisiteUserCard({
     )
 }
 
-function getRequisiteStatus(requisiteUser: RequisiteUser): {
+function getRequisiteStatus(requisiteUser: RequisiteUserORM): {
     status: 'required' | 'optional'
     chipLabel: string | null
     chipColor: 'error' | 'warning' | 'success' | undefined

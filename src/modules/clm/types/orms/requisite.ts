@@ -1,4 +1,4 @@
-export default interface Requisite {
+export default interface RequisiteORM {
     id: number
     name: string
     description: string | null

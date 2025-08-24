@@ -1,7 +1,8 @@
 import { type UUID } from 'crypto'
 import type Address from '@/types/Address'
 import type FarmerGroupType from '@/dataTypes/FarmerGroup'
-import type RequisiteLand from '@/features/clm/types/requisite-land'
+//
+import type RequisiteLandORM from './requisite-land'
 
 export default interface LandORM {
     uuid: UUID
@@ -15,8 +16,8 @@ export default interface LandORM {
 
     // relationships
     farmer_group?: FarmerGroupType
-    requisite_lands?: RequisiteLand[]
-    requisite_lands_with_default?: RequisiteLand[]
+    requisite_lands?: RequisiteLandORM[]
+    requisite_lands_with_default?: RequisiteLandORM[]
 
     // getters
     is_requisites_fulfilled?: boolean

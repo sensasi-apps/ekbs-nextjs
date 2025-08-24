@@ -1,12 +1,13 @@
 import type { UUID } from 'crypto'
-import type Requisite from './requisite'
 import type User from '@/features/user/types/user'
-import type Land from '@/modules/clm/types/orms/land'
+import type File from '@/dataTypes/File'
+//
+import type RequisiteORM from './requisite'
 
-export default interface RequisiteLand {
+export default interface RequisiteUserORM {
     uuid: UUID
-    requisite_id: Requisite['id']
-    land_uuid: Land['uuid']
+    requisite_id: RequisiteORM['id']
+    user_uuid: UUID
     approved_at: string
     approved_by_user_uuid: User['uuid']
     note: string
@@ -14,4 +15,5 @@ export default interface RequisiteLand {
     // relations
     approved_by_user?: User
     files?: File[]
+    requisite?: RequisiteORM
 }

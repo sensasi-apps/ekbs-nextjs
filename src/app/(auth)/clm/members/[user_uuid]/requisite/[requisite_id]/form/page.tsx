@@ -6,7 +6,7 @@ import useSWR from 'swr'
 // materials
 import Typography from '@mui/material/Typography'
 // components
-import type RequisiteUser from '@/features/clm/types/requisite-user'
+import type RequisiteUser from '@/modules/clm/types/orms/requisite-user'
 import LoadingCenter from '@/components/loading-center'
 import RequisiteUserForm from './requisite-user-form'
 import type { UUID } from 'crypto'

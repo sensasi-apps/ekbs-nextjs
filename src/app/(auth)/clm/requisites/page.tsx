@@ -27,7 +27,7 @@ import IconButton from '@/components/IconButton'
 import PageTitle from '@/components/page-title'
 import Switch from '@/components/FormikForm/switch'
 //
-import type Requisite from '@/features/clm/types/requisite'
+import type Requisite from '@/modules/clm/types/orms/requisite'
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
 import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
