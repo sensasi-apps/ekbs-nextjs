@@ -29,7 +29,7 @@ import CompleteCenter from '@/components/Statuses/CompleteCenter'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import ErrorCenter from '@/components/Statuses/ErrorCenter'
 // utils
-import { getRoleIconByIdName } from '../RoleChips'
+import { getRoleIconByIdName } from '@/components/User/RoleChips'
 
 export default function RolesAndPermissionButtonAndDialogForm({
     data: user = {} as User,
@@ -196,6 +196,7 @@ const ROLE_GROUPS = [
     'mart',
     'system',
     'repair shop',
+    'clm',
 ]
 
 const ROLE_GROUPS_ID: {
@@ -211,6 +212,7 @@ const ROLE_GROUPS_ID: {
     'heavy equipment rent': 'sewa alat berat',
     mart: 'Belayan Mart',
     'repair shop': 'Belayan Spare Parts',
+    clm: 'Sertifikasi dan Pengelolaan Kebun',
 }
 
 function CheckboxesByGroupName({

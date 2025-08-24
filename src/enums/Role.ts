@@ -47,6 +47,10 @@ enum Role {
     // mart
     MART_MANAGER = 'mart manager',
     MART_CASHIER = 'mart cashier',
+
+    // clm
+    CLM_MANAGER = 'clm manager',
+    CLM_ADMIN = 'clm admin',
 }
 
 export default Role
