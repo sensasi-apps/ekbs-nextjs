@@ -18,13 +18,14 @@ import LoadingCenter from '@/components/loading-center'
 import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
 // local components
-import RolesAndPermissionButtonAndDialogForm from '@/components/User/RolesAndPermissions/ButtonAndDialogForm'
 import SetPasswordButtonAndDialogForm from '@/components/User/SetPasswordButtonAndDialogForm'
 import IsActiveDisplay from '@/components/User/IsActiveDisplay'
 import UserRoleChips from '@/components/User/RoleChips'
 // providers
 import useFormData from '@/providers/FormData'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
+//
+import RolesAndPermissionButtonAndDialogForm from './roles-and-permission-button-and-dialog-form'
+import useUserWithDetails from './user-with-details-provider'
 
 export default function UserCard() {
     const { back } = useRouter()
