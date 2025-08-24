@@ -41,7 +41,7 @@ export default function LandCard({ land }: { land: Land }) {
 
                         <ChipSmall
                             label={
-                                (land.requisite_lands?.filter(
+                                (land.requisite_lands_with_default?.filter(
                                     requisiteLand =>
                                         requisiteLand.approved_by_user_uuid,
                                 ).length ?? 0) +

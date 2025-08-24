@@ -2,7 +2,6 @@
 
 // vendors
 import { useParams } from 'next/navigation'
-import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -17,16 +16,19 @@ import BackButton from '@/components/back-button'
 import ChipSmall from '@/components/ChipSmall'
 import LoadingCenter from '@/components/loading-center'
 // features
-import type ApiResponse from './_types/api-response'
 import Tabs from './_components/tabs'
 import UserStatCard from './_components/user-stat-card'
+import CertificationUpdateForm from './_components/certification-update-form'
+import useClmMemberDetailSwr, {
+    type ClmMemberDetailResponse,
+} from '@/app/(auth)/clm/members/[user_uuid]/_components/use-member-detail-swr'
 
 export default function MemberDetailPage() {
     const { user_uuid } = useParams<{
         user_uuid: string
     }>()
 
-    const { data } = useSWR<ApiResponse>(`/clm/members/${user_uuid}`)
+    const { data, mutate } = useClmMemberDetailSwr(user_uuid)
 
     if (!data) return <LoadingCenter />
 
@@ -67,6 +69,12 @@ export default function MemberDetailPage() {
                         </Typography>
                     ))}
                 </Box>
+
+                <CertificationUpdateForm
+                    user_uuid={user_uuid}
+                    certifications={data.certifications.map(c => `${c.id}`)}
+                    onSubmitted={() => mutate()}
+                />
             </Box>
 
             <Grid container spacing={2} mb={4}>
@@ -82,12 +90,15 @@ export default function MemberDetailPage() {
     )
 }
 
-function getStatCardProps({ lands, requisite_users }: ApiResponse) {
-    const nApprovedRequisites = requisite_users.filter(
+function getStatCardProps({
+    lands,
+    requisite_users_with_default,
+}: ClmMemberDetailResponse) {
+    const nApprovedRequisites = requisite_users_with_default.filter(
         req => !!req.approved_by_user_uuid,
     ).length
 
-    const nRequiredRequisites = requisite_users.filter(
+    const nRequiredRequisites = requisite_users_with_default.filter(
         req => !req.requisite?.is_optional,
     ).length
 
@@ -107,7 +118,7 @@ function getStatCardProps({ lands, requisite_users }: ApiResponse) {
         },
         {
             text: 'Syarat Perorangan',
-            value: `${nApprovedRequisites}/${requisite_users.length}`,
+            value: `${nApprovedRequisites}/${requisite_users_with_default.length}`,
             Icon: isRequisitesFulfilled ? CheckCircleOutlineIcon : WarningIcon,
             iconColor: isRequisitesFulfilled ? undefined : 'error',
         },

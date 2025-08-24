@@ -15,8 +15,9 @@ export default interface Land {
 
     // relationships
     farmer_group?: FarmerGroupType
-    requisite_lands: RequisiteLand[]
+    requisite_lands?: RequisiteLand[]
+    requisite_lands_with_default?: RequisiteLand[]
 
     // getters
-    is_requisites_fulfilled: boolean
+    is_requisites_fulfilled?: boolean
 }

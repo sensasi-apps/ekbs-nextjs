@@ -6,13 +6,13 @@ import { useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import myAxios from '@/lib/axios'
 // materials
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 // components
-import type User from '@/features/user/types/user'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
@@ -27,11 +27,10 @@ import UserSelect from '@/components/FormikForm/user-select'
 // utils
 import handle422 from '@/utils/handle-422'
 import ClmMemberFilterChips from './_filter-chips'
-
-interface Member {
-    user_uuid: string
-    user: User
-}
+// modules
+import type Land from '@/types/Land'
+import type MemberORM from '@/modules/clm/types/orms/member'
+import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
 
 export default function Members() {
     const searchParams = useSearchParams()
@@ -39,8 +38,10 @@ export default function Members() {
 
     const { push } = useRouter()
     const [open, setOpen] = useState(false)
-    const mutateRef = useRef<MutateType<Member> | undefined>(undefined)
-    const getRowDataRef = useRef<GetRowDataType<Member> | undefined>(undefined)
+    const mutateRef = useRef<MutateType<MemberORM> | undefined>(undefined)
+    const getRowDataRef = useRef<GetRowDataType<MemberORM> | undefined>(
+        undefined,
+    )
 
     function handleClose() {
         setOpen(false)
@@ -54,7 +55,7 @@ export default function Members() {
                 <ClmMemberFilterChips />
             </FlexBox>
 
-            <Datatable<Member>
+            <Datatable<MemberORM>
                 apiUrl="/clm/members/get-datatable-data"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'created_at', direction: 'desc' }}
@@ -108,6 +109,10 @@ export default function Members() {
                                     name="user_uuid"
                                     label="Pilih Pengguna"
                                 />
+
+                                <Box mt={2}>
+                                    <CertificationCheckboxes />
+                                </Box>
                             </DialogContent>
 
                             <DialogActions>
@@ -138,7 +143,7 @@ export default function Members() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Member>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<MemberORM>['columns'] = [
     {
         name: 'user.id',
         label: 'ID',
@@ -154,7 +159,7 @@ const DATATABLE_COLUMNS: DatatableProps<Member>['columns'] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (value: Member['user']['lands']) => {
+            customBodyRender: (value: Land[]) => {
                 return (
                     <ListInsideMuiDatatableCell
                         listItems={value ?? []}

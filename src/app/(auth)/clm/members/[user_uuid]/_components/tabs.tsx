@@ -7,12 +7,12 @@ import MuiTab from '@mui/material/Tab'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
-// features
-import type ApiResponse from '../_types/api-response'
+// modules
+import type { ClmMemberDetailResponse } from './use-member-detail-swr'
 import LandCard from './tabs.land-card'
 import UserRequisiteCard from './tabs.user-requisite-card'
 
-export default function Tabs({ data }: { data: ApiResponse }) {
+export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
     const [value, setValue] = useState('1')
 
     function handleChange(_: SyntheticEvent, newValue: string) {
@@ -30,7 +30,7 @@ export default function Tabs({ data }: { data: ApiResponse }) {
                 </Box>
 
                 <TabPanel value="1" sx={{ px: 0 }}>
-                    {data.requisite_users.map(requisiteUser => (
+                    {data.requisite_users_with_default.map(requisiteUser => (
                         <UserRequisiteCard
                             key={requisiteUser.requisite_id}
                             requisiteUser={requisiteUser}

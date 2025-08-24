@@ -23,15 +23,14 @@ import ForestIcon from '@mui/icons-material/Forest'
 import { AoaTable } from '@/components/aoa-table'
 import { Radio, TextField } from '@/components/FormikForm'
 import Fab from '@/components/Fab'
-import Switch from '@/components/FormikForm/switch'
 import IconButton from '@/components/IconButton'
+import PageTitle from '@/components/page-title'
+import Switch from '@/components/FormikForm/switch'
 //
+import type Requisite from '@/features/clm/types/requisite'
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
-import type Requisite from '@/features/clm/types/requisite'
-import PageTitle from '@/components/page-title'
-import LoadingCenter from '@/components/loading-center'
-import Checkbox from '@/components/FormikForm/checkbox-fields'
+import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
 
 type FormData = Omit<Requisite, 'id' | 'is_optional' | 'certifications'> & {
     id?: number
@@ -204,18 +203,9 @@ function RequisiteForm({
     onSubmitted: () => void
     onCancel: () => void
 }) {
-    const { data: certifications } = useSWR<
-        {
-            id: number
-            name: string
-        }[]
-    >('clm/certifications/select-data')
-
     if (!formData) {
         return null
     }
-
-    if (!certifications) return <LoadingCenter />
 
     return (
         <Formik<FormData>
@@ -266,14 +256,7 @@ function RequisiteForm({
                                 ]}
                             />
 
-                            <Checkbox
-                                name="certifications"
-                                label="Sertifikasi"
-                                options={certifications.map(({ id, name }) => ({
-                                    label: name,
-                                    value: `${id}`,
-                                }))}
-                            />
+                            <CertificationCheckboxes />
 
                             <Switch
                                 name="is_required"
