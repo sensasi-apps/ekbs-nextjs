@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 
 import type RequisiteUser from '@/features/clm/types/requisite-user'
-import type Land from '@/types/Land'
+import type Land from '@/modules/clm/types/orms/land'
 import type User from '@/features/user/types/user'
 import type UserSocial from '@/features/user/types/user-social'
 import type Social from '@/features/user/types/social'

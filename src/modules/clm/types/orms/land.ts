@@ -1,9 +1,9 @@
 import { type UUID } from 'crypto'
-import type Address from './Address'
+import type Address from '@/types/Address'
 import type FarmerGroupType from '@/dataTypes/FarmerGroup'
 import type RequisiteLand from '@/features/clm/types/requisite-land'
 
-export default interface Land {
+export default interface LandORM {
     uuid: UUID
     user_uuid: UUID
     farmer_group_uuid: UUID

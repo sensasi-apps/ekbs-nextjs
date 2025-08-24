@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import type Land from '@/types/Land'
+import type Land from '@/modules/clm/types/orms/land'
 import Dialog from '@/components/Global/Dialog'
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import UserLandForm from '@/components/User/Land/Form'

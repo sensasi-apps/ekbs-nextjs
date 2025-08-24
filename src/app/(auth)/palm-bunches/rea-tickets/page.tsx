@@ -3,7 +3,7 @@
 import type { UUID } from 'crypto'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 import type PalmBunchType from '@/dataTypes/PalmBunch'
-import type Land from '@/types/Land'
+import type Land from '@/modules/clm/types/orms/land'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'

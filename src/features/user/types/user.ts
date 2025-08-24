@@ -3,7 +3,7 @@ import type { Ymd } from '@/types/DateString'
 // features
 import type Employee from '@/features/user/types/employee'
 import type UserSocial from '@/features/user/types/user-social'
-import type Land from '@/types/Land'
+import type Land from '@/modules/clm/types/orms/land'
 import type File from '@/dataTypes/File'
 
 export default interface User {

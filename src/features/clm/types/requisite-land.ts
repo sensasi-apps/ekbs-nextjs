@@ -1,7 +1,7 @@
 import type { UUID } from 'crypto'
 import type Requisite from './requisite'
 import type User from '@/features/user/types/user'
-import type Land from '@/types/Land'
+import type Land from '@/modules/clm/types/orms/land'
 
 export default interface RequisiteLand {
     uuid: UUID

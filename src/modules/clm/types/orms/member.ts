@@ -1,15 +1,16 @@
 import type File from '@/dataTypes/File'
 import type Requisite from '@/features/clm/types/requisite'
 import type User from '@/features/user/types/user'
-import type Land from '@/types/Land'
-import type CertificationORM from '@/modules/clm/types/orms/certification'
+//
+import type CertificationORM from './certification'
+import type LandORM from './land'
 
 export default interface MemberORM {
     user_uuid: string
 
     // relations
     certifications?: CertificationORM[]
-    lands?: Land[]
+    lands?: LandORM[]
     requisite_users?: RequisiteUserORM[]
     user?: User
 

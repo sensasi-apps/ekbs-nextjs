@@ -28,7 +28,7 @@ import UserSelect from '@/components/FormikForm/user-select'
 import handle422 from '@/utils/handle-422'
 import ClmMemberFilterChips from './_filter-chips'
 // modules
-import type Land from '@/types/Land'
+import type Land from '@/modules/clm/types/orms/land'
 import type MemberORM from '@/modules/clm/types/orms/member'
 import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
 
