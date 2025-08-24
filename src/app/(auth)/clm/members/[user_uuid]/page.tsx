@@ -2,13 +2,13 @@
 
 // vendors
 import { useParams } from 'next/navigation'
-import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 // icons
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import WarningIcon from '@mui/icons-material/Warning'
 import CropIcon from '@mui/icons-material/Crop'
 import ForestIcon from '@mui/icons-material/Forest'
 // components
@@ -16,49 +16,23 @@ import BackButton from '@/components/back-button'
 import ChipSmall from '@/components/ChipSmall'
 import LoadingCenter from '@/components/loading-center'
 // features
-import type ApiResponse from '@/features/clm-member-detail/types/api-response'
-import Tabs from '@/features/clm-member-detail/tabs'
-import UserStatCard from '@/features/clm-member-detail/user-stat-card'
+import Tabs from './_components/tabs'
+import UserStatCard from './_components/user-stat-card'
+import CertificationUpdateForm from './_components/certification-update-form'
+import useClmMemberDetailSwr, {
+    type ClmMemberDetailResponse,
+} from '@/app/(auth)/clm/members/[user_uuid]/_components/use-member-detail-swr'
 
 export default function MemberDetailPage() {
-    const params = useParams<{
-        uuid?: string
+    const { user_uuid } = useParams<{
+        user_uuid: string
     }>()
 
-    const uuid = params?.uuid
-
-    const { data } = useSWR<ApiResponse>(uuid ? `/clm/members/${uuid}` : null)
+    const { data, mutate } = useClmMemberDetailSwr(user_uuid)
 
     if (!data) return <LoadingCenter />
 
-    const { user, lands = [], requisite_users = [] } = data ?? {}
-    const userLands = user?.lands ?? []
-
-    const approvedRequisites = requisite_users.filter(
-        req => !!req.approved_by_user_uuid,
-    ).length
-
-    const statCardProps = [
-        {
-            text: 'Total Lahan',
-            value: lands.length,
-            Icon: ForestIcon,
-        },
-        {
-            text: 'Total Luas',
-            value: userLands.reduce(
-                (sum, land) => sum + land.n_area_hectares,
-                0,
-            ),
-            unit: 'Ha',
-            Icon: CropIcon,
-        },
-        {
-            text: 'Syarat Perorangan',
-            value: `${approvedRequisites}/${requisite_users.length}`,
-            Icon: CheckCircleOutlineIcon,
-        },
-    ]
+    const { user } = data
 
     return (
         <>
@@ -95,10 +69,16 @@ export default function MemberDetailPage() {
                         </Typography>
                     ))}
                 </Box>
+
+                <CertificationUpdateForm
+                    user_uuid={user_uuid}
+                    certifications={data.certifications.map(c => `${c.id}`)}
+                    onSubmitted={() => mutate()}
+                />
             </Box>
 
             <Grid container spacing={2} mb={4}>
-                {statCardProps.map((props, index) => (
+                {getStatCardProps(data).map((props, index) => (
                     <Grid key={index} size={{ xs: 12, sm: 'auto' }}>
                         <UserStatCard {...props} />
                     </Grid>
@@ -108,4 +88,39 @@ export default function MemberDetailPage() {
             <Tabs data={data} />
         </>
     )
+}
+
+function getStatCardProps({
+    lands,
+    requisite_users_with_default,
+}: ClmMemberDetailResponse) {
+    const nApprovedRequisites = requisite_users_with_default.filter(
+        req => !!req.approved_by_user_uuid,
+    ).length
+
+    const nRequiredRequisites = requisite_users_with_default.filter(
+        req => !req.requisite?.is_optional,
+    ).length
+
+    const isRequisitesFulfilled = nApprovedRequisites === nRequiredRequisites
+
+    return [
+        {
+            text: 'Total Lahan',
+            value: lands.length,
+            Icon: ForestIcon,
+        },
+        {
+            text: 'Total Luas',
+            value: lands.reduce((sum, land) => sum + land.n_area_hectares, 0),
+            unit: 'Ha',
+            Icon: CropIcon,
+        },
+        {
+            text: 'Syarat Perorangan',
+            value: `${nApprovedRequisites}/${requisite_users_with_default.length}`,
+            Icon: isRequisitesFulfilled ? CheckCircleOutlineIcon : WarningIcon,
+            iconColor: isRequisitesFulfilled ? undefined : 'error',
+        },
+    ] as const
 }

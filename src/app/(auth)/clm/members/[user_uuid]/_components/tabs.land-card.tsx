@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 import ForestIcon from '@mui/icons-material/Forest'
 import GroupsIcon from '@mui/icons-material/Groups'
 // components
-import type Land from '@/types/Land'
+import type Land from '@/modules/clm/types/orms/land'
 import ChipSmall from '@/components/ChipSmall'
 // utils
 import shortUuid from '@/utils/short-uuid'
@@ -41,7 +41,7 @@ export default function LandCard({ land }: { land: Land }) {
 
                         <ChipSmall
                             label={
-                                (land.requisite_lands?.filter(
+                                (land.requisite_lands_with_default?.filter(
                                     requisiteLand =>
                                         requisiteLand.approved_by_user_uuid,
                                 ).length ?? 0) +

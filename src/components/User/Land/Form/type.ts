@@ -1,4 +1,4 @@
-import type Land from '@/types/Land'
+import type Land from '@/modules/clm/types/orms/land'
 
 export default interface UserLandFormPropType {
     data: Land

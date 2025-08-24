@@ -1,12 +1,13 @@
 import type { UUID } from 'crypto'
-import type Requisite from './requisite'
 import type User from '@/features/user/types/user'
-import type Land from '@/types/Land'
+//
+import type LandORM from './land'
+import type RequisiteORM from './requisite'
 
-export default interface RequisiteLand {
+export default interface RequisiteLandORM {
     uuid: UUID
-    requisite_id: Requisite['id']
-    land_uuid: Land['uuid']
+    requisite_id: RequisiteORM['id']
+    land_uuid: LandORM['uuid']
     approved_at: string
     approved_by_user_uuid: User['uuid']
     note: string

@@ -2,31 +2,46 @@
 
 // vendors
 import { Formik, type FormikProps } from 'formik'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import myAxios from '@/lib/axios'
 // materials
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 // components
-import type User from '@/features/user/types/user'
-import DataTableV2, { type DataTableV2Props } from '@/components/data-table-v2'
+import Datatable, {
+    type DatatableProps,
+    type GetRowDataType,
+    type MutateType,
+} from '@/components/Datatable'
 import Fab from '@/components/Fab'
-import UserSelect from '@/components/FormikForm/user-select'
-import TextShortener from '@/components/text-shortener'
+import FlexBox from '@/components/flex-box'
+import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import PageTitle from '@/components/page-title'
+import TextShortener from '@/components/text-shortener'
+import UserSelect from '@/components/FormikForm/user-select'
 // utils
 import handle422 from '@/utils/handle-422'
-
-interface Member {
-    user_uuid: string
-    user: User
-}
+import ClmMemberFilterChips from './_filter-chips'
+// modules
+import type Land from '@/modules/clm/types/orms/land'
+import type MemberORM from '@/modules/clm/types/orms/member'
+import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
 
 export default function Members() {
+    const searchParams = useSearchParams()
+    const status = searchParams.get('status') ?? ''
+
+    const { push } = useRouter()
     const [open, setOpen] = useState(false)
+    const mutateRef = useRef<MutateType<MemberORM> | undefined>(undefined)
+    const getRowDataRef = useRef<GetRowDataType<MemberORM> | undefined>(
+        undefined,
+    )
 
     function handleClose() {
         setOpen(false)
@@ -36,10 +51,31 @@ export default function Members() {
         <>
             <PageTitle title="Anggota Sertifikasi" />
 
-            <DataTableV2
-                id="clm-members-datatable"
-                columns={columns}
-                url="/api/clm/members/get-datatable-data"
+            <FlexBox mb={2} gap={1}>
+                <ClmMemberFilterChips />
+            </FlexBox>
+
+            <Datatable<MemberORM>
+                apiUrl="/clm/members/get-datatable-data"
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={{ name: 'created_at', direction: 'desc' }}
+                apiUrlParams={{
+                    status,
+                }}
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        // console.log(data)
+                        const member = getRowDataRef.current?.(dataIndex)
+
+                        if (member) {
+                            push('/clm/members/' + member.user_uuid)
+                        }
+                    }
+                }}
+                mutateCallback={fn => (mutateRef.current = fn)}
+                getRowDataCallback={fn => (getRowDataRef.current = fn)}
+                tableId="clm-members-datatable"
+                title="Daftar Anggota"
             />
 
             <Formik<{
@@ -52,6 +88,7 @@ export default function Members() {
                     myAxios
                         .post('/clm/members', values)
                         .then(() => {
+                            mutateRef.current?.()
                             handleClose()
                         })
                         .catch(error => handle422(error, setErrors))
@@ -72,6 +109,10 @@ export default function Members() {
                                     name="user_uuid"
                                     label="Pilih Pengguna"
                                 />
+
+                                <Box mt={2}>
+                                    <CertificationCheckboxes />
+                                </Box>
                             </DialogContent>
 
                             <DialogActions>
@@ -102,56 +143,42 @@ export default function Members() {
     )
 }
 
-const columns: DataTableV2Props['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<MemberORM>['columns'] = [
     {
-        data: 'created_at',
-        title: 'Dibuat Pada',
-        visible: false,
+        name: 'user.id',
+        label: 'ID',
     },
     {
-        data: 'user.id',
-        title: 'ID',
-        orderable: false,
+        name: 'user.name',
+        label: 'Nama',
     },
+
     {
-        data: 'user.name',
-        title: 'Nama',
-        orderable: false,
+        name: 'user.lands',
+        label: 'Lahan',
+        options: {
+            searchable: false,
+            sort: false,
+            customBodyRender: (value: Land[]) => {
+                return (
+                    <ListInsideMuiDatatableCell
+                        listItems={value ?? []}
+                        renderItem={land => (
+                            <>
+                                <TextShortener text={land.uuid} /> (
+                                {land.n_area_hectares} Ha)
+                            </>
+                        )}
+                    />
+                )
+            },
+        },
     },
+
     {
-        data: 'user.lands',
-        title: 'Lahan',
-        orderable: false,
-        render: (lands: Member['user']['lands']) => (
-            <ul>
-                {lands?.map(land => (
-                    <li key={land.uuid}>
-                        <TextShortener text={land.uuid} /> (
-                        {land.n_area_hectares} Ha)
-                    </li>
-                ))}
-            </ul>
-        ),
-    },
-    // {
-    //     data: 'status',
-    //     title: 'Status',
-    //     searchable: false,
-    //     orderable: false,
-    // },
-    {
-        data: null,
-        name: 'actions',
-        title: 'Aksi',
-        orderable: false,
-        searchable: false,
-        render: (data: Member) => (
-            <Button
-                variant="outlined"
-                size="small"
-                href={'/clm/members/' + data.user_uuid}>
-                Detail
-            </Button>
-        ),
+        name: 'created_at',
+        options: {
+            display: 'excluded',
+        },
     },
 ]

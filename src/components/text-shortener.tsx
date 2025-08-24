@@ -4,7 +4,7 @@ import Info from '@mui/icons-material/Info'
 
 export default function TextShortener({
     text,
-    maxChar = 6,
+    maxChar = 7,
 }: {
     text: string
     maxChar?: number
@@ -33,7 +33,7 @@ export default function TextShortener({
                     textDecoration: 'underline',
                     textDecorationStyle: 'dashed',
                 }}>
-                {text.slice(-maxChar)}
+                {text.slice(-maxChar).toUpperCase()}
             </span>
         </Tooltip>
     )
