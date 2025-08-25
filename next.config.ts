@@ -23,11 +23,6 @@ const nextConfig: NextConfig = {
     async rewrites() {
         return [
             {
-                source: '/oauth/:path*',
-                destination:
-                    process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
-            },
-            {
                 source: '/oauth/:path*/callback',
                 destination:
                     process.env.NEXT_PUBLIC_BACKEND_URL +

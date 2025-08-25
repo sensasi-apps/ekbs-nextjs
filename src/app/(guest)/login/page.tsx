@@ -45,7 +45,7 @@ export default function Page() {
                 sx={{
                     mb: 2,
                 }}
-                href="/oauth/google"
+                href={process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/google'}
                 fullWidth
                 color="inherit"
                 variant="contained"
