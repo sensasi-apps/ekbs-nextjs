@@ -2,7 +2,7 @@
 import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist'
 // vendors
 import { defaultCache } from '@serwist/next/worker'
-import { Serwist } from 'serwist'
+import { NetworkOnly, Serwist } from 'serwist'
 // locals
 import { handleMessage } from './sw/functions/handle-message'
 import { handleFetch } from './sw/functions/handle-fetch'
@@ -27,7 +27,13 @@ const serwist = new Serwist({
     precacheOptions: {
         cleanupOutdatedCaches: true,
     },
-    runtimeCaching: defaultCache,
+    runtimeCaching: [
+        ...defaultCache,
+        {
+            matcher: ({ url }) => url.pathname.startsWith('/oauth/'),
+            handler: new NetworkOnly(),
+        },
+    ],
     skipWaiting: true,
 })
 
