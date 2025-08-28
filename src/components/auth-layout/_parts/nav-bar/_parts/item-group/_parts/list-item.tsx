@@ -26,14 +26,9 @@ export default function NavBarListItem({
         .map(path => (paramValues.includes(path) ? '*' : path))
         .join('/')
 
-    const { href, icon: Icon, label, pathname } = data
+    const { href, icon: Icon, label } = data
 
-    const pathnameOrHref = pathname ?? href
-
-    const isActive =
-        typeof pathnameOrHref === 'string'
-            ? pathnameOrHref === route
-            : pathnameOrHref.includes(route)
+    const isActive = href === route || route.startsWith(href)
 
     return (
         <ListItem
