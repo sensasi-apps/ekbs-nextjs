@@ -19,10 +19,10 @@ export const financesNavItemGroup: NavItemGroup = {
     label: 'Keuangan',
     items: [
         {
-            href: '/finances/payrolls/employees',
             label: 'Penggajian Karyawan',
             icon: Payments,
             forPermission: Finance.PAYROLL_EMPLOYEE,
+            href: '/finances/payrolls/employees',
         },
         {
             href: '/finances/bills',
@@ -51,7 +51,6 @@ export const financesNavItemGroup: NavItemGroup = {
         {
             href: '/finances/receivables',
             label: 'Piutang',
-            pathname: ['/finances/receivables/report'],
             icon: Savings,
             forPermission: Cash.READ_ALL_INSTALLMENT,
         },

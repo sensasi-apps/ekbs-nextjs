@@ -20,6 +20,8 @@ const nextConfig: NextConfig = {
 
     reactStrictMode: true,
 
+    typedRoutes: true,
+
     async rewrites() {
         return [
             {

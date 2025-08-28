@@ -33,14 +33,12 @@ export const loans: NavItemGroup = {
         // {
         //     href: '/user-loans/reviews',
         //     label: 'Persetujuan',
-        //     pathname: '/user-loans/reviews',
         //     icon: RateReview,
         //     forPermission: UserLoan.READ_NEED_REVIEW,
         // },
         // {
         //     href: '/user-loans/disburses',
         //     label: 'Pencairan',
-        //     pathname: '/user-loans/disburses',
         //     icon: RequestQuote,
         //     forPermission: UserLoan.READ_NEED_DISBURSE,
         // },

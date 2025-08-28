@@ -57,10 +57,7 @@ const NAV_ITEMS = NAV_ITEM_GROUPS.flatMap(group => group.items)
 
 function isAuthHasRoleOrPermissionForPath(authInfo: AuthInfo, route: string) {
     const navItem = NAV_ITEMS.find(
-        item =>
-            item.href === route ||
-            item.pathname === route ||
-            item.pathname?.includes(route),
+        item => item.href === route || route.startsWith(item.href),
     )
 
     if (!navItem) {
