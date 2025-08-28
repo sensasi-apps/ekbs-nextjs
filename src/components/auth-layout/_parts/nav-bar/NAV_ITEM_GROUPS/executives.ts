@@ -11,23 +11,14 @@ export const executives: NavItemGroup = {
         {
             label: 'Statistik',
             href: '/executive/statistics',
-            pathname: '/executive/statistics',
             icon: AlignHorizontalLeft,
             forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
         },
         {
             label: 'Laba-Rugi',
             href: '/executive/profit-loss',
-            pathname: '/executive/profit-loss',
             icon: AlignHorizontalLeft,
             forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
         },
-        // {
-        //     label: 'Laporan',
-        //     href: '/executive/reports',
-        //     pathname: '/executive/reports',
-        //     icon: BackupTable,
-        //     forRole: Role.EXECUTIVE,
-        // },
     ],
 }

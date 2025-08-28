@@ -53,11 +53,6 @@ export const palmBunches: NavItemGroup = {
         },
         {
             href: '/palm-bunches/rea-tickets',
-            pathname: [
-                '/palm-bunches/rea-tickets',
-                '/palm-bunches/rea-tickets/export',
-                '/palm-bunches/rea-tickets/summary-per-user',
-            ],
             label: 'Tiket REA',
             icon: Balance,
             forPermission: PalmBunch.READ_TICKET,

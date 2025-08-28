@@ -1,18 +1,11 @@
 import type Role from '@/enums/Role'
 import type { Permission } from '@/types/permission'
+import type { Route } from 'next'
 import type { ElementType } from 'react'
 
 interface NavItem {
-    href: string
+    href: Route
     label: string
-
-    /**
-     * @deprecated use `routeAliases` instead.
-     */
-    pathname?: string | string[]
-
-    routeAliases?: string[]
-
     icon: ElementType
 
     /**

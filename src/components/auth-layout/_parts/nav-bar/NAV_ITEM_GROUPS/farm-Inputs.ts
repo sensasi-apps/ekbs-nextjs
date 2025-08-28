@@ -56,10 +56,6 @@ export const farmInputsNavItemGroup: NavItemGroup = {
         {
             href: '/farm-inputs/product-sales',
             label: 'Penjualan',
-            pathname: [
-                '/farm-inputs/product-sales',
-                '/farm-inputs/product-sales/reports',
-            ],
             icon: Receipt,
             forRole: [
                 // TODO: change to permission based
