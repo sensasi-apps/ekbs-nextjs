@@ -1,48 +1,63 @@
 'use client'
 
-import DataTableV2, { type DataTableV2Props } from '@/components/data-table-v2'
+// vendors
 import dayjs from 'dayjs'
+// materials
 import Typography from '@mui/material/Typography'
+// components
+import Datatable, { type DatatableProps } from '@/components/Datatable'
 
 export default function LogsDataTable() {
     return (
-        <DataTableV2
-            id="logs-datatable"
-            columns={COLUMNS}
-            url="/api/_/logs-datatable-data"
-            slots={{
-                0: (data: string) => dayjs(data).format('YYYY-MM-DD HH:mm:ss'),
-                3: (data: object) => (
-                    <>
-                        {Object.entries(data).map(([key, value], i) => (
-                            <Typography key={i} variant="body2" component="div">
-                                <Typography
-                                    variant="caption"
-                                    color="gray"
-                                    component="span">
-                                    {key}:&nbsp;
-                                </Typography>
-                                {value}
-                            </Typography>
-                        ))}
-                    </>
-                ),
+        <Datatable
+            tableId="logs-table"
+            apiUrl="_/logs-datatable-data"
+            columns={DATATABLE_COLUMNS}
+            defaultSortOrder={{
+                name: 'at',
+                direction: 'desc',
             }}
         />
     )
 }
 
-const COLUMNS: DataTableV2Props['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
-        data: 'at',
-        title: 'TGL',
-        orderable: true,
+        name: 'at',
+        label: 'TGL',
+        options: {
+            customBodyRender: value =>
+                dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
+        },
     },
-    { data: 'user.name', title: 'Nama' },
-    { data: 'action', title: 'Aksi' },
     {
-        data: 'model_value_changed',
-        title: 'Detail',
+        name: 'user.name',
+        label: 'User',
     },
-    { data: 'model_classname', title: 'Nama Model' },
+    {
+        name: 'action',
+        label: 'Aksi',
+    },
+    {
+        name: 'model_value_changed',
+        label: 'Detail',
+        options: {
+            customBodyRender: (value: object) =>
+                Object.entries(value).map(([key, value], i) => (
+                    <Typography key={i} variant="body2">
+                        <Typography
+                            variant="caption"
+                            color="gray"
+                            component="span">
+                            {key}:&nbsp;
+                        </Typography>
+                        {value as string}
+                    </Typography>
+                )),
+        },
+    },
+    {
+        name: 'model_classname',
+        label: 'Nama Model',
+    },
 ]
