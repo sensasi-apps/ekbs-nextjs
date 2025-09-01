@@ -17,7 +17,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 // components
 import DatePicker from '@/components/DatePicker'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import ImageButtonAndModal from '@/components/ImageButtonAndModal'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'

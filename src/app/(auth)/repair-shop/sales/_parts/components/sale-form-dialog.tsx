@@ -7,16 +7,18 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-// components
-import FormikForm, { DateField, TextField } from '@/components/FormikForm'
-import handle422 from '@/utils/handle-422'
-import myAxios from '@/lib/axios'
-import UserSelect from '@/components/FormikForm/user-select'
+// formik
+import FormikForm from '@/components/formik-form'
+import DateField from '@/components/formik-fields/date-field'
+import TextField from '@/components/formik-fields/text-field'
+import UserSelect from '@/components/formik-fields/user-select'
 // features
 import PaymentInputs from './payment-inputs'
 import SparePartsArrayField from '@/app/(auth)/repair-shop/sales/_parts/components/spare-parts-array-field'
 import ServicesArrayField from './services-array-field'
 // utils
+import myAxios from '@/lib/axios'
+import handle422 from '@/utils/handle-422'
 import type Service from '@/app/(auth)/repair-shop/services/_parts/types/service'
 import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
 import numberToCurrency from '@/utils/number-to-currency'

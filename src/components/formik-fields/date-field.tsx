@@ -16,14 +16,14 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 type DateFieldProps = {
     name: string
     label: string
-    disabled: boolean
+    disabled?: boolean
     datePickerProps?: Omit<
         DatePickerProps,
         'name' | 'disabled' | 'label' | 'slotProps' | 'value' | 'onChange'
     >
     textFieldProps?: Omit<
         TextFieldProps,
-        'error' | 'helperText' | 'name' | 'id' | 'disabled' | 'label'
+        'error' | 'name' | 'id' | 'disabled' | 'label'
     >
 }
 
@@ -34,7 +34,7 @@ export default function DateField({ name, ...restProps }: DateFieldProps) {
 function InnerComponent({
     // formik props
     field: { name },
-    form: { setFieldValue, getFieldMeta },
+    form: { setFieldValue, getFieldMeta, isSubmitting },
 
     // additional props
     disabled,
@@ -53,7 +53,7 @@ function InnerComponent({
     return (
         <DatePicker
             disableFuture
-            disabled={disabled}
+            disabled={disabled || isSubmitting}
             name={name}
             label={label}
             value={innerValue ? dayjs(innerValue) : null}

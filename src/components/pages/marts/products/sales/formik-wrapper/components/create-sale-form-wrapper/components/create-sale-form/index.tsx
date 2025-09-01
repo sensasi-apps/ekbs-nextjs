@@ -9,11 +9,11 @@ import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // sub-components
-import { NumericField } from '@/components/FormikForm'
+import NumericField from '@/components/formik-fields/numeric-field'
 import BuyerUserUuidFieldComponent from './components/buyer-user-uuid-field-component'
 import CashableUuidFieldComponent from './components/cashable-uuid-field-component'
 import CostsFieldComponent from './components/costs-field-component'
-import DefaultItemDesc from '../../../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/default-item-desc'
+import DefaultItemDesc from '@/app/mart-product-sales/_parts/shared-subcomponents/default-item-desc'
 import DetailsFieldComponent from './components/details-field-component'
 // utils
 import formatNumber from '@/utils/format-number'

@@ -14,7 +14,9 @@ import useSWR from 'swr'
 import Alert from '@mui/material/Alert'
 import Grid from '@mui/material/Grid'
 // components
-import FormikForm, { NumericField, TextField } from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
+import NumericField from '@/components/formik-fields/numeric-field'
+import TextField from '@/components/formik-fields/text-field'
 import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'
 // utils
 import toDmy from '@/utils/to-dmy'

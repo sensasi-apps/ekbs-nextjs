@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 // components
 import CrediturCard from '../creditor-card'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 // local components
 import TypographyWithLabel from '../SummaryBox/TypographyWithLabel'
 // utils

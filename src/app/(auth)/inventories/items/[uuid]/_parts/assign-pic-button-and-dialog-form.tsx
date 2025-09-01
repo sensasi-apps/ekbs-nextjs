@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import TypographyWithLabel from '@/components/pages/user-loans/SummaryBox/TypographyWithLabel'
 import UserAutocomplete from '@/components/UserAutocomplete'
 // utils

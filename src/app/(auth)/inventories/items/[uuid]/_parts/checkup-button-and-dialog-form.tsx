@@ -10,7 +10,7 @@ import Button from '@mui/material/Button'
 import RateReview from '@mui/icons-material/RateReview'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
 import errorCatcher from '@/utils/handle-422'

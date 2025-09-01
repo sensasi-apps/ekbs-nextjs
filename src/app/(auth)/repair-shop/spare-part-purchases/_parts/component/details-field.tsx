@@ -18,8 +18,8 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // utils
 import Endpoint from '../enums/endpoint'
 import numberToCurrency from '@/utils/number-to-currency'
-// component
-import { NumericField } from '@/components/FormikForm'
+// formik
+import NumericField from '@/components/formik-fields/numeric-field'
 // features
 import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
 import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'

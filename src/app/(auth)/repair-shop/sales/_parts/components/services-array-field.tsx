@@ -17,8 +17,7 @@ import Tooltip from '@mui/material/Tooltip'
 // icons
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 // components
-import { NumericField } from '@/components/FormikForm'
-// import SelectFromApi from '@/components/Global/SelectFromApi'
+import NumericField from '@/components/formik-fields/numeric-field'
 // features
 import type { FormData } from './sale-form-dialog'
 import type Service from '@/app/(auth)/repair-shop/services/_parts/types/service'

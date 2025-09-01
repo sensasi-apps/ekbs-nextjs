@@ -14,11 +14,11 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 interface NumericFieldProps {
     name: string
     label?: string
-    disabled: boolean
+    disabled?: boolean
     numericFormatProps?: Omit<NumericFormatProps, 'name' | 'label' | 'disabled'>
 }
 
-export default function NumericFormikField({
+export default function NumericField({
     name,
     ...restProps
 }: NumericFieldProps) {
@@ -34,7 +34,7 @@ export default function NumericFormikField({
 function InnerComponent({
     // formik props
     field: { name, value },
-    form: { setFieldValue, getFieldMeta },
+    form: { setFieldValue, getFieldMeta, isSubmitting },
 
     // additional props
     disabled,
@@ -59,7 +59,7 @@ function InnerComponent({
                 setInnerValue(floatValue)
                 setFieldValueDebounced(floatValue)
             }}
-            disabled={disabled}
+            disabled={disabled || isSubmitting}
             label={label}
             {...numericFormatProps}
             {...errorsToHelperTextObj(error)}

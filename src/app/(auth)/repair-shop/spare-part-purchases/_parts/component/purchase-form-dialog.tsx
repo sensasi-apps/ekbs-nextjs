@@ -12,7 +12,10 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import Grid from '@mui/material/Grid'
 // components
-import FormikForm, { DateField, TextField } from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
+import DateField from '@/components/formik-fields/date-field'
+import TextField from '@/components/formik-fields/text-field'
+// utils
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
 // feature scope

@@ -4,13 +4,12 @@ import type DebtDetail from '@/dataTypes/DebtDetail'
 import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import { Field, type FieldProps, type FormikProps } from 'formik'
-// components
-import FormikForm, {
-    DateField,
-    NumericField,
-    TextField,
-    TxTagField,
-} from '@/components/FormikForm'
+// formik
+import FormikForm from '@/components/formik-form'
+import DateField from '@/components/formik-fields/date-field'
+import NumericField from '@/components/formik-fields/numeric-field'
+import TextField from '@/components/formik-fields/text-field'
+import TxTagField from '@/components/formik-fields/tx-tag-field'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // utils
 import shortUuid from '@/utils/short-uuid'

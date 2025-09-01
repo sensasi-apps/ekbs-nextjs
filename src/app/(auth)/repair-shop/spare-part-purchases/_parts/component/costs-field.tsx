@@ -11,8 +11,9 @@ import Typography from '@mui/material/Typography'
 // icons
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-// components
-import { TextField, NumericField } from '@/components/FormikForm'
+// formik
+import TextField from '@/components/formik-fields/text-field'
+import NumericField from '@/components/formik-fields/numeric-field'
 // features
 import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
 

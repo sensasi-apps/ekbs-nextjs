@@ -10,7 +10,8 @@ import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 // components
-import { NumericField, TextField } from '@/components/FormikForm'
+import NumericField from '@/components/formik-fields/numeric-field'
+import TextField from '@/components/formik-fields/text-field'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 // utils
 import formatNumber from '@/utils/format-number'

@@ -5,9 +5,9 @@ import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 // formik
-import { TextField } from '@/components/FormikForm'
-import FileField from '@/components/FormikForm/file-field'
-import CheckboxFields from '@/components/FormikForm/checkbox-fields'
+import TextField from '@/components/formik-fields/text-field'
+import FileField from '@/components/formik-fields/file-field'
+import CheckboxFields from '@/components/formik-fields/checkbox-fields'
 import type File from '@/dataTypes/File'
 // utils
 import handle422 from '@/utils/handle-422'
