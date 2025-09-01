@@ -36,6 +36,7 @@
         "@types/mdx": "^2.0.13",
         "@uidotdev/usehooks": "^2.4.1",
         "axios": "^1.11.0",
+        "babel-plugin-react-compiler": "^19.1.0-rc.3",
         "dayjs": "^1.11.18",
         "formik": "^2.4.6",
         "idb": "^8.0.3",
