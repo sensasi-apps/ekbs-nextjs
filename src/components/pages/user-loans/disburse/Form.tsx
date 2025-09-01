@@ -9,7 +9,7 @@ import Box from '@mui/material/Box'
 // components
 import CrediturCard from '../creditor-card'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 // local components
 import UserLoanSummaryBoxProposedRp from '../SummaryBox/ProposedRp'
 import UserLoanSummaryBoxProposedAt from '../SummaryBox/ProposedAt'

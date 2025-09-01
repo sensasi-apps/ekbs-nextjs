@@ -15,7 +15,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import MenuItem from '@mui/material/MenuItem'
 // components
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '../InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'

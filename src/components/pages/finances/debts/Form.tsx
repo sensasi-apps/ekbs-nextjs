@@ -20,11 +20,11 @@ import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 // components
 import DebtDetailsTable from './Form/DebtDetailsTable'
-import FormikForm, {
-    DateField,
-    NumericField,
-    TextField,
-} from '@/components/FormikForm'
+// formik
+import FormikForm from '@/components/formik-form'
+import DateField from '@/components/formik-fields/date-field'
+import NumericField from '@/components/formik-fields/numeric-field'
+import TextField from '@/components/formik-fields/text-field'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import shortUuid from '@/utils/short-uuid'

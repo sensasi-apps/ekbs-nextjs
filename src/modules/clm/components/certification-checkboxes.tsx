@@ -1,4 +1,4 @@
-import CheckboxFields from '@/components/FormikForm/checkbox-fields'
+import CheckboxFields from '@/components/formik-fields/checkbox-fields'
 import LoadingCenter from '@/components/loading-center'
 import type CertificationORM from '@/modules/clm/types/orms/certification'
 import useSWR from 'swr'

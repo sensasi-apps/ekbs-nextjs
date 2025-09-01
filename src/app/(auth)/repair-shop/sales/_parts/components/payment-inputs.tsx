@@ -20,7 +20,7 @@ import WorkIcon from '@mui/icons-material/Work'
 // components
 import type CashType from '@/dataTypes/Cash'
 import type { FormData } from './sale-form-dialog'
-import NumericField from '@/components/FormikForm/numeric-field'
+import NumericField from '@/components/formik-fields/numeric-field'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 //

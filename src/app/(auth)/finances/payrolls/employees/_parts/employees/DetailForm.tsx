@@ -17,7 +17,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // components
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import InfoBox from '@/components/InfoBox'
 import NumericFormat from '@/components/NumericFormat'

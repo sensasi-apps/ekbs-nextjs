@@ -23,7 +23,7 @@ import FlexBox from '@/components/flex-box'
 import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import PageTitle from '@/components/page-title'
 import TextShortener from '@/components/text-shortener'
-import UserSelect from '@/components/FormikForm/user-select'
+import UserSelect from '@/components/formik-fields/user-select'
 // utils
 import handle422 from '@/utils/handle-422'
 import ClmMemberFilterChips from './_filter-chips'

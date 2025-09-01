@@ -10,7 +10,9 @@ import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 // components
-import FormikForm, { DateField, TextField } from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
+import DateField from '@/components/formik-fields/date-field'
+import TextField from '@/components/formik-fields/text-field'
 import TextFieldDefault from '@/components/TextField'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // local components

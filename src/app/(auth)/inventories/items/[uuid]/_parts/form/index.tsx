@@ -16,7 +16,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Switch from '@mui/material/Switch'
 // components
 import DatePicker from '@/components/DatePicker'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextField from '@/components/TextField'

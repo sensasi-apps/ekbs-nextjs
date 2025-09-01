@@ -22,7 +22,7 @@ import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
 // components
 import DatePicker from '@/components/DatePicker'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 import UserAutocomplete from '@/components/UserAutocomplete'

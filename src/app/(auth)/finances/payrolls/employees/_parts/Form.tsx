@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 // components
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import type Payroll from '@/dataTypes/Payroll'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import DatePicker from '@/components/DatePicker'

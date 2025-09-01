@@ -17,7 +17,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 // component
-import { NumericField } from '@/components/FormikForm'
+import NumericField from '@/components/formik-fields/numeric-field'
 import RemoveButton from '@/components/remove-button'
 // features
 import type { FormData } from '@/app/(auth)/repair-shop/sales/_parts/components/sale-form-dialog'

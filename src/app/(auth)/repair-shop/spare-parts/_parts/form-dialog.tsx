@@ -9,11 +9,10 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import InputAdornment from '@mui/material/InputAdornment'
 // components
-import FormikForm, {
-    NumericField,
-    Radio,
-    TextField,
-} from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
+import NumericField from '@/components/formik-fields/numeric-field'
+import Radio from '@/components/formik-fields/radio'
+import TextField from '@/components/formik-fields/text-field'
 //
 import myAxios from '@/lib/axios'
 // utils

@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import { FastField, type FormikErrors, type FormikProps } from 'formik'
 // components
 import DatePicker from '@/components/DatePicker'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'

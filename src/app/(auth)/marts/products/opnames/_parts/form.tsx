@@ -2,8 +2,11 @@
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 // vendors
 import { type FormikProps } from 'formik'
+// formik
+import DateField from '@/components/formik-fields/date-field'
+import FormikForm from '@/components/formik-form'
+import TextField from '@/components/formik-fields/text-field'
 // components
-import FormikForm, { DateField, TextField } from '@/components/FormikForm'
 import TextFieldDefault from '@/components/TextField'
 
 export default function Form({

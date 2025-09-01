@@ -19,7 +19,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 // components
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import DatePicker from '@/components/DatePicker'
 import InfoBox from '../InfoBox'
 import SelectFromApi from '../Global/SelectFromApi'

@@ -8,7 +8,10 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import InputAdornment from '@mui/material/InputAdornment'
 // components
-import FormikForm, { NumericField, TextField } from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
+import NumericField from '@/components/formik-fields/numeric-field'
+import TextField from '@/components/formik-fields/text-field'
+// utils
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
 import toDmy from '@/utils/to-dmy'

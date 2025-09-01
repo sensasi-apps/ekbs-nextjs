@@ -31,7 +31,7 @@ import Typography from '@mui/material/Typography'
 // components
 import CrediturCard from '../user-loans/creditor-card'
 import DatePicker from '@/components/DatePicker'
-import FormikForm from '@/components/FormikForm'
+import FormikForm from '@/components/formik-form'
 import LoadingAddorment from '@/components/LoadingAddorment'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
