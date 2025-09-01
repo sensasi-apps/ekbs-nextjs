@@ -168,7 +168,6 @@ export default function UserLandForm(props: UserLandFormPropType) {
             <SelectFromApi
                 selectProps={{
                     name: 'farmer_group_uuid',
-                    margin: 'dense',
                     defaultValue: farmer_group_uuid || '',
                     required: true,
                     disabled: isLoading,

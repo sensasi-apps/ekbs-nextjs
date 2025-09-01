@@ -57,7 +57,6 @@ export default function UserLoanDisburseForm({
                         selectProps={{
                             value: value ?? '',
                             name: name,
-                            margin: 'dense',
                         }}
                         error={Boolean(error)}
                         helperText={error}

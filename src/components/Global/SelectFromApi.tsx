@@ -26,7 +26,7 @@ export default function SelectFromApi({
 }: {
     endpoint: string
     label?: string
-    selectProps?: Omit<SelectProps, 'onChange' | 'label'>
+    selectProps?: Omit<SelectProps, 'onChange' | 'label' | 'margin'>
     helperText?: ReactNode
     // TODO: remove any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,7 +52,9 @@ export default function SelectFromApi({
             ) : (
                 <>
                     {label && (
-                        <InputLabel shrink={selectProps?.displayEmpty}>
+                        <InputLabel
+                            shrink={selectProps?.displayEmpty}
+                            size={selectProps?.size}>
                             {label}
                         </InputLabel>
                     )}
