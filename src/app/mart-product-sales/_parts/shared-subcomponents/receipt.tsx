@@ -1,6 +1,6 @@
 // types
-import type ActivityLogType from '@/dataTypes/ActivityLog'
-import type CashType from '@/dataTypes/Cash'
+import type ActivityLogType from '@/types/orms/activity-log'
+import type CashType from '@/types/orms/cash'
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
 import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
 import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'

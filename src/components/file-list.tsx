@@ -14,7 +14,7 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import ImageIcon from '@mui/icons-material/Image'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 //
-import type File from '@/dataTypes/File'
+import type File from '@/types/orms/file'
 import FileListDeleteButton from './file-list.delete-button'
 import FileListPrimaryItemText from './file-list.primary-item-text'
 

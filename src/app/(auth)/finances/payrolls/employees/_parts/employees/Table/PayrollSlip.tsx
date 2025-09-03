@@ -1,6 +1,6 @@
 // types
-import type Payroll from '@/dataTypes/Payroll'
-import type PayrollUser from '@/dataTypes/PayrollUser'
+import type Payroll from '@/types/orms/payroll'
+import type PayrollUser from '@/types/orms/payroll-user'
 // vendors
 import { memo } from 'react'
 import dayjs from 'dayjs'

@@ -1,6 +1,6 @@
 // types
 import type { AxiosError } from 'axios'
-import type BusinessUnitCash from '@/dataTypes/BusinessUnitCash'
+import type BusinessUnitCash from '@/types/orms/business-unit-cash'
 import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import { useState } from 'react'

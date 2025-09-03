@@ -3,7 +3,7 @@
 // types
 import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
 import type { ProductSale } from '@/dataTypes/ProductSale'
-import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
+import type ProductMovementDetail from '@/types/orms/product-movement-detail'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'

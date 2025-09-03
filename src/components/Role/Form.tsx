@@ -1,6 +1,6 @@
 // types
 import type { AxiosError } from 'axios'
-import type Role from '@/dataTypes/Role'
+import type Role from '@/types/orms/role'
 import type FormType from '@/components/Global/Form/type'
 // vendors
 import { stringify } from 'qs'

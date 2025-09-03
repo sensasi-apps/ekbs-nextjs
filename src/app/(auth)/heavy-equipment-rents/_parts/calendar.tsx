@@ -1,6 +1,6 @@
 // types
 import type { CalendarTableProps } from '@/components/CalendarTable/CalendarTable'
-import type RentItemRent from '@/dataTypes/RentItemRent'
+import type RentItemRent from '@/types/orms/rent-item-rent'
 import type { KeyedMutator } from 'swr'
 import type YajraDatatable from '@/types/yajra-datatable-response'
 // vendors

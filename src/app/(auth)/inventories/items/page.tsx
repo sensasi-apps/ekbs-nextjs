@@ -8,7 +8,7 @@ import type {
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type InventoryItem from '@/dataTypes/InventoryItem'
+import type InventoryItem from '@/types/orms/inventory-item'
 // vendors
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'

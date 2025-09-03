@@ -1,5 +1,5 @@
 // types
-import type Product from '@/dataTypes/Product'
+import type Product from '@/types/orms/product'
 // vendors
 import { FieldArray } from 'formik'
 import { memo } from 'react'

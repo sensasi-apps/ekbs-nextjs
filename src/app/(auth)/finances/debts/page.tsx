@@ -4,7 +4,7 @@
 import type { AxiosError } from 'axios'
 import type { DatatableProps, Mutate } from '@/components/Datatable/@types'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-import type Debt from '@/dataTypes/Debt'
+import type Debt from '@/types/orms/debt'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'

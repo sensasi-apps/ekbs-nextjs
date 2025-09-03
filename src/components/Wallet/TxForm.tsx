@@ -1,7 +1,7 @@
 // types
 import type { FormikProps } from 'formik'
 import type { UUID } from 'crypto'
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 // vendors
 import { useState } from 'react'
 import { FastField } from 'formik'

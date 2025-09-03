@@ -2,7 +2,7 @@
 import type { FormEvent } from 'react'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 import type FormType from '@/components/Global/Form/type'
-import type ActivityLogType from '@/dataTypes/ActivityLog'
+import type ActivityLogType from '@/types/orms/activity-log'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'

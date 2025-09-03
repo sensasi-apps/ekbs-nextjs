@@ -1,9 +1,9 @@
 import type { Ymd } from '@/types/DateString'
 import type { UUID } from 'crypto'
-import type File from './File'
-import type RegencyType from './Regency'
-import type DistrictType from './District'
-import type VillageType from './Village'
+import type File from '../types/orms/file'
+import type RegencyType from '../types/orms/regency'
+import type DistrictType from '../types/orms/district'
+import type VillageType from '../types/orms/village'
 // enums
 import type EducationEnum from './enums/Education'
 import type GenderEnum from './enums/Gender'

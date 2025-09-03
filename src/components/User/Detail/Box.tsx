@@ -1,6 +1,6 @@
 // types
 import type { BoxProps } from '@mui/material/Box'
-import type File from '@/dataTypes/File'
+import type File from '@/types/orms/file'
 import type { UserDetailDBTypeWithRelations } from '@/dataTypes/UserDetail'
 // vendors
 import { PatternFormat } from 'react-number-format'

@@ -1,6 +1,6 @@
 // types
 import type { UUID } from 'crypto'
-import type DebtDetail from '@/dataTypes/DebtDetail'
+import type DebtDetail from '@/types/orms/debt-detail'
 import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import { Field, type FieldProps, type FormikProps } from 'formik'

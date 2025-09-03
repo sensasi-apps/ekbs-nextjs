@@ -1,7 +1,7 @@
 // types
 import type { FieldArrayRenderProps, FormikErrors } from 'formik'
-import type ProductType from '@/dataTypes/Product'
-import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
+import type ProductType from '@/types/orms/product'
+import type ProductMovementDetail from '@/types/orms/product-movement-detail'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'

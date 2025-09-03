@@ -2,7 +2,7 @@ import type { CashableClassname } from './Transaction'
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
 import type { ProductSale } from './ProductSale'
-import type RentItemRent from './RentItemRent'
+import type RentItemRent from '../types/orms/rent-item-rent'
 import type { Transaction } from './Transaction'
 import type { UserLoanType } from './Loan'
 

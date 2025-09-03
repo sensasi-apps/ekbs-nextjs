@@ -1,6 +1,6 @@
 'use client'
 
-import type Role from '@/dataTypes/Role'
+import type Role from '@/types/orms/role'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import FormActions from '@/components/Global/Form/Actions'

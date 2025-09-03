@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 // components
 import FormikForm from '@/components/formik-form'
-import type Payroll from '@/dataTypes/Payroll'
+import type Payroll from '@/types/orms/payroll'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import DatePicker from '@/components/DatePicker'
 // utils

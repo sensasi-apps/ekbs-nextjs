@@ -1,4 +1,4 @@
-import type PalmBunchesReaGradingItemType from '@/dataTypes/PalmBunchesReaGradingItem'
+import type PalmBunchesReaGradingItemType from '@/types/orms/palm-bunches-rea-grading-item'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 
 import { type FC, memo } from 'react'

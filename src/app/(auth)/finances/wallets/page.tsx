@@ -4,7 +4,7 @@
 import type { Dayjs } from 'dayjs'
 import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-import type Wallet from '@/dataTypes/Wallet'
+import type Wallet from '@/types/orms/wallet'
 // vendors
 import { useRef, useState } from 'react'
 import axios from '@/lib/axios'

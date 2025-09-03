@@ -1,5 +1,5 @@
 // types
-import type PalmBunchDataType from '@/dataTypes/PalmBunch'
+import type PalmBunchDataType from '@/types/orms/palm-bunch'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 // vendors
 import { useEffect, useState, memo } from 'react'

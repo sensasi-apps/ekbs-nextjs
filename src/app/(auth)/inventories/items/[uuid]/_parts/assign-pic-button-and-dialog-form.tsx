@@ -1,5 +1,5 @@
 // types
-import type InventoryItem from '@/dataTypes/InventoryItem'
+import type InventoryItem from '@/types/orms/inventory-item'
 // vendors
 import { memo, useState } from 'react'
 import { Formik } from 'formik'

@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import dayjs from 'dayjs'
 // types
-import type RentItemRent from '@/dataTypes/RentItemRent'
+import type RentItemRent from '@/types/orms/rent-item-rent'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'

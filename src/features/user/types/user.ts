@@ -4,7 +4,7 @@ import type { Ymd } from '@/types/DateString'
 import type Employee from '@/features/user/types/employee'
 import type UserSocial from '@/features/user/types/user-social'
 import type Land from '@/modules/clm/types/orms/land'
-import type File from '@/dataTypes/File'
+import type File from '@/types/orms/file'
 
 export default interface User {
     id: number

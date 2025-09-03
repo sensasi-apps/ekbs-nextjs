@@ -2,7 +2,7 @@
 import type { Ymd } from '@/types/DateString'
 import type { Mutate } from '../Datatable/@types'
 import type { PalmBunchRateType } from '@/dataTypes/PalmBunchRate'
-import type PalmBunchRateValidDateType from '@/dataTypes/PalmBunchRateValidDate'
+import type PalmBunchRateValidDateType from '@/types/orms/palm-bunch-rate-valid-date'
 // vendors
 import { useEffect, useState } from 'react'
 import dayjs, { type Dayjs } from 'dayjs'

@@ -14,7 +14,7 @@ export default function PalmBuncesDeliveryRates() {
 }
 
 // types
-import type PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
+import type PalmBunchDeliveryRateValidDateType from '@/types/orms/palm-bunch-delivery-rate-valid-date'
 import type { PalmBunchDeliveryRateType } from '@/dataTypes/PalmBunchDeliveryRate'
 // vendors
 import Fab from '@mui/material/Fab'

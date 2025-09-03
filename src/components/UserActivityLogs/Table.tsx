@@ -1,5 +1,5 @@
 // types
-import type ActivityLogType from '@/dataTypes/ActivityLog'
+import type ActivityLogType from '@/types/orms/activity-log'
 // vendors
 import dayjs from 'dayjs'
 // materials

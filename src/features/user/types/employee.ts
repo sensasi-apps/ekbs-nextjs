@@ -1,4 +1,4 @@
-import type BusinessUnit from '@/dataTypes/BusinessUnit'
+import type BusinessUnit from '@/types/orms/business-unit'
 import type BusinessUnitEnum from '@/enums/BusinessUnit'
 import type { Ymd } from '@/types/DateString'
 

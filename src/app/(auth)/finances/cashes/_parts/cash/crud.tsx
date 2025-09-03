@@ -1,5 +1,5 @@
 // types
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 // vendors
 import axios from '@/lib/axios'
 import { useCallback, useState } from 'react'

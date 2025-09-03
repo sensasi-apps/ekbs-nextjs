@@ -1,4 +1,4 @@
-import type Payroll from '@/dataTypes/Payroll'
+import type Payroll from '@/types/orms/payroll'
 // vendors
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'

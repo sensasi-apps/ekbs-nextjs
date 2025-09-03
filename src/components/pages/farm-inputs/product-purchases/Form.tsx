@@ -1,7 +1,7 @@
 // types
 import type { UUID } from 'crypto'
-import type ProductPurchase from '@/dataTypes/ProductPurchase'
-import type CashType from '@/dataTypes/Cash'
+import type ProductPurchase from '@/types/orms/product-purchase'
+import type CashType from '@/types/orms/cash'
 // vendors
 import {
     FastField,
