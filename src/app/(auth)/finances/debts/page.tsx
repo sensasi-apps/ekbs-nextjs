@@ -3,7 +3,7 @@
 // types
 import type { AxiosError } from 'axios'
 import type { DatatableProps, Mutate } from '@/components/Datatable/@types'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import type Debt from '@/dataTypes/Debt'
 // vendors
 import { Formik } from 'formik'

@@ -1,4 +1,3 @@
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 
 import { type FC, useEffect, useState } from 'react'
@@ -6,12 +5,13 @@ import { PatternFormat } from 'react-number-format'
 import TextField from '@mui/material/TextField'
 // providers
 import useFormData from '@/providers/useFormData'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 let tempValue: string | undefined
 
 const AsFarmLandIdInput: FC<{
     disabled: boolean
-    validationErrors: ValidationErrorsType
+    validationErrors: LaravelValidationExceptionResponse['errors']
     clearByName: (name: string) => void
 }> = ({ disabled, validationErrors, clearByName }) => {
     const { data, setData } = useFormData<PalmBunchesReaTicket>()

@@ -1,8 +1,8 @@
 // types
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
-import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
-import type FormType from '@/components/Global/Form/type'
 import type { Transaction } from '@/dataTypes/Transaction'
+import type FormType from '@/components/Global/Form/type'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
+import type PalmBunchesReaPaymentDataType from '@/dataTypes/PalmBunchesReaPayment'
 // vendors
 import React, { type ChangeEvent, useState } from 'react'
 import axios from '@/lib/axios'
@@ -61,8 +61,9 @@ export default function PalmBuncesReaPaymentForm({
                   return tx
               })) || [],
     )
-    const [validationErrors, setValidationErrors] =
-        useState<ValidationErrorsType>({})
+    const [validationErrors, setValidationErrors] = useState<
+        LaravelValidationExceptionResponse['errors']
+    >({})
 
     const {
         uuid,

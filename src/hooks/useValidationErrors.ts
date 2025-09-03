@@ -1,11 +1,12 @@
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 import type { ChangeEvent } from 'react'
 
 import { useState } from 'react'
 
 const useValidationErrors = () => {
-    const [validationErrors, setValidationErrors] =
-        useState<ValidationErrorsType>({})
+    const [validationErrors, setValidationErrors] = useState<
+        LaravelValidationExceptionResponse['errors']
+    >({})
 
     const clearByEvent = (
         event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

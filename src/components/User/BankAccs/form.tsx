@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 //
 import axios from '@/lib/axios'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 
 export default function UserBankAccForm({
     isShow,

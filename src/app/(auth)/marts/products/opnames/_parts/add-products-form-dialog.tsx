@@ -16,7 +16,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CachedIcon from '@mui/icons-material/Cached'
 //
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import type Product from '@/dataTypes/mart/Product'
 import IconButton from '@/components/IconButton'
 import TextField from '@/components/TextField'

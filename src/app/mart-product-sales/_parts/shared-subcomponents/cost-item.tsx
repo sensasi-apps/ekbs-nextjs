@@ -2,7 +2,7 @@
 
 // types
 import type { FormValuesType } from '../../../../components/pages/marts/products/sales/formik-wrapper'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // vendors
 import type { FieldProps, FormikErrors } from 'formik'
 import { memo, useState } from 'react'

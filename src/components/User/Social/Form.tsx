@@ -1,7 +1,6 @@
 // types
 import type { UUID } from 'crypto'
 import type { FormEvent } from 'react'
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
 // vendors
 import axios from '@/lib/axios'
 import { mutate } from 'swr'
@@ -18,6 +17,7 @@ import TextField from '@/components/TextField'
 // utils
 import handle422 from '@/utils/handle-422'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 export default function SocialForm({
     isShow,
@@ -30,7 +30,9 @@ export default function SocialForm({
     onSubmitted?: () => void
     userUuid: UUID
 }) {
-    const [errors, setErrors] = useState<ValidationErrorsType>({})
+    const [errors, setErrors] = useState<
+        LaravelValidationExceptionResponse['errors']
+    >({})
     const [socialId, setSocialId] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -120,8 +122,10 @@ function InputComponent({
     setErrors,
 }: {
     socialId: number
-    errors: ValidationErrorsType
-    setErrors: React.Dispatch<React.SetStateAction<ValidationErrorsType>>
+    errors: LaravelValidationExceptionResponse['errors']
+    setErrors: React.Dispatch<
+        React.SetStateAction<LaravelValidationExceptionResponse['errors']>
+    >
 }) {
     if ([1, 3].includes(socialId)) {
         return (

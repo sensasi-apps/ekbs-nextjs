@@ -10,7 +10,6 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 // components
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
 import DatePicker from '@/components/DatePicker'
 import UserAutocomplete from '@/components/UserAutocomplete'
 import TextField from '@/components/TextField'
@@ -26,10 +25,11 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 interface MainInputProps {
     clearByName: (name: string) => void
-    validationErrors: ValidationErrorsType
+    validationErrors: LaravelValidationExceptionResponse['errors']
     disabled: boolean
 }
 

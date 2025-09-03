@@ -1,6 +1,5 @@
 // types
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
 // vendors
 import { useState, useEffect } from 'react'
 // materials
@@ -11,6 +10,7 @@ import TextField from '@/components/TextField'
 import useFormData from '@/providers/useFormData'
 // utils
 import { alpaNumeric } from '@/utils/regexs'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 let tempValue: string | undefined
 
@@ -19,7 +19,7 @@ export default function SpbNoInput({
     clearByName,
     validationErrors,
 }: {
-    validationErrors: ValidationErrorsType
+    validationErrors: LaravelValidationExceptionResponse['errors']
     disabled: boolean
     clearByName: (name: string) => void
 }) {

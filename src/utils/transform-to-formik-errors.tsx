@@ -1,4 +1,4 @@
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import type { FormikErrors } from 'formik'
 
 export function transformToFormikErrors<FormValues>(

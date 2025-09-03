@@ -3,7 +3,7 @@
 // types
 import type { FormValuesType, FormikStatusType } from '.'
 import type { AxiosError } from 'axios'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // vendors
 import { Field, Formik } from 'formik'
 import axios from '@/lib/axios'

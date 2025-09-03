@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 //
 import type ProductMovement from '@/dataTypes/mart/ProductMovement'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import Form, { type FormValues } from './form'
 import getAxiosRequest from './get-axios-request'
 import { transformToFormikErrors } from '@/utils/transform-to-formik-errors'

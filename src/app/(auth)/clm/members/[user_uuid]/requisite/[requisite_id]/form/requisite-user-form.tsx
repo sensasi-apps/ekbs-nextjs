@@ -13,7 +13,7 @@ import type File from '@/dataTypes/File'
 import handle422 from '@/utils/handle-422'
 import myAxios from '@/lib/axios'
 import type RequisiteUser from '@/modules/clm/types/orms/requisite-user'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 
 type RequisiteUserFormField = {
     note: RequisiteUser['note']

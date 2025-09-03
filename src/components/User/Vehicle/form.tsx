@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 
 export default function UserVehicleForm({
     onClose,
