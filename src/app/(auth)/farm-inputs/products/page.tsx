@@ -25,7 +25,7 @@ import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/Lo
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import formatNumber from '@/utils/format-number'
-import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import axios from '@/lib/axios'
 import ApiUrlEnum from '@/components/Product/ApiUrlEnum'

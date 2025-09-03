@@ -31,7 +31,7 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import debounce from '@/utils/debounce'
 import numberToCurrency from '@/utils/number-to-currency'
 // enums
-import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import Warehouse from '@/enums/Warehouse'
 
 export type FormValues = Partial<{

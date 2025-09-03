@@ -1,5 +1,5 @@
 import { type UUID } from 'crypto'
-import type Address from '@/types/Address'
+import type Address from '@/types/orms/address'
 import type FarmerGroupType from '@/dataTypes/FarmerGroup'
 //
 import type RequisiteLandORM from './requisite-land'

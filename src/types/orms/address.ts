@@ -3,7 +3,7 @@ interface IdName {
     name: string
 }
 
-export default interface Address {
+export default interface AddressORM {
     uuid: string
     province: IdName
     regency: IdName
@@ -13,8 +13,9 @@ export default interface Address {
     zip_code?: string
 
     // accessors
-    region: {
-        id: number
-        name: string
-    }
+
+    /**
+     * It should be the `province`, `regency`, `district`, or `village`
+     */
+    region: IdName
 }

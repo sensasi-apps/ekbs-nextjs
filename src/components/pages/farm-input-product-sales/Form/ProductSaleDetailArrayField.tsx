@@ -26,7 +26,7 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import { EMPTY_FORM_DATA } from '../Form'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import numberToCurrency from '@/utils/number-to-currency'
-import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import Warehouse from '@/enums/Warehouse'
 
 const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
