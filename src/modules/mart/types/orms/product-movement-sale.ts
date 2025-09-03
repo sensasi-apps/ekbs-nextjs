@@ -1,6 +1,6 @@
-import type User from '../../features/user/types/user'
+import type User from '@/features/user/types/user'
 
-export default interface ProductMovementSale {
+export default interface ProductMovementSaleORM {
     buyer_user_uuid: User['uuid']
     no: number
     total_payment: number

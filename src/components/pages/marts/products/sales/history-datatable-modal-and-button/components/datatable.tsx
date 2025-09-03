@@ -1,5 +1,5 @@
 // types
-import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
+import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
 // components
 import DefaultDatatable, {
     type DatatableProps,

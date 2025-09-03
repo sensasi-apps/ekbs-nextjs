@@ -21,7 +21,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 // utils
-import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
+import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 import aoaToXlsx from '@/utils/aoa-to-xlsx'

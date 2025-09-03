@@ -1,8 +1,8 @@
 // types
-import type ProductMovement from '@/dataTypes/mart/ProductMovement'
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 import type { Transaction } from '@/dataTypes/Transaction'
-import type ProductMovementPurchase from '@/dataTypes/mart/ProductMovementPurchase'
-import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
+import type ProductMovementPurchase from '@/modules/mart/types/orms/product-movement-purchase'
+import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
 // vendors
 import { Field, FieldArray, type FieldProps, type FormikProps } from 'formik'
 // materials

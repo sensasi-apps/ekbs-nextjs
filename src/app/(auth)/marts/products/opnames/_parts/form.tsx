@@ -1,5 +1,5 @@
 // types
-import type ProductMovement from '@/dataTypes/mart/ProductMovement'
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 // vendors
 import { type FormikProps } from 'formik'
 // formik

@@ -13,7 +13,7 @@ import Zoom from '@mui/material/Zoom'
 // icons
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 // components
-import type Product from '@/dataTypes/mart/Product'
+import type Product from '@/modules/mart/types/orms/product'
 import ChipSmall from '@/components/ChipSmall'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'

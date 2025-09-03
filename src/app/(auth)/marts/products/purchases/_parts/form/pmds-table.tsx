@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 //
-import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
+import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
 import formatNumber from '@/utils/format-number'
 
 export function PmdsTable({ data }: { data: ProductMovementDetail[] }) {

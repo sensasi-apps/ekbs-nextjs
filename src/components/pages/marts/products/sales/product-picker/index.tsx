@@ -2,7 +2,7 @@
 
 // types
 import type { FieldProps } from 'formik'
-import type Product from '@/dataTypes/mart/Product'
+import type Product from '@/modules/mart/types/orms/product'
 import type { FormikStatusType, FormValuesType } from '../formik-wrapper'
 import type { FormattedEntry } from '@/sw/functions/handle-message'
 import type { SubmittedData } from '../formik-wrapper/@types/submitted-data'

@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type Product from '@/dataTypes/mart/Product'
+import type Product from '@/modules/mart/types/orms/product'
 import type YajraDatatable from '@/types/yajra-datatable-response'
 // vendors
 import { useState } from 'react'

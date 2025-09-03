@@ -1,10 +1,10 @@
 // types
 import type ActivityLogType from '@/types/orms/activity-log'
 import type CashType from '@/types/orms/cash'
-import type ProductMovement from '@/dataTypes/mart/ProductMovement'
-import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
-import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'
-import type ProductMovementWithSale from '@/dataTypes/mart/product-movement-with-sale'
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
+import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
+import type ProductMovementSale from '@/modules/mart/types/orms/product-movement-sale'
+import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
 // vendors
 import Image from 'next/image'
 // materials

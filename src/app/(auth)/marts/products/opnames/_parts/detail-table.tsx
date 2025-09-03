@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow'
 // icons-materials
 import RemoveCircle from '@mui/icons-material/RemoveCircle'
 //
-import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
+import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
 import axios from '@/lib/axios'
 import IconButton from '@/components/IconButton'
 import NumericFormat from '@/components/NumericFormat'

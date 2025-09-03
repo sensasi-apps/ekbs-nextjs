@@ -1,7 +1,7 @@
 import type { Ymd } from '@/types/DateString'
-import type Warehouse from '../enums/MartDB/ProductWarehouses/Warehouse'
+import type Warehouse from '../../../../dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
 
-export default interface Product {
+export default interface ProductORM {
     id: Readonly<number>
     code?: string
     barcode_reg_id?: string

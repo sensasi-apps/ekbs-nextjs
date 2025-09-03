@@ -1,5 +1,5 @@
 // types
-import type Product from '@/dataTypes/mart/Product'
+import type Product from '@/modules/mart/types/orms/product'
 // vendors
 import {
     FastField,

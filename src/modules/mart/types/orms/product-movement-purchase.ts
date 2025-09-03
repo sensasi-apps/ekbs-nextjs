@@ -1,6 +1,6 @@
 import type { Ymd } from '@/types/DateString'
 
-export default interface ProductMovementPurchase {
+export default interface ProductMovementPurchaseORM {
     received: Ymd
     paid: Ymd
 }
