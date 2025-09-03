@@ -2,7 +2,7 @@
 import type { FormikProps } from 'formik'
 import type Product from '@/dataTypes/Product'
 import type { Ymd } from '@/types/DateString'
-import type { YajraDatatable } from '@/types/responses/YajraDatatable'
+import type YajraDatatable from '@/types/yajra-datatable-response'
 import type InventoryItem from '@/dataTypes/InventoryItem'
 import type { UUID } from 'crypto'
 import type User from '@/features/user/types/user'

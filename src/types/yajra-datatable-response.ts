@@ -1,7 +1,7 @@
 /**
  * @see https://datatables.net/manual/server-side#Returned-data
  */
-export interface YajraDatatable<T> {
+export default interface YajraDatatableResponse<T> {
     draw: number
     recordsTotal: number
     recordsFiltered: number
