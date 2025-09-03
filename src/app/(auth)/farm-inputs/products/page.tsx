@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type ProductType from '@/dataTypes/Product'
+import type ProductType from '@/types/orms/product'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
@@ -25,7 +25,7 @@ import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/Lo
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import formatNumber from '@/utils/format-number'
-import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import axios from '@/lib/axios'
 import ApiUrlEnum from '@/components/Product/ApiUrlEnum'

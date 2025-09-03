@@ -4,7 +4,7 @@ import {
     type FieldArrayRenderProps,
     type FormikErrors,
 } from 'formik'
-import type Product from '@/dataTypes/Product'
+import type Product from '@/types/orms/product'
 // materials
 import Grid from '@mui/material/Grid'
 // components

@@ -18,13 +18,13 @@ import MoneyIcon from '@mui/icons-material/Money'
 import SplitscreenIcon from '@mui/icons-material/Splitscreen'
 import WorkIcon from '@mui/icons-material/Work'
 // components
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 import type { FormData } from './sale-form-dialog'
 import NumericField from '@/components/formik-fields/numeric-field'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 //
-import type BusinessUnitCash from '@/dataTypes/BusinessUnitCash'
+import type BusinessUnitCash from '@/types/orms/business-unit-cash'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'

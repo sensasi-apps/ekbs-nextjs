@@ -1,5 +1,5 @@
 // types
-import type WalletType from '@/dataTypes/Wallet'
+import type WalletType from '@/types/orms/wallet'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'

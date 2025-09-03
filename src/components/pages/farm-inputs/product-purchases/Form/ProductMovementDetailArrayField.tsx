@@ -1,7 +1,7 @@
 // types
 import type { FieldArrayRenderProps, FormikErrors } from 'formik'
-import type ProductType from '@/dataTypes/Product'
-import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
+import type ProductType from '@/types/orms/product'
+import type ProductMovementDetail from '@/types/orms/product-movement-detail'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -25,7 +25,7 @@ import TextField from '@/components/TextField'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import { type FormValuesType } from '../Form'
 
 const calculatePrice = (qty?: number, subtotal?: number) => {

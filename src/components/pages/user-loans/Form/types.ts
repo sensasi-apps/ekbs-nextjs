@@ -1,4 +1,4 @@
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 import type { UserLoanType } from '@/dataTypes/Loan'
 
 /**

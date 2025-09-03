@@ -30,7 +30,7 @@ import IconButton from '@/components/IconButton'
 import PageTitle from '@/components/page-title'
 import NumericFormat from '@/components/NumericFormat'
 //
-import type Product from '@/dataTypes/mart/Product'
+import type Product from '@/modules/mart/types/orms/product'
 // enums
 import Statistic from '@/enums/ApiUrl/Mart/Statistic'
 // utils

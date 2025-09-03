@@ -1,6 +1,6 @@
 // types
 import type { Ymd } from '@/types/DateString'
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 import type { UserLoanType } from '@/dataTypes/Loan'
 // vendors
 import { Field, useFormik, type FormikProps, type FieldProps } from 'formik'

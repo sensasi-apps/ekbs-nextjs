@@ -1,7 +1,7 @@
 // types
 import type { Dispatch, SetStateAction } from 'react'
-import type Debt from '@/dataTypes/Debt'
-import type DebtDetail from '@/dataTypes/DebtDetail'
+import type Debt from '@/types/orms/debt'
+import type DebtDetail from '@/types/orms/debt-detail'
 // materials
 import Button from '@mui/material/Button'
 import Table from '@mui/material/Table'

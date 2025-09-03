@@ -1,8 +1,7 @@
 // types
 import type { AxiosError } from 'axios'
-import type Role from '@/dataTypes/Role'
+import type Role from '@/types/orms/role'
 import type FormType from '@/components/Global/Form/type'
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
 // vendors
 import { stringify } from 'qs'
 import axios from '@/lib/axios'
@@ -19,6 +18,7 @@ import TextField from '@mui/material/TextField'
 // components
 import useValidationErrors from '@/hooks/useValidationErrors'
 import Skeletons from '@/components/Global/Skeletons'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 export default function RoleForm({
     data: { id, name_id, group, permissions: rolePermissions },
@@ -47,22 +47,15 @@ export default function RoleForm({
         axios
             .put(`/roles/${id}`, stringify(payload))
             .then(() => onSubmitted())
-            .catch(
-                (
-                    err: AxiosError<{
-                        errors?: ValidationErrorsType
-                        message?: string
-                    }>,
-                ) => {
-                    if (err.response?.status !== 422) {
-                        throw err
-                    }
+            .catch((err: AxiosError<LaravelValidationExceptionResponse>) => {
+                if (err.response?.status !== 422) {
+                    throw err
+                }
 
-                    if (err.response?.data.errors) {
-                        setValidationErrors(err.response.data.errors)
-                    }
-                },
-            )
+                if (err.response?.data.errors) {
+                    setValidationErrors(err.response.data.errors)
+                }
+            })
             .finally(() => {
                 setSubmitting(false)
             })

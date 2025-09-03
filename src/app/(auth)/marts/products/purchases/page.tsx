@@ -19,7 +19,7 @@ import toDmy from '@/utils/to-dmy'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // parts
-import type ProductMovement from '@/dataTypes/mart/ProductMovement'
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 import { type FormValues } from '@/app/(auth)/marts/products/purchases/_parts/form'
 import Mart from '@/enums/permissions/Mart'
 import FormDialog from '@/app/(auth)/marts/products/purchases/_parts/form-dialog'

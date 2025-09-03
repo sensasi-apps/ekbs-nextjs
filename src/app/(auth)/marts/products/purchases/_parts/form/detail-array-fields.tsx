@@ -1,6 +1,6 @@
 // types
 import type { FormValues } from '../form'
-import type Product from '@/dataTypes/mart/Product'
+import type Product from '@/modules/mart/types/orms/product'
 // vendors
 import { Field, type FieldArrayRenderProps, type FieldProps } from 'formik'
 // materials

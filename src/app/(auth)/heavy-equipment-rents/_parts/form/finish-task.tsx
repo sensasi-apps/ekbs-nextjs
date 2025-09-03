@@ -1,5 +1,5 @@
 // types
-import type RentItemRent from '@/dataTypes/RentItemRent'
+import type RentItemRent from '@/types/orms/rent-item-rent'
 import type { FastFieldProps, FormikProps } from 'formik'
 // vendors
 import dayjs from 'dayjs'

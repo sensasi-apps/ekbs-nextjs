@@ -2,7 +2,7 @@
 import type { FormikErrors, FormikProps } from 'formik'
 import type { UUID } from 'crypto'
 import type { Installment } from '@/dataTypes/Installment'
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 // vendors
 import dayjs from 'dayjs'
 // materials

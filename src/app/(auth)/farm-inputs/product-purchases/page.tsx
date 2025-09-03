@@ -1,8 +1,8 @@
 'use client'
 
 // types
-import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
-import type ProductPurchaseType from '@/dataTypes/ProductPurchase'
+import type ProductMovementDetail from '@/types/orms/product-movement-detail'
+import type ProductPurchaseType from '@/types/orms/product-purchase'
 import type { Ymd } from '@/types/DateString'
 import type {
     DatatableProps,

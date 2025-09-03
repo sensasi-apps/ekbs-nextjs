@@ -1,7 +1,7 @@
 // types
 import type { MutateType } from '@/components/Datatable'
 import type { ProductSale } from '@/dataTypes/ProductSale'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'

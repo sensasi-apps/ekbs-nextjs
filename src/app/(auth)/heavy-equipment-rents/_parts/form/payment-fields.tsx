@@ -1,8 +1,8 @@
 // types
 import type { FormikProps } from 'formik'
 import type { HeavyEquipmentRentFormValues } from '.'
-import type CashType from '@/dataTypes/Cash'
-import type WalletType from '@/dataTypes/Wallet'
+import type CashType from '@/types/orms/cash'
+import type WalletType from '@/types/orms/wallet'
 // vendors
 import useSWR from 'swr'
 // materials

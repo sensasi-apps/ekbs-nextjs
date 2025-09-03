@@ -1,7 +1,6 @@
 // types
-import type PalmBunchDataType from '@/dataTypes/PalmBunch'
+import type PalmBunchDataType from '@/types/orms/palm-bunch'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
 // vendors
 import { useEffect, useState, memo } from 'react'
 import { NumericFormat } from 'react-number-format'
@@ -24,6 +23,7 @@ import useFormData from '@/providers/useFormData'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 function PalmBunchesReaDeliveryFarmerInputs({
     disabled,
@@ -31,7 +31,7 @@ function PalmBunchesReaDeliveryFarmerInputs({
     clearByName,
 }: {
     disabled: boolean
-    validationErrors: ValidationErrorsType
+    validationErrors: LaravelValidationExceptionResponse['errors']
     clearByName: (name: string) => void
 }) {
     const isAuthHasPermission = useIsAuthHasPermission()

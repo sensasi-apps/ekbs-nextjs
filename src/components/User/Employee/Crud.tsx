@@ -12,7 +12,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 //
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import type User from '@/features/user/types/user'
 import EmployeeDetailBox from './DetailBox'
 import EmployeeForm from './Form'

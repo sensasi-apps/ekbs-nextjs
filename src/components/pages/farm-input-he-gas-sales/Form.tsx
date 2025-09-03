@@ -1,9 +1,9 @@
 // types
 import type { FormikProps } from 'formik'
-import type Product from '@/dataTypes/Product'
+import type Product from '@/types/orms/product'
 import type { Ymd } from '@/types/DateString'
-import type { YajraDatatable } from '@/types/responses/YajraDatatable'
-import type InventoryItem from '@/dataTypes/InventoryItem'
+import type YajraDatatable from '@/types/yajra-datatable-response'
+import type InventoryItem from '@/types/orms/inventory-item'
 import type { UUID } from 'crypto'
 import type User from '@/features/user/types/user'
 // vendors
@@ -31,7 +31,7 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import debounce from '@/utils/debounce'
 import numberToCurrency from '@/utils/number-to-currency'
 // enums
-import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import Warehouse from '@/enums/Warehouse'
 
 export type FormValues = Partial<{

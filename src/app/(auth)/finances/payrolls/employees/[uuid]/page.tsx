@@ -1,6 +1,6 @@
 'use client'
 
-import type Payroll from '@/dataTypes/Payroll'
+import type Payroll from '@/types/orms/payroll'
 // vendors
 import { useParams } from 'next/navigation'
 import { useState } from 'react'

@@ -1,6 +1,6 @@
 // types
 import type UserLandFormPropType from './Form/type'
-import type Address from '@/types/Address'
+import type Address from '@/types/orms/address'
 // vendors
 import {
     useState,

@@ -2,7 +2,7 @@
 import type { ChangeEvent } from 'react'
 import type FormType from '@/components/Global/Form/type'
 import type { PalmBunchDeliveryRateType } from '@/dataTypes/PalmBunchDeliveryRate'
-import type PalmBunchDeliveryRateValidDateType from '@/dataTypes/PalmBunchDeliveryRateValidDate'
+import type PalmBunchDeliveryRateValidDateType from '@/types/orms/palm-bunch-delivery-rate-valid-date'
 import type { Ymd } from '@/types/DateString'
 // vendors
 import { useEffect, useState } from 'react'

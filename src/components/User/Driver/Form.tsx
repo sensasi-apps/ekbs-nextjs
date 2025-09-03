@@ -1,7 +1,7 @@
 // types
 import type { AxiosError } from 'axios'
 import type { UUID } from 'crypto'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // vendors
 import { useState } from 'react'
 import { mutate } from 'swr'

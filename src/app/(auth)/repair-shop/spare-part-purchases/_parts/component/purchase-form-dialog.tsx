@@ -24,7 +24,7 @@ import Endpoint from '../enums/endpoint'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import DetailsField from './details-field'
 import CostsField from './costs-field'
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 
 type FormData = Partial<
     SparePartMovement & {

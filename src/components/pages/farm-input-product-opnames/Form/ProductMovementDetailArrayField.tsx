@@ -1,5 +1,5 @@
 // types
-import type ProductType from '@/dataTypes/Product'
+import type ProductType from '@/types/orms/product'
 // vendors
 import { FieldArray, type FormikErrors } from 'formik'
 import { memo } from 'react'
@@ -23,7 +23,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import { EMPTY_FORM_DATA } from '../Form'
-import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 
 const ProductMovementDetailArrayField = memo(
     function ProductMovementDetailArrayField({

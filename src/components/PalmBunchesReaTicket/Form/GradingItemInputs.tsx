@@ -1,6 +1,5 @@
-import type PalmBunchesReaGradingItemType from '@/dataTypes/PalmBunchesReaGradingItem'
+import type PalmBunchesReaGradingItemType from '@/types/orms/palm-bunches-rea-grading-item'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
-import { type ValidationErrorsType } from '@/types/ValidationErrors'
 
 import { type FC, memo } from 'react'
 import useSWR from 'swr'
@@ -12,11 +11,12 @@ import Typography from '@mui/material/Typography'
 import Skeletons from '@/components/Global/Skeletons'
 // providers
 import useFormData from '@/providers/useFormData'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 const GradingItemInputs: FC<{
     disabled: boolean
     clearByName: (name: string) => void
-    validationErrors: ValidationErrorsType
+    validationErrors: LaravelValidationExceptionResponse['errors']
 }> = ({ disabled, clearByName, validationErrors }) => {
     const { data, setData } = useFormData<PalmBunchesReaTicket>()
 

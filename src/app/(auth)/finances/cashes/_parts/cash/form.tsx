@@ -1,6 +1,6 @@
 // types
 import type { FormikProps } from 'formik'
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 // vendors
 import axios from '@/lib/axios'
 import { FastField, Form, useFormik } from 'formik'

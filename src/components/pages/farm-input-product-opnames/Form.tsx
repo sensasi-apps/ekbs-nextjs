@@ -1,7 +1,7 @@
 // types
-import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
-import type ProductOpanameType from '@/dataTypes/ProductOpname'
-import type { ProductOpnameMovementType } from '@/dataTypes/ProductMovement'
+import type ProductMovementDetail from '@/types/orms/product-movement-detail'
+import type ProductOpanameType from '@/types/orms/product-opname'
+import type { ProductOpnameMovementType } from '@/types/orms/product-movement'
 // vendors
 import { memo } from 'react'
 import dayjs from 'dayjs'

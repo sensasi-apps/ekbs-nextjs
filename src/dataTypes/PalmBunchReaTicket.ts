@@ -1,8 +1,8 @@
 import type { UUID } from 'crypto'
 import type { PalmBunchRateType } from './PalmBunchRate'
-import type PalmBunchesReaPaymentDetail from './PalmBunchReaPaymentDetail'
-import type PalmBunchesDelivery from './PalmBunchesDelivery'
-import type PalmBunchesReaGrading from './PalmBunchesReaGrading'
+import type PalmBunchesReaPaymentDetail from '../types/orms/palm-bunch-rea-payment-detail'
+import type PalmBunchesDelivery from '../types/orms/palm-bunches-delivery'
+import type PalmBunchesReaGrading from '../types/orms/palm-bunches-rea-grading'
 import type User from '../features/user/types/user'
 
 export type PalmBunchesReaTicket = {

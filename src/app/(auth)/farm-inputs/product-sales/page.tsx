@@ -7,7 +7,7 @@ import type {
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type ProductMovementDetail from '@/dataTypes/ProductMovementDetail'
+import type ProductMovementDetail from '@/types/orms/product-movement-detail'
 import type { ProductSale } from '@/dataTypes/ProductSale'
 // vendors
 import { Formik } from 'formik'

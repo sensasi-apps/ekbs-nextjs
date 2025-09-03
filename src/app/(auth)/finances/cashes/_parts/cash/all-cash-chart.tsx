@@ -1,6 +1,6 @@
 // types
 import type { StatCardProps } from '@/components/StatCard/StatCard'
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 import type { ButtonProps } from '@mui/material/Button'
 // vendors
 import Box from '@mui/material/Box'

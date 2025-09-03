@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type InventoryItem from '@/dataTypes/InventoryItem'
+import type InventoryItem from '@/types/orms/inventory-item'
 import type {
     DatatableProps,
     GetRowDataType,

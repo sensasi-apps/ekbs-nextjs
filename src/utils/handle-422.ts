@@ -1,5 +1,5 @@
 import type { AxiosError } from 'axios'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 
 export default function handle422(
     error: AxiosError,

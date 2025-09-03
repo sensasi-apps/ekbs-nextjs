@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 //
-import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
+import type ProductMovementCost from '@/modules/mart/types/orms/product-movement-cost'
 import formatNumber from '@/utils/format-number'
 
 export function CostsTable({ data }: { data: ProductMovementCost[] }) {

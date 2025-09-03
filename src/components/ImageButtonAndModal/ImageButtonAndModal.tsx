@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios'
 // types
-import type FileFromDb from '@/dataTypes/File'
+import type FileFromDb from '@/types/orms/file'
 // vendors
 import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'

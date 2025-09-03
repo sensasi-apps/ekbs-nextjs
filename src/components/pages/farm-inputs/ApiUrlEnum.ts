@@ -1,4 +1,4 @@
-import DatatableEndpointEnum from '@/types/farm-inputs/DatatableEndpointEnum'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 
 enum ApiUrlEnum {
     PRODUCT_PURCHASE_DATATABLE = DatatableEndpointEnum.PRODUCT_PURCHASES,

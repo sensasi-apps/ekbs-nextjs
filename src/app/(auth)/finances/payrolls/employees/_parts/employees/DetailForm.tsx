@@ -1,7 +1,7 @@
 // types
 import type { FastFieldProps, FieldProps, FormikProps } from 'formik'
-import type PayrollUser from '@/dataTypes/PayrollUser'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type PayrollUser from '@/types/orms/payroll-user'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // vendors
 import { FastField, Field, FieldArray } from 'formik'
 // materials

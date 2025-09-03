@@ -1,10 +1,10 @@
 // types
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 import type { UUID } from 'crypto'
-import type ProductType from '@/dataTypes/Product'
+import type ProductType from '@/types/orms/product'
 import type { ProductSale } from '@/dataTypes/ProductSale'
 import type User from '@/features/user/types/user'
-import type Wallet from '@/dataTypes/Wallet'
+import type Wallet from '@/types/orms/wallet'
 // vendors
 import { FastField, type FormikProps } from 'formik'
 import { memo, useState } from 'react'
@@ -48,7 +48,7 @@ import numberToCurrency from '@/utils/number-to-currency'
 import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums
-import type ProductMovement from '@/dataTypes/ProductMovement'
+import type ProductMovement from '@/types/orms/product-movement'
 import Role from '@/enums/Role'
 import Warehouse from '@/enums/Warehouse'
 // hooks

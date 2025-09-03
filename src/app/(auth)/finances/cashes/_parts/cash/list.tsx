@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type CashType from '@/dataTypes/Cash'
+import type CashType from '@/types/orms/cash'
 import type { KeyedMutator } from 'swr'
 // enums
 import CashPermission from '@/enums/permissions/Cash'

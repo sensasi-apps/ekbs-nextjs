@@ -33,9 +33,9 @@ import useValidationErrors from '@/hooks/useValidationErrors'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import MaritalStatusEnum from '@/dataTypes/enums/MaritalStatus'
-import type DistrictType from '@/dataTypes/District'
-import type RegencyType from '@/dataTypes/Regency'
-import type VillageType from '@/dataTypes/Village'
+import type DistrictType from '@/types/orms/district'
+import type RegencyType from '@/types/orms/regency'
+import type VillageType from '@/types/orms/village'
 import NumericFormat from '@/components/NumericFormat'
 
 function getBirthRegion(userDetail?: UserDetailRelationsType) {

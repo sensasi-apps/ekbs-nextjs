@@ -2,7 +2,7 @@
 
 // types
 import type { UUID } from 'crypto'
-import type Payroll from '@/dataTypes/Payroll'
+import type Payroll from '@/types/orms/payroll'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'

@@ -1,6 +1,6 @@
 // types
 import type { AxiosError } from 'axios'
-import type BusinessUnitCash from '@/dataTypes/BusinessUnitCash'
+import type BusinessUnitCash from '@/types/orms/business-unit-cash'
 import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import { useState } from 'react'
@@ -43,7 +43,7 @@ import UserActivityLogs from '@/components/UserActivityLogs'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import txAccounts from '../../../../../../features/transaction/statics/tx-accounts'
 import handle422 from '@/utils/handle-422'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import shortUuid from '@/utils/short-uuid'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

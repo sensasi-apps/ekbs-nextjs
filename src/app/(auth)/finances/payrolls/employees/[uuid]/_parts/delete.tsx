@@ -1,4 +1,4 @@
-import type Payroll from '@/dataTypes/Payroll'
+import type Payroll from '@/types/orms/payroll'
 // vendors
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -9,7 +9,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 // etc
 import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
 import FormDeleteButton from '@/components/form/FormDeleteButton'
-import type LaravelValidationException from '@/types/LaravelValidationException'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import handle422 from '@/utils/handle-422'
 
 export default function PayrollDeleteForm({

@@ -1,8 +1,8 @@
-import type ProductMovementCost from '@/dataTypes/mart/ProductMovementCost'
-import type ProductMovementDetail from '@/dataTypes/mart/ProductMovementDetail'
-import type ProductMovementSale from '@/dataTypes/mart/product-movement-sale'
-import type ProductMovement from '@/dataTypes/mart/ProductMovement'
-import type CashType from '@/dataTypes/Cash'
+import type ProductMovementCost from '@/modules/mart/types/orms/product-movement-cost'
+import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
+import type ProductMovementSale from '@/modules/mart/types/orms/product-movement-sale'
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
+import type CashType from '@/types/orms/cash'
 
 export interface FormValuesType {
     at?: ProductMovement['at']
