@@ -11,4 +11,10 @@ export default interface Address {
     village?: IdName
     detail?: string
     zip_code?: string
+
+    // accessors
+    region: {
+        id: number
+        name: string
+    }
 }
