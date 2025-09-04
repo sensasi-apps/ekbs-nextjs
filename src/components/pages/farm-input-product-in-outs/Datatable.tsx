@@ -1,5 +1,5 @@
 // types
-import type ProductMovement from '@/types/orms/product-movement'
+import type ProductMovement from '@/modules/farm-inputs/types/orms/product-movement'
 // vendors
 import { memo, useState } from 'react'
 // materials
@@ -18,7 +18,7 @@ import numberToCurrency from '@/utils/number-to-currency'
 import formatNumber from '@/utils/format-number'
 // enums
 import { ApiUrlEnum } from './Datatable.type'
-import { ProductMovementTypeEnum } from '@/types/orms/product-movement'
+import { ProductMovementTypeEnum } from '@/modules/farm-inputs/types/orms/product-movement'
 
 let getRowData: GetRowDataType<ProductMovement>
 

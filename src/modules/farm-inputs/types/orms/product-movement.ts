@@ -1,6 +1,6 @@
 import type { UUID } from 'crypto'
 import type ProductMovementDetail from './product-movement-detail'
-import type ActivityLog from './activity-log'
+import type ActivityLog from '../../../../types/orms/activity-log'
 import type ProductOpname from './product-opname'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 

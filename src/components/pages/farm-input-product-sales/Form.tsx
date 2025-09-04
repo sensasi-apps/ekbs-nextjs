@@ -1,7 +1,7 @@
 // types
 import type CashType from '@/types/orms/cash'
 import type { UUID } from 'crypto'
-import type ProductType from '@/types/orms/product'
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import type User from '@/modules/auth/types/orms/user'
 import type Wallet from '@/types/orms/wallet'
@@ -48,7 +48,7 @@ import numberToCurrency from '@/utils/number-to-currency'
 import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums
-import type ProductMovement from '@/types/orms/product-movement'
+import type ProductMovement from '@/modules/farm-inputs/types/orms/product-movement'
 import Role from '@/enums/role'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks

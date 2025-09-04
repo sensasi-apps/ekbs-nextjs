@@ -3,7 +3,7 @@
 // types
 import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import type ProductMovementDetail from '@/types/orms/product-movement-detail'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -155,7 +155,7 @@ export default function FarmInputHeGasSales() {
     )
 }
 
-const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
+const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
     <ul
         style={{
             margin: 0,

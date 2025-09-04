@@ -1,6 +1,6 @@
 // types
 import type { UUID } from 'crypto'
-import type ProductPurchase from '@/types/orms/product-purchase'
+import type ProductPurchase from '@/modules/farm-inputs/types/orms/product-purchase'
 import type CashType from '@/types/orms/cash'
 // vendors
 import {

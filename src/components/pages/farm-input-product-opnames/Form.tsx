@@ -1,7 +1,7 @@
 // types
-import type ProductMovementDetail from '@/types/orms/product-movement-detail'
-import type ProductOpanameType from '@/types/orms/product-opname'
-import type { ProductOpnameMovementType } from '@/types/orms/product-movement'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
+import type ProductOpanameType from '@/modules/farm-inputs/types/orms/product-opname'
+import type { ProductOpnameMovementType } from '@/modules/farm-inputs/types/orms/product-movement'
 // vendors
 import { memo } from 'react'
 import dayjs from 'dayjs'
@@ -81,7 +81,7 @@ const ProductOpnameForm = memo(function ProductOpnameForm({
 
 export default ProductOpnameForm
 
-type ProductOpnameMovementDetail = ProductMovementDetail & {
+type ProductOpnameMovementDetail = ProductMovementDetailORM & {
     physical_qty: '' | number
 }
 

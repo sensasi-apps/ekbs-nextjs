@@ -7,7 +7,7 @@ import type {
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type ProductMovementDetail from '@/types/orms/product-movement-detail'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 // vendors
 import { Formik } from 'formik'
@@ -239,7 +239,7 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
     }
 }
 
-const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
+const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
     <ul
         style={{
             margin: 0,
