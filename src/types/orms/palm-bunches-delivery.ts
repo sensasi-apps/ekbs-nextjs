@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type User from '../../features/user/types/user'
+import type User from '../../modules/auth/types/orms/user'
 import type PalmBunchType from './palm-bunch'
 import type ActivityLogType from './activity-log'
 import type { PalmBunchesReaTicket } from '../../dataTypes/PalmBunchReaTicket'

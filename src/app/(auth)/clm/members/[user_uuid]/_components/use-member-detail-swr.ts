@@ -1,8 +1,8 @@
 import useSWR from 'swr'
 
-import type User from '@/features/user/types/user'
-import type UserSocial from '@/features/user/types/user-social'
-import type Social from '@/features/user/types/social'
+import type User from '@/modules/auth/types/orms/user'
+import type UserSocial from '@/modules/auth/types/orms/user-social'
+import type Social from '@/modules/auth/types/orms/social'
 // modules
 import type CertificationORM from '@/modules/clm/types/orms/certification'
 import type LandORM from '@/modules/clm/types/orms/land'

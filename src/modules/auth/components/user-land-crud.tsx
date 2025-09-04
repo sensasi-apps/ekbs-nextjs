@@ -4,11 +4,11 @@ import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add'
 
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
-import LandsView from './View'
-import UserLandFormhDialogWithUseContexts from '../Land/Form/DialogWithContexts'
+import LandsView from '@/modules/auth/components/land-list'
+import UserLandFormDialogWithUseContexts from '@/modules/auth/components/user-land-form/dialog-with-contexts'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
-const Component = () => {
+function InnerComponent() {
     const { data: { lands = [] } = {} } = useUserWithDetails()
     const { handleCreate } = useFormData()
 
@@ -16,7 +16,7 @@ const Component = () => {
         <>
             <LandsView data={lands} />
 
-            <UserLandFormhDialogWithUseContexts />
+            <UserLandFormDialogWithUseContexts />
 
             <Box mt={2}>
                 <Button
@@ -32,10 +32,10 @@ const Component = () => {
     )
 }
 
-const UserLandsCrud = () => (
-    <FormDataProvider>
-        <Component />
-    </FormDataProvider>
-)
-
-export default UserLandsCrud
+export default function UserLandCrud() {
+    return (
+        <FormDataProvider>
+            <InnerComponent />
+        </FormDataProvider>
+    )
+}

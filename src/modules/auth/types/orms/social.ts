@@ -1,4 +1,4 @@
-export default interface Social {
+export default interface SocialORM {
     id: number
     name: string
     url_prefix: string

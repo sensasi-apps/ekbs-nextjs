@@ -1,5 +1,4 @@
 // types
-import type UserLandFormPropType from './Form/type'
 import type Address from '@/types/orms/address'
 // vendors
 import {
@@ -23,6 +22,7 @@ import DatePicker from '@/components/DatePicker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import NumericFormat from '@/components/NumericFormat'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import type LandORM from '@/modules/clm/types/orms/land'
 
 const INITIAL_STATE = {
     n_area_hectares: undefined,
@@ -34,11 +34,18 @@ const INITIAL_STATE = {
     note: undefined,
 }
 
-const getRegion = (address?: Address): { id: string } | null => {
+const getRegion = (address?: Address): { id: number } | null => {
     return address?.village || address?.district || address?.regency || null
 }
 
-export default function UserLandForm(props: UserLandFormPropType) {
+export default function UserLandForm(props: {
+    data: LandORM
+    userUuid: string
+    onCancel: () => void
+    isLoading: boolean
+    onSubmit: () => void
+    setIsLoading: (isLoading: boolean) => void
+}) {
     const { data, userUuid, onCancel, onSubmit, isLoading, setIsLoading } =
         props
     const {

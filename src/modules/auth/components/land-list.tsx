@@ -3,10 +3,11 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import Typography from '@mui/material/Typography'
 
-import UserLandListItemText from '../Land/ListItemText'
+import UserLandListItemText from '@/modules/auth/components/user-land-list-item'
 import useFormData from '@/providers/useFormData'
+import type LandORM from '@/modules/clm/types/orms/land'
 
-const LandsView = ({ data: lands }) => {
+export default function LandList({ data: lands }: { data: LandORM[] }) {
     const { handleEdit } = useFormData()
 
     if (!lands || !lands.length) {
@@ -29,5 +30,3 @@ const LandsView = ({ data: lands }) => {
         </List>
     )
 }
-
-export default LandsView

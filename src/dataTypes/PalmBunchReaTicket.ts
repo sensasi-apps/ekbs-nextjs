@@ -3,7 +3,7 @@ import type { PalmBunchRateType } from './PalmBunchRate'
 import type PalmBunchesReaPaymentDetail from '../types/orms/palm-bunch-rea-payment-detail'
 import type PalmBunchesDelivery from '../types/orms/palm-bunches-delivery'
 import type PalmBunchesReaGrading from '../types/orms/palm-bunches-rea-grading'
-import type User from '../features/user/types/user'
+import type User from '../modules/auth/types/orms/user'
 
 export type PalmBunchesReaTicket = {
     id: number

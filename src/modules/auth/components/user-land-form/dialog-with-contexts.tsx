@@ -1,12 +1,10 @@
-import type { FC } from 'react'
-
 import type Land from '@/modules/clm/types/orms/land'
 import Dialog from '@/components/Global/Dialog'
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
-import UserLandForm from '@/components/User/Land/Form'
+import UserLandForm from '@/modules/auth/components/user-land-form'
 import useFormData from '@/providers/useFormData'
 
-const UserLandFormhDialogWithUseContexts: FC = () => {
+export default function UserLandFormDialogWithUseContexts() {
     const { data: user } = useUserWithDetails()
     const { data, isNew, formOpen, handleClose, loading, setSubmitting } =
         useFormData()
@@ -30,5 +28,3 @@ const UserLandFormhDialogWithUseContexts: FC = () => {
         </Dialog>
     )
 }
-
-export default UserLandFormhDialogWithUseContexts

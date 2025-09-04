@@ -1,7 +1,7 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/DateString'
 import type PayrollUser from './payroll-user'
-import type UserType from '../../features/user/types/user'
+import type UserType from '../../modules/auth/types/orms/user'
 import type BusinessUnit from './business-unit'
 import type { Transaction } from '../../dataTypes/Transaction'
 

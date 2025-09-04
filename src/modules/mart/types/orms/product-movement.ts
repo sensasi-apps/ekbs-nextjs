@@ -5,7 +5,7 @@ import type { Transaction } from '../../../../dataTypes/Transaction'
 import type ProductMovementDetail from './product-movement-detail'
 import type ProductMovementPurchase from './product-movement-purchase'
 import type ProductMovementCost from './product-movement-cost'
-import type User from '@/features/user/types/user'
+import type User from '@/modules/auth/types/orms/user'
 
 export default interface ProductMovementORM {
     uuid: UUID

@@ -2,7 +2,7 @@ import type BusinessUnit from '@/types/orms/business-unit'
 import type BusinessUnitEnum from '@/enums/BusinessUnit'
 import type { Ymd } from '@/types/DateString'
 
-export default interface Employee {
+export default interface EmployeeORM {
     employee_status_id: EmployeeStatusId
     business_unit_id: BusinessUnitEnum
     joined_at: Ymd

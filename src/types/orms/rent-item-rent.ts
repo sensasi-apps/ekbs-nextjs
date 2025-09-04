@@ -6,7 +6,7 @@ import type File from './file'
 import type { Installment } from '../../dataTypes/Installment'
 import type InventoryItem from './inventory-item'
 import type { Transaction } from '../../dataTypes/Transaction'
-import type UserType from '../../features/user/types/user'
+import type UserType from '../../modules/auth/types/orms/user'
 
 export default interface RentItemRentORM {
     // columns

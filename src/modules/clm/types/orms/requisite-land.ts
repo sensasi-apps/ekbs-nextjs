@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type User from '@/features/user/types/user'
+import type User from '@/modules/auth/types/orms/user'
 // modules
 import type LandORM from '@/modules/clm/types/orms/land'
 import type RequisiteORM from '@/modules/clm/types/orms/requisite'

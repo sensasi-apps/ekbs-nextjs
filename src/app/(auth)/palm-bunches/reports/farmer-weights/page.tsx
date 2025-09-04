@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type User from '@/features/user/types/user'
+import type User from '@/modules/auth/types/orms/user'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'

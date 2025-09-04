@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type UserType from '@/features/user/types/user'
+import type UserType from '@/modules/auth/types/orms/user'
 
 export default interface PayrollUserORM {
     uuid: UUID

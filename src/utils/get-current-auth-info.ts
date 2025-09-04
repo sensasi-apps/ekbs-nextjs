@@ -1,4 +1,4 @@
-import type AuthInfo from '@/features/user--auth/types/auth-info'
+import type AuthInfo from '@/modules/auth/types/auth-info'
 
 export function getCurrentAuthInfo() {
     if (typeof localStorage === 'undefined') {
