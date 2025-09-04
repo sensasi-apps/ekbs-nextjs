@@ -1,10 +1,10 @@
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import Typography from '@mui/material/Typography'
 
 export default function getInstallmentType({
     installmentable_classname,
     installmentable_uuid,
-}: Installment) {
+}: InstallmentORM) {
     let theReturn: string = ''
 
     switch (installmentable_classname) {

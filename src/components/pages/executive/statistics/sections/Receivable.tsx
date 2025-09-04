@@ -1,5 +1,5 @@
 // types
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // vendors
 import { memo } from 'react'
 import useSWR from 'swr'
@@ -17,7 +17,7 @@ import Heading2 from '@/components/pages/executive/statistics/Heading2'
 import numberToCurrency from '@/utils/number-to-currency'
 
 type DataType = {
-    installmentable_classname: Installment['installmentable_classname']
+    installmentable_classname: InstallmentORM['installmentable_classname']
     amount_rp_sum: number
 }
 

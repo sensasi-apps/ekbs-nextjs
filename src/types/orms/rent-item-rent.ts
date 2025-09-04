@@ -2,11 +2,11 @@ import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
 import type ActivityLogType from './activity-log'
 import type FarmerGroupType from './farmer-group'
-import type File from './file'
-import type { Installment } from '../../dataTypes/Installment'
+import type FileORM from './file'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type InventoryItem from './inventory-item'
-import type { Transaction } from '../../dataTypes/Transaction'
-import type UserType from '../../modules/auth/types/orms/user'
+import type { Transaction } from '@/dataTypes/Transaction'
+import type UserType from '@/modules/auth/types/orms/user'
 
 export default interface RentItemRentORM {
     // columns
@@ -31,7 +31,7 @@ export default interface RentItemRentORM {
     inventory_item: InventoryItem
     by_user?: UserType
     transaction?: Transaction
-    installments?: Installment[]
+    installments?: InstallmentORM[]
     installment?: {
         interest_percent: number
         n_term: number
@@ -44,7 +44,7 @@ export default interface RentItemRentORM {
         start_hm?: number
         end_hm?: number
         note?: string
-        file?: File
+        file?: FileORM
     }
     user_activity_logs: ActivityLogType[]
     validated_by_admin_user?: UserType

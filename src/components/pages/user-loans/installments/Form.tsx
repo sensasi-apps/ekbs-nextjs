@@ -2,10 +2,7 @@
 import { CashableClassname } from '@/dataTypes/Transaction'
 import type { UUID } from 'crypto'
 import type { FormikContextType } from 'formik'
-import type {
-    InstallmentUserLoan,
-    InstallmentWithTransactionType,
-} from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type { Ymd } from '@/types/date-string'
 // vendors
 import { memo } from 'react'
@@ -22,6 +19,7 @@ import toDmy from '@/utils/to-dmy'
 import numberToCurrency from '@/utils/number-to-currency'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import LoadingCenter from '@/components/loading-center'
 
 extend(relativeTime)
 
@@ -32,9 +30,8 @@ export default function UserLoanInstallmentForm({
     setFieldValue,
     errors,
 }: FormikContextType<UserLoanInstallmentFormDataType>) {
-    const installment = status?.userLoanInstallment as InstallmentUserLoan &
-        InstallmentWithTransactionType
-    const user = installment.user_loan.user
+    const installment = status?.userLoanInstallment as InstallmentORM
+    const user = installment.user_loan?.user
     const isProcessing = isSubmitting
     const isPaid = Boolean(installment?.transaction)
     const isDisabled = isProcessing || isPaid
@@ -42,6 +39,8 @@ export default function UserLoanInstallmentForm({
     const isPaidWithWallet =
         CashableClassname.UserCash ===
         installment?.transaction?.cashable_classname
+
+    if (!user) return <LoadingCenter />
 
     return (
         <FormikForm

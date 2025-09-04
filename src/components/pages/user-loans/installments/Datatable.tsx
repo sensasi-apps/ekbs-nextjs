@@ -1,12 +1,12 @@
 // vendors
-import { useState, memo } from 'react'
+import { useState, memo, useRef, type RefObject } from 'react'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // components
 import Datatable, {
     type DatatableProps,
-    getRowData,
+    type GetRowDataType,
 } from '@/components/Datatable'
 
 enum UserLoanInstallmentDatatableApiUrlEnum {
@@ -14,81 +14,75 @@ enum UserLoanInstallmentDatatableApiUrlEnum {
     Unpaid = '/user-loans/installments/datatable?status=unpaid',
 }
 
-const UserLoanInstallmentDatatable = memo(
-    function UserLoanInstallmentDatatable({
-        onEdit,
-    }: {
-        onEdit: (userLoan: InstallmentUserLoan) => void
-    }) {
-        const [apiUrl, setApiUrl] = useState(
-            UserLoanInstallmentDatatableApiUrlEnum.Unpaid,
-        )
+let getRowDataGlobal: RefObject<GetRowDataType<InstallmentORM> | undefined>
 
-        return (
-            <>
-                <Box display="flex" gap={1} mb={2}>
-                    <Chip
-                        color={
-                            apiUrl ===
-                            UserLoanInstallmentDatatableApiUrlEnum.All
-                                ? 'success'
-                                : undefined
-                        }
-                        label="Semua"
-                        onClick={() =>
-                            setApiUrl(
-                                UserLoanInstallmentDatatableApiUrlEnum.All,
-                            )
-                        }
-                    />
+export default function UserLoanInstallmentDatatable({
+    onEdit,
+}: {
+    onEdit: (userLoan: InstallmentORM) => void
+}) {
+    const getRowData = useRef<GetRowDataType<InstallmentORM>>(undefined)
+    getRowDataGlobal = getRowData
 
-                    <Chip
-                        color={
-                            apiUrl ===
-                            UserLoanInstallmentDatatableApiUrlEnum.Unpaid
-                                ? 'success'
-                                : undefined
-                        }
-                        label="Belum dibayar"
-                        onClick={() =>
-                            setApiUrl(
-                                UserLoanInstallmentDatatableApiUrlEnum.Unpaid,
-                            )
-                        }
-                    />
-                </Box>
+    const [apiUrl, setApiUrl] = useState(
+        UserLoanInstallmentDatatableApiUrlEnum.Unpaid,
+    )
 
-                <Datatable
-                    title="Daftar Pinjaman"
-                    tableId="disburse-user-loans-datatable"
-                    apiUrl={apiUrl}
-                    onRowClick={(_, { dataIndex }, event) => {
-                        if (event.detail === 2) {
-                            const data =
-                                getRowData<InstallmentUserLoan>(dataIndex)
-
-                            if (data) {
-                                onEdit(data)
-                            }
-                        }
-                    }}
-                    columns={DATATABLE_COLUMNS}
-                    defaultSortOrder={DEFAULT_SORT_ORDER}
+    return (
+        <>
+            <Box display="flex" gap={1} mb={2}>
+                <Chip
+                    color={
+                        apiUrl === UserLoanInstallmentDatatableApiUrlEnum.All
+                            ? 'success'
+                            : undefined
+                    }
+                    label="Semua"
+                    onClick={() =>
+                        setApiUrl(UserLoanInstallmentDatatableApiUrlEnum.All)
+                    }
                 />
 
-                <DatatableInfoBox />
-            </>
-        )
-    },
-)
+                <Chip
+                    color={
+                        apiUrl === UserLoanInstallmentDatatableApiUrlEnum.Unpaid
+                            ? 'success'
+                            : undefined
+                    }
+                    label="Belum dibayar"
+                    onClick={() =>
+                        setApiUrl(UserLoanInstallmentDatatableApiUrlEnum.Unpaid)
+                    }
+                />
+            </Box>
 
-export default UserLoanInstallmentDatatable
+            <Datatable<InstallmentORM>
+                title="Daftar Pinjaman"
+                tableId="disburse-user-loans-datatable"
+                apiUrl={apiUrl}
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data = getRowData?.current?.(dataIndex)
+
+                        if (data) {
+                            onEdit(data)
+                        }
+                    }
+                }}
+                getRowDataCallback={fn => {
+                    getRowData.current = fn
+                }}
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={DEFAULT_SORT_ORDER}
+            />
+
+            <DatatableInfoBox />
+        </>
+    )
+}
 
 import toDmy from '@/utils/to-dmy'
-import type {
-    InstallmentUserLoan,
-    InstallmentWithTransactionType,
-} from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import numberToCurrency from '@/utils/number-to-currency'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -100,7 +94,7 @@ const DEFAULT_SORT_ORDER = {
     direction: 'asc' as const,
 }
 
-const DATATABLE_COLUMNS: DatatableProps['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
@@ -120,8 +114,7 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         label: 'Selisih hari',
         options: {
             customBodyRenderLite: dataIndex => {
-                const installment =
-                    getRowData<InstallmentWithTransactionType>(dataIndex)
+                const installment = getRowDataGlobal.current?.(dataIndex)
 
                 if (!installment) return ''
 
@@ -148,14 +141,16 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
             },
         },
     },
+
     {
         name: 'userLoan.user.name',
         label: 'Kreditur',
         options: {
             customBodyRenderLite: dataIndex =>
-                getRowData<InstallmentUserLoan>(dataIndex)?.user_loan.user.name,
+                getRowDataGlobal.current?.(dataIndex)?.user_loan?.user.name,
         },
     },
+
     {
         name: 'n_th',
         label: 'Angsuran ke-',
@@ -176,13 +171,7 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         name: 'transaction.at',
         label: 'Tanggal Lunas',
         options: {
-            customBodyRenderLite: dataIndex => {
-                const transactionAt =
-                    getRowData<InstallmentWithTransactionType>(dataIndex)
-                        ?.transaction?.at
-
-                return transactionAt ? toDmy(transactionAt) : '-'
-            },
+            customBodyRender: value => (value ? toDmy(value) : '-'),
         },
     },
 ]
@@ -200,7 +189,7 @@ const DatatableInfoBox = memo(function DatatableInfoBox() {
                         component="span">
                         kuning
                     </Typography>{' '}
-                    menandaan bahwa jatuh tempo dalam rentang 7 hari.
+                    menandakan bahwa jatuh tempo dalam rentang 7 hari.
                 </Typography>
                 <Typography variant="caption" component="li">
                     Selisih hari berwarna{' '}
@@ -210,7 +199,7 @@ const DatatableInfoBox = memo(function DatatableInfoBox() {
                         component="span">
                         merah
                     </Typography>{' '}
-                    menandaan bahwa jatuh tempo telah lewat.
+                    menandakan bahwa jatuh tempo telah lewat.
                 </Typography>
             </Box>
         </Box>

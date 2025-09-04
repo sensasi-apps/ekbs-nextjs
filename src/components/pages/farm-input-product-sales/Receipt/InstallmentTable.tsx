@@ -1,5 +1,5 @@
 // types
-import type { InstallmentWithTransactionType } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type { ProductSaleInstallmentType } from '@/dataTypes/ProductSale'
 // vendors
 import { memo } from 'react'
@@ -123,7 +123,7 @@ function InstallmentTableRow({
     base_rp,
     interest_rp,
 }: {
-    data: InstallmentWithTransactionType
+    data: InstallmentORM
     remaining_rp: number
     base_rp: number
     interest_rp: number

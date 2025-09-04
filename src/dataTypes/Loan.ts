@@ -1,13 +1,13 @@
 // vendor types
 import type { UUID } from 'crypto'
 // local types
-import type { Installment } from './Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type { Transaction } from './Transaction'
-import type UserType from '../modules/auth/types/orms/user'
-import type ActivityLogType from '../types/orms/activity-log'
+import type UserType from '@/modules/auth/types/orms/user'
+import type ActivityLogType from '@/types/orms/activity-log'
 import type { Ymd } from '@/types/date-string'
 import type { UserLoanResponse } from './UserLoanResponse'
-import type UserLoanStatusEnum from '../modules/debt/enums/user-loan-status'
+import type UserLoanStatusEnum from '@/modules/debt/enums/user-loan-status'
 
 type NewLoanType = {
     status: UserLoanStatusEnum.WaitingForApproval
@@ -37,7 +37,7 @@ type ActiveLoanType = {
     status: UserLoanStatusEnum.Active
     transaction: Transaction
     is_approved: true
-    installments: Installment[]
+    installments: InstallmentORM[]
     responses: UserLoanResponse[]
 }
 
@@ -45,7 +45,7 @@ type DoneLoanType = {
     status: UserLoanStatusEnum.Finished
     transaction: Transaction
     is_approved: true
-    installments: Installment[]
+    installments: InstallmentORM[]
     responses: UserLoanResponse[]
 }
 

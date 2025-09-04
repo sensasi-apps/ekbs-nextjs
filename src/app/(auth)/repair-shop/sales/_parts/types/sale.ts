@@ -1,4 +1,4 @@
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type { Transaction } from '@/dataTypes/Transaction'
 import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
 import type SaleService from './sale-service'
@@ -36,7 +36,7 @@ type SalePayment =
     | {
           payment_method: 'installment'
           transaction?: never
-          installments: Installment[]
+          installments: InstallmentORM[]
           installment_parent: {
               id: number
               n_term: number

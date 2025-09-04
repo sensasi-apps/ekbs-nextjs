@@ -1,7 +1,7 @@
 import type { DatatableProps } from '@/components/Datatable'
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 
-export const DATATABE_SEARCH_ONLY_COLUMNS: DatatableProps<Installment>['columns'] =
+export const DATATABE_SEARCH_ONLY_COLUMNS: DatatableProps<InstallmentORM>['columns'] =
     [
         {
             name: 'productSale.buyerUser.name',

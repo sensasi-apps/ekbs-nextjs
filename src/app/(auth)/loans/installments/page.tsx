@@ -1,10 +1,7 @@
 'use client'
 
 // types
-import type {
-    InstallmentUserLoan,
-    InstallmentWithTransactionType,
-} from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
@@ -25,16 +22,13 @@ export default function UserLoansInstallmentsPage() {
     const [formData, setFormData] = useState(
         UserLoanInstallmentFormInitialValues,
     )
-    const [userLoanInstallment, setUserLoanInstallment] = useState<
-        (InstallmentUserLoan & InstallmentWithTransactionType) | null
-    >(null)
+    const [userLoanInstallment, setUserLoanInstallment] =
+        useState<InstallmentORM | null>(null)
     const [isOpenDialog, setIsOpenDialog] = useState(false)
 
     const handleClose = () => setIsOpenDialog(false)
 
-    const handleEdit = (
-        data: InstallmentUserLoan & InstallmentWithTransactionType,
-    ) => {
+    const handleEdit = (data: InstallmentORM) => {
         setFormData({
             cashable_cash_uuid: data?.transaction?.cashable_uuid ?? '',
         })

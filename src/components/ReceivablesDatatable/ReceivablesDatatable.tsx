@@ -24,7 +24,7 @@ import { DATATABE_SEARCH_ONLY_COLUMNS } from './hooks/statics'
 import StateFilterChips from './components/StateFilterChips'
 import TypeFilterChips from './components/TypeFilterChips'
 // utils
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import handle422 from '@/utils/handle-422'
 import ReceivablePaymentForm from './PaymentForm'
 import formatNumber from '@/utils/format-number'
@@ -32,8 +32,8 @@ import getInstallmentColor from '@/utils/get-installment-color'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
-let getRowData: GetRowDataType<Installment> = () => undefined
-let mutate: MutateType<Installment>
+let getRowData: GetRowDataType<InstallmentORM> = () => undefined
+let mutate: MutateType<InstallmentORM>
 
 export default function ReceivablesDatatable({
     asManager = false,
@@ -131,7 +131,7 @@ export default function ReceivablesDatatable({
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Installment>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
     {
         name: 'uuid',
         label: 'Kode',

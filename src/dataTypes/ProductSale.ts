@@ -1,12 +1,12 @@
 import type { Ymd } from '@/types/date-string'
 import type { UUID } from 'crypto'
 import type ActivityLogType from '../types/orms/activity-log'
-import type BusinessUnitProductSale from '../types/orms/business-unit-product-sale'
-import type { Installment } from './Installment'
-import type ProductMovementType from '../types/orms/product-movement'
-import type ProductMovementDetail from '../types/orms/product-movement-detail'
+import type BusinessUnitProductSale from '@/types/orms/business-unit-product-sale'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
+import type ProductMovementType from '@/types/orms/product-movement'
+import type ProductMovementDetail from '@/types/orms/product-movement-detail'
 import type { Transaction } from './Transaction'
-import type UserType from '../modules/auth/types/orms/user'
+import type UserType from '@/modules/auth/types/orms/user'
 
 export type ProductSale =
     | ProductSaleCashType
@@ -43,7 +43,7 @@ type BaseType = {
     adjustment_rp?: number
 
     // installment
-    installments?: Installment[]
+    installments?: InstallmentORM[]
     interest_percent?: number
     n_term?: number
     n_term_unit?: 'minggu' | 'bulan'
@@ -61,7 +61,7 @@ export type ProductSaleInstallmentType = BaseType & {
     payment_method: 'installment'
     buyer_user_uuid: UUID
     buyer_user: UserType
-    installments: Installment[]
+    installments: InstallmentORM[]
     interest_percent: number
     n_term: number
     n_term_unit: 'minggu' | 'bulan'

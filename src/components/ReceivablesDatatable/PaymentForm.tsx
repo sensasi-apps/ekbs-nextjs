@@ -1,7 +1,7 @@
 // types
 import type { FormikErrors, FormikProps } from 'formik'
 import type { UUID } from 'crypto'
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type CashType from '@/types/orms/cash'
 // vendors
 import dayjs from 'dayjs'
@@ -46,7 +46,7 @@ export default function ReceivablePaymentForm({
     values: { at, payment_method, cashable_uuid, adjustment_rp },
     status,
     setFieldValue,
-}: Omit<FormikProps<FormValuesType>, 'status'> & { status?: Installment }) {
+}: Omit<FormikProps<FormValuesType>, 'status'> & { status?: InstallmentORM }) {
     const {
         amount_rp,
         should_be_paid_at,
@@ -141,7 +141,7 @@ export default function ReceivablePaymentForm({
     )
 }
 
-function getUserNameFromInstallmentable(data: Installment) {
+function getUserNameFromInstallmentable(data: InstallmentORM) {
     switch (data.installmentable_classname) {
         case 'App\\Models\\ProductSale':
             return data.product_sale?.buyer_user?.name
