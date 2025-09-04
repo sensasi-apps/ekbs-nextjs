@@ -6,7 +6,7 @@ import type { Transaction } from '@/dataTypes/Transaction'
 // orms
 import type ActivityLogORM from '@/types/orms/activity-log'
 // modules
-import type { UserLoanResponse } from '@/dataTypes/UserLoanResponse'
+import type UserLoanResponseORM from '@/modules/installment/types/orms/user-loan-response'
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type UserLoanStatusEnum from '@/modules/installment/enums/user-loan-status'
 // auth modules
@@ -30,5 +30,5 @@ export default interface UserLoanORM {
     transaction?: Transaction
     is_approved?: boolean
     installments?: InstallmentORM[]
-    responses?: UserLoanResponse[]
+    responses?: UserLoanResponseORM[]
 }
