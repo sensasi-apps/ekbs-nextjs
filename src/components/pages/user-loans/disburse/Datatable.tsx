@@ -1,5 +1,5 @@
 // types
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // vendors
 import { useState } from 'react'
 import Chip from '@mui/material/Chip'
@@ -13,7 +13,7 @@ import UserLoanDatatableApiUrlEnum from '../Datatable/ApiUrlEnum'
 function UserLoanDisburseDatatable({
     onEdit,
 }: {
-    onEdit: (userLoan: UserLoanType) => void
+    onEdit: (userLoan: UserLoanORM) => void
 }) {
     const [apiUrl, setApiUrl] = useState(
         UserLoanDatatableApiUrlEnum.ForDisburser,
@@ -53,7 +53,7 @@ function UserLoanDisburseDatatable({
                 apiUrl={apiUrl}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data = getRowData<UserLoanType>(dataIndex)
+                        const data = getRowData<UserLoanORM>(dataIndex)
 
                         if (data) {
                             onEdit(data)

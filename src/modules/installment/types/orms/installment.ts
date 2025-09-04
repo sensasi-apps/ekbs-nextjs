@@ -3,7 +3,7 @@ import type { Ymd } from '@/types/date-string'
 import type { ProductSale } from '@/dataTypes/ProductSale'
 import type RentItemRent from '@/types/orms/rent-item-rent'
 import type { Transaction } from '@/dataTypes/Transaction'
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 
 export default interface InstallmentORM {
     uuid: UUID
@@ -20,8 +20,8 @@ export default interface InstallmentORM {
         | 'App\\Models\\UserLoan'
         | 'App\\Models\\ProductSale'
         | 'App\\Models\\RentItemRent'
-    installmentable?: UserLoanType | ProductSale | RentItemRent
-    user_loan?: UserLoanType
+    installmentable?: UserLoanORM | ProductSale | RentItemRent
+    user_loan?: UserLoanORM
     product_sale?: ProductSale
     rent_item_rent?: RentItemRent
 }

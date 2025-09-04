@@ -1,5 +1,5 @@
 // types
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import type { ReactNode } from 'react'
 import type { BoxProps } from '@mui/material/Box'
 // materials
@@ -17,7 +17,7 @@ export default function UserLoanSummaryBox({
     data: loan,
     ...props
 }: BoxProps & {
-    data: UserLoanType
+    data: UserLoanORM
     isLoading?: boolean
     handleEdit?: () => void
     children?: ReactNode
@@ -69,7 +69,7 @@ export default function UserLoanSummaryBox({
                 {purpose}
             </TypographyWithLabel>
 
-            <UserLoanSummaryBoxReviewers responses={responses} />
+            <UserLoanSummaryBoxReviewers responses={responses ?? []} />
         </Box>
     )
 }

@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import type { FormikConfig } from 'formik'
 import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/types'
 // vendors
@@ -30,7 +30,7 @@ import FlexColumnBox from '@/components/FlexColumnBox'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
-let mutateUserLoans: MutateType<UserLoanType>
+let mutateUserLoans: MutateType<UserLoanORM>
 
 export default function UserLoans() {
     const searchParams = useSearchParams()
@@ -39,7 +39,7 @@ export default function UserLoans() {
     const isAuthHasPermission = useIsAuthHasPermission()
     const [values, setValues] = useState(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
-    const [userLoanFromDb, setUserLoanFromDb] = useState<UserLoanType | null>(
+    const [userLoanFromDb, setUserLoanFromDb] = useState<UserLoanORM | null>(
         null,
     )
 
@@ -49,7 +49,7 @@ export default function UserLoans() {
         setDialogOpen(true)
     }, [])
 
-    const handleEdit = useCallback((values: UserLoanType) => {
+    const handleEdit = useCallback((values: UserLoanORM) => {
         setValues({
             interest_percent: values.interest_percent,
             n_term: values.n_term,
@@ -86,7 +86,7 @@ export default function UserLoans() {
 
     const title = !userLoanFromDb
         ? 'Ajukan Pinjaman Baru'
-        : userLoanFromDb.responses?.length > 0
+        : (userLoanFromDb.responses?.length ?? 0) > 0
           ? 'Rincian Pinjaman'
           : 'Perbarui Pinjaman'
 

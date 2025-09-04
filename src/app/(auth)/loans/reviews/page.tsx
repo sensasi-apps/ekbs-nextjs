@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // vendors
 import { useState } from 'react'
 import { Formik } from 'formik'
@@ -66,7 +66,7 @@ export default function UserLoansReviews() {
 export type FormOpenStateType = {
     isDialogOpen: true
     formData: FormDataType
-    userLoan: UserLoanType
+    userLoan: UserLoanORM
 }
 
 type FormCloseStateType = {

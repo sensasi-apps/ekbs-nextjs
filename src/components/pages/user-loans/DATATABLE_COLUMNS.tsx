@@ -1,5 +1,5 @@
 // types
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // materials
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
@@ -9,7 +9,7 @@ import toDmy from '@/utils/to-dmy'
 import getLoanStatusColor from '@/utils/get-loan-status-color'
 import formatNumber from '@/utils/format-number'
 
-const DATATABLE_COLUMNS: DatatableProps<UserLoanType>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<UserLoanORM>['columns'] = [
     {
         name: 'uuid',
         label: 'uuid',
@@ -38,7 +38,7 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoanType>['columns'] = [
         label: 'Nama',
         options: {
             customBodyRenderLite: dataIndex => {
-                const user = getRowData<UserLoanType>(dataIndex)?.user
+                const user = getRowData<UserLoanORM>(dataIndex)?.user
 
                 if (!user) return ''
 
@@ -58,7 +58,7 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoanType>['columns'] = [
                     textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: UserLoanType['proposed_rp']) =>
+            customBodyRender: (value: UserLoanORM['proposed_rp']) =>
                 formatNumber(value),
         },
     },
@@ -66,7 +66,7 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoanType>['columns'] = [
         name: 'type',
         label: 'Jenis',
         options: {
-            customBodyRender: (value: UserLoanType['type']) => (
+            customBodyRender: (value: UserLoanORM['type']) => (
                 <Chip label={value} size="small" />
             ),
         },
@@ -82,7 +82,7 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoanType>['columns'] = [
         options: {
             searchable: false,
             sort: false,
-            customBodyRender: (value: UserLoanType['status']) => (
+            customBodyRender: (value: UserLoanORM['status']) => (
                 <Typography
                     variant="body2"
                     color={getLoanStatusColor(value, '.main')}
