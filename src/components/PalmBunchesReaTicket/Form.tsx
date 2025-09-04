@@ -27,7 +27,7 @@ import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useValidationErrors from '@/hooks/useValidationErrors'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 // enums
-import Role from '@/enums/role'
+import Role from '@/enums/role-temp'
 import ReaTiketPaymentDetailView from './Form/ReaTiketPaymentDetailView'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 

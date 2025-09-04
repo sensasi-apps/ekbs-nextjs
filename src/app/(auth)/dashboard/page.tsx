@@ -18,7 +18,7 @@ import BigNumberCard, {
 } from '@/components/big-number-card'
 import AlertListCard from '@/components/pages/dashboard/AlertListCard'
 // enums
-import Role from '@/enums/role'
+import Role from '@/enums/role-temp'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'

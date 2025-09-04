@@ -10,7 +10,7 @@ import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import Warehouse from '@mui/icons-material/Warehouse'
 // enums
 import FarmInput from '@/enums/permissions/FarmInput'
-import Role from '@/enums/role'
+import Role from '@/enums/role-temp'
 
 export const farmInputsNavItemGroup: NavItemGroup = {
     label: 'Saprodi',

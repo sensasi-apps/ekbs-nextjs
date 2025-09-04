@@ -18,7 +18,7 @@ import { systemsNavItemGroup } from './systems'
 import { martsNavItemGroup } from './marts'
 import { repairShop } from './repair-shop'
 // enums
-import Role from '@/enums/role'
+import Role from '@/enums/role-temp'
 
 const NAV_ITEM_GROUPS: NavItemGroup[] = [
     {
