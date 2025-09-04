@@ -1,4 +1,4 @@
-import UserLoanStatusEnum from '@/modules/debt/enums/user-loan-status'
+import UserLoanStatusEnum from '@/modules/installment/enums/user-loan-status'
 
 type userLoanStatusColorType = 'warning' | 'success' | 'error' | undefined
 
