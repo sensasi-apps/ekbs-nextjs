@@ -20,7 +20,7 @@ import PageTitle from '@/components/page-title'
 import ChipSmall from '@/components/ChipSmall'
 // parts
 import type { CreateFormValues } from '@/app/(auth)/marts/products/opnames/_parts/form'
-import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
+import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
 import FormDialog from '@/app/(auth)/marts/products/opnames/_parts/form-dialog'
 // utils
 import formatNumber from '@/utils/format-number'

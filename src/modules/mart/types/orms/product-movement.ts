@@ -1,6 +1,6 @@
 import type { UUID } from 'crypto'
-import type Type from '../../../../dataTypes/enums/MartDB/ProductMovements/Type'
-import type Warehouse from '../../../../dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
+import type Type from '../../enums/product-movement-type'
+import type Warehouse from '../../enums/product-warehouse-warehouse'
 import type { Transaction } from '../../../../dataTypes/Transaction'
 import type ProductMovementDetail from './product-movement-detail'
 import type ProductMovementPurchase from './product-movement-purchase'

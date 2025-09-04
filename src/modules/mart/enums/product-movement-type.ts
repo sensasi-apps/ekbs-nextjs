@@ -1,8 +1,8 @@
-enum Type {
+enum ProductMovementType {
     SALE = 'sale',
     PURCHASE = 'purchase',
     OPNAME = 'opname',
     // RETURN = 'return',
 }
 
-export default Type
+export default ProductMovementType
