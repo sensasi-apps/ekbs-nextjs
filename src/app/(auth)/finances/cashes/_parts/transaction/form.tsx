@@ -1,7 +1,7 @@
 // types
 import type { AxiosError } from 'axios'
 import type BusinessUnitCash from '@/types/orms/business-unit-cash'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // vendors
 import { useState } from 'react'
 import {
@@ -59,7 +59,7 @@ export default function TransactionForm({
     status,
     setFieldValue,
 }: FormikProps<FormValuesType>) {
-    const txFromDB = status as Transaction | undefined
+    const txFromDB = status as TransactionORM | undefined
 
     const [validationErrorMsg, setValidationErrorMsg] = useState<string>()
     const [isBuTx, setIsBuTx] = useState<boolean>(Boolean(values.to_cash_uuid))
@@ -434,13 +434,13 @@ export default function TransactionForm({
 }
 
 export type FormValuesType = Partial<{
-    cashable_uuid: Transaction['cashable_uuid']
-    at: Transaction['at']
-    amount: Transaction['amount']
-    desc: Transaction['desc']
-    type: Transaction['type']
-    to_cash_uuid: Transaction['to_cash_uuid']
-    tag: Transaction['tags'][0]['name']['id']
+    cashable_uuid: TransactionORM['cashable_uuid']
+    at: TransactionORM['at']
+    amount: TransactionORM['amount']
+    desc: TransactionORM['desc']
+    type: TransactionORM['type']
+    to_cash_uuid: TransactionORM['to_cash_uuid']
+    tag: TransactionORM['tags'][0]['name']['id']
 }>
 
 export function transactionToFormValues({
@@ -451,7 +451,7 @@ export function transactionToFormValues({
     type,
     to_cash_uuid,
     tags,
-}: Transaction): FormValuesType {
+}: TransactionORM): FormValuesType {
     return {
         cashable_uuid,
         at,

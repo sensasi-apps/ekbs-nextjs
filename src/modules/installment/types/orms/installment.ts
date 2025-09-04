@@ -2,7 +2,7 @@ import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import type RentItemRent from '@/types/orms/rent-item-rent'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 
 export default interface InstallmentORM {
@@ -15,7 +15,7 @@ export default interface InstallmentORM {
     installmentable_uuid: UUID
 
     // relation
-    transaction?: Transaction
+    transaction?: TransactionORM
     installmentable_classname:
         | 'App\\Models\\UserLoan'
         | 'App\\Models\\ProductSale'

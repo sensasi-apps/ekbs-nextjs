@@ -1,9 +1,9 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
 import type PayrollUser from './payroll-user'
-import type UserType from '../../modules/auth/types/orms/user'
-import type BusinessUnit from './business-unit'
-import type { Transaction } from '../../dataTypes/Transaction'
+import type UserORM from '@/modules/auth/types/orms/user'
+import type BusinessUnitORM from './business-unit'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 
 export default interface PayrollORM {
     uuid: UUID
@@ -24,10 +24,10 @@ export default interface PayrollORM {
     final_rp_cache: number
 
     // relations
-    processed_by_user?: UserType
+    processed_by_user?: UserORM
     users?: PayrollUser[]
     cost_shares?: PayrollCostShare[]
-    transaction?: Transaction
+    transaction?: TransactionORM
 }
 
 export type PayrollType = 'pengelola' | 'pengurus' | 'pengawas' | 'pendiri'
@@ -40,6 +40,6 @@ type PayrollCostShare = {
     final_rp_cache: number
 
     // relations
-    business_unit?: BusinessUnit
-    transactions?: Transaction[]
+    business_unit?: BusinessUnitORM
+    transactions?: TransactionORM[]
 }

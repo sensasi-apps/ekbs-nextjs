@@ -1,7 +1,7 @@
 // types
 import type { UUID } from 'crypto'
 import type DebtDetail from '@/types/orms/debt-detail'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // vendors
 import { Field, type FieldProps, type FormikProps } from 'formik'
 // formik
@@ -92,6 +92,6 @@ export default function SettlementForm({
 export type FormValuesType = {
     paid?: DebtDetail['paid']
     rp: DebtDetail['rp']
-    cashable_uuid?: Transaction['cashable_uuid']
-    tag?: Transaction['tags'][0]
+    cashable_uuid?: TransactionORM['cashable_uuid']
+    tag?: TransactionORM['tags'][number]
 }

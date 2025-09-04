@@ -1,5 +1,5 @@
 // types
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // vendors
 // import axios from '@/lib/axios'
 import dayjs from 'dayjs'
@@ -415,12 +415,12 @@ export default function UnitTxForm({
 }
 
 type FormValues = {
-    // uuid?: Transaction['uuid']
-    cashable_uuid?: Transaction['cashable_uuid']
-    at?: Transaction['at']
-    amount?: Transaction['amount']
-    desc?: Transaction['desc']
-    type?: Transaction['type']
-    // to_cash_uuid?: Transaction['to_cash_uuid']
+    // uuid?: TransactionORM['uuid']
+    cashable_uuid?: TransactionORM['cashable_uuid']
+    at?: TransactionORM['at']
+    amount?: TransactionORM['amount']
+    desc?: TransactionORM['desc']
+    type?: TransactionORM['type']
+    // to_cash_uuid?: TransactionORM['to_cash_uuid']
     transaction_tag?: TransactionTag
 }

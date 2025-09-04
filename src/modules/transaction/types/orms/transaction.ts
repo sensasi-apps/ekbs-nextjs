@@ -1,34 +1,15 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
-import type ActivityLogType from '../types/orms/activity-log'
-import type BusinessUnitCash from '../types/orms/business-unit-cash'
-import type CashType from '../types/orms/cash'
-import type PalmBunchType from '../modules/palm-bunch/types/orms/palm-bunch'
-import type PalmBunchesDeliveryType from '../modules/palm-bunch/types/orms/palm-bunches-delivery'
-import type Tag from '../types/orms/tag'
-import type WalletType from '../types/orms/wallet'
-import type FarmerGroupType from '../types/orms/farmer-group'
-// import FarmerGroupType from './FarmerGroup'
+import type ActivityLogType from '@/types/orms/activity-log'
+import type BusinessUnitCash from '@/types/orms/business-unit-cash'
+import type CashType from '@/types/orms/cash'
+import type PalmBunchType from '@/modules/palm-bunch/types/orms/palm-bunch'
+import type PalmBunchesDeliveryType from '@/modules/palm-bunch/types/orms/palm-bunches-delivery'
+import type Tag from '@/types/orms/tag'
+import type WalletType from '@/types/orms/wallet'
+import type FarmerGroupType from '@/types/orms/farmer-group'
 
-type TransferType =
-    | {
-          type: 'transfer'
-          is_transaction_destination: false
-          to_cash_uuid: UUID
-      }
-    | {
-          type: 'transfer'
-          is_transaction_destination: true
-          to_cash_uuid: null
-      }
-
-type NonTransferType = {
-    type: 'income' | 'expense'
-    is_transaction_destination: false
-    to_cash_uuid: null
-}
-
-export type Transaction = {
+export default interface Transaction {
     uuid: UUID
     amount: number
     at: Ymd
@@ -61,7 +42,9 @@ export type Transaction = {
         farmer_group_uuid: UUID
         farmer_group: FarmerGroupType
     }
-} & (TransferType | NonTransferType)
+
+    to_cash_uuid: null | UUID
+}
 
 export enum CashableClassname {
     Cash = 'App\\Models\\Cash',
@@ -69,7 +52,7 @@ export enum CashableClassname {
     BusinessUnitCash = 'App\\Models\\BusinessUnitCash',
 }
 
-type CashTransfer = {
+interface CashTransfer {
     from_transaction_uuid: UUID
     to_transaction_uuid: UUID
 

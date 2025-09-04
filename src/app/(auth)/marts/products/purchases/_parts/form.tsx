@@ -1,6 +1,6 @@
 // types
 import type ProductMovement from '@/modules/mart/types/orms/product-movement'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type ProductMovementPurchase from '@/modules/mart/types/orms/product-movement-purchase'
 import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
 // vendors
@@ -217,7 +217,7 @@ export type FormValues = Partial<{
 
     received: ProductMovementPurchase['received']
     paid: ProductMovementPurchase['paid']
-    cashable_uuid: Transaction['cashable_uuid']
+    cashable_uuid: TransactionORM['cashable_uuid']
 
     details: {
         product: ProductMovementDetail['product']

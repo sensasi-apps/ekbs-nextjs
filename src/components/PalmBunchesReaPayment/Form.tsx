@@ -1,5 +1,5 @@
 // types
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type FormType from '@/components/Global/Form/type'
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 import type PalmBunchesReaPaymentDataType from '@/modules/palm-bunch/types/orms/palm-bunches-rea-payment'
@@ -429,7 +429,7 @@ export default function PalmBuncesReaPaymentForm({
                                     {
                                         desc: '',
                                         amount: 0,
-                                    } as Transaction,
+                                    } as TransactionORM,
                                 ])
                             }}
                             startIcon={<AddIcon />}>

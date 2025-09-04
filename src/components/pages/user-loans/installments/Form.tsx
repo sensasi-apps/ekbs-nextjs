@@ -1,5 +1,5 @@
 // types
-import { CashableClassname } from '@/dataTypes/Transaction'
+import { CashableClassname } from '@/modules/transaction/types/orms/transaction'
 import type { UUID } from 'crypto'
 import type { FormikContextType } from 'formik'
 import type InstallmentORM from '@/modules/installment/types/orms/installment'

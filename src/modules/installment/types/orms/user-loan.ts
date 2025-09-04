@@ -2,9 +2,9 @@
 import type { UUID } from 'crypto'
 // local types
 import type { Ymd } from '@/types/date-string'
-import type { Transaction } from '@/dataTypes/Transaction'
 // orms
 import type ActivityLogORM from '@/types/orms/activity-log'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // modules
 import type UserLoanResponseORM from '@/modules/installment/types/orms/user-loan-response'
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
@@ -27,7 +27,7 @@ export default interface UserLoanORM {
     activity_logs: ActivityLogORM[]
 
     status: UserLoanStatusEnum
-    transaction?: Transaction
+    transaction?: TransactionORM
     is_approved?: boolean
     installments?: InstallmentORM[]
     responses?: UserLoanResponseORM[]

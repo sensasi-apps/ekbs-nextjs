@@ -1,11 +1,14 @@
 import type { UUID } from 'crypto'
-import type Type from '../../enums/product-movement-type'
-import type Warehouse from '../../enums/product-warehouse-warehouse'
-import type { Transaction } from '../../../../dataTypes/Transaction'
-import type ProductMovementDetail from './product-movement-detail'
-import type ProductMovementPurchase from './product-movement-purchase'
-import type ProductMovementCost from './product-movement-cost'
-import type User from '@/modules/auth/types/orms/user'
+// mart
+import type Type from '@/modules/mart/enums/product-movement-type'
+import type Warehouse from '@/modules/mart/enums/product-warehouse-warehouse'
+import type ProductMovementDetailORM from '@/modules/mart/types/orms/product-movement-detail'
+import type ProductMovementPurchaseORM from '@/modules/mart/types/orms/product-movement-purchase'
+import type ProductMovementCostORM from '@/modules/mart/types/orms/product-movement-cost'
+//
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+//
+import type UserORM from '@/modules/auth/types/orms/user'
 
 export default interface ProductMovementORM {
     uuid: UUID
@@ -20,9 +23,9 @@ export default interface ProductMovementORM {
     short_uuid: string
 
     // relations
-    costs: ProductMovementCost[]
-    details: ProductMovementDetail[]
-    transaction?: Transaction
-    purchase?: ProductMovementPurchase
-    by_user?: User
+    costs: ProductMovementCostORM[]
+    details: ProductMovementDetailORM[]
+    transaction?: TransactionORM
+    purchase?: ProductMovementPurchaseORM
+    by_user?: UserORM
 }

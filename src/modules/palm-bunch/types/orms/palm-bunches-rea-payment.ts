@@ -1,8 +1,8 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
-import type FileType from '../../../../types/orms/file'
-import type { Transaction } from '../../../../dataTypes/Transaction'
-import type PalmBunchesReaPaymentDetail from './palm-bunch-rea-payment-detail'
+import type FileType from '@/types/orms/file'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+import type PalmBunchesReaPaymentDetail from '@/modules/palm-bunch/types/orms/palm-bunch-rea-payment-detail'
 
 export default interface PalmBunchesReaPaymentDataORM {
     uuid: UUID
@@ -13,8 +13,8 @@ export default interface PalmBunchesReaPaymentDataORM {
     incentive_rp: number
     net_rp: number
     excel_file: FileType
-    transaction_drafts: Transaction[]
-    transactions: Transaction[]
+    transaction_drafts: TransactionORM[]
+    transactions: TransactionORM[]
     details: PalmBunchesReaPaymentDetail[]
 
     n_tickets?: number

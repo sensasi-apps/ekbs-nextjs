@@ -5,7 +5,7 @@ import type BusinessUnitProductSaleORM from '@/types/orms/business-unit-product-
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type ProductMovementORM from '@/types/orms/product-movement'
 import type ProductMovementDetailORM from '@/types/orms/product-movement-detail'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type UserORM from '@/modules/auth/types/orms/user'
 
 export default interface ProductSaleORM {
@@ -36,7 +36,7 @@ export default interface ProductSaleORM {
     refund_product_sale: ProductSaleORM | null
 
     // cash
-    transaction?: Transaction
+    transaction?: TransactionORM
     adjustment_rp?: number
 
     // installment

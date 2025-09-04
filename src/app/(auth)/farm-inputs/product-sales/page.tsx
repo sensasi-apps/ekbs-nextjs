@@ -37,7 +37,7 @@ import numberToCurrency from '@/utils/number-to-currency'
 import PrintHandler from '@/components/PrintHandler'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // enums
-import { CashableClassname } from '@/dataTypes/Transaction'
+import { CashableClassname } from '@/modules/transaction/types/orms/transaction'
 import FarmInputPermission from '@/enums/permissions/FarmInput'
 import Role from '@/enums/role'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'

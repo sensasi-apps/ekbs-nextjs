@@ -1,6 +1,6 @@
 // types
 import type { ApiResponseType } from '../TxHistory'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type { ReactNode } from 'react'
 // materials
 import Box from '@mui/material/Box'
@@ -15,7 +15,7 @@ import TransactionTag from '@/modules/transaction/enums/transaction-tag'
 // utils
 import formatNumber from '@/utils/format-number'
 
-type TxsGroup = { name: string; data: Transaction[] }
+type TxsGroup = { name: string; data: TransactionORM[] }
 
 const TRANSPORT_STRING_TAGS = [
     TransactionTag.PELUNASAN_BIAYA_ANGKUT,
@@ -322,7 +322,7 @@ function getTotalAndData(
     data: ApiResponseType,
     section: 'tbs' | 'delivery' | 'gajian_tbs' | 'etc',
 ) {
-    let txs: Transaction[] = []
+    let txs: TransactionORM[] = []
     let kgTotal = 0
 
     switch (section) {

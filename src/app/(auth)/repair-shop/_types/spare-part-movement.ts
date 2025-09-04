@@ -1,7 +1,7 @@
-import type { Transaction } from '@/dataTypes/Transaction'
-import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+import type SparePartORM from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
 
-export default interface SparePartMovement {
+export default interface SparePartMovementORM {
     uuid: string
     at: string
     finalized_at: string | null
@@ -15,10 +15,10 @@ export default interface SparePartMovement {
     created_at: string
     updated_at: string
 
-    state: SparePart
+    state: SparePartORM
 
     // relations
-    transaction?: Transaction
+    transaction?: TransactionORM
     details: Detail[]
     costs: []
 }
@@ -26,19 +26,19 @@ export default interface SparePartMovement {
 interface Detail {
     id: number
 
-    spare_part_movement_uuid: SparePartMovement['uuid']
+    spare_part_movement_uuid: SparePartMovementORM['uuid']
 
     /**
      * relation
      */
-    spare_part_movement?: SparePartMovement
+    spare_part_movement?: SparePartMovementORM
 
-    spare_part_id: SparePart['id']
-    spare_part: SparePart
+    spare_part_id: SparePartORM['id']
+    spare_part: SparePartORM
 
     qty: number
     rp_per_unit: number
     cost_rp_per_unit: number
 
-    spare_part_state: SparePart | null
+    spare_part_state: SparePartORM | null
 }
