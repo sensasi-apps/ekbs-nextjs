@@ -41,7 +41,7 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 // import errorCatcher from '@/utils/errorCatcher'
 import TransactionTag from '@/features/transaction/enums/transaction-tag'
 import getUnitTxTags from '@/utils/get-unit-tx-tags'
-import BusinessUnit from '@/enums/BusinessUnit'
+import BusinessUnit from '@/enums/business-unit'
 
 export default function UnitTxForm({
     dirty,

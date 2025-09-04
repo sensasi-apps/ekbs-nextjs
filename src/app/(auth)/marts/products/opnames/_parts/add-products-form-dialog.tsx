@@ -20,7 +20,7 @@ import type LaravelValidationException from '@/types/laravel-validation-exceptio
 import type Product from '@/modules/mart/types/orms/product'
 import IconButton from '@/components/IconButton'
 import TextField from '@/components/TextField'
-import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 import axios from '@/lib/axios'
 
 export default function AddProductFormDialog({

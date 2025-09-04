@@ -5,9 +5,9 @@ import type RegencyType from '../types/orms/regency'
 import type DistrictType from '../types/orms/district'
 import type VillageType from '../types/orms/village'
 // enums
-import type EducationEnum from './enums/Education'
-import type GenderEnum from './enums/Gender'
-import type MaritalStatusEnum from './enums/MaritalStatus'
+import type EducationEnum from '../enums/education'
+import type GenderEnum from '../enums/gender'
+import type MaritalStatusEnum from '../enums/marital-status'
 
 // type UserDetailType = UserDetailDBType | UserDetailDBTypeWithRelations
 // export default UserDetailType

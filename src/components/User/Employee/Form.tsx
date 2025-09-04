@@ -15,7 +15,7 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import DatePicker from '@/components/DatePicker'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import BusinessUnit from '@/enums/BusinessUnit'
+import BusinessUnit from '@/enums/business-unit'
 // functions
 import { toYmd } from '@/utils/to-ymd'
 // features

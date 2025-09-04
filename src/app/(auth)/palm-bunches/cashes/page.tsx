@@ -1,7 +1,7 @@
 import PageTitle from '@/components/page-title'
 import UnitTxs from '@/components/UnitTxs'
 // enums
-import BusinessUnit from '@/enums/BusinessUnit'
+import BusinessUnit from '@/enums/business-unit'
 
 export default function Cashes() {
     return (

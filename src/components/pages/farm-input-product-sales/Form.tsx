@@ -49,8 +49,8 @@ import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums
 import type ProductMovement from '@/types/orms/product-movement'
-import Role from '@/enums/Role'
-import Warehouse from '@/enums/Warehouse'
+import Role from '@/enums/role'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 

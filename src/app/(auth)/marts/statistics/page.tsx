@@ -32,7 +32,7 @@ import NumericFormat from '@/components/NumericFormat'
 //
 import type Product from '@/modules/mart/types/orms/product'
 // enums
-import Statistic from '@/enums/ApiUrl/Mart/Statistic'
+import Statistic from '@/modules/mart/enums/statistic-api-url'
 // utils
 import formatNumber from '@/utils/format-number'
 

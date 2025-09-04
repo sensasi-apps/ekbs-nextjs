@@ -27,7 +27,7 @@ import IconButton from '@/components/IconButton'
 import PrintHandler from '@/components/PrintHandler'
 import PageTitle from '@/components/page-title'
 // enums
-import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 // utils
 import aoaToXlsx from '@/utils/aoa-to-xlsx'
 import formatNumber from '@/utils/format-number'

@@ -22,7 +22,7 @@ import LineChart from '@/components/Chart/Line'
 import PageTitle from '@/components/page-title'
 import StatCard from '@/components/StatCard'
 // utils
-import Role from '@/enums/Role'
+import Role from '@/enums/role'
 import BigNumberCard, {
     type BigNumberCardProps,
 } from '@/components/big-number-card'

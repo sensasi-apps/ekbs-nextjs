@@ -7,7 +7,7 @@ import type UserType from '../modules/auth/types/orms/user'
 import type ActivityLogType from '../types/orms/activity-log'
 import type { Ymd } from '@/types/DateString'
 import type { UserLoanResponse } from './UserLoanResponse'
-import type UserLoanStatusEnum from './UserLoan/StatusEnum'
+import type UserLoanStatusEnum from '../modules/debt/enums/user-loan-status'
 
 type NewLoanType = {
     status: UserLoanStatusEnum.WaitingForApproval

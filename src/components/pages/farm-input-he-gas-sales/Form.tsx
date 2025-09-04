@@ -32,7 +32,7 @@ import debounce from '@/utils/debounce'
 import numberToCurrency from '@/utils/number-to-currency'
 // enums
 import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
-import Warehouse from '@/enums/Warehouse'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 
 export type FormValues = Partial<{
     is_paid: boolean

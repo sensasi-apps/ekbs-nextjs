@@ -20,7 +20,7 @@ import BackButton from '@/components/back-button'
 import PrintHandler from '@/components/PrintHandler'
 // parts
 import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
-import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 import AddProductFormDialog from '@/app/(auth)/marts/products/opnames/_parts/add-products-form-dialog'
 import DetailTable from '@/app/(auth)/marts/products/opnames/_parts/detail-table'
 import SummaryTable from '@/app/(auth)/marts/products/opnames/_parts/summary-table'

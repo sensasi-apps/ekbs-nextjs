@@ -1,7 +1,7 @@
 /**
  * Enum for user roles
  */
-enum Role {
+enum RoleEnum {
     // general
     COURIER = 'courier',
     DRIVER = 'driver',
@@ -53,4 +53,4 @@ enum Role {
     CLM_ADMIN = 'clm admin',
 }
 
-export default Role
+export default RoleEnum

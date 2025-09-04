@@ -27,7 +27,7 @@ import formatNumber from '@/utils/format-number'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums
-import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 import Mart from '@/enums/permissions/Mart'
 
 let getRowData: GetRowDataType<ProductMovementOpname>

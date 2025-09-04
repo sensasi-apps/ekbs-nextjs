@@ -41,7 +41,7 @@ import UserLoanInstallmentDialog from './InstallmentDialog'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import Role from '@/enums/Role'
+import Role from '@/enums/role'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

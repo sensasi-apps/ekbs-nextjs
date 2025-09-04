@@ -27,7 +27,7 @@ import { EMPTY_FORM_DATA } from '../Form'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import numberToCurrency from '@/utils/number-to-currency'
 import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
-import Warehouse from '@/enums/Warehouse'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 
 const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
     warehouse,
