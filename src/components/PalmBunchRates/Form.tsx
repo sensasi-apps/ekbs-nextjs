@@ -1,8 +1,8 @@
 // types
 import type { Ymd } from '@/types/date-string'
 import type { Mutate } from '../Datatable/@types'
-import type { PalmBunchRateType } from '@/dataTypes/PalmBunchRate'
-import type PalmBunchRateValidDateType from '@/types/orms/palm-bunch-rate-valid-date'
+import type PalmBunchRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-rate'
+import type PalmBunchRateValidDateORM from '@/modules/palm-bunch/types/orms/palm-bunch-rate-valid-date'
 // vendors
 import { useEffect, useState } from 'react'
 import dayjs, { type Dayjs } from 'dayjs'
@@ -37,7 +37,7 @@ const getEmptyRates = () =>
         type,
     }))
 
-let temp: PalmBunchRateValidDateType | undefined
+let temp: PalmBunchRateValidDateORM | undefined
 
 export default function PalmBunchRatesForm({
     parentDatatableMutator,
@@ -45,7 +45,7 @@ export default function PalmBunchRatesForm({
     parentDatatableMutator: Mutate
 }) {
     const { data, setData, loading, isDirty, handleClose, setSubmitting } =
-        useFormData<PalmBunchRateValidDateType>()
+        useFormData<PalmBunchRateValidDateORM>()
     const { id, valid_from, rates } = data
 
     const { validationErrors, setValidationErrors, clearByName } =
@@ -53,7 +53,7 @@ export default function PalmBunchRatesForm({
     const [validFrom, setValidFrom] = useState(
         valid_from ? dayjs(valid_from) : null,
     )
-    const [ratesState, setRatesState] = useState<PalmBunchRateType[]>(
+    const [ratesState, setRatesState] = useState<PalmBunchRateORM[]>(
         rates ??
             types.map(type => ({
                 type: type,

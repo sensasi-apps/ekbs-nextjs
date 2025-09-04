@@ -1,7 +1,7 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
-import type FileType from './file'
-import type { Transaction } from '../../dataTypes/Transaction'
+import type FileType from '../../../../types/orms/file'
+import type { Transaction } from '../../../../dataTypes/Transaction'
 import type PalmBunchesReaPaymentDetail from './palm-bunch-rea-payment-detail'
 
 export default interface PalmBunchesReaPaymentDataORM {

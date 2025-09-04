@@ -15,8 +15,8 @@ export default function PalmBunchesRates() {
 }
 
 // types
-import type { PalmBunchRateType } from '@/dataTypes/PalmBunchRate'
-import type PalmBunchRateValidDateType from '@/types/orms/palm-bunch-rate-valid-date'
+import type PalmBunchRateType from '@/modules/palm-bunch/types/orms/palm-bunch-rate'
+import type PalmBunchRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-rate-valid-date'
 // vendors
 import Fab from '@mui/material/Fab'
 import SellIcon from '@mui/icons-material/Sell'

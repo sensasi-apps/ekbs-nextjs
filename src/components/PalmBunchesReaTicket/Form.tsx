@@ -1,6 +1,6 @@
 // types
 import type { FormEvent } from 'react'
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 import type FormType from '@/components/Global/Form/type'
 import type ActivityLogType from '@/types/orms/activity-log'
 // vendors

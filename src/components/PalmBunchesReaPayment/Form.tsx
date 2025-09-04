@@ -2,7 +2,7 @@
 import type { Transaction } from '@/dataTypes/Transaction'
 import type FormType from '@/components/Global/Form/type'
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
-import type PalmBunchesReaPaymentDataType from '@/types/orms/palm-bunches-rea-payment'
+import type PalmBunchesReaPaymentDataType from '@/modules/palm-bunch/types/orms/palm-bunches-rea-payment'
 // vendors
 import React, { type ChangeEvent, useState } from 'react'
 import axios from '@/lib/axios'

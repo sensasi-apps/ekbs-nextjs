@@ -1,5 +1,5 @@
 // types
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // vendors
 import { useState, useEffect } from 'react'
 // materials
@@ -23,7 +23,7 @@ export default function SpbNoInput({
     disabled: boolean
     clearByName: (name: string) => void
 }) {
-    const { data, setData } = useFormData<PalmBunchesReaTicket>()
+    const { data, setData } = useFormData<PalmBunchesReaTicketORM>()
     const [internalValue, setInternalValue] = useState(data.spb_no ?? '')
 
     useEffect(() => {

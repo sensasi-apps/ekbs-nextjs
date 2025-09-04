@@ -2,7 +2,7 @@
 
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
-export default function PalmBuncesDeliveryRates() {
+export default function PalmBunchesDeliveryRates() {
     return (
         <>
             <PageTitle title="Tarif Angkut" />
@@ -14,8 +14,8 @@ export default function PalmBuncesDeliveryRates() {
 }
 
 // types
-import type PalmBunchDeliveryRateValidDateType from '@/types/orms/palm-bunch-delivery-rate-valid-date'
-import type { PalmBunchDeliveryRateType } from '@/dataTypes/PalmBunchDeliveryRate'
+import type PalmBunchDeliveryRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
+import type PalmBunchDeliveryRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate'
 // vendors
 import Fab from '@mui/material/Fab'
 import SellIcon from '@mui/icons-material/Sell'
@@ -75,7 +75,7 @@ function Crud() {
             options: {
                 searchable: false,
                 sort: false,
-                customBodyRender: (rates: PalmBunchDeliveryRateType[]) => (
+                customBodyRender: (rates: PalmBunchDeliveryRateORM[]) => (
                     <ul
                         style={{
                             margin: 0,

@@ -1,4 +1,4 @@
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 
 import { type FC, useEffect, useState } from 'react'
 import { PatternFormat } from 'react-number-format'
@@ -14,7 +14,7 @@ const AsFarmLandIdInput: FC<{
     validationErrors: LaravelValidationExceptionResponse['errors']
     clearByName: (name: string) => void
 }> = ({ disabled, validationErrors, clearByName }) => {
-    const { data, setData } = useFormData<PalmBunchesReaTicket>()
+    const { data, setData } = useFormData<PalmBunchesReaTicketORM>()
     const [asFarmLandId, setAsFarmLandId] = useState<string>(
         data.as_farm_land_id ?? '',
     )

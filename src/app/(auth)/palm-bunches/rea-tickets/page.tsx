@@ -1,8 +1,8 @@
 'use client'
 
 import type { UUID } from 'crypto'
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
-import type PalmBunchType from '@/types/orms/palm-bunch'
+import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
+import type PalmBunchType from '@/modules/palm-bunch/types/orms/palm-bunch'
 import type Land from '@/modules/clm/types/orms/land'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'

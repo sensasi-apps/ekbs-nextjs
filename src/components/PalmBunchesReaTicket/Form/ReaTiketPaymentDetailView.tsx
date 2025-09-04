@@ -1,6 +1,6 @@
 // types
 import type { Ymd } from '@/types/date-string'
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // materials
 import Box from '@mui/material/Box'
 import Tooltip from '@mui/material/Tooltip'
@@ -13,7 +13,7 @@ import toDmy from '@/utils/to-dmy'
 export default function ReaTiketPaymentDetailView({
     data,
 }: {
-    data: PalmBunchesReaTicket
+    data: PalmBunchesReaTicketORM
 }) {
     if (!data?.payment_detail) return null
 
