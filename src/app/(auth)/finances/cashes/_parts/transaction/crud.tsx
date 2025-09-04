@@ -1,5 +1,5 @@
 // types
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type { OnRowClickType } from '@/components/Datatable'
 import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
 import type { Transaction } from '@/dataTypes/Transaction'

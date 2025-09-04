@@ -41,7 +41,7 @@ import TextFieldFastableComponent from '@/components/TextField/FastableComponent
 import UserActivityLogs from '@/components/UserActivityLogs'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import txAccounts from '../../../../../../features/transaction/statics/tx-accounts'
+import txAccounts from '@/modules/transaction/statics/tx-accounts'
 import handle422 from '@/utils/handle-422'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import shortUuid from '@/utils/short-uuid'

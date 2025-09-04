@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import txAccounts from '@/features/transaction/statics/tx-accounts'
+import txAccounts from '@/modules/transaction/statics/tx-accounts'
 
 /**
  * DON'T FORGET TO SYNC WITH {@link txAccounts | `txAccounts`}

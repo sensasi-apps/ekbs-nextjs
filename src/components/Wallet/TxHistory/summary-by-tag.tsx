@@ -11,7 +11,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 // enums
-import TransactionTag from '@/features/transaction/enums/transaction-tag'
+import TransactionTag from '@/modules/transaction/enums/transaction-tag'
 // utils
 import formatNumber from '@/utils/format-number'
 

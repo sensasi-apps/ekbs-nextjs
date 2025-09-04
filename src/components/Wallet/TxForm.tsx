@@ -25,7 +25,7 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
 import DatePicker from '../DatePicker'
 import TextFieldFastableComponent from '../TextField/FastableComponent'
-import TransactionTag from '@/features/transaction/enums/transaction-tag'
+import TransactionTag from '@/modules/transaction/enums/transaction-tag'
 import dayjs from 'dayjs'
 
 export default function WalletTxForm({

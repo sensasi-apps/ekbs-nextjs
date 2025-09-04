@@ -1,5 +1,5 @@
 // types
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type CashType from '@/types/orms/cash'
 import type { UserLoanType } from '@/dataTypes/Loan'
 // vendors

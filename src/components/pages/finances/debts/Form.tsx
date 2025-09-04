@@ -1,7 +1,7 @@
 // types
 import type { Dispatch, SetStateAction } from 'react'
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type Debt from '@/types/orms/debt'
 import type DebtDetail from '@/types/orms/debt-detail'
 // vendors

@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type ActivityLogType from './activity-log'
 import type FarmerGroupType from './farmer-group'
 import type File from './file'

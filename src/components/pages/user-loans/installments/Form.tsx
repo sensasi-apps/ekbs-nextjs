@@ -6,7 +6,7 @@ import type {
     InstallmentUserLoan,
     InstallmentWithTransactionType,
 } from '@/dataTypes/Installment'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 // vendors
 import { memo } from 'react'
 import Box from '@mui/material/Box'

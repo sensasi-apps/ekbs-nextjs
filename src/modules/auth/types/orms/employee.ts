@@ -1,6 +1,6 @@
 import type BusinessUnit from '@/types/orms/business-unit'
 import type BusinessUnitEnum from '@/enums/business-unit'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 
 export default interface EmployeeORM {
     employee_status_id: EmployeeStatusId

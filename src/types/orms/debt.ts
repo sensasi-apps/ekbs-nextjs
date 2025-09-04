@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type BusinessUnit from './business-unit'
 import type InterestUnit from '../../modules/debt/enums/debt-interest-unit'
 import type TermUnit from '../../modules/debt/enums/deb-term-unit'

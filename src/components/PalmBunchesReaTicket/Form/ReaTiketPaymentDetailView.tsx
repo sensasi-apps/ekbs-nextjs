@@ -1,5 +1,5 @@
 // types
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
 // materials
 import Box from '@mui/material/Box'

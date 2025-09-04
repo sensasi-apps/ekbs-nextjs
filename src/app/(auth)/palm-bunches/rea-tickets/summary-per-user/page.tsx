@@ -1,6 +1,6 @@
 'use client'
 
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'

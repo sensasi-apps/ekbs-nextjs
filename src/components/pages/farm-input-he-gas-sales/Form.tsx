@@ -1,7 +1,7 @@
 // types
 import type { FormikProps } from 'formik'
 import type Product from '@/types/orms/product'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type YajraDatatable from '@/types/yajra-datatable-response'
 import type InventoryItem from '@/types/orms/inventory-item'
 import type { UUID } from 'crypto'

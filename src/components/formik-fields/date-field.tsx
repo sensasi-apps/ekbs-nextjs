@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type { TextFieldProps } from '@mui/material/TextField'
 // vendors
 import { Field, type FieldProps } from 'formik'

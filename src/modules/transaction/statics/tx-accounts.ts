@@ -1,4 +1,4 @@
-import TransactionTag from '@/features/transaction/enums/transaction-tag'
+import TransactionTag from '@/modules/transaction/enums/transaction-tag'
 
 /**
  * DON'T FORGET TO SYNC WITH {@link TransactionTag | `TransactionTag`}

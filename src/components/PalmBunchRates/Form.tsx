@@ -1,5 +1,5 @@
 // types
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type { Mutate } from '../Datatable/@types'
 import type { PalmBunchRateType } from '@/dataTypes/PalmBunchRate'
 import type PalmBunchRateValidDateType from '@/types/orms/palm-bunch-rate-valid-date'

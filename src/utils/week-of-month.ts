@@ -1,4 +1,4 @@
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import dayjs, { Dayjs } from 'dayjs'
 
 /**

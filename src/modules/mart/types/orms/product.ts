@@ -1,4 +1,4 @@
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type Warehouse from '../../enums/product-warehouse-warehouse'
 
 export default interface ProductORM {
