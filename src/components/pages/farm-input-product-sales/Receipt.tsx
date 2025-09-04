@@ -1,5 +1,5 @@
 // types
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import type { ReactNode } from 'react'
 // vendors
 import { memo } from 'react'
@@ -18,7 +18,7 @@ import dayjs from 'dayjs'
 const ProductSaleReceipt = memo(function ProductSaleReceipt({
     data,
 }: {
-    data: ProductSale
+    data: ProductSaleORM
 }) {
     const {
         uuid,

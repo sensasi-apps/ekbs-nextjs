@@ -1,5 +1,5 @@
 import ChipSmall from '@/components/ChipSmall'
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import globalFormatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 import ucWords from '@/utils/uc-words'
@@ -24,7 +24,7 @@ function TableRow({
     },
     no,
 }: {
-    data: ProductSale
+    data: ProductSaleORM
     no: number
 }) {
     const totalBaseCostRp = product_movement_details.reduce(

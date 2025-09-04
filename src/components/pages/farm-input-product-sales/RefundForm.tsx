@@ -1,6 +1,6 @@
 // types
 import type { MutateType } from '@/components/Datatable'
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // vendors
 import { useState } from 'react'
@@ -19,8 +19,8 @@ export default function RefundForm({
     data,
     mutate,
 }: {
-    data: ProductSale
-    mutate: MutateType<ProductSale>
+    data: ProductSaleORM
+    mutate: MutateType<ProductSaleORM>
 }) {
     const isAuthHasPermission = useIsAuthHasPermission()
     const [isRefunding, setIsRefunding] = useState(false)

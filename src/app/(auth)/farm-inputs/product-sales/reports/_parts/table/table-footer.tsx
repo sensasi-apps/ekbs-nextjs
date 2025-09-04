@@ -3,14 +3,14 @@ import MuiTableFooter from '@mui/material/TableFooter'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import globalFormatNumber from '@/utils/format-number'
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import ChipSmall from '@/components/ChipSmall'
 
 const LEFT_BORDER_STYLE = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
 }
 
-function TableFooter({ data }: { data: ProductSale[] }) {
+function TableFooter({ data }: { data: ProductSaleORM[] }) {
     const baseCostTotalRp = data.reduce(
         (acc, row) =>
             acc +

@@ -9,7 +9,7 @@ import IconButton from '@/components/IconButton'
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import RefreshIcon from '@mui/icons-material/Refresh'
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import aoaToXlsx from '@/utils/aoa-to-xlsx'
 
 const MAX_DATE = dayjs().endOf('month')
@@ -20,7 +20,7 @@ export default function FiltersBox({
     disabled,
     onRefresh,
 }: {
-    data: ProductSale[]
+    data: ProductSaleORM[]
     disabled: boolean
     onRefresh: () => void
 }) {
@@ -129,7 +129,7 @@ export default function FiltersBox({
     )
 }
 
-function handleDownloadExcel(data: ProductSale[], fileName: string) {
+function handleDownloadExcel(data: ProductSaleORM[], fileName: string) {
     const rows = data.flatMap(item => {
         const adjustedTotalRp = item.total_rp - item.total_base_rp
 

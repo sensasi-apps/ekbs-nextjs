@@ -8,7 +8,7 @@ import type {
     OnRowClickType,
 } from '@/components/Datatable'
 import type ProductMovementDetail from '@/types/orms/product-movement-detail'
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
@@ -46,8 +46,8 @@ import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
-let getRowData: GetRowDataType<ProductSale>
-let mutate: MutateType<ProductSale>
+let getRowData: GetRowDataType<ProductSaleORM>
+let mutate: MutateType<ProductSaleORM>
 
 export default function FarmInputProductSales() {
     const isAuthHasPermission = useIsAuthHasPermission()
@@ -267,7 +267,7 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
     </ul>
 )
 
-const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
