@@ -7,7 +7,7 @@ import Note from '@mui/icons-material/Note'
 import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle'
 import TicketIcon from '@mui/icons-material/LocalActivity'
 // enums
-import Role from '@/enums/role-temp'
+import Role from '@/enums/role'
 
 export const supermans: NavItemGroup = {
     label: 'Superman',

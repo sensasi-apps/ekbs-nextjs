@@ -22,7 +22,7 @@ import UserSocialsCrudBox from '@/components/User/Socials/CrudBox'
 import UserVehiclesCrudBox from '@/components/User/Vehicles/CrudBox'
 // utils
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
-import Role from '@/enums/role-temp'
+import Role from '@/enums/role'
 import UserCard from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-card'
 // hooks
 import { isUserHasRole } from '@/hooks/use-is-auth-has-role'
