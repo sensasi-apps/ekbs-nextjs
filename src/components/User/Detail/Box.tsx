@@ -1,7 +1,7 @@
 // types
 import type { BoxProps } from '@mui/material/Box'
 import type File from '@/types/orms/file'
-import type { UserDetailDBTypeWithRelations } from '@/dataTypes/UserDetail'
+import type UserDetailORM from '@/modules/auth/types/orms/user-detail'
 // vendors
 import { PatternFormat } from 'react-number-format'
 // materials
@@ -16,7 +16,7 @@ import toDmy from '@/utils/to-dmy'
 export default function UserDetailBox({
     data: userDetail,
 }: {
-    data: UserDetailDBTypeWithRelations
+    data: UserDetailORM
 }) {
     if (!userDetail) return null
 
@@ -120,7 +120,7 @@ export default function UserDetailBox({
     )
 }
 
-const getBirthRegion = (userDetail: UserDetailDBTypeWithRelations) =>
+const getBirthRegion = (userDetail: UserDetailORM) =>
     userDetail?.birth_village ||
     userDetail?.birth_district ||
     userDetail?.birth_regency ||
