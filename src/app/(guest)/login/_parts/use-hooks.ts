@@ -4,7 +4,7 @@ import { sha3_256 } from 'js-sha3'
 import { useEffect, useState, useCallback, type FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 //
-import type AuthInfo from '@/features/user--auth/types/auth-info'
+import type AuthInfo from '@/modules/auth/types/auth-info'
 import axios from '@/lib/axios'
 import useAuthInfoState from '@/hooks/use-auth-info-state'
 

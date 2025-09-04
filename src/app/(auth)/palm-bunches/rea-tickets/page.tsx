@@ -37,7 +37,7 @@ import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
-import Role from '@/enums/Role'
+import Role from '@/enums/role-temp'
 // utils
 import formatNumber from '@/utils/format-number'
 import blinkSxValue from '@/utils/blink-sx-value'

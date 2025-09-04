@@ -35,7 +35,7 @@ import handle422 from '@/utils/handle-422'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
 // enums
-import BusinessUnit from '@/enums/BusinessUnit'
+import BusinessUnit from '@/enums/business-unit'
 
 type CustomTx = Transaction & {
     tag_names: string

@@ -11,7 +11,7 @@ import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // enums
-import BusinessUnit from '@/enums/BusinessUnit'
+import BusinessUnit from '@/enums/business-unit'
 
 export function TabChips({
     disabled,

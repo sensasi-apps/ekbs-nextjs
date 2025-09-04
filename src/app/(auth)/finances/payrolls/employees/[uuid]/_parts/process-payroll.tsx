@@ -27,7 +27,7 @@ import Typography from '@mui/material/Typography'
 import LockIcon from '@mui/icons-material/Lock'
 // components
 import type { PayrollType } from '@/types/orms/payroll'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type CashType from '@/types/orms/cash'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import type Payroll from '@/types/orms/payroll'

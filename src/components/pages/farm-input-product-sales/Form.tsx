@@ -3,7 +3,7 @@ import type CashType from '@/types/orms/cash'
 import type { UUID } from 'crypto'
 import type ProductType from '@/types/orms/product'
 import type { ProductSale } from '@/dataTypes/ProductSale'
-import type User from '@/features/user/types/user'
+import type User from '@/modules/auth/types/orms/user'
 import type Wallet from '@/types/orms/wallet'
 // vendors
 import { FastField, type FormikProps } from 'formik'
@@ -49,8 +49,8 @@ import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums
 import type ProductMovement from '@/types/orms/product-movement'
-import Role from '@/enums/Role'
-import Warehouse from '@/enums/Warehouse'
+import Role from '@/enums/role-temp'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 

@@ -1,5 +1,5 @@
 // types
-import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
+import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
 // vendors
 import { memo, useState } from 'react'
 import { useRouter } from 'next/navigation'

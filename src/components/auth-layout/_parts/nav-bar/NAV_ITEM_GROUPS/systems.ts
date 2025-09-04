@@ -4,7 +4,7 @@ import type NavItemGroup from '../types/nav-item-group'
 import GroupIcon from '@mui/icons-material/Group'
 import SettingsIcon from '@mui/icons-material/Settings'
 // enums
-import Role from '@/enums/Role'
+import Role from '@/enums/role-temp'
 
 export const systemsNavItemGroup: NavItemGroup = {
     label: 'Sistem',

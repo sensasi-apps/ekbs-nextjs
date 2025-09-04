@@ -1,5 +1,5 @@
-import BusinessUnit from '@/enums/BusinessUnit'
-import TransactionTag from '@/features/transaction/enums/transaction-tag'
+import BusinessUnit from '@/enums/business-unit'
+import TransactionTag from '@/modules/transaction/enums/transaction-tag'
 
 type TypeType = 'income' | 'expense'
 

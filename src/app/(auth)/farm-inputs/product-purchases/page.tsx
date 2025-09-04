@@ -3,7 +3,7 @@
 // types
 import type ProductMovementDetail from '@/types/orms/product-movement-detail'
 import type ProductPurchaseType from '@/types/orms/product-purchase'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type {
     DatatableProps,
     GetRowDataType,

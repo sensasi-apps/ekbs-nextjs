@@ -31,7 +31,7 @@ import axios from '@/lib/axios'
 import ApiUrlEnum from '@/components/Product/ApiUrlEnum'
 import handle422 from '@/utils/handle-422'
 // enums
-import Warehouse from '@/enums/Warehouse'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import FarmInputPermission from '@/enums/permissions/FarmInput'

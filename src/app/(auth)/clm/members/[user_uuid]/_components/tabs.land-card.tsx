@@ -18,11 +18,35 @@ import type Land from '@/modules/clm/types/orms/land'
 import shortUuid from '@/utils/short-uuid'
 import toDmy from '@/utils/to-dmy'
 import FlexBox from '@/components/flex-box'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 export default function LandCard({ land }: { land: Land }) {
+    const { user_uuid } = useParams()
+    const nApprovedRequisiteLands =
+        land.requisite_lands_with_default?.filter(
+            requisiteLand => requisiteLand.approved_by_user_uuid,
+        ).length ?? 0
+
+    const nRequisites = land.requisite_lands_with_default?.length ?? 0
+
+    const nRequiredApprovedRequisiteLands =
+        land.requisite_lands_with_default?.filter(
+            requisiteLand =>
+                requisiteLand.approved_by_user_uuid &&
+                !requisiteLand.requisite?.is_optional,
+        ).length ?? 0
+
+    const nRequiredRequisites =
+        land.requisite_lands_with_default?.filter(
+            requisiteLand => !requisiteLand.requisite?.is_optional,
+        ).length ?? 0
+
     return (
         <Card>
-            <CardActionArea>
+            <CardActionArea
+                component={Link}
+                href={`${user_uuid}/lands/${land.uuid}`}>
                 <CardContent sx={{ p: 3 }}>
                     <FlexBox mb={1} justifyContent="space-between">
                         <ChipSmall
@@ -32,15 +56,13 @@ export default function LandCard({ land }: { land: Land }) {
                         />
 
                         <ChipSmall
-                            label={
-                                (land.requisite_lands_with_default?.filter(
-                                    requisiteLand =>
-                                        requisiteLand.approved_by_user_uuid,
-                                ).length ?? 0) +
-                                '/' +
-                                land.requisite_lands?.length
+                            label={`${nApprovedRequisiteLands}/${nRequisites}`}
+                            color={
+                                nRequiredApprovedRequisiteLands >=
+                                nRequiredRequisites
+                                    ? 'success'
+                                    : 'error'
                             }
-                            color="error"
                             variant="outlined"
                         />
                     </FlexBox>

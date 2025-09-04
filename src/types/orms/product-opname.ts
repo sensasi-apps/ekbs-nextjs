@@ -1,4 +1,4 @@
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type { UUID } from 'crypto'
 import type ProductMovementORM from './product-movement'
 

@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 
 export default interface PalmBunchesReaPaymentDetailORM {
     palm_bunches_rea_payment_uuid: UUID

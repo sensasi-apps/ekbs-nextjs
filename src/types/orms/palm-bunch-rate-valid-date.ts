@@ -1,5 +1,5 @@
 import type { PalmBunchRateType } from '../../dataTypes/PalmBunchRate'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 
 export default interface PalmBunchRateValidDateORM {
     id?: number

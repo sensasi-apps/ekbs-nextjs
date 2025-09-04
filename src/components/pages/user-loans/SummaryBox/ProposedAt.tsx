@@ -1,4 +1,4 @@
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import toDmy from '@/utils/to-dmy'
 import TypographyWithLabel from './TypographyWithLabel'
 import Typography from '@mui/material/Typography'

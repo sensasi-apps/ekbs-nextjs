@@ -1,5 +1,5 @@
-import type AuthInfo from '@/features/user--auth/types/auth-info'
-import Role from '@/enums/Role'
+import type AuthInfo from '@/modules/auth/types/auth-info'
+import Role from '@/enums/role-temp'
 import useAuthInfo from './use-auth-info'
 
 export default function useIsAuthHasRole() {

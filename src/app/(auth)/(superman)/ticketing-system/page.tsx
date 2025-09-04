@@ -3,7 +3,7 @@
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 import { type GetRowData } from '@/components/Datatable/@types'
 import Fab from '@/components/Fab'
-import type User from '@/features/user/types/user'
+import type User from '@/modules/auth/types/orms/user'
 import Add from '@mui/icons-material/Add'
 import Link from 'next/link'
 import Markdown from 'react-markdown'

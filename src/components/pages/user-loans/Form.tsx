@@ -1,5 +1,5 @@
 // types
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type CashType from '@/types/orms/cash'
 import type { UserLoanType } from '@/dataTypes/Loan'
 // vendors
@@ -41,7 +41,7 @@ import UserLoanInstallmentDialog from './InstallmentDialog'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import Role from '@/enums/Role'
+import Role from '@/enums/role-temp'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

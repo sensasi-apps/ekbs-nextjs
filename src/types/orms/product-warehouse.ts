@@ -1,4 +1,4 @@
-import type Warehouse from '@/enums/Warehouse'
+import type Warehouse from '@/modules/farm-inputs/enums/warehouse'
 
 export default interface ProductWarehouseORM {
     id: number

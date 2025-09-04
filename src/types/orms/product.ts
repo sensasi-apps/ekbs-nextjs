@@ -1,5 +1,5 @@
-import Warehouse from '@/enums/Warehouse'
-import type { Ymd } from '@/types/DateString'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import type { Ymd } from '@/types/date-string'
 
 export default interface ProductORM {
     id: number

@@ -1,8 +1,8 @@
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type BusinessUnit from './business-unit'
-import type InterestUnit from '../../dataTypes/enums/DbColumns/Debts/InterestUnit'
-import type TermUnit from '../../dataTypes/enums/DbColumns/Debts/TermUnit'
+import type InterestUnit from '../../modules/debt/enums/debt-interest-unit'
+import type TermUnit from '../../modules/debt/enums/deb-term-unit'
 import type DebtDetail from './debt-detail'
 
 export default interface DebtORM {

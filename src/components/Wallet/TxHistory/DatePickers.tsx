@@ -2,7 +2,7 @@
 import type { Dayjs } from 'dayjs'
 import type { DatePickerProps } from '@mui/x-date-pickers'
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 // vendors
 import { type Dispatch, type SetStateAction, useMemo, useState } from 'react'
 import dayjs from 'dayjs'

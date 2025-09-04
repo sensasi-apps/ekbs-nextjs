@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ToggleButton from '@mui/material/ToggleButton'
 // enums
-import Warehouse from '@/enums/Warehouse'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 
 export default function WarehouseSelectionButton() {
     const { replace } = useRouter()

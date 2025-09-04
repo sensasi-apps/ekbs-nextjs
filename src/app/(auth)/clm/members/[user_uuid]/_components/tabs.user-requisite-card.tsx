@@ -1,5 +1,3 @@
-// vendors
-import type { JSX } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -8,13 +6,11 @@ import CardContent from '@mui/material/CardContent'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 // icons
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
-import ScheduleIcon from '@mui/icons-material/Schedule'
 // components
 import ChipSmall from '@/components/ChipSmall'
 //
 import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
+import getRequisiteStatus from '@/modules/clm/utils/get-requisite-status'
 
 export default function RequisiteUserCard({
     requisiteUser,
@@ -103,49 +99,4 @@ export default function RequisiteUserCard({
             </CardActionArea>
         </Card>
     )
-}
-
-function getRequisiteStatus(requisiteUser: RequisiteUserORM): {
-    status: 'required' | 'optional'
-    chipLabel: string | null
-    chipColor: 'error' | 'warning' | 'success' | undefined
-    icon: JSX.Element
-} {
-    const isOptional = requisiteUser.requisite?.is_optional ?? false
-    const isApproved = Boolean(requisiteUser?.approved_by_user_uuid)
-    const hasFiles = requisiteUser.files?.length ?? 0 > 0
-
-    if (isApproved) {
-        return {
-            status: 'required',
-            chipLabel: 'selesai',
-            chipColor: 'success',
-            icon: <CheckCircleOutlineIcon color="success" />,
-        }
-    }
-
-    if (isOptional && !hasFiles) {
-        return {
-            status: 'optional',
-            chipLabel: null,
-            chipColor: undefined,
-            icon: <Box sx={{ width: 24 }} />,
-        }
-    }
-
-    if (hasFiles && !isApproved) {
-        return {
-            status: 'required',
-            chipLabel: 'perlu ditinjau',
-            chipColor: 'warning',
-            icon: <ScheduleIcon color="warning" />,
-        }
-    }
-
-    return {
-        status: 'required',
-        chipLabel: 'belum dilengkapi',
-        chipColor: 'error',
-        icon: <PriorityHighIcon color="error" />,
-    }
 }

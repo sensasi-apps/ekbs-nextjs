@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 // components
 import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 import Form, { type CreateFormValues } from './form'
-import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 // utils
 import handle422 from '@/utils/handle-422'
 

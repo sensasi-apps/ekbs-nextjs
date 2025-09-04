@@ -32,7 +32,7 @@ import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/us
 import useValidationErrors from '@/hooks/useValidationErrors'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import MaritalStatusEnum from '@/dataTypes/enums/MaritalStatus'
+import MaritalStatusEnum from '@/enums/marital-status'
 import type DistrictType from '@/types/orms/district'
 import type RegencyType from '@/types/orms/regency'
 import type VillageType from '@/types/orms/village'

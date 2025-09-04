@@ -39,9 +39,9 @@ import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Rece
 // enums
 import { CashableClassname } from '@/dataTypes/Transaction'
 import FarmInputPermission from '@/enums/permissions/FarmInput'
-import Role from '@/enums/Role'
+import Role from '@/enums/role-temp'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
-import Warehouse from '@/enums/Warehouse'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'

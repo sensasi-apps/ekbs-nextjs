@@ -17,7 +17,7 @@ import type ProductMovementDetail from '@/modules/mart/types/orms/product-moveme
 import axios from '@/lib/axios'
 import IconButton from '@/components/IconButton'
 import NumericFormat from '@/components/NumericFormat'
-import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 import formatNumber from '@/utils/format-number'
 
 export default function DetailTable({

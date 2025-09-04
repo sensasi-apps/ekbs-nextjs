@@ -51,7 +51,7 @@ export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
                         component={Link}
                     />
 
-                    <Grid container>
+                    <Grid container spacing={2}>
                         {data.lands.length === 0 && (
                             <Alert severity="warning">
                                 Belum ada data Lahan

@@ -35,7 +35,7 @@ import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/Lo
 import numberToCurrency from '@/utils/number-to-currency'
 // enums
 import Mart from '@/enums/permissions/Mart'
-import Warehouse from '@/dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
+import Warehouse from '@/modules/mart/enums/product-warehouse-warehouse'
 // utils
 import aoaToXlsx from '@/utils/aoa-to-xlsx'
 // hooks

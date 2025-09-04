@@ -1,7 +1,7 @@
 // types
 import type { Dispatch, SetStateAction } from 'react'
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type Debt from '@/types/orms/debt'
 import type DebtDetail from '@/types/orms/debt-detail'
 // vendors
@@ -30,8 +30,8 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import shortUuid from '@/utils/short-uuid'
 import ucWords from '@/utils/uc-words'
 // enums
-import TermUnit from '@/dataTypes/enums/DbColumns/Debts/TermUnit'
-import InterestUnit from '@/dataTypes/enums/DbColumns/Debts/InterestUnit'
+import TermUnit from '@/modules/debt/enums/deb-term-unit'
+import InterestUnit from '@/modules/debt/enums/debt-interest-unit'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 
 export default function FinancesDebtForm({

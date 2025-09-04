@@ -1,6 +1,6 @@
 import type { UUID } from 'crypto'
 import type ActivityLogType from './activity-log'
-import type User from '../../features/user/types/user'
+import type User from '../../modules/auth/types/orms/user'
 import type PalmBunchesDeliveryType from './palm-bunches-delivery'
 
 export default interface PalmBunchORM {

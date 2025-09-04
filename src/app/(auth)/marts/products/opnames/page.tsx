@@ -20,14 +20,14 @@ import PageTitle from '@/components/page-title'
 import ChipSmall from '@/components/ChipSmall'
 // parts
 import type { CreateFormValues } from '@/app/(auth)/marts/products/opnames/_parts/form'
-import type ProductMovementOpname from '@/features/mart--product/types/movement-opname'
+import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
 import FormDialog from '@/app/(auth)/marts/products/opnames/_parts/form-dialog'
 // utils
 import formatNumber from '@/utils/format-number'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums
-import OpnameApiUrl from '@/enums/ApiUrl/Mart/Product/Opname'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 import Mart from '@/enums/permissions/Mart'
 
 let getRowData: GetRowDataType<ProductMovementOpname>

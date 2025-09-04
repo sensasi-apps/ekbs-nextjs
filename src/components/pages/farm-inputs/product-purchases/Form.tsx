@@ -34,8 +34,8 @@ import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayFi
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
 // enums
-import Role from '@/enums/Role'
-import Warehouse from '@/enums/Warehouse'
+import Role from '@/enums/role-temp'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 

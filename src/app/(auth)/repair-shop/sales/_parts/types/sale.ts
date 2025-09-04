@@ -2,7 +2,7 @@ import type { Installment } from '@/dataTypes/Installment'
 import type { Transaction } from '@/dataTypes/Transaction'
 import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
 import type SaleService from './sale-service'
-import type User from '@/features/user/types/user'
+import type User from '@/modules/auth/types/orms/user'
 
 export type Sale = {
     uuid: string

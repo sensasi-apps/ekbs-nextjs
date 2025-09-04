@@ -1,5 +1,5 @@
-import type { Ymd } from '@/types/DateString'
-import type Warehouse from '../../../../dataTypes/enums/MartDB/ProductWarehouses/Warehouse'
+import type { Ymd } from '@/types/date-string'
+import type Warehouse from '../../enums/product-warehouse-warehouse'
 
 export default interface ProductORM {
     id: Readonly<number>

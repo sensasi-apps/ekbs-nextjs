@@ -17,7 +17,7 @@ import Table, {
     type ItemRow,
 } from '@/app/(auth)/executive/profit-loss/_components/table'
 // enums
-import BusinessUnit from '@/enums/BusinessUnit'
+import BusinessUnit from '@/enums/business-unit'
 import myAxios from '@/lib/axios'
 
 const CURR_YEAR = dayjs().format('YYYY')

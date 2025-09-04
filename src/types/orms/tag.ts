@@ -1,4 +1,4 @@
-import type TransactionTag from '@/features/transaction/enums/transaction-tag'
+import type TransactionTag from '@/modules/transaction/enums/transaction-tag'
 
 export default interface TagORM {
     id: number

@@ -1,11 +1,11 @@
 // types
 import type { FormikProps } from 'formik'
 import type Product from '@/types/orms/product'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type YajraDatatable from '@/types/yajra-datatable-response'
 import type InventoryItem from '@/types/orms/inventory-item'
 import type { UUID } from 'crypto'
-import type User from '@/features/user/types/user'
+import type User from '@/modules/auth/types/orms/user'
 // vendors
 import axios from '@/lib/axios'
 import dayjs from 'dayjs'
@@ -32,7 +32,7 @@ import debounce from '@/utils/debounce'
 import numberToCurrency from '@/utils/number-to-currency'
 // enums
 import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
-import Warehouse from '@/enums/Warehouse'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 
 export type FormValues = Partial<{
     is_paid: boolean

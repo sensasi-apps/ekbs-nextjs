@@ -10,7 +10,7 @@ import FireTruck from '@mui/icons-material/FireTruck'
 import PointOfSale from '@mui/icons-material/PointOfSale'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
-import Role from '@/enums/Role'
+import Role from '@/enums/role-temp'
 
 export const palmBunches: NavItemGroup = {
     label: 'Tandan Buah Segar',

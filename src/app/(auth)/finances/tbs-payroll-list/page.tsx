@@ -3,7 +3,7 @@
 // vendors
 import { useRouter } from 'next/navigation'
 // types
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type { Transaction } from '@/dataTypes/Transaction'
 // vendors
 import { useSearchParams } from 'next/navigation'

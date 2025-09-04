@@ -1,12 +1,12 @@
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/DateString'
+import type { Ymd } from '@/types/date-string'
 import type ActivityLogType from './activity-log'
 import type FarmerGroupType from './farmer-group'
 import type File from './file'
 import type { Installment } from '../../dataTypes/Installment'
 import type InventoryItem from './inventory-item'
 import type { Transaction } from '../../dataTypes/Transaction'
-import type UserType from '../../features/user/types/user'
+import type UserType from '../../modules/auth/types/orms/user'
 
 export default interface RentItemRentORM {
     // columns

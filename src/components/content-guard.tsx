@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 // components
-import type AuthInfo from '@/features/user--auth/types/auth-info'
+import type AuthInfo from '@/modules/auth/types/auth-info'
 import NAV_ITEM_GROUPS from '@/components/auth-layout/_parts/nav-bar/NAV_ITEM_GROUPS'
 import ErrorMessageView from '@/app/(auth)/_parts/error-message-view'
 import LoadingCenter from '@/components/loading-center'
