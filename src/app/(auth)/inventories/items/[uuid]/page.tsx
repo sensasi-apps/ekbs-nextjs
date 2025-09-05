@@ -9,7 +9,7 @@ import type {
 } from '@/components/Datatable'
 // vendors
 import type { AxiosResponse } from 'axios'
-import { useParams, useRouter } from 'next/navigation'
+import { notFound, useParams } from 'next/navigation'
 import axios from '@/lib/axios'
 import useSWR from 'swr'
 // materials
@@ -35,7 +35,6 @@ let getPicRowData: GetRowDataType<InventoryItem['latest_pic']>
 let getCheckupRowData: GetRowDataType<InventoryItem['latest_checkup']>
 
 export default function InventoryItemDetail() {
-    const { replace } = useRouter()
     const param = useParams()
     const uuid = param?.uuid as string
 
@@ -48,7 +47,7 @@ export default function InventoryItemDetail() {
             })),
         {
             onError: err => {
-                if (err.response?.status === 404) replace('/404')
+                if (err.response?.status === 404) notFound()
             },
         },
     )

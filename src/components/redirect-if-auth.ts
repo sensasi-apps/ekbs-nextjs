@@ -1,5 +1,7 @@
 'use client'
+
 import useAuthInfo from '@/hooks/use-auth-info'
+import type { Route } from 'next'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
@@ -21,7 +23,8 @@ function useAuthOnly() {
             pathname &&
             !['/logout', '/policy'].includes(pathname)
         ) {
-            const redirectTo = searchParams?.get('redirectTo') ?? '/dashboard'
+            const redirectTo =
+                (searchParams?.get('redirectTo') as Route) ?? '/dashboard'
 
             replace(redirectTo)
         }

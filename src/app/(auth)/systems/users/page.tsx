@@ -44,15 +44,12 @@ export default function Page() {
                         viewColumns={false}
                         onRowClick={(data, _, { detail }) => {
                             if (detail === 2) {
-                                push(
-                                    '/systems/users/' +
-                                        /**
-                                         * data[1] is the UUID. declared on `DATATABLE_COLUMNS`
-                                         */
-                                        data[1] +
-                                        '?role=' +
-                                        selectedRole,
-                                )
+                                /**
+                                 * data[1] is the UUID. declared on {@link DATATABLE_COLUMNS}
+                                 */
+                                const uuid = data[1]
+
+                                push(`/systems/users/${uuid}?role=selectedRole`)
                             }
                         }}
                         tableId="users-table"

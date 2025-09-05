@@ -38,11 +38,11 @@ export function TabChips({
     )
 
     function handleActiveTabChange(value: string) {
-        replace('?' + createQueryString('activeTab', value))
+        replace(`?${createQueryString('activeTab', value)}`)
     }
 
     function handleYearChange(value: string) {
-        replace('?' + createQueryString('year', value))
+        replace(`?${createQueryString('year', value)}`)
     }
 
     return (

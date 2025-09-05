@@ -14,7 +14,9 @@ export default function useUserDetailSwr() {
 
     return useSWR<UserORM>(uuid ? `users/${uuid}` : null, null, {
         onError: () => {
-            replace('/systems/users?role=' + searchParams?.get('role'))
+            const role = searchParams?.get('role')
+
+            replace(`/systems/users?role=${role}`)
         },
     })
 }

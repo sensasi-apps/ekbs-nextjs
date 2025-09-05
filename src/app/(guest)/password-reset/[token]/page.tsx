@@ -48,18 +48,17 @@ export default function Page({
 
         axios
             .post('reset-password', formData)
-            .then(() =>
-                push(
-                    '/login?response=' +
-                        btoa(
-                            JSON.stringify({
-                                status: 201,
-                                message:
-                                    'Kata sandi berhasil diatur ulang. Silakan melakukan login dengan kata sandi baru Anda.',
-                            }),
-                        ),
-                ),
-            )
+            .then(() => {
+                const response = btoa(
+                    JSON.stringify({
+                        status: 201,
+                        message:
+                            'Kata sandi berhasil diatur ulang. Silakan melakukan login dengan kata sandi baru Anda.',
+                    }),
+                )
+
+                push(`/login?response=${response}`)
+            })
             .catch((err: AxiosError<LaravelValidationException>) => {
                 const { response } = err
 

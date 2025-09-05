@@ -76,9 +76,7 @@ export default function HeavyEquipmentRentsDatatable({
                     slotProps={{
                         field: {
                             clearable: true,
-                            onClear: () => {
-                                replace('')
-                            },
+                            onClear: () => replace('?'),
                         },
                         textField: {
                             margin: 'none',

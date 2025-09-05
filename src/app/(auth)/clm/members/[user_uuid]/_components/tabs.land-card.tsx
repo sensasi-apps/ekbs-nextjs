@@ -45,7 +45,7 @@ export default function LandCard({ land }: { land: Land }) {
     return (
         <Card>
             <CardActionArea
-                component={Link}
+                LinkComponent={Link}
                 href={`${user_uuid}/lands/${land.uuid}`}>
                 <CardContent sx={{ p: 3 }}>
                     <FlexBox mb={1} justifyContent="space-between">

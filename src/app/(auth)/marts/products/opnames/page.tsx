@@ -60,7 +60,7 @@ export default function Opnames() {
                         const data = getRowData(dataIndex)
                         if (!data) return
 
-                        push('opnames/' + data.uuid)
+                        push(`/marts/products/opnames/${data.uuid}`)
                     }
                 }}
                 tableId="opnames-table"
@@ -70,7 +70,7 @@ export default function Opnames() {
 
             <FormDialog
                 formValues={formValues}
-                onSubmitted={uuid => push('opnames/' + uuid)}
+                onSubmitted={uuid => push(`/marts/products/opnames/${uuid}`)}
                 onClose={handleClose}
             />
 
