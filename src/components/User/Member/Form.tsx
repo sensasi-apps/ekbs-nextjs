@@ -9,7 +9,6 @@ import Button from '@mui/material/Button'
 import DatePicker from '@/components/DatePicker'
 import TextField from '@/components/TextField'
 // providers
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import useFormData from '@/providers/FormData'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
@@ -17,12 +16,13 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import useValidationErrors from '@/hooks/useValidationErrors'
 import errorCatcher from '@/utils/handle-422'
 import dayjs from 'dayjs'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 export default function MemberForm() {
-    const { data: userWithDetails = {} } = useUserWithDetails()
+    const { data: userWithDetails } = useUserDetailSwr()
     const { handleClose } = useFormData()
 
-    const { uuid: userUuid, member } = userWithDetails
+    const { uuid: userUuid, member } = userWithDetails ?? {}
 
     const [isLoading, setIsLoading] = useState(false)
     const { validationErrors, setValidationErrors, clearByEvent, clearByName } =

@@ -1,11 +1,20 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import toDmy from '@/utils/to-dmy'
+import type { ReactNode } from 'react'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
-const Row = ({ title, children, helperText, ...props }) => {
+function Row({
+    title,
+    children,
+    helperText,
+}: {
+    title: string
+    children: ReactNode
+    helperText?: string
+}) {
     return (
-        <Box {...props} mb={1}>
+        <Box mb={1}>
             <Typography variant="caption" color="text.secondary">
                 {title}
             </Typography>
@@ -22,10 +31,10 @@ const Row = ({ title, children, helperText, ...props }) => {
     )
 }
 
-const MemberBox = () => {
-    const { data: userWithDetails = {} } = useUserWithDetails()
-    const { member } = userWithDetails
-    const { joined_at, unjoined_at, unjoined_reason, note } = member || {}
+export default function MemberBox() {
+    const { data: userWithDetails } = useUserDetailSwr()
+    const { member } = userWithDetails ?? {}
+    const { joined_at, unjoined_at, unjoined_reason, note } = member ?? {}
 
     const getStatus = () => {
         if (unjoined_at) return 'Berhenti / Keluar'
@@ -55,14 +64,12 @@ const MemberBox = () => {
                     </Row>
 
                     <Row title="Alasan Berhenti/Keluar">
-                        {unjoined_reason || '-'}
+                        {unjoined_reason ?? '-'}
                     </Row>
                 </>
             )}
 
-            <Row title="Catatan tambahan">{note || '-'}</Row>
+            <Row title="Catatan tambahan">{note ?? '-'}</Row>
         </Box>
     )
 }
-
-export default MemberBox

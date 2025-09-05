@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type UserType from '@/modules/auth/types/orms/user'
+import type UserType from '@/modules/user/types/orms/user'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'

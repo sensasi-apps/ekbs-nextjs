@@ -1,7 +1,7 @@
 // types
 import type { UUID } from 'crypto'
 import type RentItemRent from '@/types/orms/rent-item-rent'
-import type UserType from '@/modules/auth/types/orms/user'
+import type UserType from '@/modules/user/types/orms/user'
 // vendors
 import { FastField, useFormik, type FormikProps } from 'formik'
 import { memo } from 'react'

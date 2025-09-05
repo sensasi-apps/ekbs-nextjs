@@ -14,17 +14,16 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import UserDriverForm from '../Driver/Form'
+import UserDriverForm from '@/components/User/Driver/Form'
+import type UserORM from '../types/orms/user'
 
-const ListItem = ({
+function ListItem({
     courierUserUuid,
-    data: {
-        uuid: driverUuid,
-        id,
-        name,
-        driver: { license_number },
-    },
-}) => {
+    data: { uuid: driverUuid, id, name, driver },
+}: {
+    courierUserUuid: string
+    data: UserORM
+}) {
     const [isDeleting, setIsDeleting] = useState(false)
 
     const handleDelete = async () => {
@@ -65,14 +64,20 @@ const ListItem = ({
                 </Typography>
 
                 <Typography variant="body2" color="GrayText" component="p">
-                    {license_number}
+                    {driver?.license_number}
                 </Typography>
             </ListItemText>
         </MuiListItem>
     )
 }
 
-const UserDriversCrudBox = ({ courierUserUuid, data: drivers = [] }) => {
+export default function UserDriversCrudBox({
+    courierUserUuid,
+    data: drivers,
+}: {
+    courierUserUuid: string
+    data: UserORM[]
+}) {
     const [isFormOpen, setIsFormOpen] = useState(false)
 
     return (
@@ -125,5 +130,3 @@ const UserDriversCrudBox = ({ courierUserUuid, data: drivers = [] }) => {
         </Box>
     )
 }
-
-export default UserDriversCrudBox

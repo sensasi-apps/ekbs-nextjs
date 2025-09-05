@@ -18,10 +18,14 @@ import HomeIcon from '@mui/icons-material/Home'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import AddressForm from './Form'
+import type UserAddressORM from '@/modules/user/types/orms/user-address'
 
 const AddressListItem = ({
     data: { name, address, uuid: userAddressUuid },
     userUuid,
+}: {
+    data: UserAddressORM
+    userUuid: string
 }) => {
     const [isDeleting, setIsDeleting] = useState(false)
 
@@ -86,12 +90,16 @@ const Skeletons = () => (
     </Box>
 )
 
-const UserAddressesCrudBox = ({
+export default function UserAddressesCrudBox({
     userUuid,
     data: userAddresses = [],
     isLoading,
     ...props
-}) => {
+}: {
+    userUuid: string
+    data: UserAddressORM[]
+    isLoading: boolean
+}) {
     const [isFormOpen, setIsFormOpen] = useState(false)
 
     return (
@@ -138,5 +146,3 @@ const UserAddressesCrudBox = ({
         </Box>
     )
 }
-
-export default UserAddressesCrudBox

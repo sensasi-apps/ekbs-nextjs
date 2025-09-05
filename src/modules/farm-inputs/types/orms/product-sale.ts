@@ -6,7 +6,7 @@ import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type ProductMovementORM from '@/modules/farm-inputs/types/orms/product-movement'
 import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-import type UserORM from '@/modules/auth/types/orms/user'
+import type UserORM from '@/modules/user/types/orms/user'
 
 export default interface ProductSaleORM {
     uuid: UUID

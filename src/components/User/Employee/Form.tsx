@@ -19,7 +19,7 @@ import BusinessUnit from '@/enums/business-unit'
 // functions
 import { toYmd } from '@/utils/to-ymd'
 // features
-import type Employee from '@/modules/auth/types/orms/employee'
+import type Employee from '@/modules/user/types/orms/employee'
 
 export default function EmployeeForm({
     id,

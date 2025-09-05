@@ -10,14 +10,14 @@ import CloseIcon from '@mui/icons-material/Close'
 // components
 import UserDetailForm from './Form'
 // providers
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import useFormData from '@/providers/FormData'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 export default function UserDetailDialogFormWithButton() {
-    const { data: { detail } = {} } = useUserWithDetails()
+    const { data: { detail } = {} } = useUserDetailSwr()
     const { isDataNotUndefined, handleEdit, handleClose } = useFormData()
 
-    const handleEditClick = () => handleEdit(detail || {})
+    const handleEditClick = () => handleEdit(detail ?? {})
 
     return (
         <>

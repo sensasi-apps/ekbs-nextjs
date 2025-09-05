@@ -15,10 +15,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import UserVehicleForm from '../Vehicle/form'
+import type VehicleORM from '@/types/orms/vehicle'
 
 function ListItem({
     courierUserUuid,
     data: { uuid: vehicleUuid, brand, type, max_capacity_ton, plate_number },
+}: {
+    courierUserUuid: string
+    data: VehicleORM
 }) {
     const [isDeleting, setIsDeleting] = useState(false)
 
@@ -67,15 +71,17 @@ function ListItem({
     )
 }
 
-const UserVehiclesCrudBox = ({
+export default function UserVehiclesCrudBox({
     courierUserUuid,
     data: vehicles = [],
-    ...props
-}) => {
+}: {
+    courierUserUuid: string
+    data: VehicleORM[]
+}) {
     const [isFormOpen, setIsFormOpen] = useState(false)
 
     return (
-        <Box {...props}>
+        <Box>
             <Box display="flex" alignItems="center">
                 <Typography variant="h6" component="div">
                     Kendaraan
@@ -118,5 +124,3 @@ const UserVehiclesCrudBox = ({
         </Box>
     )
 }
-
-export default UserVehiclesCrudBox

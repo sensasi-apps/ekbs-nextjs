@@ -1,23 +1,19 @@
 'use client'
 
 // vendors
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Box from '@mui/material/Box'
-import Collapse from '@mui/material/Collapse'
 import Grid from '@mui/material/Grid'
 // components
 import { FormDataProvider } from '@/providers/FormData'
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 import UserRoleChips from '@/components/User/RoleChips'
 // parts
-import { UserSummaryBox } from '@/app/(auth)/systems/users/[[...uuid]]/_parts/summary-box'
-import { UserWithDetailsProvider } from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
-import UserDialogFormWithFab from '@/app/(auth)/systems/users/[[...uuid]]/_parts/dialog-form-with-fab'
-import UsersMainPageContent from '@/app/(auth)/systems/users/[[...uuid]]/_parts/main-page-content'
+import { UserSummaryBox } from '@/app/(auth)/systems/users/[uuid]/_parts/summary-box'
+import UserDialogFormWithFab from '@/app/(auth)/systems/users/[uuid]/_parts/dialog-form-with-fab'
 
 export default function Page() {
     const { push } = useRouter()
-    const params = useParams()
 
     const searchParams = useSearchParams()
     const selectedRole = searchParams?.get('role') ?? ''
@@ -34,15 +30,9 @@ export default function Page() {
                     },
                 }}>
                 <Grid size={{ xs: 12, md: 8 }}>
-                    <UserWithDetailsProvider>
-                        <FormDataProvider>
-                            <Collapse in={Boolean(params?.uuid)} unmountOnExit>
-                                <UsersMainPageContent />
-                            </Collapse>
-
-                            <UserDialogFormWithFab />
-                        </FormDataProvider>
-                    </UserWithDetailsProvider>
+                    <FormDataProvider>
+                        <UserDialogFormWithFab />
+                    </FormDataProvider>
 
                     <Datatable
                         apiUrl="users/get-datatable-data"

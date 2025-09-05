@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 import { FormDataProvider } from '@/providers/FormData'
-import UserDetailCollapsibleCard from './CollapsibleCard'
+import UserDetailCollapsibleCard from './collapsible-card'
 import UserDetailDialogFormWithButton from './DialogFormWithButton'
 
 const UserDetailCrud = forwardRef<HTMLDivElement>(

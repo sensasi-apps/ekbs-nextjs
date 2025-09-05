@@ -1,4 +1,4 @@
-import type AuthInfo from '@/modules/auth/types/auth-info'
+import type AuthInfo from '@/modules/user/types/auth-info'
 import Role from '@/enums/role'
 import useAuthInfo from './use-auth-info'
 
@@ -10,7 +10,12 @@ export default function useIsAuthHasRole() {
 
 export function isUserHasRole(
     roleName: Role | Role[],
-    userParam: AuthInfo | undefined,
+    userParam:
+        | {
+              role_names?: AuthInfo['role_names']
+              role_names_id?: AuthInfo['role_names_id']
+          }
+        | undefined,
 ) {
     if (!userParam) return false
 

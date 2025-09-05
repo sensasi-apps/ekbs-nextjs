@@ -1,6 +1,6 @@
 import type { UUID } from 'crypto'
-import type ActivityLogType from '../../../../types/orms/activity-log'
-import type User from '../../../auth/types/orms/user'
+import type ActivityLogORM from '@/types/orms/activity-log'
+import type UserORM from '@/modules/user/types/orms/user'
 import type PalmBunchesDeliveryType from './palm-bunches-delivery'
 
 export default interface PalmBunchORM {
@@ -12,7 +12,7 @@ export default interface PalmBunchORM {
     owner_user_uuid?: UUID
 
     // relations
-    owner_user?: User
-    logs?: ActivityLogType[]
+    owner_user?: UserORM
+    logs?: ActivityLogORM[]
     delivery?: PalmBunchesDeliveryType
 }

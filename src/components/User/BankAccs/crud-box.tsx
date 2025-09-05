@@ -18,9 +18,16 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 //
 import UserBankAccForm from './form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
+import type UserBankAccountORM from '@/modules/user/types/orms/user-bank-account'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
-const ListItem = ({ data: { uuid, no_decrypted, name }, userUuid }) => {
+function ListItem({
+    data: { uuid, no_decrypted, name },
+    userUuid,
+}: {
+    data: UserBankAccountORM
+    userUuid: string
+}) {
     const [isDeleting, setIsDeleting] = useState(false)
 
     const handleDelete = async () => {
@@ -62,12 +69,15 @@ const ListItem = ({ data: { uuid, no_decrypted, name }, userUuid }) => {
     )
 }
 
-const UserBankAccsCrudBox = () => {
-    const { data: userWithDetails, isLoading } = useUserWithDetails()
+export default function UserBankAccsCrudBox() {
+    const { data: userWithDetails, isLoading } = useUserDetailSwr()
 
     const [isFormOpen, setIsFormOpen] = useState(false)
 
-    const { bank_accs, uuid: userUuid } = userWithDetails || {}
+    const { bank_accs, uuid: userUuid } = (userWithDetails ?? {}) as {
+        bank_accs: UserBankAccountORM[]
+        uuid: string
+    }
 
     return (
         <Box>
@@ -118,5 +128,3 @@ const UserBankAccsCrudBox = () => {
         </Box>
     )
 }
-
-export default UserBankAccsCrudBox

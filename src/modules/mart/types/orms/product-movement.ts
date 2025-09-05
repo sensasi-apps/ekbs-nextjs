@@ -8,7 +8,7 @@ import type ProductMovementCostORM from '@/modules/mart/types/orms/product-movem
 //
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 //
-import type UserORM from '@/modules/auth/types/orms/user'
+import type UserORM from '@/modules/user/types/orms/user'
 
 export default interface ProductMovementORM {
     uuid: UUID

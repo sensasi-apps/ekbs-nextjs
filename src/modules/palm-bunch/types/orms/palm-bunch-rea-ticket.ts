@@ -3,7 +3,7 @@ import type PalmBunchRateORM from './palm-bunch-rate'
 import type PalmBunchesReaPaymentDetail from '@/modules/palm-bunch/types/orms/palm-bunch-rea-payment-detail'
 import type PalmBunchesDelivery from '@/modules/palm-bunch/types/orms/palm-bunches-delivery'
 import type PalmBunchesReaGrading from '@/modules/palm-bunch/types/orms/palm-bunches-rea-grading'
-import type User from '@/modules/auth/types/orms/user'
+import type User from '@/modules/user/types/orms/user'
 
 export default interface PalmBunchesReaTicketORM {
     id: number

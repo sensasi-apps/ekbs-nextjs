@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 // materials
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -10,14 +10,15 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 //
 import UserDetailBox from './Box'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
+import LoadingCenter from '@/components/loading-center'
 
-const CARD_CONTENT_SX = {
-    pt: 0,
-}
-
-const UserDetailCollapsibleCard = ({ editButton }) => {
-    const { data: { detail = {} } = {}, isLoading } = useUserWithDetails()
+export default function UserDetailCollapsibleCard({
+    editButton,
+}: {
+    editButton: ReactNode
+}) {
+    const { data: { detail } = {}, isLoading } = useUserDetailSwr()
 
     const [open, setOpen] = useState(false)
 
@@ -25,12 +26,13 @@ const UserDetailCollapsibleCard = ({ editButton }) => {
         setOpen(prev => !prev)
     }
 
+    if (!detail) return <LoadingCenter />
+
     return (
         <Card>
             <CardHeader
                 title="Detail Pengguna"
                 titleTypographyProps={{
-                    variant: 'body',
                     fontWeight: 'bold',
                 }}
                 action={
@@ -47,7 +49,10 @@ const UserDetailCollapsibleCard = ({ editButton }) => {
             />
 
             <Collapse in={open && !isLoading}>
-                <CardContent sx={CARD_CONTENT_SX}>
+                <CardContent
+                    sx={{
+                        pt: 0,
+                    }}>
                     <UserDetailBox data={detail} />
 
                     {editButton}
@@ -56,5 +61,3 @@ const UserDetailCollapsibleCard = ({ editButton }) => {
         </Card>
     )
 }
-
-export default UserDetailCollapsibleCard

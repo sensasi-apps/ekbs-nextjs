@@ -1,5 +1,5 @@
 // types
-import type UserDetailORM from '@/modules/auth/types/orms/user-detail'
+import type UserDetailORM from '@/modules/user/types/orms/user-detail'
 import type { FormEvent } from 'react'
 // vendors
 import { useState } from 'react'
@@ -24,7 +24,6 @@ import ImageInput from '@/components/image-input'
 import TextField from '@/components/TextField'
 // providers
 import useFormData from '@/providers/FormData'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
@@ -34,6 +33,7 @@ import type DistrictType from '@/types/orms/district'
 import type RegencyType from '@/types/orms/regency'
 import type VillageType from '@/types/orms/village'
 import NumericFormat from '@/components/NumericFormat'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 function getBirthRegion(userDetail?: UserDetailORM) {
     return (
@@ -45,7 +45,7 @@ function getBirthRegion(userDetail?: UserDetailORM) {
 }
 
 export default function UserDetailForm() {
-    const { data: userWithDetails } = useUserWithDetails()
+    const { data: userWithDetails } = useUserDetailSwr()
     const { data, handleClose } = useFormData()
 
     const userDetail = data as UserDetailORM
@@ -87,11 +87,11 @@ export default function UserDetailForm() {
 
         return axios
             .post(
-                `/users/${user_uuid ?? userWithDetails.uuid}/detail`,
+                `/users/${user_uuid ?? userWithDetails?.uuid}/detail`,
                 formData,
             )
             .then(() => {
-                mutate(`users/${user_uuid ?? userWithDetails.uuid}`)
+                mutate(`users/${user_uuid ?? userWithDetails?.uuid}`)
                 handleClose()
             })
             .catch(error => {

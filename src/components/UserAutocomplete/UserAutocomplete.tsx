@@ -1,7 +1,7 @@
 // types
 import type { AutocompleteProps } from '@mui/material/Autocomplete'
 import type { ChipTypeMap } from '@mui/material/Chip'
-import type UserType from '@/modules/auth/types/orms/user'
+import type UserType from '@/modules/user/types/orms/user'
 import type { ReactNode } from 'react'
 // vendors
 import { useState } from 'react'

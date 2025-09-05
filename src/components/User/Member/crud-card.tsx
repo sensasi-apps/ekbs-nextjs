@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import Button from '@mui/material/Button'
 
 import Card from '@mui/material/Card'
@@ -15,16 +13,9 @@ import EditIcon from '@mui/icons-material/Edit'
 import useFormData, { FormDataProvider } from '@/providers/FormData'
 
 import MemberForm from './Form'
-import MemberBox from './Box'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
+import MemberBox from './box'
 import { getRoleIconByIdName } from '../RoleChips'
-
-const TITLE_TYPORAPHY_PROPS = {
-    variant: 'body1',
-    fontWeight: 'bold',
-}
-
-const PT_0_SX = { pt: 0 }
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 const DialogForm = () => {
     const { isDataNotUndefined } = useFormData()
@@ -40,8 +31,8 @@ const DialogForm = () => {
 }
 
 const EditButton = () => {
-    const { data } = useUserWithDetails()
-    const { member } = data || {}
+    const { data } = useUserDetailSwr()
+    const { member } = data ?? {}
     const { handleEdit } = useFormData()
     const handleEditClick = () => handleEdit(member)
 
@@ -57,15 +48,20 @@ const EditButton = () => {
     )
 }
 
-const UserMemberCrudCard = (props, ref) => {
+export default function UserMemberCrudCard() {
     return (
-        <Card ref={ref} {...props}>
+        <Card>
             <CardHeader
                 avatar={getRoleIconByIdName('anggota')}
                 title="Keanggotaan"
-                titleTypographyProps={TITLE_TYPORAPHY_PROPS}
+                slotProps={{
+                    title: {
+                        variant: 'body1',
+                        fontWeight: 'bold',
+                    },
+                }}
             />
-            <CardContent sx={PT_0_SX}>
+            <CardContent sx={{ pt: 0 }}>
                 <FormDataProvider>
                     <MemberBox />
                     <EditButton />
@@ -75,5 +71,3 @@ const UserMemberCrudCard = (props, ref) => {
         </Card>
     )
 }
-
-export default forwardRef(UserMemberCrudCard)

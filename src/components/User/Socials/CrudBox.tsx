@@ -22,7 +22,7 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 import PhoneIcon from '@mui/icons-material/Phone'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 // components
-import type UserSocial from '@/modules/auth/types/orms/user-social'
+import type UserSocial from '@/modules/user/types/orms/user-social'
 import SocialForm from '../Social/Form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 
