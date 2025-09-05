@@ -1,11 +1,12 @@
 'use client'
 
+// vendors
 import { useState, type SyntheticEvent } from 'react'
+import NextLink from 'next/link'
 // materials
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Link from 'next/link'
 import MuiTab from '@mui/material/Tab'
 // material-labs
 import TabContext from '@mui/lab/TabContext'
@@ -48,7 +49,7 @@ export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
                     <Fab
                         title="Tambah Lahan"
                         href={data.user.uuid + '/lands/create'}
-                        component={Link}
+                        LinkComponent={NextLink}
                     />
 
                     <Grid container spacing={2}>

@@ -21,8 +21,8 @@ import Dialog from '../Global/Dialog'
 // locals
 import { useHooks } from './hooks/useHooks'
 import { DATATABE_SEARCH_ONLY_COLUMNS } from './hooks/statics'
-import StateFilterChips from './components/StateFilterChips'
-import TypeFilterChips from './components/TypeFilterChips'
+import StateFilterChips from './components/state-filter-chips'
+import TypeFilterChips from './components/type-filter-chips'
 // utils
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import handle422 from '@/utils/handle-422'

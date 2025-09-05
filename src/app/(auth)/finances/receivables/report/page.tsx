@@ -6,10 +6,10 @@ import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import { useRouter, useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
+import Link from 'next/link'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
-import Link from '@mui/material/Link'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -273,8 +273,6 @@ function MonthPicker() {
     )
 }
 
-const FAKE_ONCLICK = () => undefined
-
 const CHIP_DEFAULT_PROPS = {
     size: 'small',
     component: Link,
@@ -290,28 +288,28 @@ function TypeFilterChips() {
                 {...CHIP_DEFAULT_PROPS}
                 label="Semua"
                 href="?type="
-                onClick={type ? undefined : FAKE_ONCLICK}
+                clickable={Boolean(type)}
                 color={type ? undefined : 'success'}
             />
             <Chip
                 {...CHIP_DEFAULT_PROPS}
                 label="Penjualan Produk (SAPRODI)"
                 href="?type=product-sale"
-                onClick={type === 'product-sale' ? undefined : FAKE_ONCLICK}
+                clickable={type !== 'product-sale'}
                 color={type === 'product-sale' ? 'success' : undefined}
             />
             <Chip
                 {...CHIP_DEFAULT_PROPS}
                 label="Pinjaman (SPP)"
                 href="?type=user-loan"
-                onClick={type === 'user-loan' ? undefined : FAKE_ONCLICK}
+                clickable={type !== 'user-loan'}
                 color={type === 'user-loan' ? 'success' : undefined}
             />
             <Chip
                 {...CHIP_DEFAULT_PROPS}
                 label="Sewa Alat Berat"
                 href="?type=rent-item-rent"
-                onClick={type === 'rent-item-rent' ? undefined : FAKE_ONCLICK}
+                clickable={type !== 'rent-item-rent'}
                 color={type === 'rent-item-rent' ? 'success' : undefined}
             />
         </ScrollableXBox>

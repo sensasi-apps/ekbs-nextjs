@@ -1,9 +1,14 @@
-import Box from '@mui/material/Box'
-import Link from '@mui/material/Link'
-import Typography from '@mui/material/Typography'
+// vendors
+import type { ReactNode } from 'react'
+import type { UrlObject } from 'url'
 import dayjs from 'dayjs'
+// materials
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+// components
+import Link from '@/components/link'
+// etc
 import packageJson from '@/../package.json'
-import { type ReactNode } from 'react'
 
 const versionDateDayjs = dayjs(packageJson.versionDate)
 
@@ -16,7 +21,7 @@ export default function FlatFooter() {
                 <>
                     <Link
                         color="inherit"
-                        href={packageJson.author.url}
+                        href={packageJson.author.url as unknown as UrlObject}
                         target="_blank">
                         {packageJson.author.name}
                     </Link>{' '}
