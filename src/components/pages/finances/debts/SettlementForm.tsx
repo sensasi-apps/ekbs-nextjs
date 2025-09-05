@@ -1,6 +1,6 @@
 // types
 import type { UUID } from 'crypto'
-import type DebtDetail from '@/types/orms/debt-detail'
+import type DebtDetailORM from '@/types/orms/debt-detail'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // vendors
 import { Field, type FieldProps, type FormikProps } from 'formik'
@@ -24,7 +24,7 @@ export default function SettlementForm({
         throw new Error('status is required')
     }
 
-    const typedStatus = status as DebtDetail
+    const typedStatus = status as DebtDetailORM
 
     const isNew = Boolean(typedStatus.uuid)
     const isDisabled = isSubmitting
@@ -89,9 +89,9 @@ export default function SettlementForm({
     )
 }
 
-export type FormValuesType = {
-    paid?: DebtDetail['paid']
-    rp: DebtDetail['rp']
+interface FormValuesType {
+    paid?: DebtDetailORM['paid']
+    rp: DebtDetailORM['rp']
     cashable_uuid?: TransactionORM['cashable_uuid']
     tag?: TransactionORM['tags'][number]
 }

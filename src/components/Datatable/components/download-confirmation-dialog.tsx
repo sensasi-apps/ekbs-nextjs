@@ -1,10 +1,9 @@
-import Dialog from '@mui/material/Dialog'
+import Dialog, { type DialogProps } from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import Button from '@mui/material/Button'
-import { type DownloadDialogProps } from './@types/DownloadDialogProps'
+import Button, { type ButtonProps } from '@mui/material/Button'
 
 /**
  * @deprecated not implemented yet
@@ -14,7 +13,12 @@ export function DownloadConfirmationDialog({
     nData,
     onAgree,
     onDisagree,
-}: DownloadDialogProps) {
+}: {
+    open: DialogProps['open']
+    nData: number
+    onAgree: ButtonProps['onClick']
+    onDisagree: ButtonProps['onClick']
+}) {
     return (
         <Dialog open={open} maxWidth="xs">
             <DialogTitle>Ukuran Data Sangat Besar</DialogTitle>

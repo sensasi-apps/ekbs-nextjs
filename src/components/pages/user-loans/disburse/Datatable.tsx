@@ -8,7 +8,6 @@ import Box from '@mui/material/Box'
 import Datatable, { getRowData } from '@/components/Datatable'
 import DATATABLE_COLUMNS from '@/components/pages/user-loans/DATATABLE_COLUMNS'
 import { DEFAULT_SORT_ORDER } from '@/components/pages/user-loans/Datatable'
-import UserLoanDatatableApiUrlEnum from '../Datatable/ApiUrlEnum'
 
 function UserLoanDisburseDatatable({
     onEdit,
@@ -68,3 +67,10 @@ function UserLoanDisburseDatatable({
 }
 
 export default UserLoanDisburseDatatable
+
+enum UserLoanDatatableApiUrlEnum {
+    // ForApplier = '/loans/datatable',
+    ForManager = '/user-loans/datatable',
+    ForDisburser = '/user-loans/datatable?status=for-disburser',
+    // ForReviewer = '/user-loans/datatable?status=for-reviewer',
+}

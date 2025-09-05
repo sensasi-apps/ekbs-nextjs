@@ -1,7 +1,6 @@
 import type { UUID } from 'crypto'
 import type ProductMovementDetail from './product-movement-detail'
-import type ActivityLog from '../../../../types/orms/activity-log'
-import type ProductOpname from './product-opname'
+import type ActivityLog from '@/types/orms/activity-log'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 
 export default interface ProductMovementORM {
@@ -20,12 +19,7 @@ export default interface ProductMovementORM {
     }[]
 }
 
-export type ProductOpnameMovementType = ProductMovementORM & {
-    type: ProductMovementTypeEnum.OPNAME
-    product_movementable: ProductOpname
-}
-
-export enum ProductMovementTypeEnum {
+enum ProductMovementTypeEnum {
     PURCHASE = 'pembelian',
     OPNAME = 'opname',
     // GRANT = 'hibah',

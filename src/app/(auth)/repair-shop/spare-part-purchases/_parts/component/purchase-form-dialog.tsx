@@ -74,7 +74,7 @@ export default function PurchaseFormDialog({
     )
 }
 
-export function PurchaseFormikForm({
+function PurchaseFormikForm({
     dirty,
     setFieldValue,
     isSubmitting,
