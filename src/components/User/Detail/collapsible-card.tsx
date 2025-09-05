@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 // materials
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -16,7 +16,11 @@ const CARD_CONTENT_SX = {
     pt: 0,
 }
 
-const UserDetailCollapsibleCard = ({ editButton }) => {
+export default function UserDetailCollapsibleCard({
+    editButton,
+}: {
+    editButton: ReactNode
+}) {
     const { data: { detail = {} } = {}, isLoading } = useUserWithDetails()
 
     const [open, setOpen] = useState(false)
@@ -30,7 +34,6 @@ const UserDetailCollapsibleCard = ({ editButton }) => {
             <CardHeader
                 title="Detail Pengguna"
                 titleTypographyProps={{
-                    variant: 'body',
                     fontWeight: 'bold',
                 }}
                 action={
@@ -56,5 +59,3 @@ const UserDetailCollapsibleCard = ({ editButton }) => {
         </Card>
     )
 }
-
-export default UserDetailCollapsibleCard

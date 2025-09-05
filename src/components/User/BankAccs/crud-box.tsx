@@ -20,7 +20,23 @@ import UserBankAccForm from './form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 
-const ListItem = ({ data: { uuid, no_decrypted, name }, userUuid }) => {
+interface UserBankAccountORM {
+    uuid: string
+    user_uuid: string
+    name: string
+    // no: string // unused encrypted
+
+    // accessors
+    no_decrypted: string
+}
+
+function ListItem({
+    data: { uuid, no_decrypted, name },
+    userUuid,
+}: {
+    data: UserBankAccountORM
+    userUuid: string
+}) {
     const [isDeleting, setIsDeleting] = useState(false)
 
     const handleDelete = async () => {
@@ -62,12 +78,15 @@ const ListItem = ({ data: { uuid, no_decrypted, name }, userUuid }) => {
     )
 }
 
-const UserBankAccsCrudBox = () => {
+export default function UserBankAccsCrudBox() {
     const { data: userWithDetails, isLoading } = useUserWithDetails()
 
     const [isFormOpen, setIsFormOpen] = useState(false)
 
-    const { bank_accs, uuid: userUuid } = userWithDetails || {}
+    const { bank_accs, uuid: userUuid } = (userWithDetails ?? {}) as {
+        bank_accs: UserBankAccountORM[]
+        uuid: string
+    }
 
     return (
         <Box>
@@ -118,5 +137,3 @@ const UserBankAccsCrudBox = () => {
         </Box>
     )
 }
-
-export default UserBankAccsCrudBox

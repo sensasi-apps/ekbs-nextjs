@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -12,19 +12,28 @@ import Typography from '@mui/material/Typography'
 
 import CloseIcon from '@mui/icons-material/Close'
 import KeyIcon from '@mui/icons-material/Key'
-import LoadingCenter from '../Statuses/LoadingCenter'
-import CompleteCenter from '../Statuses/CompleteCenter'
-import ErrorCenter from '../Statuses/ErrorCenter'
+import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import CompleteCenter from '@/components/Statuses/CompleteCenter'
+import ErrorCenter from '@/components/Statuses/ErrorCenter'
 import axios from '@/lib/axios'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
+import type UserORM from '../types/orms/user'
+import handle422 from '@/utils/handle-422'
 
 const EMPTY_PASSWORDS_DATA = {
     new_password: '',
     new_password_confirmation: '',
 }
 
-export default function SetPasswordButtonAndDialogForm({ data: user }) {
+export default function SetPasswordButtonAndDialogForm({
+    data: user,
+}: {
+    data: UserORM
+}) {
     const [isOpen, setIsOpen] = useState(false)
-    const [validationErrors, setValidationErrors] = useState([])
+    const [validationErrors, setValidationErrors] = useState<
+        LaravelValidationExceptionResponse['errors']
+    >({})
 
     const [isComplete, setIsComplete] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -34,7 +43,7 @@ export default function SetPasswordButtonAndDialogForm({ data: user }) {
 
     useEffect(() => {
         if (isOpen === false) {
-            setValidationErrors([])
+            setValidationErrors({})
             setIsComplete(false)
             setIsLoading(false)
             setError(undefined)
@@ -51,27 +60,21 @@ export default function SetPasswordButtonAndDialogForm({ data: user }) {
         passwordsData.new_password === '' ||
         passwordsData.new_password_confirmation === ''
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
 
         setIsLoading(true)
 
-        try {
-            await axios.put(`/users/${user.uuid}/set-password`, passwordsData)
-
-            setIsComplete(true)
-        } catch (error) {
-            if (error.response?.status === 422) {
-                setValidationErrors(error.response.data.errors)
-            } else {
-                setError(error.response?.data.message)
-            }
-        }
-
-        setIsLoading(false)
+        axios
+            .put(`/users/${user.uuid}/set-password`, passwordsData)
+            .catch(error => handle422(error, setValidationErrors))
+            .then(() => setIsComplete(true))
+            .finally(() => {
+                setIsLoading(false)
+            })
     }
 
-    const validateInputs = (name, value) => {
+    const validateInputs = (name: string, value: string) => {
         let error = undefined
 
         if (value.length !== 0 && value.length < 8) {
@@ -85,13 +88,15 @@ export default function SetPasswordButtonAndDialogForm({ data: user }) {
             error = 'Kata sandi tidak sama'
         }
 
-        setValidationErrors({
-            ...validationErrors,
-            [name]: error,
-        })
+        if (error) {
+            setValidationErrors(prev => ({
+                ...prev,
+                [name]: [error],
+            }))
+        }
     }
 
-    const handleChange = e => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
 
         validateInputs(name, value)

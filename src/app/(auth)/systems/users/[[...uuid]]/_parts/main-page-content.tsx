@@ -12,14 +12,14 @@ import Masonry from '@mui/lab/Masonry'
 // page components
 import { getRoleIconByIdName } from '@/components/User/RoleChips'
 import { UserDetailCrud } from '@/components/User/Detail/Crud'
-import UserAddressesCrudBox from '@/components/User/Address/CrudBox'
-import UserBankAccsCrudBox from '@/components/User/BankAccs/CrudBox'
-import UserDriversCrudBox from '@/components/User/Drivers/CrudBox'
+import UserAddressesCrudBox from '@/components/User/Address/crud-box'
+import UserBankAccsCrudBox from '@/components/User/BankAccs/crud-box'
+import UserDriversCrudBox from '@/modules/auth/components/user-driver-crud-box'
 import UserEmployeeCrud from '@/components/User/Employee/Crud'
 import UserLandsCrud from '@/modules/auth/components/user-land-crud'
-import UserMemberCrudCard from '@/components/User/Member/CrudCard'
+import UserMemberCrudCard from '@/components/User/Member/crud-card'
 import UserSocialsCrudBox from '@/components/User/Socials/CrudBox'
-import UserVehiclesCrudBox from '@/components/User/Vehicles/CrudBox'
+import UserVehiclesCrudBox from '@/components/User/Vehicles/crud-box'
 // utils
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import Role from '@/enums/role'
@@ -105,7 +105,7 @@ export default function UsersMainPageContent() {
                         <CardHeader
                             avatar={getRoleIconByIdName('karyawan')}
                             title="Kepegawaian"
-                            titleTypographyProps={TITLE_TYPORAPHY_PROPS}
+                            titleTypographyProps={TITLE_TYPOGRAPHY_PROPS}
                         />
                         <CardContent sx={PT_0_SX}>
                             <UserEmployeeCrud userUuid={uuid} data={employee} />
@@ -117,7 +117,9 @@ export default function UsersMainPageContent() {
                     in={isUserHasRole(Role.MEMBER, userWithDetails)}
                     unmountOnExit
                     exit={false}>
-                    <UserMemberCrudCard />
+                    <div>
+                        <UserMemberCrudCard />
+                    </div>
                 </Fade>
 
                 <Fade
@@ -128,7 +130,7 @@ export default function UsersMainPageContent() {
                         <CardHeader
                             avatar={getRoleIconByIdName('petani')}
                             title="Daftar Kebun"
-                            titleTypographyProps={TITLE_TYPORAPHY_PROPS}
+                            titleTypographyProps={TITLE_TYPOGRAPHY_PROPS}
                         />
                         <CardContent sx={PT_0_SX}>
                             <UserLandsCrud />
@@ -144,7 +146,7 @@ export default function UsersMainPageContent() {
                         <CardHeader
                             avatar={getRoleIconByIdName('pengangkut')}
                             title="Daftar Pengemudi"
-                            titleTypographyProps={TITLE_TYPORAPHY_PROPS}
+                            titleTypographyProps={TITLE_TYPOGRAPHY_PROPS}
                         />
                         <CardContent sx={PT_0_SX}>
                             <UserDriversCrudBox
@@ -163,7 +165,7 @@ export default function UsersMainPageContent() {
                         <CardHeader
                             avatar={getRoleIconByIdName('pengangkut')}
                             title="Daftar Kendaraan Pengangkut"
-                            titleTypographyProps={TITLE_TYPORAPHY_PROPS}
+                            titleTypographyProps={TITLE_TYPOGRAPHY_PROPS}
                         />
                         <CardContent sx={PT_0_SX}>
                             <UserVehiclesCrudBox
@@ -182,7 +184,7 @@ export default function UsersMainPageContent() {
                         <CardHeader
                             avatar={getRoleIconByIdName('pengemudi')}
                             title="Informasi Pengemudi"
-                            titleTypographyProps={TITLE_TYPORAPHY_PROPS}
+                            titleTypographyProps={TITLE_TYPOGRAPHY_PROPS}
                         />
                         <CardContent sx={PT_0_SX}>
                             <Typography variant="caption" color="GrayText">
@@ -197,7 +199,7 @@ export default function UsersMainPageContent() {
     )
 }
 
-const TITLE_TYPORAPHY_PROPS: CardHeaderProps['titleTypographyProps'] = {
+const TITLE_TYPOGRAPHY_PROPS: CardHeaderProps['titleTypographyProps'] = {
     variant: 'body1',
     fontWeight: 'bold',
 }

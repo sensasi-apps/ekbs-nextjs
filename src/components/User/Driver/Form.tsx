@@ -1,6 +1,5 @@
 // types
 import type { AxiosError } from 'axios'
-import type { UUID } from 'crypto'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // vendors
 import { useState } from 'react'
@@ -19,10 +18,10 @@ export default function UserDriverForm({
     courierUserUuid,
 }: {
     onClose?: () => void
-    courierUserUuid: UUID
+    courierUserUuid: string
 }) {
     const [formValues, setFormValues] = useState<{
-        driver_user_uuid?: UUID
+        driver_user_uuid?: string
         license_number?: string
     }>()
     const [errors, setErrors] = useState<Record<string, string[] | undefined>>()
