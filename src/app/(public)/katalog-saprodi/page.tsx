@@ -1,7 +1,7 @@
 'use client'
 // types
 import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
-import type ProductType from '@/types/orms/product'
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
 // vendors
 import { useSearchParams } from 'next/navigation'
 import Head from 'next/head'

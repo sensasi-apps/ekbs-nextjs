@@ -2,7 +2,7 @@
 import type { Ymd } from '@/types/date-string'
 import type { OnRowClickType } from '@/components/Datatable'
 import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // vendors
 import { Formik } from 'formik'
 import { useCallback, useRef, useState, type MutableRefObject } from 'react'
@@ -27,7 +27,7 @@ import errorCatcher from '@/utils/handle-422'
 import toDmy from '@/utils/to-dmy'
 import formatNumber from '@/utils/format-number'
 
-type CustomTx = Transaction & {
+type CustomTx = TransactionORM & {
     tag_names: string
     cash_name: string
     wallet_name: string
@@ -38,7 +38,7 @@ let getRowDataRefGlobal: MutableRefObject<GetRowData<CustomTx> | undefined>
 
 export default function TransactionCrud() {
     const [values, setValues] = useState<FormValuesType>()
-    const [status, setStatus] = useState<Transaction>()
+    const [status, setStatus] = useState<TransactionORM>()
     const getRowDataRef = useRef<GetRowData<CustomTx> | undefined>(undefined)
     getRowDataRefGlobal = getRowDataRef
 

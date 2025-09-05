@@ -1,8 +1,8 @@
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 
 export default function getInstallmentColor({
     state,
-}: Installment): 'error.main' | 'warning.main' | 'success.main' | undefined {
+}: InstallmentORM): 'error.main' | 'warning.main' | 'success.main' | undefined {
     switch (state) {
         case 'Jatuh Tempo':
             return 'error.main'

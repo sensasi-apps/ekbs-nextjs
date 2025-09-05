@@ -9,7 +9,7 @@ import Grid from '@mui/material/GridLegacy'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 // components
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 import DatePicker from '@/components/DatePicker'
 import UserAutocomplete from '@/components/UserAutocomplete'
 import TextField from '@/components/TextField'
@@ -44,7 +44,7 @@ function PalmBunchesReaDeliveryMainInputs({
     disabled,
 }: MainInputProps) {
     const isAuthHasPermission = useIsAuthHasPermission()
-    const { data, setData } = useFormData<PalmBunchesReaTicket>()
+    const { data, setData } = useFormData<PalmBunchesReaTicketORM>()
 
     // ticket props
     const [at, setAt] = useState(data.at ? dayjs(data.at) : null)

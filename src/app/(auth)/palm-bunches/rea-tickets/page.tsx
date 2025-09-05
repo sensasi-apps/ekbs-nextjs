@@ -1,8 +1,8 @@
 'use client'
 
 import type { UUID } from 'crypto'
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
-import type PalmBunchType from '@/types/orms/palm-bunch'
+import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
+import type PalmBunchType from '@/modules/palm-bunch/types/orms/palm-bunch'
 import type Land from '@/modules/clm/types/orms/land'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -37,7 +37,7 @@ import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
-import Role from '@/enums/role-temp'
+import Role from '@/enums/role'
 // utils
 import formatNumber from '@/utils/format-number'
 import blinkSxValue from '@/utils/blink-sx-value'

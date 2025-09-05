@@ -1,5 +1,5 @@
 // types
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // vendors
 import { useDebounce } from 'use-debounce'
 import { useState } from 'react'
@@ -47,7 +47,7 @@ import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 export type ApiResponseType = {
     balanceFrom: number
-    data: Transaction[]
+    data: TransactionORM[]
     balanceTo: number
 }
 
@@ -386,7 +386,7 @@ function TxsList({
 }: {
     data: {
         balanceFrom?: number
-        data: Transaction[]
+        data: TransactionORM[]
         balanceTo?: number
     }
 }) {

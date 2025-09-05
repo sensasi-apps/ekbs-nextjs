@@ -1,7 +1,7 @@
 // types
 import type { UUID } from 'crypto'
 import type { FormikContextType, FastFieldProps } from 'formik'
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // vendors
 import { memo } from 'react'
 import { FastField } from 'formik'
@@ -20,9 +20,9 @@ export default function UserLoanDisburseForm({
     isSubmitting,
     status,
 }: FormikContextType<FormValuesType>) {
-    const userLoan = status?.userLoan as UserLoanType
+    const userLoan = status?.userLoan as UserLoanORM
     const isDisbursed = Boolean(userLoan.transaction)
-    const hasResponses = userLoan.responses.length > 0
+    const hasResponses = (userLoan.responses?.length ?? 0) > 0
     const isProcessing = isSubmitting
     const isDisabled =
         isProcessing || isDisbursed || !hasResponses || !userLoan.is_approved
@@ -75,7 +75,7 @@ export type FormValuesType = Partial<{
 const SummaryBox = memo(function SummaryBox({
     data: { proposed_rp, proposed_at, type, responses },
 }: {
-    data: UserLoanType
+    data: UserLoanORM
 }) {
     return (
         <Box display="flex" flexDirection="column" gap={1} my={3}>
@@ -85,7 +85,7 @@ const SummaryBox = memo(function SummaryBox({
 
             <TypographyWithLabel label="Jenis:">{type}</TypographyWithLabel>
 
-            <UserLoanSummaryBoxReviewers responses={responses} />
+            <UserLoanSummaryBoxReviewers responses={responses ?? []} />
         </Box>
     )
 })

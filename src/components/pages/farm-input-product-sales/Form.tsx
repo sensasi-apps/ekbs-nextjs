@@ -1,8 +1,8 @@
 // types
 import type CashType from '@/types/orms/cash'
 import type { UUID } from 'crypto'
-import type ProductType from '@/types/orms/product'
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import type User from '@/modules/auth/types/orms/user'
 import type Wallet from '@/types/orms/wallet'
 // vendors
@@ -48,8 +48,8 @@ import numberToCurrency from '@/utils/number-to-currency'
 import UserActivityLogs from '@/components/UserActivityLogs'
 import TextField from '@/components/TextField'
 // enums
-import type ProductMovement from '@/types/orms/product-movement'
-import Role from '@/enums/role-temp'
+import type ProductMovement from '@/modules/farm-inputs/types/orms/product-movement'
+import Role from '@/enums/role'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
@@ -72,7 +72,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
     status,
     setFieldValue,
 }: FormikProps<typeof EMPTY_FORM_DATA>) {
-    const typedStatus: null | ProductSale = status
+    const typedStatus: null | ProductSaleORM = status
     const { uuid, buyer_user, short_uuid, is_paid } = typedStatus ?? {}
 
     const [userAutocompleteValue, setUserAutocompleteValue] =
@@ -540,9 +540,9 @@ const ProductSaleForm = memo(function ProductSaleForm({
 export default ProductSaleForm
 
 export const EMPTY_FORM_DATA: Partial<{
-    buyer_user_uuid: null | ProductSale['buyer_user_uuid']
-    at: null | ProductSale['at']
-    note: '' | ProductSale['note']
+    buyer_user_uuid: null | ProductSaleORM['buyer_user_uuid']
+    at: null | ProductSaleORM['at']
+    note: '' | ProductSaleORM['note']
     warehouse: ProductMovement['warehouse']
 
     product_sale_details: {
@@ -559,9 +559,9 @@ export const EMPTY_FORM_DATA: Partial<{
     adjustment_rp?: number
 
     // payment installment
-    interest_percent: ProductSale['interest_percent']
-    n_term: ProductSale['n_term']
-    n_term_unit: null | ProductSale['n_term_unit']
+    interest_percent: ProductSaleORM['interest_percent']
+    n_term: ProductSaleORM['n_term']
+    n_term_unit: null | ProductSaleORM['n_term_unit']
 }> = {
     buyer_user_uuid: null,
     note: '',
@@ -576,4 +576,4 @@ export const EMPTY_FORM_DATA: Partial<{
     cashable_uuid: '',
 }
 
-export const EMPTY_FORM_STATUS: null | ProductSale = null
+export const EMPTY_FORM_STATUS: null | ProductSaleORM = null

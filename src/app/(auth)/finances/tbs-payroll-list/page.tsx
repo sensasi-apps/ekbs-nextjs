@@ -4,7 +4,7 @@
 import { useRouter } from 'next/navigation'
 // types
 import type { Ymd } from '@/types/date-string'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // vendors
 import { useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'
@@ -42,7 +42,7 @@ export default function TbsPayrollList() {
     const at = searchParams?.get('at')
     const to_cash_uuid = searchParams?.get('to_cash_uuid')
 
-    const { data, isLoading } = useSWR<Transaction[]>(
+    const { data, isLoading } = useSWR<TransactionORM[]>(
         at && to_cash_uuid
             ? [
                   ApiUrl,
@@ -172,7 +172,7 @@ function FilterForm({ disabled }: { disabled: boolean }) {
     )
 }
 
-function MainTable({ data: txs }: { data: Transaction[] }) {
+function MainTable({ data: txs }: { data: TransactionORM[] }) {
     return (
         <TableContainer>
             <Table size="small">

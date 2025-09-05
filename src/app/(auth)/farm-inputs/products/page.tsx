@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type ProductType from '@/types/orms/product'
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'

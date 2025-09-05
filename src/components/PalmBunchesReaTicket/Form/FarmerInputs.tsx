@@ -1,6 +1,6 @@
 // types
-import type PalmBunchDataType from '@/types/orms/palm-bunch'
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchORM from '@/modules/palm-bunch/types/orms/palm-bunch'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // vendors
 import { useEffect, useState, memo } from 'react'
 import { NumericFormat } from 'react-number-format'
@@ -36,9 +36,9 @@ function PalmBunchesReaDeliveryFarmerInputs({
 }) {
     const isAuthHasPermission = useIsAuthHasPermission()
 
-    const { data, setData } = useFormData<PalmBunchesReaTicket>()
+    const { data, setData } = useFormData<PalmBunchesReaTicketORM>()
 
-    const [palmBunches, setPalmBunches] = useState<PalmBunchDataType[]>(
+    const [palmBunches, setPalmBunches] = useState<PalmBunchORM[]>(
         data.delivery?.palm_bunches ?? [{}],
     )
 
@@ -46,7 +46,7 @@ function PalmBunchesReaDeliveryFarmerInputs({
         setPalmBunches(data.delivery?.palm_bunches ?? [{}])
     }, [data])
 
-    const handleChange = (index: number, newPalmBunch: PalmBunchDataType) => {
+    const handleChange = (index: number, newPalmBunch: PalmBunchORM) => {
         palmBunches[index] = newPalmBunch
         setPalmBunches([...palmBunches])
     }
@@ -75,7 +75,7 @@ function PalmBunchesReaDeliveryFarmerInputs({
                             onClick={() =>
                                 setPalmBunches([
                                     ...palmBunches,
-                                    {} as PalmBunchDataType,
+                                    {} as PalmBunchORM,
                                 ])
                             }>
                             <AddCircleIcon />

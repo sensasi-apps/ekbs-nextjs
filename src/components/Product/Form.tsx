@@ -1,5 +1,5 @@
 // types
-import type Product from '@/types/orms/product'
+import type Product from '@/modules/farm-inputs/types/orms/product'
 import {
     FastField,
     FieldArray,

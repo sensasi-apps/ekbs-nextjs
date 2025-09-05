@@ -19,7 +19,7 @@ import Datatable, {
 import PageTitle from '@/components/page-title'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 //
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import {
     type ApiResponseType,
     LineChartCard,
@@ -30,10 +30,10 @@ import nowrapMuiDatatableCellPropsFn from '@/utils/nowrap-mui-datatable-cell-pro
 import formatNumber from '@/utils/format-number'
 import FlexBox from '@/components/flex-box'
 
-let getRowData: GetRowDataType<ProductSale>
+let getRowData: GetRowDataType<ProductSaleORM>
 
 export default function Page() {
-    const [receiptDialogData, setReceiptDialogData] = useState<ProductSale>()
+    const [receiptDialogData, setReceiptDialogData] = useState<ProductSaleORM>()
 
     const {
         data: { farmInputs: { bigNumber1, bigNumber2, lineChart } } = {
@@ -138,7 +138,7 @@ export default function Page() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
     {
         name: 'at',
         label: 'TGL',

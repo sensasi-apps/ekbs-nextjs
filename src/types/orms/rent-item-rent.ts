@@ -2,11 +2,11 @@ import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
 import type ActivityLogType from './activity-log'
 import type FarmerGroupType from './farmer-group'
-import type File from './file'
-import type { Installment } from '../../dataTypes/Installment'
-import type InventoryItem from './inventory-item'
-import type { Transaction } from '../../dataTypes/Transaction'
-import type UserType from '../../modules/auth/types/orms/user'
+import type FileORM from './file'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
+import type InventoryItemORM from './inventory-item'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+import type UserORM from '@/modules/auth/types/orms/user'
 
 export default interface RentItemRentORM {
     // columns
@@ -28,10 +28,10 @@ export default interface RentItemRentORM {
     is_paid: boolean
 
     // relations
-    inventory_item: InventoryItem
-    by_user?: UserType
-    transaction?: Transaction
-    installments?: Installment[]
+    inventory_item: InventoryItemORM
+    by_user?: UserORM
+    transaction?: TransactionORM
+    installments?: InstallmentORM[]
     installment?: {
         interest_percent: number
         n_term: number
@@ -40,12 +40,12 @@ export default interface RentItemRentORM {
     farmer_group?: FarmerGroupType
     heavy_equipment_rent?: {
         operated_by_user_uuid: UUID
-        operated_by_user: UserType
+        operated_by_user: UserORM
         start_hm?: number
         end_hm?: number
         note?: string
-        file?: File
+        file?: FileORM
     }
     user_activity_logs: ActivityLogType[]
-    validated_by_admin_user?: UserType
+    validated_by_admin_user?: UserORM
 }

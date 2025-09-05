@@ -1,17 +1,17 @@
 import type CashType from '@/types/orms/cash'
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 
 /**
  * Represents the data type for the user loan form.
  */
 export type UserLoanFormDataType = {
-    user_uuid: UserLoanType['user_uuid'] | ''
-    proposed_rp: UserLoanType['proposed_rp'] | ''
-    n_term: UserLoanType['n_term'] | ''
-    term_unit: UserLoanType['term_unit']
-    purpose: UserLoanType['purpose'] | ''
-    proposed_at: UserLoanType['proposed_at'] | null
-    interest_percent: UserLoanType['interest_percent'] | ''
-    type: UserLoanType['type'] | ''
+    user_uuid: UserLoanORM['user_uuid'] | ''
+    proposed_rp: UserLoanORM['proposed_rp'] | ''
+    n_term: UserLoanORM['n_term'] | ''
+    term_unit: UserLoanORM['term_unit']
+    purpose: UserLoanORM['purpose'] | ''
+    proposed_at: UserLoanORM['proposed_at'] | null
+    interest_percent: UserLoanORM['interest_percent'] | ''
+    type: UserLoanORM['type'] | ''
     cashable_uuid: CashType['uuid'] | ''
 }

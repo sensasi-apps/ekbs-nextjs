@@ -1,8 +1,5 @@
 // types
-import type {
-    UserDetailDBTypeWithRelations,
-    UserDetailRelationsType,
-} from '@/dataTypes/UserDetail'
+import type UserDetailORM from '@/modules/auth/types/orms/user-detail'
 import type { FormEvent } from 'react'
 // vendors
 import { useState } from 'react'
@@ -38,7 +35,7 @@ import type RegencyType from '@/types/orms/regency'
 import type VillageType from '@/types/orms/village'
 import NumericFormat from '@/components/NumericFormat'
 
-function getBirthRegion(userDetail?: UserDetailRelationsType) {
+function getBirthRegion(userDetail?: UserDetailORM) {
     return (
         userDetail?.birth_village ??
         userDetail?.birth_district ??
@@ -51,7 +48,7 @@ export default function UserDetailForm() {
     const { data: userWithDetails } = useUserWithDetails()
     const { data, handleClose } = useFormData()
 
-    const userDetail = data as UserDetailDBTypeWithRelations
+    const userDetail = data as UserDetailORM
 
     const [gender, setGender] = useState<string>()
     const [birthRegion, setBirthRegion] = useState(getBirthRegion(userDetail))

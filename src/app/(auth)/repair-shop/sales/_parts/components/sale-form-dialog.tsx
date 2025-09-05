@@ -107,7 +107,7 @@ export default function SaleFormDialog({
     )
 }
 
-export function SaleFormikForm({
+function SaleFormikForm({
     status,
     dirty,
     isSubmitting,

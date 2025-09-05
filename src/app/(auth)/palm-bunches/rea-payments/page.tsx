@@ -2,7 +2,7 @@
 
 // types
 import type { UUID } from 'crypto'
-import type PalmBunchesReaPaymentDataType from '@/types/orms/palm-bunches-rea-payment'
+import type PalmBunchesReaPaymentDataType from '@/modules/palm-bunch/types/orms/palm-bunches-rea-payment'
 // vendors
 import { useState } from 'react'
 // icons

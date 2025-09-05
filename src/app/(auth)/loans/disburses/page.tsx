@@ -2,7 +2,7 @@
 
 // types
 import type { FormikConfig } from 'formik'
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // vendors
 import { useState } from 'react'
 import { Formik } from 'formik'
@@ -26,9 +26,9 @@ export default function UserLoansDisbursesPage() {
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [formData, setFormData] = useState<FormValuesType>({})
-    const [userLoan, setUserLoan] = useState<UserLoanType | null>(null)
+    const [userLoan, setUserLoan] = useState<UserLoanORM | null>(null)
 
-    const handleEdit = (userLoan: UserLoanType) => {
+    const handleEdit = (userLoan: UserLoanORM) => {
         setFormData({
             cashable_uuid: userLoan.transaction?.cashable_uuid,
         })

@@ -1,6 +1,6 @@
 // types
 import type { UserLoanFormDataType } from './Form/types'
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // vendors
 import Typography from '@mui/material/Typography'
 // components
@@ -14,7 +14,7 @@ export default function UserLoanInstallmentDialog({
     data: loanValues,
     isProcessing,
 }: {
-    data: UserLoanType | UserLoanFormDataType
+    data: UserLoanORM | UserLoanFormDataType
     isProcessing: boolean
 }) {
     const { proposed_rp, interest_percent, n_term, term_unit } = loanValues
@@ -25,7 +25,8 @@ export default function UserLoanInstallmentDialog({
     // if (isRequiredDataNotFilled) return null
 
     const hasInstallments =
-        'installments' in loanValues && loanValues.installments.length > 0
+        'installments' in loanValues &&
+        (loanValues.installments?.length ?? 0) > 0
     const installment_amount = isRequiredDataNotFilled
         ? 0
         : Math.ceil(

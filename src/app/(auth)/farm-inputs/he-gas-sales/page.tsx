@@ -2,8 +2,8 @@
 
 // types
 import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
-import type { ProductSale } from '@/dataTypes/ProductSale'
-import type ProductMovementDetail from '@/types/orms/product-movement-detail'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
 // vendors
 import { useState } from 'react'
 import axios from '@/lib/axios'
@@ -45,7 +45,7 @@ export default function FarmInputHeGasSales() {
 
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
-            const productSale = getRowData<ProductSale>(dataIndex)
+            const productSale = getRowData<ProductSaleORM>(dataIndex)
             if (!productSale) return
 
             setInitialFormikValues({
@@ -155,7 +155,7 @@ export default function FarmInputHeGasSales() {
     )
 }
 
-const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
+const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
     <ul
         style={{
             margin: 0,
@@ -191,7 +191,7 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
     </ul>
 )
 
-const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',
@@ -211,7 +211,7 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
         label: 'Pemesan',
         options: {
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSale>(dataIndex)
+                const data = getRowData<ProductSaleORM>(dataIndex)
                 if (!data || !data.buyer_user) return ''
 
                 return `#${data.buyer_user.id} ${data.buyer_user.name}`
@@ -240,7 +240,7 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
         options: {
             sort: false,
             customBodyRenderLite: dataIndex => {
-                const data = getRowData<ProductSale>(dataIndex)
+                const data = getRowData<ProductSaleORM>(dataIndex)
                 if (!data) return ''
 
                 return pmdsCustomBodyRender(data.product_movement_details)

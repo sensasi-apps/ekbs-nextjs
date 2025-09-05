@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'
@@ -106,7 +106,7 @@ export default function ReceivableReport() {
     )
 }
 
-type ApiResponseType = Installment[]
+type ApiResponseType = InstallmentORM[]
 
 function MainTables({ data }: { data: ApiResponseType }) {
     const paidInstallments = data.filter(
@@ -320,7 +320,7 @@ function TypeFilterChips() {
     )
 }
 
-const getUserFromInstallmentable = (data: Installment) => {
+const getUserFromInstallmentable = (data: InstallmentORM) => {
     switch (data.installmentable_classname) {
         case 'App\\Models\\ProductSale':
             return data.product_sale?.buyer_user

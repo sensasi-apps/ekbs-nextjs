@@ -1,7 +1,7 @@
 // types
 import type { Ymd } from '@/types/date-string'
 import type CashType from '@/types/orms/cash'
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // vendors
 import { Field, useFormik, type FormikProps, type FieldProps } from 'formik'
 import { useEffect, useState, memo } from 'react'
@@ -41,7 +41,7 @@ import UserLoanInstallmentDialog from './InstallmentDialog'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import Role from '@/enums/role-temp'
+import Role from '@/enums/role'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
@@ -67,7 +67,7 @@ export default function LoanForm({
     const isAuthHasRole = useIsAuthHasRole()
 
     const mode: 'applier' | 'manager' = status.mode
-    const userLoanFromDb: UserLoanType | null = status.userLoanFromDb
+    const userLoanFromDb: UserLoanORM | null = status.userLoanFromDb
 
     const [userAutocompleteValue, setUserAutocompleteValue] = useState(
         userLoanFromDb?.user ?? null,
@@ -117,7 +117,9 @@ export default function LoanForm({
         setFieldValue('term_unit', userDefaultTermUnit)
     }, [userDefaultTermUnit, setFieldValue])
 
-    const hasResponses = isNew ? false : userLoanFromDb.responses.length > 0
+    const hasResponses = isNew
+        ? false
+        : (userLoanFromDb.responses?.length ?? 0) > 0
     const isProcessing = isSubmitting || isDeleting
     const isDisabled = Boolean(
         isProcessing ||
@@ -388,13 +390,13 @@ export const INITIAL_VALUES: UserLoanFormDataType = {
 const UserLoanInfoGrid = memo(function UserLoanInfoGrid({
     data: userLoan,
 }: {
-    data: UserLoanType | null
+    data: UserLoanORM | null
 }) {
     const isNew = !userLoan?.uuid
 
     if (isNew) return null
 
-    const hasResponses = userLoan?.responses.length > 0
+    const hasResponses = (userLoan?.responses?.length ?? 0) > 0
 
     return (
         <Grid container mb={2}>
@@ -408,7 +410,7 @@ const UserLoanInfoGrid = memo(function UserLoanInfoGrid({
                         style={{
                             margin: 0,
                         }}>
-                        {userLoan?.responses.map((response, i) => (
+                        {userLoan?.responses?.map((response, i) => (
                             <Typography key={i} component="li">
                                 {'by_user' in response && response.by_user
                                     ? response.by_user.name

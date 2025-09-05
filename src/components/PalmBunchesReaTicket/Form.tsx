@@ -1,6 +1,6 @@
 // types
 import type { FormEvent } from 'react'
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 import type FormType from '@/components/Global/Form/type'
 import type ActivityLogType from '@/types/orms/activity-log'
 // vendors
@@ -27,7 +27,7 @@ import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useValidationErrors from '@/hooks/useValidationErrors'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 // enums
-import Role from '@/enums/role-temp'
+import Role from '@/enums/role'
 import ReaTiketPaymentDetailView from './Form/ReaTiketPaymentDetailView'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 

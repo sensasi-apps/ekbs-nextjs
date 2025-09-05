@@ -7,8 +7,8 @@ import type {
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type ProductMovementDetail from '@/types/orms/product-movement-detail'
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
@@ -37,17 +37,17 @@ import numberToCurrency from '@/utils/number-to-currency'
 import PrintHandler from '@/components/PrintHandler'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 // enums
-import { CashableClassname } from '@/dataTypes/Transaction'
+import { CashableClassname } from '@/modules/transaction/types/orms/transaction'
 import FarmInputPermission from '@/enums/permissions/FarmInput'
-import Role from '@/enums/role-temp'
+import Role from '@/enums/role'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 
-let getRowData: GetRowDataType<ProductSale>
-let mutate: MutateType<ProductSale>
+let getRowData: GetRowDataType<ProductSaleORM>
+let mutate: MutateType<ProductSaleORM>
 
 export default function FarmInputProductSales() {
     const isAuthHasPermission = useIsAuthHasPermission()
@@ -239,7 +239,7 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
     }
 }
 
-const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
+const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
     <ul
         style={{
             margin: 0,
@@ -267,7 +267,7 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetail[]) => (
     </ul>
 )
 
-const DATATABLE_COLUMNS: DatatableProps<ProductSale>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
     {
         name: 'uuid',
         label: 'UUID',

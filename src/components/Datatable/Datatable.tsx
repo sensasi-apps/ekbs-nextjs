@@ -17,7 +17,6 @@ import Refresh from '@mui/icons-material/Refresh'
 // locals
 import { useHooks } from './hooks/useHooks'
 // import { DownloadConfirmationDialog } from './components/DownloadConfirmationDialog'
-import sxs from './sxs'
 // utils
 import { CLICKABLE_INFO } from './statics'
 
@@ -95,9 +94,29 @@ export function Datatable<T>({
     }
 
     return (
-        <Box sx={sxs.tableParent}>
+        <Box
+            sx={{
+                '& td, & th': {
+                    p: 1,
+                },
+                '& tbody .MuiTableRow-hover': {
+                    cursor: 'pointer',
+                },
+                translate: '0 -4px',
+                userSelect: 'none',
+                msUserSelect: 'none',
+                webkitUserSelect: 'none',
+                mozUserSelect: 'none',
+            }}>
             <Fade in={isLoading}>
-                <LinearProgress sx={sxs.loadingTop} />
+                <LinearProgress
+                    sx={{
+                        borderTopLeftRadius: 11,
+                        borderTopRightRadius: 11,
+                        translate: '0 4px',
+                        zIndex: 1,
+                    }}
+                />
             </Fade>
 
             <VendorDataTable
@@ -109,7 +128,14 @@ export function Datatable<T>({
             />
 
             <Fade in={isLoading}>
-                <LinearProgress sx={sxs.loadingBottom} />
+                <LinearProgress
+                    sx={{
+                        borderBottomLeftRadius: 11,
+                        borderBottomRightRadius: 11,
+                        translate: '0 -4px',
+                        zIndex: 1,
+                    }}
+                />
             </Fade>
 
             {/**

@@ -19,7 +19,7 @@ import type {
     GetRowDataType,
     MutateType,
 } from '@/components/Datatable'
-import type { Transaction } from '@/dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
@@ -37,7 +37,7 @@ import toDmy from '@/utils/to-dmy'
 // enums
 import BusinessUnit from '@/enums/business-unit'
 
-type CustomTx = Transaction & {
+type CustomTx = TransactionORM & {
     tag_names: string
     cash_name: string
     wallet_name: string

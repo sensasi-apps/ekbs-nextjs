@@ -1,7 +1,7 @@
 // types
-import type { InstallmentWithTransactionType } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type { UserLoanFormDataType } from '../Form/types'
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -21,7 +21,7 @@ type DraftInstallment = {
 export default function UserLoanInstallmentDialogTable({
     data: loan,
 }: {
-    data: UserLoanFormDataType | UserLoanType
+    data: UserLoanFormDataType | UserLoanORM
 }) {
     const { proposed_rp, interest_percent, n_term, term_unit } = loan
 
@@ -32,7 +32,7 @@ export default function UserLoanInstallmentDialogTable({
     const interest_rp = Math.ceil((proposed_rp * interest_percent) / 100)
 
     const hasInstallments =
-        'installments' in loan && loan.installments.length > 0
+        'installments' in loan && (loan.installments?.length ?? 0) > 0
     const installments = hasInstallments
         ? loan.installments
         : (() => {
@@ -49,7 +49,7 @@ export default function UserLoanInstallmentDialogTable({
           })()
 
     const isDisbursed = Boolean(transaction)
-    const installment_amount = installments[0].amount_rp
+    const installment_amount = installments?.[0].amount_rp ?? 0
     let remaining_rp = proposed_rp
 
     return (
@@ -78,7 +78,7 @@ export default function UserLoanInstallmentDialogTable({
                     {isDisbursed && <TableCell />}
                 </TableRow>
 
-                {installments.map(installment => {
+                {installments?.map(installment => {
                     return (
                         <InstallmentTableRow
                             key={installment.n_th}
@@ -124,7 +124,7 @@ function InstallmentTableRow({
     interest_rp,
     isDisbursed = false,
 }: {
-    data: InstallmentWithTransactionType | DraftInstallment
+    data: InstallmentORM | DraftInstallment
     remaining_rp: number
     base_rp: number
     interest_rp: number

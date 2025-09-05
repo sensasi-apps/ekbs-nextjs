@@ -1,8 +1,6 @@
 // types
-import type { InstallmentWithTransactionType } from '@/dataTypes/Installment'
-import type { ProductSaleInstallmentType } from '@/dataTypes/ProductSale'
-// vendors
-import { memo } from 'react'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 //materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -14,17 +12,17 @@ import TableRow from '@mui/material/TableRow'
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 
-const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
+export default function ReceiptInstalmentTable({
     data: {
-        n_term,
+        n_term = 0,
         n_term_unit,
         total_base_rp,
-        interest_percent,
+        interest_percent = 0,
         at,
-        installments,
+        installments = [],
     },
 }: {
-    data: ProductSaleInstallmentType
+    data: ProductSaleORM
 }) {
     let remaining_rp = total_base_rp
     const base_rp = Math.ceil(total_base_rp / n_term)
@@ -113,9 +111,7 @@ const ReceiptInstalmentTable = memo(function ReceiptInstalmentTable({
             </TableFooter>
         </Table>
     )
-})
-
-export default ReceiptInstalmentTable
+}
 
 function InstallmentTableRow({
     data,
@@ -123,7 +119,7 @@ function InstallmentTableRow({
     base_rp,
     interest_rp,
 }: {
-    data: InstallmentWithTransactionType
+    data: InstallmentORM
     remaining_rp: number
     base_rp: number
     interest_rp: number

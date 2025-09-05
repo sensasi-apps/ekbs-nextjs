@@ -1,6 +1,6 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
-import type { Transaction } from '../../dataTypes/Transaction'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 
 export default interface DebtDetailORM {
     uuid: UUID
@@ -9,5 +9,5 @@ export default interface DebtDetailORM {
     rp: number
 
     // relations
-    transaction?: Transaction
+    transaction?: TransactionORM
 }

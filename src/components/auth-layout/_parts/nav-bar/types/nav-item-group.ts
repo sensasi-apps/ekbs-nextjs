@@ -1,4 +1,4 @@
-import type Role from '@/enums/role-temp'
+import type Role from '@/enums/role'
 import type { Permission } from '@/types/permission'
 import type { Route } from 'next'
 import type { ElementType } from 'react'

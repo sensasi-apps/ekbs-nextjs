@@ -1,8 +1,8 @@
 'use client'
 
 // types
-import type ProductMovementDetail from '@/types/orms/product-movement-detail'
-import type ProductPurchaseType from '@/types/orms/product-purchase'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
+import type ProductPurchaseType from '@/modules/farm-inputs/types/orms/product-purchase'
 import type { Ymd } from '@/types/date-string'
 import type {
     DatatableProps,
@@ -142,7 +142,7 @@ export default function FarmInputsProducts() {
     )
 }
 
-function pmdsCustomBodyRender(pids: ProductMovementDetail[]) {
+function pmdsCustomBodyRender(pids: ProductMovementDetailORM[]) {
     return (
         <ul
             style={{

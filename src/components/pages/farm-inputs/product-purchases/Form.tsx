@@ -1,6 +1,6 @@
 // types
 import type { UUID } from 'crypto'
-import type ProductPurchase from '@/types/orms/product-purchase'
+import type ProductPurchase from '@/modules/farm-inputs/types/orms/product-purchase'
 import type CashType from '@/types/orms/cash'
 // vendors
 import {
@@ -34,7 +34,7 @@ import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayFi
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
 // enums
-import Role from '@/enums/role-temp'
+import Role from '@/enums/role'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'

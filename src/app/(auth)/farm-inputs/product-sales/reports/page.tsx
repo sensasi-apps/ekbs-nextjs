@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer'
 import BackButton from '@/components/back-button'
 import PageTitle from '@/components/page-title'
 // parts
-import type { ProductSale } from '@/dataTypes/ProductSale'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import FiltersBox from './_parts/filters-box'
 import TableHead from './_parts/table/table-head'
 import TableBody from './_parts/table/table-body'
@@ -28,7 +28,7 @@ export default function FarmInputProductSalesReport() {
         isLoading,
         isValidating,
         mutate,
-    } = useSWR<ProductSale[]>(
+    } = useSWR<ProductSaleORM[]>(
         from_date && till_date
             ? [
                   apiUrl,

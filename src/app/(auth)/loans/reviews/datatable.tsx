@@ -1,5 +1,5 @@
 // types
-import type { UserLoanType } from '@/dataTypes/Loan'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import type { FormOpenStateType } from '@/app/(auth)/loans/reviews/page'
 // vendors
 import { useState } from 'react'
@@ -52,10 +52,10 @@ function UserLoanReviewDatatable({
                 apiUrl={apiUrl}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const userLoan = getRowData<UserLoanType>(dataIndex)
+                        const userLoan = getRowData<UserLoanORM>(dataIndex)
                         if (!userLoan) return
 
-                        const userResponse = userLoan.responses.find(
+                        const userResponse = userLoan.responses?.find(
                             response => response.by_user_uuid === user?.uuid,
                         )
                         const formData: FormOpenStateType['formData'] =

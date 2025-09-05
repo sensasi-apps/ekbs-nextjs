@@ -1,5 +1,5 @@
-import type PalmBunchesReaGradingItemType from '@/types/orms/palm-bunches-rea-grading-item'
-import type { PalmBunchesReaTicket } from '@/dataTypes/PalmBunchReaTicket'
+import type PalmBunchesReaGradingItemORM from '@/modules/palm-bunch/types/orms/palm-bunches-rea-grading-item'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 
 import { type FC, memo } from 'react'
 import useSWR from 'swr'
@@ -18,10 +18,10 @@ const GradingItemInputs: FC<{
     clearByName: (name: string) => void
     validationErrors: LaravelValidationExceptionResponse['errors']
 }> = ({ disabled, clearByName, validationErrors }) => {
-    const { data, setData } = useFormData<PalmBunchesReaTicket>()
+    const { data, setData } = useFormData<PalmBunchesReaTicketORM>()
 
     const { data: gradingItemActives, isLoading } = useSWR<
-        PalmBunchesReaGradingItemType[]
+        PalmBunchesReaGradingItemORM[]
     >(!data.gradings ? '/data/rea-grading-item-actives' : null, {
         revalidateOnFocus: false,
     })

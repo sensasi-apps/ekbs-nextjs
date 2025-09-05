@@ -1,5 +1,5 @@
 import type { FormValuesType } from '../PaymentForm'
-import type { Installment } from '@/dataTypes/Installment'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import { useSearchParams } from 'next/navigation'
 // vendors
 import { useState } from 'react'
@@ -9,7 +9,7 @@ export function useHooks() {
 
     const [formikProps, setFormikProps] = useState<{
         values: FormValuesType
-        status: Installment
+        status: InstallmentORM
     }>()
 
     return {

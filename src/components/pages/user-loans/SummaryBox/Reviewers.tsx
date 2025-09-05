@@ -1,11 +1,11 @@
-import type { UserLoanResponse } from '@/dataTypes/UserLoanResponse'
+import type UserLoanResponseORM from '@/modules/installment/types/orms/user-loan-response'
 
 import Typography from '@mui/material/Typography'
 
 export default function UserLoanSummaryBoxReviewers({
     responses,
 }: {
-    responses: UserLoanResponse[]
+    responses: UserLoanResponseORM[]
 }) {
     return (
         <div>

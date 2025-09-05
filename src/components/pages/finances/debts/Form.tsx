@@ -30,8 +30,8 @@ import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import shortUuid from '@/utils/short-uuid'
 import ucWords from '@/utils/uc-words'
 // enums
-import TermUnit from '@/modules/debt/enums/deb-term-unit'
-import InterestUnit from '@/modules/debt/enums/debt-interest-unit'
+import TermUnit from '@/modules/installment/enums/debt-term-unit'
+import InterestUnit from '@/modules/installment/enums/debt-interest-unit'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 
 export default function FinancesDebtForm({

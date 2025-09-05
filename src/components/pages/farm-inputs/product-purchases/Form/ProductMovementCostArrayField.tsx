@@ -1,5 +1,5 @@
 // types
-import type ProductMovementType from '@/types/orms/product-movement'
+import type ProductMovementType from '@/modules/farm-inputs/types/orms/product-movement'
 import type { FieldArrayRenderProps, FormikErrors } from 'formik'
 // vendors
 // ....
