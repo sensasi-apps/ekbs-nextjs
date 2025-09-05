@@ -1,4 +1,4 @@
-import type User from '@/modules/auth/types/orms/user'
+import type User from '@/modules/user/types/orms/user'
 
 export default interface ProductMovementSaleORM {
     buyer_user_uuid: User['uuid']

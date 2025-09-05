@@ -1,8 +1,8 @@
 import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
 // features
-import type Employee from '@/modules/auth/types/orms/employee'
-import type UserSocial from '@/modules/auth/types/orms/user-social'
+import type Employee from '@/modules/user/types/orms/employee'
+import type UserSocial from '@/modules/user/types/orms/user-social'
 import type Land from '@/modules/clm/types/orms/land'
 import type File from '@/types/orms/file'
 

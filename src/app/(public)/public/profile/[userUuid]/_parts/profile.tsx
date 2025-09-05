@@ -13,7 +13,7 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 import PhoneIcon from '@mui/icons-material/Phone'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 // features
-import type Social from '@/modules/auth/types/orms/social'
+import type Social from '@/modules/user/types/orms/social'
 import type PublicProfile from '../_types/public-profile'
 
 export default function Profile({ data }: { data: PublicProfile }) {

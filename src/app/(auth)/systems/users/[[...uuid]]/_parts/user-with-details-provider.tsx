@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation'
 import useSWR, { type SWRResponse } from 'swr'
 //
 import axios from '@/lib/axios'
-import type User from '@/modules/auth/types/orms/user'
+import type User from '@/modules/user/types/orms/user'
 
 const UserWithDetailsCtx = createContext<SWRResponse>({} as SWRResponse)
 

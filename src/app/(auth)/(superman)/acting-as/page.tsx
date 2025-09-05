@@ -1,7 +1,7 @@
 'use client'
 
 // types
-import type AuthInfo from '@/modules/auth/types/auth-info'
+import type AuthInfo from '@/modules/user/types/auth-info'
 // vendors
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'

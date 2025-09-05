@@ -1,4 +1,4 @@
-import type User from '@/modules/auth/types/orms/user'
+import type User from '@/modules/user/types/orms/user'
 //
 import type CertificationORM from './certification'
 import type LandORM from './land'

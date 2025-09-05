@@ -24,7 +24,7 @@ import IconButton from '@mui/material/IconButton'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
 //
-import type User from '@/modules/auth/types/orms/user'
+import type User from '@/modules/user/types/orms/user'
 import type { FormikStatusType } from '../../../../..'
 import TextField from '@/components/TextField'
 // icons

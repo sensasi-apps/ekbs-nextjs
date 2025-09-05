@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type User from '@/modules/auth/types/orms/user'
+import type User from '@/modules/user/types/orms/user'
 
 export default interface ActivityLogORM {
     uuid: UUID

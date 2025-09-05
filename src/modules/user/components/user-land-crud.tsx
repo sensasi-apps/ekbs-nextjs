@@ -4,8 +4,8 @@ import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add'
 
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
-import LandsView from '@/modules/auth/components/land-list'
-import UserLandFormDialogWithUseContexts from '@/modules/auth/components/user-land-form/dialog-with-contexts'
+import LandsView from '@/modules/user/components/land-list'
+import UserLandFormDialogWithUseContexts from '@/modules/user/components/user-land-form/dialog-with-contexts'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 
 function InnerComponent() {

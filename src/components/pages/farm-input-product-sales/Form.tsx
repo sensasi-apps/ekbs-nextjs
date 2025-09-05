@@ -3,7 +3,7 @@ import type CashType from '@/types/orms/cash'
 import type { UUID } from 'crypto'
 import type ProductType from '@/modules/farm-inputs/types/orms/product'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import type User from '@/modules/auth/types/orms/user'
+import type User from '@/modules/user/types/orms/user'
 import type Wallet from '@/types/orms/wallet'
 // vendors
 import { FastField, type FormikProps } from 'formik'

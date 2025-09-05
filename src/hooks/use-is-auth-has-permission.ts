@@ -1,6 +1,6 @@
 import type { Permission } from '@/types/permission'
 import useAuthInfo from './use-auth-info'
-import type AuthInfo from '@/modules/auth/types/auth-info'
+import type AuthInfo from '@/modules/user/types/auth-info'
 import Role from '@/enums/role'
 
 export default function useIsAuthHasPermission() {

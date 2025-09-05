@@ -1,4 +1,4 @@
-import type UserORM from '@/modules/auth/types/orms/user'
+import type UserORM from '@/modules/user/types/orms/user'
 
 export default interface AuthInfo {
     id: UserORM['id']

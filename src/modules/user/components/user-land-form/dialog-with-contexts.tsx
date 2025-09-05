@@ -1,7 +1,7 @@
 import type Land from '@/modules/clm/types/orms/land'
 import Dialog from '@/components/Global/Dialog'
 import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
-import UserLandForm from '@/modules/auth/components/user-land-form'
+import UserLandForm from '@/modules/user/components/user-land-form'
 import useFormData from '@/providers/useFormData'
 
 export default function UserLandFormDialogWithUseContexts() {

@@ -1,5 +1,5 @@
 // types
-import type UserDetailORM from '@/modules/auth/types/orms/user-detail'
+import type UserDetailORM from '@/modules/user/types/orms/user-detail'
 import type { FormEvent } from 'react'
 // vendors
 import { useState } from 'react'

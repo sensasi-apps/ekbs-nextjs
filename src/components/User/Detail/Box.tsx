@@ -1,7 +1,7 @@
 // types
 import type { BoxProps } from '@mui/material/Box'
 import type File from '@/types/orms/file'
-import type UserDetailORM from '@/modules/auth/types/orms/user-detail'
+import type UserDetailORM from '@/modules/user/types/orms/user-detail'
 // vendors
 import { PatternFormat } from 'react-number-format'
 // materials

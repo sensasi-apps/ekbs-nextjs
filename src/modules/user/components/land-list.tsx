@@ -3,7 +3,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import Typography from '@mui/material/Typography'
 
-import UserLandListItemText from '@/modules/auth/components/user-land-list-item'
+import UserLandListItemText from '@/modules/user/components/user-land-list-item'
 import useFormData from '@/providers/useFormData'
 import type LandORM from '@/modules/clm/types/orms/land'
 

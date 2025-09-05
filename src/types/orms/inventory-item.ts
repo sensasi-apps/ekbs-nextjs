@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type UserType from '../../modules/auth/types/orms/user'
+import type UserORM from '@/modules/user/types/orms/user'
 import type { Ymd } from '@/types/date-string'
 import type Tag from './tag'
 import type RentItem from './rent-item'
@@ -30,14 +30,14 @@ type InventoryItemPic = {
     inventory_item_uuid: UUID
     at: Ymd
     pic_user_uuid: UUID
-    pic_user: UserType
+    pic_user: UserORM
     assigned_by_user_uuid: UUID
-    assigned_by_user: UserType
+    assigned_by_user: UserORM
 }
 
 export type InventoryItemCheckupORM = {
     uuid: UUID
-    by_user: UserType
+    by_user: UserORM
     note: string
     at: Ymd
     he: HeCheckup | null

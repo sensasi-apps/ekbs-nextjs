@@ -1,5 +1,5 @@
 // types
-import type UserType from '@/modules/auth/types/orms/user'
+import type UserType from '@/modules/user/types/orms/user'
 // vendors
 import { useState } from 'react'
 import useSWR from 'swr'

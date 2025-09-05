@@ -18,7 +18,7 @@ import LoadingCenter from '@/components/loading-center'
 import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
 // local components
-import SetPasswordButtonAndDialogForm from '@/modules/auth/components/password-form-dialog-with-button'
+import SetPasswordButtonAndDialogForm from '@/modules/user/components/password-form-dialog-with-button'
 import IsActiveDisplay from '@/components/User/IsActiveDisplay'
 import UserRoleChips from '@/components/User/RoleChips'
 // providers

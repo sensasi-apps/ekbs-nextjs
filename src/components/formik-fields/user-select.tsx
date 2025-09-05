@@ -15,7 +15,7 @@ import useSWR from 'swr'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField, { type TextFieldProps } from '@mui/material/TextField'
 //
-import type User from '@/modules/auth/types/orms/user'
+import type User from '@/modules/user/types/orms/user'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 /**

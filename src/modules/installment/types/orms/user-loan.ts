@@ -10,7 +10,7 @@ import type UserLoanResponseORM from '@/modules/installment/types/orms/user-loan
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type UserLoanStatusEnum from '@/modules/installment/enums/user-loan-status'
 // auth modules
-import type UserType from '@/modules/auth/types/orms/user'
+import type UserType from '@/modules/user/types/orms/user'
 
 export default interface UserLoanORM {
     uuid: UUID
