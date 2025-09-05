@@ -1,5 +1,3 @@
-// vendors
-import { useRouter } from 'next/navigation'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -9,11 +7,9 @@ import Link from '@mui/material/Link'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 // icons-materials
-import Close from '@mui/icons-material/Close'
 import Edit from '@mui/icons-material/Edit'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 // global components
-import IconButton from '@/components/IconButton'
 import LoadingCenter from '@/components/loading-center'
 import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
@@ -25,18 +21,17 @@ import UserRoleChips from '@/components/User/RoleChips'
 import useFormData from '@/providers/FormData'
 //
 import RolesAndPermissionButtonAndDialogForm from './roles-and-permission-button-and-dialog-form'
-import useUserWithDetails from './user-with-details-provider'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 export default function UserCard() {
-    const { back } = useRouter()
     const { handleEdit } = useFormData()
-    const { data: userWithDetails, isLoading } = useUserWithDetails()
+    const { data: userWithDetails, isLoading } = useUserDetailSwr()
 
     const { name, role_names_id, id, email, uuid } = userWithDetails || {}
 
     const handleEditClick = () => handleEdit(userWithDetails)
 
-    if (isLoading) return <LoadingCenter />
+    if (isLoading || !userWithDetails) return <LoadingCenter />
 
     return (
         <Card>
@@ -53,22 +48,13 @@ export default function UserCard() {
                             variant="outlined"
                         />
                     </FlexBox>
-
-                    <IconButton
-                        title="Tutup"
-                        icon={Close}
-                        color="warning"
-                        onClick={() => {
-                            back()
-                        }}
-                    />
                 </Box>
 
                 <Typography variant="caption" color="GrayText">
                     {isLoading ? (
                         <Skeleton />
                     ) : (
-                        email || <i>E-mail untuk akun belum ditambahkan</i>
+                        (email ?? <i>E-mail untuk akun belum ditambahkan</i>)
                     )}
                 </Typography>
 
@@ -90,7 +76,10 @@ export default function UserCard() {
                                 mb: 0.3,
                             },
                         }}>
-                        <UserRoleChips data={role_names_id} size="small" />
+                        <UserRoleChips
+                            data={role_names_id ?? []}
+                            size="small"
+                        />
                     </Box>
                 </Box>
 

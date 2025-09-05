@@ -15,27 +15,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import UserDriverForm from '@/components/User/Driver/Form'
-
-interface UserDriverORM {
-    uuid: string
-    id: number
-    name: string
-    driver: {
-        license_number: string
-    }
-}
+import type UserORM from '../types/orms/user'
 
 function ListItem({
     courierUserUuid,
-    data: {
-        uuid: driverUuid,
-        id,
-        name,
-        driver: { license_number },
-    },
+    data: { uuid: driverUuid, id, name, driver },
 }: {
     courierUserUuid: string
-    data: UserDriverORM
+    data: UserORM
 }) {
     const [isDeleting, setIsDeleting] = useState(false)
 
@@ -77,7 +64,7 @@ function ListItem({
                 </Typography>
 
                 <Typography variant="body2" color="GrayText" component="p">
-                    {license_number}
+                    {driver?.license_number}
                 </Typography>
             </ListItemText>
         </MuiListItem>
@@ -86,10 +73,10 @@ function ListItem({
 
 export default function UserDriversCrudBox({
     courierUserUuid,
-    data: drivers = [],
+    data: drivers,
 }: {
     courierUserUuid: string
-    data: UserDriverORM[]
+    data: UserORM[]
 }) {
     const [isFormOpen, setIsFormOpen] = useState(false)
 

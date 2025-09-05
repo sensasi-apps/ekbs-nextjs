@@ -4,7 +4,10 @@ import type { Ymd } from '@/types/date-string'
 import type Employee from '@/modules/user/types/orms/employee'
 import type UserSocial from '@/modules/user/types/orms/user-social'
 import type Land from '@/modules/clm/types/orms/land'
-import type File from '@/types/orms/file'
+import type UserDetailORM from './user-detail'
+import type UserAddressORM from './user-address'
+import type UserBankAccountORM from './user-bank-account'
+import type VehicleORM from '@/types/orms/vehicle'
 
 export default interface UserORM {
     id: number
@@ -19,11 +22,18 @@ export default interface UserORM {
     uuid: UUID
 
     // relations
-    detail?: {
-        uuid: UUID
-        user_uuid: UUID
-        files?: File[]
+    addresses?: UserAddressORM[]
+    bankAccs?: UserBankAccountORM[]
+    detail?: UserDetailORM
+    driver?: {
+        uuid: string
+        user_uuid: string
+        license_number: string
     }
+    drivers?: UserORM[]
+    employee?: Employee | null
+    lands?: Land[]
+    last_six_months_tbs_performance?: []
     member?: {
         uuid: UUID
         user_uuid: UUID
@@ -32,11 +42,7 @@ export default interface UserORM {
         unjoined_reason: string | null
         note: string | null
     }
-    socials?: UserSocial[]
-    last_six_months_tbs_performance?: []
-    employee?: Employee | null
     phone_no?: string
-
-    // lands
-    lands?: Land[]
+    socials?: UserSocial[]
+    vehicles?: VehicleORM[]
 }

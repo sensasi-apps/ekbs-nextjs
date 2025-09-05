@@ -134,9 +134,8 @@ function PalmBunchesReaDeliveryFarmerInputs({
 
                                             handleChange(index, {
                                                 ...palmBunch,
-                                                owner_user: user || undefined,
-                                                owner_user_uuid:
-                                                    user?.uuid || undefined,
+                                                owner_user: user ?? undefined,
+                                                owner_user_uuid: user?.uuid,
                                             })
                                         }}
                                         value={palmBunch.owner_user || null}

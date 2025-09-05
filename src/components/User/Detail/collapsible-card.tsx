@@ -10,24 +10,23 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 //
 import UserDetailBox from './Box'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
-
-const CARD_CONTENT_SX = {
-    pt: 0,
-}
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
+import LoadingCenter from '@/components/loading-center'
 
 export default function UserDetailCollapsibleCard({
     editButton,
 }: {
     editButton: ReactNode
 }) {
-    const { data: { detail = {} } = {}, isLoading } = useUserWithDetails()
+    const { data: { detail } = {}, isLoading } = useUserDetailSwr()
 
     const [open, setOpen] = useState(false)
 
     const handleCollapseClick = () => {
         setOpen(prev => !prev)
     }
+
+    if (!detail) return <LoadingCenter />
 
     return (
         <Card>
@@ -50,7 +49,10 @@ export default function UserDetailCollapsibleCard({
             />
 
             <Collapse in={open && !isLoading}>
-                <CardContent sx={CARD_CONTENT_SX}>
+                <CardContent
+                    sx={{
+                        pt: 0,
+                    }}>
                     <UserDetailBox data={detail} />
 
                     {editButton}

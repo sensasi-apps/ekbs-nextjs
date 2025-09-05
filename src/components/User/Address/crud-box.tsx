@@ -18,13 +18,7 @@ import HomeIcon from '@mui/icons-material/Home'
 
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import AddressForm from './Form'
-import type AddressORM from '@/types/orms/address'
-
-interface UserAddressORM {
-    name: string
-    address: AddressORM
-    uuid: string
-}
+import type UserAddressORM from '@/modules/user/types/orms/user-address'
 
 const AddressListItem = ({
     data: { name, address, uuid: userAddressUuid },

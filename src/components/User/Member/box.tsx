@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import toDmy from '@/utils/to-dmy'
 import type { ReactNode } from 'react'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 function Row({
     title,
@@ -32,8 +32,8 @@ function Row({
 }
 
 export default function MemberBox() {
-    const { data: userWithDetails = {} } = useUserWithDetails()
-    const { member } = userWithDetails
+    const { data: userWithDetails } = useUserDetailSwr()
+    const { member } = userWithDetails ?? {}
     const { joined_at, unjoined_at, unjoined_reason, note } = member ?? {}
 
     const getStatus = () => {

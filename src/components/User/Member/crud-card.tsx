@@ -14,8 +14,8 @@ import useFormData, { FormDataProvider } from '@/providers/FormData'
 
 import MemberForm from './Form'
 import MemberBox from './box'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import { getRoleIconByIdName } from '../RoleChips'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 const DialogForm = () => {
     const { isDataNotUndefined } = useFormData()
@@ -31,8 +31,8 @@ const DialogForm = () => {
 }
 
 const EditButton = () => {
-    const { data } = useUserWithDetails()
-    const { member } = data || {}
+    const { data } = useUserDetailSwr()
+    const { member } = data ?? {}
     const { handleEdit } = useFormData()
     const handleEditClick = () => handleEdit(member)
 

@@ -3,13 +3,13 @@ import Button from '@mui/material/Button'
 
 import AddIcon from '@mui/icons-material/Add'
 
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
 import LandsView from '@/modules/user/components/land-list'
 import UserLandFormDialogWithUseContexts from '@/modules/user/components/user-land-form/dialog-with-contexts'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
+import useUserDetailSwr from '../hooks/use-user-detail-swr'
 
 function InnerComponent() {
-    const { data: { lands = [] } = {} } = useUserWithDetails()
+    const { data: { lands = [] } = {} } = useUserDetailSwr()
     const { handleCreate } = useFormData()
 
     return (

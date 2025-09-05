@@ -18,17 +18,8 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 //
 import UserBankAccForm from './form'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import useUserWithDetails from '@/app/(auth)/systems/users/[[...uuid]]/_parts/user-with-details-provider'
-
-interface UserBankAccountORM {
-    uuid: string
-    user_uuid: string
-    name: string
-    // no: string // unused encrypted
-
-    // accessors
-    no_decrypted: string
-}
+import type UserBankAccountORM from '@/modules/user/types/orms/user-bank-account'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 function ListItem({
     data: { uuid, no_decrypted, name },
@@ -79,7 +70,7 @@ function ListItem({
 }
 
 export default function UserBankAccsCrudBox() {
-    const { data: userWithDetails, isLoading } = useUserWithDetails()
+    const { data: userWithDetails, isLoading } = useUserDetailSwr()
 
     const [isFormOpen, setIsFormOpen] = useState(false)
 
