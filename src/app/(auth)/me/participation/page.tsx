@@ -18,16 +18,14 @@ import Forest from '@mui/icons-material/Forest'
 import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import Warehouse from '@mui/icons-material/Warehouse'
 // components
-import LineChart from '@/components/Chart/Line'
 import PageTitle from '@/components/page-title'
-import StatCard from '@/components/StatCard'
 // utils
 import Role from '@/enums/role'
-import BigNumberCard, {
-    type BigNumberCardProps,
-} from '@/components/big-number-card'
+import BigNumberCard from '@/components/big-number-card'
 // hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import type SectionData from '@/types/section-data'
+import LineChartCard from '@/components/line-chart-card'
 
 export interface ApiResponseType {
     palmBunches: SectionData
@@ -94,15 +92,6 @@ export default function Page() {
             />
         </>
     )
-}
-
-interface SectionData {
-    bigNumber1: BigNumberCardProps
-    bigNumber2: BigNumberCardProps
-    lineChart: {
-        title: string
-        data: { label: string; value: number }[]
-    }
 }
 
 function SectionHeader({
@@ -214,32 +203,5 @@ function Section({
                 />
             )}
         </Box>
-    )
-}
-
-export function LineChartCard({
-    title,
-    data,
-    collapsible,
-    ...rest
-}: SectionData['lineChart'] & { suffix?: string; collapsible?: boolean }) {
-    const isHigherThanPrevious =
-        data[data.length - 1].value > data[data.length - 2].value
-
-    return (
-        <StatCard
-            title={title}
-            collapsible={collapsible}
-            color={isHigherThanPrevious ? 'success' : 'error'}>
-            <LineChart
-                {...rest}
-                data={data}
-                lineProps={{
-                    stroke: isHigherThanPrevious
-                        ? 'var(--mui-palette-success-main)'
-                        : 'var(--mui-palette-error-main)',
-                }}
-            />
-        </StatCard>
     )
 }

@@ -11,6 +11,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 // icons
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
+import Link from 'next/link'
 
 export default function NavBarListItem({
     data,
@@ -36,6 +37,7 @@ export default function NavBarListItem({
                 py: 0,
             }}>
             <ListItemButton
+                LinkComponent={Link}
                 href={href}
                 disabled={isActive}
                 selected={isActive}

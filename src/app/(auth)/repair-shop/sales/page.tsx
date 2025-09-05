@@ -44,7 +44,9 @@ export default function Page() {
                     if (event.detail === 2) {
                         const data = getRowDataRef.current?.(dataIndex)
 
-                        push(`sales/${data?.uuid}`)
+                        if (!data) return
+
+                        push(`/repair-shop/sales/${data.uuid}`)
                     }
                 }}
                 title="Riwayat"

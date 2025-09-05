@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 // providers
 import useAuthInfo from '@/hooks/use-auth-info'
+import type { Route } from 'next'
 
 export default function RedirectIfUnauth() {
     const { push } = useRouter()
@@ -13,7 +14,7 @@ export default function RedirectIfUnauth() {
     useEffect(() => {
         if (!pathname || authInfo) return
 
-        const toLocation = ['/logout', '/policy'].includes(pathname)
+        const toLocation: Route = ['/logout', '/policy'].includes(pathname)
             ? '/'
             : `/login?redirectTo=${pathname}`
 

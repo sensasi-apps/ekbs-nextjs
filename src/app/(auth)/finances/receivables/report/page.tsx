@@ -254,12 +254,10 @@ function MonthPicker() {
                 onAccept={date => {
                     if (!date) return
 
-                    replace(
-                        '?year=' +
-                            date.format('YYYY') +
-                            '&month=' +
-                            date.format('MM'),
-                    )
+                    const year = date.format('YYYY')
+                    const month = date.format('MM')
+
+                    replace(`?year=${year}&month=${month}`)
                 }}
                 views={['year', 'month']}
                 sx={{

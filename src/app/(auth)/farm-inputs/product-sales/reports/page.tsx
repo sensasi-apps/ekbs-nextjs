@@ -31,7 +31,7 @@ export default function FarmInputProductSalesReport() {
     } = useSWR<ProductSaleORM[]>(
         from_date && till_date
             ? [
-                  apiUrl,
+                  'farm-inputs/product-sales/report',
                   {
                       from_date: from_date,
                       till_date: till_date,
@@ -86,5 +86,3 @@ export default function FarmInputProductSalesReport() {
         </>
     )
 }
-
-export const apiUrl = 'farm-inputs/product-sales/report'

@@ -3,7 +3,7 @@
 // vendors
 import type { AxiosError } from 'axios'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { notFound, useRouter } from 'next/navigation'
 import Head from 'next/head'
 // materials
 import Typography from '@mui/material/Typography'
@@ -33,7 +33,7 @@ export default function Page({
                 .then(res => setUser(res.data))
                 .catch((err: AxiosError) => {
                     if (err.status === 404) {
-                        replace('/404')
+                        notFound()
                     } else {
                         setError(err.message)
                     }

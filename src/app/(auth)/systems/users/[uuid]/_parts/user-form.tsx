@@ -76,7 +76,7 @@ const UserForm = () => {
                         if (uuid) {
                             mutate(`users/${uuid}`)
                         } else {
-                            push('/users/' + res.data)
+                            push(`/systems/users/${res.data}`)
                         }
                         handleClose()
                     })

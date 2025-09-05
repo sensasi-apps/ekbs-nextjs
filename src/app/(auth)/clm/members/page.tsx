@@ -68,7 +68,7 @@ export default function Members() {
                         const member = getRowDataRef.current?.(dataIndex)
 
                         if (member) {
-                            push('/clm/members/' + member.user_uuid)
+                            push(`/clm/members/${member.user_uuid}`)
                         }
                     }
                 }}

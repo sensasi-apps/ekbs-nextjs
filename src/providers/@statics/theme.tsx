@@ -1,15 +1,7 @@
 'use client'
 
-import type { LinkProps } from 'next/link'
-import { forwardRef } from 'react'
 import { createTheme } from '@mui/material/styles'
 import Link from 'next/link'
-
-const LinkBehavior = forwardRef<HTMLAnchorElement, LinkProps>(
-    function LinkBehavior(props, ref) {
-        return <Link {...props} ref={ref} />
-    },
-)
 
 const THEME = createTheme({
     cssVariables: {
@@ -28,12 +20,12 @@ const THEME = createTheme({
     components: {
         MuiLink: {
             defaultProps: {
-                component: LinkBehavior,
+                component: Link,
             },
         },
         MuiButtonBase: {
             defaultProps: {
-                LinkComponent: LinkBehavior,
+                LinkComponent: Link,
             },
         },
     },

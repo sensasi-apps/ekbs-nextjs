@@ -20,15 +20,13 @@ import PageTitle from '@/components/page-title'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 //
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import {
-    type ApiResponseType,
-    LineChartCard,
-} from '@/app/(auth)/me/participation/page'
+import { type ApiResponseType } from '@/app/(auth)/me/participation/page'
 // utils
 import toDmy from '@/utils/to-dmy'
 import nowrapMuiDatatableCellPropsFn from '@/utils/nowrap-mui-datatable-cell-props-fn'
 import formatNumber from '@/utils/format-number'
 import FlexBox from '@/components/flex-box'
+import LineChartCard from '@/components/line-chart-card'
 
 let getRowData: GetRowDataType<ProductSaleORM>
 

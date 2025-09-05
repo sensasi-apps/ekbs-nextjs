@@ -51,7 +51,9 @@ export default function Page() {
                         const data = getRowDataRef.current?.(dataIndex)
 
                         if (data) {
-                            push(`spare-part-purchases/${data.uuid}`)
+                            push(
+                                `/repair-shop/spare-part-purchases/${data.uuid}`,
+                            )
                         }
                     }
                 }}

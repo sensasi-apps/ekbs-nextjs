@@ -33,7 +33,7 @@ export default function RequisiteLandCard({
             }}>
             <CardActionArea
                 href={`${requisiteLand.land_uuid}/requisite/${requisiteLand.requisite_id}`}
-                component={Link}>
+                LinkComponent={Link}>
                 <CardContent
                     sx={{
                         display: 'flex',
