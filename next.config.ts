@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
         optimizePackageImports: ['@mui/x-date-pickers', 'recharts', 'formik'],
     },
 
-    pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+    pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
 
     reactStrictMode: true,
 

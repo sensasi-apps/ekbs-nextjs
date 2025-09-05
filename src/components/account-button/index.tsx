@@ -2,11 +2,11 @@
 
 // vendors
 import { useCallback, useState, type MouseEventHandler } from 'react'
+import NextLink from 'next/link'
 // materials
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import Link from '@mui/material/Link'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
@@ -96,7 +96,7 @@ export default function AccountButton({
 
                 <Divider />
 
-                <MenuItem href="/policy" component={Link}>
+                <MenuItem href="/policy" component={NextLink}>
                     <ListItemIcon>
                         <GradingIcon fontSize="small" />
                     </ListItemIcon>
@@ -108,7 +108,7 @@ export default function AccountButton({
 
                 <Divider />
 
-                <MenuItem href="/logout" component={Link}>
+                <MenuItem href="/logout" component={NextLink}>
                     <ListItemIcon>
                         <LogoutIcon fontSize="small" />
                     </ListItemIcon>

@@ -4,8 +4,9 @@ import type { BoxProps } from '@mui/material/Box'
 import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
-import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
+// components
+import Link from '@/components/link'
 // etc
 import packageJson from '@/../package.json'
 

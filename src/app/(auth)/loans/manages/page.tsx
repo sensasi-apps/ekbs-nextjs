@@ -9,9 +9,9 @@ import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import axios from '@/lib/axios'
+import Link from 'next/link'
 // materials
 import Chip from '@mui/material/Chip'
-import Link from '@mui/material/Link'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 // components
@@ -127,8 +127,6 @@ export default function UserLoans() {
     )
 }
 
-const FAKE_ON_CLICK = () => undefined
-
 const CHIP_DEFAULT_PROPS = {
     size: 'small',
     component: Link,
@@ -144,7 +142,7 @@ function FilterChips() {
                 {...CHIP_DEFAULT_PROPS}
                 label="Semua"
                 href="?type="
-                onClick={!query.type ? undefined : FAKE_ON_CLICK}
+                clickable={Boolean(query.type)}
                 color={query.type ? undefined : 'success'}
             />
 
@@ -152,7 +150,7 @@ function FilterChips() {
                 {...CHIP_DEFAULT_PROPS}
                 label="Angsuran Aktif"
                 href="?type=active"
-                onClick={query.type === 'active' ? undefined : FAKE_ON_CLICK}
+                clickable={query.type === 'active'}
                 color={query.type === 'active' ? 'success' : undefined}
             />
 
@@ -160,7 +158,7 @@ function FilterChips() {
                 {...CHIP_DEFAULT_PROPS}
                 label="Belum Dicairkan"
                 href="?type=waiting"
-                onClick={query.type === 'waiting' ? undefined : FAKE_ON_CLICK}
+                clickable={query.type === 'waiting'}
                 color={query.type === 'waiting' ? 'success' : undefined}
             />
 
@@ -168,7 +166,7 @@ function FilterChips() {
                 {...CHIP_DEFAULT_PROPS}
                 label="Selesai"
                 href="?type=finished"
-                onClick={query.type === 'finished' ? undefined : FAKE_ON_CLICK}
+                clickable={query.type === 'finished'}
                 color={query.type === 'finished' ? 'success' : undefined}
             />
         </ScrollableXBox>

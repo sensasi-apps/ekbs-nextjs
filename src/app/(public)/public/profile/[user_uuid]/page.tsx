@@ -2,44 +2,36 @@
 
 // vendors
 import type { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
-import { notFound, useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { notFound, useParams } from 'next/navigation'
 import Head from 'next/head'
+import useSWR from 'swr'
 // materials
 import Typography from '@mui/material/Typography'
 import LinearProgress from '@mui/material/LinearProgress'
-// libs
-import myAxios from '@/lib/axios'
 // parts
 import type PublicProfile from './_types/public-profile'
 import Profile from './_parts/profile'
 
-export default function Page({
-    params,
-}: {
-    params: Promise<{ userUuid: string }>
-}) {
-    const { replace } = useRouter()
-    const [userUuid, setUserUuid] = useState<string>()
-    const [user, setUser] = useState<PublicProfile>()
+export default function Page() {
+    const { user_uuid } = useParams<{
+        user_uuid: string
+    }>()
     const [error, setError] = useState<string>()
 
-    params.then(({ userUuid }) => setUserUuid(userUuid))
-
-    useEffect(() => {
-        if (userUuid) {
-            myAxios
-                .get<PublicProfile>('/public/profile/' + userUuid)
-                .then(res => setUser(res.data))
-                .catch((err: AxiosError) => {
-                    if (err.status === 404) {
-                        notFound()
-                    } else {
-                        setError(err.message)
-                    }
-                })
-        }
-    }, [userUuid, replace])
+    const { data: user } = useSWR<PublicProfile>(
+        '/public/profile/' + user_uuid,
+        null,
+        {
+            onError: (err: AxiosError) => {
+                if (err.status === 404) {
+                    notFound()
+                } else {
+                    setError(err.message)
+                }
+            },
+        },
+    )
 
     return (
         <>

@@ -5,7 +5,7 @@ import { type GetRowData } from '@/components/Datatable/@types'
 import Fab from '@/components/Fab'
 import type User from '@/modules/user/types/orms/user'
 import Add from '@mui/icons-material/Add'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import PageTitle from '@/components/page-title'
@@ -26,7 +26,7 @@ export default function Page() {
                 defaultSortOrder={{ name: 'id', direction: 'desc' }}
             />
 
-            <Fab component={Link} href="ticketing-system/create">
+            <Fab component={NextLink} href="ticketing-system/create">
                 <Add />
             </Fab>
         </>

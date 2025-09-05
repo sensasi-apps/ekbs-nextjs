@@ -18,7 +18,7 @@ import type Land from '@/modules/clm/types/orms/land'
 import shortUuid from '@/utils/short-uuid'
 import toDmy from '@/utils/to-dmy'
 import FlexBox from '@/components/flex-box'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import { useParams } from 'next/navigation'
 
 export default function LandCard({ land }: { land: Land }) {
@@ -45,7 +45,7 @@ export default function LandCard({ land }: { land: Land }) {
     return (
         <Card>
             <CardActionArea
-                LinkComponent={Link}
+                LinkComponent={NextLink}
                 href={`${user_uuid}/lands/${land.uuid}`}>
                 <CardContent sx={{ p: 3 }}>
                     <FlexBox mb={1} justifyContent="space-between">

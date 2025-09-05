@@ -2,15 +2,13 @@
 
 // vendors
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 // materials
 import Chip from '@mui/material/Chip'
-import Link from '@mui/material/Link'
 // components
 import ScrollableXBox from '@/components/ScrollableXBox'
 
-const FAKE_ONCLICK = () => undefined
-
-export function StateFilterChips() {
+export default function StateFilterChips() {
     const searchParams = useSearchParams()
 
     const state = searchParams?.get('state')
@@ -28,8 +26,8 @@ export function StateFilterChips() {
                 size="small"
                 component={Link}
                 label="Semua"
-                href={'?state=&type=' + type}
-                onClick={!state ? undefined : FAKE_ONCLICK}
+                href={`?state=&type=${type}`}
+                clickable={Boolean(state)}
                 color={state ? undefined : 'success'}
             />
 
@@ -37,8 +35,8 @@ export function StateFilterChips() {
                 size="small"
                 component={Link}
                 label="Dekat Jatuh Tempo"
-                href={'?state=due-soon' + '&type=' + type}
-                onClick={state === 'due-soon' ? undefined : FAKE_ONCLICK}
+                href={`?state=due-soon&type=${type}`}
+                clickable={state !== 'due-soon'}
                 color={state === 'due-soon' ? 'success' : undefined}
             />
 
@@ -46,8 +44,8 @@ export function StateFilterChips() {
                 size="small"
                 component={Link}
                 label="Jatuh Tempo"
-                href={'?state=due' + '&type=' + type}
-                onClick={state === 'due' ? undefined : FAKE_ONCLICK}
+                href={`?state=due&type=${type}`}
+                clickable={state !== 'due'}
                 color={state === 'due' ? 'success' : undefined}
             />
 
@@ -55,8 +53,8 @@ export function StateFilterChips() {
                 size="small"
                 component={Link}
                 label="Lunas"
-                href={'?state=paid' + '&type=' + type}
-                onClick={state === 'paid' ? undefined : FAKE_ONCLICK}
+                href={`?state=paid&type=${type}`}
+                clickable={state !== 'paid'}
                 color={state === 'paid' ? 'success' : undefined}
             />
         </ScrollableXBox>

@@ -1,14 +1,12 @@
 // vendors
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 // materials
 import Chip from '@mui/material/Chip'
-import Link from '@mui/material/Link'
 // components
 import ScrollableXBox from '@/components/ScrollableXBox'
 
-const FAKE_ONCLICK = () => undefined
-
-export function TypeFilterChips() {
+export default function TypeFilterChips() {
     const searchParams = useSearchParams()
     const type = searchParams?.get('type')
 
@@ -23,33 +21,33 @@ export function TypeFilterChips() {
         <ScrollableXBox>
             <Chip
                 label="Semua"
-                onClick={type ? undefined : FAKE_ONCLICK}
                 color={type ? undefined : 'success'}
-                href={'?type=&state=' + state}
+                href={`?type=&state=${state}`}
+                clickable={Boolean(type)}
                 component={Link}
                 size="small"
             />
             <Chip
                 label="Penjualan Produk (SAPRODI)"
-                onClick={type === 'product-sale' ? undefined : FAKE_ONCLICK}
                 color={type === 'product-sale' ? 'success' : undefined}
-                href={'?type=product-sale&state=' + state}
+                href={`?type=product-sale&state=${state}`}
+                clickable={type !== 'product-sale'}
                 component={Link}
                 size="small"
             />
             <Chip
                 label="Pinjaman (SPP)"
-                onClick={type === 'user-loan' ? undefined : FAKE_ONCLICK}
                 color={type === 'user-loan' ? 'success' : undefined}
-                href={'?type=user-loan' + '&state=' + state}
+                href={`?type=user-loan&state=${state}`}
                 component={Link}
+                clickable={type !== 'user-loan'}
                 size="small"
             />
             <Chip
                 label="Sewa Alat Berat"
-                onClick={type === 'rent-item-rent' ? undefined : FAKE_ONCLICK}
                 color={type === 'rent-item-rent' ? 'success' : undefined}
-                href={'?type=rent-item-rent' + '&state=' + state}
+                href={`?type=rent-item-rent&state=${state}`}
+                clickable={type !== 'rent-item-rent'}
                 component={Link}
                 size="small"
             />

@@ -1,3 +1,5 @@
+// vendors
+import NextLink from 'next/link'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -44,7 +46,8 @@ export default function NotFound() {
                         variant="outlined"
                         size="small"
                         href="/"
-                        startIcon={<ArrowBackIcon />}>
+                        startIcon={<ArrowBackIcon />}
+                        LinkComponent={NextLink}>
                         Kembali ke beranda
                     </Button>
                 </Box>

@@ -1,8 +1,9 @@
 // materials
 import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
-import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
+// components
+import Link from '@/components/link'
 
 export default function LoginForm({
     handleSubmit,
