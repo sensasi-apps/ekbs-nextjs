@@ -20,7 +20,4 @@ export default interface LandORM {
     member?: MemberORM
     requisite_lands?: RequisiteLandORM[]
     requisite_lands_with_default?: RequisiteLandORM[]
-
-    // getters
-    is_requisites_fulfilled?: boolean
 }

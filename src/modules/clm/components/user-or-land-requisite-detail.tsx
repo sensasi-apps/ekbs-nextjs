@@ -1,5 +1,6 @@
 // vendors
 import { useState } from 'react'
+import NextLink from 'next/link'
 // materials
 import Button from '@mui/material/Button'
 import Switch from '@mui/material/Switch'
@@ -26,7 +27,10 @@ export default function UserOrLandRequisiteDetail({
             <FlexBox justifyContent="space-between" mb={2}>
                 <BackButton />
 
-                <Button href={requisite_id + '/form'} color="warning">
+                <Button
+                    href={`${requisite_id}/update`}
+                    color="warning"
+                    component={NextLink}>
                     Perbarui Data
                 </Button>
             </FlexBox>
