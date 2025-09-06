@@ -1,41 +1,48 @@
 // vendors
-import { Form, Formik, type FormikProps } from 'formik'
+import { Formik, type FormikProps } from 'formik'
 // materials
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 // formik
-import TextField from '@/components/formik-fields/text-field'
+import FormikForm from '@/components/formik-form-v2'
 import FileField from '@/components/formik-fields/file-field'
+import TextField from '@/components/formik-fields/text-field'
 import CheckboxFields from '@/components/formik-fields/checkbox-fields'
-import type File from '@/types/orms/file'
 // utils
 import handle422 from '@/utils/handle-422'
 import myAxios from '@/lib/axios'
 import type RequisiteUser from '@/modules/clm/types/orms/requisite-user'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+// orms
+import type File from '@/types/orms/file'
 
-type RequisiteUserFormField = {
+interface UserOrLandRequisiteFormField {
     note: RequisiteUser['note']
     files: File[]
     is_approved: boolean
 }
 
-export default function RequisiteUserForm({
+export default function UserOrLandRequisiteForm({
     user_uuid,
     requisite_id,
+    land_uuid,
     data,
 }: {
-    user_uuid: RequisiteUser['user_uuid']
+    user_uuid: string
     requisite_id: RequisiteUser['requisite_id']
-    data: RequisiteUserFormField
+    land_uuid: string | null
+    data: UserOrLandRequisiteFormField
 }) {
+    const postUrl = land_uuid
+        ? `/clm/members/${user_uuid}/lands/${land_uuid}/${requisite_id}`
+        : `/clm/members/${user_uuid}/${requisite_id}`
+
     return (
-        <Formik<RequisiteUserFormField>
+        <Formik<UserOrLandRequisiteFormField>
             initialValues={data}
             onSubmit={(values, { setErrors }) => {
                 return myAxios
-                    .post(`/clm/members/${user_uuid}/${requisite_id}`, values, {
+                    .post(postUrl, values, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                         },
@@ -45,7 +52,7 @@ export default function RequisiteUserForm({
                     })
                     .catch(error => handle422(error, setErrors))
             }}
-            component={FormikForm}
+            component={Form}
             onReset={() => {
                 history.back()
             }}
@@ -53,10 +60,10 @@ export default function RequisiteUserForm({
     )
 }
 
-function FormikForm({ errors }: FormikProps<RequisiteUserFormField>) {
+function Form({ errors }: FormikProps<UserOrLandRequisiteFormField>) {
     return (
         <>
-            <Form>
+            <FormikForm>
                 <TextField
                     name="note"
                     label="Catatan"
@@ -81,17 +88,7 @@ function FormikForm({ errors }: FormikProps<RequisiteUserFormField>) {
                         ]}
                     />
                 </Box>
-
-                <Box mt={5} display="flex" justifyContent="flex-end">
-                    <Button type="reset" variant="outlined" color="success">
-                        Batal
-                    </Button>
-
-                    <Button type="submit" variant="contained" color="success">
-                        Simpan
-                    </Button>
-                </Box>
-            </Form>
+            </FormikForm>
 
             <ErrorDisplay errors={errors} />
         </>
@@ -101,7 +98,7 @@ function FormikForm({ errors }: FormikProps<RequisiteUserFormField>) {
 function ErrorDisplay({
     errors,
 }: {
-    errors: FormikProps<RequisiteUserFormField>['errors']
+    errors: FormikProps<UserOrLandRequisiteFormField>['errors']
 }) {
     const errorStrings = Object.values(
         errors as unknown as LaravelValidationException['errors'],

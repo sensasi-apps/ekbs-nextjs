@@ -42,8 +42,15 @@ export default function LandCard({ land }: { land: Land }) {
             requisiteLand => !requisiteLand.requisite?.is_optional,
         ).length ?? 0
 
+    const isAllFulfilled =
+        nRequiredApprovedRequisiteLands >= nRequiredRequisites
+
     return (
-        <Card>
+        <Card
+            variant={isAllFulfilled ? 'outlined' : 'elevation'}
+            sx={{
+                borderColor: isAllFulfilled ? 'success.main' : undefined,
+            }}>
             <CardActionArea
                 LinkComponent={NextLink}
                 href={`${user_uuid}/lands/${land.uuid}`}>
@@ -57,12 +64,7 @@ export default function LandCard({ land }: { land: Land }) {
 
                         <ChipSmall
                             label={`${nApprovedRequisiteLands}/${nRequisites}`}
-                            color={
-                                nRequiredApprovedRequisiteLands >=
-                                nRequiredRequisites
-                                    ? 'success'
-                                    : 'error'
-                            }
+                            color={isAllFulfilled ? 'success' : 'error'}
                             variant="outlined"
                         />
                     </FlexBox>
@@ -78,10 +80,12 @@ export default function LandCard({ land }: { land: Land }) {
                         </Typography>
                     </FlexBox>
 
-                    <Info
-                        Icon={CalendarTodayIcon}
-                        text={toDmy(land.planted_at)}
-                    />
+                    {land.planted_at && (
+                        <Info
+                            Icon={CalendarTodayIcon}
+                            text={toDmy(land.planted_at)}
+                        />
+                    )}
 
                     <Info Icon={AssuredWorkloadIcon} text={land.rea_land_id} />
 

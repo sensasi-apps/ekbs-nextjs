@@ -6,12 +6,12 @@ import useSWR from 'swr'
 // materials
 import Typography from '@mui/material/Typography'
 // components
-import type RequisiteUser from '@/modules/clm/types/orms/requisite-user'
 import LoadingCenter from '@/components/loading-center'
-import RequisiteUserForm from './requisite-user-form'
-import type { UUID } from 'crypto'
+// modules
+import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
+import UserOrLandRequisiteForm from '@/modules/clm/components/user-or-land-requisite-form'
 
-type ApiResponse = RequisiteUser & {
+type ApiResponse = RequisiteUserORM & {
     uuid?: string
 }
 
@@ -36,9 +36,10 @@ export default function RequisiteUserPage() {
                 {requisite?.name}
             </Typography>
 
-            <RequisiteUserForm
-                user_uuid={user_uuid as UUID}
-                requisite_id={requisite_id as unknown as number}
+            <UserOrLandRequisiteForm
+                user_uuid={user_uuid}
+                land_uuid={null}
+                requisite_id={Number(requisite_id)}
                 data={{
                     note: data.note,
                     files: [],

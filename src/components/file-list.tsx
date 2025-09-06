@@ -14,7 +14,7 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import ImageIcon from '@mui/icons-material/Image'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 //
-import type File from '@/types/orms/file'
+import type FileORM from '@/types/orms/file'
 import FileListDeleteButton from './file-list.delete-button'
 import FileListPrimaryItemText from './file-list.primary-item-text'
 
@@ -23,7 +23,7 @@ export default function FileList({
     showDeleteButton = false,
     showEditNameButton = false,
 }: {
-    files: File[]
+    files: FileORM[]
     showDeleteButton?: boolean
     showEditNameButton?: boolean
 }) {

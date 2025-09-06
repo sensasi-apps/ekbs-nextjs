@@ -104,6 +104,22 @@ function getStatCardProps({
 
     const isRequisitesFulfilled = nApprovedRequisites === nRequiredRequisites
 
+    const nApprovedRequisiteLands = lands.reduce(
+        (sum, land) =>
+            sum +
+            (land.requisite_lands_with_default ?? []).filter(
+                requisiteLand => requisiteLand.approved_by_user_uuid,
+            ).length,
+        0,
+    )
+
+    const nRequisiteLand = lands.reduce(
+        (sum, land) => sum + (land?.requisite_lands_with_default ?? []).length,
+        0,
+    )
+
+    const isRequisiteLandsFulfilled = nApprovedRequisiteLands === nRequisiteLand
+
     return [
         {
             text: 'Total Lahan',
@@ -121,6 +137,14 @@ function getStatCardProps({
             value: `${nApprovedRequisites}/${requisite_users_with_default.length}`,
             Icon: isRequisitesFulfilled ? CheckCircleOutlineIcon : WarningIcon,
             iconColor: isRequisitesFulfilled ? undefined : 'error',
+        },
+        {
+            text: 'Syarat Lahan',
+            value: `${nApprovedRequisiteLands}/${nRequisiteLand}`,
+            Icon: isRequisiteLandsFulfilled
+                ? CheckCircleOutlineIcon
+                : WarningIcon,
+            iconColor: isRequisiteLandsFulfilled ? undefined : 'error',
         },
     ] as const
 }
