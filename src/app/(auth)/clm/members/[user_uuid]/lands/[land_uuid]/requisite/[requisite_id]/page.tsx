@@ -5,21 +5,22 @@ import { useParams } from 'next/navigation'
 import useSWR from 'swr'
 import LoadingCenter from '@/components/loading-center'
 // modules
-import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
+import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
 import UserOrLandRequisiteDetail from '@/modules/clm/components/user-or-land-requisite-detail'
 
-type ApiResponse = RequisiteUserORM & {
+type ApiResponse = RequisiteLandORM & {
     uuid?: string
 }
 
 export default function RequisiteUserPage() {
-    const { requisite_id, user_uuid } = useParams<{
+    const { requisite_id, user_uuid, land_uuid } = useParams<{
         requisite_id: string
         user_uuid: string
+        land_uuid: string
     }>()
 
     const { data } = useSWR<ApiResponse>(
-        `/clm/members/${user_uuid}/${requisite_id}`,
+        `/clm/members/${user_uuid}/lands/${land_uuid}/${requisite_id}`,
         null,
         {
             revalidateOnMount: true,

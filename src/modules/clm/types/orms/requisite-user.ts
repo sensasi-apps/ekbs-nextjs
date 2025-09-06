@@ -1,6 +1,6 @@
 import type { UUID } from 'crypto'
 import type User from '@/modules/user/types/orms/user'
-import type File from '@/types/orms/file'
+import type FileORM from '@/types/orms/file'
 //
 import type RequisiteORM from './requisite'
 
@@ -14,6 +14,6 @@ export default interface RequisiteUserORM {
 
     // relations
     approved_by_user?: User
-    files?: File[]
+    files?: FileORM[]
     requisite?: RequisiteORM
 }

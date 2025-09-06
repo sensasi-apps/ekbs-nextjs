@@ -3,6 +3,7 @@ import type User from '@/modules/user/types/orms/user'
 // modules
 import type LandORM from '@/modules/clm/types/orms/land'
 import type RequisiteORM from '@/modules/clm/types/orms/requisite'
+import type FileORM from '@/types/orms/file'
 
 export default interface RequisiteLandORM {
     uuid: UUID
@@ -14,6 +15,6 @@ export default interface RequisiteLandORM {
 
     // relations
     approved_by_user?: User
-    files?: File[]
+    files?: FileORM[]
     requisite?: RequisiteORM
 }
