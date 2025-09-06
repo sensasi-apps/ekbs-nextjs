@@ -1,23 +1,33 @@
+'use client'
+
+// vendors
+import Link from 'next/link'
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-// icons
+
 // components
 import ChipSmall from '@/components/ChipSmall'
 //
-import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
+import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
 import getRequisiteStatus from '@/modules/clm/utils/get-requisite-status'
+import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
 
-export default function RequisiteUserCard({
-    requisiteUser,
+export default function UserOrLandRequisiteCard({
+    data: userOrLandRequisite,
 }: {
-    requisiteUser: RequisiteUserORM
+    data: RequisiteLandORM | RequisiteUserORM
 }) {
     const { status, icon, chipColor, chipLabel } =
-        getRequisiteStatus(requisiteUser)
+        getRequisiteStatus(userOrLandRequisite)
+
+    const uuid =
+        'land_uuid' in userOrLandRequisite
+            ? userOrLandRequisite?.land_uuid
+            : userOrLandRequisite?.user_uuid
 
     return (
         <Card
@@ -28,11 +38,8 @@ export default function RequisiteUserCard({
                 opacity: status === 'optional' ? 0.5 : 1,
             }}>
             <CardActionArea
-                href={
-                    requisiteUser.user_uuid +
-                    '/requisite/' +
-                    requisiteUser.requisite_id
-                }>
+                href={`${uuid}/requisite/${userOrLandRequisite.requisite_id}`}
+                LinkComponent={Link}>
                 <CardContent
                     sx={{
                         display: 'flex',
@@ -49,8 +56,8 @@ export default function RequisiteUserCard({
                                 variant="h6"
                                 fontWeight="bold"
                                 component="div">
-                                {requisiteUser.requisite?.name}
-                                {requisiteUser.requisite?.is_optional && (
+                                {userOrLandRequisite.requisite?.name}
+                                {userOrLandRequisite.requisite?.is_optional && (
                                     <Typography
                                         variant="caption"
                                         component="div">
@@ -61,29 +68,34 @@ export default function RequisiteUserCard({
 
                             <Box maxWidth={350}>
                                 <Typography variant="caption" component="div">
-                                    {requisiteUser.requisite?.description}
+                                    {userOrLandRequisite.requisite?.description}
                                 </Typography>
 
                                 <Typography variant="body2" component="div">
-                                    {requisiteUser.note}
+                                    {userOrLandRequisite.note}
                                 </Typography>
 
-                                {(requisiteUser.files?.length ?? 0) > 0 && (
+                                {(userOrLandRequisite.files?.length ?? 0) >
+                                    0 && (
                                     <Typography
                                         variant="caption"
                                         component="div"
                                         color="textSecondary">
-                                        {requisiteUser.files?.length} berkas
+                                        {userOrLandRequisite.files?.length}{' '}
+                                        berkas
                                     </Typography>
                                 )}
 
-                                {requisiteUser.approved_at && (
+                                {userOrLandRequisite.approved_at && (
                                     <Typography
                                         variant="caption"
                                         component="div">
                                         Disetujui oleh{' '}
-                                        {requisiteUser.approved_by_user?.name}{' '}
-                                        pada ({requisiteUser.approved_at})
+                                        {
+                                            userOrLandRequisite.approved_by_user
+                                                ?.name
+                                        }{' '}
+                                        pada ({userOrLandRequisite.approved_at})
                                     </Typography>
                                 )}
                             </Box>

@@ -20,8 +20,7 @@ import shortUuid from '@/utils/short-uuid'
 import toDmy from '@/utils/to-dmy'
 // modules
 import type LandORM from '@/modules/clm/types/orms/land'
-// page
-import RequisiteLandCard from './land-requisite-card'
+import RequisiteLandCard from '@/modules/clm/components/user-or-land-requisite-card'
 
 export default function Page() {
     const { user_uuid, land_uuid } = useParams()
@@ -57,7 +56,9 @@ export default function Page() {
                         <tr>
                             <td>TGL. Tanam</td>
                             <td> :</td>
-                            <td>{toDmy(data.planted_at)}</td>
+                            <td>
+                                {data.planted_at ? toDmy(data.planted_at) : '-'}
+                            </td>
                         </tr>
 
                         <tr>
@@ -72,7 +73,7 @@ export default function Page() {
                             <td>{data.farmer_group?.name}</td>
                         </tr>
 
-                        <tr>
+                        {/* <tr>
                             <td>Alamat</td>
                             <td> :</td>
                             <td>
@@ -82,7 +83,7 @@ export default function Page() {
                                     {data.address.region.name}
                                 </div>
                             </td>
-                        </tr>
+                        </tr> */}
                     </tbody>
                 </table>
             </Box>
@@ -102,7 +103,7 @@ export default function Page() {
             {data?.requisite_lands_with_default?.map(requisiteLand => (
                 <RequisiteLandCard
                     key={requisiteLand.requisite_id}
-                    requisiteLand={requisiteLand}
+                    data={requisiteLand}
                 />
             ))}
         </>

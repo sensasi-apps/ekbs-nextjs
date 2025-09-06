@@ -17,7 +17,7 @@ import Fab from '@/components/Fab'
 // modules
 import type { ClmMemberDetailResponse } from './use-member-detail-swr'
 import LandCard from './tabs.land-card'
-import UserRequisiteCard from './tabs.user-requisite-card'
+import UserOrLandRequisiteCard from '@/modules/clm/components/user-or-land-requisite-card'
 
 export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
     const [value, setValue] = useState('1')
@@ -38,9 +38,11 @@ export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
 
                 <TabPanel value="1" sx={{ px: 0 }}>
                     {data.requisite_users_with_default.map(requisiteUser => (
-                        <UserRequisiteCard
-                            key={requisiteUser.requisite_id}
-                            requisiteUser={requisiteUser}
+                        <UserOrLandRequisiteCard
+                            key={
+                                requisiteUser.uuid ?? requisiteUser.requisite_id
+                            }
+                            data={requisiteUser}
                         />
                     ))}
                 </TabPanel>

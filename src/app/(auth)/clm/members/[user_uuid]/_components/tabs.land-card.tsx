@@ -78,10 +78,12 @@ export default function LandCard({ land }: { land: Land }) {
                         </Typography>
                     </FlexBox>
 
-                    <Info
-                        Icon={CalendarTodayIcon}
-                        text={toDmy(land.planted_at)}
-                    />
+                    {land.planted_at && (
+                        <Info
+                            Icon={CalendarTodayIcon}
+                            text={toDmy(land.planted_at)}
+                        />
+                    )}
 
                     <Info Icon={AssuredWorkloadIcon} text={land.rea_land_id} />
 
