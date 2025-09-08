@@ -2,11 +2,18 @@ import { withSentryConfig, type SentryBuildOptions } from '@sentry/nextjs'
 import type { NextConfig } from 'next'
 
 const SENTRY_CONFIG: SentryBuildOptions = {
-    org: 'sensasi-apps',
-    project: 'ekbs-nextjs',
-
     // An auth token is required for uploading source maps.
     authToken: process.env.SENTRY_AUTH_TOKEN,
+
+    org: 'sensasi-apps',
+
+    project: 'ekbs-nextjs',
+
+    release: {
+        setCommits: {
+            auto: true,
+        },
+    },
 
     silent: false, // Can be used to suppress logs
 
@@ -16,7 +23,7 @@ const SENTRY_CONFIG: SentryBuildOptions = {
 
     telemetry: process.env.VERCEL_ENV === `production`,
 
-    widenClientFileUpload: true,
+    widenClientFileUpload: process.env.VERCEL_ENV === `production`,
 }
 
 export default function withSentry(nextConfig: NextConfig) {
