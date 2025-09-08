@@ -5,12 +5,15 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 // components
-import { FormDataProvider } from '@/providers/FormData'
+import Fab from '@/components/Fab'
+import useFormData, { FormDataProvider } from '@/providers/FormData'
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 import UserRoleChips from '@/components/User/RoleChips'
 // parts
 import { UserSummaryBox } from '@/app/(auth)/systems/users/[uuid]/_parts/summary-box'
-import UserDialogFormWithFab from '@/app/(auth)/systems/users/[uuid]/_parts/dialog-form-with-fab'
+import UserFormDialog from '@/modules/user/components/user-form-dialog'
+// icons
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 export default function Page() {
     const { push } = useRouter()
@@ -31,7 +34,7 @@ export default function Page() {
                 }}>
                 <Grid size={{ xs: 12, md: 8 }}>
                     <FormDataProvider>
-                        <UserDialogFormWithFab />
+                        <UserFormDialogWithFab />
                     </FormDataProvider>
 
                     <Datatable
@@ -61,6 +64,26 @@ export default function Page() {
                     <UserSummaryBox />
                 </Grid>
             </Grid>
+        </>
+    )
+}
+
+function UserFormDialogWithFab() {
+    const { handleCreate, isDataNotUndefined } = useFormData()
+
+    return (
+        <>
+            <UserFormDialog />
+
+            <Fab
+                title="Buat pengguna baru"
+                in={!isDataNotUndefined}
+                onClick={() => {
+                    handleCreate()
+                }}
+                color="success">
+                <PersonAddIcon />
+            </Fab>
         </>
     )
 }
