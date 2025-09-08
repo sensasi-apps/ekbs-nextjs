@@ -20,15 +20,18 @@ import UserLandsCrud from '@/modules/user/components/user-land-crud'
 import UserMemberCrudCard from '@/components/User/Member/crud-card'
 import UserSocialsCrudBox from '@/components/User/Socials/CrudBox'
 import UserVehiclesCrudBox from '@/components/User/Vehicles/crud-box'
+// components
+import BackButton from '@/components/back-button'
+import LoadingCenter from '@/components/loading-center'
 // utils
 import Role from '@/enums/role'
-import UserCard from '@/app/(auth)/systems/users/[uuid]/_parts/user-card'
 // hooks
 import { isUserHasRole } from '@/hooks/use-is-auth-has-role'
-import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
-import LoadingCenter from '@/components/loading-center'
-import BackButton from '@/components/back-button'
 import { FormDataProvider } from '@/providers/FormData'
+// modules
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
+import UserCard from '@/app/(auth)/systems/users/[uuid]/_parts/user-card'
+import UserFormDialog from '@/modules/user/components/user-form-dialog'
 
 export default function Page() {
     const { data: userWithDetails, isLoading } = useUserDetailSwr()
@@ -51,6 +54,8 @@ export default function Page() {
 
             <Box display="flex" flexDirection="column" gap={3}>
                 <FormDataProvider>
+                    <UserFormDialog />
+
                     <UserCard />
                 </FormDataProvider>
 
