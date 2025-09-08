@@ -1,7 +1,7 @@
-import { withSentryConfig } from '@sentry/nextjs'
+import { withSentryConfig, type SentryBuildOptions } from '@sentry/nextjs'
 import type { NextConfig } from 'next'
 
-const SENTRY_CONFIG = {
+const SENTRY_CONFIG: SentryBuildOptions = {
     org: 'sensasi-apps',
     project: 'ekbs-nextjs',
 
@@ -15,6 +15,8 @@ const SENTRY_CONFIG = {
     },
 
     telemetry: process.env.VERCEL_ENV === `production`,
+
+    widenClientFileUpload: true,
 }
 
 export default function withSentry(nextConfig: NextConfig) {
