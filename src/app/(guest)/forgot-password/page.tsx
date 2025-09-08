@@ -6,6 +6,7 @@ import { AxiosError } from 'axios'
 import { useState, type FormEvent } from 'react'
 import axios from '@/lib/axios'
 // materials
+import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
 import TextField from '@mui/material/TextField'
 // icons
@@ -69,7 +70,10 @@ export default function Page() {
             {isNotErrorAndHasMsg && <CompleteCenter message={msg} />}
 
             {!isNotErrorAndHasMsg && (
-                <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    autoComplete="off">
                     <TextField
                         autoFocus
                         required
@@ -90,7 +94,7 @@ export default function Page() {
                         sx={{ mt: 3, mb: 1 }}>
                         Atur ulang kata sandi
                     </Fab>
-                </form>
+                </Box>
             )}
             <BackButton sx={{ mt: 2 }} />
         </GuestWithFormSubLayout>
