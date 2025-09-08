@@ -53,7 +53,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                         timeout={{
                             enter: 1000,
                         }}>
-                        <Box width="100%">{children}</Box>
+                        <div>{children}</div>
                     </Fade>
                 </Container>
 
