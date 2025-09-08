@@ -1,9 +1,6 @@
 import withSerwistInit from '@serwist/next'
 
 const withSerwist = withSerwistInit({
-    swSrc: 'src/sw.ts',
-    swDest: 'public/sw.js',
-
     /**
      * @see https://github.com/serwist/serwist/discussions/228
      */
@@ -24,7 +21,14 @@ const withSerwist = withSerwistInit({
             return false
         },
     ],
+
+    maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10 MB
+
     reloadOnOnline: false,
+
+    swSrc: 'src/sw.ts',
+
+    swDest: 'public/sw.js',
 })
 
 export default withSerwist
