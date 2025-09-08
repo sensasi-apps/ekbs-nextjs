@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
 
     pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
 
+    productionBrowserSourceMaps: true,
+
     reactStrictMode: true,
 
     typedRoutes: true,
