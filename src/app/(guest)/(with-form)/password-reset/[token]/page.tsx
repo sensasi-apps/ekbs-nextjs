@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 // icons
 import LockResetIcon from '@mui/icons-material/LockReset'
 // components
-import GuestWithFormSubLayout from '@/app/(guest)/_parts/guest-with-form-sub-layout'
+import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
 
 export default function Page({
     params,

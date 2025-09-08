@@ -10,8 +10,9 @@ import ArrowBack from '@mui/icons-material/ArrowBack'
 import GoogleIcon from '@mui/icons-material/Google'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // components
-import GuestWithFormSubLayout from '@/app/(guest)/_parts/guest-with-form-sub-layout'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
+import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
+import RedirectIfAuth from '@/components/redirect-if-auth'
 // parts
 import useHooks from './_parts/use-hooks'
 import LoginForm from './_parts/form'
@@ -27,6 +28,8 @@ export default function Page() {
             isLoading={isLoading}
             isError={isError}
             message={message}>
+            <RedirectIfAuth />
+
             <CompleteCenter
                 isShow={!isError && Boolean(message)}
                 message={message}
