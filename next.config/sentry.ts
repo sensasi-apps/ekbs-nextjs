@@ -9,12 +9,6 @@ const SENTRY_CONFIG: SentryBuildOptions = {
 
     project: 'ekbs-nextjs',
 
-    release: {
-        setCommits: {
-            auto: true,
-        },
-    },
-
     silent: false, // Can be used to suppress logs
 
     sourcemaps: {
