@@ -57,6 +57,8 @@ export default function Page() {
             .finally(() => setIsLoading(false))
     }
 
+    const isNotErrorAndHasMsg = !isError && Boolean(msg)
+
     return (
         <GuestWithFormSubLayout
             title="Lupa kata sandi"
@@ -64,33 +66,31 @@ export default function Page() {
             isLoading={isLoading}
             isError={isError}
             message={msg}>
-            {!isError && Boolean(msg) && <CompleteCenter message={msg} />}
+            {isNotErrorAndHasMsg && <CompleteCenter message={msg} />}
 
-            {!(!isError && Boolean(msg)) && (
-                <>
-                    <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
-                        <TextField
-                            autoFocus
-                            required
-                            fullWidth
-                            margin="normal"
-                            id="email"
-                            label="Alamat email"
-                            type="email"
-                            name="email"
-                            autoComplete="email"
-                            onChange={event => setEmail(event.target.value)}
-                        />
+            {!isNotErrorAndHasMsg && (
+                <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
+                    <TextField
+                        autoFocus
+                        required
+                        fullWidth
+                        margin="normal"
+                        id="email"
+                        label="Alamat email"
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        onChange={event => setEmail(event.target.value)}
+                    />
 
-                        <Fab
-                            type="submit"
-                            variant="extended"
-                            color="primary"
-                            sx={{ mt: 3, mb: 1 }}>
-                            Atur ulang kata sandi
-                        </Fab>
-                    </form>
-                </>
+                    <Fab
+                        type="submit"
+                        variant="extended"
+                        color="primary"
+                        sx={{ mt: 3, mb: 1 }}>
+                        Atur ulang kata sandi
+                    </Fab>
+                </form>
             )}
             <BackButton sx={{ mt: 2 }} />
         </GuestWithFormSubLayout>
