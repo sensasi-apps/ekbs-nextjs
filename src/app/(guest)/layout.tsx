@@ -3,7 +3,6 @@ import type { ReactNode } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Fade from '@mui/material/Fade'
 // components
 import FlatFooter from '@/app/_parts/flat-footer'
 // parts
@@ -48,13 +47,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                         display: 'flex',
                         alignItems: 'center',
                     }}>
-                    <Fade
-                        in
-                        timeout={{
-                            enter: 1000,
-                        }}>
-                        <div>{children}</div>
-                    </Fade>
+                    {children}
                 </Container>
 
                 <Container maxWidth="lg">

@@ -14,9 +14,9 @@ import SyncLockIcon from '@mui/icons-material/SyncLock'
 // components
 import BackButton from '@/components/back-button'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
-import GuestWithFormSubLayout from '@/app/(guest)/_parts/guest-with-form-sub-layout'
+import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
 
-export default function Page() {
+export default function ForgotPasswordPageClient() {
     // form data
     const [email, setEmail] = useState('')
 
