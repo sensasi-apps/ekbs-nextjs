@@ -50,8 +50,8 @@ export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
                 <TabPanel value="2" sx={{ px: 0 }}>
                     <Fab
                         title="Tambah Lahan"
-                        href={data.user.uuid + '/lands/create'}
-                        LinkComponent={NextLink}
+                        href={`${data.user.uuid}/lands/create`}
+                        component={NextLink}
                     />
 
                     <Grid container spacing={2}>
