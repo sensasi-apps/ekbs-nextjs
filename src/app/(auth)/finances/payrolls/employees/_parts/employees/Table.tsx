@@ -4,7 +4,7 @@ import type PayrollUser from '@/types/orms/payroll-user'
 import { useState } from 'react'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
-import dynamic from 'next/dynamic'
+import dayjs from 'dayjs'
 // materials
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
@@ -12,8 +12,7 @@ import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
-// import TableFooter from '@mui/material/TableFooter'
-const TableFooter = dynamic(() => import('@mui/material/TableFooter'))
+import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import PayrollSlip from './Table/PayrollSlip'
@@ -22,15 +21,14 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
-import PayrollEmployeeDetailsForm, { type FormikValues } from './DetailForm'
 import IconButton from '@/components/IconButton'
+import PayrollEmployeeDetailsForm, { type FormikValues } from './DetailForm'
+import PrintHandler from '@/components/PrintHandler'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import handle422 from '@/utils/handle-422'
 // enums
-import FinanceApiUrlEnum from '../../../../_enums/api-url'
-import dayjs from 'dayjs'
-import PrintHandler from '@/components/PrintHandler'
+import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
 
 export default function PayrollsEmployeesTable({
     data,
