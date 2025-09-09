@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import MuiTableFooter from '@mui/material/TableFooter'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
@@ -10,7 +9,7 @@ const LEFT_BORDER_STYLE = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
 }
 
-function TableFooter({ data }: { data: ProductSaleORM[] }) {
+export default function TableFooter({ data }: { data: ProductSaleORM[] }) {
     const baseCostTotalRp = data.reduce(
         (acc, row) =>
             acc +
@@ -87,8 +86,6 @@ function TableFooter({ data }: { data: ProductSaleORM[] }) {
         </MuiTableFooter>
     )
 }
-
-export default memo(TableFooter)
 
 function formatNumber(number: number) {
     return globalFormatNumber(number, {
