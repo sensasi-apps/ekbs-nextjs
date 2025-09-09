@@ -1,13 +1,13 @@
-import { getCurrentAuthInfo } from '@/utils/get-current-auth-info'
 import * as Sentry from '@sentry/nextjs'
-
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart
 
 if (
     process.env.NEXT_PUBLIC_SENTRY_DSN &&
     process.env.NODE_ENV === 'production'
 ) {
     Sentry.init({
+        // Setting this option to true will print useful information to the console while you're setting up Sentry.
+        debug: false,
+
         dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
         // Replay may only be enabled for the client-side
@@ -29,15 +29,6 @@ if (
         // `release` value here - use the environment variable `SENTRY_RELEASE`, so
         // that it will also get attached to your source maps
     })
-
-    const user = getCurrentAuthInfo()
-
-    Sentry.setUser(
-        user
-            ? {
-                  id: user.id,
-                  username: user.name,
-              }
-            : null,
-    )
 }
+
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart
