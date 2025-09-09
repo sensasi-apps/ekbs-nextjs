@@ -5,13 +5,13 @@ import toDmy from '@/utils/to-dmy'
 import ucWords from '@/utils/uc-words'
 import TableCell from '@mui/material/TableCell'
 import MuiTableRow from '@mui/material/TableRow'
-import { memo, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 const LEFT_BORDER_STYLE = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
 }
 
-function TableRow({
+export default function TableRow({
     data: {
         short_uuid,
         product_movement_details,
@@ -131,8 +131,6 @@ function TableRow({
         </MuiTableRow>
     )
 }
-
-export default memo(TableRow)
 
 function Ul({ children }: { children: ReactNode }) {
     return (
