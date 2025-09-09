@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next'
 
 // import withBundleAnalyzer from './next.config/bundle-analyzer'
-// import withMDX from './next.config/mdx'
+import withMDX from './next.config/mdx'
 import withSentry from './next.config/sentry'
 // import withSerwist from './next.config/serwist'
 // import withRspack from './next.config/rspack'
@@ -41,4 +41,4 @@ const nextConfig: NextConfig = {
     },
 }
 
-export default withSentry(nextConfig)
+export default withSentry(withMDX(nextConfig))
