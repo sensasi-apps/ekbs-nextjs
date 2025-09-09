@@ -11,13 +11,9 @@ const SENTRY_CONFIG: SentryBuildOptions = {
 
     silent: false, // Can be used to suppress logs
 
-    sourcemaps: {
-        disable: process.env.VERCEL_ENV !== `production`,
-    },
+    telemetry: false,
 
-    telemetry: process.env.VERCEL_ENV === `production`,
-
-    widenClientFileUpload: process.env.VERCEL_ENV === `production`,
+    widenClientFileUpload: true,
 }
 
 export default function withSentry(nextConfig: NextConfig) {
