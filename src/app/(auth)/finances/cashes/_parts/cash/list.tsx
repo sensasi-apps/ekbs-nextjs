@@ -7,7 +7,6 @@ import type { KeyedMutator } from 'swr'
 import CashPermission from '@/enums/permissions/Cash'
 // vendors
 import useSWR from 'swr'
-import { memo } from 'react'
 // materials
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -26,7 +25,7 @@ import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 export let mutate: KeyedMutator<CashType[]>
 
-const CashList = memo(function CashList({
+export default function CashList({
     onNew,
     onEdit,
 }: {
@@ -92,17 +91,15 @@ const CashList = memo(function CashList({
             )}
         </Box>
     )
-})
+}
 
-export default CashList
-
-const ThisCard = ({
+function ThisCard({
     data,
     onEdit,
 }: {
     data: CashType
     onEdit: (values: CashType) => void
-}) => {
+}) {
     const isAuthHasPermission = useIsAuthHasPermission()
 
     const isUserCanUpdate = isAuthHasPermission(CashPermission.UPDATE)
