@@ -14,6 +14,10 @@ const SENTRY_CONFIG: SentryBuildOptions = {
     telemetry: false,
 
     widenClientFileUpload: true,
+
+    sourcemaps: {
+        deleteSourcemapsAfterUpload: false,
+    },
 }
 
 export default function withSentry(nextConfig: NextConfig) {
