@@ -1,14 +1,19 @@
 'use client'
 
+// vendors
 import * as Sentry from '@sentry/nextjs'
-import NextError from 'next/error'
 import { useEffect } from 'react'
+import NextError from 'next/error'
+// utils
+import { getCurrentAuthInfo } from '@/utils/get-current-auth-info'
+
 export default function GlobalError({
     error,
 }: {
     error: Error & { digest?: string }
 }) {
     useEffect(() => {
+        setSentryUser()
         Sentry.captureException(error)
     }, [error])
 
@@ -19,4 +24,19 @@ export default function GlobalError({
             </body>
         </html>
     )
+}
+
+function setSentryUser() {
+    const user = getCurrentAuthInfo()
+
+    if (user) {
+        const { id, name: username } = user
+
+        Sentry.setUser({
+            id,
+            username,
+        })
+    } else {
+        Sentry.setUser(null)
+    }
 }
