@@ -13,16 +13,6 @@ const nextConfig: NextConfig = {
 
     reactStrictMode: true,
 
-    webpack(config, { isServer }) {
-        if (!isServer) {
-            config.output.filename = 'static/chunks/[name].[contenthash].js'
-            config.output.chunkFilename =
-                'static/chunks/[name].[contenthash].js'
-        }
-
-        return config
-    },
-
     async rewrites() {
         return [
             {
