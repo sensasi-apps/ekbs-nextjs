@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
             },
         ]
     },
+
+    transpilePackages: ['@mui/material'],
 }
 
 export default withSentry(withMDX(nextConfig))
