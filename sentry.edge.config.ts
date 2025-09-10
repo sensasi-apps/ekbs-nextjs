@@ -1,4 +1,3 @@
-import { getCurrentAuthInfo } from '@/utils/get-current-auth-info'
 import * as Sentry from '@sentry/nextjs'
 
 Sentry.init({
@@ -18,14 +17,3 @@ Sentry.init({
     // `release` value here - use the environment variable `SENTRY_RELEASE`, so
     // that it will also get attached to your source maps
 })
-
-const user = getCurrentAuthInfo()
-
-Sentry.setUser(
-    user
-        ? {
-              id: user.id,
-              username: user.name,
-          }
-        : null,
-)

@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import MuiTableHead from '@mui/material/TableHead'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
@@ -7,7 +6,7 @@ const LEFT_BORDER_STYLE = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
 }
 
-function TableHead() {
+export default function TableHead() {
     return (
         <MuiTableHead
             sx={{
@@ -37,5 +36,3 @@ function TableHead() {
         </MuiTableHead>
     )
 }
-
-export default memo(TableHead)
