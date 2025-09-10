@@ -29,7 +29,13 @@ const nextConfig: NextConfig = {
         ]
     },
 
-    transpilePackages: ['@mui/material'],
+    transpilePackages: [
+        '@mui/icons-material',
+        '@mui/material',
+        '@mui/lab',
+        '@mui/material-nextjs',
+        '@mui/x-date-pickers',
+    ],
 }
 
 export default withSentry(withMDX(nextConfig))
