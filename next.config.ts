@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
 
     reactStrictMode: true,
 
+    webpack(config, { isServer }) {
+        if (!isServer) {
+            config.output.filename = 'static/chunks/[name].[contenthash].js'
+            config.output.chunkFilename =
+                'static/chunks/[name].[contenthash].js'
+        }
+
+        return config
+    },
+
     async rewrites() {
         return [
             {
@@ -28,14 +38,6 @@ const nextConfig: NextConfig = {
             },
         ]
     },
-
-    transpilePackages: [
-        '@mui/icons-material',
-        '@mui/material',
-        '@mui/lab',
-        '@mui/material-nextjs',
-        '@mui/x-date-pickers',
-    ],
 }
 
 export default withSentry(withMDX(nextConfig))
