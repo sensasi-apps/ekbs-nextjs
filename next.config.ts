@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
             },
         ]
     },
+
+    transpilePackages: ['@serwist/next', 'serwist'],
 }
 
 export default withSentry(withMDX(nextConfig))
