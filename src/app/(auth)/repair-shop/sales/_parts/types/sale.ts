@@ -18,9 +18,9 @@ export type Sale = {
     final_rp: number
 
     // relations
-    sale_services: SaleService[]
-    sale_spare_part_movement: {
-        spare_part_movement: SparePartMovement
+    sale_services?: SaleService[]
+    sale_spare_part_movement?: {
+        spare_part_movement?: SparePartMovement
     }
     created_by_user: User
     customer: User

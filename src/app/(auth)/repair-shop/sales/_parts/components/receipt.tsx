@@ -16,15 +16,13 @@ import shortUuid from '@/utils/short-uuid'
 
 export default function Receipt({ data }: { data: Sale }) {
     const totalRpSparePart =
-        data.sale_spare_part_movement.spare_part_movement.details.reduce(
+        data.sale_spare_part_movement?.spare_part_movement?.details.reduce(
             (acc, { qty, rp_per_unit }) => acc + qty * rp_per_unit * -1,
             0,
-        )
+        ) ?? 0
 
-    const totalRpService = data.sale_services.reduce(
-        (acc, { rp }) => acc + (rp ?? 0),
-        0,
-    )
+    const totalRpService =
+        data.sale_services?.reduce((acc, { rp }) => acc + (rp ?? 0), 0) ?? 0
 
     const baseRp = totalRpSparePart + totalRpService
 
@@ -90,12 +88,14 @@ export default function Receipt({ data }: { data: Sale }) {
             </Box>
 
             <Box mt={2}>
-                <Typography fontWeight="bold" variant="overline">
-                    Layanan:
-                </Typography>
+                {(data.sale_services ?? []).length > 0 && (
+                    <Typography fontWeight="bold" variant="overline">
+                        Layanan:
+                    </Typography>
+                )}
 
                 <Grid container alignItems="center">
-                    {data.sale_services.map(service => (
+                    {data.sale_services?.map(service => (
                         <RowGrids
                             key={service.id}
                             desc={service.state.name}
@@ -106,12 +106,17 @@ export default function Receipt({ data }: { data: Sale }) {
             </Box>
 
             <Box my={1}>
-                <Typography fontWeight="bold" variant="overline">
-                    Suku Cadang:
-                </Typography>
+                {(
+                    data.sale_spare_part_movement?.spare_part_movement
+                        ?.details ?? []
+                ).length > 0 && (
+                    <Typography fontWeight="bold" variant="overline">
+                        Suku Cadang:
+                    </Typography>
+                )}
 
                 <Grid container alignItems="center">
-                    {data.sale_spare_part_movement.spare_part_movement.details?.map(
+                    {data.sale_spare_part_movement?.spare_part_movement?.details.map(
                         sparePart => (
                             <DetailItem key={sparePart.id} data={sparePart} />
                         ),
