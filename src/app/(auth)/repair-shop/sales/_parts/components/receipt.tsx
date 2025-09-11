@@ -28,10 +28,12 @@ export default function Receipt({ data }: { data: Sale }) {
 
     const baseRp = totalRpSparePart + totalRpService
 
-    const totalInstallmentRp =
-        baseRp *
-        (data.installment_parent?.n_term ?? 0) *
-        (data.installment_parent?.interest_percent ?? 0)
+    const totalInstallmentRp = Math.ceil(
+        (baseRp *
+            (data.installment_parent?.n_term ?? 0) *
+            (data.installment_parent?.interest_percent ?? 0)) /
+            100,
+    )
 
     return (
         <Box
@@ -47,7 +49,7 @@ export default function Receipt({ data }: { data: Sale }) {
                 },
             }}>
             <Typography fontWeight="bold" lineHeight="1em">
-                Struk Penjualan Belayan Spare Part
+                {`${data.finished_at ? 'Struk' : 'Faktur'} Penjualan Belayan Spare Part`}
             </Typography>
 
             <Typography variant="overline" fontSize="0.5em">
@@ -123,7 +125,7 @@ export default function Receipt({ data }: { data: Sale }) {
                     value={totalRpSparePart + totalRpService}
                 />
 
-                {data.adjustment_rp && data.adjustment_rp > 0 && (
+                {Boolean(data.adjustment_rp && data.adjustment_rp > 0) && (
                     <RowGrids desc="Penyesuaian" value={data.adjustment_rp} />
                 )}
 
@@ -261,7 +263,7 @@ function DefaultItemDesc({
 function translatePaymentMethod(paymentMethod: Sale['payment_method']) {
     return {
         cash: 'Tunai',
-        'business-unit': 'Business Unit',
-        installment: 'Cicilan',
+        'business-unit': 'Unit Bisnis',
+        installment: 'Angsuran',
     }[paymentMethod]
 }
