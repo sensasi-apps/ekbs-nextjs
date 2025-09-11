@@ -8,6 +8,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import MuiCheckbox from '@mui/material/Checkbox'
 
 export default function CheckboxFields({
+    disabled,
     label,
     name,
     required,
@@ -40,6 +41,7 @@ export default function CheckboxFields({
                         return (
                             <>
                                 <FormControlLabel
+                                    disabled={disabled}
                                     id={name + '-checkbox'}
                                     control={<MuiCheckbox size="small" />}
                                     label={label}
