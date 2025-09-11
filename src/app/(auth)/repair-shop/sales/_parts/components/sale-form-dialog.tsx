@@ -8,8 +8,9 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 // formik
-import FormikForm from '@/components/formik-form'
+import BooleanField from '@/components/formik-fields/boolean-field'
 import DateField from '@/components/formik-fields/date-field'
+import FormikForm from '@/components/formik-form'
 import TextField from '@/components/formik-fields/text-field'
 import UserSelect from '@/components/formik-fields/user-select'
 // features
@@ -27,6 +28,8 @@ export type FormData = Partial<{
     uuid: string
     at: string
     note: string
+
+    is_finished: boolean
 
     payment_method: 'cash' | 'business-unit' | 'installment'
 
@@ -60,9 +63,13 @@ export type FormData = Partial<{
 }>
 
 export default function SaleFormDialog({
+    status,
     formData,
     handleClose,
 }: {
+    status: {
+        isDisabled: boolean
+    }
     formData: FormData | undefined
     handleClose: () => void
 }) {
@@ -89,16 +96,22 @@ export default function SaleFormDialog({
                 }}>
                 <Formik<FormData>
                     validateOnChange={false}
-                    initialStatus={{
-                        isDisabled: !isNew,
-                    }}
+                    initialStatus={status}
                     initialValues={formData ?? {}}
-                    onSubmit={(values, { setErrors, resetForm }) =>
-                        myAxios
-                            .post('repair-shop/sales', values)
+                    onSubmit={(values, { setErrors, resetForm }) => {
+                        values.is_finished = true
+
+                        const axiosInstance = values.uuid
+                            ? myAxios.put(
+                                  `repair-shop/sales/${values.uuid}`,
+                                  values,
+                              )
+                            : myAxios.post('repair-shop/sales', values)
+
+                        return axiosInstance
                             .then(resetForm)
                             .catch(error => handle422(error, setErrors))
-                    }
+                    }}
                     onReset={handleClose}
                     component={SaleFormikForm}
                 />
@@ -113,7 +126,7 @@ function SaleFormikForm({
     isSubmitting,
     values,
 }: FormikProps<FormData>) {
-    const isDisabled = isSubmitting || status?.isDisabled
+    const isDisabled = isSubmitting || status?.isDisabled || values.uuid
 
     return (
         <FormikForm
@@ -146,15 +159,11 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
         <Grid size={{ xs: 12, sm: 8 }}>
             <DateField name="at" label="Tanggal" disabled={isDisabled} />
 
-            <TextField
-                name="note"
-                label="Catatan"
+            {/* <UserSelect
+                name="worker_user_uuid"
+                label="Pekerja"
                 disabled={isDisabled}
-                textFieldProps={{
-                    required: false,
-                    multiline: true,
-                }}
-            />
+            /> */}
 
             {values.payment_method !== 'business-unit' && (
                 <UserSelect
@@ -169,6 +178,17 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
                 />
             )}
 
+            <TextField
+                name="note"
+                label="Catatan"
+                disabled={isDisabled}
+                textFieldProps={{
+                    required: false,
+                    multiline: true,
+                    rows: 2,
+                }}
+            />
+
             <Box mt={4}>
                 <ServicesArrayField isDisabled={isDisabled} />
             </Box>
@@ -180,7 +200,14 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
                 />
             </Box>
 
-            <PaymentInputs name="payment_method" />
+            <BooleanField
+                name="is_finished"
+                label="Selesaikan Transaksi"
+                disabled={true}
+                switch
+            />
+
+            {values.is_finished && <PaymentInputs name="payment_method" />}
         </Grid>
     )
 }

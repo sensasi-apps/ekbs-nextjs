@@ -61,10 +61,10 @@ export default function PaymentInput({
     name: string
     label?: string
 }) {
-    const { values, errors, setFieldValue, isSubmitting } =
+    const { values, errors, setFieldValue, isSubmitting, status } =
         useFormikContext<FormData>()
 
-    const isDisabled = Boolean(isSubmitting || values.uuid)
+    const isDisabled = Boolean(isSubmitting || status.isDisabled)
 
     return (
         <>
@@ -209,7 +209,7 @@ export default function PaymentInput({
                         <FormControl
                             required
                             margin="dense"
-                            // disabled={isDisabled}
+                            disabled={isDisabled}
                             fullWidth
                             error={Boolean(errors.installment_data)}>
                             <InputLabel size="small">

@@ -38,7 +38,8 @@ export default function ServicesArrayField({
                 remove,
                 push,
             }: FieldArrayRenderProps) => {
-                const services = (values.services as FormData['services']) ?? []
+                const typedValues = values as FormData
+                const services = typedValues.services ?? []
 
                 return (
                     <>
@@ -47,26 +48,22 @@ export default function ServicesArrayField({
                                 Layanan
                             </Typography>
 
-                            {!values.uuid && (
-                                <AddItemButton
-                                    isDisabled={isDisabled}
-                                    push={push}
-                                />
-                            )}
+                            <AddItemButton
+                                isDisabled={isDisabled}
+                                push={push}
+                            />
                         </Box>
 
-                        {services.map((row, i) => (
+                        {services.map((_, i) => (
                             <Box
                                 display="flex"
                                 key={i}
                                 gap={2}
                                 alignItems="center">
-                                {!values.uuid && (
-                                    <RemoveButton
-                                        onClick={() => remove(i)}
-                                        isDisabled={isDisabled}
-                                    />
-                                )}
+                                <RemoveButton
+                                    onClick={() => remove(i)}
+                                    isDisabled={isDisabled}
+                                />
 
                                 {i + 1}
 
@@ -84,7 +81,6 @@ export default function ServicesArrayField({
                                         )
                                     }}
                                     isDisabled={isDisabled}
-                                    state={row.state}
                                 />
 
                                 <NumericField
@@ -109,20 +105,14 @@ function ServiceField({
     isDisabled,
     name,
     onChange,
-    state,
 }: {
-    state: Service | undefined
     isDisabled: boolean
     name: string
     onChange: (ev: React.SyntheticEvent, selected: Service | null) => void
 }) {
     const { data: services = [], isLoading } = useSWR<Service[]>(
-        !state ? '/repair-shop/sales/get-services' : null,
+        '/repair-shop/sales/get-services',
     )
-
-    if (state) {
-        return <Box width="100%">{`${state.id} — ${state.name}`}</Box>
-    }
 
     if (isLoading) {
         return (

@@ -10,7 +10,11 @@ export default function Page() {
 
     return (
         <SaleFormDialog
+            status={{
+                isDisabled: false,
+            }}
             formData={{
+                is_finished: true,
                 spare_parts: [],
                 services: [],
             }}
