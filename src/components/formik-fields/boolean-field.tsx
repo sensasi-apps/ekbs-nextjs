@@ -12,11 +12,13 @@ import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
 import Switch from '@mui/material/Switch'
 
-type BooleanFieldProps = {
+interface BooleanFieldBaseProps {
     name: string
     label: string
-    disabled: boolean
-} & (
+    disabled?: boolean
+}
+
+type ShouldBeACheckboxOrSwitch =
     | {
           checkbox: boolean
           switch?: never
@@ -25,22 +27,25 @@ type BooleanFieldProps = {
           checkbox?: never
           switch: boolean
       }
-)
 
-export function BooleanField(props: BooleanFieldProps) {
+export default function BooleanField(
+    props: BooleanFieldBaseProps & ShouldBeACheckboxOrSwitch,
+) {
     return <Field component={InnerComponent} {...props} />
 }
 
 function InnerComponent({
     // formik props
     field: { name },
-    form: { setFieldValue, getFieldMeta },
+    form: { setFieldValue, getFieldMeta, status, isSubmitting },
 
     // additional props
     label,
     disabled,
     checkbox,
-}: Omit<FieldProps<boolean>, 'meta'> & Omit<BooleanFieldProps, 'name'>) {
+}: Omit<FieldProps<boolean>, 'meta'> &
+    Omit<BooleanFieldBaseProps, 'name'> &
+    ShouldBeACheckboxOrSwitch) {
     const { error, value } = getFieldMeta<boolean>(name)
     const [innerValue, setInnerValue] = useState(value)
 
@@ -65,7 +70,7 @@ function InnerComponent({
                         />
                     }
                     label={label}
-                    disabled={disabled}
+                    disabled={disabled || isSubmitting || status.isDisabled}
                 />
 
                 <FormHelperText error={Boolean(error)}>{error}</FormHelperText>
