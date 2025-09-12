@@ -136,7 +136,7 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
         name: 'uuid',
         label: 'Kode',
         options: {
-            customBodyRender: shortUuid,
+            customBodyRender: value => shortUuid(value),
         },
     },
 
@@ -181,7 +181,7 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
         label: 'Kode Referensi',
         options: {
             sort: false,
-            customBodyRender: shortUuid,
+            customBodyRender: value => shortUuid(value),
         },
     },
 
