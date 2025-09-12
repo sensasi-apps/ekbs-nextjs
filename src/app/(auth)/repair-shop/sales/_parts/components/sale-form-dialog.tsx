@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography'
 // formik
 import BooleanField from '@/components/formik-fields/boolean-field'
 import DateField from '@/components/formik-fields/date-field'
-import FormikForm from '@/components/formik-form'
+import FormikForm from '@/components/formik-form-v2'
 import TextField from '@/components/formik-fields/text-field'
 import UserSelect from '@/components/formik-fields/user-select'
 // features
@@ -122,25 +122,13 @@ export default function SaleFormDialog({
 
 function SaleFormikForm({
     status,
-    dirty,
     isSubmitting,
     values,
 }: FormikProps<FormData>) {
     const isDisabled = isSubmitting || status?.isDisabled || values.uuid
 
     return (
-        <FormikForm
-            id="repair-shop-sale-form"
-            autoComplete="off"
-            isNew={!values.uuid}
-            dirty={dirty}
-            processing={isSubmitting}
-            submitting={isSubmitting}
-            slotProps={{
-                submitButton: {
-                    disabled: isDisabled,
-                },
-            }}>
+        <FormikForm>
             <Grid container spacing={4}>
                 <LeftGrid isDisabled={isDisabled} values={values} />
                 <RightGrid />
@@ -243,6 +231,11 @@ function RightGrid() {
                     border: '1px solid #555',
                     borderRadius: 2,
                     p: 3,
+                    position: 'sticky',
+                    top: {
+                        xs: undefined,
+                        sm: 0,
+                    },
                 }}>
                 <Typography gutterBottom>Rangkuman</Typography>
 
