@@ -7,6 +7,7 @@ import {
     cloneElement,
     forwardRef,
     isValidElement,
+    useState,
 } from 'react'
 import { type FieldProps, Field } from 'formik'
 import { type ListRowProps, List } from 'react-virtualized'
@@ -17,6 +18,7 @@ import TextField, { type TextFieldProps } from '@mui/material/TextField'
 //
 import type User from '@/modules/user/types/orms/user'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import ChipSmall from '../ChipSmall'
 
 /**
  * API response from `data/minimal-users`.
@@ -28,19 +30,42 @@ type ApiResponse = {
     nickname: User['nickname']
 }[]
 
-export default function UserSelect({
-    disabled,
-    label,
-    name,
-    slotProps,
-}: {
-    disabled: boolean
+interface UserSelectProps {
+    disabled?: boolean
     name: string
     label: string
     slotProps?: {
         textField?: TextFieldProps
     }
-}) {
+}
+
+export default function UserSelect({
+    disabled,
+    label,
+    name,
+    slotProps,
+}: UserSelectProps) {
+    return (
+        <Field
+            name={name}
+            component={InnerComponent}
+            disabled={disabled}
+            label={label}
+            slotProps={slotProps}
+        />
+    )
+}
+
+function InnerComponent({
+    name,
+    disabled,
+    label,
+    slotProps,
+
+    form: { setFieldValue, isSubmitting, status, getFieldMeta },
+}: Omit<FieldProps<string>, 'meta'> & UserSelectProps) {
+    const { error: errorMeta, value } = getFieldMeta<string>(name)
+    const [textfieldValue, setTextFieldValue] = useState('')
     const { data: users = [], isLoading } = useSWR<ApiResponse>(
         'data/minimal-users',
         null,
@@ -49,60 +74,72 @@ export default function UserSelect({
         },
     )
 
+    const error = ['{}', '[]'].includes(JSON.stringify(errorMeta))
+        ? undefined
+        : errorMeta
+
+    const selectedUser = value
+        ? users.find(({ uuid }) => uuid === value)
+        : undefined
+
     return (
-        <Field name={name}>
-            {({
-                field: { value, name },
-                form: { setFieldValue, isSubmitting },
-                meta: { error },
-            }: FieldProps<string>) => {
-                const selectedUser = value
-                    ? users.find(({ uuid }) => uuid === value)
-                    : undefined
+        <Autocomplete
+            disableListWrap
+            getOptionLabel={({ id, name }) => `(${id}) ${name}`}
+            renderOption={(li, { id, name }) => (
+                <li {...li} key={id}>
+                    <ChipSmall label={id} key={id} sx={{ mr: 1 }} />
+                    {name}
+                </li>
+            )}
+            onChange={(_, value) => {
+                setFieldValue(name, value?.uuid)
+            }}
+            noOptionsText={
+                isSearchTermPassedTheRequirements(textfieldValue)
+                    ? 'Pengguna tidak ditemukan'
+                    : 'Ketik minimal 3 karakter'
+            }
+            disabled={
+                disabled || isSubmitting || isLoading || status.isDisabled
+            }
+            value={selectedUser ?? null}
+            filterOptions={(options, { inputValue }) => {
+                if (!isSearchTermPassedTheRequirements(inputValue)) {
+                    return []
+                }
 
-                return (
-                    <Autocomplete
-                        disableListWrap
-                        getOptionLabel={({ name, id }) => `#${id} — ${name}`}
-                        onChange={(_, value) => {
-                            setFieldValue(name, value?.uuid)
-                        }}
-                        disabled={disabled || isSubmitting || isLoading}
-                        value={selectedUser ?? null}
-                        filterOptions={(options, { inputValue }) => {
-                            if (!inputValue || inputValue.length <= 3) {
-                                return []
-                            }
-
-                            return options.filter(option =>
-                                option.name
-                                    .toLowerCase()
-                                    .includes(inputValue.toLowerCase()),
-                            )
-                        }}
-                        slotProps={{
-                            listbox: {
-                                component: ListboxComponent,
-                            },
-                        }}
-                        options={users}
-                        renderInput={params => (
-                            <TextField
-                                {...params}
-                                required
-                                variant="outlined"
-                                label={label}
-                                size="small"
-                                margin="dense"
-                                fullWidth
-                                {...errorsToHelperTextObj(error)}
-                                {...slotProps?.textField}
-                            />
-                        )}
-                    />
+                return options.filter(option =>
+                    inputValue.startsWith('#')
+                        ? `#${option.id}` === inputValue
+                        : option.name
+                              .toLowerCase()
+                              .includes(inputValue.toLowerCase()),
                 )
             }}
-        </Field>
+            slotProps={{
+                listbox: {
+                    component: ListboxComponent,
+                },
+            }}
+            options={users}
+            renderInput={params => (
+                <TextField
+                    {...params}
+                    required
+                    variant="outlined"
+                    label={label}
+                    size="small"
+                    margin="dense"
+                    fullWidth
+                    onChange={({ currentTarget: { value } }) => {
+                        setTextFieldValue(value)
+                    }}
+                    {...errorsToHelperTextObj(error)}
+                    {...slotProps?.textField}
+                />
+            )}
+        />
     )
 }
 
@@ -136,6 +173,7 @@ const ListboxComponent = forwardRef<
                                 style: listRowProps.style,
                             })
                         }
+
                         return null
                     }}
                     role={role}
@@ -144,3 +182,7 @@ const ListboxComponent = forwardRef<
         </div>
     )
 })
+
+function isSearchTermPassedTheRequirements(value: string) {
+    return value.length >= 3 || (value.length >= 2 && value.startsWith('#'))
+}
