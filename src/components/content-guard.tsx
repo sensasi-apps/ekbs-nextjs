@@ -60,7 +60,7 @@ function isAuthHasRoleOrPermissionForPath(authInfo: AuthInfo, route: string) {
         item => item.href === route || route.startsWith(item.href),
     )
 
-    if (!navItem) {
+    if (!navItem && ['/files/*'].every(path => !route.startsWith(path))) {
         Sentry.captureMessage(
             '`navItem` is undefined for pathname: ' + route,
             'fatal',
