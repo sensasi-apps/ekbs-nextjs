@@ -51,6 +51,7 @@ export default function LoanDatatable({
             apiUrlParams={apiUrlParams}
             columns={DATATABLE_COLUMNS}
             defaultSortOrder={DEFAULT_SORT_ORDER}
+            download
             onRowClick={handleRowClick}
             tableId="loans-table"
             title={TITLE}
