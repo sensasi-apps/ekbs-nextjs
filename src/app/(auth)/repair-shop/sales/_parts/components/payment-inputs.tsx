@@ -113,10 +113,15 @@ export default function PaymentInput({
                                                     undefined,
                                                 )
 
-                                                setFieldValue(
-                                                    'customer_uuid',
-                                                    undefined,
-                                                )
+                                                if (
+                                                    optionValue ===
+                                                    'business-unit'
+                                                ) {
+                                                    setFieldValue(
+                                                        'customer_uuid',
+                                                        undefined,
+                                                    )
+                                                }
 
                                                 setFieldValue(
                                                     'installment_data',
