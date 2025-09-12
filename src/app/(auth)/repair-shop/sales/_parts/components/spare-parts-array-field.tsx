@@ -31,7 +31,7 @@ export default function SparePartsArrayField({
     isDisabled: boolean
 }) {
     const {
-        values: { uuid, spare_parts },
+        values: { spare_parts },
     } = useFormikContext<FormData>()
 
     return (
@@ -44,12 +44,10 @@ export default function SparePartsArrayField({
                                 Suku Cadang
                             </Typography>
 
-                            {!uuid && (
-                                <AddItemButton
-                                    isDisabled={isDisabled}
-                                    push={push}
-                                />
-                            )}
+                            <AddItemButton
+                                isDisabled={isDisabled}
+                                push={push}
+                            />
                         </Box>
 
                         {spare_parts?.map((row, index) => (
@@ -65,8 +63,7 @@ export default function SparePartsArrayField({
                                     remove={remove}
                                     isDisabled={isDisabled}
                                     showDelete={
-                                        index === spare_parts.length - 1 &&
-                                        !uuid
+                                        index === spare_parts.length - 1
                                     }
                                 />
 

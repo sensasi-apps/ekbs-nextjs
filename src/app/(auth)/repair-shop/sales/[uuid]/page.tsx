@@ -14,15 +14,22 @@ export default function Page() {
     const { back } = useRouter()
     const param = useParams()
 
-    const { data } = useSWR<FormData>(
-        param?.uuid ? 'repair-shop/sales/' + (param.uuid as string) : null,
-    )
+    const { data } = useSWR<
+        FormData & {
+            finished_at: string
+        }
+    >(param?.uuid ? 'repair-shop/sales/' + (param.uuid as string) : null)
 
     if (!data) return <LoadingCenter />
 
+    const isFinished = Boolean(data.finished_at)
+
     return (
         <SaleFormDialog
-            formData={data}
+            formData={{ ...data, is_finished: true }}
+            status={{
+                isDisabled: isFinished || true,
+            }}
             handleClose={() => {
                 back()
             }}
