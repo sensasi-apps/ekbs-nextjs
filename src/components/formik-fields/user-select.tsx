@@ -1,5 +1,6 @@
 // vendors
 import {
+    type CSSProperties,
     type HTMLAttributes,
     type ReactElement,
     type ReactNode,
@@ -14,6 +15,7 @@ import { type ListRowProps, List } from 'react-virtualized'
 import useSWR from 'swr'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
+import Box from '@mui/material/Box'
 import TextField, { type TextFieldProps } from '@mui/material/TextField'
 //
 import type User from '@/modules/user/types/orms/user'
@@ -57,15 +59,15 @@ export default function UserSelect({
 }
 
 function InnerComponent({
-    name,
     disabled,
     label,
     slotProps,
 
+    field: { name },
     form: { setFieldValue, isSubmitting, status, getFieldMeta },
-}: Omit<FieldProps<string>, 'meta'> & UserSelectProps) {
+}: Omit<FieldProps<string>, 'meta'> & Omit<UserSelectProps, 'name'>) {
     const { error: errorMeta, value } = getFieldMeta<string>(name)
-    const [textfieldValue, setTextFieldValue] = useState('')
+    const [searchValue, setSearchValue] = useState('')
     const { data: users = [], isLoading } = useSWR<ApiResponse>(
         'data/minimal-users',
         null,
@@ -87,21 +89,22 @@ function InnerComponent({
             disableListWrap
             getOptionLabel={({ id, name }) => `(${id}) ${name}`}
             renderOption={(li, { id, name }) => (
-                <li {...li} key={id}>
+                <Box {...li} component="li" key={id} width="100%">
                     <ChipSmall label={id} key={id} sx={{ mr: 1 }} />
                     {name}
-                </li>
+                </Box>
             )}
             onChange={(_, value) => {
+                setSearchValue('')
                 setFieldValue(name, value?.uuid)
             }}
             noOptionsText={
-                isSearchTermPassedTheRequirements(textfieldValue)
+                isSearchTermPassedTheRequirements(searchValue)
                     ? 'Pengguna tidak ditemukan'
                     : 'Ketik minimal 3 karakter'
             }
             disabled={
-                disabled || isSubmitting || isLoading || status.isDisabled
+                disabled || isSubmitting || isLoading || status?.isDisabled
             }
             value={selectedUser ?? null}
             filterOptions={(options, { inputValue }) => {
@@ -123,6 +126,22 @@ function InnerComponent({
                 },
             }}
             options={users}
+            renderValue={(option, getItemProps) => {
+                const props = { ...getItemProps(), onDelete: undefined }
+
+                if (!option) {
+                    return <Box {...props} />
+                }
+
+                return (
+                    <Box {...props}>
+                        <ChipSmall label={option.id} sx={{ mx: 1 }} />
+                        {option?.name}
+                    </Box>
+                )
+            }}
+            loading={isLoading}
+            loadingText="Sedang memuat..."
             renderInput={params => (
                 <TextField
                     {...params}
@@ -133,7 +152,7 @@ function InnerComponent({
                     margin="dense"
                     fullWidth
                     onChange={({ currentTarget: { value } }) => {
-                        setTextFieldValue(value)
+                        setSearchValue(value)
                     }}
                     {...errorsToHelperTextObj(error)}
                     {...slotProps?.textField}
@@ -151,14 +170,22 @@ const ListboxComponent = forwardRef<
     }
 >(function ListboxComponent(props, ref) {
     const { children, role, ...other } = props
-    const items = Children.toArray(children) as ReactElement[]
+    const items = Children.toArray(children) as ReactElement<{
+        style: CSSProperties
+    }>[]
     const itemCount = items.length
     const itemSize = 40
     const listHeight = itemSize * itemCount
 
     return (
         <div ref={ref}>
-            <div {...other}>
+            <Box
+                {...other}
+                sx={{
+                    '.ReactVirtualized__Grid__innerScrollContainer': {
+                        maxWidth: 'unset !important',
+                    },
+                }}>
                 <List
                     height={Math.min(listHeight, 250)}
                     autoWidth
@@ -166,19 +193,16 @@ const ListboxComponent = forwardRef<
                     rowHeight={itemSize}
                     overscanCount={5}
                     rowCount={itemCount}
-                    rowRenderer={(listRowProps: ListRowProps) => {
-                        if (isValidElement(items[listRowProps.index])) {
-                            return cloneElement(items[listRowProps.index], {
-                                // @ts-expect-error  TODO: will fix see https://mui.com/material-ui/react-autocomplete/#virtualization
-                                style: listRowProps.style,
-                            })
-                        }
-
-                        return null
-                    }}
+                    rowRenderer={(listRowProps: ListRowProps) =>
+                        isValidElement(items[listRowProps.index])
+                            ? cloneElement(items[listRowProps.index], {
+                                  style: listRowProps.style,
+                              })
+                            : null
+                    }
                     role={role}
                 />
-            </div>
+            </Box>
         </div>
     )
 })
