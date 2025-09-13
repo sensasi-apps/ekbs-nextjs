@@ -57,13 +57,13 @@ export default function UserSelect({
 }
 
 function InnerComponent({
-    name,
     disabled,
     label,
     slotProps,
 
+    field: { name },
     form: { setFieldValue, isSubmitting, status, getFieldMeta },
-}: Omit<FieldProps<string>, 'meta'> & UserSelectProps) {
+}: Omit<FieldProps<string>, 'meta'> & Omit<UserSelectProps, 'name'>) {
     const { error: errorMeta, value } = getFieldMeta<string>(name)
     const [textfieldValue, setTextFieldValue] = useState('')
     const { data: users = [], isLoading } = useSWR<ApiResponse>(
@@ -101,7 +101,7 @@ function InnerComponent({
                     : 'Ketik minimal 3 karakter'
             }
             disabled={
-                disabled || isSubmitting || isLoading || status.isDisabled
+                disabled || isSubmitting || isLoading || status?.isDisabled
             }
             value={selectedUser ?? null}
             filterOptions={(options, { inputValue }) => {
