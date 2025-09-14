@@ -5,25 +5,60 @@ import type SaleService from './sale-service'
 import type User from '@/modules/user/types/orms/user'
 
 export type Sale = {
+    /** [💾] */
     uuid: string
+
+    /** [💾] */
     at: string
+
+    /** [💾] */
     customer_uuid: string
+
+    /** [💾] */
     payment_method: 'cash' | 'business-unit' | 'installment'
+
+    /** [💾] */
     note: string
 
+    /** [💾] */
     created_by_user_uuid: string
+
+    /** [💾] */
     finished_at: string
 
+    /** [💾] */
     adjustment_rp: number
+
+    /** [💾] */
     final_rp: number
 
-    // relations
+    /** [💾] */
+    created_at: string
+
+    /** [💾] */
+    updated_at: string
+
+    /** [💾] */
+    worker_user_uuid: string
+
+    /** [🔗] */
     sale_services?: SaleService[]
-    sale_spare_part_movement?: {
-        spare_part_movement?: SparePartMovement
-    }
-    created_by_user: User
-    customer: User
+
+    /** [🔗] */
+    spare_part_movement?: SparePartMovement
+
+    /** [🔗] */
+    spare_part_margins?: {
+        spare_part_warehouse_id: number
+        margin_percentage: number
+        margin_rp: number
+    }[]
+
+    /** [🔗] */
+    created_by_user?: User
+
+    /** [🔗] */
+    customer?: User
 } & SalePayment
 
 type SalePayment =

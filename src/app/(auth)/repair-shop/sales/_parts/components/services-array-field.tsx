@@ -1,4 +1,5 @@
 // vendors
+import { useRef } from 'react'
 import {
     type FieldProps,
     type FieldArrayRenderProps,
@@ -18,11 +19,10 @@ import Tooltip from '@mui/material/Tooltip'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 // components
 import NumericField from '@/components/formik-fields/numeric-field'
-// features
-import type { FormData } from './sale-form-dialog'
-import type Service from '@/app/(auth)/repair-shop/services/_parts/types/service'
 import RemoveButton from '@/components/remove-button'
-import { useRef } from 'react'
+// modules
+import type Service from '@/app/(auth)/repair-shop/services/_parts/types/service'
+import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 
 export default function ServicesArrayField({
     isDisabled,
@@ -38,7 +38,7 @@ export default function ServicesArrayField({
                 remove,
                 push,
             }: FieldArrayRenderProps) => {
-                const typedValues = values as FormData
+                const typedValues = values as SaleFormValues
                 const services = typedValues.services ?? []
 
                 return (
