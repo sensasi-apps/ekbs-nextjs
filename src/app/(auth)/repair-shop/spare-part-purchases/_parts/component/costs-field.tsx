@@ -15,7 +15,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import TextField from '@/components/formik-fields/text-field'
 import NumericField from '@/components/formik-fields/numeric-field'
 // features
-import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 
 export default function CostsField({
     push,

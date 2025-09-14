@@ -21,8 +21,8 @@ import numberToCurrency from '@/utils/number-to-currency'
 // formik
 import NumericField from '@/components/formik-fields/numeric-field'
 // features
-import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
-import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
+import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 
 export default function DetailsField({
     push,

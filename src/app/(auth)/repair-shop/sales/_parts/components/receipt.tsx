@@ -9,8 +9,8 @@ import Typography from '@mui/material/Typography'
 import formatNumber from '@/utils/format-number'
 // assets
 // import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
-import type { Sale } from '../types/sale'
-import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
+import type { Sale } from '../../../../../../modules/repair-shop/types/orms/sale'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 // utils
 import shortUuid from '@/utils/short-uuid'
 

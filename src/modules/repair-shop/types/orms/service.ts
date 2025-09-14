@@ -1,4 +1,4 @@
-export default interface Service {
+export default interface ServiceORM {
     id: number
     name: string
     default_price: number

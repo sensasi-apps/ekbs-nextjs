@@ -16,8 +16,8 @@ import TextShortener from '@/components/text-shortener'
 // utils
 import formatNumber from '@/utils/format-number'
 // feature scope
-import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
-import type VehicleType from '@/app/(auth)/repair-shop/spare-parts/_enums/vehicle-type'
+import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
+import type VehicleType from '@/modules/repair-shop/enums/vehicle-type'
 import SparePartFormDialog, {
     type FormData,
 } from '@/app/(auth)/repair-shop/spare-parts/_parts/form-dialog'

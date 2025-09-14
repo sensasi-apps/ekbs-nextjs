@@ -12,7 +12,7 @@ import Fab from '@/components/Fab'
 // utils
 import formatNumber from '@/utils/format-number'
 // features
-import type Service from '@/app/(auth)/repair-shop/services/_parts/types/service'
+import type Service from '@/modules/repair-shop/types/orms/service'
 import ServiceFormDialog from '@/app/(auth)/repair-shop/services/_parts/components/form-dialog'
 import PageTitle from '@/components/page-title'
 

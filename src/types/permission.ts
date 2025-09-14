@@ -11,7 +11,7 @@ import type Wallet from '@/enums/permissions/Wallet'
 // repair-shop features
 import type RepairShopPurchasePermission from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/permission'
 import type RepairShopSalePermission from '@/app/(auth)/repair-shop/sales/_parts/enums/permission'
-import type RepairShopSparePartPermission from '@/app/(auth)/repair-shop/spare-parts/_enums/permission'
+import type RepairShopSparePartPermission from '@/modules/repair-shop/enums/permission'
 import type RepairShopServicePermission from '@/app/(auth)/repair-shop/services/_parts/enums/permission'
 
 export type Permission =

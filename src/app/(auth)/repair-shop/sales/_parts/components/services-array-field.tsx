@@ -21,7 +21,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import NumericField from '@/components/formik-fields/numeric-field'
 import RemoveButton from '@/components/remove-button'
 // modules
-import type Service from '@/app/(auth)/repair-shop/services/_parts/types/service'
+import type Service from '@/modules/repair-shop/types/orms/service'
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 
 export default function ServicesArrayField({

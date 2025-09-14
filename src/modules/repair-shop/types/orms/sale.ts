@@ -1,7 +1,7 @@
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
-import type SaleService from './sale-service'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
+import type SaleService from '@/modules/repair-shop/types/orms/sale-service'
 import type User from '@/modules/user/types/orms/user'
 
 export type Sale = {

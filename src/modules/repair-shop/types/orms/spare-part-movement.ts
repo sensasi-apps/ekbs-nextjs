@@ -1,5 +1,5 @@
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-import type SparePartORM from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
+import type SparePartORM from '@/modules/repair-shop/types/orms/spare-part'
 
 export default interface SparePartMovementORM {
     uuid: string

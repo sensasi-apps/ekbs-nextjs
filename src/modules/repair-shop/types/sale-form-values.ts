@@ -1,5 +1,5 @@
-import type Service from '@/app/(auth)/repair-shop/services/_parts/types/service'
-import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
+import type Service from '@/modules/repair-shop/types/orms/service'
+import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 
 export default interface SaleFormValues {
     uuid?: string

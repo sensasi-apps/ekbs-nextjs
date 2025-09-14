@@ -24,7 +24,7 @@ import RemoveButton from '@/components/remove-button'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 // modules
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
-import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
+import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 
 export default function SparePartsArrayField({
     name,

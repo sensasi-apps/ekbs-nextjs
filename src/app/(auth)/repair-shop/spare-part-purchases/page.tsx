@@ -20,7 +20,7 @@ import TextShortener from '@/components/text-shortener'
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 // features
-import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 import Endpoint from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/endpoint'
 import PageTitle from '@/components/page-title'
 
