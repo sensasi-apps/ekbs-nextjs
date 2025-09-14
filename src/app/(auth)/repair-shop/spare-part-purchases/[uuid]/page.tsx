@@ -8,7 +8,7 @@ import LoadingCenter from '@/components/loading-center'
 // libs
 import myAxios from '@/lib/axios'
 // features
-import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
+import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 import PurchaseFormDialog from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/component/purchase-form-dialog'
 import Endpoint from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/endpoint'
 

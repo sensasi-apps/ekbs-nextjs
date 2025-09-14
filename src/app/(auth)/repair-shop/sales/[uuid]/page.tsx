@@ -5,17 +5,16 @@ import { useParams, useRouter } from 'next/navigation'
 import useSWR from 'swr'
 // components
 import LoadingCenter from '@/components/loading-center'
-// features
-import SaleFormDialog, {
-    type FormData,
-} from '@/app/(auth)/repair-shop/sales/_parts/components/sale-form-dialog'
+// modules
+import SaleFormDialog from '@/app/(auth)/repair-shop/sales/_parts/components/sale-form-dialog'
+import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 
 export default function Page() {
     const { back } = useRouter()
     const param = useParams()
 
     const { data } = useSWR<
-        FormData & {
+        SaleFormValues & {
             finished_at: string
         }
     >(param?.uuid ? 'repair-shop/sales/' + (param.uuid as string) : null)

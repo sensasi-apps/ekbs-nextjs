@@ -9,14 +9,14 @@ import Typography from '@mui/material/Typography'
 import formatNumber from '@/utils/format-number'
 // assets
 // import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
-import type { Sale } from '../types/sale'
-import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
+import type { Sale } from '../../../../../../modules/repair-shop/types/orms/sale'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 // utils
 import shortUuid from '@/utils/short-uuid'
 
 export default function Receipt({ data }: { data: Sale }) {
     const totalRpSparePart =
-        data.sale_spare_part_movement?.spare_part_movement?.details.reduce(
+        data.spare_part_movement?.details.reduce(
             (acc, { qty, rp_per_unit }) => acc + qty * rp_per_unit * -1,
             0,
         ) ?? 0
@@ -24,14 +24,11 @@ export default function Receipt({ data }: { data: Sale }) {
     const totalRpService =
         data.sale_services?.reduce((acc, { rp }) => acc + (rp ?? 0), 0) ?? 0
 
-    const baseRp = totalRpSparePart + totalRpService
-
-    const totalInstallmentRp = Math.ceil(
-        (baseRp *
-            (data.installment_parent?.n_term ?? 0) *
-            (data.installment_parent?.interest_percent ?? 0)) /
-            100,
-    )
+    const totalInstallmentRp =
+        data.spare_part_margins?.reduce(
+            (acc, { margin_rp }) => acc + margin_rp,
+            0,
+        ) ?? 0 * data.installment_parent.n_term
 
     return (
         <Box
@@ -54,7 +51,7 @@ export default function Receipt({ data }: { data: Sale }) {
                 {data.uuid}
             </Typography>
 
-            <Box display="flex" gap={2} alignItems="center" mt={1}>
+            <Box display="flex" gap={2} alignItems="center" mt={1} mb={1}>
                 {/* <Image
                     width={96} // 6 rem
                     height={96} // 6 rem
@@ -87,44 +84,52 @@ export default function Receipt({ data }: { data: Sale }) {
                 </Box>
             </Box>
 
-            <Box mt={2}>
-                {(data.sale_services ?? []).length > 0 && (
-                    <Typography fontWeight="bold" variant="overline">
-                        Layanan:
-                    </Typography>
+            {data.sale_services !== undefined &&
+                data.sale_services.length > 0 && (
+                    <Box mt={1}>
+                        <Typography fontWeight="bold" variant="overline">
+                            Layanan:
+                        </Typography>
+
+                        <Grid
+                            container
+                            alignItems="center"
+                            spacing={0.5}
+                            mt={0.5}>
+                            {data.sale_services.map(service => (
+                                <RowGrids
+                                    key={service.id}
+                                    desc={service.state.name}
+                                    value={service.rp ?? 0}
+                                />
+                            ))}
+                        </Grid>
+                    </Box>
                 )}
 
-                <Grid container alignItems="center">
-                    {data.sale_services?.map(service => (
-                        <RowGrids
-                            key={service.id}
-                            desc={service.state.name}
-                            value={service.rp ?? 0}
-                        />
-                    ))}
-                </Grid>
-            </Box>
+            {data.spare_part_movement !== undefined &&
+                data.spare_part_movement.details.length > 0 && (
+                    <Box mt={1}>
+                        <Typography fontWeight="bold" variant="overline">
+                            Suku Cadang:
+                        </Typography>
 
-            <Box my={1}>
-                {(
-                    data.sale_spare_part_movement?.spare_part_movement
-                        ?.details ?? []
-                ).length > 0 && (
-                    <Typography fontWeight="bold" variant="overline">
-                        Suku Cadang:
-                    </Typography>
+                        <Grid
+                            container
+                            alignItems="center"
+                            spacing={0.5}
+                            mt={0.5}>
+                            {data.spare_part_movement.details.map(sparePart => (
+                                <DetailItem
+                                    key={sparePart.id}
+                                    data={sparePart}
+                                />
+                            ))}
+                        </Grid>
+                    </Box>
                 )}
 
-                <Grid container alignItems="center">
-                    {data.sale_spare_part_movement?.spare_part_movement?.details.map(
-                        sparePart => (
-                            <DetailItem key={sparePart.id} data={sparePart} />
-                        ),
-                    )}
-                </Grid>
-            </Box>
-
-            <Grid container alignItems="center">
+            <Grid container alignItems="center" mt={1}>
                 <RowGrids
                     desc="Subtotal"
                     value={totalRpSparePart + totalRpService}

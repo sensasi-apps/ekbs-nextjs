@@ -16,7 +16,7 @@ import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
 import toDmy from '@/utils/to-dmy'
 // feature scope
-import type Service from '../types/service'
+import type Service from '../../../../../../modules/repair-shop/types/orms/service'
 
 type FormData = Partial<Service>
 

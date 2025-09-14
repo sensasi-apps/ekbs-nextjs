@@ -17,6 +17,10 @@ export default function Page() {
                 is_finished: true,
                 spare_parts: [],
                 services: [],
+                installment_data: {
+                    n_term: 1,
+                },
+                spare_part_margins: [],
             }}
             handleClose={() => {
                 back()

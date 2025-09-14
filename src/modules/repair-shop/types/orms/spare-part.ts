@@ -1,6 +1,6 @@
-import type VehicleType from '../_enums/vehicle-type'
+import type VehicleType from '../../enums/vehicle-type'
 
-export default interface SparePartModel {
+export default interface SparePartORM {
     id: number
     code: string
     name: string

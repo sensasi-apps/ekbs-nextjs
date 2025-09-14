@@ -20,47 +20,10 @@ import ServicesArrayField from './services-array-field'
 // utils
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
-import type Service from '@/app/(auth)/repair-shop/services/_parts/types/service'
-import type SparePart from '@/app/(auth)/repair-shop/spare-parts/_types/spare-part-model'
+
 import numberToCurrency from '@/utils/number-to-currency'
-
-export type FormData = Partial<{
-    uuid: string
-    at: string
-    note: string
-
-    is_finished: boolean
-
-    payment_method: 'cash' | 'business-unit' | 'installment'
-
-    // cash
-    adjustment_rp: number
-    cash_uuid: string
-    costumer_uuid?: string
-
-    // installment
-    installment_data: {
-        interest_percent: number
-        n_term: number
-        term_unit: 'minggu' | 'bulan'
-    }
-
-    // business unit
-    business_unit_cash_uuid: string
-
-    spare_parts: Partial<{
-        spare_part_state?: SparePart // if defined, it's an existing sale
-        spare_part_warehouse_id: number
-        qty: number
-        rp_per_unit: number
-    }>[]
-
-    services: Partial<{
-        state?: Service // if defined, it's an existing sale
-        service_id: string
-        rp: number
-    }>[]
-}>
+import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
+import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
 
 export default function SaleFormDialog({
     status,
@@ -70,7 +33,7 @@ export default function SaleFormDialog({
     status: {
         isDisabled: boolean
     }
-    formData: FormData | undefined
+    formData: SaleFormValues
     handleClose: () => void
 }) {
     const isNew = !formData?.uuid
@@ -94,10 +57,10 @@ export default function SaleFormDialog({
                         md: 12,
                     },
                 }}>
-                <Formik<FormData>
+                <Formik<SaleFormValues>
                     validateOnChange={false}
                     initialStatus={status}
-                    initialValues={formData ?? {}}
+                    initialValues={formData}
                     onSubmit={(values, { setErrors, resetForm }) => {
                         values.is_finished = true
 
@@ -124,7 +87,7 @@ function SaleFormikForm({
     status,
     isSubmitting,
     values,
-}: FormikProps<FormData>) {
+}: FormikProps<SaleFormValues>) {
     const isDisabled = isSubmitting || status?.isDisabled || values.uuid
 
     return (
@@ -139,7 +102,7 @@ function SaleFormikForm({
 
 interface InnerGrid {
     isDisabled: boolean
-    values: FormData
+    values: SaleFormValues
 }
 
 function LeftGrid({ isDisabled, values }: InnerGrid) {
@@ -147,17 +110,20 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
         <Grid size={{ xs: 12, sm: 8 }}>
             <DateField name="at" label="Tanggal" disabled={isDisabled} />
 
-            {/* <UserSelect
+            <UserSelect
                 name="worker_user_uuid"
                 label="Pekerja"
-                disabled={isDisabled}
-            /> */}
+                slotProps={{
+                    textField: {
+                        required: false,
+                    },
+                }}
+            />
 
             {values.payment_method !== 'business-unit' && (
                 <UserSelect
                     name="customer_uuid"
                     label="Pelanggan"
-                    disabled={isDisabled}
                     slotProps={{
                         textField: {
                             required: values.payment_method === 'installment',
@@ -201,28 +167,9 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
 }
 
 function RightGrid() {
-    const { values, errors } = useFormikContext<FormData>()
-
-    const totalMovementRp =
-        values.spare_parts?.reduce(
-            (acc, { rp_per_unit, qty }) =>
-                acc + (rp_per_unit ?? 0) * (qty ?? 0),
-            0,
-        ) ?? 0
-
-    const totalServiceRp =
-        values.services?.reduce((acc, { rp }) => acc + (rp ?? 0), 0) ?? 0
-
-    const totalRpWithoutInterest =
-        totalMovementRp + totalServiceRp + (values.adjustment_rp ?? 0)
-
-    const totalInterest =
-        Math.ceil(
-            totalRpWithoutInterest *
-                ((values.installment_data?.interest_percent ?? 0) / 100),
-        ) * (values.installment_data?.n_term ?? 0)
-
-    const totalRp = totalRpWithoutInterest + totalInterest
+    const { values, errors } = useFormikContext<SaleFormValues>()
+    const { totalMovementRp, totalServiceRp, totalInterest, totalRp } =
+        calculateTotals(values)
 
     return (
         <Grid size={{ xs: 12, sm: 4 }}>
@@ -299,7 +246,11 @@ function RightGrid() {
                             marginTop: 0,
                         }}>
                         {Object.entries(errors).map(([key, value]) => (
-                            <li key={key}>{value}</li>
+                            <li key={key}>
+                                {typeof value === 'string'
+                                    ? value
+                                    : (value as string[]).join(', ')}
+                            </li>
                         ))}
                     </ul>
                 </Box>

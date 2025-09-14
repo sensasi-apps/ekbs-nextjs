@@ -19,7 +19,7 @@ import TextField from '@/components/formik-fields/text-field'
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
 // feature scope
-import type SparePartMovement from '@/app/(auth)/repair-shop/_types/spare-part-movement'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 import Endpoint from '../enums/endpoint'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import DetailsField from './details-field'

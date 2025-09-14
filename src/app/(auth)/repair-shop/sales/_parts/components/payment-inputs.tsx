@@ -19,7 +19,6 @@ import SplitscreenIcon from '@mui/icons-material/Splitscreen'
 import WorkIcon from '@mui/icons-material/Work'
 // components
 import type CashType from '@/types/orms/cash'
-import type { FormData } from './sale-form-dialog'
 import NumericField from '@/components/formik-fields/numeric-field'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
@@ -29,6 +28,8 @@ import type BusinessUnitCash from '@/types/orms/business-unit-cash'
 import numberToCurrency from '@/utils/number-to-currency'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import ScrollableXBox from '@/components/ScrollableXBox'
+import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
+import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
 
 interface CashOption {
     value: 'cash' | 'business-unit' | 'installment'
@@ -62,7 +63,7 @@ export default function PaymentInput({
     label?: string
 }) {
     const { values, errors, setFieldValue, isSubmitting, status } =
-        useFormikContext<FormData>()
+        useFormikContext<SaleFormValues>()
 
     const isDisabled = Boolean(isSubmitting || status.isDisabled)
 
@@ -108,6 +109,7 @@ export default function PaymentInput({
                                                     'adjustment_rp',
                                                     0,
                                                 )
+
                                                 setFieldValue(
                                                     'cash_uuid',
                                                     undefined,
@@ -122,11 +124,6 @@ export default function PaymentInput({
                                                         undefined,
                                                     )
                                                 }
-
-                                                setFieldValue(
-                                                    'installment_data',
-                                                    undefined,
-                                                )
 
                                                 setFieldValue(name, optionValue)
                                             }}
@@ -170,7 +167,7 @@ export default function PaymentInput({
                     </Typography>
 
                     <Box display="flex" gap={1} mt={1}>
-                        <NumericField
+                        {/* <NumericField
                             name="installment_data.interest_percent"
                             label="Jasa"
                             disabled={isDisabled}
@@ -189,7 +186,7 @@ export default function PaymentInput({
                                     errors.installment_data,
                                 ),
                             }}
-                        />
+                        /> */}
 
                         <NumericField
                             name="installment_data.n_term"
@@ -198,7 +195,6 @@ export default function PaymentInput({
                             numericFormatProps={{
                                 min: 1,
                                 decimalScale: 0,
-                                value: values.installment_data?.n_term ?? '',
                                 InputProps: {
                                     inputProps: {
                                         minLength: 1,
@@ -239,7 +235,7 @@ export default function PaymentInput({
 
                             {errors.installment_data && (
                                 <FormHelperText>
-                                    {errors.installment_data}
+                                    {errors.installment_data.toString()}
                                 </FormHelperText>
                             )}
                         </FormControl>
@@ -291,13 +287,14 @@ function CashPicker({
 }
 
 function RpAdjustmentField({ isDisabled }: { isDisabled: boolean }) {
-    const { setFieldValue, values } = useFormikContext<FormData>()
+    const { setFieldValue, values } = useFormikContext<SaleFormValues>()
 
-    const services = (values.services as FormData['services']) ?? []
+    const services = (values.services as SaleFormValues['services']) ?? []
     const totalServices =
         services.reduce((acc, { rp }) => acc + (rp ?? 0), 0) ?? 0
 
-    const spareParts = (values.spare_parts as FormData['spare_parts']) ?? []
+    const spareParts =
+        (values.spare_parts as SaleFormValues['spare_parts']) ?? []
     const totalSparePartMovementDetails =
         spareParts.reduce(
             (acc, { rp_per_unit, qty }) =>
@@ -348,28 +345,8 @@ function RpAdjustmentField({ isDisabled }: { isDisabled: boolean }) {
 }
 
 function TotalRpText() {
-    const { values } = useFormikContext<FormData>()
-
-    const totalMovementRp =
-        values.spare_parts?.reduce(
-            (acc, { rp_per_unit, qty }) =>
-                acc + (rp_per_unit ?? 0) * (qty ?? 0),
-            0,
-        ) ?? 0
-
-    const totalServiceRp =
-        values.services?.reduce((acc, { rp }) => acc + (rp ?? 0), 0) ?? 0
-
-    const totalRpWithoutInterest =
-        totalMovementRp + totalServiceRp + (values.adjustment_rp ?? 0)
-
-    const totalRp =
-        totalRpWithoutInterest +
-        Math.ceil(
-            totalRpWithoutInterest *
-                ((values.installment_data?.interest_percent ?? 0) / 100),
-        ) *
-            (values.installment_data?.n_term ?? 0)
+    const { values } = useFormikContext<SaleFormValues>()
+    const { totalRp } = calculateTotals(values)
 
     return (
         <Box display="flex" gap={2} alignItems="center">

@@ -5,7 +5,7 @@ import CartIcon from '@mui/icons-material/ShoppingCart'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 // enums
 import PurchasePermission from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/permission'
-import SparePartPermission from '@/app/(auth)/repair-shop/spare-parts/_enums/permission'
+import SparePartPermission from '@/modules/repair-shop/enums/permission'
 import ServicePermission from '@/app/(auth)/repair-shop/services/_parts/enums/permission'
 import SalePermission from '@/app/(auth)/repair-shop/sales/_parts/enums/permission'
 

@@ -14,7 +14,7 @@ import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/PrintHandler'
 import TextShortener from '@/components/text-shortener'
 // features
-import type { Sale } from '@/app/(auth)/repair-shop/sales/_parts/types/sale'
+import type { Sale } from '@/modules/repair-shop/types/orms/sale'
 import Receipt from '@/app/(auth)/repair-shop/sales/_parts/components/receipt'
 // utils
 import formatNumber from '@/utils/format-number'
