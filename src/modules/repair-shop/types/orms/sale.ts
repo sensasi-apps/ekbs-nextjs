@@ -72,7 +72,7 @@ type SalePayment =
           payment_method: 'installment'
           transaction?: never
           installments: InstallmentORM[]
-          installment_parent: {
+          installment_parent?: {
               id: number
               n_term: number
               term_unit: 'minggu' | 'bulan'
