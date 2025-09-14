@@ -21,11 +21,12 @@ export default function calculateTotals({
     const totalRpWithoutInterest =
         totalMovementRp + totalServiceRp + (adjustment_rp ?? 0)
 
-    const sparePartInterestPercent = spare_part_margins.reduce(
-        (acc, { margin_percentage }) =>
-            acc + margin_percentage / spare_part_margins.length,
-        0,
-    )
+    const sparePartInterestPercent =
+        spare_part_margins?.reduce(
+            (acc, { margin_percentage }) =>
+                acc + margin_percentage / spare_part_margins.length,
+            0,
+        ) ?? 0
 
     const totalInterest =
         payment_method === 'installment'
