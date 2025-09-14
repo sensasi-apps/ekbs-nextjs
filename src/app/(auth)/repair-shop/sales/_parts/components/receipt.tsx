@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import formatNumber from '@/utils/format-number'
 // assets
 // import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
-import type { Sale } from '../../../../../../modules/repair-shop/types/orms/sale'
+import type { Sale } from '@/modules/repair-shop/types/orms/sale'
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 // utils
 import shortUuid from '@/utils/short-uuid'
@@ -28,7 +28,7 @@ export default function Receipt({ data }: { data: Sale }) {
         data.spare_part_margins?.reduce(
             (acc, { margin_rp }) => acc + margin_rp,
             0,
-        ) ?? 0 * data.installment_parent.n_term
+        ) ?? 0 * (data?.installment_parent?.n_term ?? 0)
 
     return (
         <Box
