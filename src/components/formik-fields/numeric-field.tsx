@@ -3,7 +3,6 @@
 // vendors
 import { Field, type FieldProps } from 'formik'
 import { useDebouncedCallback } from 'use-debounce'
-import { useState } from 'react'
 // components
 import NumericFormat, {
     type NumericFormatProps,
@@ -28,12 +27,10 @@ export default function NumericField({
 /**
  * InnerComponent is a functional component that integrates with Formik to handle numeric input fields.
  * It uses a debounced callback to update the Formik field value, minimizing the number of updates.
- *
- * @bug The `value` prop is not being updated when the field value changes.
  */
 function InnerComponent({
     // formik props
-    field: { name, value },
+    field: { name },
     form: { setFieldValue, getFieldMeta, isSubmitting },
 
     // additional props
@@ -41,8 +38,7 @@ function InnerComponent({
     label,
     numericFormatProps,
 }: Omit<FieldProps<number>, 'meta'> & Omit<NumericFieldProps, 'name'>) {
-    const { error } = getFieldMeta<number>(name)
-    const [innerValue, setInnerValue] = useState<number | undefined>(value)
+    const { error, value } = getFieldMeta<number | undefined>(name)
 
     const setFieldValueDebounced = useDebouncedCallback(
         (value?: number) => setFieldValue(name, value),
@@ -52,11 +48,10 @@ function InnerComponent({
     return (
         <NumericFormat
             id={name}
-            value={innerValue}
+            value={value === undefined ? '' : value}
             required
             min="1"
             onValueChange={({ floatValue }) => {
-                setInnerValue(floatValue)
                 setFieldValueDebounced(floatValue)
             }}
             disabled={disabled || isSubmitting}
