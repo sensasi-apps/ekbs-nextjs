@@ -16,6 +16,7 @@ import useSWR from 'swr'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
+import InputAdornment from '@mui/material/InputAdornment'
 import TextField, { type TextFieldProps } from '@mui/material/TextField'
 //
 import type User from '@/modules/user/types/orms/user'
@@ -87,7 +88,7 @@ function InnerComponent({
     return (
         <Autocomplete
             disableListWrap
-            getOptionLabel={({ id, name }) => `(${id}) ${name}`}
+            getOptionLabel={selectedUser => JSON.stringify(selectedUser)}
             renderOption={(li, { id, name }) => (
                 <Box {...li} component="li" key={id} width="100%">
                     <ChipSmall label={id} key={id} sx={{ mr: 1 }} />
@@ -95,7 +96,7 @@ function InnerComponent({
                 </Box>
             )}
             onChange={(_, value) => {
-                setSearchValue('')
+                setSearchValue(value?.name ?? '')
                 setFieldValue(name, value?.uuid)
             }}
             noOptionsText={
@@ -126,38 +127,40 @@ function InnerComponent({
                 },
             }}
             options={users}
-            renderValue={(option, getItemProps) => {
-                const props = { ...getItemProps(), onDelete: undefined }
-
-                if (!option) {
-                    return <Box {...props} />
-                }
-
-                return (
-                    <Box {...props}>
-                        <ChipSmall label={option.id} sx={{ mx: 1 }} />
-                        {option?.name}
-                    </Box>
-                )
-            }}
             loading={isLoading}
             loadingText="Sedang memuat..."
-            renderInput={params => (
-                <TextField
-                    {...params}
-                    required
-                    variant="outlined"
-                    label={label}
-                    size="small"
-                    margin="dense"
-                    fullWidth
-                    onChange={({ currentTarget: { value } }) => {
-                        setSearchValue(value)
-                    }}
-                    {...errorsToHelperTextObj(error)}
-                    {...slotProps?.textField}
-                />
-            )}
+            renderInput={params => {
+                return (
+                    <TextField
+                        {...params}
+                        required
+                        variant="outlined"
+                        label={label}
+                        size="small"
+                        margin="dense"
+                        fullWidth
+                        component="div"
+                        onChange={({ currentTarget: { value } }) => {
+                            setSearchValue(value)
+                        }}
+                        InputProps={{
+                            ...params.InputProps,
+                            startAdornment: selectedUser ? (
+                                <InputAdornment position="end">
+                                    <ChipSmall label={selectedUser.id} />
+                                </InputAdornment>
+                            ) : undefined,
+                        }}
+                        inputProps={{
+                            ...params.inputProps,
+                            value:
+                                selectedUser?.name ?? params.inputProps.value,
+                        }}
+                        {...errorsToHelperTextObj(error)}
+                        {...slotProps?.textField}
+                    />
+                )
+            }}
         />
     )
 }
