@@ -135,30 +135,23 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
             customBodyRender: toDmy,
         },
     },
-    {
-        name: 'cash.name',
-        options: {
-            display: 'excluded',
-            download: false,
-        },
-    },
+
     {
         name: 'cash_name',
         label: 'Kas',
         options: {
-            searchable: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowDataRefGlobal.current?.(dataIndex)
                 const chipColor = (data?.amount ?? 0) > 0 ? 'success' : 'error'
 
-                return data?.cash_name ? (
+                if (!data) return ''
+
+                return (
                     <Chip
                         label={data?.cash_name}
                         size="small"
                         color={chipColor}
                     />
-                ) : (
-                    ''
                 )
             },
         },
@@ -184,19 +177,10 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         },
     },
     {
-        name: 'tags.name',
-        options: {
-            sort: false,
-            display: 'excluded',
-            download: false,
-        },
-    },
-    {
         name: 'tag_names',
         label: 'Akun',
         options: {
             sort: false,
-            searchable: false,
             customBodyRenderLite: dataIndex => {
                 return getRowDataRefGlobal
                     .current?.(dataIndex)
