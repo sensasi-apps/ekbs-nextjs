@@ -5,7 +5,7 @@ import { useState } from 'react'
 // materials
 import Button, { type ButtonProps } from '@mui/material/Button'
 // components
-import ConfirmationDialog from '../ConfirmationDialog'
+import ConfirmationDialog from './confirmation-dialog'
 
 export default function ConfirmationDialogWithButton({
     shouldConfirm = true,

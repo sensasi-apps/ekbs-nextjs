@@ -3,7 +3,7 @@ import { memo } from 'react'
 // materials
 import type { ButtonProps } from '@mui/material/Button'
 // components
-import ConfirmationDialogWithButton from '@/components/ConfirmationDialog/WithButton'
+import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 
 const FormResetButton = memo(function FormResetButton({
     dirty,
