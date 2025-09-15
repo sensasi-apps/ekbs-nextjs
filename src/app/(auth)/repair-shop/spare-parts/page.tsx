@@ -72,7 +72,7 @@ export default function Page() {
                                 ...data,
                                 margin_percent:
                                     data.warehouses[0].margin_percent,
-                                margin_percent_installment:
+                                installment_margin_percent:
                                     data.warehouses[0]
                                         .installment_margin_percent,
                             } satisfies Required<FormData>)
