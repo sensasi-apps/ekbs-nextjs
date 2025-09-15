@@ -18,10 +18,12 @@ import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField, { type TextFieldProps } from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 //
 import type User from '@/modules/user/types/orms/user'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import ChipSmall from '../ChipSmall'
+import FlexBox from '../flex-box'
 
 /**
  * API response from `data/minimal-users`.
@@ -89,12 +91,7 @@ function InnerComponent({
         <Autocomplete
             disableListWrap
             getOptionLabel={selectedUser => JSON.stringify(selectedUser)}
-            renderOption={(li, { id, name }) => (
-                <Box {...li} component="li" key={id} width="100%">
-                    <ChipSmall label={id} key={id} sx={{ mr: 1 }} />
-                    {name}
-                </Box>
-            )}
+            renderOption={renderOption}
             onChange={(_, value) => {
                 setSearchValue(value?.name ?? '')
                 setFieldValue(name, value?.uuid)
@@ -108,19 +105,7 @@ function InnerComponent({
                 disabled || isSubmitting || isLoading || status?.isDisabled
             }
             value={selectedUser ?? null}
-            filterOptions={(options, { inputValue }) => {
-                if (!isSearchTermPassedTheRequirements(inputValue)) {
-                    return []
-                }
-
-                return options.filter(option =>
-                    inputValue.startsWith('#')
-                        ? `#${option.id}` === inputValue
-                        : option.name
-                              .toLowerCase()
-                              .includes(inputValue.toLowerCase()),
-                )
-            }}
+            filterOptions={filterOptions}
             slotProps={{
                 listbox: {
                     component: ListboxComponent,
@@ -213,3 +198,56 @@ const ListboxComponent = forwardRef<
 function isSearchTermPassedTheRequirements(value: string) {
     return value.length >= 3 || (value.length >= 2 && value.startsWith('#'))
 }
+
+function filterOptions(
+    options: ApiResponse,
+    {
+        inputValue,
+    }: {
+        inputValue: string
+    },
+) {
+    if (!isSearchTermPassedTheRequirements(inputValue)) {
+        return []
+    }
+
+    return options.filter(option =>
+        inputValue.startsWith('#')
+            ? `#${option.id}` === inputValue
+            : option.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+              option.nickname?.toLowerCase().includes(inputValue.toLowerCase()),
+    )
+}
+
+const renderOption = (
+    props: HTMLAttributes<HTMLLIElement>,
+    { id, name, nickname }: ApiResponse[number],
+) => (
+    <Box
+        {...props}
+        component="li"
+        width="100%"
+        key={id}
+        sx={{
+            height: 'unset !important',
+        }}>
+        <FlexBox key={id}>
+            <ChipSmall label={id} sx={{ mr: 1 }} />
+            <div>
+                <Typography component="div" lineHeight="1em" mb={0.1}>
+                    {name}
+                </Typography>
+
+                {nickname && (
+                    <Typography
+                        variant="caption"
+                        component="div"
+                        color="textDisabled"
+                        lineHeight="1em">
+                        {nickname}
+                    </Typography>
+                )}
+            </div>
+        </FlexBox>
+    </Box>
+)

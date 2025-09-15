@@ -64,10 +64,6 @@ function InnerComponent({
         null,
         {
             dedupingInterval: 60 * 1000,
-            revalidateOnFocus: false,
-            revalidateOnMount: false,
-            revalidateIfStale: false,
-            revalidateOnReconnect: false,
         },
     )
 

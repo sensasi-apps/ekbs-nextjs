@@ -55,6 +55,7 @@ export default function Page() {
             />
 
             <Datatable<SparePart>
+                download
                 apiUrl="repair-shop/spare-parts/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ name: 'name', direction: 'asc' }}
