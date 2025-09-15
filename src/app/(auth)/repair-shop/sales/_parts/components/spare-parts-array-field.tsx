@@ -1,16 +1,12 @@
-// types
-import { Field, FieldArray, useFormikContext, type FieldProps } from 'formik'
 // vendors
+import { FieldArray, useFormikContext } from 'formik'
 import { useRef } from 'react'
-import useSWR from 'swr'
 // materials
-import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiTextField from '@mui/material/TextField'
-import Skeleton from '@mui/material/Skeleton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 // icons
@@ -24,7 +20,7 @@ import RemoveButton from '@/components/remove-button'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 // modules
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
-import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
+import SparePartFormikField from '@/modules/repair-shop/components/spare-part-formik-field'
 
 export default function SparePartsArrayField({
     name,
@@ -99,7 +95,7 @@ export default function SparePartsArrayField({
                                         display="flex"
                                         flexDirection="column"
                                         gap={1}>
-                                        <SparePartInput
+                                        <SparePartFormikField
                                             name={`${name}.${index}.spare_part_warehouse_id`}
                                             isDisabled={isDisabled}
                                             onChange={(_, selected) => {
@@ -221,87 +217,6 @@ function AddItemButton({
                 </span>
             </Tooltip>
         </Box>
-    )
-}
-
-interface SparePartForSale {
-    default_sell_price: number
-    default_installment_margin_percentage: number
-    qty: number
-    name: string
-    spare_part_warehouse_id: number
-    spare_part_id: number
-}
-
-function SparePartInput({
-    name,
-    state,
-    isDisabled,
-    onChange,
-}: {
-    name: string
-    isDisabled: boolean
-    state: SparePart | undefined
-    onChange: (
-        event: React.SyntheticEvent,
-        selected: SparePartForSale | null,
-    ) => void
-}) {
-    const { data: spareParts = [], isLoading } = useSWR<SparePartForSale[]>(
-        !state ? 'repair-shop/sales/get-spare-part-warehouses' : null,
-        null,
-        {
-            keepPreviousData: false,
-        },
-    )
-
-    if (state) {
-        return `${state.id} — ${state.name}`
-    }
-
-    if (isLoading) {
-        return <Skeleton variant="rounded" />
-    }
-
-    return (
-        <Field name={name}>
-            {({ field, meta: { error } }: FieldProps<number, FormData>) => {
-                const selectedValue =
-                    spareParts.find(
-                        sparePart =>
-                            sparePart.spare_part_warehouse_id === field.value,
-                    ) ?? null
-
-                return (
-                    <Autocomplete
-                        isOptionEqualToValue={(option, value) =>
-                            option.spare_part_warehouse_id ===
-                            value.spare_part_id
-                        }
-                        id={field.name}
-                        value={selectedValue}
-                        options={spareParts}
-                        getOptionDisabled={sparePart => sparePart.qty <= 0}
-                        disabled={isDisabled}
-                        getOptionLabel={sparePart =>
-                            `${sparePart.spare_part_id} — ${sparePart.name}`
-                        }
-                        onChange={onChange}
-                        renderInput={params => (
-                            <MuiTextField
-                                {...params}
-                                required
-                                label="Suku Cadang"
-                                size="small"
-                                margin="none"
-                                error={Boolean(error)}
-                                helperText={error}
-                            />
-                        )}
-                    />
-                )
-            }}
-        </Field>
     )
 }
 
