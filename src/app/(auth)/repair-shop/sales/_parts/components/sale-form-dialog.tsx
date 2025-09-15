@@ -175,86 +175,94 @@ function RightGrid() {
         <Grid size={{ xs: 12, sm: 4 }}>
             <Box
                 sx={{
-                    border: '1px solid #555',
-                    borderRadius: 2,
-                    p: 3,
                     position: 'sticky',
                     top: {
                         xs: undefined,
                         sm: 0,
                     },
                 }}>
-                <Typography gutterBottom>Rangkuman</Typography>
+                <Box
+                    sx={{
+                        border: '1px solid #555',
+                        borderRadius: 2,
+                        p: 3,
+                    }}>
+                    <Typography gutterBottom>Rangkuman</Typography>
 
-                <Typography variant="body2" color="textDisabled">
-                    Layanan
-                </Typography>
+                    <Typography variant="body2" color="textDisabled">
+                        Layanan
+                    </Typography>
 
-                <Typography gutterBottom>
-                    {numberToCurrency(totalServiceRp ?? 0)}
-                </Typography>
+                    <Typography gutterBottom>
+                        {numberToCurrency(totalServiceRp ?? 0)}
+                    </Typography>
 
-                <Typography variant="body2" color="textDisabled">
-                    Suku Cadang
-                </Typography>
+                    <Typography variant="body2" color="textDisabled">
+                        Suku Cadang
+                    </Typography>
 
-                <Typography gutterBottom>
-                    {numberToCurrency(totalMovementRp ?? 0)}
-                </Typography>
+                    <Typography gutterBottom>
+                        {numberToCurrency(totalMovementRp ?? 0)}
+                    </Typography>
 
-                {values.payment_method === 'cash' &&
-                    Boolean(values.adjustment_rp) &&
-                    values.adjustment_rp !== 0 && (
+                    {values.payment_method === 'cash' &&
+                        Boolean(values.adjustment_rp) &&
+                        values.adjustment_rp !== 0 && (
+                            <>
+                                <Typography
+                                    variant="body2"
+                                    color="textDisabled">
+                                    Penyesuaian
+                                </Typography>
+
+                                <Typography gutterBottom>
+                                    {numberToCurrency(
+                                        values.adjustment_rp ?? 0,
+                                    )}
+                                </Typography>
+                            </>
+                        )}
+
+                    {values.payment_method === 'installment' && (
                         <>
                             <Typography variant="body2" color="textDisabled">
-                                Penyesuaian
+                                Jasa
                             </Typography>
 
                             <Typography gutterBottom>
-                                {numberToCurrency(values.adjustment_rp ?? 0)}
+                                {numberToCurrency(totalInterest ?? 0)}
                             </Typography>
                         </>
                     )}
 
-                {values.payment_method === 'installment' && (
-                    <>
-                        <Typography variant="body2" color="textDisabled">
-                            Jasa
-                        </Typography>
-
-                        <Typography gutterBottom>
-                            {numberToCurrency(totalInterest ?? 0)}
-                        </Typography>
-                    </>
-                )}
-
-                <Typography variant="body2" color="textDisabled">
-                    Total Keseluruhan
-                </Typography>
-
-                <Typography>{numberToCurrency(totalRp)}</Typography>
-            </Box>
-
-            {Object.values(errors).length > 0 && (
-                <Box mt={4} sx={{ color: 'error.main' }}>
-                    <Typography variant="caption" fontWeight="bold">
-                        Terjadi kesalahan:
+                    <Typography variant="body2" color="textDisabled">
+                        Total Keseluruhan
                     </Typography>
 
-                    <ul
-                        style={{
-                            marginTop: 0,
-                        }}>
-                        {Object.entries(errors).map(([key, value]) => (
-                            <li key={key}>
-                                {typeof value === 'string'
-                                    ? value
-                                    : (value as string[]).join(', ')}
-                            </li>
-                        ))}
-                    </ul>
+                    <Typography>{numberToCurrency(totalRp)}</Typography>
                 </Box>
-            )}
+
+                {Object.values(errors).length > 0 && (
+                    <Box mt={4} sx={{ color: 'error.main', width: '100%' }}>
+                        <Typography variant="caption" fontWeight="bold">
+                            Terjadi kesalahan:
+                        </Typography>
+
+                        <ul
+                            style={{
+                                marginTop: 0,
+                            }}>
+                            {Object.entries(errors).map(([key, value]) => (
+                                <li key={key}>
+                                    {typeof value === 'string'
+                                        ? value
+                                        : (value as string[]).join(', ')}
+                                </li>
+                            ))}
+                        </ul>
+                    </Box>
+                )}
+            </Box>
         </Grid>
     )
 }
