@@ -1,19 +1,14 @@
 'use client'
 
 // vendors
-import { useState } from 'react'
-// materials
-import Button from '@mui/material/Button'
+import { useSWRConfig } from 'swr'
 // icons
 import CachedIcon from '@mui/icons-material/Cached'
 // components
-import ConfirmationDialog from '@/components/ConfirmationDialog'
-import { useSWRConfig } from 'swr'
+import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 
 export default function ClearCacheModalAndButton() {
     const { cache } = useSWRConfig()
-
-    const [open, setOpen] = useState(false)
 
     const handleClearCache = () => {
         let length = (cache as Map<string, object>).size
@@ -27,22 +22,17 @@ export default function ClearCacheModalAndButton() {
     }
 
     return (
-        <>
-            <Button
-                variant="outlined"
-                color="success"
-                startIcon={<CachedIcon />}
-                onClick={() => setOpen(true)}>
-                Bersihkan Cache
-            </Button>
-
-            <ConfirmationDialog
-                open={open}
-                onCancel={() => setOpen(false)}
-                onConfirm={handleClearCache}
-                title="Konfirmasi Bersihkan Cache"
-                content="Apakah Anda yakin ingin membersihkan cache aplikasi?"
-            />
-        </>
+        <ConfirmationDialogWithButton
+            shouldConfirm
+            onConfirm={handleClearCache}
+            title="Konfirmasi Bersihkan Cache"
+            buttonProps={{
+                color: 'success',
+                children: 'Bersihkan Cache',
+                startIcon: <CachedIcon />,
+                variant: 'outlined',
+            }}>
+            Apakah Anda yakin ingin membersihkan cache aplikasi?
+        </ConfirmationDialogWithButton>
     )
 }
