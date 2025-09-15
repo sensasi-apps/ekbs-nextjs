@@ -27,6 +27,7 @@ export default async function downloadXlsx<T>(
                     ...tableState,
                     columns: headerCols,
                 }),
+                start: 0,
                 length: undefined,
             },
         })
