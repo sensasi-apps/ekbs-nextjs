@@ -23,22 +23,61 @@ export default interface SparePartMovementORM {
     costs: []
 }
 
+/**
+ * @see [ProductMovementDetail Eloquent](https://github.com/sensasi-apps/ekbs-laravel/blob/main/Modules/RepairShop/app/Models/SparePartMovementDetail.php)
+ */
 interface Detail {
+    /**
+     * [💾]
+     *
+     *  @readonly
+     */
     id: number
 
+    /**
+     * [💾]
+     *
+     *  @readonly
+     */
     spare_part_movement_uuid: SparePartMovementORM['uuid']
 
     /**
-     * relation
+     * [💾]
+     */
+    spare_part_id: SparePartORM['id']
+
+    /**
+     * [💾]
+     */
+    qty: number
+
+    /**
+     * [💾]
+     */
+    rp_per_unit: number
+
+    /**
+     * [💾]
+     */
+    cost_rp_per_unit: number
+
+    /**
+     * [💾]
+     */
+    spare_part_state: SparePartORM | null
+
+    /**
+     * [💾]
+     */
+    spare_part_warehouse_id: number
+
+    /**
+     * [🔗]
      */
     spare_part_movement?: SparePartMovementORM
 
-    spare_part_id: SparePartORM['id']
+    /**
+     * [🔗]
+     */
     spare_part: SparePartORM
-
-    qty: number
-    rp_per_unit: number
-    cost_rp_per_unit: number
-
-    spare_part_state: SparePartORM | null
 }
