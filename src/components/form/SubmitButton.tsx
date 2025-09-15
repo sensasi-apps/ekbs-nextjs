@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import ConfirmationDialogWithButton from '../ConfirmationDialog/WithButton'
+import ConfirmationDialogWithButton from '../confirmation-dialog-with-button'
 
 const FormSubmitButton = memo(function FormSubmitButton({
     oldDirty,
