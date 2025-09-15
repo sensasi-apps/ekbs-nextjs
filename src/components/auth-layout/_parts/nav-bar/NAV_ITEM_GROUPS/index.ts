@@ -3,6 +3,7 @@ import type NavItemGroup from '../types/nav-item-group'
 // icons-materials
 import Assessment from '@mui/icons-material/Assessment'
 import Dashboard from '@mui/icons-material/Dashboard'
+import SettingIcon from '@mui/icons-material/Settings'
 import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 // nav items
 import { clms } from './clm'
@@ -54,6 +55,15 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
     financesNavItemGroup,
     systemsNavItemGroup,
     supermans,
+    {
+        items: [
+            {
+                label: 'Pengaturan',
+                href: '/settings',
+                icon: SettingIcon,
+            },
+        ],
+    },
 ]
 
 export default NAV_ITEM_GROUPS
