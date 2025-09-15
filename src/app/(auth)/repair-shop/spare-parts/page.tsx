@@ -6,6 +6,7 @@ import { useRef, useState } from 'react'
 import Chip from '@mui/material/Chip'
 // global components
 import Datatable, {
+    getNoWrapCellProps,
     type DatatableProps,
     type GetRowDataType,
     type MutateType,
@@ -180,6 +181,7 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         name: 'warehouses.margin_percent',
         label: 'Harga Jual',
         options: {
+            setCellProps: getNoWrapCellProps,
             customBodyRender: (_, rowIndex) => {
                 const data = getRowDataRef.current?.(rowIndex)
 
@@ -190,7 +192,10 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
                         <Chip
                             label={data.warehouses[0].margin_percent + '%'}
                             size="small"
-                        />{' '}
+                            sx={{
+                                mr: 1,
+                            }}
+                        />
                         {formatNumber(data.warehouses[0].default_sell_price)}
                     </>
                 )
