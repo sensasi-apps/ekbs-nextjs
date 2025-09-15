@@ -33,7 +33,7 @@ export type FormData = Partial<{
     /**
      * margin percent should be per warehouse not per spare part but it's ok for now
      */
-    margin_percent_installment: number
+    installment_margin_percent: number
     vehicle_type: 'motorcycle' | 'car'
     deleted_at: string
 }>
@@ -178,7 +178,6 @@ function SparePartFormikForm({
                 <NumericField
                     name="installment_margin_percent"
                     label="Marjin Default Angsuran"
-                    disabled={isSubmitting}
                     numericFormatProps={{
                         slotProps: {
                             input: {
