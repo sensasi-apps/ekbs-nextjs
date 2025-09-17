@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Chip from '@mui/material/Chip'
 // components
 import ScrollableXBox from '@/components/ScrollableXBox'
+import BusinessUnit from '@/enums/business-unit'
 
 export default function TypeFilterChips() {
     const searchParams = useSearchParams()
@@ -48,6 +49,17 @@ export default function TypeFilterChips() {
                 color={type === 'rent-item-rent' ? 'success' : undefined}
                 href={`?type=rent-item-rent&state=${state}`}
                 clickable={type !== 'rent-item-rent'}
+                component={Link}
+                size="small"
+            />
+
+            <Chip
+                label="Belayan Spare Parts"
+                color={
+                    type === `${BusinessUnit.BENGKEL}` ? 'success' : undefined
+                }
+                href={`?type=${BusinessUnit.BENGKEL}&state=${state}`}
+                clickable={type !== `${BusinessUnit.BENGKEL}`}
                 component={Link}
                 size="small"
             />

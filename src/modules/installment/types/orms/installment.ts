@@ -4,6 +4,7 @@ import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import type RentItemRent from '@/types/orms/rent-item-rent'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+import type InstallmentTnstallmentableClassname from '@/enums/installment-installemtable-classname'
 
 export default interface InstallmentORM {
     uuid: UUID
@@ -20,6 +21,8 @@ export default interface InstallmentORM {
         | 'App\\Models\\UserLoan'
         | 'App\\Models\\ProductSale'
         | 'App\\Models\\RentItemRent'
+        | 'Modules\\RepairShop\\Models\\Sale'
+        | InstallmentTnstallmentableClassname
     installmentable?: UserLoanORM | ProductSaleORM | RentItemRent
     user_loan?: UserLoanORM
     product_sale?: ProductSaleORM

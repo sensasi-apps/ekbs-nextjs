@@ -16,7 +16,7 @@ import shortUuid from '@/utils/short-uuid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 // components
-import Datatable from '@/components/Datatable'
+import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
 import Dialog from '../Global/Dialog'
 // locals
 import { useHooks } from './hooks/useHooks'
@@ -29,6 +29,7 @@ import handle422 from '@/utils/handle-422'
 import ReceivablePaymentForm from './PaymentForm'
 import formatNumber from '@/utils/format-number'
 import getInstallmentColor from '@/utils/get-installment-color'
+import type BusinessUnit from '@/enums/business-unit'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
@@ -40,7 +41,11 @@ export default function ReceivablesDatatable({
     type: typeProp,
 }: {
     asManager?: boolean
-    type?: 'rent-item-rent' | 'product-sale' | 'user-loan'
+    type?:
+        | 'rent-item-rent'
+        | 'product-sale'
+        | 'user-loan'
+        | BusinessUnit.BENGKEL
 }) {
     const { type, state, formikProps, closeFormDialog, setFormikProps } =
         useHooks()
@@ -170,6 +175,7 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
         name: 'at',
         label: 'TGL. Transaksi',
         options: {
+            setCellProps: getNoWrapCellProps,
             searchable: false,
             sort: false,
         },
@@ -202,12 +208,7 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
         label: 'Nilai (Rp)',
         options: {
             searchable: false,
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'nowrap',
-                    textAlign: 'right',
-                },
-            }),
+            setCellProps: getNoWrapCellProps,
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
@@ -216,6 +217,9 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
     {
         name: 'should_be_paid_at',
         label: 'Jatuh Tempo',
+        options: {
+            setCellProps: getNoWrapCellProps,
+        },
     },
 
     // Current State
@@ -263,5 +267,8 @@ function getInstallmentTypeByClassname(classname: string) {
 
         case 'App\\Models\\RentItemRent':
             return 'Sewa Alat Berat'
+
+        case 'Modules\\RepairShop\\Models\\Sale':
+            return 'Belayan Spare Parts'
     }
 }
