@@ -84,30 +84,25 @@ export default function Receipt({ data }: { data: Sale }) {
                 </Box>
             </Box>
 
-            {data.sale_services !== undefined &&
-                data.sale_services.length > 0 && (
-                    <Box mt={1}>
-                        <Typography fontWeight="bold" variant="overline">
-                            Layanan:
-                        </Typography>
+            {data.sale_services && data.sale_services.length > 0 && (
+                <Box mt={1}>
+                    <Typography fontWeight="bold" variant="overline">
+                        Layanan:
+                    </Typography>
 
-                        <Grid
-                            container
-                            alignItems="center"
-                            spacing={0.5}
-                            mt={0.5}>
-                            {data.sale_services.map(service => (
-                                <RowGrids
-                                    key={service.id}
-                                    desc={service.state.name}
-                                    value={service.rp ?? 0}
-                                />
-                            ))}
-                        </Grid>
-                    </Box>
-                )}
+                    <Grid container alignItems="center" spacing={0.5} mt={0.5}>
+                        {data.sale_services.map(service => (
+                            <RowGrids
+                                key={service.id}
+                                desc={service.state.name}
+                                value={service.rp ?? 0}
+                            />
+                        ))}
+                    </Grid>
+                </Box>
+            )}
 
-            {data.spare_part_movement !== undefined &&
+            {data.spare_part_movement &&
                 data.spare_part_movement.details.length > 0 && (
                     <Box mt={1}>
                         <Typography fontWeight="bold" variant="overline">
