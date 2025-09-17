@@ -3,6 +3,7 @@ import type NavItemGroup from '../types/nav-item-group'
 import TopicIcon from '@mui/icons-material/Topic'
 import CartIcon from '@mui/icons-material/ShoppingCart'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
+import SavingsIcon from '@mui/icons-material/Savings'
 // enums
 import PurchasePermission from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/permission'
 import SparePartPermission from '@/modules/repair-shop/enums/permission'
@@ -36,6 +37,13 @@ export const repairShop: NavItemGroup = {
             href: '/repair-shop/services',
             icon: TopicIcon,
             forPermission: ServicePermission.READ,
+        },
+
+        {
+            label: 'Piutang',
+            href: '/repair-shop/receivables',
+            icon: SavingsIcon,
+            forPermission: SalePermission.READ,
         },
 
         {
