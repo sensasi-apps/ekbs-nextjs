@@ -266,17 +266,18 @@ function SubTotal({ index }: { index: number }) {
     const { value: installment_margin } = getFieldProps(
         `spare_part_margins.${index}.margin_percentage`,
     )
+    const { value: n_term } = getFieldProps<number>(`installment_data.n_term`)
 
     const rpWithoutMargin = (row.qty ?? 0) * (row.rp_per_unit ?? 0)
 
-    const totalRp = Math.ceil(
-        rpWithoutMargin +
-            (rpWithoutMargin *
-                (payment_method === 'installment'
-                    ? (installment_margin ?? 0)
-                    : 0)) /
-                100,
-    )
+    const totalInterestRp =
+        (rpWithoutMargin *
+            (payment_method === 'installment'
+                ? (installment_margin ?? 0) * (n_term ?? 0)
+                : 0)) /
+        100
+
+    const totalRp = Math.ceil(rpWithoutMargin + totalInterestRp)
 
     return (
         <>

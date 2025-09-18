@@ -21,18 +21,27 @@ export default function calculateTotals({
     const totalRpWithoutInterest =
         totalMovementRp + totalServiceRp + (adjustment_rp ?? 0)
 
-    const sparePartInterestPercent =
-        spare_part_margins?.reduce(
-            (acc, { margin_percentage }) =>
-                acc + margin_percentage / spare_part_margins.length,
-            0,
-        ) ?? 0
-
     const totalInterest =
         payment_method === 'installment'
-            ? Math.ceil(
-                  totalMovementRp * ((sparePartInterestPercent ?? 0) / 100),
-              ) * (installment_data?.n_term ?? 0)
+            ? (spare_part_margins
+                  ?.map(({ margin_percentage, spare_part_warehouse_id }) => {
+                      const sparePart = spare_parts?.find(
+                          sparePart =>
+                              sparePart.spare_part_warehouse_id ===
+                              spare_part_warehouse_id,
+                      )
+
+                      if (!sparePart?.qty || !sparePart?.rp_per_unit) return 0
+
+                      return Math.ceil(
+                          (sparePart.qty *
+                              sparePart.rp_per_unit *
+                              margin_percentage) /
+                              100,
+                      )
+                  })
+                  .reduce((acc, cur) => acc + cur, 0) ?? 0) *
+              installment_data.n_term
             : 0
 
     const totalRp = totalRpWithoutInterest + totalInterest
