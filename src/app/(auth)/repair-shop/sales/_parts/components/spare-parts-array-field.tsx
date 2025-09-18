@@ -106,6 +106,7 @@ export default function SparePartsArrayField({
                                                             selected?.spare_part_warehouse_id,
                                                         rp_per_unit:
                                                             selected?.default_sell_price,
+                                                        qty: row.qty,
                                                     },
                                                 )
 
@@ -231,12 +232,20 @@ function NumberCell({
     remove: (index: number) => void
     showDelete: boolean
 }) {
+    const { setFieldValue, values } = useFormikContext<SaleFormValues>()
     if (!showDelete) return index + 1
 
     return (
         <>
             <RemoveButton
-                onClick={() => remove(index)}
+                onClick={() => {
+                    remove(index)
+
+                    setFieldValue(`spare_part_margins`, [
+                        ...(values.spare_part_margins?.slice(0, index) ?? []),
+                        ...(values.spare_part_margins?.slice(index + 1) ?? []),
+                    ])
+                }}
                 isDisabled={isDisabled}
             />
 

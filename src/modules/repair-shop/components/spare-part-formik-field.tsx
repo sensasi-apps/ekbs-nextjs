@@ -52,7 +52,7 @@ function InnerComponent({
     isDisabled,
 
     field: { name },
-    form: { getFieldMeta, status },
+    form: { getFieldMeta, status, isSubmitting },
 }: Omit<FieldProps<number>, 'meta'> & {
     onChange: OnChangeType
     isDisabled?: boolean
@@ -84,7 +84,7 @@ function InnerComponent({
             value={selectedValue}
             options={spareParts}
             getOptionDisabled={sparePart => sparePart.qty <= 0}
-            disabled={isDisabled || status?.isDisabled}
+            disabled={isDisabled || status?.isDisabled || isSubmitting}
             getOptionLabel={sparePart =>
                 `${sparePart.spare_part_id} — ${sparePart.name}`
             }
