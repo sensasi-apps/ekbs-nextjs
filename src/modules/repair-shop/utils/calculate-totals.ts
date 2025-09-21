@@ -33,18 +33,15 @@ export default function calculateTotals({
 
                       if (!sparePart?.qty || !sparePart?.rp_per_unit) return 0
 
-                      return Math.ceil(
-                          (sparePart.qty *
-                              sparePart.rp_per_unit *
-                              margin_percentage) /
-                              100,
-                      )
+                      const marginRate = margin_percentage / 100
+
+                      return sparePart.qty * sparePart.rp_per_unit * marginRate
                   })
                   .reduce((acc, cur) => acc + cur, 0) ?? 0) *
               installment_data.n_term
             : 0
 
-    const totalRp = totalRpWithoutInterest + totalInterest
+    const totalRp = Math.ceil(totalRpWithoutInterest + totalInterest)
 
     return {
         totalMovementRp,
