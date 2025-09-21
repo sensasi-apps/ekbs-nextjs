@@ -36,6 +36,11 @@ export const VALIDATION_SCHEMA = yup.object().shape({
     total_payment: yup
         .number()
         .required('Total pembayaran tidak boleh kosong')
+        .min(1, 'Total pembayaran tidak boleh nol')
+        .max(
+            1000000000,
+            'Total pembayaran tidak boleh lebih dari 1.000.000.000',
+        )
         .when(['details', 'costs'], (data: Array<unknown>, schema) => {
             const details = data[0] as FormValuesType['details']
             const costs = data[1] as FormValuesType['costs']
