@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography'
 // components
 import TextField from '@/components/TextField'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove
 type MuiAutocompleteProps = MuiAutocompletePropsTemp<any, false, false, false>
 type AutocompleteProps = Omit<MuiAutocompleteProps, 'options' | 'renderInput'>
 
@@ -34,7 +34,7 @@ export default function Autocomplete({
 } & AutocompleteProps) {
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove
     const [options, setOptions] = useState<any[]>([])
 
     const fetchUserOptions = async (

@@ -28,17 +28,14 @@ export default function SelectFromApi({
     label?: string
     selectProps?: Omit<SelectProps, 'onChange' | 'label' | 'margin'>
     helperText?: ReactNode
-    // TODO: remove any
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove
     renderOption?: (option: any, index: number) => ReactNode
     onChange?: SelectProps['onChange']
-    // TODO: remove any
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove
     onValueChange?: (value: any) => unknown
     dataKey?: string
 } & Omit<FormControlProps, 'onChange'>) {
-    // TODO: remove any
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove
     const { data = [], isLoading } = useSWR<any[]>(endpoint)
 
     return (
