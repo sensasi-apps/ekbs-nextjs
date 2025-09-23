@@ -1,3 +1,5 @@
+'use client'
+
 // materials
 import MuiFab, { type FabProps } from '@mui/material/Fab'
 import Tooltip from '@mui/material/Tooltip'

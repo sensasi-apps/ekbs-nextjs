@@ -13,6 +13,8 @@ import type { Sale } from '@/modules/repair-shop/types/orms/sale'
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 // utils
 import shortUuid from '@/utils/short-uuid'
+import type { ReactNode } from 'react'
+import ChipSmall from '@/components/ChipSmall'
 
 export default function Receipt({ data }: { data: Sale }) {
     const totalRpSparePart =
@@ -74,7 +76,21 @@ export default function Receipt({ data }: { data: Sale }) {
 
                     <DefaultItemDesc
                         desc="Pelanggan"
-                        value={data.customer?.name ?? ''}
+                        value={
+                            data.customer ? (
+                                <>
+                                    <ChipSmall
+                                        label={data.customer.id}
+                                        color="info"
+                                        variant="outlined"
+                                        sx={{ mr: 1 }}
+                                    />
+                                    {data.customer.name}
+                                </>
+                            ) : (
+                                ''
+                            )
+                        }
                     />
 
                     <DefaultItemDesc
@@ -243,7 +259,7 @@ function DefaultItemDesc({
     value,
 }: {
     desc: string
-    value: number | string
+    value: number | string | ReactNode
 }) {
     return (
         <Box display="flex" gap={1}>
