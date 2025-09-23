@@ -14,7 +14,7 @@ export function useIsCanReachItself(interval: number): boolean {
 
     useEffect(() => {
         if (isIdle) {
-            // eslint-disable-next-line
+            // biome-ignore lint/suspicious/noConsole: Needed
             console.info('🕛 YOUR ARE IDLE')
         } else {
             function handleFetch() {

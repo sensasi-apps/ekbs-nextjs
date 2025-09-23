@@ -34,7 +34,9 @@ export default function Page() {
     const [receiptDialogData, setReceiptDialogData] = useState<ProductSaleORM>()
 
     const {
-        data: { farmInputs: { bigNumber1, bigNumber2, lineChart } } = {
+        data: {
+            farmInputs: { bigNumber1, bigNumber2, lineChart },
+        } = {
             farmInputs: {},
         },
     } = useSWR<ApiResponseType>('me/participations')
