@@ -43,7 +43,15 @@
             "style": {
                 "noCommonJs": "error",
                 "noNamespace": "error",
-                "noRestrictedImports": "error",
+                "noRestrictedImports": {
+                    "level": "error",
+                    "options": {
+                        "paths": {
+                            "@mui/material": "No Barrel Import. Use `import [Component] from '@mui/material/[Component]'` instead.",
+                            "@mui/icons-material": "No Barrel Import. Use `import [Icon] from '@mui/icons-material/[Icon]'` instead."
+                        }
+                    }
+                },
                 "useArrayLiterals": "error",
                 "useAsConstAssertion": "error",
                 "useBlockStatements": "off",

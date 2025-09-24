@@ -7,6 +7,8 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import formatNumber from '@/utils/format-number'
+import TableFooter from '@mui/material/TableFooter'
 
 /**
  * AoaTable is a component that renders a table with customizable headers and data rows.
@@ -15,6 +17,7 @@ import TableRow from '@mui/material/TableRow'
 export function AoaTable({
     headers,
     dataRows,
+    footers,
 }: {
     /**
      * An array of strings representing the column headers.
@@ -25,7 +28,12 @@ export function AoaTable({
      * A 2D array containing the table data, where each sub-array represents a row,
      * and each element within the sub-array can be a string, number, null, or ReactNode.
      */
-    dataRows: (string | number | null | ReactNode)[][]
+    dataRows: ReactNode[][]
+
+    /**
+     * An array of arrays of ReactNode representing the table footers.
+     */
+    footers?: ReactNode[][]
 }) {
     return (
         <TableContainer>
@@ -59,12 +67,36 @@ export function AoaTable({
                     {dataRows.map((row, i) => (
                         <TableRow key={'row-' + i}>
                             {row.map((cell, j) => (
-                                <TableCell key={'cell-' + j}>{cell}</TableCell>
+                                <CustomTableCell key={'cell-' + j}>
+                                    {cell}
+                                </CustomTableCell>
                             ))}
                         </TableRow>
                     ))}
                 </TableBody>
+
+                {footers && footers.length > 0 && (
+                    <TableFooter>
+                        {footers.map((row, i) => (
+                            <TableRow key={'row-' + i}>
+                                {row.map((cell, j) => (
+                                    <CustomTableCell key={'cell-' + j}>
+                                        {cell}
+                                    </CustomTableCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableFooter>
+                )}
             </Table>
         </TableContainer>
     )
+}
+
+function CustomTableCell({ children }: { children: ReactNode }) {
+    if (typeof children === 'number') {
+        return <TableCell align="right">{formatNumber(children)}</TableCell>
+    }
+
+    return <TableCell>{children}</TableCell>
 }
