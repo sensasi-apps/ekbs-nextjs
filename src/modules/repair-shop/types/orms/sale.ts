@@ -6,7 +6,7 @@ import type User from '@/modules/user/types/orms/user'
 
 export type Sale = {
     /** [💾] */
-    uuid: string
+    readonly uuid: string
 
     /** [💾] */
     at: string
@@ -40,6 +40,9 @@ export type Sale = {
 
     /** [💾] */
     worker_user_uuid: string
+
+    /** [🤌🏻] */
+    readonly short_uuid: string
 
     /** [🔗] */
     sale_services?: SaleService[]
