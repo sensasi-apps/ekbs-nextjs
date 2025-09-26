@@ -63,7 +63,7 @@ export default function TransactionCrud() {
             <Datatable<CustomTx>
                 apiUrl="/transactions/datatable"
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
+                defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 download
                 getRowDataCallback={fn => (getRowDataRef.current = fn)}
                 onRowClick={handleRowClick}
