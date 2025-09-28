@@ -3,7 +3,7 @@ import type YajraDatatable from '@/types/yajra-datatable-response'
 import type { DatatableProps } from '../@types'
 import useSWRVendor from 'swr'
 
-export function useSwr<T>(
+export default function useSwr<T>(
     apiUrl: DatatableProps['apiUrl'],
     apiUrlParams: DatatableProps['apiUrlParams'] | undefined,
     swrOptions: DatatableProps['swrOptions'] | undefined,

@@ -5,14 +5,14 @@ import type { DatatableProps } from '../@types'
 import { useEffect, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 // hooks
-import { useSwr } from './useSwr'
+import useSwr from './use-swr'
 // functions
 import downloadXlsx from '../functions/downloadXlsx'
 import formatToDatatableParams from '../utils/formatToDatatableParams'
 import staticOptions from '../staticOptions'
 import { enqueueSnackbar } from 'notistack'
 
-export function useHooks<T>(
+export default function useHooks<T>(
     tableId: DatatableProps<T>['tableId'],
     columnDefs: DatatableProps<T>['columns'],
     defaultSortOrder: DatatableProps<T>['defaultSortOrder'],
@@ -20,6 +20,7 @@ export function useHooks<T>(
     apiUrlParams: DatatableProps<T>['apiUrlParams'],
     swrOptions: DatatableProps<T>['swrOptions'],
 ) {
+    const [isDownloading, setIsDownloading] = useState<boolean>(false)
     const [rowsPerPage, setRowsPerPage] = useState<number>(10)
     const [columns, setColumns] =
         useState<DatatableProps<T>['columns']>(columnDefs)
@@ -28,8 +29,6 @@ export function useHooks<T>(
 
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
-
-    const [isLoading, setIsLoading] = useState(false)
 
     const lastDataTableState = useRef<DataTableState<T> | undefined>(undefined)
 
@@ -55,7 +54,7 @@ export function useHooks<T>(
 
     const {
         data: { data = [], recordsFiltered, recordsTotal } = {},
-        isLoading: isSwrLoading,
+        isLoading,
         isValidating,
         mutate,
     } = useSwr<T>(
@@ -65,20 +64,53 @@ export function useHooks<T>(
         datatableSentRequestParamsJson,
     )
 
-    useEffect(() => {
-        setIsLoading(isSwrLoading || isValidating)
-    }, [isSwrLoading, isValidating])
-
     const options: DataTableProps<T>['options'] = {
         ...staticOptions,
         rowsPerPage,
         sortOrder: sortOrder,
-        onTableChange: (_, tableState) => {
+        searchProps: {
+            onKeyUp: e => {
+                if (e.key === 'Enter') {
+                    setDatatableSentRequestParamJson(prev => {
+                        if ('value' in e.target === false) {
+                            return prev
+                        }
+
+                        const params = JSON.parse(prev ?? '{}')
+
+                        if (e.target.value === params.search.value) {
+                            return prev
+                        }
+
+                        params.search.value = e.target.value
+
+                        return JSON.stringify(params)
+                    })
+                }
+            },
+            onBlur: e => {
+                setDatatableSentRequestParamJson(prev => {
+                    const params = JSON.parse(prev ?? '{}')
+
+                    if (params.search.value === e.target.value) {
+                        return prev
+                    }
+
+                    params.search.value = e.target.value
+
+                    return JSON.stringify(params)
+                })
+            },
+        },
+        onTableChange: (action, tableState) => {
             const newRequestParamsJson = JSON.stringify(
                 formatToDatatableParams(tableState),
             )
 
-            if (datatableSentRequestParamsJson !== newRequestParamsJson) {
+            if (
+                action !== 'search' &&
+                datatableSentRequestParamsJson !== newRequestParamsJson
+            ) {
                 setDatatableSentRequestParamJson(newRequestParamsJson)
                 lastDataTableState.current = tableState
             }
@@ -136,7 +168,7 @@ export function useHooks<T>(
                     },
                 )
             } else if (estimatedB) {
-                setIsLoading(true)
+                setIsDownloading(true)
 
                 downloadXlsx(
                     apiUrl,
@@ -148,7 +180,7 @@ export function useHooks<T>(
                         dayjs().format('YYYY-MM-DD-HH-mm-ss') +
                         '.xlsx',
                 ).then(() => {
-                    setIsLoading(false)
+                    setIsDownloading(false)
                 })
             }
 
@@ -161,7 +193,7 @@ export function useHooks<T>(
         data,
         mutate,
         columns,
-        isLoading,
+        isLoading: isLoading || isValidating || isDownloading,
         options,
 
         /**
