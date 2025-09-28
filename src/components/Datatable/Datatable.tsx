@@ -15,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip'
 // icons-materials
 import Refresh from '@mui/icons-material/Refresh'
 // locals
-import { useHooks } from './hooks/useHooks'
+import useHooks from './hooks/use-hooks'
 // import { DownloadConfirmationDialog } from './components/DownloadConfirmationDialog'
 // utils
 import { CLICKABLE_INFO } from './statics'
