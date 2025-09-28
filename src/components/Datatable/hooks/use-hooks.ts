@@ -72,21 +72,34 @@ export default function useHooks<T>(
             onKeyUp: e => {
                 if (e.key === 'Enter') {
                     setDatatableSentRequestParamJson(prev => {
-                        const params = JSON.parse(prev ?? '{}')
-
-                        const value =
-                            'value' in e.target ? e.target.value : null
-
-                        if (value === params.search.value) {
+                        if ('value' in e.target === false) {
                             return prev
                         }
 
-                        params.search.value =
-                            'value' in e.target ? e.target.value : null
+                        const params = JSON.parse(prev ?? '{}')
+
+                        if (e.target.value === params.search.value) {
+                            return prev
+                        }
+
+                        params.search.value = e.target.value
 
                         return JSON.stringify(params)
                     })
                 }
+            },
+            onBlur: e => {
+                setDatatableSentRequestParamJson(prev => {
+                    const params = JSON.parse(prev ?? '{}')
+
+                    if (params.search.value === e.target.value) {
+                        return prev
+                    }
+
+                    params.search.value = e.target.value
+
+                    return JSON.stringify(params)
+                })
             },
         },
         onTableChange: (action, tableState) => {
