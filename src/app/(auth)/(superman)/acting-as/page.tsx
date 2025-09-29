@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import axios from '@/lib/axios'
 // components
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 import useAuthInfoState from '@/hooks/use-auth-info-state'
 import PageTitle from '@/components/page-title'
 

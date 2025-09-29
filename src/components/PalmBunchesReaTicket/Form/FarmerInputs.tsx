@@ -17,7 +17,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // components
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 // providers
 import useFormData from '@/providers/useFormData'
 import PalmBunch from '@/enums/permissions/PalmBunch'
@@ -124,7 +124,6 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                 {isAuthHasPermission(PalmBunch.SEARCH_USER) ? (
                                     <UserAutocomplete
                                         label="Nama"
-                                        showNickname
                                         disabled={disabled}
                                         fullWidth
                                         onChange={(_, user) => {
@@ -141,16 +140,18 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                         value={palmBunch.owner_user || null}
                                         size="small"
                                         onBlur={handleBlur}
-                                        error={Boolean(
-                                            validationErrors[
-                                                `palm_bunches.${index}.owner_user_uuid`
-                                            ],
-                                        )}
-                                        helperText={validationErrors[
-                                            `palm_bunches.${index}.owner_user_uuid`
-                                        ]?.join(', ')}
-                                        textFieldProps={{
-                                            required: true,
+                                        slotProps={{
+                                            textField: {
+                                                error: Boolean(
+                                                    validationErrors[
+                                                        `palm_bunches.${index}.owner_user_uuid`
+                                                    ],
+                                                ),
+                                                helperText:
+                                                    validationErrors[
+                                                        `palm_bunches.${index}.owner_user_uuid`
+                                                    ]?.join(', '),
+                                            },
                                         }}
                                     />
                                 ) : (

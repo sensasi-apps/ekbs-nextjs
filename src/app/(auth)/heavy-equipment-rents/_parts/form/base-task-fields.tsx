@@ -21,7 +21,7 @@ import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
@@ -112,7 +112,6 @@ export default function BaseTaskFields({
             </Fade>
 
             <UserAutocomplete
-                showNickname
                 label={type === 'personal' ? 'Penyewa' : 'Penanggung Jawab'}
                 disabled={isDisabled}
                 fullWidth
@@ -121,11 +120,11 @@ export default function BaseTaskFields({
                     setFieldValue('by_user_uuid', user?.uuid)
                 }}
                 value={by_user ?? null}
-                size="small"
-                textFieldProps={{
-                    required: type === 'farmer-group',
-                    margin: 'dense',
-                    ...errorsToHelperTextObj(errors.by_user_uuid),
+                slotProps={{
+                    textField: {
+                        required: type === 'farmer-group',
+                        ...errorsToHelperTextObj(errors.by_user_uuid),
+                    },
                 }}
             />
 
@@ -189,7 +188,6 @@ export default function BaseTaskFields({
             />
 
             <UserAutocomplete
-                showNickname
                 label="Operator"
                 disabled={isDisabled}
                 fullWidth
@@ -198,11 +196,10 @@ export default function BaseTaskFields({
                     setFieldValue('operated_by_user_uuid', user?.uuid)
                 }}
                 value={operated_by_user ?? null}
-                size="small"
-                textFieldProps={{
-                    required: true,
-                    margin: 'dense',
-                    ...errorsToHelperTextObj(errors.operated_by_user),
+                slotProps={{
+                    textField: {
+                        ...errorsToHelperTextObj(errors.operated_by_user),
+                    },
                 }}
             />
 

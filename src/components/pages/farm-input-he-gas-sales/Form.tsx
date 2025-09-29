@@ -25,7 +25,7 @@ import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/formik-form'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import debounce from '@/utils/debounce'
@@ -130,7 +130,6 @@ export default function FarmInputHeGasSaleForm({
 
             <UserAutocomplete
                 label="Pemesan"
-                showNickname
                 disabled={isDisabled}
                 fullWidth
                 onChange={(_, user) => {
@@ -138,11 +137,12 @@ export default function FarmInputHeGasSaleForm({
                     setFieldValue('buyer_user_uuid', user?.uuid)
                 }}
                 value={buyer_user}
-                size="small"
-                textFieldProps={{
-                    margin: 'dense',
-                    required: true,
-                    ...errorsToHelperTextObj(errors.buyer_user_uuid),
+                slotProps={{
+                    textField: {
+                        margin: 'dense',
+                        required: true,
+                        ...errorsToHelperTextObj(errors.buyer_user_uuid),
+                    },
                 }}
             />
 

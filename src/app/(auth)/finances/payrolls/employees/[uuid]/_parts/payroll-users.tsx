@@ -7,9 +7,10 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 //
 import type UserType from '@/modules/user/types/orms/user'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 import handle422 from '@/utils/handle-422'
 import FinanceApiUrlEnum from '../../../../_enums/api-url'
+import type MinimalUser from '@/modules/user/types/minimal-user'
 
 export default function PayrollUsersForm({
     payrollUuid,
@@ -18,16 +19,16 @@ export default function PayrollUsersForm({
     payrollUuid: UUID
     onClose: () => void
 }) {
-    const [users, setUsers] = useState<UserType[]>([])
+    const [users, setUsers] = useState<MinimalUser[]>([])
     const [addEmployeeLoading, setAddEmployeeLoading] = useState(false)
     const [submitLoading, setSubmitLoading] = useState(false)
     const [errors, setErrors] = useState<Record<string, string[]>>({})
     const disabled = submitLoading || addEmployeeLoading
 
-    const handleAddAllEmployees = () => {
+    function handleAddAllEmployees() {
         setAddEmployeeLoading(true)
 
-        return axios
+        axios
             .get<UserType[]>('/users/employees')
             .then(res => {
                 setUsers(res.data)
@@ -37,10 +38,10 @@ export default function PayrollUsersForm({
             })
     }
 
-    const handleSubmit = () => {
+    function handleSubmit() {
         setSubmitLoading(true)
 
-        return axios
+        axios
             .post(
                 FinanceApiUrlEnum.CREATE_PAYROLL_USERS.replace(
                     '$uuid',
@@ -72,8 +73,6 @@ export default function PayrollUsersForm({
             <Box mt={1}>
                 <UserAutocomplete
                     multiple
-                    showRole
-                    showNickname
                     label="Daftar Pengguna"
                     disabled={disabled}
                     value={users}
