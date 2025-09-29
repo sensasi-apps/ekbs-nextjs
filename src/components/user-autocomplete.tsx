@@ -55,7 +55,7 @@ export default function UserAutocomplete<
              * `getOptionLabel` is overridden by `renderOption`
              * but required to be present
              */
-            getOptionLabel={({ name }) => name}
+            getOptionLabel={({ id, name }) => `${id} — ${name}`}
             isOptionEqualToValue={(option, value) => option?.id === value?.id}
             loading={isLoading}
             loadingText="Sedang memuat..."
