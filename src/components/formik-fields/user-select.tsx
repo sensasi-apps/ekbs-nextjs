@@ -71,13 +71,8 @@ function InnerComponent({
 }: Omit<FieldProps<string>, 'meta'> & Omit<UserSelectProps, 'name'>) {
     const { error: errorMeta, value } = getFieldMeta<string>(name)
     const [searchValue, setSearchValue] = useState('')
-    const { data: users = [], isLoading } = useSWR<ApiResponse>(
-        'data/minimal-users',
-        null,
-        {
-            keepPreviousData: true,
-        },
-    )
+    const { data: users = [], isLoading } =
+        useSWR<ApiResponse>('data/minimal-users')
 
     const error = ['{}', '[]'].includes(JSON.stringify(errorMeta))
         ? undefined

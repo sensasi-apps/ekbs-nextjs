@@ -30,7 +30,7 @@ export default function SWRProvider({
             value={{
                 fetcher: fetcher,
                 provider: cacheProvider,
-                dedupingInterval: 5000,
+                dedupingInterval: 15000,
                 shouldRetryOnError: false,
                 revalidateOnFocus: false,
                 keepPreviousData: true,
