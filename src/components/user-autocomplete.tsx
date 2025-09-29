@@ -55,7 +55,7 @@ export default function UserAutocomplete<
              * `getOptionLabel` is overridden by `renderOption`
              * but required to be present
              */
-            getOptionLabel={() => ''}
+            getOptionLabel={({ name }) => name}
             isOptionEqualToValue={(option, value) => option?.id === value?.id}
             loading={isLoading}
             loadingText="Sedang memuat..."
@@ -89,23 +89,30 @@ export default function UserAutocomplete<
                 )
             }}
             renderOption={renderOption}
-            renderValue={value => {
-                if (Array.isArray(value)) {
-                    return (
-                        <FlexBox flexWrap="wrap" gap={1.5}>
-                            {value.map(user => (
-                                <RenderMinimalUser
-                                    key={user.id}
-                                    data={user}
-                                    gap={0.7}
-                                />
-                            ))}
-                        </FlexBox>
-                    )
-                }
+            // renderValue={(value, getItemProps) => {
+            //     if (Array.isArray(value)) {
+            //         return (
+            //             <FlexBox flexWrap="wrap" gap={1.5} {...getItemProps()}>
+            //                 {value.map(user => (
+            //                     <RenderMinimalUser
+            //                         key={user.id}
+            //                         data={user}
+            //                         gap={0.7}
+            //                     />
+            //                 ))}
+            //             </FlexBox>
+            //         )
+            //     }
 
-                return <RenderMinimalUser data={value} gap={1} mx={1} />
-            }}
+            //     return (
+            //         <RenderMinimalUser
+            //             data={value}
+            //             gap={1}
+            //             mx={1}
+            //             {...getItemProps()}
+            //         />
+            //     )
+            // }}
             {...restProps}
         />
     )
