@@ -22,6 +22,9 @@ function isSearchTermPassedTheRequirements(value: string) {
     return value.length >= 3 || (value.length >= 2 && value.startsWith('#'))
 }
 
+/**
+ * @deprecated use `@/components/user-autocomplete` instead.
+ */
 export default function UserAutocomplete<
     Multiple extends boolean | undefined = false,
     DisableClearable extends boolean | undefined = false,
