@@ -59,7 +59,7 @@ export default function BaseTaskFields({
                     row
                     aria-labelledby="rent-type"
                     name="rent-type"
-                    value={type}
+                    value={type ?? null}
                     onChange={({ target: { value } }) => {
                         setFieldValue('type', value)
                         setFieldValue('payment_method', null)
