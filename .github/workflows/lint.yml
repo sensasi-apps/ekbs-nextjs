@@ -6,24 +6,20 @@ on:
       - main
 
 jobs:
-  lint-and-test:
+  code-check:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: '22'
-          cache: 'npm'
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Run linter
-        run: npm run lint
+        run: bun install --frozen-lockfile
 
       # - name: Run tests
-      #   run: npm test
+      #   run: bun test
