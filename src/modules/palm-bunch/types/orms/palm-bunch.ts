@@ -2,6 +2,7 @@ import type { UUID } from 'crypto'
 import type ActivityLogORM from '@/types/orms/activity-log'
 import type UserORM from '@/modules/user/types/orms/user'
 import type PalmBunchesDeliveryType from './palm-bunches-delivery'
+import type MinimalUser from '@/modules/user/types/minimal-user'
 
 export default interface PalmBunchORM {
     uuid: UUID
@@ -11,8 +12,12 @@ export default interface PalmBunchORM {
     n_kg?: number
     owner_user_uuid?: UUID
 
-    // relations
-    owner_user?: UserORM
+    /**
+     * [🔗]
+     *
+     * @todo remove `| MinimalUser` by change `PalmBunchReaTicket` Form on {@link @\components\PalmBunchesReaTicket\Form\MainInputs}
+     */
+    owner_user?: UserORM | MinimalUser
     logs?: ActivityLogORM[]
     delivery?: PalmBunchesDeliveryType
 }

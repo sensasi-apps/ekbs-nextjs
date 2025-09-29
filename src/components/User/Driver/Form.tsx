@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // components
 import TextField from '@/components/TextField'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 
 export default function UserDriverForm({
     onClose,

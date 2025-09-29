@@ -12,7 +12,11 @@ import ScrollableXBox from '@/components/ScrollableXBox'
 import StatCard from '@/components/StatCard'
 // etc
 
-export default function TbsPerformanceChart({ user }: { user: UserType }) {
+export default function TbsPerformanceChart({
+    user,
+}: {
+    user: Pick<UserType, 'uuid'>
+}) {
     const { replace } = useRouter()
     const searchParams = useSearchParams()
 

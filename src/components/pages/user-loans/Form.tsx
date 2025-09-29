@@ -28,10 +28,10 @@ import DatePicker from '@/components/DatePicker'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import NumericFormat from '@/components/NumericFormat'
 import FormikForm from '@/components/formik-form'
-import LoadingAddorment from '@/components/LoadingAddorment'
+import LoadingAdornment from '@/components/LoadingAddorment'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 // utils
 import getLoanStatusColor from '@/utils/get-loan-status-color'
 import errorCatcher from '@/utils/handle-422'
@@ -46,6 +46,8 @@ import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+// modules
+import type MinimalUser from '@/modules/user/types/minimal-user'
 
 export default function LoanForm({
     errors,
@@ -69,9 +71,8 @@ export default function LoanForm({
     const mode: 'applier' | 'manager' = status.mode
     const userLoanFromDb: UserLoanORM | null = status.userLoanFromDb
 
-    const [userAutocompleteValue, setUserAutocompleteValue] = useState(
-        userLoanFromDb?.user ?? null,
-    )
+    const [userAutocompleteValue, setUserAutocompleteValue] =
+        useState<MinimalUser | null>(userLoanFromDb?.user ?? null)
 
     const isApplierMode = mode === 'applier'
     const isManager = isAuthHasRole(Role.USER_LOAN_MANAGER) && !isApplierMode
@@ -204,11 +205,12 @@ export default function LoanForm({
                         setFieldValue('user_uuid', user?.uuid)
                     }}
                     value={userAutocompleteValue}
-                    size="small"
-                    textFieldProps={{
-                        required: true,
-                        margin: 'dense',
-                        ...errorsToHelperTextObj(errors.user_uuid),
+                    slotProps={{
+                        textField: {
+                            required: true,
+                            margin: 'dense',
+                            ...errorsToHelperTextObj(errors.user_uuid),
+                        },
                     }}
                 />
             )}
@@ -262,7 +264,7 @@ export default function LoanForm({
                             setFieldValue('term_unit', e.target.value)
                         }
                         endAdornment={
-                            <LoadingAddorment show={isTermUnitLoading} />
+                            <LoadingAdornment show={isTermUnitLoading} />
                         }>
                         <MenuItem value="minggu">Minggu</MenuItem>
                         <MenuItem value="bulan">Bulan</MenuItem>

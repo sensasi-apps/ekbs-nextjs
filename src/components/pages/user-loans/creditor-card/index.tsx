@@ -16,12 +16,15 @@ import Typography from '@mui/material/Typography'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 // components
-import { ContactList } from '@/components/User/Socials/CrudBox'
 import TbsPerformanceChart from './tbs-performance-chart'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 
-export default function CreditorCard({ data: creditor }: { data: UserType }) {
+export default function CreditorCard({
+    data: creditor,
+}: {
+    data: Pick<UserType, 'id' | 'uuid' | 'name'>
+}) {
     const [isCollapsed, setIsCollapsed] = useState(true)
 
     const { data: totalRpActiveInstallment = 0, isLoading } = useSWR<number>(
@@ -64,8 +67,6 @@ export default function CreditorCard({ data: creditor }: { data: UserType }) {
                     <Typography color="GrayText" mt={1}>
                         Kontak:
                     </Typography>
-
-                    <ContactList data={creditor?.socials ?? []} readMode />
 
                     <Typography color="GrayText" mt={1}>
                         Total Angsuran Aktif Saat Ini:

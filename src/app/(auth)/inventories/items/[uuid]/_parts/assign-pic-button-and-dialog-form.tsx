@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import FormikForm from '@/components/formik-form'
 import TypographyWithLabel from '@/components/pages/user-loans/SummaryBox/TypographyWithLabel'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 // utils
 import errorCatcher from '@/utils/handle-422'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
@@ -104,13 +104,13 @@ const AssignPicButtonAndDialogForm = memo(
                                             )
                                         }}
                                         size="small"
-                                        textFieldProps={{
-                                            required: true,
-                                            label: 'Pengguna',
-                                            margin: 'dense',
-                                            ...errorsToHelperTextObj(
-                                                errors.pic_user_uuid,
-                                            ),
+                                        slotProps={{
+                                            textField: {
+                                                label: 'Pengguna',
+                                                ...errorsToHelperTextObj(
+                                                    errors.pic_user_uuid,
+                                                ),
+                                            },
                                         }}
                                     />
                                 </FormikForm>

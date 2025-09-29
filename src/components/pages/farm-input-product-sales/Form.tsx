@@ -1,9 +1,6 @@
 // types
 import type CashType from '@/types/orms/cash'
 import type { UUID } from 'crypto'
-import type ProductType from '@/modules/farm-inputs/types/orms/product'
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import type User from '@/modules/user/types/orms/user'
 import type Wallet from '@/types/orms/wallet'
 // vendors
 import { FastField, type FormikProps } from 'formik'
@@ -29,16 +26,16 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 // components
-import CrediturCard from '../user-loans/creditor-card'
+import CreditorCard from '../user-loans/creditor-card'
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/formik-form'
-import LoadingAddorment from '@/components/LoadingAddorment'
+import LoadingAdornment from '@/components/LoadingAddorment'
 import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import ProductSaleDetailArrayField from './Form/ProductSaleDetailArrayField'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 // icons
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 // utils
@@ -53,6 +50,10 @@ import Role from '@/enums/role'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+// modules
+import type MinimalUser from '@/modules/user/types/minimal-user'
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 
 const ProductSaleForm = memo(function ProductSaleForm({
     dirty,
@@ -76,7 +77,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
     const { uuid, buyer_user, short_uuid, is_paid } = typedStatus ?? {}
 
     const [userAutocompleteValue, setUserAutocompleteValue] =
-        useState<User | null>(buyer_user ?? null)
+        useState<MinimalUser | null>(buyer_user ?? null)
 
     const isAuthHasRole = useIsAuthHasRole()
 
@@ -193,7 +194,6 @@ const ProductSaleForm = memo(function ProductSaleForm({
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <UserAutocomplete
-                        showNickname
                         label="Pengguna"
                         disabled={isDisabled}
                         fullWidth
@@ -203,12 +203,16 @@ const ProductSaleForm = memo(function ProductSaleForm({
                         }}
                         value={userAutocompleteValue}
                         size="small"
-                        textFieldProps={{
-                            required: ['installment', 'wallet'].includes(
-                                payment_method ?? '',
-                            ),
-                            margin: 'dense',
-                            ...errorsToHelperTextObj(errors.buyer_user_uuid),
+                        slotProps={{
+                            textField: {
+                                required: ['installment', 'wallet'].includes(
+                                    payment_method ?? '',
+                                ),
+                                margin: 'dense',
+                                ...errorsToHelperTextObj(
+                                    errors.buyer_user_uuid,
+                                ),
+                            },
                         }}
                     />
                 </Grid>
@@ -278,7 +282,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
 
                                     {isWalletLoading && (
                                         <div style={{ marginTop: '.7rem' }}>
-                                            <LoadingAddorment show={true} />
+                                            <LoadingAdornment show />
                                         </div>
                                     )}
 
@@ -326,7 +330,7 @@ const ProductSaleForm = memo(function ProductSaleForm({
             {payment_method === 'installment' && (
                 <>
                     {userAutocompleteValue?.uuid && !is_paid && (
-                        <CrediturCard data={userAutocompleteValue} />
+                        <CreditorCard data={userAutocompleteValue} />
                     )}
 
                     <Typography variant="h6" component="div" mt={2}>

@@ -11,12 +11,11 @@ import Typography from '@mui/material/Typography'
 // components
 import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 import DatePicker from '@/components/DatePicker'
-import UserAutocomplete from '@/components/UserAutocomplete'
+import UserAutocomplete from '@/components/user-autocomplete'
 import TextField from '@/components/TextField'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 // providers
 import useFormData from '@/providers/useFormData'
-import type UserType from '@/modules/user/types/orms/user'
 import SpbNoInput from './MainInputs/SpbNoInput'
 import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
 // libs
@@ -26,6 +25,8 @@ import PalmBunch from '@/enums/permissions/PalmBunch'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
+// modules
+import type MinimalUser from '@/modules/user/types/minimal-user'
 
 interface MainInputProps {
     clearByName: (name: string) => void
@@ -61,7 +62,7 @@ function PalmBunchesReaDeliveryMainInputs({
     const [fromPosition, setFromPosition] = useState<string | undefined>(
         data.delivery?.from_position,
     )
-    const [courierUser, setCourierUser] = useState<UserType | undefined>(
+    const [courierUser, setCourierUser] = useState<MinimalUser | undefined>(
         data.delivery?.courier_user,
     )
     const [vehicleNo, setVehicleNo] = useState(data.delivery?.vehicle_no)
@@ -118,7 +119,7 @@ function PalmBunchesReaDeliveryMainInputs({
 
     const handleChange = (
         key: string,
-        value: string | Dayjs | number | undefined | UserType,
+        value: string | Dayjs | number | undefined,
     ) => {
         tempData = { ...data }
 
@@ -128,7 +129,7 @@ function PalmBunchesReaDeliveryMainInputs({
 
     const handleDeliveryChange = (
         key: string,
-        value: string | number | undefined | UserType,
+        value: string | number | undefined | MinimalUser,
     ) => {
         clearByName(key)
 
@@ -385,7 +386,6 @@ function PalmBunchesReaDeliveryMainInputs({
                 <UserAutocomplete
                     label="Pengangkut"
                     disabled={disabled}
-                    showNickname
                     fullWidth
                     onChange={(_, user) => {
                         setCourierUser(user ?? undefined)
@@ -393,14 +393,14 @@ function PalmBunchesReaDeliveryMainInputs({
                     }}
                     onBlur={handleBlur}
                     value={courierUser ?? null}
-                    size="small"
-                    textFieldProps={{
-                        required: true,
-                        margin: 'dense',
+                    slotProps={{
+                        textField: {
+                            margin: 'dense',
+                        },
+                        ...errorsToHelperTextObj(
+                            validationErrors.courier_user_uuid,
+                        ),
                     }}
-                    {...errorsToHelperTextObj(
-                        validationErrors.courier_user_uuid,
-                    )}
                 />
             ) : (
                 <Box my={1}>
