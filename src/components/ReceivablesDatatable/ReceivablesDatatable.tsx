@@ -20,21 +20,20 @@ import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
 import Dialog from '../Global/Dialog'
 // locals
 import { useHooks } from './hooks/useHooks'
-import { DATATABE_SEARCH_ONLY_COLUMNS } from './hooks/statics'
 import StateFilterChips from './components/state-filter-chips'
 import TypeFilterChips from './components/type-filter-chips'
 // utils
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import handle422 from '@/utils/handle-422'
 import ReceivablePaymentForm from './PaymentForm'
 import formatNumber from '@/utils/format-number'
 import getInstallmentColor from '@/utils/get-installment-color'
 import type BusinessUnit from '@/enums/business-unit'
+import type ApiResponseItem from './types/api-response-item'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
-let getRowData: GetRowDataType<InstallmentORM> = () => undefined
-let mutate: MutateType<InstallmentORM>
+let getRowData: GetRowDataType<ApiResponseItem> = () => undefined
+let mutate: MutateType<ApiResponseItem>
 
 export default function ReceivablesDatatable({
     asManager = false,
@@ -136,7 +135,7 @@ export default function ReceivablesDatatable({
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
+const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
     {
         name: 'uuid',
         label: 'Kode',
@@ -150,7 +149,6 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
         name: 'user_id',
         label: 'ID Pengguna',
         options: {
-            searchable: false, // search is accommodated in DATATABE_SEARCH_ONLY_COLUMNS
             sort: false,
             setCellProps: () => ({
                 style: {
@@ -165,7 +163,6 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
         name: 'user_name',
         label: 'Nama Pengguna',
         options: {
-            searchable: false,
             sort: false,
         },
     },
@@ -253,8 +250,6 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
             },
         },
     },
-
-    ...DATATABE_SEARCH_ONLY_COLUMNS,
 ]
 
 function getInstallmentTypeByClassname(classname: string) {

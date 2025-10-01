@@ -1,11 +1,11 @@
 // types
 import type { FormikErrors, FormikProps } from 'formik'
 import type { UUID } from 'crypto'
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type CashType from '@/types/orms/cash'
 // vendors
 import dayjs from 'dayjs'
 // materials
+import Chip from '@mui/material/Chip'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -31,6 +31,7 @@ import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
 import NumericFormat from '../NumericFormat'
 import RpInputAdornment from '../InputAdornment/Rp'
+import type ApiResponseItem from './types/api-response-item'
 
 export type FormValuesType = {
     at?: string
@@ -46,20 +47,16 @@ export default function ReceivablePaymentForm({
     values: { at, payment_method, cashable_uuid, adjustment_rp },
     status,
     setFieldValue,
-}: Omit<FormikProps<FormValuesType>, 'status'> & { status?: InstallmentORM }) {
+}: Omit<FormikProps<FormValuesType>, 'status'> & { status?: ApiResponseItem }) {
     const {
         amount_rp,
         should_be_paid_at,
-        user_loan,
-        rent_item_rent,
-        product_sale,
         transaction,
+        user_name,
+        user_id,
+        at: installmentCreatedAt,
     } = status ?? {}
-    const txDate =
-        user_loan?.proposed_at ??
-        product_sale?.at ??
-        rent_item_rent?.finished_at
-    // TODO: replace any with the correct type
+
     const isNew = false
     const isPropcessing = isSubmitting
     const isDisabled = isPropcessing || Boolean(transaction)
@@ -81,7 +78,22 @@ export default function ReceivablePaymentForm({
                 data={[
                     {
                         label: 'Nama',
-                        value: status && getUserNameFromInstallmentable(status),
+                        value: status && (
+                            <>
+                                <Chip
+                                    label={user_id}
+                                    size="small"
+                                    sx={{
+                                        fontSize: '0.75rem',
+                                        mr: 1,
+                                    }}
+                                    variant="outlined"
+                                    color="info"
+                                />
+
+                                {user_name}
+                            </>
+                        ),
                     },
                     {
                         label: 'Jenis',
@@ -89,7 +101,8 @@ export default function ReceivablePaymentForm({
                     },
                     {
                         label: 'Tanggal Transaksi',
-                        value: txDate && toDmy(txDate),
+                        value:
+                            installmentCreatedAt && toDmy(installmentCreatedAt),
                     },
                     {
                         label: 'Jatuh Tempo',
@@ -139,22 +152,6 @@ export default function ReceivablePaymentForm({
             </Stack>
         </FormikForm>
     )
-}
-
-function getUserNameFromInstallmentable(data: InstallmentORM) {
-    switch (data.installmentable_classname) {
-        case 'App\\Models\\ProductSale':
-            return data.product_sale?.buyer_user?.name
-
-        case 'App\\Models\\UserLoan':
-            return data.user_loan?.user?.name
-
-        case 'App\\Models\\RentItemRent':
-            return data.rent_item_rent?.by_user?.name
-
-        default:
-            break
-    }
 }
 
 function PaymentSection({
