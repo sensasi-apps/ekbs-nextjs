@@ -51,6 +51,10 @@ enum RoleEnum {
     // clm
     CLM_MANAGER = 'clm manager',
     CLM_ADMIN = 'clm admin',
+
+    // repair shop
+    REPAIR_SHOP_MANAGER = 'repair shop manager',
+    REPAIR_SHOP_CASHIER = 'repair shop cashier',
 }
 
 export default RoleEnum
