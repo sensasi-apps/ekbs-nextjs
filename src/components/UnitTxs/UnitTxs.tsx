@@ -71,45 +71,48 @@ export default function UnitTxs({
 
     return (
         <>
-            <Grid container mb={1} spacing={1.5}>
-                <Grid
-                    display="flex"
-                    flexDirection="column"
-                    gap={1.5}
-                    size={{
-                        xs: 12,
-                        sm: 4,
-                    }}>
-                    <BigNumber
-                        title="Saldo Unit"
-                        primary={
-                            <Tooltip
-                                title={numberToCurrency(data?.balance ?? 0)}
-                                arrow
-                                placement="top">
-                                <Box component="span">
-                                    {numberToCurrency(data?.balance ?? 0, {
-                                        notation: 'compact',
-                                    })}
-                                </Box>
-                            </Tooltip>
-                        }
-                        isLoading={isLoading}
-                    />
-                </Grid>
+            {businessUnit !== BusinessUnit.BENGKEL && (
+                <Grid container mb={1} spacing={1.5}>
+                    <Grid
+                        display="flex"
+                        flexDirection="column"
+                        gap={1.5}
+                        size={{
+                            xs: 12,
+                            sm: 4,
+                        }}>
+                        <BigNumber
+                            title="Saldo Unit"
+                            primary={
+                                <Tooltip
+                                    title={numberToCurrency(data?.balance ?? 0)}
+                                    arrow
+                                    placement="top">
+                                    <Box component="span">
+                                        {numberToCurrency(data?.balance ?? 0, {
+                                            notation: 'compact',
+                                        })}
+                                    </Box>
+                                </Tooltip>
+                            }
+                            isLoading={isLoading}
+                        />
+                    </Grid>
 
-                <Grid
-                    size={{
-                        xs: 12,
-                        sm: 8,
-                    }}>
-                    <StatCard
-                        title="Saldo Keluar-Masuk — Bulanan"
-                        isLoading={isLoading}>
-                        <InOutLineChart data={data?.in_out_balance} />
-                    </StatCard>
+                    <Grid
+                        size={{
+                            xs: 12,
+                            sm: 8,
+                        }}>
+                        <StatCard
+                            title="Saldo Keluar-Masuk — Bulanan"
+                            isLoading={isLoading}>
+                            <InOutLineChart data={data?.in_out_balance} />
+                        </StatCard>
+                    </Grid>
                 </Grid>
-            </Grid>
+            )}
+
             <Datatable
                 title="Riwayat Transaksi"
                 tableId="transaction-datatable"
@@ -121,7 +124,7 @@ export default function UnitTxs({
                           )
                         : DATATABLE_COLUMNS
                 }
-                defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
+                defaultSortOrder={{ name: 'at', direction: 'desc' }}
                 getRowDataCallback={fn => (getRowDataRef.current = fn)}
                 mutateCallback={fn => (mutateRef.current = fn)}
             />
@@ -147,12 +150,15 @@ export default function UnitTxs({
                     component={UnitTxForm}
                 />
             </DialogWithTitle>
-            <Fab
-                onClick={() => setIsOpenDialog(true)}
-                disabled={isOpenDialog}
-                aria-label="Tambah transaksi">
-                <PaymentsIcon />
-            </Fab>
+
+            {businessUnit !== BusinessUnit.BENGKEL && (
+                <Fab
+                    onClick={() => setIsOpenDialog(true)}
+                    disabled={isOpenDialog}
+                    aria-label="Tambah transaksi">
+                    <PaymentsIcon />
+                </Fab>
+            )}
         </>
     )
 }
@@ -312,6 +318,10 @@ function getStatApiUrl(businessUnit: BusinessUnit) {
 
         case BusinessUnit.TBS:
             return 'palm-bunches/statistic-data'
+            break
+
+        case BusinessUnit.BENGKEL:
+            return null
             break
 
         default:
