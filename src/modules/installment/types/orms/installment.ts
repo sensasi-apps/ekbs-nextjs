@@ -5,6 +5,7 @@ import type RentItemRent from '@/types/orms/rent-item-rent'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import type InstallmentTnstallmentableClassname from '@/enums/installment-installemtable-classname'
+import type MinimalUser from '@/modules/user/types/minimal-user'
 
 export default interface InstallmentORM {
     uuid: UUID
@@ -27,4 +28,9 @@ export default interface InstallmentORM {
     user_loan?: UserLoanORM
     product_sale?: ProductSaleORM
     rent_item_rent?: RentItemRent
+
+    /**
+     * [🤌🏻]
+     */
+    creditor?: MinimalUser
 }

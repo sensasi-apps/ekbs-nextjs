@@ -19,6 +19,10 @@ export default function getInstallmentType({
         case 'App\\Models\\RentItemRent':
             theReturn = 'Sewa Alat Berat'
             break
+
+        case 'Modules\\RepairShop\\Models\\Sale':
+            theReturn = 'Belayan Spare Parts'
+            break
     }
 
     return (
