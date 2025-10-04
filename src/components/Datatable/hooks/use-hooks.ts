@@ -2,7 +2,15 @@
 import type { DataTableProps, DataTableState } from 'mui-datatable-delight'
 import type { DatatableProps } from '../@types'
 // vendors
-import { useEffect, useRef, useState } from 'react'
+import {
+    useEffect,
+    useRef,
+    useState,
+    type Dispatch,
+    type KeyboardEvent,
+    type RefObject,
+    type SetStateAction,
+} from 'react'
 import dayjs from 'dayjs'
 // hooks
 import useSwr from './use-swr'
@@ -69,37 +77,21 @@ export default function useHooks<T>(
         rowsPerPage,
         sortOrder: sortOrder,
         searchProps: {
-            onKeyUp: e => {
-                if (e.key === 'Enter') {
-                    setDatatableSentRequestParamJson(prev => {
-                        if ('value' in e.target === false) {
-                            return prev
-                        }
-
-                        const params = JSON.parse(prev ?? '{}')
-
-                        if (e.target.value === params.search.value) {
-                            return prev
-                        }
-
-                        params.search.value = e.target.value
-
-                        return JSON.stringify(params)
-                    })
+            onKeyUp: (ev: KeyboardEvent<HTMLInputElement>) => {
+                if (ev.key === 'Enter') {
+                    handleSearchChange(
+                        ev.currentTarget.value,
+                        lastDataTableState,
+                        setDatatableSentRequestParamJson,
+                    )
                 }
             },
-            onBlur: e => {
-                setDatatableSentRequestParamJson(prev => {
-                    const params = JSON.parse(prev ?? '{}')
-
-                    if (params.search.value === e.target.value) {
-                        return prev
-                    }
-
-                    params.search.value = e.target.value
-
-                    return JSON.stringify(params)
-                })
+            onBlur: ev => {
+                handleSearchChange(
+                    ev.currentTarget.value,
+                    lastDataTableState,
+                    setDatatableSentRequestParamJson,
+                )
             },
         },
         onTableChange: (action, tableState) => {
@@ -208,4 +200,34 @@ export default function useHooks<T>(
  */
 function estimateDownloadSizeInKB<T>(sampleData: T, count: number) {
     return (JSON.stringify(sampleData).length * 4 * count) / 1024
+}
+
+function handleSearchChange<T>(
+    value: string,
+    lastDataTableState: RefObject<DataTableState<T> | undefined>,
+    setDatatableSentRequestParamJson: Dispatch<
+        SetStateAction<string | undefined>
+    >,
+) {
+    setDatatableSentRequestParamJson(prev => {
+        const params = JSON.parse(prev ?? '{}')
+
+        if (value === params.search.value) {
+            return prev
+        }
+
+        if (!lastDataTableState?.current) {
+            throw new Error('Datatable state is not initialized')
+        }
+
+        const newState: DataTableState<T> = {
+            ...lastDataTableState.current,
+            page: 0,
+            searchText: value,
+        }
+
+        lastDataTableState.current = newState
+
+        return JSON.stringify(formatToDatatableParams(newState))
+    })
 }
