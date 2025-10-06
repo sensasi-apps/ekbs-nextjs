@@ -78,9 +78,9 @@ export default function useHooks<T>(
         sortOrder: sortOrder,
         searchProps: {
             onKeyUp: (ev: KeyboardEvent<HTMLInputElement>) => {
-                if (ev.key === 'Enter') {
+                if (ev.key === 'Enter' && 'value' in ev.target) {
                     handleSearchChange(
-                        ev.currentTarget.value,
+                        ev.target.value as string,
                         lastDataTableState,
                         setDatatableSentRequestParamJson,
                     )
