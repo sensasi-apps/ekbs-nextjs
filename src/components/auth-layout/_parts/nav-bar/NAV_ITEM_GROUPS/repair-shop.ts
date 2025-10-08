@@ -1,16 +1,13 @@
 import type NavItemGroup from '../types/nav-item-group'
 // icons
+import AllInbox from '@mui/icons-material/AllInbox'
 import TopicIcon from '@mui/icons-material/Topic'
 import CashIcon from '@mui/icons-material/AutoStories'
 import CartIcon from '@mui/icons-material/ShoppingCart'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import SavingsIcon from '@mui/icons-material/Savings'
 // enums
-import PurchasePermission from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/permission'
-import SparePartPermission from '@/modules/repair-shop/enums/permission'
-import ServicePermission from '@/app/(auth)/repair-shop/services/_parts/enums/permission'
-import SalePermission from '@/app/(auth)/repair-shop/sales/_parts/enums/permission'
-import Role from '@/enums/role'
+import Permission from '@/modules/repair-shop/enums/permission'
 
 export const repairShop: NavItemGroup = {
     label: 'Belayan Spare Parts',
@@ -25,42 +22,49 @@ export const repairShop: NavItemGroup = {
             label: 'Suku Cadang',
             href: '/repair-shop/spare-parts',
             icon: TopicIcon,
-            forPermission: SparePartPermission.READ,
+            forPermission: Permission.READ_SPARE_PART,
         },
 
         {
             label: 'Layanan',
             href: '/repair-shop/services',
             icon: TopicIcon,
-            forPermission: ServicePermission.READ,
+            forPermission: Permission.READ_SERVICE,
         },
 
         {
             label: 'Piutang',
             href: '/repair-shop/receivables',
             icon: SavingsIcon,
-            forPermission: SalePermission.READ,
+            forPermission: Permission.READ_RECEIVABLE,
         },
 
         {
             label: 'Pembelian Stok',
             href: '/repair-shop/spare-part-purchases',
             icon: CartIcon,
-            forPermission: PurchasePermission.READ,
+            forPermission: Permission.READ_PURCHASE,
         },
 
         {
             label: 'Penjualan',
             href: '/repair-shop/sales',
             icon: PointOfSaleIcon,
-            forPermission: SalePermission.READ,
+            forPermission: Permission.READ_SALE,
         },
 
         {
             label: 'Kas',
             href: '/repair-shop/cashes',
             icon: CashIcon,
-            forRole: Role.REPAIR_SHOP_MANAGER,
+            forPermission: Permission.READ_CASH,
+        },
+
+        {
+            label: 'Opname',
+            href: '/repair-shop/spare-part-qty-adjustments',
+            icon: AllInbox,
+            forPermission: Permission.READ_SPARE_PART_QTY_ADJUSTMENT,
         },
     ],
 }
