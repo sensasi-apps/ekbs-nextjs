@@ -8,11 +8,8 @@ import type PalmBunch from '@/enums/permissions/PalmBunch'
 import type Transaction from '@/enums/permissions/Transaction'
 import type UserLoan from '@/enums/permissions/UserLoan'
 import type Wallet from '@/enums/permissions/Wallet'
-// repair-shop features
-import type RepairShopPurchasePermission from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/permission'
-import type RepairShopSalePermission from '@/app/(auth)/repair-shop/sales/_parts/enums/permission'
-import type RepairShopSparePartPermission from '@/modules/repair-shop/enums/permission'
-import type RepairShopServicePermission from '@/app/(auth)/repair-shop/services/_parts/enums/permission'
+// modules
+import type RepairShop from '@/modules/repair-shop/enums/permission'
 
 export type Permission =
     | Cash
@@ -22,10 +19,7 @@ export type Permission =
     | HeavyEquipmentRent
     | Mart
     | PalmBunch
-    | RepairShopPurchasePermission
-    | RepairShopSalePermission
-    | RepairShopSparePartPermission
-    | RepairShopServicePermission
+    | RepairShop
     | Transaction
     | UserLoan
     | Wallet
