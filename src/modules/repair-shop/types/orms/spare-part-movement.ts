@@ -1,8 +1,9 @@
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type SparePartORM from '@/modules/repair-shop/types/orms/spare-part'
+import type HasUuidPk from '@/types/has-uuid-pk'
+import type UserORM from '@/modules/user/types/orms/user'
 
-export default interface SparePartMovementORM {
-    uuid: string
+export default interface SparePartMovementORM extends HasUuidPk {
     at: string
     finalized_at: string | null
     type: 'purchase' | 'sale' | 'return' | 'opname'
@@ -14,13 +15,27 @@ export default interface SparePartMovementORM {
 
     created_at: string
     updated_at: string
-
     state: SparePartORM
 
-    // relations
+    /**
+     * [🔗]
+     */
     transaction?: TransactionORM
+
+    /**
+     * [🔗]
+     */
     details: Detail[]
+
+    /**
+     * [🔗]
+     */
     costs: []
+
+    /**
+     * [🔗]
+     */
+    created_by_user?: UserORM
 }
 
 /**
@@ -64,7 +79,9 @@ interface Detail {
     /**
      * [💾]
      */
-    spare_part_state: SparePartORM | null
+    spare_part_state: SparePartORM & {
+        warehouses: SparePartORM['warehouses']
+    }
 
     /**
      * [💾]
