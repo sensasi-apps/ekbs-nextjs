@@ -7,7 +7,9 @@ import txAccounts from '@/modules/transaction/statics/tx-accounts'
 enum TransactionTag {
     // general
     ARISAN = 'Arisan',
-    BENGKEL = 'Bengkel',
+
+    // BENGKEL = 'Bengkel', it should be unused now since repair-shop module is deployed
+
     EXCAVATOR = 'Excavator',
     GAJIAN_TBS = 'Gajian TBS',
     KOREKSI = 'Koreksi',
@@ -31,6 +33,7 @@ enum TransactionTag {
     ANGSURAN_SAPRODI = 'Angsuran SAPRODI',
     ANGSURAN_ALAT_BERAT = 'Angsuran Alat Berat',
     ANGSURAN_SPP = 'Angsuran SPP',
+    ANGSURAN_BELAYAN_SPARE_PARTS = 'Angsuran Belayan Spare Parts',
 
     // its dynamic, generated on BE, not a good idea to hardcode it
     // POTONGAN_JASA_KOPERASI = 'Potongan Jasa Koperasi',
@@ -55,6 +58,10 @@ enum TransactionTag {
 
     // coffee
     PENDAPATAN_JASA_STAN_MAKANAN = 'Pendapatan Jasa Stan Makanan',
+
+    // repair shop
+
+    PENDAPATAN_JASA_PENCUCIAN = 'Pendapatan Jasa Pencucian',
 
     // ###################### COSTS
 

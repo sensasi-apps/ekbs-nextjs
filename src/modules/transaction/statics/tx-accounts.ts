@@ -60,6 +60,9 @@ const txAccounts: {
         // TransactionTag.BEBAN_PPH_BADAN_PERIODE_SEBELUMNYA,
 
         TransactionTag.BANK_INTEREST_TAX,
+
+        // repair shop
+        TransactionTag.PENDAPATAN_JASA_PENCUCIAN,
     ],
 }
 
