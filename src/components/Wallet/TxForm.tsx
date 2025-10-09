@@ -140,7 +140,7 @@ export default function WalletTxForm({
                 disabled={disabled}
                 options={[
                     TransactionTag.ARISAN,
-                    TransactionTag.BENGKEL,
+                    TransactionTag.ANGSURAN_BELAYAN_SPARE_PARTS,
                     TransactionTag.EXCAVATOR,
                     TransactionTag.GAJIAN_TBS,
                     TransactionTag.KOREKSI,
