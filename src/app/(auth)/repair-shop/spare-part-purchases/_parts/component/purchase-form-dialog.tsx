@@ -163,7 +163,8 @@ function LeftGrid({
                             name: 'cash_uuid',
                             value:
                                 values.transaction?.cashable_uuid ??
-                                values.cash_uuid,
+                                values.cash_uuid ??
+                                '',
                         }}
                         onValueChange={(value: CashType) =>
                             setFieldValue('cash_uuid', value.uuid)
