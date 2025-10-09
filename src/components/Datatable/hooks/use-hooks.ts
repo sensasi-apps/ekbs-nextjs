@@ -94,6 +94,13 @@ export default function useHooks<T>(
                 )
             },
         },
+        onSearchClose: () => {
+            handleSearchChange(
+                '',
+                lastDataTableState,
+                setDatatableSentRequestParamJson,
+            )
+        },
         onTableChange: (action, tableState) => {
             const newRequestParamsJson = JSON.stringify(
                 formatToDatatableParams(tableState),
