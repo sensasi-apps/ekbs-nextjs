@@ -167,6 +167,15 @@ const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
         },
     },
 
+    {
+        name: 'user_roles',
+        label: 'Peran',
+        options: {
+            display: false,
+            sort: false,
+        },
+    },
+
     // Transaction Date
     {
         name: 'at',
