@@ -1,4 +1,5 @@
 import type VehicleType from '../../enums/vehicle-type'
+import type SparePartWarehouseORM from './spare-part-warehouse'
 
 export default interface SparePartORM {
     id: number
@@ -14,21 +15,9 @@ export default interface SparePartORM {
     deleted_at: string
 
     // relations
-    warehouses: SparePartWarehouse[]
+    warehouses: SparePartWarehouseORM[]
 
     // accessor
     general_base_rp_per_unit: number
     total_qty: number
-}
-
-interface SparePartWarehouse {
-    id: number
-    spare_part_id: number
-    warehouse: string
-    qty: number
-    base_rp_per_unit: number
-    default_sell_price: number
-    low_number: number | null
-    margin_percent: number
-    installment_margin_percent: number
 }

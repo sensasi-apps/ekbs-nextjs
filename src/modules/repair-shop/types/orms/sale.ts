@@ -3,6 +3,7 @@ import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 import type SaleService from '@/modules/repair-shop/types/orms/sale-service'
 import type User from '@/modules/user/types/orms/user'
+import type SaleSparePartInstallmentMargin from './sale_spare_part_installment_margin'
 
 export type Sale = {
     /** [💾] */
@@ -51,11 +52,7 @@ export type Sale = {
     spare_part_movement?: SparePartMovement
 
     /** [🔗] */
-    spare_part_margins?: {
-        spare_part_warehouse_id: number
-        margin_percentage: number
-        margin_rp: number
-    }[]
+    spare_part_margins?: SaleSparePartInstallmentMargin[]
 
     /** [🔗] */
     created_by_user?: User
