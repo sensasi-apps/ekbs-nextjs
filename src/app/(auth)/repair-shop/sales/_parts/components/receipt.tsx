@@ -15,6 +15,7 @@ import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-
 import shortUuid from '@/utils/short-uuid'
 import type { ReactNode } from 'react'
 import ChipSmall from '@/components/ChipSmall'
+import type SaleSparePartInstallmentMargin from '@/modules/repair-shop/types/orms/sale_spare_part_installment_margin'
 
 export default function Receipt({ data }: { data: Sale }) {
     const totalRpSparePart =
@@ -25,12 +26,6 @@ export default function Receipt({ data }: { data: Sale }) {
 
     const totalRpService =
         data.sale_services?.reduce((acc, { rp }) => acc + (rp ?? 0), 0) ?? 0
-
-    const totalInstallmentRp =
-        data.spare_part_margins?.reduce(
-            (acc, { margin_rp }) => acc + margin_rp,
-            0,
-        ) ?? 0 * (data?.installment_parent?.n_term ?? 0)
 
     return (
         <Box
@@ -130,10 +125,15 @@ export default function Receipt({ data }: { data: Sale }) {
                             alignItems="center"
                             spacing={0.5}
                             mt={0.5}>
-                            {data.spare_part_movement.details.map(sparePart => (
+                            {data.spare_part_movement.details.map(detail => (
                                 <DetailItem
-                                    key={sparePart.id}
-                                    data={sparePart}
+                                    key={detail.id}
+                                    data={detail}
+                                    installmentMargin={data.spare_part_margins?.find(
+                                        margin =>
+                                            margin.spare_part_warehouse_id ===
+                                            detail.spare_part_warehouse_id,
+                                    )}
                                 />
                             ))}
                         </Grid>
@@ -141,17 +141,17 @@ export default function Receipt({ data }: { data: Sale }) {
                 )}
 
             <Grid container alignItems="center" mt={1}>
-                <RowGrids
-                    desc="Subtotal"
-                    value={totalRpSparePart + totalRpService}
-                />
-
                 {Boolean(data.adjustment_rp && data.adjustment_rp > 0) && (
-                    <RowGrids desc="Penyesuaian" value={data.adjustment_rp} />
-                )}
-
-                {totalInstallmentRp > 0 && (
-                    <RowGrids desc="Jasa Angsuran" value={totalInstallmentRp} />
+                    <>
+                        <RowGrids
+                            desc="Subtotal"
+                            value={totalRpSparePart + totalRpService}
+                        />
+                        <RowGrids
+                            desc="Penyesuaian"
+                            value={data.adjustment_rp}
+                        />
+                    </>
                 )}
 
                 <RowGrids desc="Total Akhir" value={data.final_rp} bold />
@@ -207,10 +207,27 @@ function RowGrids({
     )
 }
 
-function DetailItem({ data }: { data: SparePartMovement['details'][number] }) {
+function DetailItem({
+    data,
+    installmentMargin,
+}: {
+    data: SparePartMovement['details'][number]
+    installmentMargin: SaleSparePartInstallmentMargin | undefined
+}) {
     if (!data) return null
 
     const { spare_part_state, qty, rp_per_unit } = data
+    const { margin_percentage, margin_rp = 0 } = installmentMargin ?? {}
+
+    const qtyDisplay = `${formatNumber(-qty)} ${spare_part_state?.unit}`
+    const rpPerUnitDisplayBase = `RP ${formatNumber(rp_per_unit)}`
+
+    const rpPerUnitDisplay =
+        margin_percentage !== undefined
+            ? `(${rpPerUnitDisplayBase} + ${margin_percentage}%)`
+            : rpPerUnitDisplayBase
+
+    const subtotalDisplay = `${formatNumber(Math.ceil(-qty * (rp_per_unit + margin_rp)))}`
 
     return (
         <>
@@ -225,9 +242,9 @@ function DetailItem({ data }: { data: SparePartMovement['details'][number] }) {
                 <Typography
                     variant="caption"
                     component="div"
-                    lineHeight="unset">
-                    {formatNumber(Math.abs(qty ?? 0))} {spare_part_state?.unit}{' '}
-                    &times; RP {formatNumber(rp_per_unit ?? 0)}
+                    lineHeight="unset"
+                    fontSize="0.9em">
+                    {qtyDisplay} &times; {rpPerUnitDisplay}
                 </Typography>
             </Grid>
 
@@ -248,7 +265,7 @@ function DetailItem({ data }: { data: SparePartMovement['details'][number] }) {
                 component={Typography}
                 variant="overline"
                 lineHeight="unset">
-                {formatNumber(Math.abs(qty ?? 0) * (rp_per_unit ?? 0))}
+                {subtotalDisplay}
             </Grid>
         </>
     )
