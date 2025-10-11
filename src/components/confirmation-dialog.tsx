@@ -10,6 +10,7 @@ import DialogActions from '@mui/material/DialogActions'
 
 const ConfirmationDialog = memo(function ConfirmationDialog({
     color = 'warning',
+    loading,
     title,
     onConfirm,
     onCancel,
@@ -17,14 +18,7 @@ const ConfirmationDialog = memo(function ConfirmationDialog({
     confirmButtonProps,
     children,
     ...props
-}: {
-    color?: ButtonProps['color']
-    title: string
-    onConfirm: ButtonProps['onClick']
-    onCancel: () => void
-    cancelButtonProps?: ButtonProps
-    confirmButtonProps?: ButtonProps
-} & DialogProps) {
+}: ConfirmationDialogWithButtonProps) {
     return (
         <Dialog maxWidth="xs" fullWidth disableRestoreFocus {...props}>
             <DialogTitle
@@ -38,12 +32,18 @@ const ConfirmationDialog = memo(function ConfirmationDialog({
                 </DialogContent>
             )}
             <DialogActions>
-                <Button onClick={onCancel} color={color} {...cancelButtonProps}>
+                <Button
+                    color={color}
+                    loading={loading}
+                    onClick={onCancel}
+                    {...cancelButtonProps}>
                     Urungkan
                 </Button>
+
                 <Button
-                    onClick={onConfirm}
                     color={color}
+                    loading={loading}
+                    onClick={onConfirm}
                     variant="contained"
                     {...confirmButtonProps}>
                     Yakin
@@ -54,3 +54,13 @@ const ConfirmationDialog = memo(function ConfirmationDialog({
 })
 
 export default ConfirmationDialog
+
+interface ConfirmationDialogWithButtonProps extends DialogProps {
+    color?: ButtonProps['color']
+    loading?: ButtonProps['loading']
+    title: string
+    onConfirm: ButtonProps['onClick']
+    onCancel: () => void
+    cancelButtonProps?: ButtonProps
+    confirmButtonProps?: ButtonProps
+}

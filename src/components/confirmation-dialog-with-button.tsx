@@ -8,24 +8,20 @@ import Button, { type ButtonProps } from '@mui/material/Button'
 import ConfirmationDialog from './confirmation-dialog'
 
 export default function ConfirmationDialogWithButton({
-    shouldConfirm = true,
+    shouldConfirm,
     onConfirm,
     buttonProps,
     confirmButtonProps,
     ...props
-}: {
-    shouldConfirm: boolean
-    onConfirm: () => void
-    buttonProps?: ButtonProps
-    confirmButtonProps?: ButtonProps
-} & Omit<Parameters<typeof ConfirmationDialog>[0], 'open' | 'onCancel'>) {
+}: ConfirmationDialogWithButtonProps) {
     const [open, setOpen] = useState(false)
 
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
     const handleConfirm = () => {
-        handleClose()
         onConfirm()
+            ?.then(handleClose)
+            .catch(() => undefined)
     }
 
     return (
@@ -45,4 +41,20 @@ export default function ConfirmationDialogWithButton({
             />
         </>
     )
+}
+
+interface ConfirmationDialogWithButtonProps
+    extends Omit<
+        Parameters<typeof ConfirmationDialog>[0],
+        'open' | 'onCancel'
+    > {
+    /**
+     * If `false`, `onConfirm` will be called immediately and skipping dialog
+     */
+    shouldConfirm: boolean
+    onConfirm: () => void | Promise<unknown>
+    buttonProps?: Omit<ButtonProps, 'children'> & {
+        children: ButtonProps['children']
+    }
+    confirmButtonProps?: ButtonProps
 }
