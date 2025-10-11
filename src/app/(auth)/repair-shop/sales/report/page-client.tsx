@@ -10,14 +10,20 @@ import { AoaTable } from '@/components/aoa-table'
 import LoadingCenter from '@/components/loading-center'
 // modules
 import type { Sale } from '@/modules/repair-shop/types/orms/sale'
-import FilterInputs from './filter-inputs'
+import FilterInputs, {
+    DEFAULT_FROM_DATE,
+    DEFAULT_TILL_DATE,
+} from './filter-inputs'
 
 export default function PageClient() {
     const searchParams = useSearchParams()
 
-    const type = searchParams.get('type') ?? 'per-sale'
-    const from_date = searchParams.get('from_date')
-    const till_date = searchParams.get('till_date')
+    const type = (searchParams.get('type') ?? 'per-sale') as
+        | 'per-sale'
+        | 'per-payment-method'
+        | 'per-spare-part'
+    const from_date = searchParams.get('from_date') ?? DEFAULT_FROM_DATE
+    const till_date = searchParams.get('till_date') ?? DEFAULT_TILL_DATE
 
     const { data, isValidating } = useSWR<ApiResponse>([
         '/repair-shop/sales/get-sales-report-data',
@@ -35,7 +41,13 @@ export default function PageClient() {
     const headers =
         type === 'per-sale'
             ? ['KODE', 'SUBTOTAL']
-            : ['METODE PEMBAYARAN', 'JUMLAH', 'SUBTOTAL']
+            : [
+                  type === 'per-payment-method'
+                      ? 'METODE PEMBAYARAN'
+                      : 'SUKU CADANG',
+                  'JUMLAH',
+                  'SUBTOTAL',
+              ]
 
     const rows = data.map(row => {
         if (type === 'per-sale' && 'code' in row)
@@ -43,6 +55,9 @@ export default function PageClient() {
 
         if (type === 'per-payment-method' && 'payment_method' in row)
             return [row.payment_method, row.count, row.total_rp]
+
+        if (type === 'per-spare-part' && 'spare_part_name' in row)
+            return [row.spare_part_name, row.count, row.total_rp]
 
         return []
     })
@@ -88,6 +103,11 @@ type ApiResponse = ({
     | {
           // per-payment-method
           payment_method: Sale['payment_method']
+          count: number
+      }
+    | {
+          // per-spare-part
+          spare_part_name: string
           count: number
       }
 ))[]

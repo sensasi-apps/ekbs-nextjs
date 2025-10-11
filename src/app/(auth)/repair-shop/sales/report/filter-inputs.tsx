@@ -13,14 +13,19 @@ import DatePicker from '@/components/DatePicker'
 import FlexBox from '@/components/flex-box'
 import useSetSearch from '@/hooks/use-set-search-params'
 
-const DEFAULT_FROM_DATE = dayjs().startOf('month').format('YYYY-MM-DD')
-const DEFAULT_TILL_DATE = dayjs().format('YYYY-MM-DD')
+export const DEFAULT_FROM_DATE = dayjs().startOf('month').format('YYYY-MM-DD')
+export const DEFAULT_TILL_DATE = dayjs().format('YYYY-MM-DD')
 
 export default function FilterInputs() {
     const searchParams = useSearchParams()
     const setSearchParams = useSetSearch(searchParams)
 
-    const [type, setType] = useState(searchParams.get('type') ?? 'per-sale')
+    const [type, setType] = useState(
+        (searchParams.get('type') ?? 'per-sale') as
+            | 'per-sale'
+            | 'per-payment-method'
+            | 'per-spare-part',
+    )
     const [fromDate, setFromDate] = useState(
         searchParams.get('from_date') ?? DEFAULT_FROM_DATE,
     )
@@ -90,9 +95,17 @@ export default function FilterInputs() {
                         label="Metode Pembayaran"
                         onClick={() => setType('per-payment-method')}
                     />
+                    <Chip
+                        color={
+                            type === 'per-spare-part' ? 'success' : undefined
+                        }
+                        label="Suku Cadang"
+                        onClick={() => setType('per-spare-part')}
+                    />
                 </FlexBox>
 
                 <Button
+                    color="info"
                     onClick={handleSubmit}
                     size="small"
                     type="submit"
