@@ -1,16 +1,17 @@
 // vendors
-import { FastField, type FastFieldProps, type FormikProps } from 'formik'
-import dayjs from 'dayjs'
+
 // materials
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
+import dayjs from 'dayjs'
+import { FastField, type FastFieldProps, type FormikProps } from 'formik'
+import DatePicker from '@/components/DatePicker'
 // components
 import FormikForm from '@/components/formik-form'
-import type Payroll from '@/types/orms/payroll'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import DatePicker from '@/components/DatePicker'
+import type Payroll from '@/types/orms/payroll'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import ucWords from '@/utils/uc-words'
@@ -23,24 +24,23 @@ export default function FinancesPayrollsForm({
     const isDisabled = isSubmitting
     return (
         <FormikForm
-            id="product-purchase-form"
             autoComplete="off"
-            isNew={isNew}
             dirty={dirty}
+            id="product-purchase-form"
+            isNew={isNew}
             processing={isSubmitting}
-            submitting={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: isSubmitting || isDisabled,
                 },
-            }}>
-            <FastField name="at" label="Tanggal">
+            }}
+            submitting={isSubmitting}>
+            <FastField label="Tanggal" name="at">
                 {({
                     meta: { error, value },
                     form: { setFieldValue },
                 }: FastFieldProps) => (
                     <DatePicker
-                        value={value ? dayjs(value) : null}
                         disabled={isDisabled}
                         label="Tanggal"
                         onChange={date =>
@@ -54,29 +54,30 @@ export default function FinancesPayrollsForm({
                                 ...errorsToHelperTextObj(error),
                             },
                         }}
+                        value={value ? dayjs(value) : null}
                     />
                 )}
             </FastField>
 
             <FastField name="type">
                 {({ field }: FastFieldProps<string>) => (
-                    <FormControl fullWidth margin="dense" size="small" required>
+                    <FormControl fullWidth margin="dense" required size="small">
                         <InputLabel id="type-select-label">Jenis</InputLabel>
                         <Select
                             {...field}
-                            value={field.value || ''}
-                            required
-                            label="Jenis"
                             disabled={isDisabled}
+                            id="type-select"
+                            label="Jenis"
                             labelId="type-select-label"
-                            id="type-select">
+                            required
+                            value={field.value || ''}>
                             {[
                                 'pengelola',
                                 'pengurus',
                                 'pengawas',
                                 'pendiri',
                             ].map(type => (
-                                <MenuItem value={type} key={type}>
+                                <MenuItem key={type} value={type}>
                                     {ucWords(type)}
                                 </MenuItem>
                             ))}
@@ -86,12 +87,12 @@ export default function FinancesPayrollsForm({
             </FastField>
 
             <FastField
-                name="note"
-                label="Nama/Catatan"
-                disabled={isDisabled}
-                multiline
-                rows={3}
                 component={TextFieldFastableComponent}
+                disabled={isDisabled}
+                label="Nama/Catatan"
+                multiline
+                name="note"
+                rows={3}
             />
         </FormikForm>
     )

@@ -2,10 +2,10 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { memo } from 'react'
-// utils
-import toDmy from '@/utils/to-dmy'
 import type RentItemRent from '@/types/orms/rent-item-rent'
 import numberToCurrency from '@/utils/number-to-currency'
+// utils
+import toDmy from '@/utils/to-dmy'
 
 const HerTaskDetail = memo(function HerTaskDetail({
     data: {
@@ -30,7 +30,7 @@ const HerTaskDetail = memo(function HerTaskDetail({
               : 'Pelayanan Publik'
     return (
         <>
-            <Typography fontWeight="bold" component="div" gutterBottom>
+            <Typography component="div" fontWeight="bold" gutterBottom>
                 Rincian Tugas
             </Typography>
 
@@ -64,7 +64,7 @@ const HerTaskDetail = memo(function HerTaskDetail({
 export default HerTaskDetail
 
 const Row = ({ label, value }: { label: string; value: string | number }) => (
-    <Typography variant="body2" component="div" width="fit-content">
+    <Typography component="div" variant="body2" width="fit-content">
         {label}{' '}
         <Box component="span" ml={1}>
             : <b>{value}</b>

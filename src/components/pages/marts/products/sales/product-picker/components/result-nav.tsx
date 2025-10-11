@@ -1,14 +1,15 @@
 // vendors
-import { memo, useEffect, useState } from 'react'
-import dayjs, { extend } from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
+
+// icons-materials
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 // materials
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import dayjs, { extend } from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import { memo, useEffect, useState } from 'react'
 
 extend(relativeTime)
 
@@ -31,14 +32,14 @@ function ResultNav({
 
     return (
         <Box
-            display="flex"
             alignItems="center"
+            display="flex"
             justifyContent="space-between"
             sx={{
                 color: 'GrayText',
             }}>
-            <Box display="flex" alignItems="center" gap={1}>
-                <IconButton size="small" onClick={onPrev}>
+            <Box alignItems="center" display="flex" gap={1}>
+                <IconButton onClick={onPrev} size="small">
                     <ArrowBackIcon color="disabled" />
                 </IconButton>
 
@@ -46,7 +47,7 @@ function ResultNav({
                     {Math.min(currentSearchPageNo, maxPage)} / {maxPage}
                 </Typography>
 
-                <IconButton size="small" onClick={onNext}>
+                <IconButton onClick={onNext} size="small">
                     <ArrowForwardIcon color="disabled" />
                 </IconButton>
 

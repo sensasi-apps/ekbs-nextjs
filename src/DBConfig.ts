@@ -1,26 +1,26 @@
 const DBConfig: DBConfigType = {
     name: 'ekbsDB',
-    version: 1,
     objectStores: [
         {
-            name: 'formDataDrafts',
-            optionalParameters: {
-                keyPath: 'id',
-                autoIncrement: true,
-            },
             indexes: [
                 {
-                    name: 'modelName',
                     keyPath: 'modelName',
+                    name: 'modelName',
                 },
                 {
-                    name: 'nameId',
                     keyPath: ['modelName', 'nameId'],
+                    name: 'nameId',
                     options: { unique: true },
                 },
             ],
+            name: 'formDataDrafts',
+            optionalParameters: {
+                autoIncrement: true,
+                keyPath: 'id',
+            },
         },
     ],
+    version: 1,
 }
 
 export default DBConfig

@@ -1,5 +1,5 @@
-import MuiTableHead from '@mui/material/TableHead'
 import TableCell from '@mui/material/TableCell'
+import MuiTableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
 const LEFT_BORDER_STYLE = {

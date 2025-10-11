@@ -28,9 +28,9 @@ const withSerwist = withSerwistInit({
 
     reloadOnOnline: false,
 
-    swSrc: 'src/sw.ts',
-
     swDest: 'public/sw.js',
+
+    swSrc: 'src/sw.ts',
 })
 
 export default withSerwist

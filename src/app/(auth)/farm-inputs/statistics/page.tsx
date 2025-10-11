@@ -1,20 +1,20 @@
 'use client'
 
-// vendors
-import useSWR from 'swr'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
-// components
-import BigNumber from '@/components/StatCard/BigNumber'
-import StatCard from '@/components/StatCard'
+// vendors
+import useSWR from 'swr'
 import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 import PageTitle from '@/components/page-title'
 // page components
 import SaprodiSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Saprodi'
+import StatCard from '@/components/StatCard'
+// components
+import BigNumber from '@/components/StatCard/BigNumber'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 
@@ -32,20 +32,20 @@ export default function FarmInputsStatistics() {
 
             <Grid container mb={1} spacing={1.5}>
                 <Grid
-                    size={{
-                        xs: 12,
-                        sm: 4,
-                    }}
                     display="flex"
                     flexDirection="column"
-                    gap={1.5}>
+                    gap={1.5}
+                    size={{
+                        sm: 4,
+                        xs: 12,
+                    }}>
                     <BigNumber
-                        title="Saldo Unit"
+                        isLoading={isLoading}
                         primary={
                             <Tooltip
-                                title={numberToCurrency(data?.balance ?? 0)}
                                 arrow
-                                placement="top">
+                                placement="top"
+                                title={numberToCurrency(data?.balance ?? 0)}>
                                 <Box component="span">
                                     {numberToCurrency(data?.balance ?? 0, {
                                         notation: 'compact',
@@ -53,17 +53,16 @@ export default function FarmInputsStatistics() {
                                 </Box>
                             </Tooltip>
                         }
-                        isLoading={isLoading}
+                        title="Saldo Unit"
                     />
 
                     <BigNumber
-                        title="Piutang"
                         isLoading={isLoading}
                         primary={
                             <Tooltip
-                                title={numberToCurrency(data?.receivable ?? 0)}
                                 arrow
-                                placement="top">
+                                placement="top"
+                                title={numberToCurrency(data?.receivable ?? 0)}>
                                 <Box component="span">
                                     {numberToCurrency(data?.receivable ?? 0, {
                                         notation: 'compact',
@@ -73,11 +72,11 @@ export default function FarmInputsStatistics() {
                         }
                         secondary={
                             <Tooltip
+                                arrow
+                                placement="top"
                                 title={`Lewat Jatuh Tempo: ${numberToCurrency(
                                     data?.receivable_pass_due ?? 0,
-                                )}`}
-                                arrow
-                                placement="top">
+                                )}`}>
                                 <Box color="error.main" component="span">
                                     {numberToCurrency(
                                         data?.receivable_pass_due ?? 0,
@@ -88,17 +87,18 @@ export default function FarmInputsStatistics() {
                                 </Box>
                             </Tooltip>
                         }
+                        title="Piutang"
                     />
                 </Grid>
 
                 <Grid
                     size={{
-                        xs: 12,
                         sm: 8,
+                        xs: 12,
                     }}>
                     <StatCard
-                        title="Saldo Keluar-Masuk — Bulanan"
-                        isLoading={isLoading}>
+                        isLoading={isLoading}
+                        title="Saldo Keluar-Masuk — Bulanan">
                         <InOutLineChart data={data?.in_out_balance} />
                     </StatCard>
                 </Grid>

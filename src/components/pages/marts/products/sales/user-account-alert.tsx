@@ -1,11 +1,11 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
 // materials
 import Alert from '@mui/material/Alert'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
+// vendors
+import { useState } from 'react'
 //
 import blinkSxValue from '@/utils/blink-sx-value'
 
@@ -15,17 +15,17 @@ export function UserAccountAlert() {
     return (
         <Fade in={showWarning} unmountOnExit>
             <Alert
-                severity="warning"
-                variant="outlined"
                 onClose={() => setShowWarning(false)}
+                severity="warning"
                 sx={{
                     mx: 4,
-                }}>
+                }}
+                variant="outlined">
                 <Typography
                     component="div"
-                    variant="caption"
                     fontWeight="bold"
-                    sx={blinkSxValue}>
+                    sx={blinkSxValue}
+                    variant="caption">
                     Peringatan
                 </Typography>
 

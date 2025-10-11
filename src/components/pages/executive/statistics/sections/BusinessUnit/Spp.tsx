@@ -1,13 +1,14 @@
 // vendors
-import { memo } from 'react'
-import useSWR from 'swr'
+
 // materials
 import Grid from '@mui/material/Grid'
-// components
-import StatCard from '@/components/StatCard'
+import { memo } from 'react'
+import useSWR from 'swr'
 import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
+// components
+import StatCard from '@/components/StatCard'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 
@@ -20,12 +21,12 @@ const SppSubsection = memo(function SppSubsection() {
     return (
         <Grid container spacing={1.5}>
             <Grid
-                size={{ xs: 12 }}
                 id="pencairan-pengembalian"
+                size={{ xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard
-                    title="Pencairan-Pengembalian — Bulanan"
-                    isLoading={isLoading}>
+                    isLoading={isLoading}
+                    title="Pencairan-Pengembalian — Bulanan">
                     <InOutLineChart
                         currency
                         data={data?.disburse_collect_monthly_total}
@@ -36,12 +37,12 @@ const SppSubsection = memo(function SppSubsection() {
             </Grid>
 
             <Grid
-                size={{ xs: 12 }}
                 id="jasa-berdasarkan-bulan-pinjam"
+                size={{ xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard
-                    title="Jasa berdasarkan bulan pinjam"
-                    isLoading={isLoading}>
+                    isLoading={isLoading}
+                    title="Jasa berdasarkan bulan pinjam">
                     <InOutLineChart
                         currency
                         data={data?.diff_monthly_total_based_on_proposed_at}

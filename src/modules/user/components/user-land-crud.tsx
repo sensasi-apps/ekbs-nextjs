@@ -1,7 +1,6 @@
+import AddIcon from '@mui/icons-material/Add'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-
-import AddIcon from '@mui/icons-material/Add'
 
 import LandsView from '@/modules/user/components/land-list'
 import UserLandFormDialogWithUseContexts from '@/modules/user/components/user-land-form/dialog-with-contexts'
@@ -20,11 +19,11 @@ function InnerComponent() {
 
             <Box mt={2}>
                 <Button
-                    variant="outlined"
                     color="info"
+                    onClick={handleCreate}
                     size="small"
                     startIcon={<AddIcon />}
-                    onClick={handleCreate}>
+                    variant="outlined">
                     Tambah Kebun
                 </Button>
             </Box>

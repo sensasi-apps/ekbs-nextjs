@@ -1,11 +1,9 @@
 // types
-import type { FieldArrayRenderProps, FormikErrors } from 'formik'
-import type ProductType from '@/modules/farm-inputs/types/orms/product'
-import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
-// vendors
-import { useState } from 'react'
-import axios from '@/lib/axios'
-import useSWR from 'swr'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Grid from '@mui/material/Grid'
@@ -14,18 +12,21 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
+import type { FieldArrayRenderProps, FormikErrors } from 'formik'
+// vendors
+import { useState } from 'react'
+import useSWR from 'swr'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 // components
 import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextField from '@/components/TextField'
+import axios from '@/lib/axios'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import { type FormValuesType } from '../Form'
 
 const calculatePrice = (qty?: number, subtotal?: number) => {
@@ -66,32 +67,31 @@ export default function ProductMovementDetailArrayField({
 
     return (
         <>
-            <Typography variant="h6" component="div" mt={2} mb={0.5}>
+            <Typography component="div" mb={0.5} mt={2} variant="h6">
                 Daftar Barang
-                <Tooltip placement="top" arrow title="Tambah">
+                <Tooltip arrow placement="top" title="Tambah">
                     <span>
                         <IconButton
-                            disabled={disabled}
                             color="success"
-                            size="small"
+                            disabled={disabled}
                             onClick={() => {
                                 push({})
                                 setSubtotals([...subtotals, undefined])
                                 setRpCosts([...rpCosts, undefined])
-                            }}>
+                            }}
+                            size="small">
                             <AddCircleIcon />
                         </IconButton>
                     </span>
                 </Tooltip>
                 <Tooltip
-                    placement="top"
                     arrow
+                    placement="top"
                     title="Isi biaya lain secara otomatis">
                     <span>
                         <IconButton
-                            disabled={disabled}
                             color="warning"
-                            size="small"
+                            disabled={disabled}
                             onClick={() => {
                                 const rpCosts: number[] = []
 
@@ -111,7 +111,8 @@ export default function ProductMovementDetailArrayField({
                                 )
 
                                 setRpCosts(rpCosts)
-                            }}>
+                            }}
+                            size="small">
                             <AutoFixHighIcon />
                         </IconButton>
                     </span>
@@ -120,26 +121,25 @@ export default function ProductMovementDetailArrayField({
 
             {product_movement_details.map((row, index) => (
                 <Grid
-                    key={index}
-                    container
-                    columnSpacing={1.5}
                     alignItems="center"
+                    columnSpacing={1.5}
+                    container
+                    key={index}
                     sx={{
                         mb: {
-                            xs: 1.5,
                             sm: 'initial',
+                            xs: 1.5,
                         },
                     }}>
                     <Grid
-                        size={{ xs: 2, sm: 1 }}
                         alignSelf="center"
+                        size={{ sm: 1, xs: 2 }}
                         textAlign="center">
-                        <Tooltip placement="top" arrow title="Hapus">
+                        <Tooltip arrow placement="top" title="Hapus">
                             <span>
                                 <IconButton
-                                    disabled={index === 0 || disabled}
                                     color="error"
-                                    size="small"
+                                    disabled={index === 0 || disabled}
                                     onClick={() => {
                                         remove(index)
                                         setSubtotals(
@@ -152,7 +152,8 @@ export default function ProductMovementDetailArrayField({
                                                 (_, i) => i !== index,
                                             ),
                                         )
-                                    }}>
+                                    }}
+                                    size="small">
                                     <RemoveCircleIcon />
                                 </IconButton>
                             </span>
@@ -162,13 +163,11 @@ export default function ProductMovementDetailArrayField({
                     {/* QTY */}
                     <Grid
                         size={{
-                            xs: 10,
                             sm: 1.5,
+                            xs: 10,
                         }}>
                         <NumericFormat
-                            min="1"
                             disabled={disabled}
-                            label="Jumlah"
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -176,18 +175,20 @@ export default function ProductMovementDetailArrayField({
                                     </InputAdornment>
                                 ),
                             }}
+                            label="Jumlah"
+                            min="1"
                             onValueChange={({ floatValue }) =>
                                 debounce(() =>
                                     replace(index, {
                                         ...row,
                                         qty: floatValue,
+                                        rp_cost_per_unit:
+                                            (rpCosts[index] ?? 1) /
+                                            (floatValue ?? 1),
                                         rp_per_unit: calculatePrice(
                                             floatValue,
                                             subtotals[index],
                                         ),
-                                        rp_cost_per_unit:
-                                            (rpCosts[index] ?? 1) /
-                                            (floatValue ?? 1),
                                     }),
                                 )
                             }
@@ -202,29 +203,28 @@ export default function ProductMovementDetailArrayField({
                     {/* PRODUCTS */}
                     <Grid
                         size={{
-                            xs: 12,
                             sm: 2.5,
+                            xs: 12,
                         }}>
                         {isLoading ? (
                             <Skeleton variant="rounded" />
                         ) : (
                             <Autocomplete
-                                isOptionEqualToValue={(option, value) =>
-                                    option.id === value.id
-                                }
-                                options={products}
                                 disabled={disabled}
                                 getOptionLabel={({ name, code }) =>
                                     `${code ? `${code} - ` : ''}${name}`
                                 }
-                                value={row.product ?? row.product_state ?? null}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.id === value.id
+                                }
                                 onChange={(_, product) =>
                                     replace(index, {
                                         ...row,
-                                        product_id: product?.id,
                                         product,
+                                        product_id: product?.id,
                                     })
                                 }
+                                options={products}
                                 renderInput={params => (
                                     <TextField
                                         {...params}
@@ -238,6 +238,7 @@ export default function ProductMovementDetailArrayField({
                                         )}
                                     />
                                 )}
+                                value={row.product ?? row.product_state ?? null}
                             />
                         )}
                     </Grid>
@@ -245,16 +246,13 @@ export default function ProductMovementDetailArrayField({
                     {/* PRICE */}
                     <Grid
                         size={{
-                            xs: 12,
                             sm: 2.5,
+                            xs: 12,
                         }}>
                         <NumericFormat
                             decimalScale={4}
-                            min="1"
                             disabled={true}
-                            label="Harga Satuan"
                             InputProps={{
-                                startAdornment: <RpInputAdornment />,
                                 endAdornment: (
                                     <InputAdornment
                                         position="end"
@@ -266,7 +264,10 @@ export default function ProductMovementDetailArrayField({
                                             : ''}
                                     </InputAdornment>
                                 ),
+                                startAdornment: <RpInputAdornment />,
                             }}
+                            label="Harga Satuan"
+                            min="1"
                             value={row.rp_per_unit || ''}
                             {...errorsToHelperTextObj(
                                 // @ts-expect-error formix errors can't accomodate laravel 422 errors
@@ -280,18 +281,17 @@ export default function ProductMovementDetailArrayField({
                     {/* SUBTOTAL */}
                     <Grid
                         size={{
-                            xs: 12,
                             sm: 2.5,
+                            xs: 12,
                         }}>
                         <NumericFormat
-                            min="1"
                             disabled={disabled}
-                            label="Subtotal"
-                            name="subtotal"
                             InputProps={{
                                 startAdornment: <RpInputAdornment />,
                             }}
-                            value={subtotals[index] ?? ''}
+                            label="Subtotal"
+                            min="1"
+                            name="subtotal"
                             onValueChange={({ floatValue }) =>
                                 debounce(() => {
                                     setSubtotals(old => {
@@ -311,6 +311,7 @@ export default function ProductMovementDetailArrayField({
                                     })
                                 })
                             }
+                            value={subtotals[index] ?? ''}
                             {...errorsToHelperTextObj(
                                 // @ts-expect-error formix errors can't accomodate laravel 422 errors
                                 errors[
@@ -323,18 +324,17 @@ export default function ProductMovementDetailArrayField({
                     {/* OTHER COST */}
                     <Grid
                         size={{
-                            xs: 12,
                             sm: 2,
+                            xs: 12,
                         }}>
                         <NumericFormat
                             decimalScale={4}
-                            min="1"
                             disabled={disabled}
-                            label="Biaya Lain"
                             InputProps={{
                                 startAdornment: <RpInputAdornment />,
                             }}
-                            value={rpCosts[index] ?? ''}
+                            label="Biaya Lain"
+                            min="1"
                             onValueChange={({ floatValue }) => {
                                 setRpCosts(old => {
                                     const rpCosts = [...old]
@@ -354,6 +354,7 @@ export default function ProductMovementDetailArrayField({
                                     }),
                                 )
                             }}
+                            value={rpCosts[index] ?? ''}
                             {...errorsToHelperTextObj(
                                 // @ts-expect-error formix errors can't accomodate laravel 422 errors
                                 errors[

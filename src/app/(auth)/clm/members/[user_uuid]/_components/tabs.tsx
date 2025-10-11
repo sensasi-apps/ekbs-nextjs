@@ -1,23 +1,23 @@
 'use client'
 
-// vendors
-import { useState, type SyntheticEvent } from 'react'
-import NextLink from 'next/link'
+// material-labs
+import TabContext from '@mui/lab/TabContext'
+import TabList from '@mui/lab/TabList'
+import TabPanel from '@mui/lab/TabPanel'
 // materials
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import MuiTab from '@mui/material/Tab'
-// material-labs
-import TabContext from '@mui/lab/TabContext'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
+import NextLink from 'next/link'
+// vendors
+import { type SyntheticEvent, useState } from 'react'
 // components
 import Fab from '@/components/Fab'
+import UserOrLandRequisiteCard from '@/modules/clm/components/user-or-land-requisite-card'
+import LandCard from './tabs.land-card'
 // modules
 import type { ClmMemberDetailResponse } from './use-member-detail-swr'
-import LandCard from './tabs.land-card'
-import UserOrLandRequisiteCard from '@/modules/clm/components/user-or-land-requisite-card'
 
 export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
     const [value, setValue] = useState('1')
@@ -36,22 +36,22 @@ export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
                     </TabList>
                 </Box>
 
-                <TabPanel value="1" sx={{ px: 0 }}>
+                <TabPanel sx={{ px: 0 }} value="1">
                     {data.requisite_users_with_default.map(requisiteUser => (
                         <UserOrLandRequisiteCard
+                            data={requisiteUser}
                             key={
                                 requisiteUser.uuid ?? requisiteUser.requisite_id
                             }
-                            data={requisiteUser}
                         />
                     ))}
                 </TabPanel>
 
-                <TabPanel value="2" sx={{ px: 0 }}>
+                <TabPanel sx={{ px: 0 }} value="2">
                     <Fab
-                        title="Tambah Lahan"
-                        href={`${data.user.uuid}/lands/create`}
                         component={NextLink}
+                        href={`${data.user.uuid}/lands/create`}
+                        title="Tambah Lahan"
                     />
 
                     <Grid container spacing={2}>

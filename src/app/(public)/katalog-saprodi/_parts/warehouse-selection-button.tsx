@@ -1,12 +1,12 @@
 'use client'
 
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
 // materials
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
 // enums
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 
@@ -22,9 +22,9 @@ export default function WarehouseSelectionButton() {
             <ToggleButtonGroup
                 aria-labelledby="gudang-buttons-group-label"
                 color="primary"
-                value={warehouse}
                 exclusive
-                onChange={(_, value) => replace(`?warehouse=${value}`)}>
+                onChange={(_, value) => replace(`?warehouse=${value}`)}
+                value={warehouse}>
                 {Object.values(Warehouse).map((warehouse, i) => (
                     <ToggleButton key={i} value={warehouse}>
                         {warehouse}

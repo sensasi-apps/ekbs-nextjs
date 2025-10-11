@@ -18,13 +18,13 @@ export default function HelpLayout({
             <Grid container spacing={4}>
                 <Grid
                     size={{
-                        xs: 0,
                         md: 3,
+                        xs: 0,
                     }}></Grid>
                 <Grid
                     size={{
-                        xs: 12,
                         md: 9,
+                        xs: 12,
                     }}>
                     {children}
                 </Grid>

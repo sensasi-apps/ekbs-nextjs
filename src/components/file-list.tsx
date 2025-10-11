@@ -1,18 +1,19 @@
 // materials
+
+import DescriptionIcon from '@mui/icons-material/Description'
+import ImageIcon from '@mui/icons-material/Image'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
+// icons
+import SearchIcon from '@mui/icons-material/Search'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-// icons
-import SearchIcon from '@mui/icons-material/Search'
-import DescriptionIcon from '@mui/icons-material/Description'
-import ImageIcon from '@mui/icons-material/Image'
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 //
 import type FileORM from '@/types/orms/file'
 import FileListDeleteButton from './file-list.delete-button'
@@ -40,8 +41,8 @@ export default function FileList({
                             <Box display="flex" gap={1}>
                                 <Tooltip title="Lihat">
                                     <IconButton
-                                        edge="end"
                                         aria-label="lihat"
+                                        edge="end"
                                         href={
                                             '/files/' +
                                             file.uuid +
@@ -79,8 +80,8 @@ export default function FileList({
                             }
                             secondary={
                                 <Typography
-                                    variant="caption"
-                                    color="textSecondary">
+                                    color="textSecondary"
+                                    variant="caption">
                                     {file.mime}
                                 </Typography>
                             }

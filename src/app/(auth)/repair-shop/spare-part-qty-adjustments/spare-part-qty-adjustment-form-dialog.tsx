@@ -1,19 +1,20 @@
 // vendors
-import type { UUID } from 'crypto'
-import { Formik, type FormikProps } from 'formik'
-import axios from '@/lib/axios'
+
 // materials
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-// utils
-import handle422 from '@/utils/handle-422'
+import type { UUID } from 'crypto'
+import { Formik, type FormikProps } from 'formik'
 // formik
 import DateField from '@/components/formik-fields/date-field'
-import FormikForm from '@/components/formik-form-v2'
 import TextField from '@/components/formik-fields/text-field'
+import FormikForm from '@/components/formik-form-v2'
+import axios from '@/lib/axios'
 // modules
 import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-part-movement'
+// utils
+import handle422 from '@/utils/handle-422'
 
 export default function SparePartQtyAdjustmentFormDialog({
     formValues,
@@ -27,7 +28,7 @@ export default function SparePartQtyAdjustmentFormDialog({
     onClose: () => void
 }) {
     return (
-        <Dialog maxWidth="xs" disableRestoreFocus open={Boolean(formValues)}>
+        <Dialog disableRestoreFocus maxWidth="xs" open={Boolean(formValues)}>
             <DialogTitle>
                 {(selectedRow?.uuid === undefined ? 'Tambah' : 'Perbaharui') +
                     ' Data Opname Suku Cadang'}
@@ -35,8 +36,10 @@ export default function SparePartQtyAdjustmentFormDialog({
 
             <DialogContent>
                 <Formik
-                    initialValues={formValues ?? {}}
+                    component={Form}
                     initialStatus={selectedRow}
+                    initialValues={formValues ?? {}}
+                    onReset={onClose}
                     onSubmit={(values, { setErrors }) =>
                         (selectedRow?.uuid
                             ? axios.put(
@@ -53,8 +56,6 @@ export default function SparePartQtyAdjustmentFormDialog({
                             .then(res => onSubmitted(res.data))
                             .catch(error => handle422(error, setErrors))
                     }
-                    onReset={onClose}
-                    component={Form}
                 />
             </DialogContent>
         </Dialog>
@@ -78,21 +79,21 @@ function Form({
             )} */}
 
             <DateField
-                name="at"
-                label="Tanggal"
-                disabled
                 datePickerProps={{
                     format: 'YYYY-MM-DD HH:mm',
                 }}
+                disabled
+                label="Tanggal"
+                name="at"
             />
 
             <TextField
-                name="note"
                 label="Catatan"
+                name="note"
                 textFieldProps={{
-                    required: false,
-                    multiline: true,
                     minRows: 2,
+                    multiline: true,
+                    required: false,
                 }}
             />
         </FormikForm>

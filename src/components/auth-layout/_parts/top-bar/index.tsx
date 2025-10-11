@@ -10,7 +10,7 @@ import TopBarNavbarToggleButton from './_parts/toggle-button'
 
 export default function TopBar() {
     return (
-        <AppBar position="relative" color="success">
+        <AppBar color="success" position="relative">
             <Toolbar
                 sx={{
                     display: 'flex',
@@ -18,7 +18,7 @@ export default function TopBar() {
                 }}>
                 <TopBarNavbarToggleButton />
 
-                <Box display="flex" alignItems="center" gap={1}>
+                <Box alignItems="center" display="flex" gap={1}>
                     <NoInternetIndicator />
                     <AccountButton />
                 </Box>

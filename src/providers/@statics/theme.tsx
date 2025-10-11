@@ -4,10 +4,8 @@ import { createTheme } from '@mui/material/styles'
 import Link from 'next/link'
 
 const THEME = createTheme({
-    cssVariables: {
-        colorSchemeSelector: 'class',
-    },
     colorSchemes: {
+        dark: true,
         light: {
             palette: {
                 background: {
@@ -15,19 +13,21 @@ const THEME = createTheme({
                 },
             },
         },
-        dark: true,
     },
     components: {
-        MuiLink: {
-            defaultProps: {
-                component: Link,
-            },
-        },
         MuiButtonBase: {
             defaultProps: {
                 LinkComponent: Link,
             },
         },
+        MuiLink: {
+            defaultProps: {
+                component: Link,
+            },
+        },
+    },
+    cssVariables: {
+        colorSchemeSelector: 'class',
     },
     typography: {
         fontFamily: 'var(--font-roboto)',

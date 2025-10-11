@@ -2,17 +2,17 @@
 
 // vendors
 import * as Sentry from '@sentry/nextjs'
-import { useEffect } from 'react'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-// components
-import type AuthInfo from '@/modules/user/types/auth-info'
-import NAV_ITEM_GROUPS from '@/components/auth-layout/_parts/nav-bar/NAV_ITEM_GROUPS'
+import { useEffect } from 'react'
 import ErrorMessageView from '@/app/(auth)/_parts/error-message-view'
+import NAV_ITEM_GROUPS from '@/components/auth-layout/_parts/nav-bar/NAV_ITEM_GROUPS'
 import LoadingCenter from '@/components/loading-center'
+import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import { isUserHasPermission } from '@/hooks/use-is-auth-has-permission'
 import { isUserHasRole } from '@/hooks/use-is-auth-has-role'
-import useAuthInfo from '@/hooks/use-auth-info'
+// components
+import type AuthInfo from '@/modules/user/types/auth-info'
 
 const EXCLUDE_PATHS = ['/policy', '/logout']
 

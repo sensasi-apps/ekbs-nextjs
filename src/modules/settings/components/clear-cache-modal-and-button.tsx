@@ -1,9 +1,9 @@
 'use client'
 
-// vendors
-import { useSWRConfig } from 'swr'
 // icons
 import CachedIcon from '@mui/icons-material/Cached'
+// vendors
+import { useSWRConfig } from 'swr'
 // components
 import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 
@@ -23,15 +23,15 @@ export default function ClearCacheModalAndButton() {
 
     return (
         <ConfirmationDialogWithButton
-            shouldConfirm
-            onConfirm={handleClearCache}
-            title="Konfirmasi Bersihkan Cache"
             buttonProps={{
-                color: 'success',
                 children: 'Bersihkan Cache',
+                color: 'success',
                 startIcon: <CachedIcon />,
                 variant: 'outlined',
-            }}>
+            }}
+            onConfirm={handleClearCache}
+            shouldConfirm
+            title="Konfirmasi Bersihkan Cache">
             Apakah Anda yakin ingin membersihkan cache aplikasi?
         </ConfirmationDialogWithButton>
     )

@@ -1,16 +1,16 @@
+import CameraAltIcon from '@mui/icons-material/CameraAlt'
+// icons
+import ImageIcon from '@mui/icons-material/Image'
 import type { BoxProps } from '@mui/material/Box'
-import type FileFromDb from '@/types/orms/file'
-// vendors
-import { useEffect, useState, type ChangeEvent } from 'react'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
-// icons
-import ImageIcon from '@mui/icons-material/Image'
-import CameraAltIcon from '@mui/icons-material/CameraAlt'
+import Typography from '@mui/material/Typography'
+// vendors
+import { type ChangeEvent, useEffect, useState } from 'react'
+import type FileFromDb from '@/types/orms/file'
 import ImageButtonAndModal from './ImageButtonAndModal'
 
 export default function ImageInput({
@@ -36,23 +36,23 @@ export default function ImageInput({
         <Box mb={1} sx={sx}>
             {label && <Typography variant="subtitle2">{label}</Typography>}
 
-            <Box mt={1} mb={0.5}>
+            <Box mb={0.5} mt={1}>
                 <ImageRenderer
-                    file={selectedImage ?? value}
                     alt={label}
                     disabled={disabled}
+                    file={selectedImage ?? value}
                 />
             </Box>
 
             <MainInput
-                error={error}
                 disabled={disabled}
-                value={value}
-                name={name}
-                selectedImage={selectedImage}
+                error={error}
                 helperText={helperText}
-                onChange={handleImageChange}
+                name={name}
                 onCancel={() => setSelectedImage(undefined)}
+                onChange={handleImageChange}
+                selectedImage={selectedImage}
+                value={value}
             />
         </Box>
     )
@@ -69,7 +69,7 @@ function ImageRenderer({
 }) {
     if (!file) return null
 
-    return <ImageButtonAndModal file={file} alt={alt} disabled={disabled} />
+    return <ImageButtonAndModal alt={alt} disabled={disabled} file={file} />
 }
 
 function MainInput({
@@ -90,7 +90,7 @@ function MainInput({
     }, [])
 
     return (
-        <FormControl fullWidth error={error}>
+        <FormControl error={error} fullWidth>
             <Box display="flex" justifyContent="space-between">
                 <Box display="flex" gap={2}>
                     <Button
@@ -101,11 +101,11 @@ function MainInput({
                             ? 'Ganti Pilihan'
                             : 'Pilih file'}
                         <input
-                            type="file"
-                            hidden
                             accept="image/*"
+                            hidden
                             name={name}
                             onChange={onChange}
+                            type="file"
                         />
                     </Button>
 
@@ -116,12 +116,12 @@ function MainInput({
                             startIcon={<CameraAltIcon />}>
                             Buka Kamera
                             <input
-                                type="file"
-                                hidden
                                 accept="image/*"
                                 capture="user"
+                                hidden
                                 name={name + '_capture'}
                                 onChange={onChange}
+                                type="file"
                             />
                         </Button>
                     )}

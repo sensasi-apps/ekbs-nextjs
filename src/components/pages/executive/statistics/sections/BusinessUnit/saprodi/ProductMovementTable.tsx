@@ -1,15 +1,16 @@
 // types
-import type Product from '@/modules/farm-inputs/types/orms/product'
-// vendors
-import { memo } from 'react'
-// materials
-import TableContainer from '@mui/material/TableContainer'
+
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
+// materials
+import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+// vendors
+import { memo } from 'react'
+import type Product from '@/modules/farm-inputs/types/orms/product'
 // utils
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
@@ -55,8 +56,8 @@ const ProductMovementTable = memo(function ProductMovementTable({
                             Bulan
                         </TableCell>
                         <TableCell
-                            rowSpan={2}
                             colSpan={5}
+                            rowSpan={2}
                             sx={LEFT_BORDER_STYLE}>
                             Stok Akhir
                         </TableCell>
@@ -74,10 +75,10 @@ const ProductMovementTable = memo(function ProductMovementTable({
                     <TableRow>
                         {monthLabels.map((_, i) => (
                             <MasukKeluarCell
-                                key={i}
                                 in="Masuk"
-                                out="Keluar"
+                                key={i}
                                 leftBorder={i === 0}
+                                out="Keluar"
                             />
                         ))}
                         <TableCell sx={LEFT_BORDER_STYLE}>Jumlah</TableCell>
@@ -94,7 +95,7 @@ const ProductMovementTable = memo(function ProductMovementTable({
                 <TableBody>
                     {!data && (
                         <TableRow>
-                            <TableCell colSpan={7} align="center">
+                            <TableCell align="center" colSpan={7}>
                                 <i>Tidak ada data</i>
                             </TableCell>
                         </TableRow>
@@ -118,9 +119,9 @@ const ProductMovementTable = memo(function ProductMovementTable({
 
                                 return (
                                     <MasukKeluarCell
+                                        in={movement?.in ?? 0}
                                         key={label_value}
                                         leftBorder={i === 0}
-                                        in={movement?.in ?? 0}
                                         out={movement?.out ?? 0}
                                     />
                                 )
@@ -140,7 +141,7 @@ const ProductMovementTable = memo(function ProductMovementTable({
                                         (row.base_cost_rp_per_unit ?? 0),
                                 )}
                             </TableCell>
-                            <TableCell sx={LEFT_BORDER_STYLE} align="right">
+                            <TableCell align="right" sx={LEFT_BORDER_STYLE}>
                                 {roundedCurrencyFormat(row.default_sell_price)}
                             </TableCell>
                             <TableCell align="right">
@@ -169,9 +170,9 @@ const ProductMovementTable = memo(function ProductMovementTable({
                             )}
                         </TableCell>
                         <TableCell
+                            align="right"
                             colSpan={2}
-                            sx={LEFT_BORDER_STYLE}
-                            align="right">
+                            sx={LEFT_BORDER_STYLE}>
                             {roundedCurrencyFormat(
                                 data?.reduce(
                                     (a, b) =>

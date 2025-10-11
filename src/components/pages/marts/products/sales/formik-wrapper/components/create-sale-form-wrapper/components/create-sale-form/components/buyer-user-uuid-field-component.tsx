@@ -1,10 +1,19 @@
 'use client'
 
+// icons-materials
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import CloseIcon from '@mui/icons-material/Close'
+// materials
+import Autocomplete from '@mui/material/Autocomplete'
+import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
+import type { FieldProps } from 'formik'
 // vendors
 import {
     Children,
-    cloneElement,
     type ComponentType,
+    cloneElement,
     forwardRef,
     type HTMLAttributes,
     isValidElement,
@@ -13,23 +22,14 @@ import {
     type ReactNode,
     useState,
 } from 'react'
-import type { FieldProps } from 'formik'
-import useSWR from 'swr'
-// materials
-import Autocomplete from '@mui/material/Autocomplete'
-import Box from '@mui/material/Box'
-import Fade from '@mui/material/Fade'
-import IconButton from '@mui/material/IconButton'
-// icons-materials
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import CloseIcon from '@mui/icons-material/Close'
-//
-import type User from '@/modules/user/types/orms/user'
-import type { FormikStatusType } from '../../../../..'
-import TextField from '@/components/TextField'
 // icons
 import { List, type ListRowProps } from 'react-virtualized'
+import useSWR from 'swr'
+import TextField from '@/components/TextField'
+//
+import type User from '@/modules/user/types/orms/user'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import type { FormikStatusType } from '../../../../..'
 
 type UserSelectItemData = {
     id: User['id']
@@ -48,17 +48,17 @@ function BuyerUserUuidFieldComponent({
     return (
         <>
             <IconButton
-                size="small"
                 color={show ? undefined : 'success'}
-                disableRipple
                 disabled={isSubmitting || typedStatus?.isDisabled}
-                sx={{
-                    p: 0,
-                }}
+                disableRipple
                 onClick={() => {
                     setFieldValue('buyer_user_uuid', undefined)
                     setFieldValue('buyer_user', undefined)
                     setShow(prev => !prev)
+                }}
+                size="small"
+                sx={{
+                    p: 0,
                 }}>
                 {show ? (
                     <CloseIcon fontSize="small" />
@@ -71,10 +71,10 @@ function BuyerUserUuidFieldComponent({
                 <Box width="100%">
                     <VirtualizedAutocomplete
                         disabled={isSubmitting || !!typedStatus?.isDisabled}
-                        setFieldValue={setFieldValue}
-                        required={show}
-                        value={value}
                         error={errors.buyer_user_uuid as string}
+                        required={show}
+                        setFieldValue={setFieldValue}
+                        value={value}
                     />
                 </Box>
             </Fade>
@@ -107,14 +107,8 @@ function VirtualizedAutocomplete({
 
     return (
         <Autocomplete
-            disableListWrap
-            getOptionLabel={({ name, id }) => `#${id} • ${name}`}
-            onChange={(_, value) => {
-                setFieldValue('buyer_user_uuid', value?.uuid)
-                setFieldValue('buyer_user', value)
-            }}
             disabled={disabled}
-            value={value ?? null}
+            disableListWrap
             filterOptions={(options, { inputValue }) => {
                 if (!inputValue || inputValue.length <= 3) {
                     return []
@@ -126,22 +120,28 @@ function VirtualizedAutocomplete({
                         .includes(inputValue.toLowerCase()),
                 )
             }}
+            getOptionLabel={({ name, id }) => `#${id} • ${name}`}
             ListboxComponent={
                 ListboxComponent as ComponentType<HTMLAttributes<HTMLElement>>
             }
+            onChange={(_, value) => {
+                setFieldValue('buyer_user_uuid', value?.uuid)
+                setFieldValue('buyer_user', value)
+            }}
             options={users}
             renderInput={params => (
                 <TextField
                     {...params}
-                    required={required}
-                    variant="outlined"
-                    label="Cari pelanggan"
-                    size="small"
-                    margin="none"
                     fullWidth
+                    label="Cari pelanggan"
+                    margin="none"
+                    required={required}
+                    size="small"
+                    variant="outlined"
                     {...errorsToHelperTextObj(error)}
                 />
             )}
+            value={value ?? null}
         />
     )
 }
@@ -164,10 +164,10 @@ const ListboxComponent = forwardRef<HTMLDivElement, ListboxComponentProps>(
                 <div {...other}>
                     <List
                         height={Math.min(listHeight, 250)}
-                        width={350}
-                        rowHeight={itemSize}
                         overscanCount={5}
+                        role={role}
                         rowCount={itemCount}
+                        rowHeight={itemSize}
                         rowRenderer={(listRowProps: ListRowProps) => {
                             if (isValidElement(items[listRowProps.index])) {
                                 return cloneElement(items[listRowProps.index], {
@@ -177,7 +177,7 @@ const ListboxComponent = forwardRef<HTMLDivElement, ListboxComponentProps>(
                             }
                             return null
                         }}
-                        role={role}
+                        width={350}
                     />
                 </div>
             </div>

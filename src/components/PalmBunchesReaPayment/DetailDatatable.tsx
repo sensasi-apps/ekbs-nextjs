@@ -1,18 +1,19 @@
 // types
-import type { UUID } from 'crypto'
+
 // vendors
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
+import type { UUID } from 'crypto'
 // components
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 // enums
 import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'
+import formatNumber from '@/utils/format-number'
 // utils
 import toDmy from '@/utils/to-dmy'
-import formatNumber from '@/utils/format-number'
 
 export default function PalmBuncesReaPaymentDetailDatatableModal({
     uuid,
@@ -28,15 +29,13 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
     onClose: () => unknown
 }) {
     return (
-        <Dialog open={open} onClose={onClose} fullScreen>
+        <Dialog fullScreen onClose={onClose} open={open}>
             <DialogContent
                 sx={{
                     p: 0,
                 }}>
                 {uuid && (
                     <Datatable
-                        title={title}
-                        tableId="PalmBunchReaPaymentDetailDatatable"
                         apiUrl={ApiUrlEnum.REA_PAYMENT_DETAIL_DATATABLE.replace(
                             '$1',
                             uuid,
@@ -46,13 +45,15 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
                         }}
                         columns={DATATABLE_COLUMNS}
                         defaultSortOrder={{
-                            name: 'wb_ticket_no',
                             direction: 'asc',
+                            name: 'wb_ticket_no',
                         }}
+                        tableId="PalmBunchReaPaymentDetailDatatable"
+                        title={title}
                     />
                 )}
             </DialogContent>
-            <Button fullWidth onClick={onClose} color="warning">
+            <Button color="warning" fullWidth onClick={onClose}>
                 <DialogActions
                     sx={{
                         p: 0,
@@ -66,113 +67,113 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
 
 const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
-        name: 'weighting_at',
         label: 'Weighting Date',
+        name: 'weighting_at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'wb_ticket_no',
         label: 'WB Ticket',
+        name: 'wb_ticket_no',
     },
     {
-        name: 'vehicle_no',
         label: 'Vehicle NO',
+        name: 'vehicle_no',
     },
     {
-        name: 'ticket_no',
         label: 'Tiket',
+        name: 'ticket_no',
     },
     {
-        name: 'farmer_name',
         label: 'Farmer Name',
+        name: 'farmer_name',
     },
 
     {
-        name: 'gross_bunches',
         label: 'Graded Bunch',
+        name: 'gross_bunches',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
+        label: 'Mill Weight',
         name: 'gross_kg',
-        label: 'Mill Weight',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
+        label: 'Deduction',
         name: 'deduction_kg',
-        label: 'Deduction',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
+        label: 'Incentive',
         name: 'incentive_kg',
-        label: 'Incentive',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
+        label: 'Net Weight',
         name: 'net_kg',
-        label: 'Net Weight',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'price_rp',
         label: 'Harga',
+        name: 'price_rp',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'gross_rp',
         label: 'Mill Weight',
+        name: 'gross_rp',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'deduction_rp',
         label: 'Deduction',
+        name: 'deduction_rp',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'incentive_rp',
         label: 'Incentive',
+        name: 'incentive_rp',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'net_rp',
         label: 'Net Weight',
+        name: 'net_rp',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'status',
         label: 'Keterangan',
+        name: 'status',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender: (value: string) => (
                 <Typography
                     color={value === 'Lunas' ? 'success.main' : 'warning.main'}
-                    variant="body2"
-                    component="span">
+                    component="span"
+                    variant="body2">
                     {value}
                 </Typography>
             ),
+            searchable: false,
+            sort: false,
         },
     },
 ]

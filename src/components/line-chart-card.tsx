@@ -13,9 +13,9 @@ export default function LineChartCard({
 
     return (
         <StatCard
-            title={title}
             collapsible={collapsible}
-            color={isHigherThanPrevious ? 'success' : 'error'}>
+            color={isHigherThanPrevious ? 'success' : 'error'}
+            title={title}>
             <LineChart
                 {...rest}
                 data={data}

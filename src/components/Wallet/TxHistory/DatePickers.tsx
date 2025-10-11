@@ -1,17 +1,18 @@
 // types
-import type { Dayjs } from 'dayjs'
+
+import Badge from '@mui/material/Badge'
 import type { DatePickerProps } from '@mui/x-date-pickers'
-import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/date-string'
-// vendors
-import { type Dispatch, type SetStateAction, useMemo, useState } from 'react'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
 // materials
 import { PickersDay } from '@mui/x-date-pickers'
-import Badge from '@mui/material/Badge'
+import type { UUID } from 'crypto'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
+// vendors
+import { type Dispatch, type SetStateAction, useMemo, useState } from 'react'
+import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
+import type { Ymd } from '@/types/date-string'
 
 type YearlyTxDates = { [key: number]: Ymd[] }
 
@@ -54,6 +55,15 @@ export default function DatePickers({
     const datePickersSharedProps: DatePickerProps<Dayjs> = useMemo(
         () => ({
             disabled: disabled,
+            onMonthChange: date => setYearCursor(date.year()),
+            onYearChange: date => setYearCursor(date.year()),
+            slotProps: {
+                textField: {
+                    fullWidth: true,
+                    margin: 'none',
+                    size: 'small',
+                },
+            },
             slots: {
                 day: ({ day, outsideCurrentMonth, ...rest }) => {
                     const isSelected =
@@ -64,29 +74,20 @@ export default function DatePickers({
 
                     return (
                         <Badge
-                            key={day.toString()}
                             color="success"
+                            invisible={!isSelected}
+                            key={day.toString()}
                             overlap="circular"
-                            variant="dot"
-                            invisible={!isSelected}>
+                            variant="dot">
                             <PickersDay
                                 {...rest}
-                                outsideCurrentMonth={outsideCurrentMonth}
                                 day={day}
+                                outsideCurrentMonth={outsideCurrentMonth}
                             />
                         </Badge>
                     )
                 },
             },
-            slotProps: {
-                textField: {
-                    margin: 'none',
-                    size: 'small',
-                    fullWidth: true,
-                },
-            },
-            onYearChange: date => setYearCursor(date.year()),
-            onMonthChange: date => setYearCursor(date.year()),
         }),
         [disabled, yearlyTxDates],
     )
@@ -96,25 +97,25 @@ export default function DatePickers({
             <DatePicker
                 {...datePickersSharedProps}
                 label="Dari"
-                value={fromDate}
-                minDate={MINIMUM_DATE}
                 maxDate={toDate}
+                minDate={MINIMUM_DATE}
                 onChange={(date, { validationError }) =>
                     validationError
                         ? null
                         : setFromDate(date ?? DEFAULT_START_DATE)
                 }
+                value={fromDate}
             />
 
             <DatePicker
                 {...datePickersSharedProps}
                 label="Hingga"
-                value={toDate}
-                minDate={fromDate}
                 maxDate={DEFAULT_END_DATE}
+                minDate={fromDate}
                 onChange={(date, { validationError }) =>
                     validationError ? null : setToDate(date ?? DEFAULT_END_DATE)
                 }
+                value={toDate}
             />
         </>
     )

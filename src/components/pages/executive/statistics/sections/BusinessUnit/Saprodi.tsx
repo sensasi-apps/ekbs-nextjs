@@ -1,32 +1,33 @@
 // vendors
-import { memo, useState } from 'react'
-import useSWR from 'swr'
-import dayjs, { Dayjs } from 'dayjs'
+
+// icons
+import RefreshIcon from '@mui/icons-material/Refresh'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
-// icons
-import RefreshIcon from '@mui/icons-material/Refresh'
+import dayjs, { Dayjs } from 'dayjs'
+import { memo, useState } from 'react'
+import useSWR from 'swr'
 // components
 import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
+import DatePicker from '@/components/DatePicker'
+import IconButton from '@/components/IconButton'
+import ScrollableXBox from '@/components/ScrollableXBox'
 import StatCard from '@/components/StatCard'
+// constants
+import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
+import DynamicProductMovementTable, {
+    type DynamicProductMovementTableProp,
+} from './saprodi/DynamicProductMovementTable'
 // page components
 import ProductMovementTable, {
     type ProductMovementTableProp,
 } from './saprodi/ProductMovementTable'
-import ScrollableXBox from '@/components/ScrollableXBox'
-import DatePicker from '@/components/DatePicker'
-import DynamicProductMovementTable, {
-    type DynamicProductMovementTableProp,
-} from './saprodi/DynamicProductMovementTable'
-import IconButton from '@/components/IconButton'
-// constants
-import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 
 const SaprodiSubsection = memo(function SaprodiSubsection() {
     const { data, isLoading } = useSWR<{
@@ -37,12 +38,12 @@ const SaprodiSubsection = memo(function SaprodiSubsection() {
     return (
         <Grid container spacing={1.5}>
             <Grid
-                size={{ xs: 12 }}
                 id="penjualan-pembelian"
+                size={{ xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard
-                    title="Penjualan-Pembelian — Bulanan"
-                    isLoading={isLoading}>
+                    isLoading={isLoading}
+                    title="Penjualan-Pembelian — Bulanan">
                     <InOutLineChart
                         data={data?.sale_purchase_monthly_total}
                         inboundAlias="Penjualan"
@@ -52,12 +53,12 @@ const SaprodiSubsection = memo(function SaprodiSubsection() {
             </Grid>
 
             <Grid
-                size={{ xs: 12 }}
                 id="barang-keluar-masuk"
+                size={{ xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <ProductMovementTableStatCard
-                    isLoading={isLoading}
                     data={data?.product_movements}
+                    isLoading={isLoading}
                 />
             </Grid>
         </Grid>
@@ -109,37 +110,37 @@ const ProductMovementTableStatCard = memo(
 
         return (
             <StatCard
-                title="Barang Keluar-Masuk — Bulanan"
-                isLoading={isLoading}>
+                isLoading={isLoading}
+                title="Barang Keluar-Masuk — Bulanan">
                 <ScrollableXBox>
                     <Chip
-                        label="12 Bulan"
-                        size="small"
                         color={
                             selectedPeriod === '12 bulan'
                                 ? 'success'
                                 : undefined
                         }
+                        label="12 Bulan"
                         onClick={
                             selectedPeriod === '12 bulan'
                                 ? undefined
                                 : () => setSelectedPeriod('12 bulan')
                         }
+                        size="small"
                     />
 
                     <Chip
-                        label="Periode Tertentu"
-                        size="small"
                         color={
                             selectedPeriod === 'periode tertentu'
                                 ? 'success'
                                 : undefined
                         }
+                        label="Periode Tertentu"
                         onClick={
                             selectedPeriod === 'periode tertentu'
                                 ? undefined
                                 : () => setSelectedPeriod('periode tertentu')
                         }
+                        size="small"
                     />
                 </ScrollableXBox>
 
@@ -147,43 +148,42 @@ const ProductMovementTableStatCard = memo(
                     <span>
                         <ScrollableXBox mt={2}>
                             <DatePicker
-                                value={from}
                                 disabled={
                                     isLoading ||
                                     periodDataIsLoading ||
                                     isValidating
                                 }
+                                label="Awal"
                                 maxDate={till}
                                 minDate={dayjs('2023-12-31')}
-                                label="Awal"
                                 onChange={date =>
                                     date ? setFrom(date) : undefined
                                 }
+                                value={from}
                             />
 
                             <DatePicker
-                                value={till}
                                 disabled={
                                     isLoading ||
                                     periodDataIsLoading ||
                                     isValidating
                                 }
-                                minDate={from}
-                                maxDate={END_OF_CURR_MONTH}
                                 label="Akhir"
+                                maxDate={END_OF_CURR_MONTH}
+                                minDate={from}
                                 onChange={date =>
                                     date ? setTill(date) : undefined
                                 }
+                                value={till}
                             />
 
                             <IconButton
-                                title="Segarkan"
-                                icon={RefreshIcon}
                                 disabled={
                                     isLoading ||
                                     periodDataIsLoading ||
                                     isValidating
                                 }
+                                icon={RefreshIcon}
                                 onClick={() =>
                                     setSwrParams(prev => {
                                         const newParams = {
@@ -202,6 +202,7 @@ const ProductMovementTableStatCard = memo(
                                         return newParams
                                     })
                                 }
+                                title="Segarkan"
                             />
                         </ScrollableXBox>
 

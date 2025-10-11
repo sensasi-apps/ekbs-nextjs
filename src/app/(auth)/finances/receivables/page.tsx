@@ -1,7 +1,7 @@
 // materials
-import Button from '@mui/material/Button'
 
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify'
+import Button from '@mui/material/Button'
 // components
 import PageTitle from '@/components/page-title'
 import ReceivablesDatatable from '@/components/ReceivablesDatatable'
@@ -17,8 +17,8 @@ export default function Receivables() {
 
             <Button
                 href="/finances/receivables/report"
-                startIcon={<FormatAlignJustifyIcon />}
                 size="small"
+                startIcon={<FormatAlignJustifyIcon />}
                 sx={{
                     mb: 2,
                 }}>

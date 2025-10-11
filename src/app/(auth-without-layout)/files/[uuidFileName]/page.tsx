@@ -1,10 +1,10 @@
 'use client'
 
-import myAxios from '@/lib/axios'
 import type { AxiosError } from 'axios'
 import { useParams } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
+import myAxios from '@/lib/axios'
 
 export default function Page() {
     const { uuidFileName } = useParams<{ uuidFileName: string }>()
@@ -38,8 +38,8 @@ export default function Page() {
     return (
         <iframe
             src={objectUrl}
+            style={{ height: '100svh', width: '100%' }}
             title="PDF Viewer"
-            style={{ width: '100%', height: '100svh' }}
         />
     )
 }

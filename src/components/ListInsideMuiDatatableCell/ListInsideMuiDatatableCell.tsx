@@ -1,8 +1,9 @@
 // vendors
-import type { ReactNode } from 'react'
+
 import type { BoxProps } from '@mui/material/Box'
 // materials
 import Box from '@mui/material/Box'
+import type { ReactNode } from 'react'
 
 export default function ListInsideMuiDatatableCell<T>({
     listItems,
@@ -23,9 +24,9 @@ export default function ListInsideMuiDatatableCell<T>({
     return (
         <Box
             component="ul"
+            lineHeight="unset"
             margin={0}
             paddingLeft="1em"
-            lineHeight="unset"
             whiteSpace="nowrap"
             {...list}>
             {listItems.map((item, index) => (

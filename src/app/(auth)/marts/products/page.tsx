@@ -5,7 +5,7 @@ import PageClient from './page-client'
 export default function Page() {
     return (
         <>
-            <PageTitle title="Daftar Produk" subtitle="Belayan Mart" />
+            <PageTitle subtitle="Belayan Mart" title="Daftar Produk" />
 
             <PageClient />
         </>

@@ -1,12 +1,7 @@
 'use client'
 
-// types
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
-import Link from 'next/link'
+// icons
+import RefreshIcon from '@mui/icons-material/Refresh'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -18,23 +13,28 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-// icons
-import RefreshIcon from '@mui/icons-material/Refresh'
+import dayjs from 'dayjs'
+import Link from 'next/link'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
 // components
 import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
-import InfoBox from '@/components/InfoBox'
 import IconButton from '@/components/IconButton'
+import InfoBox from '@/components/InfoBox'
 import LoadingCenter from '@/components/loading-center'
-import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/PrintHandler'
+import PageTitle from '@/components/page-title'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import ScrollToTopFab from '@/components/ScrollToTopFab'
+// types
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
+import formatNumber from '@/utils/format-number'
+import getInstallmentType from '@/utils/get-installment-type'
 // utils
 import toDmy from '@/utils/to-dmy'
-import getInstallmentType from '@/utils/get-installment-type'
-import formatNumber from '@/utils/format-number'
 
 export default function ReceivableReport() {
     const searchParams = useSearchParams()
@@ -48,9 +48,9 @@ export default function ReceivableReport() {
     const { data, mutate, isLoading, isValidating } = useSWR<ApiResponseType>([
         'receivables/report',
         {
-            year: selectedDate.format('YYYY'),
             month: selectedDate.format('MM'),
             type: query.type,
+            year: selectedDate.format('YYYY'),
         },
     ])
 
@@ -67,9 +67,9 @@ export default function ReceivableReport() {
                     <MonthPicker />
 
                     <IconButton
-                        title="Refresh"
                         icon={RefreshIcon}
                         onClick={() => mutate()}
+                        title="Refresh"
                     />
                 </ScrollableXBox>
 
@@ -83,9 +83,9 @@ export default function ReceivableReport() {
                             },
                         }}>
                         <Typography
+                            align="center"
                             component="h6"
                             fontSize="1.2rem"
-                            align="center"
                             lineHeight={1.2}
                             mb={2}>
                             Laporan Angsuran{' '}
@@ -118,7 +118,7 @@ function MainTables({ data }: { data: ApiResponseType }) {
     return (
         <div>
             <Box mb={2}>
-                <Typography variant="h6" component="h2">
+                <Typography component="h2" variant="h6">
                     Angsuran Lunas
                 </Typography>
                 <InfoBox
@@ -144,7 +144,7 @@ function MainTables({ data }: { data: ApiResponseType }) {
             <InstallmentTable data={paidInstallments} />
 
             <Box mb={2} mt={4}>
-                <Typography variant="h6" component="h2">
+                <Typography component="h2" variant="h6">
                     Angsuran Lainnya
                 </Typography>
                 <InfoBox
@@ -245,12 +245,10 @@ function MonthPicker() {
     return (
         <>
             <DatePicker
-                label="Jatuh Tempo"
-                openTo="month"
                 format="MMMM YYYY"
-                value={value}
-                minDate={dayjs('2023-10-01')}
+                label="Jatuh Tempo"
                 maxDate={dayjs().startOf('month')}
+                minDate={dayjs('2023-10-01')}
                 onAccept={date => {
                     if (!date) return
 
@@ -259,23 +257,25 @@ function MonthPicker() {
 
                     replace(`?year=${year}&month=${month}`)
                 }}
-                views={['year', 'month']}
-                sx={{
-                    maxWidth: 300,
-                }}
+                openTo="month"
                 slotProps={{
                     textField: {
                         fullWidth: false,
                     },
                 }}
+                sx={{
+                    maxWidth: 300,
+                }}
+                value={value}
+                views={['year', 'month']}
             />
         </>
     )
 }
 
 const CHIP_DEFAULT_PROPS = {
-    size: 'small',
     component: Link,
+    size: 'small',
 } as const
 
 function TypeFilterChips() {
@@ -286,31 +286,31 @@ function TypeFilterChips() {
         <ScrollableXBox>
             <Chip
                 {...CHIP_DEFAULT_PROPS}
-                label="Semua"
-                href="?type="
                 clickable={Boolean(type)}
                 color={type ? undefined : 'success'}
+                href="?type="
+                label="Semua"
             />
             <Chip
                 {...CHIP_DEFAULT_PROPS}
-                label="Penjualan Produk (SAPRODI)"
-                href="?type=product-sale"
                 clickable={type !== 'product-sale'}
                 color={type === 'product-sale' ? 'success' : undefined}
+                href="?type=product-sale"
+                label="Penjualan Produk (SAPRODI)"
             />
             <Chip
                 {...CHIP_DEFAULT_PROPS}
-                label="Pinjaman (SPP)"
-                href="?type=user-loan"
                 clickable={type !== 'user-loan'}
                 color={type === 'user-loan' ? 'success' : undefined}
+                href="?type=user-loan"
+                label="Pinjaman (SPP)"
             />
             <Chip
                 {...CHIP_DEFAULT_PROPS}
-                label="Sewa Alat Berat"
-                href="?type=rent-item-rent"
                 clickable={type !== 'rent-item-rent'}
                 color={type === 'rent-item-rent' ? 'success' : undefined}
+                href="?type=rent-item-rent"
+                label="Sewa Alat Berat"
             />
         </ScrollableXBox>
     )

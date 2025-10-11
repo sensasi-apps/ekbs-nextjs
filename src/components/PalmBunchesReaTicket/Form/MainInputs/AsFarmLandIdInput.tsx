@@ -1,8 +1,8 @@
-import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
+import TextField from '@mui/material/TextField'
 
 import { type FC, useEffect, useState } from 'react'
 import { PatternFormat } from 'react-number-format'
-import TextField from '@mui/material/TextField'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // providers
 import useFormData from '@/providers/useFormData'
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
@@ -31,26 +31,20 @@ const AsFarmLandIdInput: FC<{
     return (
         <>
             <input
-                type="hidden"
                 name="as_farm_land_id"
+                type="hidden"
                 value={asFarmLandId ?? ''}
             />
 
             <PatternFormat
-                format="#### ####"
                 customInput={TextField}
                 disabled={disabled}
+                error={Boolean(validationErrors.as_farm_land_id)}
+                format="#### ####"
                 fullWidth
-                required
-                margin="dense"
+                helperText={validationErrors.as_farm_land_id}
                 label="Land ID"
-                size="small"
-                onValueChange={values => {
-                    clearByName('as_farm_land_id')
-                    setAsFarmLandId(values.value)
-
-                    tempValue = values.value
-                }}
+                margin="dense"
                 onBlur={() =>
                     data.id
                         ? null
@@ -59,9 +53,15 @@ const AsFarmLandIdInput: FC<{
                               as_farm_land_id: tempValue,
                           })
                 }
+                onValueChange={values => {
+                    clearByName('as_farm_land_id')
+                    setAsFarmLandId(values.value)
+
+                    tempValue = values.value
+                }}
+                required
+                size="small"
                 value={asFarmLandId}
-                error={Boolean(validationErrors.as_farm_land_id)}
-                helperText={validationErrors.as_farm_land_id}
             />
         </>
     )

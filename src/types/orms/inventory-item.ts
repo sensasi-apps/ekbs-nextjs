@@ -1,8 +1,8 @@
 import type { UUID } from 'crypto'
 import type UserORM from '@/modules/user/types/orms/user'
 import type { Ymd } from '@/types/date-string'
-import type Tag from './tag'
 import type RentItem from './rent-item'
+import type Tag from './tag'
 
 export default interface InventoryItemORM {
     uuid: UUID

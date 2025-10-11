@@ -1,15 +1,15 @@
+// materials
+import Chip from '@mui/material/Chip'
 import type { UUID } from 'crypto'
-import type UserType from '@/modules/user/types/orms/user'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
-// materials
-import Chip from '@mui/material/Chip'
+import LineChart from '@/components/Chart/Line/Line'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
-import LineChart from '@/components/Chart/Line/Line'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import StatCard from '@/components/StatCard'
+import type UserType from '@/modules/user/types/orms/user'
 // etc
 
 export default function TbsPerformanceChart({
@@ -30,8 +30,8 @@ export default function TbsPerformanceChart({
         <FlexColumnBox>
             <ScrollableXBox>
                 <Chip
-                    label="12 Hari Terakhir"
                     color={isDailyData ? 'success' : undefined}
+                    label="12 Hari Terakhir"
                     onClick={
                         isDailyData
                             ? undefined
@@ -39,8 +39,8 @@ export default function TbsPerformanceChart({
                     }
                 />
                 <Chip
-                    label="12 Minggu Terakhir"
                     color={isWeeklyData ? 'success' : undefined}
+                    label="12 Minggu Terakhir"
                     onClick={
                         isWeeklyData
                             ? undefined
@@ -48,8 +48,8 @@ export default function TbsPerformanceChart({
                     }
                 />
                 <Chip
-                    label="12 Bulan Terakhir"
                     color={isMonthlyData ? 'success' : undefined}
+                    label="12 Bulan Terakhir"
                     onClick={
                         isMonthlyData
                             ? undefined
@@ -89,42 +89,42 @@ function PalmBunchWeightChart({ userUuid }: { userUuid: UUID }) {
     const { data, isLoading } = useSWR([
         `palm-bunches/farmer/performances/${userUuid}`,
         {
-            nData: nData,
             dataUnit: dataUnit,
+            nData: nData,
         },
     ])
 
     return (
-        <StatCard title="Bobot TBS" isLoading={isLoading}>
+        <StatCard isLoading={isLoading} title="Bobot TBS">
             <LineChart
-                suffix="kg"
                 data={data}
+                lines={[
+                    {
+                        dataKey: 'n_kg',
+                        name: 'Bobot',
+                        stroke: 'var(--mui-palette-primary-main)',
+                        type: 'monotone',
+                    },
+                    {
+                        dataKey: 'deduction_kg',
+                        name: 'Potongan',
+                        stroke: 'var(--mui-palette-error-main)',
+                        type: 'monotone',
+                    },
+                    {
+                        dataKey: 'incentive_kg',
+                        name: 'Insentif',
+                        stroke: 'var(--mui-palette-success-main)',
+                        type: 'monotone',
+                    },
+                ]}
                 slotsProps={{
                     tooltip: {
                         labelFormatter: value =>
                             `${getXAxisLabel(dataUnit as string)} ${value}`,
                     },
                 }}
-                lines={[
-                    {
-                        type: 'monotone',
-                        dataKey: 'n_kg',
-                        name: 'Bobot',
-                        stroke: 'var(--mui-palette-primary-main)',
-                    },
-                    {
-                        type: 'monotone',
-                        dataKey: 'deduction_kg',
-                        name: 'Potongan',
-                        stroke: 'var(--mui-palette-error-main)',
-                    },
-                    {
-                        type: 'monotone',
-                        dataKey: 'incentive_kg',
-                        name: 'Insentif',
-                        stroke: 'var(--mui-palette-success-main)',
-                    },
-                ]}
+                suffix="kg"
             />
         </StatCard>
     )
@@ -139,15 +139,14 @@ function PalmBunchDeliveryChart({ userUuid }: { userUuid: UUID }) {
     const { data, isLoading } = useSWR([
         `palm-bunches/courier/performances/${userUuid}`,
         {
-            nData: nData,
             dataUnit: dataUnit,
+            nData: nData,
         },
     ])
 
     return (
-        <StatCard title="Bobot Angkut TBS" isLoading={isLoading}>
+        <StatCard isLoading={isLoading} title="Bobot Angkut TBS">
             <LineChart
-                suffix="kg"
                 data={data}
                 slotsProps={{
                     tooltip: {
@@ -155,6 +154,7 @@ function PalmBunchDeliveryChart({ userUuid }: { userUuid: UUID }) {
                             `${getXAxisLabel(dataUnit as string)} ${value}`,
                     },
                 }}
+                suffix="kg"
             />
         </StatCard>
     )

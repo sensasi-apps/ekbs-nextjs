@@ -1,11 +1,11 @@
 'use client'
 
+// icons
+import AddIcon from '@mui/icons-material/Add'
 // materials
 import MuiFab, { type FabProps } from '@mui/material/Fab'
 import Tooltip from '@mui/material/Tooltip'
 import Zoom from '@mui/material/Zoom'
-// icons
-import AddIcon from '@mui/icons-material/Add'
 
 /**
  * A floating action button component.
@@ -28,13 +28,13 @@ export default function Fab({
 }) {
     return (
         <Zoom in={inProp} unmountOnExit>
-            <Tooltip title={title} arrow placement="left">
+            <Tooltip arrow placement="left" title={title}>
                 <MuiFab
                     color="success"
                     component="span"
                     sx={{
-                        position: 'fixed',
                         bottom: 32,
+                        position: 'fixed',
                         right: 32,
                     }}
                     {...props}>

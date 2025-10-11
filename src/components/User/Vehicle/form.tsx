@@ -1,17 +1,18 @@
 // vendors
-import { type UUIDTypes } from 'uuid'
-import { type FormEvent, useState, type ChangeEvent } from 'react'
-import { mutate } from 'swr'
-import axios from '@/lib/axios'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
+import { type ChangeEvent, type FormEvent, useState } from 'react'
+import { mutate } from 'swr'
+import { type UUIDTypes } from 'uuid'
 // components
 import NumericFormat from '@/components/NumericFormat'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import axios from '@/lib/axios'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function UserVehicleForm({
     onClose,
@@ -67,70 +68,70 @@ export default function UserVehicleForm({
     return (
         <form autoComplete="off" onSubmit={handleSubmit}>
             <TextField
-                fullWidth
-                required
                 disabled={isLoading}
-                margin="normal"
+                fullWidth
                 label="Merk"
+                margin="normal"
                 name="brand"
                 onChange={clearError}
+                required
                 {...errorsToHelperTextObj(errors?.brand)}
             />
 
             <TextField
-                fullWidth
-                required
                 disabled={isLoading}
-                margin="normal"
+                fullWidth
                 label="Model / Tipe"
+                margin="normal"
                 name="type"
                 onChange={clearError}
+                required
                 {...errorsToHelperTextObj(errors?.type)}
             />
 
             <input
-                type="hidden"
                 id="max_capacity_ton"
                 name="max_capacity_ton"
+                type="hidden"
                 value={inputMaxCapacityValue ?? ''}
             />
 
             <NumericFormat
                 disabled={isLoading}
-                margin="normal"
-                label="Kapasitas Muatan"
-                value={inputMaxCapacityValue ?? ''}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="start">Ton</InputAdornment>
                     ),
                 }}
+                label="Kapasitas Muatan"
+                margin="normal"
+                onChange={clearError}
                 onValueChange={({ floatValue }) => {
                     setInputMaxCapacityValue(floatValue)
                 }}
-                onChange={clearError}
+                value={inputMaxCapacityValue ?? ''}
                 {...errorsToHelperTextObj(errors?.max_capacity_ton)}
             />
 
             <TextField
-                fullWidth
-                required
                 disabled={isLoading}
-                margin="normal"
+                fullWidth
                 label="Nomor Plat Kendaraan"
+                margin="normal"
                 name="plate_number"
                 onChange={clearError}
+                required
                 {...errorsToHelperTextObj(errors?.plate_number)}
             />
 
-            <Box textAlign="right" mt={1}>
+            <Box mt={1} textAlign="right">
                 <Button
-                    type="reset"
                     disabled={isLoading}
                     onClick={() => {
                         setInputMaxCapacityValue(undefined)
                         onClose()
-                    }}>
+                    }}
+                    type="reset">
                     Batal
                 </Button>
                 <Button loading={isLoading} type="submit" variant="contained">

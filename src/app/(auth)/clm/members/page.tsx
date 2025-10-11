@@ -1,10 +1,5 @@
 'use client'
 
-// vendors
-import { Formik, type FormikProps } from 'formik'
-import { useRef, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import myAxios from '@/lib/axios'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -12,6 +7,10 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+// vendors
+import { Formik, type FormikProps } from 'formik'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useRef, useState } from 'react'
 // components
 import Datatable, {
     type DatatableProps,
@@ -20,17 +19,18 @@ import Datatable, {
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import FlexBox from '@/components/flex-box'
+import UserSelect from '@/components/formik-fields/user-select'
 import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import PageTitle from '@/components/page-title'
 import TextShortener from '@/components/text-shortener'
-import UserSelect from '@/components/formik-fields/user-select'
-// utils
-import handle422 from '@/utils/handle-422'
-import ClmMemberFilterChips from './_filter-chips'
+import myAxios from '@/lib/axios'
+import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
 // modules
 import type Land from '@/modules/clm/types/orms/land'
 import type MemberORM from '@/modules/clm/types/orms/member'
-import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
+// utils
+import handle422 from '@/utils/handle-422'
+import ClmMemberFilterChips from './_filter-chips'
 
 export default function Members() {
     const searchParams = useSearchParams()
@@ -51,17 +51,19 @@ export default function Members() {
         <>
             <PageTitle title="Anggota Sertifikasi" />
 
-            <FlexBox mb={2} gap={1}>
+            <FlexBox gap={1} mb={2}>
                 <ClmMemberFilterChips />
             </FlexBox>
 
             <Datatable<MemberORM>
                 apiUrl="/clm/members/get-datatable-data"
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'created_at', direction: 'desc' }}
                 apiUrlParams={{
                     status,
                 }}
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={{ direction: 'desc', name: 'created_at' }}
+                getRowDataCallback={fn => (getRowDataRef.current = fn)}
+                mutateCallback={fn => (mutateRef.current = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         // console.log(data)
@@ -72,8 +74,6 @@ export default function Members() {
                         }
                     }
                 }}
-                mutateCallback={fn => (mutateRef.current = fn)}
-                getRowDataCallback={fn => (getRowDataRef.current = fn)}
                 tableId="clm-members-datatable"
                 title="Daftar Anggota"
             />
@@ -81,18 +81,6 @@ export default function Members() {
             <Formik<{
                 user_uuid: string | null
             }>
-                initialValues={{
-                    user_uuid: null,
-                }}
-                onSubmit={(values, { setErrors }) =>
-                    myAxios
-                        .post('/clm/members', values)
-                        .then(() => {
-                            mutateRef.current?.()
-                            handleClose()
-                        })
-                        .catch(error => handle422(error, setErrors))
-                }
                 component={({
                     submitForm,
                     isSubmitting,
@@ -100,14 +88,14 @@ export default function Members() {
                     user_uuid: string | null
                 }>) => {
                     return (
-                        <Dialog open={open} maxWidth="xs" fullWidth>
+                        <Dialog fullWidth maxWidth="xs" open={open}>
                             <DialogTitle>Daftarkan Anggota</DialogTitle>
 
                             <DialogContent>
                                 <UserSelect
                                     disabled={false}
-                                    name="user_uuid"
                                     label="Pilih Pengguna"
+                                    name="user_uuid"
                                 />
 
                                 <Box mt={2}>
@@ -119,46 +107,56 @@ export default function Members() {
                                 <Button
                                     color="inherit"
                                     disabled={isSubmitting}
-                                    size="small"
-                                    onClick={handleClose}>
+                                    onClick={handleClose}
+                                    size="small">
                                     Batal
                                 </Button>
                                 <Button
                                     color="success"
                                     disabled={isSubmitting}
+                                    onClick={submitForm}
                                     size="small"
-                                    type="submit"
-                                    onClick={submitForm}>
+                                    type="submit">
                                     Daftarkan
                                 </Button>
                             </DialogActions>
                         </Dialog>
                     )
                 }}
+                initialValues={{
+                    user_uuid: null,
+                }}
                 onReset={handleClose}
+                onSubmit={(values, { setErrors }) =>
+                    myAxios
+                        .post('/clm/members', values)
+                        .then(() => {
+                            mutateRef.current?.()
+                            handleClose()
+                        })
+                        .catch(error => handle422(error, setErrors))
+                }
             />
 
-            <Fab onClick={() => setOpen(true)} disabled={open} />
+            <Fab disabled={open} onClick={() => setOpen(true)} />
         </>
     )
 }
 
 const DATATABLE_COLUMNS: DatatableProps<MemberORM>['columns'] = [
     {
-        name: 'user.id',
         label: 'ID',
+        name: 'user.id',
     },
     {
-        name: 'user.name',
         label: 'Nama',
+        name: 'user.name',
     },
 
     {
-        name: 'user.lands',
         label: 'Lahan',
+        name: 'user.lands',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender: (value: Land[]) => {
                 return (
                     <ListInsideMuiDatatableCell
@@ -172,6 +170,8 @@ const DATATABLE_COLUMNS: DatatableProps<MemberORM>['columns'] = [
                     />
                 )
             },
+            searchable: false,
+            sort: false,
         },
     },
 

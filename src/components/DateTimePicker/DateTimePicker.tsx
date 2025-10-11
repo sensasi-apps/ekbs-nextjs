@@ -1,12 +1,13 @@
 // types
-import type { Dayjs } from 'dayjs'
-// vendors
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 import {
     DateTimePicker as MuiDateTimePicker,
     type DateTimePickerProps as MuiDateTimePickerProps,
 } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+// vendors
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import type { Dayjs } from 'dayjs'
 // components
 import TextField from '@/components/TextField'
 
@@ -25,11 +26,11 @@ export default function DateTimePicker({
     ...props
 }: DateTimePickerProps) {
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="id">
+        <LocalizationProvider adapterLocale="id" dateAdapter={AdapterDayjs}>
             <MuiDateTimePicker
-                slots={slots}
-                orientation={orientation}
                 format={format}
+                orientation={orientation}
+                slots={slots}
                 {...props}
             />
         </LocalizationProvider>

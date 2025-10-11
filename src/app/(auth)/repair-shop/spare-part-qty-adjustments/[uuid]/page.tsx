@@ -1,33 +1,33 @@
 'use client'
 
-// vendors
-import type { AxiosError } from 'axios'
-import { useParams } from 'next/navigation'
-import { memo, useRef, useState } from 'react'
-import { Formik } from 'formik'
-import useSWR from 'swr'
+import DeleteIcon from '@mui/icons-material/Delete'
+// icons-materials
+import LockIcon from '@mui/icons-material/Lock'
 // materials
 import Alert from '@mui/material/Alert'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Fade from '@mui/material/Fade'
 import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import LockIcon from '@mui/icons-material/Lock'
-import DeleteIcon from '@mui/icons-material/Delete'
-// libs
-import axios from '@/lib/axios'
+// vendors
+import type { AxiosError } from 'axios'
+import { Formik } from 'formik'
+import { useParams } from 'next/navigation'
+import { memo, useRef, useState } from 'react'
+import useSWR from 'swr'
 // components
 import BackButton from '@/components/back-button'
 import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 import FlexBox from '@/components/flex-box'
 import PrintHandler from '@/components/PrintHandler'
+// libs
+import axios from '@/lib/axios'
+// modules
+import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-part-movement'
 // local components
 import DetailTable from './detail-table'
 import SummaryTable from './summary-table'
-// modules
-import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-part-movement'
 
 export default function OpnameDetail() {
     const submitFormRef = useRef<() => Promise<void>>(null)
@@ -57,16 +57,16 @@ export default function OpnameDetail() {
             <Fade in={!data.finalized_at} unmountOnExit>
                 <Alert
                     severity="warning"
-                    variant="outlined"
                     sx={{
                         mb: 2,
-                    }}>
+                    }}
+                    variant="outlined">
                     Pastikan untuk tidak melakukan transaksi pada produk yang
                     sedang di-opname hingga proses opname selesai.
                 </Alert>
             </Fade>
 
-            <FlexBox mb={2} justifyContent="space-between">
+            <FlexBox justifyContent="space-between" mb={2}>
                 <BackButton />
 
                 {!data.finalized_at && (
@@ -77,7 +77,7 @@ export default function OpnameDetail() {
                 )}
             </FlexBox>
 
-            <Typography variant="h6" component="p">
+            <Typography component="p" variant="h6">
                 Rangkuman
             </Typography>
 
@@ -88,8 +88,8 @@ export default function OpnameDetail() {
                 />
             )}
 
-            <Box display="flex" alignItems="center" mt={3} mb={1}>
-                <Typography variant="h6" component="p">
+            <Box alignItems="center" display="flex" mb={1} mt={3}>
+                <Typography component="p" variant="h6">
                     Rincian
                 </Typography>
 
@@ -101,16 +101,16 @@ export default function OpnameDetail() {
 
                 {!data.finalized_at && (
                     <Button
-                        variant="contained"
-                        sx={{
-                            ml: 4,
-                        }}
-                        onClick={() => submitFormRef.current?.()}
-                        size="small"
                         disabled={
                             mainIsLoading
                             // || !isQtyChanged
-                        }>
+                        }
+                        onClick={() => submitFormRef.current?.()}
+                        size="small"
+                        sx={{
+                            ml: 4,
+                        }}
+                        variant="contained">
                         Simpan Perubahan
                     </Button>
                 )}
@@ -122,13 +122,13 @@ export default function OpnameDetail() {
 
             {data && (
                 <Formik
+                    enableReinitialize
                     initialValues={data.details.map(detail => ({
                         id: detail.id,
                         physical_qty:
                             detail.qty +
                             detail.spare_part_state.warehouses[0].qty,
                     }))}
-                    enableReinitialize
                     onSubmit={async values => {
                         setIsSubmitting(true)
 
@@ -165,24 +165,24 @@ const PrintButton = memo(function PrintButton({
 }) {
     return (
         <PrintHandler>
-            <Typography gutterBottom fontWeight="bold">
+            <Typography fontWeight="bold" gutterBottom>
                 Opname Suku Cadang {data.finalized_at ? '' : '— DRAF'}
             </Typography>
 
-            <Typography variant="body2" fontWeight="bold">
+            <Typography fontWeight="bold" variant="body2">
                 Rangkuman
             </Typography>
 
             {data && <SummaryTable data={data} />}
 
-            <Typography variant="body2" mt={2} fontWeight="bold">
+            <Typography fontWeight="bold" mt={2} variant="body2">
                 Rincian
             </Typography>
 
             <DetailTable
-                print
                 data={data.details ?? []}
                 finished={Boolean(data.finalized_at)}
+                print
             />
         </PrintHandler>
     )
@@ -218,8 +218,8 @@ function SavePermanentButton({ uuid }: { uuid: SparePartMovementORM['uuid'] }) {
         <ConfirmationDialogWithButton
             buttonProps={{
                 children: 'Simpan Permanen',
-                startIcon: <LockIcon />,
                 size: 'small',
+                startIcon: <LockIcon />,
                 variant: 'outlined',
             }}
             color="warning"
@@ -271,8 +271,8 @@ function DeleteButton({ uuid }: { uuid: SparePartMovementORM['uuid'] }) {
         <ConfirmationDialogWithButton
             buttonProps={{
                 children: 'Hapus',
-                startIcon: <DeleteIcon />,
                 size: 'small',
+                startIcon: <DeleteIcon />,
                 variant: 'outlined',
             }}
             color="error"

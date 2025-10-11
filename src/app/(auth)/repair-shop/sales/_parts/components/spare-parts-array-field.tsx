@@ -1,6 +1,7 @@
 // vendors
-import { FieldArray, useFormikContext } from 'formik'
-import { useRef } from 'react'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -9,18 +10,18 @@ import InputAdornment from '@mui/material/InputAdornment'
 import MuiTextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-// utils
-import numberToCurrency from '@/utils/number-to-currency'
+import { FieldArray, useFormikContext } from 'formik'
+import { useRef } from 'react'
 // component
 import FlexBox from '@/components/flex-box'
 import NumericField from '@/components/formik-fields/numeric-field'
-import RemoveButton from '@/components/remove-button'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RemoveButton from '@/components/remove-button'
+import SparePartFormikField from '@/modules/repair-shop/components/spare-part-formik-field'
 // modules
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
-import SparePartFormikField from '@/modules/repair-shop/components/spare-part-formik-field'
+// utils
+import numberToCurrency from '@/utils/number-to-currency'
 
 export default function SparePartsArrayField({
     name,
@@ -38,8 +39,8 @@ export default function SparePartsArrayField({
             {({ push, remove, form: { setFieldValue } }) => {
                 return (
                     <>
-                        <Box display="flex" gap={2} alignItems="center" mb={2}>
-                            <Typography fontWeight="bold" component="div">
+                        <Box alignItems="center" display="flex" gap={2} mb={2}>
+                            <Typography component="div" fontWeight="bold">
                                 Suku Cadang
                             </Typography>
 
@@ -52,24 +53,24 @@ export default function SparePartsArrayField({
                         <FlexBox flexDirection="column" gap={3}>
                             {spare_parts?.map((row, index) => (
                                 <Grid
-                                    key={index}
-                                    container
-                                    spacing={1}
-                                    display="flex"
                                     alignItems="center"
+                                    container
+                                    display="flex"
+                                    key={index}
+                                    spacing={1}
                                     width="100%">
                                     <Grid
-                                        size={{ xs: 2, sm: 1 }}
-                                        textAlign="right"
                                         pr={1}
+                                        size={{ sm: 1, xs: 2 }}
                                         sx={{
-                                            display: 'flex',
                                             alignItems: 'center',
-                                        }}>
+                                            display: 'flex',
+                                        }}
+                                        textAlign="right">
                                         <NumberCell
                                             index={index}
-                                            remove={remove}
                                             isDisabled={isDisabled}
+                                            remove={remove}
                                             showDelete={
                                                 index === spare_parts.length - 1
                                             }
@@ -78,8 +79,8 @@ export default function SparePartsArrayField({
 
                                     <Grid
                                         size={{
-                                            xs: 10,
                                             sm: 1.5,
+                                            xs: 10,
                                         }}>
                                         <QtyInput
                                             isDisabled={isDisabled}
@@ -88,35 +89,35 @@ export default function SparePartsArrayField({
                                     </Grid>
 
                                     <Grid
-                                        size={{
-                                            xs: 12,
-                                            sm: 7,
-                                        }}
                                         display="flex"
                                         flexDirection="column"
-                                        gap={1}>
+                                        gap={1}
+                                        size={{
+                                            sm: 7,
+                                            xs: 12,
+                                        }}>
                                         <SparePartFormikField
-                                            name={`${name}.${index}.spare_part_warehouse_id`}
                                             isDisabled={isDisabled}
+                                            name={`${name}.${index}.spare_part_warehouse_id`}
                                             onChange={(_, selected) => {
                                                 setFieldValue(
                                                     `${name}.${index}`,
                                                     {
-                                                        spare_part_warehouse_id:
-                                                            selected?.spare_part_warehouse_id,
+                                                        qty: row.qty,
                                                         rp_per_unit:
                                                             selected?.default_sell_price,
-                                                        qty: row.qty,
+                                                        spare_part_warehouse_id:
+                                                            selected?.spare_part_warehouse_id,
                                                     },
                                                 )
 
                                                 setFieldValue(
                                                     `spare_part_margins.${index}`,
                                                     {
-                                                        spare_part_warehouse_id:
-                                                            selected?.spare_part_warehouse_id,
                                                         margin_percentage:
                                                             selected?.default_installment_margin_percentage,
+                                                        spare_part_warehouse_id:
+                                                            selected?.spare_part_warehouse_id,
                                                     },
                                                 )
                                             }}
@@ -124,9 +125,9 @@ export default function SparePartsArrayField({
                                         />
 
                                         <NumericField
-                                            name={`${name}.${index}.rp_per_unit`}
                                             disabled={isDisabled}
                                             label="Harga satuan"
+                                            name={`${name}.${index}.rp_per_unit`}
                                             numericFormatProps={{
                                                 margin: 'none',
                                                 slotProps: {
@@ -141,9 +142,9 @@ export default function SparePartsArrayField({
 
                                         {payment_method === 'installment' && (
                                             <NumericField
-                                                name={`spare_part_margins.${index}.margin_percentage`}
                                                 disabled={isDisabled}
                                                 label="Marjin Angsuran"
+                                                name={`spare_part_margins.${index}.margin_percentage`}
                                                 numericFormatProps={{
                                                     margin: 'none',
                                                     slotProps: {
@@ -162,8 +163,8 @@ export default function SparePartsArrayField({
 
                                     <Grid
                                         size={{
-                                            xs: 12,
                                             sm: 2.5,
+                                            xs: 12,
                                         }}>
                                         <SubTotal index={index} />
                                     </Grid>
@@ -187,32 +188,32 @@ function AddItemButton({
     const nRow = useRef(1)
 
     return (
-        <Box display="flex" alignItems="center" mt={1}>
+        <Box alignItems="center" display="flex" mt={1}>
             <MuiTextField
+                defaultValue={1}
                 disabled={isDisabled}
                 fullWidth={false}
-                size="small"
-                type="number"
-                defaultValue={1}
                 label="Tambah baris"
-                slotProps={{ input: { inputProps: { min: 1, max: 99 } } }}
+                onChange={e => (nRow.current = Number(e.target.value))}
+                size="small"
+                slotProps={{ input: { inputProps: { max: 99, min: 1 } } }}
                 sx={{
                     maxWidth: '4em',
                 }}
-                onChange={e => (nRow.current = Number(e.target.value))}
+                type="number"
             />
 
-            <Tooltip placement="top" arrow title="Tambah">
+            <Tooltip arrow placement="top" title="Tambah">
                 <span>
                     <IconButton
-                        disabled={isDisabled}
                         color="success"
-                        size="small"
+                        disabled={isDisabled}
                         onClick={() => {
                             for (let i = 0; i < nRow.current; i++) {
                                 push({})
                             }
-                        }}>
+                        }}
+                        size="small">
                         <AddCircleIcon />
                     </IconButton>
                 </span>
@@ -238,6 +239,7 @@ function NumberCell({
     return (
         <>
             <RemoveButton
+                isDisabled={isDisabled}
                 onClick={() => {
                     remove(index)
 
@@ -246,7 +248,6 @@ function NumberCell({
                         ...(values.spare_part_margins?.slice(index + 1) ?? []),
                     ])
                 }}
-                isDisabled={isDisabled}
             />
 
             {index + 1}
@@ -257,9 +258,9 @@ function NumberCell({
 function QtyInput({ name, isDisabled }: { name: string; isDisabled: boolean }) {
     return (
         <NumericField
-            name={name}
             disabled={isDisabled}
             label="Jumlah"
+            name={name}
             numericFormatProps={{
                 margin: 'none',
             }}
@@ -290,15 +291,15 @@ function SubTotal({ index }: { index: number }) {
 
     return (
         <>
-            <Typography variant="caption" color="textDisabled" component="div">
+            <Typography color="textDisabled" component="div" variant="caption">
                 subtotal:
             </Typography>
 
             <Typography
                 component="div"
-                fontWeight="bold"
                 fontFamily="monospace"
-                fontSize="1.4em">
+                fontSize="1.4em"
+                fontWeight="bold">
                 {numberToCurrency(totalRp)}
             </Typography>
         </>

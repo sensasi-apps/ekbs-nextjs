@@ -1,20 +1,20 @@
 'use client'
 
-// types
-import { AxiosError } from 'axios'
-// vendors
-import { useState, type FormEvent } from 'react'
-import axios from '@/lib/axios'
+// icons
+import SyncLockIcon from '@mui/icons-material/SyncLock'
 // materials
 import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
 import TextField from '@mui/material/TextField'
-// icons
-import SyncLockIcon from '@mui/icons-material/SyncLock'
+// types
+import { AxiosError } from 'axios'
+// vendors
+import { type FormEvent, useState } from 'react'
+import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
 // components
 import BackButton from '@/components/back-button'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
-import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
+import axios from '@/lib/axios'
 
 export default function ForgotPasswordPageClient() {
     // form data
@@ -62,36 +62,36 @@ export default function ForgotPasswordPageClient() {
 
     return (
         <GuestWithFormSubLayout
-            title="Lupa kata sandi"
             icon={<SyncLockIcon />}
-            isLoading={isLoading}
             isError={isError}
-            message={msg}>
+            isLoading={isLoading}
+            message={msg}
+            title="Lupa kata sandi">
             {isNotErrorAndHasMsg && <CompleteCenter message={msg} />}
 
             {!isNotErrorAndHasMsg && (
                 <Box
+                    autoComplete="off"
                     component="form"
-                    onSubmit={handleSubmit}
-                    autoComplete="off">
+                    onSubmit={handleSubmit}>
                     <TextField
+                        autoComplete="email"
                         autoFocus
-                        required
                         fullWidth
-                        margin="normal"
                         id="email"
                         label="Alamat email"
-                        type="email"
+                        margin="normal"
                         name="email"
-                        autoComplete="email"
                         onChange={event => setEmail(event.target.value)}
+                        required
+                        type="email"
                     />
 
                     <Fab
-                        type="submit"
-                        variant="extended"
                         color="primary"
-                        sx={{ mt: 3, mb: 1 }}>
+                        sx={{ mb: 1, mt: 3 }}
+                        type="submit"
+                        variant="extended">
                         Atur ulang kata sandi
                     </Fab>
                 </Box>

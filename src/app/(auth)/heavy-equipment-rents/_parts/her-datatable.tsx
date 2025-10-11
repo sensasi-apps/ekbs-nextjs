@@ -1,13 +1,14 @@
 // vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import dayjs from 'dayjs'
-// types
-import type RentItemRent from '@/types/orms/rent-item-rent'
+
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
+import dayjs from 'dayjs'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+// enums
+import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
 // components
 import Datatable, {
     type DatatableProps,
@@ -15,10 +16,10 @@ import Datatable, {
     type OnRowClickType,
 } from '@/components/Datatable'
 import DatePicker from '@/components/DatePicker'
+// types
+import type RentItemRent from '@/types/orms/rent-item-rent'
 // utils
 import toDmy from '@/utils/to-dmy'
-// enums
-import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
 
 let getRowData: GetRowDataType<RentItemRent>
 const CURRENT_DATE = dayjs()
@@ -54,13 +55,11 @@ export default function HeavyEquipmentRentsDatatable({
     }
 
     return (
-        <Box display="flex" gap={3} flexDirection="column">
-            <Box display="flex" gap={1} alignItems="center">
+        <Box display="flex" flexDirection="column" gap={3}>
+            <Box alignItems="center" display="flex" gap={1}>
                 <DatePicker
-                    label="Bulan"
-                    openTo="month"
                     format="MMMM YYYY"
-                    value={selectedDate}
+                    label="Bulan"
                     onAccept={date => {
                         if (!date) return
 
@@ -69,21 +68,23 @@ export default function HeavyEquipmentRentsDatatable({
 
                         replace(`?year=${newYear}&month=${newMonth}`)
                     }}
-                    views={['year', 'month']}
-                    sx={{
-                        mr: 1,
-                    }}
+                    openTo="month"
                     slotProps={{
                         field: {
                             clearable: true,
                             onClear: () => replace('?'),
                         },
                         textField: {
+                            fullWidth: false,
                             margin: 'none',
                             size: 'small',
-                            fullWidth: false,
                         },
                     }}
+                    sx={{
+                        mr: 1,
+                    }}
+                    value={selectedDate}
+                    views={['year', 'month']}
                 />
 
                 <Chip
@@ -108,22 +109,18 @@ export default function HeavyEquipmentRentsDatatable({
             </Box>
 
             <Datatable
-                title=""
-                tableId="unfinished-heavy-equipment-rents-datatable"
                 apiUrl={ApiUrlEnum.DATATABLE_DATA}
                 apiUrlParams={{
                     as,
-                    type,
                     month: selectedDate?.format('MM') ?? undefined,
+                    type,
                     year: selectedDate?.format('YYYY') ?? undefined,
                 }}
-                onRowClick={handleRowClick}
                 columns={columns}
                 defaultSortOrder={{
-                    name: 'for_at',
                     direction: 'asc',
+                    name: 'for_at',
                 }}
-                mutateCallback={mutateCallback}
                 getRowDataCallback={fn => {
                     getRowData = fn
 
@@ -131,6 +128,10 @@ export default function HeavyEquipmentRentsDatatable({
                         getRowDataCallback(fn)
                     }
                 }}
+                mutateCallback={mutateCallback}
+                onRowClick={handleRowClick}
+                tableId="unfinished-heavy-equipment-rents-datatable"
+                title=""
             />
         </Box>
     )
@@ -138,31 +139,31 @@ export default function HeavyEquipmentRentsDatatable({
 
 const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
     {
-        name: 'uuid',
         label: 'Kode',
+        name: 'uuid',
         options: {
             customBodyRender: (value: string) =>
                 value.substring(value.length - 6).toUpperCase(),
         },
     },
     {
-        name: 'for_at',
         label: 'Untuk Tanggal',
+        name: 'for_at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'byUser.id', // <-- hidden / only for search
         label: 'Penyewa/PJ',
+        name: 'byUser.id', // <-- hidden / only for search
         options: {
             display: 'excluded',
             sort: false,
         },
     },
     {
-        name: 'byUser.name',
         label: 'Penyewa/PJ',
+        name: 'byUser.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const { id, name } = getRowData(dataIndex)?.by_user ?? {}
@@ -172,8 +173,8 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
         },
     },
     {
-        name: 'farmerGroup.name',
         label: 'KelompoK Tani',
+        name: 'farmerGroup.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const { name } = getRowData(dataIndex)?.farmer_group ?? {}
@@ -183,15 +184,15 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
         },
     },
     {
-        name: 'inventoryItem.code',
         label: 'Kode Alat Berat',
+        name: 'inventoryItem.code',
         options: {
             display: 'excluded',
         },
     },
     {
-        name: 'inventoryItem.name',
         label: 'Unit Alat Berat',
+        name: 'inventoryItem.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const { name, code } =
@@ -201,9 +202,9 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
                     <>
                         {code && (
                             <Typography
-                                variant="caption"
                                 color="textSecondary"
-                                mr={1}>
+                                mr={1}
+                                variant="caption">
                                 {code}
                             </Typography>
                         )}
@@ -215,12 +216,12 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
         },
     },
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
     },
     {
-        name: 'heavyEquipmentRent.operatedByUser.name',
         label: 'Operator',
+        name: 'heavyEquipmentRent.operatedByUser.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const { id, name } =
@@ -255,11 +256,9 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
     //     },
     // },
     {
-        name: 'uuid',
         label: 'Status',
+        name: 'uuid',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender: (_, rowIndex): RentStatus => {
                 const data = getRowData(rowIndex)
 
@@ -269,6 +268,7 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
                       ? RentStatus.FINISHED
                       : RentStatus.SCHEDULED
             },
+            searchable: false,
             setCellProps: cellValue => ({
                 sx: {
                     color:
@@ -279,6 +279,7 @@ const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
                               : 'inherit',
                 },
             }),
+            sort: false,
         },
     },
 ]

@@ -1,27 +1,27 @@
 'use client'
 
-// types
-import type { Dayjs } from 'dayjs'
-import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-import type Wallet from '@/types/orms/wallet'
-// vendors
-import { useRef, useState } from 'react'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+// icons
+import BackupTableIcon from '@mui/icons-material/BackupTable'
+import DownloadIcon from '@mui/icons-material/Download'
 // materials
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
-// icons
-import BackupTableIcon from '@mui/icons-material/BackupTable'
-import DownloadIcon from '@mui/icons-material/Download'
+// types
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
+// vendors
+import { useRef, useState } from 'react'
+import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
 // components
 import Datatable from '@/components/Datatable'
 import DatePicker from '@/components/DatePicker'
 import Dialog from '@/components/Global/Dialog'
-import TxHistory from '@/components/Wallet/TxHistory'
 import PageTitle from '@/components/page-title'
+import TxHistory from '@/components/Wallet/TxHistory'
+import axios from '@/lib/axios'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+import type Wallet from '@/types/orms/wallet'
 // utils
 import formatNumber from '@/utils/format-number'
 
@@ -46,33 +46,33 @@ export default function WalletsPage() {
             </div>
 
             <Datatable
-                title="Daftar Wallet Pengguna"
-                tableId="wallets-datatable"
                 apiUrl="/wallets/datatable"
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={{ direction: 'desc', name: 'balance' }}
+                getRowDataCallback={fn => (getRowData.current = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData.current?.(dataIndex)
                         if (data) return setWalletData(data)
                     }
                 }}
-                getRowDataCallback={fn => (getRowData.current = fn)}
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'balance', direction: 'desc' }}
+                tableId="wallets-datatable"
+                title="Daftar Wallet Pengguna"
             />
 
             <Dialog
-                title="Riwayat Transaksi Wallet"
-                open={Boolean(walletData?.uuid)}
-                maxWidth="md"
-                fullWidth={false}
                 closeButtonProps={{
                     onClick: () => setWalletData(undefined),
-                }}>
+                }}
+                fullWidth={false}
+                maxWidth="md"
+                open={Boolean(walletData?.uuid)}
+                title="Riwayat Transaksi Wallet">
                 {walletData && (
                     <TxHistory
-                        walletData={walletData}
-                        canPrint
                         canExportExcel
+                        canPrint
+                        walletData={walletData}
                     />
                 )}
             </Dialog>
@@ -82,54 +82,54 @@ export default function WalletsPage() {
 
 const DATATABLE_COLUMNS: DatatableProps<DataType>['columns'] = [
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: false,
         },
     },
     {
-        name: 'user.id',
         label: 'ID Pengguna',
+        name: 'user.id',
     },
     {
-        name: 'user.name',
         label: 'Nama Pengguna',
+        name: 'user.name',
     },
     {
-        name: 'balance',
         label: 'Saldo',
+        name: 'balance',
         options: {
+            customBodyRender: (value: number) => formatNumber(value),
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'unpaid_installment_total_rp',
         label: 'Total Angsuran (Rp)',
+        name: 'unpaid_installment_total_rp',
         options: {
+            customBodyRender: (value: number) => formatNumber(value),
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'correction_total_rp',
         label: 'Total Koreksi (Rp)',
+        name: 'correction_total_rp',
         options: {
+            customBodyRender: (value: number) => formatNumber(value),
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: number) => formatNumber(value),
         },
     },
 ]
@@ -186,68 +186,63 @@ function DialogForDownloadXls() {
     return (
         <>
             <Button
+                color="success"
                 onClick={() => setOpen(true)}
-                startIcon={<BackupTableIcon />}
                 size="small"
-                color="success">
+                startIcon={<BackupTableIcon />}>
                 Unduh Mutasi
             </Button>
 
             <Dialog
-                title="Unduh Mutasi"
-                open={open}
+                actions={
+                    <Button
+                        color="success"
+                        disabled={downloadDisabled}
+                        endIcon={<DownloadIcon />}
+                        loading={isFetching}
+                        onClick={handleFetching}>
+                        Unduh
+                    </Button>
+                }
                 closeButtonProps={{
                     disabled: isFetching,
                     onClick: () => setOpen(false),
                 }}
-                actions={
-                    <Button
-                        loading={isFetching}
-                        color="success"
-                        disabled={downloadDisabled}
-                        onClick={handleFetching}
-                        endIcon={<DownloadIcon />}>
-                        Unduh
-                    </Button>
-                }>
+                open={open}
+                title="Unduh Mutasi">
                 <Collapse in={showSuccess}>
                     <Alert
-                        variant="filled"
                         onClose={() => setShowSuccess(false)}
                         sx={{
                             mb: 1,
-                        }}>
+                        }}
+                        variant="filled">
                         {success}
                     </Alert>
                 </Collapse>
 
                 <Collapse in={showError}>
                     <Alert
-                        variant="filled"
-                        severity="error"
                         onClose={() => setShowError(false)}
+                        severity="error"
                         sx={{
                             mb: 1,
-                        }}>
+                        }}
+                        variant="filled">
                         {errors?.message}
                     </Alert>
                 </Collapse>
 
                 <DatePicker
-                    label="Dari"
-                    disableFuture
                     disabled={isFetching}
+                    disableFuture
                     disableHighlightToday
+                    label="Dari"
+                    maxDate={toDate}
                     minDate={
                         toDate?.startOf('month').add(-2, 'months') ??
                         dayjs('2023-01-01')
                     }
-                    slotProps={{
-                        textField: {
-                            helperText: errors?.errors?.fromDate?.[0],
-                        },
-                    }}
-                    maxDate={toDate}
                     onChange={(date, { validationError }) =>
                         setFromDate(
                             Boolean(validationError) || !date
@@ -255,25 +250,30 @@ function DialogForDownloadXls() {
                                 : date,
                         )
                     }
+                    slotProps={{
+                        textField: {
+                            helperText: errors?.errors?.fromDate?.[0],
+                        },
+                    }}
                 />
 
                 <DatePicker
-                    label="Hingga"
+                    disabled={isFetching}
                     disableFuture
                     disableHighlightToday
-                    disabled={isFetching}
-                    minDate={fromDate}
+                    label="Hingga"
                     maxDate={fromDate?.endOf('month').add(2, 'months')}
-                    slotProps={{
-                        textField: {
-                            helperText: errors?.errors?.toDate?.[0],
-                        },
-                    }}
+                    minDate={fromDate}
                     onChange={(date, { validationError }) =>
                         setToDate(
                             validationError ? undefined : (date ?? undefined),
                         )
                     }
+                    slotProps={{
+                        textField: {
+                            helperText: errors?.errors?.toDate?.[0],
+                        },
+                    }}
                 />
             </Dialog>
         </>

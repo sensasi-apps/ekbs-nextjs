@@ -1,17 +1,18 @@
 // vendors
-import type { ReactNode } from 'react'
-// materials
-import Box from '@mui/material/Box'
+
 // icons
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
 import ScheduleIcon from '@mui/icons-material/Schedule'
+// materials
+import Box from '@mui/material/Box'
+import type { ReactNode } from 'react'
 // components
 import FlexBox from '@/components/flex-box'
+import type RequisiteLandORM from '@/modules/clm//types/orms/requisite-land'
 //
 import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
-import type RequisiteLandORM from '@/modules/clm//types/orms/requisite-land'
 
 export default function getRequisiteStatus({
     requisite,
@@ -29,40 +30,40 @@ export default function getRequisiteStatus({
 
     if (isApproved) {
         return {
-            status: 'required',
-            chipLabel: 'selesai',
             chipColor: 'success',
+            chipLabel: 'selesai',
             icon: <CheckCircleOutlineIcon color="success" />,
+            status: 'required',
         }
     }
 
     if (isOptional && !hasFiles) {
         return {
-            status: 'optional',
-            chipLabel: null,
             chipColor: undefined,
+            chipLabel: null,
             icon: <Box sx={{ width: 24 }} />,
+            status: 'optional',
         }
     }
 
     if (hasFiles && !isApproved) {
         return {
-            status: 'required',
-            chipLabel: 'perlu ditinjau',
             chipColor: 'warning',
+            chipLabel: 'perlu ditinjau',
             icon: <ScheduleIcon color="warning" />,
+            status: 'required',
         }
     }
 
     return {
-        status: 'required',
+        chipColor: 'error',
         chipLabel: (
             <FlexBox alignItems="center" gap={0.5}>
                 belum dilengkapi
                 <ArrowForwardIcon fontSize="inherit" />
             </FlexBox>
         ),
-        chipColor: 'error',
         icon: <PriorityHighIcon color="error" />,
+        status: 'required',
     }
 }

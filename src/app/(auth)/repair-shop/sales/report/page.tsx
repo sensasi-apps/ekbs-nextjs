@@ -7,8 +7,8 @@ export default function Page() {
     return (
         <>
             <PageTitle
-                title="Laporan Penjualan"
                 subtitle="Belayan Spare Parts"
+                title="Laporan Penjualan"
             />
 
             <PageClient />

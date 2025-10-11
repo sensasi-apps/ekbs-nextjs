@@ -1,20 +1,21 @@
 // types
-import type { UUID } from 'crypto'
-import type { FormikContextType, FastFieldProps } from 'formik'
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
-// vendors
-import { FastField, Form } from 'formik'
+
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
+import type { UUID } from 'crypto'
+import type { FastFieldProps, FormikContextType } from 'formik'
+// vendors
+import { FastField, Form } from 'formik'
+import FormLoadingBar from '@/components/Dialog/LoadingBar'
+import FormResetButton from '@/components/form/ResetButton'
+import FormSubmitButton from '@/components/form/SubmitButton'
 // components
 import CrediturCard from '@/components/pages/user-loans/creditor-card'
 import UserLoanSummaryBox from '@/components/pages/user-loans/SummaryBox'
-import FormResetButton from '@/components/form/ResetButton'
-import FormSubmitButton from '@/components/form/SubmitButton'
-import FormLoadingBar from '@/components/Dialog/LoadingBar'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 
 export default function UserLoanReviewForm({
     values,
@@ -40,15 +41,15 @@ export default function UserLoanReviewForm({
                 <FastField name="is_approved">
                     {({ field, form: { setFieldValue } }: FastFieldProps) => (
                         <FormControl
+                            disabled={isDisabled}
                             margin="dense"
-                            required
-                            disabled={isDisabled}>
+                            required>
                             <FormLabel id="is_approved">
                                 Persetujuan Anda
                             </FormLabel>
                             <RadioGroup
-                                row
                                 aria-labelledby="is_approved"
+                                row
                                 {...field}
                                 onChange={e =>
                                     setFieldValue(
@@ -57,14 +58,14 @@ export default function UserLoanReviewForm({
                                     )
                                 }>
                                 <FormControlLabel
-                                    value={true}
                                     control={<Radio required />}
                                     label="Diterima"
+                                    value={true}
                                 />
                                 <FormControlLabel
-                                    value={false}
                                     control={<Radio />}
                                     label="Ditolak"
+                                    value={false}
                                 />
                             </RadioGroup>
                         </FormControl>
@@ -75,8 +76,8 @@ export default function UserLoanReviewForm({
                     style={{
                         display: 'flex',
                         gap: '0.5em',
-                        marginTop: '2em',
                         justifyContent: 'end',
+                        marginTop: '2em',
                     }}>
                     <FormResetButton
                         dirty={dirty}
@@ -85,10 +86,10 @@ export default function UserLoanReviewForm({
                     />
 
                     <FormSubmitButton
-                        oldDirty={isOldDirty}
                         disabled={isDisabled || !dirty}
-                        loading={isSubmitting}
                         form="user-loan-review-form"
+                        loading={isSubmitting}
+                        oldDirty={isOldDirty}
                     />
                 </div>
             </Form>

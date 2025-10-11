@@ -6,19 +6,19 @@ import Role from '@/enums/role'
 import type NavItemGroup from '../types/nav-item-group'
 
 export const clms: NavItemGroup = {
-    label: 'Sertifikasi dan Pengelolaan Kebun',
     items: [
         {
-            label: 'Syarat',
+            forRole: [Role.CLM_MANAGER], // TODO: change this when feature is ready
             href: '/clm/requisites',
             icon: Build,
-            forRole: [Role.CLM_MANAGER], // TODO: change this when feature is ready
+            label: 'Syarat',
         },
         {
-            label: 'Anggota',
+            forRole: [Role.CLM_ADMIN], // TODO: change this when feature is ready
             href: '/clm/members',
             icon: Group,
-            forRole: [Role.CLM_ADMIN], // TODO: change this when feature is ready
+            label: 'Anggota',
         },
     ],
+    label: 'Sertifikasi dan Pengelolaan Kebun',
 }

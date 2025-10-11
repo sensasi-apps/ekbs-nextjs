@@ -1,19 +1,20 @@
 // types
-import { type FieldArrayRenderProps } from 'formik'
-// vendors
-import { useRef } from 'react'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import { type FieldArrayRenderProps } from 'formik'
+// vendors
+import { useRef } from 'react'
+import NumericField from '@/components/formik-fields/numeric-field'
 // formik
 import TextField from '@/components/formik-fields/text-field'
-import NumericField from '@/components/formik-fields/numeric-field'
 // features
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 
@@ -29,8 +30,8 @@ export default function CostsField({
 
     return (
         <>
-            <Box display="flex" gap={2} alignItems="center" mb={2}>
-                <Typography fontWeight="bold" component="div">
+            <Box alignItems="center" display="flex" gap={2} mb={2}>
+                <Typography component="div" fontWeight="bold">
                     Biaya Lain
                 </Typography>
 
@@ -39,20 +40,20 @@ export default function CostsField({
 
             {costs.map((_, index) => (
                 <Grid
-                    key={index}
-                    container
-                    columnSpacing={1}
-                    display="flex"
                     alignItems="center"
+                    columnSpacing={1}
+                    container
+                    display="flex"
+                    key={index}
                     mb={1}>
                     <NumberCell
                         index={index}
-                        remove={remove}
                         isDisabled={isDisabled}
+                        remove={remove}
                         showDelete={index === costs.length - 1}
                     />
 
-                    <NameInput isDisabled={isDisabled} index={index} />
+                    <NameInput index={index} isDisabled={isDisabled} />
 
                     <RpInput index={index} isDisabled={isDisabled} />
                 </Grid>
@@ -71,18 +72,18 @@ function AddItemButton({
     const nRow = useRef(1)
 
     return (
-        <Box display="flex" alignItems="center">
-            <Tooltip placement="top" arrow title="Tambah">
+        <Box alignItems="center" display="flex">
+            <Tooltip arrow placement="top" title="Tambah">
                 <span>
                     <IconButton
-                        disabled={isDisabled}
                         color="success"
-                        size="small"
+                        disabled={isDisabled}
                         onClick={() => {
                             for (let i = 0; i < nRow.current; i++) {
                                 push({})
                             }
-                        }}>
+                        }}
+                        size="small">
                         <AddCircleIcon />
                     </IconButton>
                 </span>
@@ -103,17 +104,17 @@ function NumberCell({
     showDelete: boolean
 }) {
     return (
-        <Grid size={2} textAlign="right" pr={1}>
+        <Grid pr={1} size={2} textAlign="right">
             {showDelete && (
-                <Tooltip placement="top" arrow title="Hapus">
+                <Tooltip arrow placement="top" title="Hapus">
                     <span>
                         <IconButton
-                            disabled={isDisabled}
                             color="error"
-                            size="small"
+                            disabled={isDisabled}
                             onClick={() => {
                                 remove(index)
-                            }}>
+                            }}
+                            size="small">
                             <RemoveCircleIcon />
                         </IconButton>
                     </span>
@@ -134,9 +135,9 @@ function NameInput({
     return (
         <Grid size={5}>
             <TextField
-                name={`costs.${index}.name`}
                 disabled={isDisabled}
                 label="Name"
+                name={`costs.${index}.name`}
                 textFieldProps={{
                     margin: 'none',
                 }}
@@ -155,9 +156,9 @@ function RpInput({
     return (
         <Grid size={5}>
             <NumericField
-                name={`costs.${index}.rp`}
                 disabled={isDisabled}
                 label="Nilai"
+                name={`costs.${index}.rp`}
                 numericFormatProps={{
                     margin: 'none',
                 }}

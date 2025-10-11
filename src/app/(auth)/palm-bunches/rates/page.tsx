@@ -14,20 +14,20 @@ export default function PalmBunchesRates() {
     )
 }
 
-// types
-import type PalmBunchRateType from '@/modules/palm-bunch/types/orms/palm-bunch-rate'
-import type PalmBunchRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-rate-valid-date'
+import SellIcon from '@mui/icons-material/Sell'
 // vendors
 import Fab from '@mui/material/Fab'
-import SellIcon from '@mui/icons-material/Sell'
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import PalmBunchRatesForm from '@/components/PalmBunchRates/Form'
+import PageTitle from '@/components/page-title'
+// types
+import type PalmBunchRateType from '@/modules/palm-bunch/types/orms/palm-bunch-rate'
+import type PalmBunchRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-rate-valid-date'
+import numberToCurrency from '@/utils/number-to-currency'
 // utils
 import toDmy from '@/utils/to-dmy'
-import numberToCurrency from '@/utils/number-to-currency'
-import PageTitle from '@/components/page-title'
 
 function Crud() {
     const {
@@ -42,39 +42,39 @@ function Crud() {
 
     const columns = [
         {
-            name: 'id',
             label: 'NO',
+            name: 'id',
         },
         {
-            name: 'for_human_name',
             label: 'Nama',
+            name: 'for_human_name',
         },
         {
-            name: 'valid_from',
             label: 'Tanggal Berlaku',
+            name: 'valid_from',
             options: {
                 customBodyRender: toDmy,
             },
         },
         {
-            name: 'valid_until',
             label: 'Tanggal Berakhir',
+            name: 'valid_until',
             options: {
                 customBodyRender: toDmy,
             },
         },
         {
-            name: 'rates',
             label: 'Harga',
-            searchable: false,
+            name: 'rates',
             options: {
-                searchable: false,
-                sort: false,
                 customBodyRender: (value: PalmBunchRateType[]) =>
                     value[0].rp_per_kg
                         ? numberToCurrency(value[0].rp_per_kg)
                         : '-',
+                searchable: false,
+                sort: false,
             },
+            searchable: false,
         },
     ]
 
@@ -83,7 +83,7 @@ function Crud() {
             <Datatable
                 apiUrl="/palm-bunches/rates/datatable"
                 columns={columns}
-                defaultSortOrder={{ name: 'id', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'id' }}
                 onRowClick={(_, { rowIndex }, event) => {
                     if (event.detail === 2) {
                         const data =
@@ -97,10 +97,8 @@ function Crud() {
                 title="Daftar Harga TBS"
             />
             <Dialog
-                title={isNew ? 'Harga Baru' : 'Ubah Harga'}
-                maxWidth="md"
-                open={formOpen}
                 closeButtonProps={{
+                    disabled: loading,
                     onClick: () => {
                         if (
                             isDirty &&
@@ -113,17 +111,19 @@ function Crud() {
 
                         return handleClose()
                     },
-                    disabled: loading,
-                }}>
+                }}
+                maxWidth="md"
+                open={formOpen}
+                title={isNew ? 'Harga Baru' : 'Ubah Harga'}>
                 <PalmBunchRatesForm parentDatatableMutator={mutate} />
             </Dialog>
             <Fab
+                color="success"
                 disabled={formOpen}
                 onClick={handleCreate}
-                color="success"
                 sx={{
-                    position: 'fixed',
                     bottom: 16,
+                    position: 'fixed',
                     right: 16,
                 }}>
                 <SellIcon />

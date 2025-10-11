@@ -26,18 +26,18 @@ const NumericFormat = memo(function NumericFormat({
     decimalSeparator = ',',
     customInput = TextField,
     inputProps = {
-        minLength: 1,
         maxLength: 19,
+        minLength: 1,
     },
     ...props
 }: NumericFormatProps) {
     return (
         <VendorNumericFormat
             allowNegative={allowNegative}
-            thousandSeparator={thousandSeparator}
-            decimalSeparator={decimalSeparator}
             customInput={customInput}
+            decimalSeparator={decimalSeparator}
             inputProps={inputProps}
+            thousandSeparator={thousandSeparator}
             {...props}
         />
     )

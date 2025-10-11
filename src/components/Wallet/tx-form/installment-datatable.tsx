@@ -15,7 +15,7 @@ export default function InstallmentDataTable({
         <Datatable
             apiUrl={`/wallets/user/${userUuid}/installment-datatable-data`}
             columns={DATATABLE_COLUMNS}
-            defaultSortOrder={{ name: 'should_be_paid_at', direction: 'desc' }}
+            defaultSortOrder={{ direction: 'desc', name: 'should_be_paid_at' }}
             tableId="user-wallet-installment-datatable"
             title="Daftar Angsuran"
         />
@@ -24,43 +24,43 @@ export default function InstallmentDataTable({
 
 const DATATABLE_COLUMNS: ColumnDefinitionObject[] = [
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'should_be_paid_at',
         label: 'Jatuh Tempo',
+        name: 'should_be_paid_at',
         options: {
             customBodyRender: (value: string) => toDmy(value),
         },
     },
     {
-        name: 'business_unit',
         label: 'Unit Bisnis',
+        name: 'business_unit',
         options: {
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'amount_rp',
         label: 'Nilai (Rp)',
+        name: 'amount_rp',
         options: {
+            customBodyRender: (value: number) => formatNumber(value),
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
-        name: 'state',
         label: 'Status',
+        name: 'state',
         options: {
             searchable: false,
             sort: false,

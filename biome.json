@@ -1,30 +1,62 @@
 {
     "$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
-    "vcs": {
-        "enabled": true,
-        "clientKind": "git",
-        "useIgnoreFile": true
+    "assist": {
+        "actions": {
+            "source": {
+                "organizeImports": "on",
+                "useSortedAttributes": "on",
+                "useSortedKeys": "on"
+            }
+        },
+        "enabled": true
     },
     "files": {
-        "ignoreUnknown": false
+        "ignoreUnknown": false,
+        "includes": [
+            "**",
+            "!node_modules/**",
+            "!.next/**",
+            "!out/**",
+            "!build/**",
+            "!next-env.d.ts",
+            "!public/sw.js"
+        ]
     },
     "formatter": {
+        "attributePosition": "auto",
+        "bracketSameLine": true,
+        "bracketSpacing": true,
         "enabled": true,
+        "expand": "auto",
         "formatWithErrors": false,
         "indentStyle": "space",
         "indentWidth": 4,
         "lineEnding": "lf",
         "lineWidth": 80,
-        "attributePosition": "auto",
-        "bracketSameLine": true,
-        "bracketSpacing": true,
-        "expand": "auto",
         "useEditorconfig": true
+    },
+    "html": {
+        "formatter": {
+            "selfCloseVoidElements": "always"
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "arrowParentheses": "asNeeded",
+            "attributePosition": "auto",
+            "bracketSameLine": true,
+            "bracketSpacing": true,
+            "jsxQuoteStyle": "double",
+            "quoteProperties": "asNeeded",
+            "quoteStyle": "single",
+            "semicolons": "asNeeded",
+            "trailingCommas": "all"
+        },
+        "globals": []
     },
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": false,
             "complexity": {
                 "noArguments": "error",
                 "noUselessTypeConstraint": "error"
@@ -40,6 +72,7 @@
                 "noUnreachableSuper": "off",
                 "noUnusedVariables": "error"
             },
+            "recommended": false,
             "style": {
                 "noCommonJs": "error",
                 "noNamespace": "error",
@@ -47,8 +80,8 @@
                     "level": "error",
                     "options": {
                         "paths": {
-                            "@mui/material": "No Barrel Import. Use `import [Component] from '@mui/material/[Component]'` instead.",
-                            "@mui/icons-material": "No Barrel Import. Use `import [Icon] from '@mui/icons-material/[Icon]'` instead."
+                            "@mui/icons-material": "No Barrel Import. Use `import [Icon] from '@mui/icons-material/[Icon]'` instead.",
+                            "@mui/material": "No Barrel Import. Use `import [Component] from '@mui/material/[Component]'` instead."
                         }
                     }
                 },
@@ -76,42 +109,11 @@
                 "useGetterReturn": "off",
                 "useNamespaceKeyword": "error"
             }
-        },
-        "includes": [
-            "**",
-            "!node_modules/**",
-            "!.next/**",
-            "!out/**",
-            "!build/**",
-            "!next-env.d.ts",
-            "!public/sw.js"
-        ]
-    },
-    "javascript": {
-        "formatter": {
-            "jsxQuoteStyle": "double",
-            "quoteProperties": "asNeeded",
-            "trailingCommas": "all",
-            "semicolons": "asNeeded",
-            "arrowParentheses": "asNeeded",
-            "bracketSameLine": true,
-            "quoteStyle": "single",
-            "attributePosition": "auto",
-            "bracketSpacing": true
-        },
-        "globals": []
-    },
-    "html": {
-        "formatter": {
-            "selfCloseVoidElements": "always"
         }
     },
-    "assist": {
+    "vcs": {
+        "clientKind": "git",
         "enabled": true,
-        "actions": {
-            "source": {
-                "organizeImports": "off"
-            }
-        }
+        "useIgnoreFile": true
     }
 }

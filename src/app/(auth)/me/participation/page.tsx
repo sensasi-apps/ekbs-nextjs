@@ -1,14 +1,5 @@
 'use client'
 
-// types
-import { type ReactNode } from 'react'
-// vendors
-import useSWR from 'swr'
-// materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
 // icons-materials
 import Agriculture from '@mui/icons-material/Agriculture'
 import BikeScooter from '@mui/icons-material/BikeScooter'
@@ -17,15 +8,24 @@ import CurrencyExchange from '@mui/icons-material/CurrencyExchange'
 import Forest from '@mui/icons-material/Forest'
 import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import Warehouse from '@mui/icons-material/Warehouse'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+// types
+import { type ReactNode } from 'react'
+// vendors
+import useSWR from 'swr'
+import BigNumberCard from '@/components/big-number-card'
+import LineChartCard from '@/components/line-chart-card'
 // components
 import PageTitle from '@/components/page-title'
 // utils
 import Role from '@/enums/role'
-import BigNumberCard from '@/components/big-number-card'
 // hooks
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 import type SectionData from '@/types/section-data'
-import LineChartCard from '@/components/line-chart-card'
 
 export interface ApiResponseType {
     palmBunches: SectionData
@@ -51,44 +51,44 @@ export default function Page() {
 
             {isUserHasRole(Role.FARMER) && (
                 <Section
-                    title="TBS — Jual"
-                    iconTitle={<Forest />}
-                    detailHref="/palm-bunches/rea-tickets"
                     data={palmBunches}
+                    detailHref="/palm-bunches/rea-tickets"
+                    iconTitle={<Forest />}
+                    title="TBS — Jual"
                 />
             )}
 
             {isUserHasRole(Role.COURIER) && (
                 <Section
-                    title="TBS — Angkut"
-                    iconTitle={<Forest />}
-                    detailHref="/palm-bunches/rea-tickets"
                     data={palmBunchesDelivery}
+                    detailHref="/palm-bunches/rea-tickets"
+                    iconTitle={<Forest />}
+                    title="TBS — Angkut"
                 />
             )}
 
             <Section
-                title="SAPRODI"
-                iconTitle={<Warehouse />}
                 data={farmInputs}
                 detailHref="/farm-inputs/my-purchases"
+                iconTitle={<Warehouse />}
+                title="SAPRODI"
             />
 
-            <ComingSoonSection title="Alat Berat" iconTitle={<Agriculture />} />
+            <ComingSoonSection iconTitle={<Agriculture />} title="Alat Berat" />
 
             <ComingSoonSection
-                title="Simpan Pinjam"
                 iconTitle={<CurrencyExchange />}
+                title="Simpan Pinjam"
             />
 
             <ComingSoonSection
-                title="Belayan Mart"
                 iconTitle={<ShoppingCart />}
+                title="Belayan Mart"
             />
 
             <ComingSoonSection
-                title="Belayan Spare Parts"
                 iconTitle={<BikeScooter />}
+                title="Belayan Spare Parts"
             />
         </>
     )
@@ -105,35 +105,35 @@ function SectionHeader({
 }) {
     return (
         <Box
-            display="flex"
             alignItems="center"
+            display="flex"
             justifyContent="space-between"
             py={1.5}
             sx={{
+                bgcolor: 'background.default',
                 position: 'sticky',
                 top: {
-                    xs: '3.5em',
                     sm: '4em',
+                    xs: '3.5em',
                 },
-                bgcolor: 'background.default',
                 zIndex: 1,
             }}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box alignItems="center" display="flex" gap={1}>
                 {iconTitle}
 
-                <Typography variant="h6" component="div">
+                <Typography component="div" variant="h6">
                     {title}
                 </Typography>
             </Box>
 
             {detailHref && (
                 <Button
+                    color="success"
                     component="a"
-                    href={detailHref}
                     endIcon={<ChevronRight />}
+                    href={detailHref}
                     size="small"
-                    variant="outlined"
-                    color="success">
+                    variant="outlined">
                     Rincian
                 </Button>
             )}
@@ -150,9 +150,9 @@ function ComingSoonSection({
 }) {
     return (
         <Box mb={3}>
-            <SectionHeader title={title} iconTitle={iconTitle} />
+            <SectionHeader iconTitle={iconTitle} title={title} />
 
-            <Typography variant="body2" color="grey" mt={1}>
+            <Typography color="grey" mt={1} variant="body2">
                 Akan hadir
             </Typography>
         </Box>
@@ -175,23 +175,23 @@ function Section({
     return (
         <Box mb={3}>
             <SectionHeader
-                title={title}
-                iconTitle={iconTitle}
                 detailHref={detailHref}
+                iconTitle={iconTitle}
+                title={title}
             />
-            <Grid container spacing={2} mb={1}>
+            <Grid container mb={1} spacing={2}>
                 <Grid
                     size={{
-                        xs: 12,
                         md: 6,
+                        xs: 12,
                     }}>
                     {bigNumber1 && <BigNumberCard {...bigNumber1} />}
                 </Grid>
 
                 <Grid
                     size={{
-                        xs: 12,
                         md: 6,
+                        xs: 12,
                     }}>
                     {bigNumber2 && <BigNumberCard {...bigNumber2} />}
                 </Grid>

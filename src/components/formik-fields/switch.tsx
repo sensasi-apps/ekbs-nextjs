@@ -1,11 +1,12 @@
 // vendors
-import { Field, type FieldProps } from 'formik'
+
+import FormControlLabel from '@mui/material/FormControlLabel'
 // materials
 import FormGroup from '@mui/material/FormGroup'
-import FormLabel from '@mui/material/FormLabel'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
+import FormLabel from '@mui/material/FormLabel'
 import MuiSwitch from '@mui/material/Switch'
+import { Field, type FieldProps } from 'formik'
 
 export default function Switch({
     disabled,
@@ -33,13 +34,13 @@ export default function Switch({
                     )}
 
                     <FormControlLabel
-                        id={name + '-switch'}
-                        name={name}
                         checked={value}
-                        disabled={disabled || isSubmitting}
                         control={<MuiSwitch />}
-                        onChange={onChange}
+                        disabled={disabled || isSubmitting}
+                        id={name + '-switch'}
                         label={switchLabel}
+                        name={name}
+                        onChange={onChange}
                         slotProps={{
                             typography: {
                                 color: value ? undefined : 'text.disabled',

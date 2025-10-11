@@ -1,9 +1,10 @@
 // vendors
-import { Field, type FieldProps } from 'formik'
+
 import Autocomplete from '@mui/material/Autocomplete'
+import { Field, type FieldProps } from 'formik'
+import TextField from '@/components/TextField'
 // components
 import txAccounts from '@/modules/transaction/statics/tx-accounts'
-import TextField from '@/components/TextField'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
@@ -26,11 +27,10 @@ export default function TxTagField({
                 form: { setFieldValue },
             }: FieldProps<string>) => (
                 <Autocomplete
-                    id={name}
-                    options={txAccounts[type]}
-                    value={value ?? null}
                     disabled={disabled}
+                    id={name}
                     onChange={(_, newValue) => setFieldValue(name, newValue)}
+                    options={txAccounts[type]}
                     renderInput={params => (
                         <TextField
                             {...params}
@@ -39,6 +39,7 @@ export default function TxTagField({
                             {...errorsToHelperTextObj(error)}
                         />
                     )}
+                    value={value ?? null}
                 />
             )}
         </Field>

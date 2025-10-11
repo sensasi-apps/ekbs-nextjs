@@ -1,13 +1,14 @@
 // vendors
+
+import { green } from '@mui/material/colors'
 import type { UUID } from 'crypto'
 import type { ColumnDefinitionObject } from 'mui-datatable-delight'
-import { green } from '@mui/material/colors'
 // components
 import Datatable from '@/components/Datatable'
+import formatNumber from '@/utils/format-number'
+import shortUuid from '@/utils/short-uuid'
 // utils
 import toDmy from '@/utils/to-dmy'
-import shortUuid from '@/utils/short-uuid'
-import formatNumber from '@/utils/format-number'
 
 export default function CorrectionTxDataTable({
     userUuid,
@@ -18,7 +19,7 @@ export default function CorrectionTxDataTable({
         <Datatable
             apiUrl={`/wallets/user/${userUuid}/correction-datatable-data`}
             columns={DATATABLE_COLUMNS}
-            defaultSortOrder={{ name: 'at', direction: 'desc' }}
+            defaultSortOrder={{ direction: 'desc', name: 'at' }}
             tableId="user-wallet-correction-tx-datatable"
             title="Daftar Koreksi"
         />
@@ -27,42 +28,42 @@ export default function CorrectionTxDataTable({
 
 const DATATABLE_COLUMNS: ColumnDefinitionObject[] = [
     {
-        name: 'uuid',
         label: 'Kode',
+        name: 'uuid',
         options: {
             customBodyRender: (value: UUID) => shortUuid(value),
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender: (value: string) => toDmy(value),
         },
     },
     {
-        name: 'amount',
         label: 'Nilai (Rp)',
+        name: 'amount',
         options: {
+            customBodyRender: (value: number) => (
+                <span
+                    style={{
+                        color: value <= 0 ? 'inherit' : green[500],
+                        whiteSpace: 'nowrap',
+                    }}>
+                    {formatNumber(value)}
+                </span>
+            ),
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: number) => (
-                <span
-                    style={{
-                        whiteSpace: 'nowrap',
-                        color: value <= 0 ? 'inherit' : green[500],
-                    }}>
-                    {formatNumber(value)}
-                </span>
-            ),
         },
     },
     {
-        name: 'desc',
         label: 'Keterangan',
+        name: 'desc',
         options: {
             setCellProps: () => ({
                 style: {

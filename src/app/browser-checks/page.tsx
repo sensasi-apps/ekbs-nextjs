@@ -2,8 +2,8 @@
 
 // vendors
 import Head from 'next/head'
-import { type IBrowser, UAParser } from 'ua-parser-js'
 import { useEffect, useState } from 'react'
+import { type IBrowser, UAParser } from 'ua-parser-js'
 // components
 import FooterBoxWithLogo from '@/components/footer-box-with-logo'
 // constants
@@ -41,11 +41,11 @@ export default function Page() {
 
             <div
                 style={{
-                    display: 'flex',
-                    justifyContent: 'center',
                     alignItems: 'center',
+                    display: 'flex',
                     flexDirection: 'column',
                     height: '90vh',
+                    justifyContent: 'center',
                 }}>
                 <div
                     style={{
@@ -68,16 +68,16 @@ export default function Page() {
                         Anda sedang menggunakan peramban{' '}
                         <span
                             style={{
-                                fontWeight: 'bold',
                                 color: 'cyan',
+                                fontWeight: 'bold',
                             }}>
                             {browser?.name}
                         </span>{' '}
                         versi{' '}
                         <span
                             style={{
-                                fontWeight: 'bold',
                                 color: 'cyan',
+                                fontWeight: 'bold',
                             }}>
                             {parseFloat(browser?.version ?? '')}
                         </span>
@@ -87,8 +87,8 @@ export default function Page() {
                                 adalah versi{' '}
                                 <span
                                     style={{
-                                        fontWeight: 'bold',
                                         color: 'lightgreen',
+                                        fontWeight: 'bold',
                                     }}>
                                     {minimumVersion}
                                 </span>

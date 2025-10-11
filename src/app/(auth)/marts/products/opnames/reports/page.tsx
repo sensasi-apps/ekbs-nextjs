@@ -1,10 +1,8 @@
 'use client'
 
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+// icons-materials
+import Download from '@mui/icons-material/Download'
+import Refresh from '@mui/icons-material/Refresh'
 // materials
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
@@ -17,9 +15,11 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import Download from '@mui/icons-material/Download'
-import Refresh from '@mui/icons-material/Refresh'
+import dayjs from 'dayjs'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 // components
 import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
@@ -59,8 +59,8 @@ export default function OpnameReportPage() {
 
             <BackButton />
 
-            <Box display="flex" alignItems="center" mb={2} mt={1}>
-                <FiltersBox mutate={swr.mutate} isLoading={isLoading} />
+            <Box alignItems="center" display="flex" mb={2} mt={1}>
+                <FiltersBox isLoading={isLoading} mutate={swr.mutate} />
 
                 <PrintHandler
                     slotProps={{
@@ -84,9 +84,8 @@ export default function OpnameReportPage() {
                 </PrintHandler>
 
                 <IconButton
-                    title="Unduh Excel"
-                    icon={Download}
                     disabled={data.length === 0}
+                    icon={Download}
                     onClick={() =>
                         aoaToXlsx(
                             `Laporan Opname per Kategori — ${from_at} s.d ${to_at}`,
@@ -99,6 +98,7 @@ export default function OpnameReportPage() {
                             ],
                         )
                     }
+                    title="Unduh Excel"
                 />
             </Box>
 
@@ -142,31 +142,31 @@ function FiltersBox({
 
     return (
         <Box
-            sx={{ display: 'flex', gap: 2, alignItems: 'center', flexGrow: 1 }}>
+            sx={{ alignItems: 'center', display: 'flex', flexGrow: 1, gap: 2 }}>
             <DatePicker
                 name="from_at"
-                value={from_at ? dayjs(from_at as string) : null}
                 onChange={value =>
                     replace(
                         `?from_at=${value?.format('YYYY-MM-DD')}&to_at=${to_at}`,
                     )
                 }
+                value={from_at ? dayjs(from_at as string) : null}
             />
             <DatePicker
                 name="to_at"
-                value={to_at ? dayjs(to_at as string) : null}
                 onChange={value =>
                     replace(
                         `?from_at=${from_at}&to_at=${value?.format('YYYY-MM-DD')}`,
                     )
                 }
+                value={to_at ? dayjs(to_at as string) : null}
             />
 
             <IconButton
                 disabled={!from_at || !to_at || isLoading}
-                title="Segarkan"
                 icon={Refresh}
                 onClick={() => mutate()}
+                title="Segarkan"
             />
         </Box>
     )
@@ -191,7 +191,7 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                 <TableBody>
                     {data.length === 0 && (
                         <TableRow>
-                            <TableCell colSpan={7} align="center">
+                            <TableCell align="center" colSpan={7}>
                                 Tidak ada data
                             </TableCell>
                         </TableRow>
@@ -235,7 +235,7 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
 
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={2} align="right">
+                        <TableCell align="right" colSpan={2}>
                             Total
                         </TableCell>
 

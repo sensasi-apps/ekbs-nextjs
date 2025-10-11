@@ -1,14 +1,14 @@
 'use client'
 
-import Datatable, { type DatatableProps } from '@/components/Datatable'
-import { type GetRowData } from '@/components/Datatable/@types'
-import Fab from '@/components/Fab'
-import type User from '@/modules/user/types/orms/user'
 import Add from '@mui/icons-material/Add'
 import NextLink from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import Datatable, { type DatatableProps } from '@/components/Datatable'
+import { type GetRowData } from '@/components/Datatable/@types'
+import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
+import type User from '@/modules/user/types/orms/user'
 
 let getRowData: GetRowData<Ticket>
 
@@ -18,12 +18,12 @@ export default function Page() {
             <PageTitle title="Ticketing System" />
 
             <Datatable
-                title="Daftar Tiket"
-                tableId="tickets-datatable"
                 apiUrl="ticketing-system/tickets-datatable"
-                getRowDataCallback={fn => (getRowData = fn)}
                 columns={COLUMNS}
-                defaultSortOrder={{ name: 'id', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'id' }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                tableId="tickets-datatable"
+                title="Daftar Tiket"
             />
 
             <Fab component={NextLink} href="ticketing-system/create">
@@ -35,27 +35,27 @@ export default function Page() {
 
 const COLUMNS: DatatableProps<Ticket>['columns'] = [
     {
-        name: 'id',
         label: 'ID',
+        name: 'id',
     },
     {
-        name: 'user.id',
         label: 'ID Pengguna',
+        name: 'user.id',
         options: {
             customBodyRenderLite: dataIndex => getRowData(dataIndex)?.user?.id,
         },
     },
     {
-        name: 'labels',
         label: 'Label',
+        name: 'labels',
     },
     {
-        name: 'title',
         label: 'Judul',
+        name: 'title',
     },
     {
-        name: 'message',
         label: 'Pesan',
+        name: 'message',
         options: {
             customBodyRender: value => (
                 <Markdown remarkPlugins={[remarkGfm]}>
@@ -65,8 +65,8 @@ const COLUMNS: DatatableProps<Ticket>['columns'] = [
         },
     },
     {
-        name: 'messages',
         label: 'Balasan',
+        name: 'messages',
     },
 ]
 

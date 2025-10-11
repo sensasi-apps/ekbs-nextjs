@@ -1,17 +1,17 @@
 'use client'
 
-// types
-import type NavItemGroup from '../../../types/nav-item-group'
-// vendors
-import { useParams, usePathname } from 'next/navigation'
+// icons
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 // materials
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-// icons
-import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 import Link from 'next/link'
+// vendors
+import { useParams, usePathname } from 'next/navigation'
+// types
+import type NavItemGroup from '../../../types/nav-item-group'
 
 export default function NavBarListItem({
     data,
@@ -37,19 +37,19 @@ export default function NavBarListItem({
                 py: 0,
             }}>
             <ListItemButton
-                LinkComponent={Link}
-                href={href}
                 disabled={isActive}
-                selected={isActive}
                 disableGutters
+                href={href}
+                LinkComponent={Link}
+                selected={isActive}
                 sx={{
-                    py: 0.9,
                     backgroundColor: isActive
                         ? 'rgba(var(--mui-palette-success-mainChannel) / var(--mui-palette-action-selectedOpacity)) !important'
                         : undefined,
+                    borderRadius: 2,
                     color: isActive ? 'success.main' : 'text.secondary',
                     opacity: 'unset !important',
-                    borderRadius: 2,
+                    py: 0.9,
                 }}>
                 <ListItemIcon
                     sx={{
@@ -59,9 +59,6 @@ export default function NavBarListItem({
                 </ListItemIcon>
                 <ListItemText
                     primary={label}
-                    sx={{
-                        ml: 1,
-                    }}
                     slotProps={{
                         primary: {
                             sx: {
@@ -69,6 +66,9 @@ export default function NavBarListItem({
                                 fontWeight: isActive ? 'bold' : undefined,
                             },
                         },
+                    }}
+                    sx={{
+                        ml: 1,
                     }}
                 />
 

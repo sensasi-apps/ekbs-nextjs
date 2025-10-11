@@ -11,47 +11,47 @@ export default function LoginForm({
     handleSubmit: HTMLFormElement['onSubmit']
 }) {
     return (
-        <Box component="form" onSubmit={handleSubmit} autoComplete="off">
+        <Box autoComplete="off" component="form" onSubmit={handleSubmit}>
             <TextField
-                margin="normal"
-                required
+                fullWidth
+                id="email"
                 inputProps={{
                     autoComplete: 'off',
                 }}
-                fullWidth
-                id="email"
                 label="Email Address"
-                type="email"
+                margin="normal"
                 name="email"
+                required
+                type="email"
             />
 
             <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
                 autoComplete="off"
+                fullWidth
+                id="password"
+                label="Password"
+                margin="normal"
+                name="password"
+                required
+                type="password"
             />
 
             <Box
+                alignItems="center"
                 display="flex"
                 justifyContent="space-between"
-                alignItems="center"
-                sx={{ mt: 3, mb: 2 }}>
+                sx={{ mb: 2, mt: 3 }}>
                 <Fab
-                    variant="extended"
                     color="success"
-                    type="submit"
                     sx={{
                         px: 3,
-                    }}>
+                    }}
+                    type="submit"
+                    variant="extended">
                     Masuk
                 </Fab>
 
-                <Link href="/forgot-password" variant="body2" color="info">
+                <Link color="info" href="/forgot-password" variant="body2">
                     Lupa kata sandi?
                 </Link>
             </Box>

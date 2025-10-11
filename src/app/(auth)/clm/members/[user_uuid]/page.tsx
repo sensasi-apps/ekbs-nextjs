@@ -1,27 +1,27 @@
 'use client'
 
-// vendors
-import { useParams } from 'next/navigation'
-// materials
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
 // icons
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import WarningIcon from '@mui/icons-material/Warning'
 import CropIcon from '@mui/icons-material/Crop'
 import ForestIcon from '@mui/icons-material/Forest'
+import WarningIcon from '@mui/icons-material/Warning'
+// materials
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+// vendors
+import { useParams } from 'next/navigation'
+import useClmMemberDetailSwr, {
+    type ClmMemberDetailResponse,
+} from '@/app/(auth)/clm/members/[user_uuid]/_components/use-member-detail-swr'
 // components
 import BackButton from '@/components/back-button'
 import ChipSmall from '@/components/ChipSmall'
 import LoadingCenter from '@/components/loading-center'
+import CertificationUpdateForm from './_components/certification-update-form'
 // features
 import Tabs from './_components/tabs'
 import UserStatCard from './_components/user-stat-card'
-import CertificationUpdateForm from './_components/certification-update-form'
-import useClmMemberDetailSwr, {
-    type ClmMemberDetailResponse,
-} from '@/app/(auth)/clm/members/[user_uuid]/_components/use-member-detail-swr'
 
 export default function MemberDetailPage() {
     const { user_uuid } = useParams<{
@@ -39,47 +39,47 @@ export default function MemberDetailPage() {
             <BackButton />
 
             <Box
-                mb={8}
-                display="flex"
                 alignItems="center"
+                display="flex"
+                flexWrap="wrap"
                 gap={4}
                 justifyContent="center"
-                flexWrap="wrap">
+                mb={8}>
                 <Box
                     bgcolor="grey"
-                    sx={{ borderRadius: '50%', width: 100, height: 100 }}
+                    sx={{ borderRadius: '50%', height: 100, width: 100 }}
                 />
 
                 <Box>
-                    <Typography variant="h5" component="div" gutterBottom>
+                    <Typography component="div" gutterBottom variant="h5">
                         {user?.name}
                         {user && (
                             <ChipSmall
-                                label={`#${user.id}`}
                                 color="info"
-                                variant="outlined"
+                                label={`#${user.id}`}
                                 sx={{ ml: 1 }}
+                                variant="outlined"
                             />
                         )}
                     </Typography>
 
                     {user?.socials?.map((social, i) => (
-                        <Typography key={i} variant="body2" component="div">
+                        <Typography component="div" key={i} variant="body2">
                             {social.social.name}: {social.username}
                         </Typography>
                     ))}
                 </Box>
 
                 <CertificationUpdateForm
-                    user_uuid={user_uuid}
                     certifications={data.certifications.map(c => `${c.id}`)}
                     onSubmitted={() => mutate()}
+                    user_uuid={user_uuid}
                 />
             </Box>
 
-            <Grid container spacing={2} mb={4}>
+            <Grid container mb={4} spacing={2}>
                 {getStatCardProps(data).map((props, index) => (
-                    <Grid key={index} size={{ xs: 12, sm: 'auto' }}>
+                    <Grid key={index} size={{ sm: 'auto', xs: 12 }}>
                         <UserStatCard {...props} />
                     </Grid>
                 ))}
@@ -122,29 +122,29 @@ function getStatCardProps({
 
     return [
         {
+            Icon: ForestIcon,
             text: 'Total Lahan',
             value: lands.length,
-            Icon: ForestIcon,
         },
         {
-            text: 'Total Luas',
-            value: lands.reduce((sum, land) => sum + land.n_area_hectares, 0),
-            unit: 'Ha',
             Icon: CropIcon,
+            text: 'Total Luas',
+            unit: 'Ha',
+            value: lands.reduce((sum, land) => sum + land.n_area_hectares, 0),
         },
         {
-            text: 'Syarat Perorangan',
-            value: `${nApprovedRequisites}/${requisite_users_with_default.length}`,
             Icon: isRequisitesFulfilled ? CheckCircleOutlineIcon : WarningIcon,
             iconColor: isRequisitesFulfilled ? undefined : 'error',
+            text: 'Syarat Perorangan',
+            value: `${nApprovedRequisites}/${requisite_users_with_default.length}`,
         },
         {
-            text: 'Syarat Lahan',
-            value: `${nApprovedRequisiteLands}/${nRequisiteLand}`,
             Icon: isRequisiteLandsFulfilled
                 ? CheckCircleOutlineIcon
                 : WarningIcon,
             iconColor: isRequisiteLandsFulfilled ? undefined : 'error',
+            text: 'Syarat Lahan',
+            value: `${nApprovedRequisiteLands}/${nRequisiteLand}`,
         },
     ] as const
 }

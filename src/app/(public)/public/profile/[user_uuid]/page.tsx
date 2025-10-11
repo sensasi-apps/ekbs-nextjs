@@ -1,17 +1,17 @@
 'use client'
 
-// vendors
-import type { AxiosError } from 'axios'
-import { useState } from 'react'
-import { notFound, useParams } from 'next/navigation'
-import Head from 'next/head'
-import useSWR from 'swr'
+import LinearProgress from '@mui/material/LinearProgress'
 // materials
 import Typography from '@mui/material/Typography'
-import LinearProgress from '@mui/material/LinearProgress'
+// vendors
+import type { AxiosError } from 'axios'
+import Head from 'next/head'
+import { notFound, useParams } from 'next/navigation'
+import { useState } from 'react'
+import useSWR from 'swr'
+import Profile from './_parts/profile'
 // parts
 import type PublicProfile from './_types/public-profile'
-import Profile from './_parts/profile'
 
 export default function Page() {
     const { user_uuid } = useParams<{
@@ -36,13 +36,13 @@ export default function Page() {
     return (
         <>
             <Head>
-                <meta name="robots" content="noindex,nofollow" />
+                <meta content="noindex,nofollow" name="robots" />
                 <meta
-                    http-equiv="Cache-Control"
                     content="no-store, no-cache, must-revalidate"
+                    http-equiv="Cache-Control"
                 />
-                <meta http-equiv="Pragma" content="no-cache" />
-                <meta http-equiv="Expires" content="0" />
+                <meta content="no-cache" http-equiv="Pragma" />
+                <meta content="0" http-equiv="Expires" />
             </Head>
 
             {!user && !error && <LinearProgress />}

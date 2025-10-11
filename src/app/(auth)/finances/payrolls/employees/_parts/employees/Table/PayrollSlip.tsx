@@ -1,9 +1,5 @@
 // types
-import type Payroll from '@/types/orms/payroll'
-import type PayrollUser from '@/types/orms/payroll-user'
-// vendors
-import { memo } from 'react'
-import dayjs from 'dayjs'
+
 // materials
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -14,10 +10,15 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+import dayjs from 'dayjs'
+import Image from 'next/image'
+// vendors
+import { memo } from 'react'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
 import InfoBox from '@/components/InfoBox'
-import Image from 'next/image'
+import type Payroll from '@/types/orms/payroll'
+import type PayrollUser from '@/types/orms/payroll-user'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 
@@ -39,30 +40,30 @@ const PayrollSlip = memo(function PayrollSlip({
 
     return (
         <FlexColumnBox mt={2}>
-            <Box display="flex" gap={3} alignItems="center">
+            <Box alignItems="center" display="flex" gap={3}>
                 <Image
-                    src="/assets/pwa-icons/green-transparent.svg"
-                    width={0}
+                    alt="logo"
                     height={0}
                     sizes="100vw"
-                    style={{ width: '6em', height: '6em' }}
-                    alt="logo"
+                    src="/assets/pwa-icons/green-transparent.svg"
+                    style={{ height: '6em', width: '6em' }}
+                    width={0}
                 />
 
                 <Box>
-                    <Typography variant="h6" lineHeight={1}>
+                    <Typography lineHeight={1} variant="h6">
                         {isPreview ? 'Pratinjau' : 'Slip Gaji'}
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
+                    <Typography gutterBottom variant="body1">
                         Koperasi Belayan Sejahtera
                     </Typography>
-                    <Typography variant="caption" component="div">
+                    <Typography component="div" variant="caption">
                         {dayjs(at).format('D MMMM YYYY')}
                     </Typography>
-                    <Typography variant="caption" component="div">
+                    <Typography component="div" variant="caption">
                         {note}
                     </Typography>
-                    <Typography variant="caption" component="div">
+                    <Typography component="div" variant="caption">
                         {uuid}
                     </Typography>
                 </Box>
@@ -70,11 +71,6 @@ const PayrollSlip = memo(function PayrollSlip({
 
             <Box>
                 <InfoBox
-                    sx={{
-                        td: {
-                            lineHeight: '1rem',
-                        },
-                    }}
                     data={[
                         {
                             label: 'ID',
@@ -95,6 +91,11 @@ const PayrollSlip = memo(function PayrollSlip({
                                 '-',
                         },
                     ]}
+                    sx={{
+                        td: {
+                            lineHeight: '1rem',
+                        },
+                    }}
                 />
             </Box>
 
@@ -131,10 +132,10 @@ const PayrollSlip = memo(function PayrollSlip({
                                     {earnings?.[i]?.name}
                                 </TableCell>
                                 <TableCell
-                                    width="20%"
                                     sx={{
                                         whiteSpace: 'nowrap',
-                                    }}>
+                                    }}
+                                    width="20%">
                                     {earnings?.[i]?.amount_rp
                                         ? numberToCurrency(
                                               earnings[i].amount_rp,
@@ -145,10 +146,10 @@ const PayrollSlip = memo(function PayrollSlip({
                                     {deductions?.[i]?.name}
                                 </TableCell>
                                 <TableCell
-                                    width="20%"
                                     sx={{
                                         whiteSpace: 'nowrap',
-                                    }}>
+                                    }}
+                                    width="20%">
                                     {deductions?.[i]?.amount_rp
                                         ? numberToCurrency(
                                               deductions[i].amount_rp,

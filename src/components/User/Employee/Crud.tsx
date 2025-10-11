@@ -1,19 +1,20 @@
 // vendors
-import type { UUID } from 'crypto'
-import { type AxiosError } from 'axios'
-import { Formik } from 'formik'
-import { useState } from 'react'
-import { mutate } from 'swr'
-import axios from '@/lib/axios'
+
 // materials
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import { type AxiosError } from 'axios'
+import type { UUID } from 'crypto'
+import { Formik } from 'formik'
+import { useState } from 'react'
+import { mutate } from 'swr'
+import axios from '@/lib/axios'
+import type User from '@/modules/user/types/orms/user'
 //
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-import type User from '@/modules/user/types/orms/user'
 import EmployeeDetailBox from './DetailBox'
 import EmployeeForm from './Form'
 
@@ -42,6 +43,31 @@ export default function UserEmployeeCrud({
 
             {formValues && (
                 <Formik
+                    component={props => (
+                        <Dialog maxWidth="xs" open>
+                            <DialogTitle>
+                                Perbaharui Data Kepegawaian
+                            </DialogTitle>
+                            <DialogContent>
+                                <EmployeeForm id={FORM_ID} {...props} />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button
+                                    disabled={props.isSubmitting}
+                                    onClick={props.handleReset}>
+                                    Batal
+                                </Button>
+
+                                <Button
+                                    form={FORM_ID}
+                                    loading={props.isSubmitting}
+                                    type="submit"
+                                    variant="contained">
+                                    Simpan
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    )}
                     id={FORM_ID}
                     initialValues={formValues}
                     onReset={handleFormClose}
@@ -64,31 +90,6 @@ export default function UserEmployeeCrud({
                                 },
                             )
                     }
-                    component={props => (
-                        <Dialog maxWidth="xs" open>
-                            <DialogTitle>
-                                Perbaharui Data Kepegawaian
-                            </DialogTitle>
-                            <DialogContent>
-                                <EmployeeForm id={FORM_ID} {...props} />
-                            </DialogContent>
-                            <DialogActions>
-                                <Button
-                                    disabled={props.isSubmitting}
-                                    onClick={props.handleReset}>
-                                    Batal
-                                </Button>
-
-                                <Button
-                                    variant="contained"
-                                    loading={props.isSubmitting}
-                                    form={FORM_ID}
-                                    type="submit">
-                                    Simpan
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
-                    )}
                 />
             )}
         </>

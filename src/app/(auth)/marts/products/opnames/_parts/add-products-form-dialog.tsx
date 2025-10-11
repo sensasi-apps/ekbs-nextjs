@@ -1,8 +1,8 @@
 // vendors
-import type { AxiosError } from 'axios'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import useSWR from 'swr'
+
+// icons-materials
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import CachedIcon from '@mui/icons-material/Cached'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
@@ -12,16 +12,17 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Fade from '@mui/material/Fade'
 import FormHelperText from '@mui/material/FormHelperText'
-// icons-materials
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import CachedIcon from '@mui/icons-material/Cached'
-//
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-import type Product from '@/modules/mart/types/orms/product'
+import type { AxiosError } from 'axios'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import useSWR from 'swr'
 import IconButton from '@/components/IconButton'
 import TextField from '@/components/TextField'
-import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 import axios from '@/lib/axios'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
+import type Product from '@/modules/mart/types/orms/product'
+//
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 
 export default function AddProductFormDialog({
     productMovementUuid,
@@ -49,11 +50,11 @@ export default function AddProductFormDialog({
     return (
         <>
             <IconButton
-                title="Tambah Produk"
-                icon={AddCircleIcon}
                 color="success"
                 disabled={disabled}
+                icon={AddCircleIcon}
                 onClick={() => setIsOpen(true)}
+                title="Tambah Produk"
             />
 
             <Dialog fullWidth maxWidth="sm" open={isOpen}>
@@ -65,7 +66,6 @@ export default function AddProductFormDialog({
                         : 'Berdasarkan Kategori'}
 
                     <IconButton
-                        title="Ganti"
                         color="primary"
                         icon={CachedIcon}
                         onClick={() => {
@@ -73,6 +73,7 @@ export default function AddProductFormDialog({
                             setSelectedProductIds([])
                             setIsAddByCategory(prev => !prev)
                         }}
+                        title="Ganti"
                     />
 
                     <Fade
@@ -85,10 +86,6 @@ export default function AddProductFormDialog({
                         <Autocomplete
                             disabled={isCategoriesLoading || isLoading}
                             multiple
-                            options={productCategories.map(
-                                category => category ?? 'Tanpa Kategori',
-                            )}
-                            size="small"
                             onChange={(_, categories) => {
                                 setError(undefined)
 
@@ -109,9 +106,13 @@ export default function AddProductFormDialog({
                                         .map(product => product.id) ?? [],
                                 )
                             }}
+                            options={productCategories.map(
+                                category => category ?? 'Tanpa Kategori',
+                            )}
                             renderInput={params => (
                                 <TextField {...params} label="Kategori" />
                             )}
+                            size="small"
                         />
                     </Fade>
 
@@ -124,19 +125,19 @@ export default function AddProductFormDialog({
                         unmountOnExit>
                         <Autocomplete
                             disabled={isProductsLoading || isLoading}
-                            multiple
-                            options={products?.data ?? []}
                             getOptionLabel={({ id, barcode_reg_id, name }) =>
                                 `${barcode_reg_id ?? id} • ${name}`
                             }
-                            size="small"
+                            multiple
                             onChange={(_, products) => {
                                 setError(undefined)
                                 setSelectedProductIds(products.map(p => p.id))
                             }}
+                            options={products?.data ?? []}
                             renderInput={params => (
                                 <TextField {...params} label="Produk" />
                             )}
+                            size="small"
                         />
                     </Fade>
 
@@ -149,16 +150,15 @@ export default function AddProductFormDialog({
                 </DialogContent>
                 <DialogActions>
                     <Button
-                        size="small"
+                        disabled={isLoading}
                         onClick={() => setIsOpen(false)}
-                        disabled={isLoading}>
+                        size="small">
                         Batal
                     </Button>
 
                     <Button
-                        disabled={selectedProductIds.length === 0 || isLoading}
-                        size="small"
                         color="primary"
+                        disabled={selectedProductIds.length === 0 || isLoading}
                         onClick={() => {
                             setIsLoading(true)
 
@@ -181,7 +181,8 @@ export default function AddProductFormDialog({
                                         setIsLoading(false)
                                     },
                                 )
-                        }}>
+                        }}
+                        size="small">
                         Tambahkan
                     </Button>
                 </DialogActions>

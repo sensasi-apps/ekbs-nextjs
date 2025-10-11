@@ -1,14 +1,15 @@
 // vendors
-import type { ReactNode } from 'react'
+
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
+import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import type { ReactNode } from 'react'
 import formatNumber from '@/utils/format-number'
-import TableFooter from '@mui/material/TableFooter'
 
 /**
  * AoaTable is a component that renders a table with customizable headers and data rows.

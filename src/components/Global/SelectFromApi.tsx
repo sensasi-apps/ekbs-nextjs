@@ -1,16 +1,17 @@
 // types
-import type { ReactNode } from 'react'
-import type { SelectProps } from '@mui/material/Select'
+
 import type { FormControlProps } from '@mui/material/FormControl'
-// vendors
-import useSWR from 'swr'
 // materials
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
+import type { SelectProps } from '@mui/material/Select'
 import Select from '@mui/material/Select'
 import Skeleton from '@mui/material/Skeleton'
+import type { ReactNode } from 'react'
+// vendors
+import useSWR from 'swr'
 
 export default function SelectFromApi({
     endpoint,
@@ -59,6 +60,7 @@ export default function SelectFromApi({
                         {...(rest as SelectProps)}
                         {...selectProps}
                         error={rest?.error || data.length === 0}
+                        label={label}
                         onChange={(ev, child) => {
                             const value = ev.target.value
 
@@ -70,8 +72,7 @@ export default function SelectFromApi({
                                         (item[dataKey] ?? item.id) === value,
                                 ),
                             )
-                        }}
-                        label={label}>
+                        }}>
                         {data.map(
                             renderOption ??
                                 (item => (

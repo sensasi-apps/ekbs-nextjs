@@ -1,11 +1,12 @@
 // types
+
+import EditIcon from '@mui/icons-material/Edit'
 import type { BoxProps } from '@mui/material/Box'
-import type User from '@/modules/user/types/orms/user'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import EditIcon from '@mui/icons-material/Edit'
+import type User from '@/modules/user/types/orms/user'
 // utils
 import toDmy from '@/utils/to-dmy'
 
@@ -37,9 +38,9 @@ export default function EmployeeDetailBox({
         <div>
             <Row title="Status">
                 <Typography
-                    variant="h5"
                     color={unjoined_at ? 'error.light' : 'success.light'}
-                    component="div">
+                    component="div"
+                    variant="h5">
                     {getStatus()}
                 </Typography>
 
@@ -69,11 +70,11 @@ export default function EmployeeDetailBox({
             <Row title="Catatan tambahan">{note ?? '-'}</Row>
 
             <Button
-                size="small"
-                variant="outlined"
                 color="info"
+                onClick={onClickEdit}
+                size="small"
                 startIcon={<EditIcon />}
-                onClick={onClickEdit}>
+                variant="outlined">
                 Perbaharui data
             </Button>
         </div>
@@ -91,7 +92,7 @@ const Row = ({
     helperText?: string
 } & BoxProps) => (
     <Box {...props} mb={1}>
-        <Typography variant="caption" color="text.secondary">
+        <Typography color="text.secondary" variant="caption">
             {title}
         </Typography>
         {typeof children === 'string' && <Typography>{children}</Typography>}

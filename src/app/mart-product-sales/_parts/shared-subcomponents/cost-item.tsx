@@ -1,23 +1,23 @@
 'use client'
 
-// types
-import type { FormValuesType } from '../../../../components/pages/marts/products/sales/formik-wrapper'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-// vendors
-import type { FieldProps, FormikErrors } from 'formik'
-import { memo, useState } from 'react'
+// icons-materials
+import RemoveCircle from '@mui/icons-material/RemoveCircle'
 // materials
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import RemoveCircle from '@mui/icons-material/RemoveCircle'
+// vendors
+import type { FieldProps, FormikErrors } from 'formik'
+import { memo, useState } from 'react'
 // components
 import IconButton from '@/components/IconButton'
-import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
+import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+// types
+import type { FormValuesType } from '../../../../components/pages/marts/products/sales/formik-wrapper'
 
 function CostItem({
     index,
@@ -44,34 +44,37 @@ function CostItem({
         <>
             <Grid size={{ xs: 1 }}>
                 <IconButton
+                    color="error"
+                    disabled={disabled}
+                    icon={RemoveCircle}
+                    onClick={onRemove}
+                    size="small"
                     sx={{
                         p: 0,
                     }}
                     title="hapus"
-                    size="small"
-                    icon={RemoveCircle}
-                    color="error"
-                    onClick={onRemove}
-                    disabled={disabled}
                 />
             </Grid>
 
             <Grid
-                size={{ xs: 6 }}
                 component={Typography}
                 lineHeight="unset"
-                whiteSpace="nowrap"
+                pl={1}
+                size={{ xs: 6 }}
                 textOverflow="ellipsis"
                 variant="caption"
-                pl={1}>
+                whiteSpace="nowrap">
                 <TextField
-                    fullWidth
-                    name="name"
-                    placeholder="nama biaya / diskon"
-                    variant="standard"
-                    margin="none"
-                    value={name}
                     disabled={disabled}
+                    fullWidth
+                    inputProps={{
+                        style: {
+                            fontFamily: 'Roboto',
+                            fontSize: '0.8em',
+                        },
+                    }}
+                    margin="none"
+                    name="name"
                     onChange={({ target: { value } }) => {
                         setName(value)
 
@@ -80,12 +83,9 @@ function CostItem({
                             rp,
                         })
                     }}
-                    inputProps={{
-                        style: {
-                            fontSize: '0.8em',
-                            fontFamily: 'Roboto',
-                        },
-                    }}
+                    placeholder="nama biaya / diskon"
+                    value={name}
+                    variant="standard"
                     {...errorsToHelperTextObj(
                         errors?.[`costs.${index}.name`] ?? error?.name,
                     )}
@@ -93,15 +93,34 @@ function CostItem({
             </Grid>
 
             <Grid
+                component={Typography}
+                lineHeight="unset"
                 size={{ xs: 5 }}
                 textAlign="end"
-                component={Typography}
-                variant="caption"
-                lineHeight="unset">
+                variant="caption">
                 <NumericFormat
-                    value={rp}
                     allowNegative
                     disabled={disabled}
+                    InputProps={{
+                        startAdornment: (
+                            <RpInputAdornment
+                                sx={{
+                                    '& > p': {
+                                        fontFamily: 'Roboto',
+                                        fontSize: '0.8em',
+                                    },
+                                }}
+                            />
+                        ),
+                    }}
+                    inputProps={{
+                        style: {
+                            fontFamily: 'Roboto',
+                            fontSize: '0.8em',
+                            textAlign: 'end',
+                        },
+                    }}
+                    margin="none"
                     onValueChange={({ floatValue }) => {
                         setRp(floatValue)
 
@@ -110,28 +129,9 @@ function CostItem({
                             rp: floatValue,
                         })
                     }}
-                    inputProps={{
-                        style: {
-                            textAlign: 'end',
-                            fontSize: '0.8em',
-                            fontFamily: 'Roboto',
-                        },
-                    }}
-                    margin="none"
-                    variant="standard"
                     placeholder="0"
-                    InputProps={{
-                        startAdornment: (
-                            <RpInputAdornment
-                                sx={{
-                                    '& > p': {
-                                        fontSize: '0.8em',
-                                        fontFamily: 'Roboto',
-                                    },
-                                }}
-                            />
-                        ),
-                    }}
+                    value={rp}
+                    variant="standard"
                     {...errorsToHelperTextObj(
                         errors?.[`costs.${index}.rp`] ?? error?.rp,
                     )}

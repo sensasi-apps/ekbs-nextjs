@@ -1,12 +1,8 @@
 'use client'
 
-// types
-import type CashType from '@/types/orms/cash'
-import type { KeyedMutator } from 'swr'
-// enums
-import CashPermission from '@/enums/permissions/Cash'
-// vendors
-import useSWR from 'swr'
+import AddIcon from '@mui/icons-material/Add'
+// icons
+import EditIcon from '@mui/icons-material/Edit'
 // materials
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -15,13 +11,17 @@ import Card from '@mui/material/Card'
 import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-// icons
-import EditIcon from '@mui/icons-material/Edit'
-import AddIcon from '@mui/icons-material/Add'
-// utils
-import numberToCurrency from '@/utils/number-to-currency'
+import type { KeyedMutator } from 'swr'
+// vendors
+import useSWR from 'swr'
+// enums
+import CashPermission from '@/enums/permissions/Cash'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// types
+import type CashType from '@/types/orms/cash'
+// utils
+import numberToCurrency from '@/utils/number-to-currency'
 
 export let mutate: KeyedMutator<CashType[]>
 
@@ -51,9 +51,9 @@ export default function CashList({
                         mb: 2,
                     },
                 }}>
-                <Skeleton variant="rounded" height={80} />
-                <Skeleton variant="rounded" height={80} />
-                <Skeleton variant="rounded" height={80} />
+                <Skeleton height={80} variant="rounded" />
+                <Skeleton height={80} variant="rounded" />
+                <Skeleton height={80} variant="rounded" />
             </Box>
         )
     }
@@ -65,10 +65,10 @@ export default function CashList({
             display="flex"
             gap={2}
             sx={{
-                overflowX: 'auto',
                 flexDirection: {
                     md: 'column',
                 },
+                overflowX: 'auto',
             }}>
             {cashes.map(cash => (
                 <div key={cash.uuid}>
@@ -79,13 +79,13 @@ export default function CashList({
             {!isLoading && isAuthHasPermission(CashPermission.CREATE) && (
                 <Button
                     fullWidth
+                    onClick={onNew}
+                    size="large"
+                    startIcon={<AddIcon />}
                     sx={{
                         minWidth: 200,
                     }}
-                    size="large"
-                    variant="outlined"
-                    onClick={onNew}
-                    startIcon={<AddIcon />}>
+                    variant="outlined">
                     Tambah Kas
                 </Button>
             )}
@@ -108,26 +108,26 @@ function ThisCard({
 
     return (
         <Card>
-            <Box p={3} display="flex" alignItems="center" gap={2}>
+            <Box alignItems="center" display="flex" gap={2} p={3}>
                 <Avatar>{code}</Avatar>
 
                 <div>
                     <Typography
+                        alignItems="flex-end"
                         color="text.secondary"
                         component="div"
-                        display="flex"
-                        alignItems="flex-end">
+                        display="flex">
                         {name}
                         {isUserCanUpdate && (
                             <IconButton
-                                size="small"
-                                onClick={() => onEdit(data)}>
+                                onClick={() => onEdit(data)}
+                                size="small">
                                 <EditIcon fontSize="small" />
                             </IconButton>
                         )}
                     </Typography>
 
-                    <Typography variant="h5" component="div" noWrap>
+                    <Typography component="div" noWrap variant="h5">
                         {numberToCurrency(balance)}
                     </Typography>
                 </div>

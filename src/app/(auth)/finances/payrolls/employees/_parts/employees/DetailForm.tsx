@@ -1,9 +1,10 @@
 // types
-import type { FastFieldProps, FieldProps, FormikProps } from 'formik'
-import type PayrollUser from '@/types/orms/payroll-user'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-// vendors
-import { FastField, Field, FieldArray } from 'formik'
+
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+// icons
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
@@ -11,22 +12,22 @@ import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
-// icons
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import type { FastFieldProps, FieldProps, FormikProps } from 'formik'
+// vendors
+import { FastField, Field, FieldArray } from 'formik'
+import FlexColumnBox from '@/components/FlexColumnBox'
 // components
 import FormikForm from '@/components/formik-form'
-import FlexColumnBox from '@/components/FlexColumnBox'
 import InfoBox from '@/components/InfoBox'
-import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
+import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+import type PayrollUser from '@/types/orms/payroll-user'
+import debounce from '@/utils/debounce'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import debounce from '@/utils/debounce'
 
 export default function PayrollEmployeeDetailsForm({
     values: { details },
@@ -45,22 +46,22 @@ export default function PayrollEmployeeDetailsForm({
 
     return (
         <FormikForm
-            id="employee-details-form"
             autoComplete="off"
-            isNew={false}
             dirty={dirty}
+            id="employee-details-form"
+            isNew={false}
             processing={isPropcessing}
-            submitting={isSubmitting}
             slotProps={{
-                submitButton: {
-                    disabled: isDisabled,
-                },
                 deleteButton: {
                     disabled: isDisabled,
                     loading: isDeleting,
                     onClick: handleDelete,
                 },
-            }}>
+                submitButton: {
+                    disabled: isDisabled,
+                },
+            }}
+            submitting={isSubmitting}>
             <InfoBox
                 data={[
                     {
@@ -88,7 +89,7 @@ export default function PayrollEmployeeDetailsForm({
             />
 
             {errors && (
-                <FormHelperText error component="div">
+                <FormHelperText component="div" error>
                     {Object.values(errors).map((error, i) => (
                         <Box key={i}>{error}</Box>
                     ))}
@@ -99,21 +100,21 @@ export default function PayrollEmployeeDetailsForm({
                 name="details"
                 render={({ remove, push, swap }) => (
                     <>
-                        <FlexColumnBox mt={2} gap={1}>
+                        <FlexColumnBox gap={1} mt={2}>
                             {details?.map((detail, index) => (
                                 <Box
-                                    key={index}
+                                    alignItems="center"
                                     display="flex"
                                     gap={1}
-                                    alignItems="center">
+                                    key={index}>
                                     <FlexColumnBox gap={undefined}>
                                         <IconButton
-                                            size="small"
+                                            color="info"
                                             disabled={index === 0 || isDisabled}
                                             onClick={() =>
                                                 swap(index, index - 1)
                                             }
-                                            color="info"
+                                            size="small"
                                             sx={{
                                                 p: 0,
                                             }}>
@@ -121,7 +122,7 @@ export default function PayrollEmployeeDetailsForm({
                                         </IconButton>
 
                                         <IconButton
-                                            size="small"
+                                            color="info"
                                             disabled={
                                                 index === details.length - 1 ||
                                                 isDisabled
@@ -129,7 +130,7 @@ export default function PayrollEmployeeDetailsForm({
                                             onClick={() =>
                                                 swap(index, index + 1)
                                             }
-                                            color="info"
+                                            size="small"
                                             sx={{
                                                 p: 0,
                                             }}>
@@ -138,10 +139,10 @@ export default function PayrollEmployeeDetailsForm({
                                     </FlexColumnBox>
 
                                     <Grid
-                                        container
-                                        spacing={1}
                                         alignItems="center"
-                                        flexGrow="1">
+                                        container
+                                        flexGrow="1"
+                                        spacing={1}>
                                         <Grid size={{ xs: 6 }}>
                                             <FastField
                                                 name={`details.${index}.name`}>
@@ -150,8 +151,13 @@ export default function PayrollEmployeeDetailsForm({
                                                     form: { setFieldValue },
                                                 }: FastFieldProps<string>) => (
                                                     <Autocomplete
+                                                        disabled={
+                                                            isDisabled ||
+                                                            Boolean(
+                                                                detail.payroll_user_detailable_id,
+                                                            )
+                                                        }
                                                         freeSolo
-                                                        size="small"
                                                         options={[
                                                             'Gaji Pokok',
                                                             'T. Jabatan',
@@ -163,18 +169,11 @@ export default function PayrollEmployeeDetailsForm({
                                                             'PPh 21',
                                                             'Lembur',
                                                         ]}
-                                                        value={value}
-                                                        disabled={
-                                                            isDisabled ||
-                                                            Boolean(
-                                                                detail.payroll_user_detailable_id,
-                                                            )
-                                                        }
                                                         renderInput={params => (
                                                             <TextField
                                                                 {...params}
-                                                                margin="none"
                                                                 label="Nama"
+                                                                margin="none"
                                                                 name={name}
                                                                 onChange={({
                                                                     target,
@@ -196,6 +195,8 @@ export default function PayrollEmployeeDetailsForm({
                                                                 )}
                                                             />
                                                         )}
+                                                        size="small"
+                                                        value={value}
                                                     />
                                                 )}
                                             </FastField>
@@ -210,21 +211,20 @@ export default function PayrollEmployeeDetailsForm({
                                                 }: FieldProps) => (
                                                     <NumericFormat
                                                         allowNegative
-                                                        label="Nilai (Rp)"
-                                                        name={name}
-                                                        margin="none"
-                                                        InputProps={{
-                                                            startAdornment: (
-                                                                <RpInputAdornment />
-                                                            ),
-                                                        }}
                                                         disabled={
                                                             isDisabled ||
                                                             Boolean(
                                                                 detail.payroll_user_detailable_id,
                                                             )
                                                         }
-                                                        value={value}
+                                                        InputProps={{
+                                                            startAdornment: (
+                                                                <RpInputAdornment />
+                                                            ),
+                                                        }}
+                                                        label="Nilai (Rp)"
+                                                        margin="none"
+                                                        name={name}
                                                         onValueChange={({
                                                             floatValue,
                                                         }) =>
@@ -235,6 +235,7 @@ export default function PayrollEmployeeDetailsForm({
                                                                 ),
                                                             )
                                                         }
+                                                        value={value}
                                                         {...errorsToHelperTextObj(
                                                             (
                                                                 errors as LaravelValidationException['errors']
@@ -248,15 +249,15 @@ export default function PayrollEmployeeDetailsForm({
 
                                     <span>
                                         <IconButton
-                                            size="small"
-                                            onClick={() => remove(index)}
+                                            color="error"
                                             disabled={
                                                 isDisabled ||
                                                 Boolean(
                                                     detail.payroll_user_detailable_id,
                                                 )
                                             }
-                                            color="error">
+                                            onClick={() => remove(index)}
+                                            size="small">
                                             <RemoveCircleIcon />
                                         </IconButton>
                                     </span>
@@ -272,20 +273,20 @@ export default function PayrollEmployeeDetailsForm({
                         </Box>
 
                         <Button
-                            variant="contained"
+                            color="success"
                             disabled={isDisabled}
                             fullWidth
-                            color="success"
-                            size="small"
-                            startIcon={<AddCircleIcon />}
                             onClick={() =>
                                 push({
+                                    amount_rp: 0,
                                     name:
                                         'Rincian ' +
                                         ((details?.length ?? 0) + 1),
-                                    amount_rp: 0,
                                 })
-                            }>
+                            }
+                            size="small"
+                            startIcon={<AddCircleIcon />}
+                            variant="contained">
                             Tambah Rincian
                         </Button>
                     </>

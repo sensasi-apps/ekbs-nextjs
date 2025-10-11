@@ -1,7 +1,6 @@
-import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 import type { ChangeEvent } from 'react'
-
 import { useState } from 'react'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 const useValidationErrors = () => {
     const [validationErrors, setValidationErrors] = useState<
@@ -31,10 +30,10 @@ const useValidationErrors = () => {
     }
 
     return {
-        validationErrors,
-        setValidationErrors,
         clearByEvent,
         clearByName,
+        setValidationErrors,
+        validationErrors,
     }
 }
 

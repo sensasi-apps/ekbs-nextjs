@@ -1,15 +1,15 @@
 // types
 import type { BoxProps } from '@mui/material/Box'
-import type File from '@/types/orms/file'
-import type UserDetailORM from '@/modules/user/types/orms/user-detail'
-// vendors
-import { PatternFormat } from 'react-number-format'
 // materials
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+// vendors
+import { PatternFormat } from 'react-number-format'
 // components
 import ImageButtonAndModal from '@/components/ImageButtonAndModal'
+import type UserDetailORM from '@/modules/user/types/orms/user-detail'
+import type File from '@/types/orms/file'
 // utils
 import toDmy from '@/utils/to-dmy'
 
@@ -43,7 +43,7 @@ export default function UserDetailBox({
         <Box display="flex" flexDirection="column" gap={2}>
             <Row title="Foto Diri">
                 {pasFoto?.uuid ? (
-                    <ImageButtonAndModal file={pasFoto} alt="Pas Foto" />
+                    <ImageButtonAndModal alt="Pas Foto" file={pasFoto} />
                 ) : (
                     <Typography color="GrayText" fontStyle="italic">
                         Foto Diri belum diunggah
@@ -53,15 +53,15 @@ export default function UserDetailBox({
 
             <Row title="NIK">
                 <PatternFormat
-                    format="#### #### #### ####"
                     displayType="text"
+                    format="#### #### #### ####"
                     value={citizen_id}
                 />
             </Row>
 
             <Row title="Foto KTP">
                 {fotoKtp?.uuid ? (
-                    <ImageButtonAndModal file={fotoKtp} alt="Foto KTP" />
+                    <ImageButtonAndModal alt="Foto KTP" file={fotoKtp} />
                 ) : (
                     <Typography color="GrayText" fontStyle="italic">
                         Foto KTP belum diunggah
@@ -105,7 +105,7 @@ export default function UserDetailBox({
 
             <Row title="Nomor BPJS Kesehatan">{bpjs_kesehatan_no || '-'}</Row>
 
-            <Row title="Pekerjaan" helperText={job_desc}>
+            <Row helperText={job_desc} title="Pekerjaan">
                 {job_title || '-'}
             </Row>
 
@@ -137,7 +137,7 @@ const Row = ({
     helperText?: string
 } & BoxProps) => (
     <Box {...props}>
-        <Typography variant="caption" color="text.secondary" component="div">
+        <Typography color="text.secondary" component="div" variant="caption">
             {title}
         </Typography>
 

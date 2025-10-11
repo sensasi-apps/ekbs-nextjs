@@ -1,10 +1,10 @@
 'use client'
 
+// materials
+import LinearProgress from '@mui/material/LinearProgress'
 // vendors
 import { useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
-// materials
-import LinearProgress from '@mui/material/LinearProgress'
 // components
 import { AoaTable } from '@/components/aoa-table'
 import LoadingCenter from '@/components/loading-center'
@@ -22,9 +22,9 @@ export default function PageClient() {
     const { data, isValidating } = useSWR<ApiResponse>([
         '/repair-shop/sales/get-sales-report-data',
         {
-            type,
             from_date,
             till_date,
+            type,
         },
     ])
 
@@ -73,7 +73,7 @@ export default function PageClient() {
 
             {isValidating && <LinearProgress />}
 
-            <AoaTable headers={headers} dataRows={rows} footers={footers} />
+            <AoaTable dataRows={rows} footers={footers} headers={headers} />
         </>
     )
 }

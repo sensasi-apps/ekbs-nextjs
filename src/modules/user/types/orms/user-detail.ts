@@ -1,13 +1,13 @@
-import type { Ymd } from '@/types/date-string'
 import type { UUID } from 'crypto'
-import type FileORM from '@/types/orms/file'
-import type RegencyORM from '@/types/orms/regency'
-import type DistrictORM from '@/types/orms/district'
-import type VillageORM from '@/types/orms/village'
 // enums
 import type EducationEnum from '@/enums/education'
 import type GenderEnum from '@/enums/gender'
 import type MaritalStatusEnum from '@/enums/marital-status'
+import type { Ymd } from '@/types/date-string'
+import type DistrictORM from '@/types/orms/district'
+import type FileORM from '@/types/orms/file'
+import type RegencyORM from '@/types/orms/regency'
+import type VillageORM from '@/types/orms/village'
 
 export default interface UserDetailORM {
     uuid: UUID

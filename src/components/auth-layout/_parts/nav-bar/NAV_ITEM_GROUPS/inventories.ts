@@ -1,13 +1,13 @@
-import type NavItemGroup from '../types/nav-item-group'
 import FeaturedPlayList from '@mui/icons-material/FeaturedPlayList'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const inventories: NavItemGroup = {
-    label: 'Inventaris',
     items: [
         {
             href: '/inventories/items',
-            label: 'Barang',
             icon: FeaturedPlayList,
+            label: 'Barang',
         },
     ],
+    label: 'Inventaris',
 }

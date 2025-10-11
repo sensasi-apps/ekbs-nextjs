@@ -1,7 +1,5 @@
 // types
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
-import type { UserLoanFormDataType } from '../Form/types'
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -9,9 +7,12 @@ import TableCell from '@mui/material/TableCell'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
+import type { UserLoanFormDataType } from '../Form/types'
 
 type DraftInstallment = {
     n_th: number
@@ -40,8 +41,8 @@ export default function UserLoanInstallmentDialogTable({
 
               for (let index = 0; index < n_term; index++) {
                   installments.push({
-                      n_th: index + 1,
                       amount_rp: base_rp + interest_rp,
+                      n_th: index + 1,
                   })
               }
 
@@ -81,14 +82,14 @@ export default function UserLoanInstallmentDialogTable({
                 {installments?.map(installment => {
                     return (
                         <InstallmentTableRow
-                            key={installment.n_th}
+                            base_rp={base_rp}
                             data={installment}
+                            interest_rp={interest_rp}
+                            isDisbursed={isDisbursed}
+                            key={installment.n_th}
                             remaining_rp={
                                 (remaining_rp = remaining_rp - base_rp)
                             }
-                            base_rp={base_rp}
-                            interest_rp={interest_rp}
-                            isDisbursed={isDisbursed}
                         />
                     )
                 })}
@@ -96,8 +97,8 @@ export default function UserLoanInstallmentDialogTable({
             <TableFooter>
                 <TableRow>
                     <TableCell
-                        colSpan={isDisbursed ? 3 : 2}
                         align="center"
+                        colSpan={isDisbursed ? 3 : 2}
                         component="th">
                         TOTAL
                     </TableCell>

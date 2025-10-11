@@ -1,47 +1,47 @@
 'use client'
 
-// types
-import type Product from '@/modules/mart/types/orms/product'
-import type YajraDatatable from '@/types/yajra-datatable-response'
-// vendors
-import { useState } from 'react'
-import { Formik } from 'formik'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+// icons
+import InventoryIcon from '@mui/icons-material/Inventory'
 // materials
 import Fade from '@mui/material/Fade'
 import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
-// icons
-import InventoryIcon from '@mui/icons-material/Inventory'
-// components
-import ApiUrl from '@/components/pages/marts/products/ApiUrl'
+import dayjs from 'dayjs'
+import { Formik } from 'formik'
+// vendors
+import { useState } from 'react'
 import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
     type DatatableProps,
-    getNoWrapCellProps,
     type GetRowDataType,
+    getNoWrapCellProps,
     type MutateType,
 } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import FlexBox from '@/components/flex-box'
+import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
+// components
+import ApiUrl from '@/components/pages/marts/products/ApiUrl'
 import ProductForm, {
     type FormValues,
 } from '@/components/pages/marts/products/Form'
-// utils
-import handle422 from '@/utils/handle-422'
-import formatNumber from '@/utils/format-number'
-import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
-import numberToCurrency from '@/utils/number-to-currency'
+import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
 // enums
 import Mart from '@/enums/permissions/Mart'
-import Warehouse from '@/modules/mart/enums/product-warehouse-warehouse'
-// utils
-import aoaToXlsx from '@/utils/aoa-to-xlsx'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-import FlexBox from '@/components/flex-box'
-import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
+import axios from '@/lib/axios'
+import Warehouse from '@/modules/mart/enums/product-warehouse-warehouse'
+// types
+import type Product from '@/modules/mart/types/orms/product'
+import type YajraDatatable from '@/types/yajra-datatable-response'
+// utils
+import aoaToXlsx from '@/utils/aoa-to-xlsx'
+import formatNumber from '@/utils/format-number'
+// utils
+import handle422 from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
 
 let mutate: MutateType<Product>
 let getRowData: GetRowDataType<Product>
@@ -66,7 +66,7 @@ export default function PageClient() {
 
     return (
         <>
-            <FlexBox mb={2} justifyContent="end">
+            <FlexBox justifyContent="end" mb={2}>
                 <WithDeletedItemsCheckbox
                     checked={withDeletedItems}
                     onChange={setWithDeletedItems}
@@ -87,25 +87,11 @@ export default function PageClient() {
                 apiUrlParams={{
                     withDeletedItems: withDeletedItems ? 1 : 0,
                 }}
-                defaultSortOrder={{ name: 'name', direction: 'asc' }}
-                onRowClick={(_, { dataIndex }, event) => {
-                    if (event.detail === 2) {
-                        const data = getRowData(dataIndex)
-                        if (!data) return
-
-                        setFormValues(data as FormValues)
-                        setSelectedRow(data)
-                    }
-                }}
-                tableId="products-table"
-                title=""
                 columns={columns}
-                mutateCallback={fn => (mutate = fn)}
-                getRowDataCallback={fn => (getRowData = fn)}
-                swrOptions={{
-                    revalidateOnMount: true,
-                }}
+                defaultSortOrder={{ direction: 'asc', name: 'name' }}
                 download={isDownloading ? 'disabled' : true}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
                 onDownload={() => {
                     if (isDownloading) return false
 
@@ -114,6 +100,15 @@ export default function PageClient() {
                     downloadXlsx().then(() => setIsDownloading(false))
 
                     return false
+                }}
+                onRowClick={(_, { dataIndex }, event) => {
+                    if (event.detail === 2) {
+                        const data = getRowData(dataIndex)
+                        if (!data) return
+
+                        setFormValues(data as FormValues)
+                        setSelectedRow(data)
+                    }
                 }}
                 setRowProps={(_, dataIndex) =>
                     getRowData(dataIndex)?.deleted_at
@@ -128,24 +123,31 @@ export default function PageClient() {
                           }
                         : getNoWrapCellProps()
                 }
+                swrOptions={{
+                    revalidateOnMount: true,
+                }}
+                tableId="products-table"
+                title=""
             />
 
             <DialogWithTitle
                 maxWidth="sm"
+                open={Boolean(formValues)}
                 title={
                     (selectedRow?.id === undefined ? 'Tambah' : 'Perbaharui') +
                     ' Data Produk'
-                }
-                open={Boolean(formValues)}>
+                }>
                 <Formik
-                    initialValues={formValues ?? {}}
+                    component={ProductForm}
                     initialStatus={{
-                        product: selectedRow,
                         handleDelete: () =>
                             getAxiosRequest('delete', selectedRow?.id).then(
                                 onSubmitted,
                             ),
+                        product: selectedRow,
                     }}
+                    initialValues={formValues ?? {}}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         getAxiosRequest(
                             selectedRow?.id ? 'update' : 'create',
@@ -155,22 +157,20 @@ export default function PageClient() {
                             .then(onSubmitted)
                             .catch(error => handle422(error, setErrors))
                     }
-                    onReset={handleClose}
-                    component={ProductForm}
                 />
             </DialogWithTitle>
 
             <Fab
-                in={isAuthHasPermission(Mart.CREATE_PRODUCT)}
                 disabled={!!formValues}
+                in={isAuthHasPermission(Mart.CREATE_PRODUCT)}
                 onClick={() => {
                     setFormValues({
                         unit: 'pcs',
                         warehouses: Object.values(Warehouse).map(warehouse => ({
-                            warehouse,
                             cost_rp_per_unit: 0,
-                            qty: 0,
                             default_sell_price: 0,
+                            qty: 0,
+                            warehouse,
                         })),
                     })
                     setSelectedRow(undefined)
@@ -213,15 +213,15 @@ function getAxiosRequest(
 
 const columns: DatatableProps<Product>['columns'] = [
     {
-        name: 'id',
         label: 'ID',
+        name: 'id',
         options: {
             display: 'excluded',
         },
     },
     {
-        name: 'code',
         label: 'Kode',
+        name: 'code',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
@@ -231,9 +231,9 @@ const columns: DatatableProps<Product>['columns'] = [
 
                 return (
                     <Typography
-                        variant="overline"
                         fontFamily="monospace"
-                        lineHeight="inherit">
+                        lineHeight="inherit"
+                        variant="overline">
                         {code ?? id}
                     </Typography>
                 )
@@ -241,27 +241,27 @@ const columns: DatatableProps<Product>['columns'] = [
         },
     },
     {
-        name: 'name',
         label: 'Nama',
+        name: 'name',
     },
     {
-        name: 'category_name',
         label: 'Kategori',
+        name: 'category_name',
         options: {
             customBodyRender: text =>
                 text ? <ChipSmall label={text} variant="outlined" /> : '',
         },
     },
     {
-        name: 'description',
         label: 'Deskripsi',
+        name: 'description',
         options: {
             display: false,
         },
     },
     {
-        name: 'warehouses.warehouse',
         label: 'Gudang',
+        name: 'warehouses.warehouse',
         options: {
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
@@ -282,8 +282,8 @@ const columns: DatatableProps<Product>['columns'] = [
         },
     },
     {
-        name: 'warehouses.qty',
         label: 'QTY',
+        name: 'warehouses.qty',
         options: {
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
@@ -316,14 +316,13 @@ const columns: DatatableProps<Product>['columns'] = [
         },
     },
     {
-        name: 'unit',
         label: 'Satuan',
+        name: 'unit',
     },
     {
-        name: 'warehouses.cost_rp_per_unit',
         label: 'Biaya Dasar',
+        name: 'warehouses.cost_rp_per_unit',
         options: {
-            searchable: false,
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
                 if (!warehouses) return
@@ -342,11 +341,12 @@ const columns: DatatableProps<Product>['columns'] = [
                     </ul>
                 )
             },
+            searchable: false,
         },
     },
     {
-        name: 'warehouses.default_sell_price',
         label: 'Harga Jual Default',
+        name: 'warehouses.default_sell_price',
         options: {
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
@@ -364,17 +364,17 @@ const columns: DatatableProps<Product>['columns'] = [
 
                                 {margin && (
                                     <ChipSmall
-                                        variant="outlined"
-                                        sx={{
-                                            ml: 2,
-                                        }}
+                                        color={
+                                            margin - 1 < 0 ? 'error' : 'success'
+                                        }
                                         label={
                                             Math.round((margin - 1) * 100) +
                                             ' %'
                                         }
-                                        color={
-                                            margin - 1 < 0 ? 'error' : 'success'
-                                        }
+                                        sx={{
+                                            ml: 2,
+                                        }}
+                                        variant="outlined"
                                     />
                                 )}
                             </li>
@@ -390,8 +390,8 @@ async function downloadXlsx() {
     return axios
         .get<YajraDatatable<Product>>(ApiUrl.GET_DATATABLE_DATA, {
             params: {
-                length: undefined,
                 columns,
+                length: undefined,
                 order: [{ column: 2, dir: 'asc' }],
             },
         })

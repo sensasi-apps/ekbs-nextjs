@@ -1,5 +1,5 @@
+import { type IDBPDatabase, openDB } from 'idb'
 import DBConfig from '@/DBConfig'
-import { openDB, type IDBPDatabase } from 'idb'
 
 let dbPromise: Promise<IDBPDatabase>
 

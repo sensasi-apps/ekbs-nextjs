@@ -1,14 +1,14 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
-import { enqueueSnackbar } from 'notistack'
-import myAxios from '@/lib/axios'
+// icons
+import DeleteIcon from '@mui/icons-material/Delete'
 // materials
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-// icons
-import DeleteIcon from '@mui/icons-material/Delete'
+import { enqueueSnackbar } from 'notistack'
+// vendors
+import { useState } from 'react'
+import myAxios from '@/lib/axios'
 
 export default function FileListDeleteButton({
     uuidFileName,
@@ -45,11 +45,11 @@ export default function FileListDeleteButton({
     return (
         <Tooltip title="Hapus">
             <IconButton
-                color="error"
-                edge="end"
                 aria-label="Hapus"
-                loading={isDeleting}
+                color="error"
                 disabled={isDisabled || isDeleting}
+                edge="end"
+                loading={isDeleting}
                 onClick={() => handleDelete()}>
                 <DeleteIcon />
             </IconButton>

@@ -1,15 +1,5 @@
 // types
-import type { FormikProps } from 'formik'
-import type Product from '@/modules/farm-inputs/types/orms/product'
-import type { Ymd } from '@/types/date-string'
-import type YajraDatatable from '@/types/yajra-datatable-response'
-import type InventoryItem from '@/types/orms/inventory-item'
-import type { UUID } from 'crypto'
-import type User from '@/modules/user/types/orms/user'
-// vendors
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Checkbox from '@mui/material/Checkbox'
@@ -17,22 +7,33 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
+import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-import InputAdornment from '@mui/material/InputAdornment'
+import type { UUID } from 'crypto'
+import dayjs from 'dayjs'
+import type { FormikProps } from 'formik'
+import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/formik-form'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 import UserAutocomplete from '@/components/user-autocomplete'
-// utils
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import debounce from '@/utils/debounce'
-import numberToCurrency from '@/utils/number-to-currency'
+// vendors
+import axios from '@/lib/axios'
 // enums
 import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import type Product from '@/modules/farm-inputs/types/orms/product'
+import type User from '@/modules/user/types/orms/user'
+import type { Ymd } from '@/types/date-string'
+import type InventoryItem from '@/types/orms/inventory-item'
+import type YajraDatatable from '@/types/yajra-datatable-response'
+import debounce from '@/utils/debounce'
+// utils
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import numberToCurrency from '@/utils/number-to-currency'
 
 export type FormValues = Partial<{
     is_paid: boolean
@@ -92,17 +93,17 @@ export default function FarmInputHeGasSaleForm({
 
     return (
         <FormikForm
-            id="he-gas-sale-form"
             autoComplete="off"
-            isNew={isNew}
             dirty={dirty}
+            id="he-gas-sale-form"
+            isNew={isNew}
             processing={isPropcessing}
-            submitting={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: isDisabled,
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             {uuid && (
                 <TextField
                     disabled={true}
@@ -113,7 +114,6 @@ export default function FarmInputHeGasSaleForm({
             )}
 
             <DatePicker
-                value={at ? dayjs(at) : null}
                 disabled={isDisabled}
                 disableFuture
                 label="Tanggal"
@@ -126,17 +126,17 @@ export default function FarmInputHeGasSaleForm({
                         ...errorsToHelperTextObj(errors.at),
                     },
                 }}
+                value={at ? dayjs(at) : null}
             />
 
             <UserAutocomplete
-                label="Pemesan"
                 disabled={isDisabled}
                 fullWidth
+                label="Pemesan"
                 onChange={(_, user) => {
                     setFieldValue('buyer_user', user)
                     setFieldValue('buyer_user_uuid', user?.uuid)
                 }}
-                value={buyer_user}
                 slotProps={{
                     textField: {
                         margin: 'dense',
@@ -144,21 +144,20 @@ export default function FarmInputHeGasSaleForm({
                         ...errorsToHelperTextObj(errors.buyer_user_uuid),
                     },
                 }}
+                value={buyer_user}
             />
 
             {isInvetoriesLoading ? (
                 <SkeletonAutocomplete />
             ) : (
                 <Autocomplete
-                    isOptionEqualToValue={(option, value) =>
-                        option.uuid === value.uuid
-                    }
-                    options={inventories}
                     disabled={isDisabled}
                     getOptionLabel={({ name, code }) =>
                         `${code ? `${code} - ` : ''}${name}`
                     }
-                    value={inventory_item ?? null}
+                    isOptionEqualToValue={(option, value) =>
+                        option.uuid === value.uuid
+                    }
                     onChange={(_, inventoryItem) => {
                         setFieldValue('inventory_item', inventoryItem)
                         setFieldValue(
@@ -166,6 +165,7 @@ export default function FarmInputHeGasSaleForm({
                             inventoryItem?.uuid,
                         )
                     }}
+                    options={inventories}
                     renderInput={params => (
                         <TextField
                             {...params}
@@ -175,22 +175,23 @@ export default function FarmInputHeGasSaleForm({
                             )}
                         />
                     )}
+                    value={inventory_item ?? null}
                 />
             )}
 
             <NumericFormat
-                min="1"
                 disabled={isDisabled}
-                label="H.M Saat ini"
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">H.M</InputAdornment>
                     ),
                 }}
-                value={current_hm || ''}
+                label="H.M Saat ini"
+                min="1"
                 onValueChange={({ floatValue }) =>
                     debounce(() => setFieldValue('current_hm', floatValue))
                 }
+                value={current_hm || ''}
                 {...errorsToHelperTextObj(errors.current_hm)}
             />
 
@@ -204,15 +205,13 @@ export default function FarmInputHeGasSaleForm({
                 <SkeletonAutocomplete />
             ) : (
                 <Autocomplete
-                    isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                    }
-                    options={products}
                     disabled={isDisabled}
                     getOptionLabel={({ name, code }) =>
                         `${code ? `${code} - ` : ''}${name}`
                     }
-                    value={product ?? null}
+                    isOptionEqualToValue={(option, value) =>
+                        option.id === value.id
+                    }
                     onChange={(_, product) => {
                         setFieldValue('product', product)
                         setFieldValue('product_id', product?.id)
@@ -223,6 +222,7 @@ export default function FarmInputHeGasSaleForm({
                             )?.default_sell_price,
                         )
                     }}
+                    options={products}
                     renderInput={params => (
                         <TextField
                             {...params}
@@ -230,6 +230,7 @@ export default function FarmInputHeGasSaleForm({
                             label="BBM"
                         />
                     )}
+                    value={product ?? null}
                 />
             )}
 
@@ -239,9 +240,7 @@ export default function FarmInputHeGasSaleForm({
                         xs: 6,
                     }}>
                     <NumericFormat
-                        min="1"
                         disabled={isDisabled}
-                        label="Harga"
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -249,21 +248,21 @@ export default function FarmInputHeGasSaleForm({
                                 </InputAdornment>
                             ),
                         }}
-                        value={rp_per_unit || ''}
+                        label="Harga"
+                        min="1"
                         onValueChange={({ floatValue }) =>
                             debounce(() =>
                                 setFieldValue('rp_per_unit', floatValue),
                             )
                         }
+                        value={rp_per_unit || ''}
                         {...errorsToHelperTextObj(errors.rp_per_unit)}
                     />
                 </Grid>
 
                 <Grid size={{ xs: 6 }}>
                     <NumericFormat
-                        min="1"
                         disabled={isDisabled}
-                        label="Qty"
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -271,26 +270,26 @@ export default function FarmInputHeGasSaleForm({
                                 </InputAdornment>
                             ),
                         }}
-                        value={qty || ''}
+                        label="Qty"
+                        min="1"
                         onValueChange={({ floatValue }) =>
                             debounce(() => setFieldValue('qty', floatValue))
                         }
+                        value={qty || ''}
                         {...errorsToHelperTextObj(errors.qty)}
                     />
                 </Grid>
             </Grid>
 
-            <Typography mt={2} color="gray" fontWeight="bold">
+            <Typography color="gray" fontWeight="bold" mt={2}>
                 TOTAL
             </Typography>
-            <Typography variant="h6" component="div">
+            <Typography component="div" variant="h6">
                 {numberToCurrency((qty ?? 0) * (rp_per_unit ?? 0))}
             </Typography>
 
             <FormGroup>
                 <FormControlLabel
-                    label="Sudah Dibayar"
-                    disabled={isDisabled}
                     checked={is_paid}
                     control={
                         <Checkbox
@@ -299,6 +298,8 @@ export default function FarmInputHeGasSaleForm({
                             }
                         />
                     }
+                    disabled={isDisabled}
+                    label="Sudah Dibayar"
                 />
 
                 {errors.is_paid && (
@@ -327,21 +328,17 @@ async function FETCHER<T>([url, params]: [
 
 const SkeletonAutocomplete = () => (
     <Skeleton
-        variant="rounded"
         height={44}
         sx={{
             mt: 1,
         }}
+        variant="rounded"
     />
 )
 
 const INVENTORIES_SWR_KEY = [
     '/inventory-items/datatable',
     {
-        search: {
-            value: 'alat berat',
-            regex: false,
-        },
         columns: [
             {
                 name: 'name',
@@ -353,16 +350,16 @@ const INVENTORIES_SWR_KEY = [
                 name: 'tags.name',
             },
         ],
+        search: {
+            regex: false,
+            value: 'alat berat',
+        },
     },
 ]
 
 const PRODUCTS_SWR_KEY = [
     DatatableEndpointEnum.PRODUCTS,
     {
-        search: {
-            value: 'BBM',
-            regex: false,
-        },
         columns: [
             {
                 name: 'name',
@@ -374,5 +371,9 @@ const PRODUCTS_SWR_KEY = [
                 name: 'category_name',
             },
         ],
+        search: {
+            regex: false,
+            value: 'BBM',
+        },
     },
 ]

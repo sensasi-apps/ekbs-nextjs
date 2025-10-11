@@ -1,21 +1,22 @@
 // types
-import type Product from '@/modules/farm-inputs/types/orms/product'
+
+// materials
+import Alert from '@mui/material/Alert'
+import Grid from '@mui/material/GridLegacy'
 import {
     FastField,
     FieldArray,
     type FormikErrors,
     type FormikProps,
 } from 'formik'
-// materials
-import Alert from '@mui/material/Alert'
-import Grid from '@mui/material/GridLegacy'
+import FormikForm from '@/components/formik-form'
 // components
 import NumericFormat from '@/components/NumericFormat'
+import type Product from '@/modules/farm-inputs/types/orms/product'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // utils
 import toDmy from '@/utils/to-dmy'
-import FormikForm from '@/components/formik-form'
 import TextFieldFastableComponent from '../TextField/FastableComponent'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'
 
 export default function ProductForm({
@@ -31,19 +32,19 @@ export default function ProductForm({
 
     return (
         <FormikForm
-            id="product-form"
             dirty={dirty}
-            submitting={isSubmitting}
-            processing={isSubmitting}
+            id="product-form"
             isNew={!values.id}
+            processing={isSubmitting}
             slotProps={{
-                submitButton: {
-                    disabled: isDisabled,
-                },
                 deleteButton: {
                     disabled: isDisabled,
                 },
-            }}>
+                submitButton: {
+                    disabled: isDisabled,
+                },
+            }}
+            submitting={isSubmitting}>
             {values.deleted_at && (
                 <Alert
                     severity="warning"
@@ -56,24 +57,24 @@ export default function ProductForm({
                 </Alert>
             )}
 
-            <Grid container columnSpacing={1.5}>
-                <Grid item xs={12} sm={6}>
+            <Grid columnSpacing={1.5} container>
+                <Grid item sm={6} xs={12}>
                     <FastField
-                        name="name"
-                        label="Nama"
                         component={TextFieldFastableComponent}
                         disabled={isDisabled}
+                        label="Nama"
+                        name="name"
                         variant="standard"
                         {...errorsToHelperTextObj(errors.name)}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item sm={6} xs={12}>
                     <FastField
-                        name="code"
-                        label="Kode"
                         component={TextFieldFastableComponent}
-                        required={false}
                         disabled={isDisabled}
+                        label="Kode"
+                        name="code"
+                        required={false}
                         variant="standard"
                         {...errorsToHelperTextObj(errors.code)}
                     />
@@ -81,51 +82,51 @@ export default function ProductForm({
             </Grid>
 
             <FastField
-                name="category_name"
-                label="Kategori"
                 component={TextFieldFastableComponent}
                 disabled={isDisabled}
+                label="Kategori"
+                name="category_name"
                 variant="standard"
                 {...errorsToHelperTextObj(errors.category_name)}
             />
 
             <FastField
-                name="description"
-                label="Deskripsi"
                 component={TextFieldFastableComponent}
                 disabled={isDisabled}
-                variant="standard"
-                required={false}
-                multiline
+                label="Deskripsi"
                 minRows={2}
+                multiline
+                name="description"
+                required={false}
+                variant="standard"
                 {...errorsToHelperTextObj(errors.description)}
             />
 
-            <Grid container columnSpacing={1.5} mb={2}>
-                <Grid item xs={12} sm={8}>
+            <Grid columnSpacing={1.5} container mb={2}>
+                <Grid item sm={8} xs={12}>
                     <NumericFormat
                         disabled={isDisabled}
-                        required={false}
+                        inputProps={{
+                            maxLength: 19,
+                            minLength: 1,
+                        }}
                         label="Persediaan Menipis Pada"
-                        variant="standard"
-                        value={values.low_number}
                         name="low_number"
                         onValueChange={({ floatValue }) =>
                             setFieldValue('low_number', floatValue)
                         }
-                        inputProps={{
-                            minLength: 1,
-                            maxLength: 19,
-                        }}
+                        required={false}
+                        value={values.low_number}
+                        variant="standard"
                         {...errorsToHelperTextObj(errors.low_number)}
                     />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item sm={4} xs={12}>
                     <FastField
-                        name="unit"
-                        label="Satuan"
                         component={TextFieldFastableComponent}
                         disabled={isDisabled}
+                        label="Satuan"
+                        name="unit"
                         variant="standard"
                         {...errorsToHelperTextObj(errors.unit)}
                     />
@@ -138,8 +139,8 @@ export default function ProductForm({
                     <ProductWarehouseArrayFields
                         {...props}
                         data={values.warehouses ?? []}
-                        errors={errors.warehouses}
                         disabled={isDisabled}
+                        errors={errors.warehouses}
                     />
                 )}
             />

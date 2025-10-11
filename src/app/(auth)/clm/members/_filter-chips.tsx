@@ -1,11 +1,11 @@
 'use client'
 
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import useSWR from 'swr'
 // materials
 import Badge from '@mui/material/Badge'
 import Chip from '@mui/material/Chip'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
 // components
 import LoadingCenter from '@/components/loading-center'
 import blinkSxValue from '@/utils/blink-sx-value'
@@ -24,8 +24,8 @@ export default function ClmMemberFilterChips() {
     return (
         <>
             <Chip
-                label="Semua"
                 color={!status ? 'success' : undefined}
+                label="Semua"
                 onClick={!status ? undefined : () => push('?status=')}
             />
 
@@ -38,8 +38,8 @@ export default function ClmMemberFilterChips() {
                     },
                 }}>
                 <Chip
-                    label="Belum Lengkap"
                     color={status === 'unfulfilled' ? 'success' : undefined}
+                    label="Belum Lengkap"
                     onClick={
                         status === 'unfulfilled'
                             ? undefined

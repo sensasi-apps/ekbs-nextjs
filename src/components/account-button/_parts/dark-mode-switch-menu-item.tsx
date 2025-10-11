@@ -1,10 +1,9 @@
 'use client'
 
-import { useColorScheme } from '@mui/material/styles'
-
 import FormControlLabel from '@mui/material/FormControlLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Switch from '@mui/material/Switch'
+import { useColorScheme } from '@mui/material/styles'
 
 export default function DarkModeSwitchMenuItem() {
     const { mode, setMode } = useColorScheme()
@@ -17,8 +16,8 @@ export default function DarkModeSwitchMenuItem() {
                 return setMode(mode === 'dark' ? 'light' : 'dark')
             }}>
             <FormControlLabel
-                label="Mode Gelap"
                 control={<Switch checked={mode === 'dark'} />}
+                label="Mode Gelap"
             />
         </MenuItem>
     )

@@ -1,9 +1,13 @@
 // vendors
-import type { UUID } from 'crypto'
-import { useState } from 'react'
-import { mutate } from 'swr'
-import { PatternFormat } from 'react-number-format'
-import axios from '@/lib/axios'
+
+// icons
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EmailIcon from '@mui/icons-material/Email'
+import FacebookIcon from '@mui/icons-material/Facebook'
+import InstagramIcon from '@mui/icons-material/Instagram'
+import PhoneIcon from '@mui/icons-material/Phone'
+import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 // materials
 import Box, { type BoxProps } from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
@@ -13,18 +17,15 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-// icons
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import EmailIcon from '@mui/icons-material/Email'
-import FacebookIcon from '@mui/icons-material/Facebook'
-import InstagramIcon from '@mui/icons-material/Instagram'
-import PhoneIcon from '@mui/icons-material/Phone'
-import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+import type { UUID } from 'crypto'
+import { useState } from 'react'
+import { PatternFormat } from 'react-number-format'
+import { mutate } from 'swr'
+import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import axios from '@/lib/axios'
 // components
 import type UserSocial from '@/modules/user/types/orms/user-social'
 import SocialForm from '../Social/Form'
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
 
 const GET_ICON_NODE = (name: string) => {
     switch (name.toLowerCase()) {
@@ -69,8 +70,8 @@ const ContactListItem = ({
             secondaryAction={
                 readMode ? null : (
                     <IconButton
-                        edge="end"
                         aria-label="delete"
+                        edge="end"
                         onClick={handleDelete}>
                         <DeleteIcon />
                     </IconButton>
@@ -90,9 +91,9 @@ const ContactListItem = ({
                         social.name.toLowerCase(),
                     ) ? (
                         <PatternFormat
-                            value={username}
-                            format="+## &nbsp;###–####–####"
                             displayType="text"
+                            format="+## &nbsp;###–####–####"
+                            value={username}
                         />
                     ) : (
                         username
@@ -113,7 +114,7 @@ export function ContactList({
 }) {
     if (socials.length === 0)
         return (
-            <Typography variant="body2" color="GrayText">
+            <Typography color="GrayText" variant="body2">
                 <i>Belum ada data kontak</i>
             </Typography>
         )
@@ -122,8 +123,8 @@ export function ContactList({
         <List>
             {socials.map(social => (
                 <ContactListItem
-                    key={social.uuid}
                     data={social}
+                    key={social.uuid}
                     readMode={readMode}
                 />
             ))}
@@ -132,9 +133,9 @@ export function ContactList({
 }
 
 const Skeletons = () => (
-    <Box display="flex" alignItems="center" gap={2} mb={1}>
+    <Box alignItems="center" display="flex" gap={2} mb={1}>
         <div>
-            <Skeleton variant="circular" width="3em" height="3em" />
+            <Skeleton height="3em" variant="circular" width="3em" />
         </div>
         <div>
             <Skeleton width="4em" />
@@ -159,8 +160,8 @@ const UserSocialsCrudBox = ({
 
     return (
         <Box {...props}>
-            <Box display="flex" alignItems="center">
-                <Typography variant="h6" component="div">
+            <Box alignItems="center" display="flex">
+                <Typography component="div" variant="h6">
                     Kontak
                 </Typography>
 
@@ -179,9 +180,9 @@ const UserSocialsCrudBox = ({
             {!isLoading && <ContactList data={socials} />}
 
             <SocialForm
-                userUuid={userUuid}
                 isShow={isFormOpen}
                 onClose={() => setIsFormOpen(false)}
+                userUuid={userUuid}
             />
         </Box>
     )

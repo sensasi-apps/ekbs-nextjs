@@ -1,27 +1,28 @@
 // types
-import type ProductMovement from '@/modules/mart/types/orms/product-movement'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-import type ProductMovementPurchase from '@/modules/mart/types/orms/product-movement-purchase'
-import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
-// vendors
-import { Field, FieldArray, type FieldProps, type FormikProps } from 'formik'
+
 // materials
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
-// components
-import FormikForm from '@/components/formik-form'
+// vendors
+import { Field, FieldArray, type FieldProps, type FormikProps } from 'formik'
 import DateField from '@/components/formik-fields/date-field'
 import TextField from '@/components/formik-fields/text-field'
-import TextFieldDefault from '@/components/TextField'
+// components
+import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-// local components
-import { PmdsTable } from './form/pmds-table'
-import { CostsTable } from './form/costs-table'
-import ProductMovementDetailArrayFields from './form/detail-array-fields'
-import ProductMovementCostArrayFields from './form/cost-array-fields'
+import TextFieldDefault from '@/components/TextField'
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
+import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
+import type ProductMovementPurchase from '@/modules/mart/types/orms/product-movement-purchase'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // enums
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import ProductMovementCostArrayFields from './form/cost-array-fields'
+import { CostsTable } from './form/costs-table'
+import ProductMovementDetailArrayFields from './form/detail-array-fields'
+// local components
+import { PmdsTable } from './form/pmds-table'
 
 export default function Form({
     isSubmitting,
@@ -40,21 +41,21 @@ export default function Form({
 
     return (
         <FormikForm
-            id="product-purchase-form"
             dirty={dirty}
-            submitting={isSubmitting}
-            processing={isSubmitting}
+            id="product-purchase-form"
             isNew={!dataFromDb?.uuid}
+            processing={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: !(dirty || isSubmitting),
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             <Grid container spacing={4}>
                 <Grid
                     size={{
-                        xs: 12,
                         sm: 3,
+                        xs: 12,
                     }}
                     sx={{
                         position: {
@@ -63,45 +64,45 @@ export default function Form({
                     }}>
                     {dataFromDb?.short_uuid && (
                         <TextFieldDefault
-                            label="Kode"
                             disabled
+                            label="Kode"
                             required={false}
                             value={dataFromDb.short_uuid}
                         />
                     )}
 
                     <DateField
-                        name="at"
-                        label="Tanggal"
                         disabled={isDisabled}
+                        label="Tanggal"
+                        name="at"
                     />
 
                     <TextField
-                        name="note"
-                        label="Catatan"
                         disabled={isDisabled}
+                        label="Catatan"
+                        name="note"
                         textFieldProps={{
-                            required: false,
-                            multiline: true,
                             minRows: 2,
+                            multiline: true,
+                            required: false,
                         }}
                     />
 
                     <DateField
-                        name="received"
-                        label="Tanggal Terima"
                         disabled={
                             isSubmitting || !!dataFromDb?.purchase?.received
                         }
+                        label="Tanggal Terima"
+                        name="received"
                         textFieldProps={{
                             required: false,
                         }}
                     />
 
                     <DateField
-                        name="paid"
-                        label="Tanggal Bayar"
                         disabled={isSubmitting || !!dataFromDb?.purchase?.paid}
+                        label="Tanggal Bayar"
+                        name="paid"
                         textFieldProps={{
                             required: false,
                         }}
@@ -119,21 +120,21 @@ export default function Form({
                                         gap: '0.5em',
                                     }}>
                                     <SelectFromApi
-                                        required
-                                        endpoint="/data/cashes"
-                                        label="Dari Kas"
-                                        size="small"
-                                        margin="dense"
                                         disabled={
                                             isSubmitting ||
                                             !values.paid ||
                                             !!dataFromDb?.purchase?.paid
                                         }
-                                        selectProps={{
-                                            value: value ?? '',
-                                            name: name,
-                                        }}
+                                        endpoint="/data/cashes"
+                                        label="Dari Kas"
+                                        margin="dense"
                                         onChange={onChange}
+                                        required
+                                        selectProps={{
+                                            name: name,
+                                            value: value ?? '',
+                                        }}
+                                        size="small"
                                         {...errorsToHelperTextObj(error)}
                                     />
                                 </div>
@@ -142,7 +143,7 @@ export default function Form({
                     </Field>
 
                     {JSON.stringify(errors) !== '{}' && (
-                        <FormHelperText error component="ul">
+                        <FormHelperText component="ul" error>
                             {Object.values(errors)
                                 .flatMap(
                                     (v: string | object | Array<object>) =>
@@ -163,12 +164,12 @@ export default function Form({
                 </Grid>
 
                 <Grid
-                    size={{
-                        xs: 12,
-                        sm: 9,
-                    }}
                     offset={{
                         sm: 3,
+                    }}
+                    size={{
+                        sm: 9,
+                        xs: 12,
                     }}>
                     {dataFromDb?.finished_at ? (
                         <CostsTable data={dataFromDb.costs} />

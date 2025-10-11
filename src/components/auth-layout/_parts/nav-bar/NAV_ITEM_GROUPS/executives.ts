@@ -1,24 +1,25 @@
 // types
-import type NavItemGroup from '../types/nav-item-group'
+
 // icons-materials
 import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
 // enums
 import Executive from '@/enums/permissions/Executive'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const executives: NavItemGroup = {
-    label: 'Eksekutif',
     items: [
         {
-            label: 'Statistik',
+            forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
             href: '/executive/statistics',
             icon: AlignHorizontalLeft,
-            forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
+            label: 'Statistik',
         },
         {
-            label: 'Laba-Rugi',
+            forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
             href: '/executive/profit-loss',
             icon: AlignHorizontalLeft,
-            forPermission: [Executive.READ_EXECUTIVE_STATISTIC_DATA],
+            label: 'Laba-Rugi',
         },
     ],
+    label: 'Eksekutif',
 }

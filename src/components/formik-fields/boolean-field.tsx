@@ -1,9 +1,5 @@
 'use client'
 
-// vendors
-import { Field, type FieldProps } from 'formik'
-import { useDebouncedCallback } from 'use-debounce'
-import { useState } from 'react'
 // materials
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -11,6 +7,10 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
 import Switch from '@mui/material/Switch'
+// vendors
+import { Field, type FieldProps } from 'formik'
+import { useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 
 interface BooleanFieldBaseProps {
     name: string
@@ -69,8 +69,8 @@ function InnerComponent({
                             }}
                         />
                     }
-                    label={label}
                     disabled={disabled || isSubmitting || status.isDisabled}
+                    label={label}
                 />
 
                 <FormHelperText error={Boolean(error)}>{error}</FormHelperText>

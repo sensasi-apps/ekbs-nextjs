@@ -1,8 +1,9 @@
 // vendors
-import { type FieldProps, Field } from 'formik'
-import useSWR from 'swr'
+
 // materials
 import type { TextFieldProps } from '@mui/material/TextField'
+import { Field, type FieldProps } from 'formik'
+import useSWR from 'swr'
 // components
 import UserAutocomplete from '@/components/user-autocomplete'
 //
@@ -26,10 +27,10 @@ export default function UserSelect({
 }: UserSelectProps) {
     return (
         <Field
-            name={name}
             component={InnerComponent}
             disabled={disabled}
             label={label}
+            name={name}
             slotProps={slotProps}
         />
     )

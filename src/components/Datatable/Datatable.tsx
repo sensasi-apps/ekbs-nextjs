@@ -1,19 +1,19 @@
 'use client'
 
-// types
-import type { Mutate, DatatableProps } from './@types'
-// vendors
-import VendorDataTable, {
-    type DataTableOptions as VendorDatatableOptions,
-    type DataTableProps as VendorDataTableProps,
-} from 'mui-datatable-delight'
+// icons-materials
+import Refresh from '@mui/icons-material/Refresh'
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import LinearProgress from '@mui/material/LinearProgress'
 import Tooltip from '@mui/material/Tooltip'
-// icons-materials
-import Refresh from '@mui/icons-material/Refresh'
+// vendors
+import VendorDataTable, {
+    type DataTableProps as VendorDataTableProps,
+    type DataTableOptions as VendorDatatableOptions,
+} from 'mui-datatable-delight'
+// types
+import type { DatatableProps, Mutate } from './@types'
 // locals
 import useHooks from './hooks/use-hooks'
 // import { DownloadConfirmationDialog } from './components/DownloadConfirmationDialog'
@@ -72,13 +72,6 @@ export function Datatable<T>({
     const isRowClickable = Boolean(onRowClick)
 
     const options: VendorDataTableProps<T>['options'] = {
-        rowHover: isRowClickable,
-        download:
-            download || props.onDownload
-                ? isLoading
-                    ? 'disabled'
-                    : download
-                : false,
         customToolbar: () => (
             <Tooltip arrow title="Segarkan">
                 <span>
@@ -88,7 +81,14 @@ export function Datatable<T>({
                 </span>
             </Tooltip>
         ),
+        download:
+            download || props.onDownload
+                ? isLoading
+                    ? 'disabled'
+                    : download
+                : false,
         onRowClick: onRowClick as VendorDatatableOptions['onRowClick'],
+        rowHover: isRowClickable,
         ...optionsFromHook,
         ...props,
     }
@@ -96,17 +96,17 @@ export function Datatable<T>({
     return (
         <Box
             sx={{
-                '& td, & th': {
-                    p: 1,
-                },
                 '& tbody .MuiTableRow-hover': {
                     cursor: 'pointer',
                 },
+                '& td, & th': {
+                    p: 1,
+                },
+                mozUserSelect: 'none',
+                msUserSelect: 'none',
                 translate: '0 -4px',
                 userSelect: 'none',
-                msUserSelect: 'none',
                 webkitUserSelect: 'none',
-                mozUserSelect: 'none',
             }}>
             <Fade in={isLoading}>
                 <LinearProgress
@@ -120,11 +120,11 @@ export function Datatable<T>({
             </Fade>
 
             <VendorDataTable
-                title={title}
-                data={data}
                 columns={columns}
+                data={data}
                 options={options}
                 textLabels={TEXT_LABELS}
+                title={title}
             />
 
             <Fade in={isLoading}>
@@ -158,20 +158,20 @@ export function Datatable<T>({
 export { getRowData, mutatorForExport as mutate }
 
 const TEXT_LABELS: VendorDataTableProps['textLabels'] = {
-    pagination: {
-        next: 'selanjutnya',
-        previous: 'sebelumnya',
-        rowsPerPage: 'data/halaman:',
-        jumpToPage: 'halaman:',
-    },
-    toolbar: {
-        search: 'Cari',
-        downloadCsv: 'Unduh',
-        print: 'Cetak',
-        viewColumns: 'Tampilkan kolom',
-    },
     body: {
         noMatch: 'Tidak ada data yang tersedia',
         toolTip: 'Urutkan',
+    },
+    pagination: {
+        jumpToPage: 'halaman:',
+        next: 'selanjutnya',
+        previous: 'sebelumnya',
+        rowsPerPage: 'data/halaman:',
+    },
+    toolbar: {
+        downloadCsv: 'Unduh',
+        print: 'Cetak',
+        search: 'Cari',
+        viewColumns: 'Tampilkan kolom',
     },
 }

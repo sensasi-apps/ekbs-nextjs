@@ -1,17 +1,18 @@
 // vendors
-import type { UUID } from 'crypto'
-import { Formik } from 'formik'
-import axios from '@/lib/axios'
+
 // materials
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import type { UUID } from 'crypto'
+import { Formik } from 'formik'
+import axios from '@/lib/axios'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 // components
 import type ProductMovement from '@/modules/mart/types/orms/product-movement'
-import Form, { type CreateFormValues } from './form'
-import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 // utils
 import handle422 from '@/utils/handle-422'
+import Form, { type CreateFormValues } from './form'
 
 export default function FormDialog({
     formValues,
@@ -25,15 +26,17 @@ export default function FormDialog({
     onClose: () => void
 }) {
     return (
-        <Dialog maxWidth="xs" disableRestoreFocus open={Boolean(formValues)}>
+        <Dialog disableRestoreFocus maxWidth="xs" open={Boolean(formValues)}>
             <DialogTitle>
                 {(selectedRow?.uuid === undefined ? 'Tambah' : 'Perbaharui') +
                     ' Data Opname Produk'}
             </DialogTitle>
             <DialogContent>
                 <Formik
-                    initialValues={formValues ?? {}}
+                    component={Form}
                     initialStatus={selectedRow}
+                    initialValues={formValues ?? {}}
+                    onReset={onClose}
                     onSubmit={(values, { setErrors }) =>
                         (selectedRow?.uuid
                             ? axios.put(
@@ -50,8 +53,6 @@ export default function FormDialog({
                             .then(res => onSubmitted(res.data))
                             .catch(error => handle422(error, setErrors))
                     }
-                    onReset={onClose}
-                    component={Form}
                 />
             </DialogContent>
         </Dialog>

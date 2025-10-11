@@ -1,35 +1,35 @@
 'use client'
 
-// types
-import type { UUID } from 'crypto'
-import type PalmBunchesReaPaymentDataType from '@/modules/palm-bunch/types/orms/palm-bunches-rea-payment'
-// vendors
-import { useState } from 'react'
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+// types
+import type { UUID } from 'crypto'
+// vendors
+import { useState } from 'react'
 // components
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
     type MutateType,
 } from '@/components/Datatable'
-import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'
+import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
-import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form'
+import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'
 import PalmBuncesReaPaymentDetailDatatableModal from '@/components/PalmBunchesReaPayment/DetailDatatable'
+import PalmBunchesReaPaymentForm from '@/components/PalmBunchesReaPayment/Form'
+import PageTitle from '@/components/page-title'
+import type PalmBunchesReaPaymentDataType from '@/modules/palm-bunch/types/orms/palm-bunches-rea-payment'
 // providers
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
-// utils
-import toDmy from '@/utils/to-dmy'
-import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
-import PageTitle from '@/components/page-title'
+// utils
+import toDmy from '@/utils/to-dmy'
 
 let getRowData: GetRowDataType<PalmBunchesReaPaymentDataType>
 let mutate: MutateType<PalmBunchesReaPaymentDataType>
@@ -70,39 +70,21 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
         <>
             <Box
                 sx={{
-                    '& tbody td': {
-                        whiteSpace: 'nowrap',
-                    },
                     '& .all-paid': {
                         backgroundColor: 'green',
                     },
+                    '& tbody td': {
+                        whiteSpace: 'nowrap',
+                    },
                 }}>
                 <Datatable
-                    title="Riwayat"
-                    tableId="PalmBunchDeliveryRateDatatable"
                     apiUrl={ApiUrlEnum.REA_PAYMENT_DATATABLE}
-                    onRowClick={
-                        !notFoundDetailsOnPaymentUuid &&
-                        !unsyncedDetailsOnPaymentUuid &&
-                        !paidDetailsOnPaymentUuid
-                            ? (_, { dataIndex }, event) => {
-                                  if (event.detail === 2) {
-                                      const data = getRowData(dataIndex)
-                                      if (!data) return
-
-                                      return handleEdit(data)
-                                  }
-                              }
-                            : undefined
-                    }
                     columns={[
                         ...DATATABLE_COLUMNS,
                         {
-                            name: 'n_details_not_found_on_system',
                             label: 'Tiket Tidak Ditemukan',
+                            name: 'n_details_not_found_on_system',
                             options: {
-                                sort: false,
-                                searchable: false,
                                 customBodyRenderLite: dataIndex => {
                                     const {
                                         uuid,
@@ -118,31 +100,31 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
 
                                     return (
                                         <Button
-                                            size="small"
                                             color="warning"
-                                            variant="outlined"
                                             onClick={() =>
                                                 setNotFoundDetailsOnPaymentUuid(
                                                     uuid,
                                                 )
-                                            }>
+                                            }
+                                            size="small"
+                                            variant="outlined">
                                             <Typography
-                                                fontWeight="bold"
-                                                component="span">
+                                                component="span"
+                                                fontWeight="bold">
                                                 {n_details_not_found_on_system}
                                             </Typography>
                                         </Button>
                                     )
                                 },
                                 hint: 'Data Tiket dari file Excel REA (farmer name) yang tidak/belum tercatat pada EKBS',
+                                searchable: false,
+                                sort: false,
                             },
                         },
                         {
-                            name: 'n_details_unvalidated',
                             label: 'Belum Divalidasi',
+                            name: 'n_details_unvalidated',
                             options: {
-                                sort: false,
-                                searchable: false,
                                 customBodyRenderLite: dataIndex => {
                                     const data = getRowData(dataIndex)
                                     const { uuid, n_details_unvalidated } =
@@ -153,30 +135,30 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
 
                                     return (
                                         <Button
-                                            size="small"
                                             color="warning"
-                                            variant="outlined"
                                             onClick={() =>
                                                 setUnvalidatedDetailsPaymentUuid(
                                                     uuid,
                                                 )
-                                            }>
+                                            }
+                                            size="small"
+                                            variant="outlined">
                                             <Typography
-                                                fontWeight="bold"
-                                                component="span">
+                                                component="span"
+                                                fontWeight="bold">
                                                 {n_details_unvalidated}
                                             </Typography>
                                         </Button>
                                     )
                                 },
+                                searchable: false,
+                                sort: false,
                             },
                         },
                         {
-                            name: 'n_details_unsynced',
                             label: 'Data Asinkron',
+                            name: 'n_details_unsynced',
                             options: {
-                                sort: false,
-                                searchable: false,
                                 customBodyRenderLite: dataIndex => {
                                     const data = getRowData(dataIndex)
                                     const { uuid, n_details_unsynced } =
@@ -186,31 +168,31 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
 
                                     return (
                                         <Button
-                                            size="small"
                                             color="warning"
-                                            variant="outlined"
                                             onClick={() =>
                                                 setUnsyncedDetailsPaymentUuid(
                                                     uuid,
                                                 )
-                                            }>
+                                            }
+                                            size="small"
+                                            variant="outlined">
                                             <Typography
-                                                fontWeight="bold"
-                                                component="span">
+                                                component="span"
+                                                fontWeight="bold">
                                                 {n_details_unsynced}
                                             </Typography>
                                         </Button>
                                     )
                                 },
                                 hint: 'Data Tiket dari file Excel REA (farmer name) tidak cocok dengan tiket yang tercatat pada EKBS',
+                                searchable: false,
+                                sort: false,
                             },
                         },
                         {
-                            name: 'n_details_has_paid',
                             label: 'Tiket Lunas',
+                            name: 'n_details_has_paid',
                             options: {
-                                sort: false,
-                                searchable: false,
                                 customBodyRenderLite: dataIndex => {
                                     const data = getRowData(dataIndex)
 
@@ -229,14 +211,12 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
 
                                     return (
                                         <Tooltip
+                                            arrow
+                                            placement="top"
                                             title={`${formatNumber(n_details_has_paid)} / ${formatNumber(
                                                 n_tickets,
-                                            )} Tiket`}
-                                            arrow
-                                            placement="top">
+                                            )} Tiket`}>
                                             <Button
-                                                size="small"
-                                                variant="outlined"
                                                 color={
                                                     n_details_has_paid ===
                                                     n_tickets
@@ -247,10 +227,12 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                                     setPaidDetailsOnPaymentUuid(
                                                         uuid,
                                                     )
-                                                }>
+                                                }
+                                                size="small"
+                                                variant="outlined">
                                                 <Typography
-                                                    fontWeight="bold"
-                                                    component="span">
+                                                    component="span"
+                                                    fontWeight="bold">
                                                     {Math.floor(
                                                         (n_details_has_paid /
                                                             n_tickets) *
@@ -262,12 +244,28 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                         </Tooltip>
                                     )
                                 },
+                                searchable: false,
+                                sort: false,
                             },
                         },
                     ]}
-                    defaultSortOrder={{ name: 'from_at', direction: 'desc' }}
+                    defaultSortOrder={{ direction: 'desc', name: 'from_at' }}
                     getRowDataCallback={fn => (getRowData = fn)}
                     mutateCallback={fn => (mutate = fn)}
+                    onRowClick={
+                        !notFoundDetailsOnPaymentUuid &&
+                        !unsyncedDetailsOnPaymentUuid &&
+                        !paidDetailsOnPaymentUuid
+                            ? (_, { dataIndex }, event) => {
+                                  if (event.detail === 2) {
+                                      const data = getRowData(dataIndex)
+                                      if (!data) return
+
+                                      return handleEdit(data)
+                                  }
+                              }
+                            : undefined
+                    }
                     setRowProps={(_, dataIndex) => {
                         const { n_tickets, n_details_has_paid } =
                             getRowData(dataIndex) ?? {}
@@ -281,54 +279,50 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                     : undefined,
                         }
                     }}
+                    tableId="PalmBunchDeliveryRateDatatable"
+                    title="Riwayat"
                 />
             </Box>
 
             <Dialog
-                open={formOpen}
                 closeButtonProps={{
-                    onClick: handleClose,
                     disabled: loading,
+                    onClick: handleClose,
                 }}
-                title="Pembayaran"
-                maxWidth="sm">
+                maxWidth="sm"
+                open={formOpen}
+                title="Pembayaran">
                 <PalmBunchesReaPaymentForm
-                    data={data as PalmBunchesReaPaymentDataType}
-                    loading={loading}
-                    setSubmitting={setSubmitting}
-                    onSubmitted={() => {
-                        mutate()
-                        handleClose()
-                    }}
                     actionsSlot={
                         <FormActions
                             onCancel={handleClose}
                             submitting={submitting}
                         />
                     }
+                    data={data as PalmBunchesReaPaymentDataType}
+                    loading={loading}
+                    onSubmitted={() => {
+                        mutate()
+                        handleClose()
+                    }}
+                    setSubmitting={setSubmitting}
                 />
             </Dialog>
 
             <PalmBuncesReaPaymentDetailDatatableModal
-                uuid={
-                    notFoundDetailsOnPaymentUuid ??
-                    unsyncedDetailsOnPaymentUuid ??
-                    paidDetailsOnPaymentUuid ??
-                    unvalidatedDetailsOnPaymentUuid
-                }
-                title="Rincian"
-                open={Boolean(
-                    notFoundDetailsOnPaymentUuid ??
-                        unsyncedDetailsOnPaymentUuid ??
-                        paidDetailsOnPaymentUuid ??
-                        unvalidatedDetailsOnPaymentUuid,
-                )}
                 onClose={() => {
                     setNotFoundDetailsOnPaymentUuid(undefined)
                     setUnsyncedDetailsPaymentUuid(undefined)
                     setPaidDetailsOnPaymentUuid(undefined)
                     setUnvalidatedDetailsPaymentUuid(undefined)
                 }}
+                open={Boolean(
+                    notFoundDetailsOnPaymentUuid ??
+                        unsyncedDetailsOnPaymentUuid ??
+                        paidDetailsOnPaymentUuid ??
+                        unvalidatedDetailsOnPaymentUuid,
+                )}
+                title="Rincian"
                 type={
                     notFoundDetailsOnPaymentUuid
                         ? 'not-found'
@@ -337,6 +331,12 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                           : paidDetailsOnPaymentUuid
                             ? 'done'
                             : 'unvalidated'
+                }
+                uuid={
+                    notFoundDetailsOnPaymentUuid ??
+                    unsyncedDetailsOnPaymentUuid ??
+                    paidDetailsOnPaymentUuid ??
+                    unvalidatedDetailsOnPaymentUuid
                 }
             />
 
@@ -350,36 +350,36 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
 const DATATABLE_COLUMNS: DatatableProps<PalmBunchesReaPaymentDataType>['columns'] =
     [
         {
-            name: 'uuid',
             label: 'uuid',
+            name: 'uuid',
             options: {
                 display: false,
             },
         },
         {
-            name: 'from_at',
             label: 'Tanggal Tiket Awal',
+            name: 'from_at',
             options: {
                 customBodyRender: toDmy,
             },
         },
         {
-            name: 'to_at',
             label: 'Tanggal Tiket Akhir',
+            name: 'to_at',
             options: {
                 customBodyRender: toDmy,
             },
         },
         {
-            name: 'final_rp',
             label: 'Nilai Akhir',
+            name: 'final_rp',
             options: {
                 customBodyRender: (value: number) => numberToCurrency(value),
             },
         },
         {
-            name: 'transactions.at',
             label: 'Tanggal Pelunasan oleh REA',
+            name: 'transactions.at',
             options: {
                 customBodyRenderLite: dataIndex => {
                     const data = getRowData(dataIndex)

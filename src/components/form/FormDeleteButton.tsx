@@ -1,9 +1,9 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
 // materials
 import Button, { type ButtonProps } from '@mui/material/Button'
+// vendors
+import { useState } from 'react'
 // components
 import ConfirmationDialog from '../confirmation-dialog'
 
@@ -29,26 +29,26 @@ export default function FormDeleteButton({
     return (
         <>
             <ConfirmationDialog
-                open={isDialogOpen}
-                title={titleText ?? 'Apakah Anda yakin ingin menghapus data?'}
-                color="error"
-                onConfirm={ev => onClick?.(ev)}
                 cancelButtonProps={{
                     disabled: loading ?? undefined,
                 }}
+                color="error"
                 confirmButtonProps={{
                     loading: loading,
                 }}
-                onCancel={() => setIsDialogOpen(false)}>
+                onCancel={() => setIsDialogOpen(false)}
+                onConfirm={ev => onClick?.(ev)}
+                open={isDialogOpen}
+                title={titleText ?? 'Apakah Anda yakin ingin menghapus data?'}>
                 {confirmationText ??
                     'Data yang dihapus tidak dapat dikembalikan.'}
             </ConfirmationDialog>
 
             <Button
                 color="error"
-                onClick={() => setIsDialogOpen(true)}
                 disabled={disabled}
                 loading={loading}
+                onClick={() => setIsDialogOpen(true)}
                 {...props}>
                 {children ?? 'Hapus'}
             </Button>

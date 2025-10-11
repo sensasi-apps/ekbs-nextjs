@@ -1,10 +1,9 @@
-import type { FC } from 'react'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
 import Box, { type BoxProps } from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import type { FC } from 'react'
 
 const ErrorCenter: FC<
     {
@@ -15,12 +14,12 @@ const ErrorCenter: FC<
 > = ({ message, isShow = true, onClose, children, ...props }) => {
     return (
         <Box
-            textAlign="center"
-            my={4}
             display={isShow ? 'block' : 'none'}
+            my={4}
+            textAlign="center"
             {...props}>
             <Typography>
-                <ErrorOutlineIcon sx={{ fontSize: '8rem' }} color="error" />
+                <ErrorOutlineIcon color="error" sx={{ fontSize: '8rem' }} />
             </Typography>
 
             <Typography variant="overline">
@@ -29,7 +28,7 @@ const ErrorCenter: FC<
 
             {onClose && (
                 <Box mt={6}>
-                    <Button variant="contained" onClick={onClose} color="error">
+                    <Button color="error" onClick={onClose} variant="contained">
                         Kembali
                     </Button>
                 </Box>

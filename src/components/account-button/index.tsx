@@ -1,8 +1,10 @@
 'use client'
 
-// vendors
-import { useCallback, useState, type MouseEventHandler } from 'react'
-import NextLink from 'next/link'
+// icons
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import GradingIcon from '@mui/icons-material/Grading'
+import LogoutIcon from '@mui/icons-material/Logout'
+import SyncIcon from '@mui/icons-material/Sync'
 // materials
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
@@ -12,20 +14,18 @@ import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
+import NextLink from 'next/link'
+// vendors
+import { type MouseEventHandler, useCallback, useState } from 'react'
 // components
 import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
 import FooterBox from '@/components/footer-box'
+// providers
+import useAuthInfo from '@/hooks/use-auth-info'
 // parts
 import DarkModeSwitch from './_parts/dark-mode-switch-menu-item'
 import FullscreenMenuItem from './_parts/fullscreen-menu-item'
-// icons
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import GradingIcon from '@mui/icons-material/Grading'
-import LogoutIcon from '@mui/icons-material/Logout'
-import SyncIcon from '@mui/icons-material/Sync'
-// providers
-import useAuthInfo from '@/hooks/use-auth-info'
 
 type Color =
     | 'inherit'
@@ -66,15 +66,15 @@ export default function AccountButton({
 
             <Menu
                 anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleCloseMenu}>
+                onClose={handleCloseMenu}
+                open={Boolean(anchorEl)}>
                 <FlexBox alignItems="center" justifyContent="center" my={1}>
                     <ChipSmall
+                        color="info"
                         label={`#${user.id}`}
                         variant="outlined"
-                        color="info"
                     />
-                    <Typography fontWeight="bold" component="div">
+                    <Typography component="div" fontWeight="bold">
                         {user.name}
                     </Typography>
                 </FlexBox>
@@ -89,14 +89,14 @@ export default function AccountButton({
                         <SyncIcon />
                     </ListItemIcon>
                     <ListItemText>Muat Ulang Halaman</ListItemText>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography color="text.secondary" variant="body2">
                         F5
                     </Typography>
                 </MenuItem>
 
                 <Divider />
 
-                <MenuItem href="/policy" component={NextLink}>
+                <MenuItem component={NextLink} href="/policy">
                     <ListItemIcon>
                         <GradingIcon fontSize="small" />
                     </ListItemIcon>
@@ -108,7 +108,7 @@ export default function AccountButton({
 
                 <Divider />
 
-                <MenuItem href="/logout" component={NextLink}>
+                <MenuItem component={NextLink} href="/logout">
                     <ListItemIcon>
                         <LogoutIcon fontSize="small" />
                     </ListItemIcon>
@@ -116,7 +116,7 @@ export default function AccountButton({
                     <ListItemText>Logout</ListItemText>
                 </MenuItem>
 
-                <FooterBox mt={2} mb={1} component="div" />
+                <FooterBox component="div" mb={1} mt={2} />
             </Menu>
         </>
     )
@@ -138,17 +138,17 @@ function DesktopAccountButton({
     return (
         <Chip
             aria-label="akun desktop"
+            color={isInherit ? undefined : color}
             icon={
                 <AccountCircleIcon color={isInherit ? 'inherit' : undefined} />
             }
             label={label}
-            variant="filled"
-            color={isInherit ? undefined : color}
+            onClick={onClick}
             sx={{
                 color: isInherit ? '#e0e0e0' : undefined,
-                display: { xs: 'none', sm: 'inline-flex' },
+                display: { sm: 'inline-flex', xs: 'none' },
             }}
-            onClick={onClick}
+            variant="filled"
         />
     )
 }
@@ -163,10 +163,10 @@ function MobileAccountButton({ color, onClick }: MobileAccountButtonProps) {
 
     return (
         <IconButton
+            aria-label="akun mobile"
             color={isInherit ? 'inherit' : undefined}
             onClick={onClick}
-            aria-label="akun mobile"
-            sx={{ display: { xs: 'inline-flex', sm: 'none' } }}>
+            sx={{ display: { sm: 'none', xs: 'inline-flex' } }}>
             <AccountCircleIcon />
         </IconButton>
     )

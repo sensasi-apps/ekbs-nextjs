@@ -1,9 +1,11 @@
 'use client'
 
-// vendors
-import { Formik, type FormikProps } from 'formik'
-import { useState } from 'react'
-import useSWR from 'swr'
+// icons
+import Add from '@mui/icons-material/Add'
+import Check from '@mui/icons-material/Check'
+import ContactPageIcon from '@mui/icons-material/ContactPage'
+import Edit from '@mui/icons-material/Edit'
+import ForestIcon from '@mui/icons-material/Forest'
 // materials
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -13,25 +15,23 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
-// icons
-import Add from '@mui/icons-material/Add'
-import Check from '@mui/icons-material/Check'
-import ContactPageIcon from '@mui/icons-material/ContactPage'
-import Edit from '@mui/icons-material/Edit'
-import ForestIcon from '@mui/icons-material/Forest'
+// vendors
+import { Formik, type FormikProps } from 'formik'
+import { useState } from 'react'
+import useSWR from 'swr'
 // components
 import { AoaTable } from '@/components/aoa-table'
-import Radio from '@/components/formik-fields/radio'
-import TextField from '@/components/formik-fields/text-field'
 import Fab from '@/components/Fab'
+import Radio from '@/components/formik-fields/radio'
+import Switch from '@/components/formik-fields/switch'
+import TextField from '@/components/formik-fields/text-field'
 import IconButton from '@/components/IconButton'
 import PageTitle from '@/components/page-title'
-import Switch from '@/components/formik-fields/switch'
+import myAxios from '@/lib/axios'
+import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
 //
 import type Requisite from '@/modules/clm/types/orms/requisite'
-import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
-import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
 
 type FormData = Omit<Requisite, 'id' | 'is_optional' | 'certifications'> & {
     id?: number
@@ -63,19 +63,19 @@ export default function Page() {
         .map(row => [
             ...dataToRow(row),
             <IconButton
-                title="Ubah"
-                key={row.id}
-                icon={Edit}
                 color="primary"
+                icon={Edit}
+                key={row.id}
                 onClick={() => {
                     setFormData({
                         ...row,
-                        is_required: !row.is_optional,
                         certifications: row.certifications.map(
                             ({ id }) => `${id}`,
                         ),
+                        is_required: !row.is_optional,
                     })
                 }}
+                title="Ubah"
             />,
         ])
 
@@ -84,42 +84,42 @@ export default function Page() {
         .map(row => [
             ...dataToRow(row),
             <IconButton
-                title="Ubah"
-                key={row.id}
-                icon={Edit}
                 color="primary"
+                icon={Edit}
+                key={row.id}
                 onClick={() => {
                     setFormData({
                         ...row,
-                        is_required: !row.is_optional,
                         certifications: row.certifications.map(
                             ({ id }) => `${id}`,
                         ),
+                        is_required: !row.is_optional,
                     })
                 }}
+                title="Ubah"
             />,
         ])
 
     return (
         <>
             <PageTitle
-                title="Syarat Sertifikasi"
                 subtitle="Pengaturan syarat yang akan berlaku untuk semua anggota dan lahan"
+                title="Syarat Sertifikasi"
             />
 
             <Grid container spacing={4}>
                 <Grid
                     size={{
-                        xs: 12,
-                        sm: 12,
                         md: 6,
+                        sm: 12,
+                        xs: 12,
                     }}>
                     <Typography
-                        variant="h6"
                         component="div"
                         display="flex"
                         gap={1}
-                        mb={1}>
+                        mb={1}
+                        variant="h6">
                         <ContactPageIcon />
                         Perorangan
                     </Typography>
@@ -132,23 +132,23 @@ export default function Page() {
                     />
 
                     <AoaTable
-                        headers={['Wajib', 'Nama', 'Sertifikasi', 'Aksi']}
                         dataRows={aoaUserData}
+                        headers={['Wajib', 'Nama', 'Sertifikasi', 'Aksi']}
                     />
                 </Grid>
 
                 <Grid
                     size={{
-                        xs: 12,
-                        sm: 12,
                         md: 6,
+                        sm: 12,
+                        xs: 12,
                     }}>
                     <Typography
-                        variant="h6"
                         component="div"
                         display="flex"
                         gap={1}
-                        mb={1}>
+                        mb={1}
+                        variant="h6">
                         <ForestIcon />
                         Lahan
                     </Typography>
@@ -162,8 +162,8 @@ export default function Page() {
                     />
 
                     <AoaTable
-                        headers={['Wajib', 'Nama', 'Sertifikasi', 'Aksi']}
                         dataRows={aoaLandData}
+                        headers={['Wajib', 'Nama', 'Sertifikasi', 'Aksi']}
                     />
                 </Grid>
             </Grid>
@@ -182,11 +182,11 @@ export default function Page() {
             <Fab
                 onClick={() =>
                     setFormData({
-                        name: '',
+                        certifications: [],
                         description: '',
                         is_required: false,
+                        name: '',
                         type: 'user',
-                        certifications: [],
                     })
                 }>
                 <Add />
@@ -210,19 +210,12 @@ function RequisiteForm({
 
     return (
         <Formik<FormData>
-            initialValues={formData}
-            onSubmit={(values, { setErrors }) =>
-                myAxios
-                    .post('/clm/requisites', values)
-                    .then(onSubmitted)
-                    .catch(error => handle422(error, setErrors))
-            }
             component={({
                 submitForm,
                 isSubmitting,
             }: FormikProps<FormData>) => {
                 return (
-                    <Dialog open={Boolean(formData)} maxWidth="xs" fullWidth>
+                    <Dialog fullWidth maxWidth="xs" open={Boolean(formData)}>
                         <DialogTitle>
                             {formData?.id ? 'Ubah' : 'Tambah'} Syarat
                         </DialogTitle>
@@ -230,11 +223,11 @@ function RequisiteForm({
                         {isSubmitting && <LinearProgress />}
 
                         <DialogContent>
-                            <TextField name="name" label="Nama" />
+                            <TextField label="Nama" name="name" />
 
                             <TextField
-                                name="description"
                                 label="Keterangan"
+                                name="description"
                                 textFieldProps={{
                                     multiline: true,
                                     required: false,
@@ -243,8 +236,8 @@ function RequisiteForm({
                             />
 
                             <Radio
-                                name="type"
                                 label="Syarat Untuk"
+                                name="type"
                                 options={[
                                     {
                                         label: 'Perorangan',
@@ -269,23 +262,30 @@ function RequisiteForm({
                             <Button
                                 color="inherit"
                                 disabled={isSubmitting}
-                                size="small"
-                                onClick={onCancel}>
+                                onClick={onCancel}
+                                size="small">
                                 Batal
                             </Button>
                             <Button
                                 color="success"
                                 disabled={isSubmitting}
+                                onClick={submitForm}
                                 size="small"
-                                type="submit"
-                                onClick={submitForm}>
+                                type="submit">
                                 Simpan
                             </Button>
                         </DialogActions>
                     </Dialog>
                 )
             }}
+            initialValues={formData}
             onReset={onCancel}
+            onSubmit={(values, { setErrors }) =>
+                myAxios
+                    .post('/clm/requisites', values)
+                    .then(onSubmitted)
+                    .catch(error => handle422(error, setErrors))
+            }
         />
     )
 }
@@ -295,7 +295,7 @@ function dataToRow(data: Requisite) {
         data.is_optional ? '' : <Check color="success" />,
         <>
             {data.name}
-            <Typography variant="caption" component="div">
+            <Typography component="div" variant="caption">
                 {data.description}
             </Typography>
         </>,

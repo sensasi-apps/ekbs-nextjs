@@ -1,10 +1,13 @@
 // types
-import type NavItemGroup from '../types/nav-item-group'
+
 // icons-materials
 import Assessment from '@mui/icons-material/Assessment'
 import Dashboard from '@mui/icons-material/Dashboard'
 import SettingIcon from '@mui/icons-material/Settings'
 import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
+// enums
+import Role from '@/enums/role'
+import type NavItemGroup from '../types/nav-item-group'
 // nav items
 import { clms } from './clm'
 import { executives } from './executives'
@@ -13,32 +16,30 @@ import { financesNavItemGroup } from './finances'
 import { heavyEquipments } from './heavy-equipments'
 import { inventories } from './inventories'
 import { loans } from './loans'
+import { martsNavItemGroup } from './marts'
 import { palmBunches } from './palm-bunches'
+import { repairShop } from './repair-shop'
 import { supermans } from './supermans'
 import { systemsNavItemGroup } from './systems'
-import { martsNavItemGroup } from './marts'
-import { repairShop } from './repair-shop'
-// enums
-import Role from '@/enums/role'
 
 const NAV_ITEM_GROUPS: NavItemGroup[] = [
     {
         items: [
             {
                 href: '/dashboard',
-                label: 'Dasbor',
                 icon: Dashboard,
+                label: 'Dasbor',
             },
             {
                 href: '/laporan-performa',
-                label: 'Performa Koperasi',
                 icon: Assessment,
+                label: 'Performa Koperasi',
             },
             {
-                href: '/me/participation',
-                label: 'Partisipasiku',
-                icon: VolunteerActivism,
                 forRole: Role.MEMBER,
+                href: '/me/participation',
+                icon: VolunteerActivism,
+                label: 'Partisipasiku',
             },
         ],
     },
@@ -58,9 +59,9 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
     {
         items: [
             {
-                label: 'Pengaturan',
                 href: '/settings',
                 icon: SettingIcon,
+                label: 'Pengaturan',
             },
         ],
     },

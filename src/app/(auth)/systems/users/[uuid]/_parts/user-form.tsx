@@ -1,11 +1,5 @@
 // types
-import type { UUID } from 'crypto'
-import type User from '@/modules/user/types/orms/user'
-// vendors
-import { type ChangeEvent, type MouseEventHandler, useState } from 'react'
-import { mutate } from 'swr'
-import { useRouter } from 'next/navigation'
-import axios from '@/lib/axios'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -14,9 +8,16 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import Switch from '@mui/material/Switch'
+import type { UUID } from 'crypto'
+import { useRouter } from 'next/navigation'
+// vendors
+import { type ChangeEvent, type MouseEventHandler, useState } from 'react'
+import { mutate } from 'swr'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
+import axios from '@/lib/axios'
+import type User from '@/modules/user/types/orms/user'
 // etcs
 import useFormData from '@/providers/FormData'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
@@ -93,64 +94,73 @@ const UserForm = () => {
             }}>
             {!uuid && (
                 <NumericFormat
-                    name="citizen_id"
-                    label="Nomor Induk Kependudukan"
-                    disabled={isLoading}
-                    onChange={clearValidationErrors}
-                    minLength={16}
-                    maxLength={16}
-                    thousandSeparator={false}
                     decimalScale={0}
+                    disabled={isLoading}
+                    label="Nomor Induk Kependudukan"
+                    maxLength={16}
+                    minLength={16}
+                    name="citizen_id"
+                    onChange={clearValidationErrors}
+                    thousandSeparator={false}
                     {...errorsToHelperTextObj(validationErrors?.citizen_id)}
                 />
             )}
 
             <TextField
-                name="name"
-                label="Nama Lengkap"
-                disabled={isLoading}
                 defaultValue={name || ''}
+                disabled={isLoading}
                 fullWidth
+                label="Nama Lengkap"
                 margin="dense"
+                name="name"
                 onChange={clearValidationErrors}
                 {...errorsToHelperTextObj(validationErrors?.name)}
             />
 
             <TextField
-                name="nickname"
-                label="Nama Panggilan"
-                disabled={isLoading}
                 defaultValue={nickname || ''}
-                required={false}
+                disabled={isLoading}
                 fullWidth
+                label="Nama Panggilan"
                 margin="dense"
+                name="nickname"
                 onChange={clearValidationErrors}
+                required={false}
                 {...errorsToHelperTextObj(validationErrors?.nickname)}
             />
 
             <TextField
-                name="email"
-                label="Email"
-                type="email"
-                required={false}
-                disabled={isLoading}
                 defaultValue={email || ''}
+                disabled={isLoading}
+                label="Email"
+                name="email"
                 onChange={e => {
                     const value = e.target.value
 
                     setEmail(value)
                     clearValidationErrors(e)
                 }}
+                required={false}
+                type="email"
                 {...errorsToHelperTextObj(validationErrors?.email)}
             />
 
             <FormControl
-                fullWidth
                 disabled={!email || isLoading}
-                margin="dense"
-                error={Boolean(validationErrors?.is_active)}>
+                error={Boolean(validationErrors?.is_active)}
+                fullWidth
+                margin="dense">
                 <FormLabel>Status Akun</FormLabel>
                 <FormControlLabel
+                    control={
+                        <Switch
+                            checked={isActive && Boolean(email)}
+                            color="success"
+                            name="is_active"
+                            value="1"
+                        />
+                    }
+                    label={isActive ? 'Aktif' : 'Nonaktif'}
                     onChange={ev => {
                         if ('checked' in ev.target) {
                             setIsActive(Boolean(ev.target.checked))
@@ -159,15 +169,6 @@ const UserForm = () => {
                             clearValidationErrors(ev as ChangeEvent)
                         }
                     }}
-                    label={isActive ? 'Aktif' : 'Nonaktif'}
-                    control={
-                        <Switch
-                            color="success"
-                            name="is_active"
-                            value="1"
-                            checked={isActive && Boolean(email)}
-                        />
-                    }
                 />
                 {validationErrors?.is_active && (
                     <FormHelperText>
@@ -179,10 +180,10 @@ const UserForm = () => {
             <Box display="flex" justifyContent="end">
                 <Button
                     disabled={isLoading}
+                    onClick={handleClose as MouseEventHandler}
                     size="small"
-                    variant="text"
                     // TODO: remove casting
-                    onClick={handleClose as MouseEventHandler}>
+                    variant="text">
                     Batal
                 </Button>
 

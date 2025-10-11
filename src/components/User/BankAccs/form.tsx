@@ -1,11 +1,12 @@
 // vendors
-import { type FormEvent, useState } from 'react'
-import { type UUIDTypes } from 'uuid'
-import { mutate } from 'swr'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import { type FormEvent, useState } from 'react'
+import { mutate } from 'swr'
+import { type UUIDTypes } from 'uuid'
 //
 import axios from '@/lib/axios'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
@@ -50,15 +51,16 @@ export default function UserBankAccForm({
 
     return (
         <form
+            autoComplete="off"
+            onSubmit={handleSubmit}
             style={{
                 marginTop: '1rem',
-            }}
-            onSubmit={handleSubmit}
-            autoComplete="off">
+            }}>
             <TextField
-                fullWidth
-                required
                 disabled={isLoading}
+                error={Boolean(errors?.name)}
+                fullWidth
+                helperText={errors?.name}
                 label="Nama Bank"
                 margin="dense"
                 name="name"
@@ -68,28 +70,27 @@ export default function UserBankAccForm({
                         return prev
                     })
                 }
-                error={Boolean(errors?.name)}
-                helperText={errors?.name}
+                required
             />
 
             <TextField
-                fullWidth
                 disabled={isLoading}
-                required
+                error={Boolean(errors?.no)}
+                fullWidth
+                helperText={errors?.no}
                 label="Nomor Rekening"
-                name="no"
                 margin="dense"
+                name="no"
                 onChange={() =>
                     setErrors(prev => {
                         delete prev?.no
                         return prev
                     })
                 }
-                error={Boolean(errors?.no)}
-                helperText={errors?.no}
+                required
             />
 
-            <Box textAlign="right" mt={2}>
+            <Box mt={2} textAlign="right">
                 <Button
                     disabled={isLoading}
                     onClick={() => {

@@ -1,8 +1,8 @@
 // types
-import type UserType from '@/modules/user/types/orms/user'
-// vendors
-import { useState } from 'react'
-import useSWR from 'swr'
+
+// icons
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -12,13 +12,14 @@ import CardHeader from '@mui/material/CardHeader'
 import Collapse from '@mui/material/Collapse'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-// icons
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-// components
-import TbsPerformanceChart from './tbs-performance-chart'
+// vendors
+import { useState } from 'react'
+import useSWR from 'swr'
+import type UserType from '@/modules/user/types/orms/user'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
+// components
+import TbsPerformanceChart from './tbs-performance-chart'
 
 export default function CreditorCard({
     data: creditor,
@@ -38,9 +39,9 @@ export default function CreditorCard({
                     disableTypography
                     title={
                         <Box
+                            alignItems="center"
                             display="flex"
-                            justifyContent="space-between"
-                            alignItems="center">
+                            justifyContent="space-between">
                             <Box display="flex" gap={1}>
                                 <Typography color="GrayText" component="span">
                                     #{creditor?.id}

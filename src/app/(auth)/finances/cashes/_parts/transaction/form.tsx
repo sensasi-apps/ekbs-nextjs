@@ -1,20 +1,7 @@
 // types
-import type { AxiosError } from 'axios'
-import type BusinessUnitCash from '@/types/orms/business-unit-cash'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-// vendors
-import { useState } from 'react'
-import {
-    FastField,
-    type FastFieldProps,
-    Field,
-    type FieldProps,
-    Form,
-    type FormikProps,
-    useFormik,
-} from 'formik'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+
+// icons
+import DeleteIcon from '@mui/icons-material/Delete'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
@@ -26,29 +13,43 @@ import FormLabel from '@mui/material/FormLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-// icons
-import DeleteIcon from '@mui/icons-material/Delete'
+import type { AxiosError } from 'axios'
+import dayjs from 'dayjs'
+import {
+    FastField,
+    type FastFieldProps,
+    Field,
+    type FieldProps,
+    Form,
+    type FormikProps,
+    useFormik,
+} from 'formik'
+// vendors
+import { useState } from 'react'
 // components
 import DatePicker from '@/components/DatePicker'
+import FormLoadingBar from '@/components/Dialog/LoadingBar'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
-import FormLoadingBar from '@/components/Dialog/LoadingBar'
-import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
+import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserActivityLogs from '@/components/UserActivityLogs'
-// utils
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import txAccounts from '@/modules/transaction/statics/tx-accounts'
-import handle422 from '@/utils/handle-422'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-import shortUuid from '@/utils/short-uuid'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums
 import TransactionPermission from '@/enums/permissions/Transaction'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+import txAccounts from '@/modules/transaction/statics/tx-accounts'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+import type BusinessUnitCash from '@/types/orms/business-unit-cash'
+// utils
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import handle422 from '@/utils/handle-422'
+import shortUuid from '@/utils/short-uuid'
 
 export default function TransactionForm({
     dirty,
@@ -110,14 +111,14 @@ export default function TransactionForm({
                         )}
 
                         <TextField
-                            size="small"
                             disabled
                             fullWidth
                             id="uuid"
-                            margin="none"
-                            variant="filled"
                             label="Kode Transaksi"
+                            margin="none"
+                            size="small"
                             value={shortUuid(txFromDB?.uuid)}
+                            variant="filled"
                             {...errorsToHelperTextObj(validationErrorMsg)}
                         />
                     </div>
@@ -128,14 +129,12 @@ export default function TransactionForm({
                         field: { onChange, value, ...restField },
                     }: FastFieldProps) => (
                         <FormControl
+                            disabled={isDisabled}
                             margin="dense"
-                            required
-                            disabled={isDisabled}>
+                            required>
                             <FormLabel id="type">Jenis Transaksi</FormLabel>
                             <RadioGroup
-                                row
                                 aria-labelledby="type"
-                                value={value ?? ''}
                                 onChange={ev => {
                                     onChange(ev)
 
@@ -143,23 +142,25 @@ export default function TransactionForm({
                                         setIsBuTx(false)
                                     }
                                 }}
+                                row
+                                value={value ?? ''}
                                 {...restField}>
                                 <FormControlLabel
-                                    value="income"
                                     control={<Radio required />}
                                     label="Masuk"
+                                    value="income"
                                 />
 
                                 <FormControlLabel
-                                    value="expense"
                                     control={<Radio />}
                                     label="Keluar"
+                                    value="expense"
                                 />
 
                                 <FormControlLabel
-                                    value="transfer"
                                     control={<Radio />}
                                     label="Transfer"
+                                    value="transfer"
                                 />
                             </RadioGroup>
                         </FormControl>
@@ -173,28 +174,28 @@ export default function TransactionForm({
                         form: { setFieldValue },
                     }: FastFieldProps) => (
                         <DatePicker
-                            disableFuture
-                            slotProps={{
-                                textField: {
-                                    fullWidth: true,
-                                    required: true,
-                                    variant: 'standard',
-                                    margin: 'normal',
-                                    name: name,
-                                    sx: {
-                                        mt: 2,
-                                    },
-                                    ...errorsToHelperTextObj(error),
-                                },
-                            }}
-                            label="Tanggal"
                             disabled={isDisabled}
+                            disableFuture
+                            label="Tanggal"
                             onChange={value =>
                                 setFieldValue(
                                     name,
                                     value?.format('YYYY-MM-DD') ?? '',
                                 )
                             }
+                            slotProps={{
+                                textField: {
+                                    fullWidth: true,
+                                    margin: 'normal',
+                                    name: name,
+                                    required: true,
+                                    sx: {
+                                        mt: 2,
+                                    },
+                                    variant: 'standard',
+                                    ...errorsToHelperTextObj(error),
+                                },
+                            }}
                             value={dayjs(value)}
                         />
                     )}
@@ -221,43 +222,37 @@ export default function TransactionForm({
                                     gap: '0.5em',
                                 }}>
                                 <SelectFromApi
-                                    required
+                                    disabled={isDisabled}
                                     endpoint="/data/cashes"
+                                    error={Boolean(error)}
+                                    helperText={error}
                                     label={
                                         type === 'income'
                                             ? 'Ke Kas'
                                             : 'Dari Kas'
                                     }
-                                    size="small"
                                     margin="dense"
-                                    disabled={isDisabled}
+                                    onChange={onChange}
+                                    required
                                     selectProps={{
-                                        value: value ?? '',
                                         name: name,
                                         onBlur: onBlur,
+                                        value: value ?? '',
                                     }}
-                                    error={Boolean(error)}
-                                    helperText={error}
-                                    onChange={onChange}
+                                    size="small"
                                 />
 
                                 {type === 'transfer' &&
                                     !is_transaction_destination && (
                                         <SelectFromApi
-                                            required
-                                            endpoint="/data/cashes"
-                                            label="Ke Kas"
-                                            size="small"
-                                            margin="dense"
                                             disabled={isDisabled}
-                                            selectProps={{
-                                                value: to_cash_uuid ?? '',
-                                                name: 'to_cash_uuid',
-                                            }}
+                                            endpoint="/data/cashes"
                                             error={Boolean(errors.to_cash_uuid)}
                                             helperText={
                                                 errors.to_cash_uuid as string
                                             }
+                                            label="Ke Kas"
+                                            margin="dense"
                                             onChange={event =>
                                                 setFieldValue(
                                                     'to_cash_uuid',
@@ -266,6 +261,12 @@ export default function TransactionForm({
                                                         : '',
                                                 )
                                             }
+                                            required
+                                            selectProps={{
+                                                name: 'to_cash_uuid',
+                                                value: to_cash_uuid ?? '',
+                                            }}
+                                            size="small"
                                         />
                                     )}
                             </div>
@@ -285,8 +286,8 @@ export default function TransactionForm({
                             })
                         }>
                         <FormControlLabel
-                            disabled={isDisabled}
                             control={<Checkbox checked={isBuTx} />}
+                            disabled={isDisabled}
                             label="Transaksi Unit Bisnis"
                         />
                     </FormGroup>
@@ -300,17 +301,11 @@ export default function TransactionForm({
                         }: FastFieldProps) => {
                             return (
                                 <SelectFromApi
-                                    required
                                     disabled={isDisabled}
                                     endpoint="/data/business-unit-cashes"
                                     label="Unit Bisnis"
-                                    size="small"
                                     margin="dense"
-                                    selectProps={{
-                                        value: value ?? '',
-                                        name: name,
-                                        onBlur: onBlur,
-                                    }}
+                                    onChange={onChange}
                                     renderOption={(
                                         buCash: BusinessUnitCash,
                                     ) => (
@@ -320,7 +315,13 @@ export default function TransactionForm({
                                             {buCash.business_unit?.name}
                                         </MenuItem>
                                     )}
-                                    onChange={onChange}
+                                    required
+                                    selectProps={{
+                                        name: name,
+                                        onBlur: onBlur,
+                                        value: value ?? '',
+                                    }}
+                                    size="small"
                                     {...errorsToHelperTextObj(error)}
                                 />
                             )
@@ -334,12 +335,11 @@ export default function TransactionForm({
                         form: { setFieldValue },
                     }: FieldProps<string>) => (
                         <Autocomplete
-                            options={accOpts}
-                            value={value ?? ''}
                             disabled={isDisabled}
                             onChange={(_, newValue) =>
                                 setFieldValue(name, newValue)
                             }
+                            options={accOpts}
                             renderInput={params => (
                                 <TextField
                                     {...params}
@@ -348,6 +348,7 @@ export default function TransactionForm({
                                     {...errorsToHelperTextObj(errors.tag)}
                                 />
                             )}
+                            value={value ?? ''}
                         />
                     )}
                 </Field>
@@ -361,37 +362,37 @@ export default function TransactionForm({
                         return (
                             <NumericFormat
                                 disabled={isDisabled}
-                                margin="normal"
-                                size="medium"
-                                label="Jumlah"
-                                value={value}
-                                name={name}
-                                variant="standard"
-                                onValueChange={({ value }) =>
-                                    setFieldValue(name, value)
-                                }
+                                error={Boolean(error)}
+                                helperText={error}
                                 InputProps={{
                                     startAdornment: <RpInputAdornment />,
                                 }}
-                                error={Boolean(error)}
-                                helperText={error}
                                 inputProps={{
-                                    minLength: 1,
                                     maxLength: 19,
+                                    minLength: 1,
                                 }}
+                                label="Jumlah"
+                                margin="normal"
+                                name={name}
+                                onValueChange={({ value }) =>
+                                    setFieldValue(name, value)
+                                }
+                                size="medium"
+                                value={value}
+                                variant="standard"
                             />
                         )
                     }}
                 </FastField>
 
                 <FastField
+                    component={TextFieldFastableComponent}
+                    disabled={isDisabled}
+                    label="Deskripsi"
+                    multiline
                     name="desc"
                     required
                     variant="standard"
-                    component={TextFieldFastableComponent}
-                    multiline
-                    disabled={isDisabled}
-                    label="Deskripsi"
                 />
 
                 <div
@@ -407,9 +408,9 @@ export default function TransactionForm({
                         {txFromDB?.uuid && isUserCanDelete && (
                             <Button
                                 color="error"
-                                onClick={() => handleDelete()}
+                                disabled={isDisabled}
                                 loading={isDeleting}
-                                disabled={isDisabled}>
+                                onClick={() => handleDelete()}>
                                 <DeleteIcon />
                             </Button>
                         )}
@@ -422,10 +423,10 @@ export default function TransactionForm({
                     />
 
                     <FormSubmitButton
-                        oldDirty={isOldDirty}
                         disabled={isDisabled || !dirty}
-                        loading={isSubmitting}
                         form="transaction-form"
+                        loading={isSubmitting}
+                        oldDirty={isOldDirty}
                     />
                 </div>
             </Form>
@@ -453,12 +454,12 @@ export function transactionToFormValues({
     tags,
 }: TransactionORM): FormValuesType {
     return {
-        cashable_uuid,
-        at,
         amount,
+        at,
+        cashable_uuid,
         desc,
-        type,
-        to_cash_uuid,
         tag: tags?.[0]?.name?.id,
+        to_cash_uuid,
+        type,
     }
 }

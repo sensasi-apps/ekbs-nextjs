@@ -1,10 +1,10 @@
 'use client'
 
+// materials
+import FormHelperText from '@mui/material/FormHelperText'
 // vendors
 import { useFormikContext } from 'formik'
 import { useState } from 'react'
-// materials
-import FormHelperText from '@mui/material/FormHelperText'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'
 
@@ -17,10 +17,10 @@ export default function RegionIdAutocomplete() {
     return (
         <>
             <Autocomplete
-                required
                 disabled={isSubmitting}
+                endpoint="/select2/administrative-regions"
+                label="Wilayah Administratif"
                 margin="dense"
-                value={innerValue}
                 onChange={(_, value) => {
                     if (value) {
                         setInnerValue(value)
@@ -30,8 +30,8 @@ export default function RegionIdAutocomplete() {
                         setFieldValue('region_id', null)
                     }
                 }}
-                endpoint="/select2/administrative-regions"
-                label="Wilayah Administratif"
+                required
+                value={innerValue}
             />
 
             {errors['region_id'] && (

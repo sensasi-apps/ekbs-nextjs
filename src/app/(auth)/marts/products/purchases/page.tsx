@@ -1,29 +1,29 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
 // icons
 import InventoryIcon from '@mui/icons-material/Inventory'
+// vendors
+import { useState } from 'react'
+import ApiUrl from '@/app/(auth)/marts/products/purchases/_parts/api-url'
+import { type FormValues } from '@/app/(auth)/marts/products/purchases/_parts/form'
+import FormDialog from '@/app/(auth)/marts/products/purchases/_parts/form-dialog'
 // components
 import ChipSmall from '@/components/ChipSmall'
 import Datatable, {
     type DatatableProps,
-    getNoWrapCellProps,
     type GetRowDataType,
+    getNoWrapCellProps,
     type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-// utils
-import formatNumber from '@/utils/format-number'
-import toDmy from '@/utils/to-dmy'
+import Mart from '@/enums/permissions/Mart'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // parts
 import type ProductMovement from '@/modules/mart/types/orms/product-movement'
-import { type FormValues } from '@/app/(auth)/marts/products/purchases/_parts/form'
-import Mart from '@/enums/permissions/Mart'
-import FormDialog from '@/app/(auth)/marts/products/purchases/_parts/form-dialog'
-import ApiUrl from '@/app/(auth)/marts/products/purchases/_parts/api-url'
+// utils
+import formatNumber from '@/utils/format-number'
+import toDmy from '@/utils/to-dmy'
 
 let mutate: MutateType<ProductMovement>
 let getRowData: GetRowDataType<ProductMovement>
@@ -47,9 +47,11 @@ export default function ProductPurchases() {
     return (
         <>
             <Datatable
-                title="Dafar Pembelian"
                 apiUrl={ApiUrl.GET_DATATABLE_DATA}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                columns={columns}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData(dataIndex)
@@ -57,43 +59,41 @@ export default function ProductPurchases() {
 
                         setFormValues({
                             at: data.at,
-                            note: data.note,
-
-                            received: data.purchase?.received,
-                            paid: data.purchase?.paid,
                             cashable_uuid: data.transaction?.cashable_uuid,
 
+                            costs: data.costs,
+
                             details: data.details.map(detail => ({
-                                qty: detail.qty,
+                                cost_rp_per_unit: detail.cost_rp_per_unit,
                                 product: detail.product_state ?? detail.product,
                                 product_id: detail.product_id,
+                                qty: detail.qty,
                                 rp_per_unit: detail.rp_per_unit,
-                                cost_rp_per_unit: detail.cost_rp_per_unit,
                             })),
+                            note: data.note,
+                            paid: data.purchase?.paid,
 
-                            costs: data.costs,
+                            received: data.purchase?.received,
                         })
 
                         setSelectedRow(data)
                     }
                 }}
-                tableId="product-purchase-table"
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
-                columns={columns}
                 setRowProps={getNoWrapCellProps}
+                tableId="product-purchase-table"
+                title="Dafar Pembelian"
             />
 
             <FormDialog
                 formValues={formValues}
-                selectedRow={selectedRow}
-                onSumbitted={onSubmitted}
                 handleClose={handleClose}
+                onSumbitted={onSubmitted}
+                selectedRow={selectedRow}
             />
 
             <Fab
-                in={isAuthHasPermission(Mart.CREATE_PURCHASE)}
                 disabled={!!formValues}
+                in={isAuthHasPermission(Mart.CREATE_PURCHASE)}
                 onClick={() => {
                     setFormValues({})
                     setSelectedRow(undefined)
@@ -107,24 +107,24 @@ export default function ProductPurchases() {
 
 const columns: DatatableProps<ProductMovement>['columns'] = [
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender: (value: string) => toDmy(value),
         },
     },
 
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: false,
         },
     },
 
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
             searchable: false,
             sort: false,
@@ -132,8 +132,8 @@ const columns: DatatableProps<ProductMovement>['columns'] = [
     },
 
     {
-        name: 'purchase.received',
         label: 'TGL Terima',
+        name: 'purchase.received',
         options: {
             customBodyRenderLite(dataIndex) {
                 const paid = getRowData(dataIndex)?.purchase?.received
@@ -143,8 +143,8 @@ const columns: DatatableProps<ProductMovement>['columns'] = [
         },
     },
     {
-        name: 'purchase.paid',
         label: 'TGL Lunas',
+        name: 'purchase.paid',
         options: {
             customBodyRenderLite(dataIndex) {
                 const received = getRowData(dataIndex)?.purchase?.paid
@@ -154,19 +154,14 @@ const columns: DatatableProps<ProductMovement>['columns'] = [
         },
     },
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
     },
 
     {
-        name: 'details.product_state',
         label: 'Produk',
+        name: 'details.product_state',
         options: {
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'normal',
-                },
-            }),
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
 
@@ -177,37 +172,42 @@ const columns: DatatableProps<ProductMovement>['columns'] = [
                     .map(({ product_state, product }, i) => (
                         <ChipSmall
                             key={i}
+                            label={(product_state ?? product)?.name}
                             sx={{
                                 m: 0.3,
                             }}
-                            label={(product_state ?? product)?.name}
                         />
                     ))
 
                 if (data.details.length > 10) {
                     productPreviews.push(
                         <ChipSmall
-                            key="more"
                             disabled
+                            key="more"
+                            label={`+${data.details.length - 10} lainnya`}
                             sx={{
                                 m: 0.3,
                             }}
-                            label={`+${data.details.length - 10} lainnya`}
                         />,
                     )
                 }
 
                 return productPreviews
             },
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'normal',
+                },
+            }),
         },
     },
     {
-        name: 'grand_total_rp',
         label: 'Grand Total (Rp)',
+        name: 'grand_total_rp',
         options: {
+            customBodyRender: value => formatNumber(value),
             searchable: false,
             sort: false,
-            customBodyRender: value => formatNumber(value),
         },
     },
 ]

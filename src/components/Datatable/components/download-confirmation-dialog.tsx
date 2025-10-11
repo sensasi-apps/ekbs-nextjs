@@ -1,9 +1,9 @@
+import Button, { type ButtonProps } from '@mui/material/Button'
 import Dialog, { type DialogProps } from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import Button, { type ButtonProps } from '@mui/material/Button'
 
 /**
  * @deprecated not implemented yet
@@ -20,7 +20,7 @@ export function DownloadConfirmationDialog({
     onDisagree: ButtonProps['onClick']
 }) {
     return (
-        <Dialog open={open} maxWidth="xs">
+        <Dialog maxWidth="xs" open={open}>
             <DialogTitle>Ukuran Data Sangat Besar</DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -33,10 +33,10 @@ export function DownloadConfirmationDialog({
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onAgree} color="inherit" size="small">
+                <Button color="inherit" onClick={onAgree} size="small">
                     Ya
                 </Button>
-                <Button onClick={onDisagree} color="success" autoFocus>
+                <Button autoFocus color="success" onClick={onDisagree}>
                     Tidak
                 </Button>
             </DialogActions>

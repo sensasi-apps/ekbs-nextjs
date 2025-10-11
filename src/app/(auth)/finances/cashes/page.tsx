@@ -16,7 +16,7 @@ export default function CashesPage() {
         <>
             <PageTitle title="Kas" />
 
-            <Box display="flex" gap={2} flexDirection="column">
+            <Box display="flex" flexDirection="column" gap={2}>
                 <InOutCashChart />
 
                 <AllCashChart />
@@ -26,28 +26,28 @@ export default function CashesPage() {
                     spacing={2}
                     sx={{
                         flexDirection: {
-                            xs: 'column-reverse',
-                            sm: 'column-reverse',
                             md: 'row',
+                            sm: 'column-reverse',
+                            xs: 'column-reverse',
                         },
                     }}>
                     <Grid
-                        size={{
-                            xs: 12,
-                            sm: 12,
-                            md: 8,
-                        }}
                         display="flex"
                         flexDirection="column"
-                        gap={3}>
+                        gap={3}
+                        size={{
+                            md: 8,
+                            sm: 12,
+                            xs: 12,
+                        }}>
                         <TransactionsCrud />
                     </Grid>
 
                     <Grid
                         size={{
-                            xs: 12,
-                            sm: 12,
                             md: 4,
+                            sm: 12,
+                            xs: 12,
                         }}>
                         <CashCrud />
                     </Grid>

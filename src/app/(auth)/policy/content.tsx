@@ -8,15 +8,15 @@ import Typography from '@mui/material/Typography'
 export default function PolicyContent() {
     return (
         <>
-            <Typography variant="caption" gutterBottom>
+            <Typography gutterBottom variant="caption">
                 Terakhir diperbaharui: 31 Juli 2023
             </Typography>
 
-            <Typography variant="h4" component="h1" gutterBottom>
+            <Typography component="h1" gutterBottom variant="h4">
                 Syarat dan Ketentuan
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Tujuan Aplikasi
             </Typography>
 
@@ -28,7 +28,7 @@ export default function PolicyContent() {
                 e-KBS tunduk pada aturan dan peraturan yang berlaku.
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Akun Pengguna
             </Typography>
 
@@ -41,7 +41,7 @@ export default function PolicyContent() {
                 ketiga.
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Ketentuan Penggunaan
             </Typography>
 
@@ -52,7 +52,7 @@ export default function PolicyContent() {
                 pihak lain.
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Pemeliharaan Data
             </Typography>
 
@@ -61,7 +61,7 @@ export default function PolicyContent() {
                 dimasukkan ke dalam aplikasi selalu akurat dan terkini.
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Penghentian Akses
             </Typography>
 
@@ -72,7 +72,7 @@ export default function PolicyContent() {
                 tepat oleh Koperasi Belayan Sejahtera.
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Pembaharuan Syarat dan Ketentuan
             </Typography>
 
@@ -82,11 +82,11 @@ export default function PolicyContent() {
                 penyebaran informasi lainnya.
             </Typography>
 
-            <Typography variant="h4" component="h1" gutterBottom mt={4}>
+            <Typography component="h1" gutterBottom mt={4} variant="h4">
                 Kebijakan Privasi
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Informasi Pribadi
             </Typography>
 
@@ -99,7 +99,7 @@ export default function PolicyContent() {
                 izin.
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Penggunaan Data
             </Typography>
 
@@ -109,7 +109,7 @@ export default function PolicyContent() {
                 Sejahtera.
             </Typography>
 
-            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+            <Typography component="h2" gutterBottom mt={2} variant="h5">
                 Perubahan Kebijakan
             </Typography>
 

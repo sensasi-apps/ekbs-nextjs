@@ -1,6 +1,6 @@
+import { memo } from 'react'
 import LineChart from '@/components/Chart/Line'
 import StatCard from '@/components/StatCard'
-import { memo } from 'react'
 
 const MonthlyTotalMemberParticipationChartCard = memo(
     function MonthlyTotalMemberParticipationChartCard({
@@ -11,15 +11,15 @@ const MonthlyTotalMemberParticipationChartCard = memo(
         isLoading: boolean
     }) {
         return (
-            <StatCard title="Partisipasi — Bulanan" isLoading={isLoading}>
+            <StatCard isLoading={isLoading} title="Partisipasi — Bulanan">
                 <LineChart
+                    data={data}
                     slotsProps={{
                         tooltip: {
                             labelFormatter: value => `Bulan ${value}`,
                         },
                     }}
                     suffix="org"
-                    data={data}
                 />
             </StatCard>
         )

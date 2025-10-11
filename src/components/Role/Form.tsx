@@ -1,12 +1,6 @@
 // types
-import type { AxiosError } from 'axios'
-import type Role from '@/types/orms/role'
-import type FormType from '@/components/Global/Form/type'
-// vendors
-import { stringify } from 'qs'
-import axios from '@/lib/axios'
+
 import Masonry from '@mui/lab/Masonry'
-import useSWR from 'swr'
 // materials
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -15,10 +9,17 @@ import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
+import type { AxiosError } from 'axios'
+// vendors
+import { stringify } from 'qs'
+import useSWR from 'swr'
+import type FormType from '@/components/Global/Form/type'
+import Skeletons from '@/components/Global/Skeletons'
 // components
 import useValidationErrors from '@/hooks/useValidationErrors'
-import Skeletons from '@/components/Global/Skeletons'
+import axios from '@/lib/axios'
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
+import type Role from '@/types/orms/role'
 
 export default function RoleForm({
     data: { id, name_id, group, permissions: rolePermissions },
@@ -62,39 +63,39 @@ export default function RoleForm({
     }
 
     return (
-        <form onSubmit={handleSubmit} autoComplete="off">
+        <form autoComplete="off" onSubmit={handleSubmit}>
             <TextField
+                defaultValue={name_id}
                 disabled={loading}
-                name="name_id"
+                error={!!validationErrors?.name_id}
+                fullWidth
+                helperText={validationErrors?.name_id}
                 label="name_id"
                 margin="dense"
-                defaultValue={name_id}
-                fullWidth
+                name="name_id"
                 required
-                error={!!validationErrors?.name_id}
-                helperText={validationErrors?.name_id}
             />
 
             <TextField
+                defaultValue={group}
                 disabled={loading}
-                name="group"
+                error={!!validationErrors?.group}
+                fullWidth
+                helperText={validationErrors?.group}
                 label="group"
                 margin="dense"
-                defaultValue={group}
-                fullWidth
+                name="group"
                 required
-                error={!!validationErrors?.group}
-                helperText={validationErrors?.group}
             />
 
             {isLoading && <Skeletons />}
 
             {!isLoading && (
                 <FormControl
-                    disabled={loading}
-                    margin="dense"
                     component="fieldset"
-                    error={Boolean(validationErrors.permissionNames)}>
+                    disabled={loading}
+                    error={Boolean(validationErrors.permissionNames)}
+                    margin="dense">
                     <FormLabel component="legend">
                         Assign responsibility
                     </FormLabel>
@@ -103,7 +104,6 @@ export default function RoleForm({
                             {permissions?.map(
                                 ({ name }: { name: string }, i: number) => (
                                     <FormControlLabel
-                                        key={i}
                                         control={
                                             <Checkbox
                                                 defaultChecked={
@@ -113,10 +113,11 @@ export default function RoleForm({
                                                             name,
                                                     ) !== -1
                                                 }
-                                                value={name}
                                                 name={`permissionNames[${i}]`}
+                                                value={name}
                                             />
                                         }
+                                        key={i}
                                         label={name}
                                     />
                                 ),

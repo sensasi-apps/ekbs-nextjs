@@ -1,16 +1,17 @@
 // types
-import { type ReactNode } from 'react'
+
 // materials
 import Box from '@mui/material/Box'
+import { type ReactNode } from 'react'
 // components
 import ContentGuard from '@/components/content-guard'
 import RedirectIfUnauth from '@/components/redirect-if-unauth'
 import The401Protection from '@/components/the-401-protection'
 // parts
 import FooterBox from '../footer-box'
-import TopBar from './_parts/top-bar'
 import NavBar from './_parts/nav-bar'
 import WIDTH from './_parts/nav-bar/WIDTH'
+import TopBar from './_parts/top-bar'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
     return (
@@ -27,8 +28,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <Box
                 flexGrow="1"
                 width={{
-                    xs: '100%',
                     sm: `calc(100% - ${WIDTH}px)`,
+                    xs: '100%',
                 }}>
                 <TopBar />
 
@@ -36,14 +37,14 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                     component="main"
                     sx={{
                         p: {
-                            xs: 3,
                             sm: 6,
+                            xs: 3,
                         },
                     }}>
                     <ContentGuard>{children}</ContentGuard>
                 </Box>
 
-                <FooterBox mt={10} mb={6} />
+                <FooterBox mb={6} mt={10} />
             </Box>
         </div>
     )

@@ -1,7 +1,8 @@
 // vendors
-import { memo } from 'react'
+
 // materials
 import type { ButtonProps } from '@mui/material/Button'
+import { memo } from 'react'
 // components
 import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 
@@ -26,22 +27,22 @@ const FormResetButton = memo(function FormResetButton({
 
     return (
         <ConfirmationDialogWithButton
-            title="Apakah Anda yakin ingin membatalkan perubahan?"
-            shouldConfirm={dirty}
-            onConfirm={() => {}}
-            color="warning"
             buttonProps={{
-                type: dirty ? 'button' : 'reset',
-                form: form,
-                disabled: disabled,
                 children: children,
                 color: color,
+                disabled: disabled,
+                form: form,
+                type: dirty ? 'button' : 'reset',
                 ...buttonProps,
             }}
+            color="warning"
             confirmButtonProps={{
-                type: 'reset',
                 form: form,
-            }}>
+                type: 'reset',
+            }}
+            onConfirm={() => {}}
+            shouldConfirm={dirty}
+            title="Apakah Anda yakin ingin membatalkan perubahan?">
             Perubahan yang belum disimpan akan hilang.
         </ConfirmationDialogWithButton>
     )

@@ -1,5 +1,5 @@
-import AuthLayout from '@/components/auth-layout'
 import type { Metadata } from 'next'
+import AuthLayout from '@/components/auth-layout'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return <AuthLayout>{children}</AuthLayout>
@@ -7,15 +7,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 export const metadata: Metadata = {
     robots: {
-        index: false,
         follow: false,
-        nocache: true,
         googleBot: {
-            index: false,
             follow: false,
-            noimageindex: true,
-            'max-video-preview': -1,
+            index: false,
             'max-snippet': -1,
+            'max-video-preview': -1,
+            noimageindex: true,
         },
+        index: false,
+        nocache: true,
     },
 }

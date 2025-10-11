@@ -1,16 +1,5 @@
 // types
-import type { UUID } from 'crypto'
-import type ProductPurchase from '@/modules/farm-inputs/types/orms/product-purchase'
-import type CashType from '@/types/orms/cash'
-// vendors
-import {
-    FastField,
-    FieldArray,
-    type FormikErrors,
-    type FormikProps,
-} from 'formik'
-import { memo } from 'react'
-import dayjs from 'dayjs'
+
 // materials
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -22,22 +11,34 @@ import Grid from '@mui/material/Grid'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
+import type { UUID } from 'crypto'
+import dayjs from 'dayjs'
+// vendors
+import {
+    FastField,
+    FieldArray,
+    type FormikErrors,
+    type FormikProps,
+} from 'formik'
+import { memo } from 'react'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-// sub components
-import ProductMovementCostArrayField from './Form/ProductMovementCostArrayField'
-import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayField'
+// enums
+import Role from '@/enums/role'
+// hooks
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import type ProductPurchase from '@/modules/farm-inputs/types/orms/product-purchase'
+import type CashType from '@/types/orms/cash'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
-// enums
-import Role from '@/enums/role'
-import Warehouse from '@/modules/farm-inputs/enums/warehouse'
-// hooks
-import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+// sub components
+import ProductMovementCostArrayField from './Form/ProductMovementCostArrayField'
+import ProductMovementDetailArrayField from './Form/ProductMovementDetailArrayField'
 
 const ProductPurchaseForm = memo(function ProductPurchaseForm({
     dirty,
@@ -92,20 +93,19 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
 
     return (
         <FormikForm
-            id="product-purchase-form"
             autoComplete="off"
-            isNew={isNew}
             dirty={dirty}
+            id="product-purchase-form"
+            isNew={isNew}
             processing={isPropcessing}
-            submitting={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: isDisabled || !isCostMatch,
                 },
-            }}>
-            <Container maxWidth="xs" disableGutters>
+            }}
+            submitting={isSubmitting}>
+            <Container disableGutters maxWidth="xs">
                 <DatePicker
-                    value={order ? dayjs(order) : null}
                     disabled={isDisabled}
                     label="Tanggal Pesan"
                     maxDate={dayjs()}
@@ -118,50 +118,51 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                             ...errorsToHelperTextObj(errors.order),
                         },
                     }}
+                    value={order ? dayjs(order) : null}
                 />
 
                 <DatePicker
-                    value={due ? dayjs(due) : null}
                     disabled={isDisabled}
-                    minDate={order ? dayjs(order) : undefined}
                     label="Tanggal Jatuh Tempo"
+                    minDate={order ? dayjs(order) : undefined}
                     onChange={date =>
                         setFieldValue('due', date?.format('YYYY-MM-DD'))
                     }
                     slotProps={{
                         textField: {
-                            required: false,
                             name: 'due',
+                            required: false,
                             ...errorsToHelperTextObj(errors.due),
                         },
                     }}
+                    value={due ? dayjs(due) : null}
                 />
 
                 <DatePicker
-                    value={received ? dayjs(received) : null}
-                    minDate={order ? dayjs(order) : undefined}
-                    maxDate={dayjs()}
                     disabled={isDisabled}
                     label="Tanggal Barang Diterima"
+                    maxDate={dayjs()}
+                    minDate={order ? dayjs(order) : undefined}
                     onChange={date =>
                         setFieldValue('received', date?.format('YYYY-MM-DD'))
                     }
                     slotProps={{
                         textField: {
+                            name: 'received',
                             required:
                                 Boolean(costs) && (costs ?? []).length > 0,
-                            name: 'received',
                             ...errorsToHelperTextObj(errors.received),
                         },
                     }}
+                    value={received ? dayjs(received) : null}
                 />
 
                 <Fade in={!!received} unmountOnExit>
                     <span>
                         <FormControl
-                            size="small"
+                            disabled={isDisabled}
                             margin="normal"
-                            disabled={isDisabled}>
+                            size="small">
                             <FormLabel id="gudang-buttons-group-label">
                                 Gudang
                             </FormLabel>
@@ -169,13 +170,13 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                             <ToggleButtonGroup
                                 aria-labelledby="gudang-buttons-group-label"
                                 color="primary"
-                                value={warehouse}
                                 disabled={isDisabled}
                                 exclusive
-                                size="small"
                                 onChange={(_, value) =>
                                     setFieldValue('warehouse', value)
-                                }>
+                                }
+                                size="small"
+                                value={warehouse}>
                                 {Object.values(Warehouse).map(
                                     (warehouse, i) => (
                                         <ToggleButton key={i} value={warehouse}>
@@ -191,11 +192,10 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                         </FormControl>
 
                         <DatePicker
-                            value={paid ? dayjs(paid) : null}
-                            minDate={order ? dayjs(order) : undefined}
-                            maxDate={dayjs()}
                             disabled={isDisabled || !received}
                             label="Tanggal Bayar"
+                            maxDate={dayjs()}
+                            minDate={order ? dayjs(order) : undefined}
                             onChange={date =>
                                 setFieldValue(
                                     'paid',
@@ -209,6 +209,7 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                                     ...errorsToHelperTextObj(errors.paid),
                                 },
                             }}
+                            value={paid ? dayjs(paid) : null}
                         />
                     </span>
                 </Fade>
@@ -218,31 +219,31 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                         <SelectFromApi
                             disabled={isDisabled}
                             endpoint="/data/cashes"
-                            label="Dari kas"
                             fullWidth
-                            required
-                            size="small"
+                            label="Dari kas"
                             margin="dense"
+                            onValueChange={(value: CashType) =>
+                                setFieldValue('cashable_uuid', value.uuid)
+                            }
+                            required
                             selectProps={{
                                 name: 'cashable_uuid',
                                 value: cashable_uuid ?? '',
                             }}
-                            onValueChange={(value: CashType) =>
-                                setFieldValue('cashable_uuid', value.uuid)
-                            }
+                            size="small"
                             {...errorsToHelperTextObj(errors.cashable_uuid)}
                         />
                     </span>
                 </Fade>
 
                 <FastField
-                    name="note"
                     component={TextFieldFastableComponent}
-                    required={false}
-                    multiline
                     disabled={isDisabled}
-                    rows={2}
                     label="Catatan"
+                    multiline
+                    name="note"
+                    required={false}
+                    rows={2}
                     {...errorsToHelperTextObj(errors.note)}
                 />
             </Container>
@@ -252,23 +253,23 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                 render={props => (
                     <ProductMovementCostArrayField
                         {...props}
+                        data={costs}
+                        disabled={isDisableProductMovementDetailFields}
                         errors={
                             errors.costs as FormikErrors<
                                 FormValuesType['costs']
                             >
                         }
-                        data={costs}
-                        disabled={isDisableProductMovementDetailFields}
                     />
                 )}
             />
 
             {costs && costs.length > 0 && (
-                <Grid container spacing={2} mt={0}>
+                <Grid container mt={0} spacing={2}>
                     <Grid size={{ xs: 4 }} textAlign="right">
                         TOTAL
                     </Grid>
-                    <Grid size={{ xs: 3 }} pl={2}>
+                    <Grid pl={2} size={{ xs: 3 }}>
                         {numberToCurrency(totalRpCost)}
                     </Grid>
                 </Grid>
@@ -279,10 +280,10 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                 render={props => (
                     <ProductMovementDetailArrayField
                         {...props}
-                        errors={errors}
-                        totalRpCost={totalRpCost}
                         data={product_movement_details ?? []}
                         disabled={isDisableProductMovementDetailFields}
+                        errors={errors}
+                        totalRpCost={totalRpCost}
                     />
                 )}
             />
@@ -291,17 +292,17 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                 {errors?.product_movement_details?.toString()}
             </FormHelperText>
 
-            <Grid container spacing={2} mt={0} mb={2}>
-                <Grid size={{ xs: 4, sm: 7.5 }} textAlign="right">
+            <Grid container mb={2} mt={0} spacing={2}>
+                <Grid size={{ sm: 7.5, xs: 4 }} textAlign="right">
                     TOTAL
                 </Grid>
 
-                <Grid size={{ xs: 4, sm: 2.5 }} pl={2}>
+                <Grid pl={2} size={{ sm: 2.5, xs: 4 }}>
                     <Box
                         sx={{
                             display: {
-                                xs: 'block',
                                 sm: 'none',
+                                xs: 'block',
                             },
                         }}>
                         <Typography variant="caption">Nilai Barang</Typography>
@@ -309,12 +310,12 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                     {numberToCurrency(totalPrice)}
                 </Grid>
 
-                <Grid size={{ xs: 4, sm: 2 }} pl={2}>
+                <Grid pl={2} size={{ sm: 2, xs: 4 }}>
                     <Box
                         sx={{
                             display: {
-                                xs: 'block',
                                 sm: 'none',
+                                xs: 'block',
                             },
                         }}>
                         <Typography variant="caption">Biaya Lain</Typography>
@@ -324,9 +325,9 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
 
                     {!isCostMatch && (
                         <Typography
-                            variant="caption"
                             color="error"
-                            component="div">
+                            component="div"
+                            variant="caption">
                             Biaya tidak sinkron
                         </Typography>
                     )}
@@ -356,23 +357,22 @@ export const EMPTY_FORM_STATUS: {
     uuid: null | ProductPurchase['uuid']
     hasTransaction: boolean
 } = {
-    uuid: null,
     hasTransaction: false,
+    uuid: null,
 }
 
 export function productPurchaseToFormValues(
     productPurchase?: ProductPurchase,
 ): FormValuesType {
     return {
-        order: productPurchase?.order,
-        due: productPurchase?.due,
-        paid: productPurchase?.paid,
-        received: productPurchase?.received,
-        product_movement_details: productPurchase?.product_movement_details,
-        note: productPurchase?.note,
-
         cashable_uuid: productPurchase?.transaction?.cashable_uuid,
-        warehouse: productPurchase?.product_movement?.warehouse,
         costs: productPurchase?.product_movement?.costs,
+        due: productPurchase?.due,
+        note: productPurchase?.note,
+        order: productPurchase?.order,
+        paid: productPurchase?.paid,
+        product_movement_details: productPurchase?.product_movement_details,
+        received: productPurchase?.received,
+        warehouse: productPurchase?.product_movement?.warehouse,
     }
 }

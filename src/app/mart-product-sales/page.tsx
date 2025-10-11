@@ -1,8 +1,10 @@
 // vendors
-import Head from 'next/head'
+
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
+import Head from 'next/head'
+import BgSyncPanelDialogAndButton from '@/app/mart-product-sales/_parts/bg-sync-panel-dialog-and-button'
 // global components
 import AccountButton from '@/components/account-button'
 import BackButton from '@/components/back-button'
@@ -12,7 +14,6 @@ import FormikWrapper from '@/components/pages/marts/products/sales/formik-wrappe
 import HistoryDatatableModalAndButton from '@/components/pages/marts/products/sales/history-datatable-modal-and-button'
 // hooks
 import { UserAccountAlert } from '@/components/pages/marts/products/sales/user-account-alert'
-import BgSyncPanelDialogAndButton from '@/app/mart-product-sales/_parts/bg-sync-panel-dialog-and-button'
 
 export default function SalesPage() {
     return (
@@ -22,11 +23,11 @@ export default function SalesPage() {
             </Head>
 
             <Box
-                my={2}
+                alignItems="center"
                 display="flex"
                 justifyContent="space-between"
-                alignItems="center">
-                <Box display="flex" gap={1} alignItems="center">
+                my={2}>
+                <Box alignItems="center" display="flex" gap={1}>
                     <BackButton />
 
                     <HistoryDatatableModalAndButton />
@@ -36,7 +37,7 @@ export default function SalesPage() {
 
                 <UserAccountAlert />
 
-                <Box display="flex" alignItems="center" gap={1}>
+                <Box alignItems="center" display="flex" gap={1}>
                     <AccountButton color="success" />
                     <NoInternetIndicator />
                 </Box>

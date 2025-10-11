@@ -1,11 +1,11 @@
-import type { HeavyEquipmentRentFormValues } from '.'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Image from 'next/image'
-import DefaultItemDesc from './default-item-desc'
-import toDmy from '@/utils/to-dmy'
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
+import toDmy from '@/utils/to-dmy'
+import type { HeavyEquipmentRentFormValues } from '.'
+import DefaultItemDesc from './default-item-desc'
 
 export default function PrintPage({
     data,
@@ -19,21 +19,21 @@ export default function PrintPage({
     return (
         <Box
             sx={{
-                color: 'black !important',
-                textTransform: 'uppercase',
                 '& > *': {
                     fontSize: '0.7em',
                 },
+                color: 'black !important',
+                textTransform: 'uppercase',
             }}>
-            <Box display="flex" gap={2} alignItems="center" my={2}>
+            <Box alignItems="center" display="flex" gap={2} my={2}>
                 <Image
-                    src="/assets/pwa-icons/green-transparent.svg"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: '6em', height: '6em' }}
                     alt="logo"
+                    height={0}
                     priority
+                    sizes="100vw"
+                    src="/assets/pwa-icons/green-transparent.svg"
+                    style={{ height: '6em', width: '6em' }}
+                    width={0}
                 />
 
                 <Box display="flex" flexDirection="column">
@@ -89,12 +89,13 @@ export default function PrintPage({
                 />
 
                 <DefaultItemDesc
+                    boxProps={{ mb: 2 }}
                     desc="Catatan"
                     value={data.note ?? ''}
-                    boxProps={{ mb: 2 }}
                 />
 
                 <DefaultItemDesc
+                    boxProps={{ mt: 1 }}
                     desc="Total Pengerjaan"
                     value={
                         finishedHm
@@ -103,7 +104,6 @@ export default function PrintPage({
                               (data.rate_unit ?? '')
                             : '-'
                     }
-                    boxProps={{ mt: 1 }}
                 />
 
                 <DefaultItemDesc
@@ -114,16 +114,16 @@ export default function PrintPage({
                 {finishedHm ? (
                     <>
                         <DefaultItemDesc
+                            boxProps={{ mb: 2 }}
                             desc="Metode Pembayaran"
                             value={getPaymentMethodName(data) ?? '-'}
-                            boxProps={{ mb: 2 }}
                         />
 
-                        <Typography variant="caption" fontWeight="bold">
+                        <Typography fontWeight="bold" variant="caption">
                             Total Keseluruhan
                         </Typography>
 
-                        <Typography variant="h5" component="div">
+                        <Typography component="div" variant="h5">
                             {numberToCurrency(
                                 finishedHm * (data.rate_rp_per_unit ?? 0),
                             )}
@@ -152,8 +152,8 @@ function getRentStatus(data: HeavyEquipmentRentFormValues) {
     if (data.is_paid)
         return (
             <DefaultItemDesc
-                desc="status"
                 boxProps={{ color: 'success.main' }}
+                desc="status"
                 value="Selesai"
             />
         )
@@ -161,8 +161,8 @@ function getRentStatus(data: HeavyEquipmentRentFormValues) {
     if (data.finished_at)
         return (
             <DefaultItemDesc
-                desc="status"
                 boxProps={{ color: 'warning.main' }}
+                desc="status"
                 value="Pekerjaan Selesai / Menunggu Pembayaran"
             />
         )

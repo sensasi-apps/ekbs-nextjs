@@ -1,8 +1,5 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
-import useSWR from 'swr'
 // materials
 import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
@@ -10,23 +7,26 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Grid from '@mui/material/Grid'
+// vendors
+import { useState } from 'react'
+import useSWR from 'swr'
+import { type ApiResponseType } from '@/app/(auth)/me/participation/page'
 // components
 import BigNumberCard from '@/components/big-number-card'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
+import FlexBox from '@/components/flex-box'
+import LineChartCard from '@/components/line-chart-card'
 import PageTitle from '@/components/page-title'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 //
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import { type ApiResponseType } from '@/app/(auth)/me/participation/page'
+import formatNumber from '@/utils/format-number'
+import nowrapMuiDatatableCellPropsFn from '@/utils/nowrap-mui-datatable-cell-props-fn'
 // utils
 import toDmy from '@/utils/to-dmy'
-import nowrapMuiDatatableCellPropsFn from '@/utils/nowrap-mui-datatable-cell-props-fn'
-import formatNumber from '@/utils/format-number'
-import FlexBox from '@/components/flex-box'
-import LineChartCard from '@/components/line-chart-card'
 
 let getRowData: GetRowDataType<ProductSaleORM>
 
@@ -43,7 +43,7 @@ export default function Page() {
 
     return (
         <>
-            <PageTitle title="Pembelianku" subtitle="SAPRODI" />
+            <PageTitle subtitle="SAPRODI" title="Pembelianku" />
 
             <FlexBox flexDirection="column" gap={2}>
                 <Grid
@@ -54,8 +54,8 @@ export default function Page() {
                     }}>
                     <Grid
                         size={{
-                            xs: 12,
                             md: 6,
+                            xs: 12,
                         }}>
                         {bigNumber1 && (
                             <BigNumberCard {...bigNumber1} collapsible />
@@ -64,8 +64,8 @@ export default function Page() {
 
                     <Grid
                         size={{
-                            xs: 12,
                             md: 6,
+                            xs: 12,
                         }}>
                         {bigNumber2 && (
                             <BigNumberCard {...bigNumber2} collapsible />
@@ -91,9 +91,10 @@ export default function Page() {
                         width: '100%',
                     }}>
                     <Datatable
-                        title="Riwayat"
-                        tableId="farm-input-my-purchases-table"
                         apiUrl="/farm-inputs/my-purchases/datatable-data"
+                        columns={DATATABLE_COLUMNS}
+                        defaultSortOrder={{ direction: 'desc', name: 'at' }}
+                        getRowDataCallback={fn => (getRowData = fn)}
                         onRowClick={(_, { dataIndex }, event) => {
                             if (event.detail === 2) {
                                 const data = getRowData(dataIndex)
@@ -102,24 +103,23 @@ export default function Page() {
                                 setReceiptDialogData(data)
                             }
                         }}
-                        columns={DATATABLE_COLUMNS}
-                        defaultSortOrder={{ name: 'at', direction: 'desc' }}
-                        getRowDataCallback={fn => (getRowData = fn)}
+                        tableId="farm-input-my-purchases-table"
+                        title="Riwayat"
                     />
                 </div>
             </FlexBox>
 
             <Dialog
-                open={Boolean(receiptDialogData)}
-                onClose={() => setReceiptDialogData(undefined)}>
+                onClose={() => setReceiptDialogData(undefined)}
+                open={Boolean(receiptDialogData)}>
                 <DialogActions
                     sx={{
                         p: 0,
                     }}>
                     <Button
-                        onClick={() => setReceiptDialogData(undefined)}
                         color="warning"
-                        fullWidth>
+                        fullWidth
+                        onClick={() => setReceiptDialogData(undefined)}>
                         Tutup
                     </Button>
                 </DialogActions>
@@ -140,24 +140,24 @@ export default function Page() {
 
 const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
-            setCellProps: nowrapMuiDatatableCellPropsFn,
             customBodyRender: toDmy,
+            setCellProps: nowrapMuiDatatableCellPropsFn,
         },
     },
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: 'excluded',
             sort: false,
         },
     },
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
             searchable: false,
             sort: false,
@@ -165,23 +165,9 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
     },
 
     {
-        name: 'productMovement.details.product_state',
         label: 'Barang',
+        name: 'productMovement.details.product_state',
         options: {
-            sort: false,
-            setCellProps: () => ({
-                sx: {
-                    '& > div': {
-                        display: 'flex',
-                        gap: 1,
-                    },
-                    '& .MuiChip-root': {
-                        textTransform: 'uppercase',
-                        //     fontSize: '0.8rem !important',
-                        //     fontFamily: 'monospace !important',
-                    },
-                },
-            }),
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
                 if (!data) return ''
@@ -196,25 +182,39 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
                     ),
                 )
             },
+            setCellProps: () => ({
+                sx: {
+                    '& .MuiChip-root': {
+                        textTransform: 'uppercase',
+                        //     fontSize: '0.8rem !important',
+                        //     fontFamily: 'monospace !important',
+                    },
+                    '& > div': {
+                        display: 'flex',
+                        gap: 1,
+                    },
+                },
+            }),
+            sort: false,
         },
     },
     {
-        name: 'total_rp',
         label: 'Total (Rp)',
+        name: 'total_rp',
         options: {
+            customBodyRender: value => formatNumber(value ?? 0),
+            searchable: false,
             setCellProps: nowrapMuiDatatableCellPropsFn,
             sort: false,
-            searchable: false,
-            customBodyRender: value => formatNumber(value ?? 0),
         },
     },
 
     {
-        name: 'payment_method_id',
         label: 'Metode Pembayaran',
+        name: 'payment_method_id',
         options: {
-            sort: false,
             searchable: false,
+            sort: false,
         },
     },
 ]

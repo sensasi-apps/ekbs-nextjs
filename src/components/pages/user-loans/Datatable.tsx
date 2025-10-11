@@ -1,14 +1,15 @@
 // types
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
-import type {
-    GetRowDataType,
-    DatatableProps,
-    OnRowClickType,
-} from '@/components/Datatable'
+
 // vendors
 import { useCallback } from 'react'
+import type {
+    DatatableProps,
+    GetRowDataType,
+    OnRowClickType,
+} from '@/components/Datatable'
 // components
 import Datatable from '@/components/Datatable'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import DATATABLE_COLUMNS from './DATATABLE_COLUMNS'
 
 let getRowData: GetRowDataType<UserLoanORM>
@@ -52,16 +53,16 @@ export default function LoanDatatable({
             columns={DATATABLE_COLUMNS}
             defaultSortOrder={DEFAULT_SORT_ORDER}
             download
+            getRowDataCallback={fn => (getRowData = fn)}
+            mutateCallback={mutateCallback}
             onRowClick={handleRowClick}
             tableId="loans-table"
             title={TITLE}
-            getRowDataCallback={fn => (getRowData = fn)}
-            mutateCallback={mutateCallback}
         />
     )
 }
 
 export const DEFAULT_SORT_ORDER = {
-    name: 'proposed_at',
     direction: 'desc' as const,
+    name: 'proposed_at',
 }

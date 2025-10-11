@@ -1,10 +1,10 @@
 // types
-import type Product from '@/modules/mart/types/orms/product'
+
 // vendors
 import { memo, useState } from 'react'
-
 import ChipSmall from '@/components/ChipSmall'
 import ScrollableXBox from '@/components/ScrollableXBox'
+import type Product from '@/modules/mart/types/orms/product'
 
 function CategoryChips({
     data,
@@ -28,25 +28,25 @@ function CategoryChips({
                 mt: -1.5,
             }}>
             <ChipSmall
+                color={value === undefined ? 'success' : undefined}
                 label="Semua"
                 onClick={() => {
                     setValue(undefined)
                     onSelect(undefined)
                 }}
                 variant={value === undefined ? 'filled' : 'outlined'}
-                color={value === undefined ? 'success' : undefined}
             />
 
             {categories.map((category, i) => (
                 <ChipSmall
+                    color={value === category ? 'success' : undefined}
                     key={i}
                     label={category ?? 'Tanpa Kategori'}
-                    color={value === category ? 'success' : undefined}
-                    variant={value === category ? 'filled' : 'outlined'}
                     onClick={() => {
                         setValue(category)
                         onSelect(category)
                     }}
+                    variant={value === category ? 'filled' : 'outlined'}
                 />
             ))}
         </ScrollableXBox>

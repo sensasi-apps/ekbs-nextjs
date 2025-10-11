@@ -1,13 +1,14 @@
 // types
-import type ProductMovement from '@/modules/mart/types/orms/product-movement'
+
 // vendors
 import { type FormikProps } from 'formik'
 // formik
 import DateField from '@/components/formik-fields/date-field'
-import FormikForm from '@/components/formik-form'
 import TextField from '@/components/formik-fields/text-field'
+import FormikForm from '@/components/formik-form'
 // components
 import TextFieldDefault from '@/components/TextField'
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 
 export default function Form({
     isSubmitting,
@@ -23,42 +24,42 @@ export default function Form({
 
     return (
         <FormikForm
-            id="product-opname-form"
             dirty={dirty}
-            submitting={isSubmitting}
-            processing={isSubmitting}
+            id="product-opname-form"
             isNew={!dataFromDb?.uuid}
+            processing={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: !(dirty || isSubmitting),
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             {dataFromDb?.short_uuid && (
                 <TextFieldDefault
-                    label="Kode"
                     disabled
+                    label="Kode"
                     required={false}
                     value={dataFromDb.short_uuid}
                 />
             )}
 
             <DateField
-                name="at"
-                label="Tanggal"
-                disabled
                 datePickerProps={{
                     format: 'YYYY-MM-DD HH:mm',
                 }}
+                disabled
+                label="Tanggal"
+                name="at"
             />
 
             <TextField
-                name="note"
-                label="Catatan"
                 disabled={isDisabled}
+                label="Catatan"
+                name="note"
                 textFieldProps={{
-                    required: false,
-                    multiline: true,
                     minRows: 2,
+                    multiline: true,
+                    required: false,
                 }}
             />
         </FormikForm>

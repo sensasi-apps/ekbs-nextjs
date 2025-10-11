@@ -14,20 +14,20 @@ export default function formatToDatatableParams<T>(
     )
 
     return {
+        columns: formatColumns(tableState.columns),
         draw: tableState.page + 1,
-        start: tableState.page * tableState.rowsPerPage,
         length: tableState.rowsPerPage,
-        search: {
-            value: tableState.searchText,
-            regex: false,
-        },
         order: [
             {
                 column: orderIndex,
                 dir: tableState.sortOrder?.direction ?? 'desc',
             },
         ],
-        columns: formatColumns(tableState.columns),
+        search: {
+            regex: false,
+            value: tableState.searchText,
+        },
+        start: tableState.page * tableState.rowsPerPage,
     }
 }
 
@@ -37,8 +37,8 @@ function formatColumns<T>(
     return columns.map(({ name, searchable, sort }) => ({
         data: name,
         name: name,
-        searchable: searchable ?? true,
         orderable: sort ?? true,
+        searchable: searchable ?? true,
     }))
 }
 

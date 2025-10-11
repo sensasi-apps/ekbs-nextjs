@@ -1,26 +1,26 @@
 'use client'
 
-// vendors
-import type { UUID } from 'crypto'
-import { useParams } from 'next/navigation'
-import useSWR from 'swr'
+// icons
+import EditIcon from '@mui/icons-material/Edit'
+import EditNoteIcon from '@mui/icons-material/EditNote'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-// icons
-import EditIcon from '@mui/icons-material/Edit'
-import EditNoteIcon from '@mui/icons-material/EditNote'
+// vendors
+import type { UUID } from 'crypto'
+import { useParams } from 'next/navigation'
+import useSWR from 'swr'
 // components
 import BackButton from '@/components/back-button'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
+import RequisiteLandCard from '@/modules/clm/components/user-or-land-requisite-card'
+// modules
+import type LandORM from '@/modules/clm/types/orms/land'
 // utils
 import shortUuid from '@/utils/short-uuid'
 import toDmy from '@/utils/to-dmy'
-// modules
-import type LandORM from '@/modules/clm/types/orms/land'
-import RequisiteLandCard from '@/modules/clm/components/user-or-land-requisite-card'
 
 export default function Page() {
     const { user_uuid, land_uuid } = useParams()
@@ -89,21 +89,21 @@ export default function Page() {
             </Box>
 
             <Button
-                size="small"
-                variant="outlined"
                 endIcon={<EditIcon />}
-                href={`${land_uuid}/edit`}>
+                href={`${land_uuid}/edit`}
+                size="small"
+                variant="outlined">
                 Perbarui data
             </Button>
 
-            <Typography mt={6} mb={1} fontWeight="bold">
+            <Typography fontWeight="bold" mb={1} mt={6}>
                 Persyaratan:
             </Typography>
 
             {data?.requisite_lands_with_default?.map(requisiteLand => (
                 <RequisiteLandCard
-                    key={requisiteLand.requisite_id}
                     data={requisiteLand}
+                    key={requisiteLand.requisite_id}
                 />
             ))}
         </>
@@ -115,12 +115,12 @@ function Info({ Icon, text }: { Icon: typeof EditNoteIcon; text?: string }) {
 
     return (
         <Typography
-            variant="body2"
+            alignItems="middle"
+            color="textDisabled"
             component="div"
             display="flex"
             gap={1}
-            alignItems="middle"
-            color="textDisabled">
+            variant="body2">
             <Icon fontSize="small" />
             {text}
         </Typography>

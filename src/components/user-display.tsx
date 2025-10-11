@@ -11,16 +11,16 @@ export default function UserDisplay({
     }
 }) {
     return (
-        <Box display="flex" gap={1} component="span" alignItems="center">
+        <Box alignItems="center" component="span" display="flex" gap={1}>
             <Chip
-                label={id}
-                variant="outlined"
                 color="info"
+                label={id}
                 size="small"
                 sx={{
                     fontSize: '0.7em',
                     lineHeight: '1em',
                 }}
+                variant="outlined"
             />
             {name}
         </Box>

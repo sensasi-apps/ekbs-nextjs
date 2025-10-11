@@ -1,19 +1,20 @@
 // types
-import type { MutateType } from '@/components/Datatable'
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-// vendors
-import { useState } from 'react'
-import axios from '@/lib/axios'
+
+// icons
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 // materials
 import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
-// icons
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
-// utils
-import handle422 from '@/utils/handle-422'
+// vendors
+import { useState } from 'react'
+import type { MutateType } from '@/components/Datatable'
 import FarmInput from '@/enums/permissions/FarmInput'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+// utils
+import handle422 from '@/utils/handle-422'
 
 export default function RefundForm({
     data,
@@ -41,21 +42,21 @@ export default function RefundForm({
     return (
         <>
             <Button
-                onClick={() =>
-                    confirm(
-                        `Apakah anda yakin ingin melakukan refund untuk penjualan dengan kode ${data.short_uuid}?`,
-                    ) && handleRefund()
-                }
                 color="warning"
-                variant="outlined"
-                loading={isRefunding}
                 disabled={
                     !isAuthHasPermission(FarmInput.REFUND_PRODUCT_SALE) ||
                     Boolean(data.refund_product_sale) ||
                     Boolean(data.refund_from_product_sale) ||
                     !data.is_paid
                 }
-                endIcon={<VolunteerActivismIcon />}>
+                endIcon={<VolunteerActivismIcon />}
+                loading={isRefunding}
+                onClick={() =>
+                    confirm(
+                        `Apakah anda yakin ingin melakukan refund untuk penjualan dengan kode ${data.short_uuid}?`,
+                    ) && handleRefund()
+                }
+                variant="outlined">
                 Refund
             </Button>
 

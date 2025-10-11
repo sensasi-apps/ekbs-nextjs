@@ -3,20 +3,19 @@
 // vendors
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
+import Receipt from '@/app/(auth)/repair-shop/sales/_parts/components/receipt'
+import { ChipSmall } from '@/components/ChipSmall/ChipSmall'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
-
 import PrintHandler from '@/components/PrintHandler'
 import TextShortener from '@/components/text-shortener'
-import Receipt from '@/app/(auth)/repair-shop/sales/_parts/components/receipt'
+// features
+import type { Sale } from '@/modules/repair-shop/types/orms/sale'
 // utils
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
-// features
-import type { Sale } from '@/modules/repair-shop/types/orms/sale'
-import { ChipSmall } from '@/components/ChipSmall/ChipSmall'
 
 let getRowDataRef: {
     current?: GetRowDataType<Sale>
@@ -29,7 +28,7 @@ export default function PageClient() {
         <Datatable<Sale>
             apiUrl="repair-shop/sales/datatable"
             columns={DATATABLE_COLUMNS}
-            defaultSortOrder={{ name: 'uuid', direction: 'desc' }}
+            defaultSortOrder={{ direction: 'desc', name: 'uuid' }}
             getRowDataCallback={fn => {
                 getRowDataRef.current = fn
             }}
@@ -42,16 +41,16 @@ export default function PageClient() {
                     push(`/repair-shop/sales/${data.uuid}`)
                 }
             }}
-            title="Riwayat"
             tableId="sales-datatable"
+            title="Riwayat"
         />
     )
 }
 
 const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
     {
-        name: 'uuid',
         label: 'Kode',
+        name: 'uuid',
         options: {
             customBodyRender(value: string) {
                 return <TextShortener text={value} />
@@ -59,8 +58,8 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender(value: string) {
                 return toDmy(value)
@@ -68,8 +67,8 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
         },
     },
     {
-        name: 'customer.name',
         label: 'Pelanggan',
+        name: 'customer.name',
         options: {
             customBodyRenderLite(dataIndex) {
                 const data = getRowDataRef.current?.(dataIndex)
@@ -79,10 +78,10 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
                 return (
                     <>
                         <ChipSmall
-                            label={data.customer.id}
                             color="info"
-                            variant="outlined"
+                            label={data.customer.id}
                             sx={{ mr: 1 }}
+                            variant="outlined"
                         />
                         {data.customer.name}
                     </>
@@ -91,8 +90,8 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
         },
     },
     {
-        name: 'final_rp',
         label: 'Total (Rp)',
+        name: 'final_rp',
         options: {
             customBodyRender(value: number) {
                 return formatNumber(value)
@@ -100,8 +99,8 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
         },
     },
     {
-        name: 'payment_method',
         label: 'Metode Pembayaran',
+        name: 'payment_method',
         options: {
             customBodyRender(value: Sale['payment_method']) {
                 if (value === 'cash') return 'Tunai'
@@ -113,19 +112,17 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
         },
     },
     {
-        name: 'note',
         label: 'catatan',
+        name: 'note',
         options: {
             display: 'excluded',
             sort: false,
         },
     },
     {
-        name: '',
         label: 'Kwitansi',
+        name: '',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender(_, rowIndex) {
                 const data = getRowDataRef.current?.(rowIndex)
 
@@ -137,6 +134,8 @@ const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
                     </PrintHandler>
                 )
             },
+            searchable: false,
+            sort: false,
         },
     },
 ]

@@ -4,9 +4,9 @@ import InputAdornment from '@mui/material/InputAdornment'
 import DateField from '@/components/formik-fields/date-field'
 import FarmerGroupUuidSelect from '@/components/formik-fields/farmer-group-uuid-select'
 import NumericField from '@/components/formik-fields/numeric-field'
+import RegionIdAutocomplete from '@/components/formik-fields/region-id-autocomplete'
 import TextField from '@/components/formik-fields/text-field'
 import FormikForm from '@/components/formik-form-v2'
-import RegionIdAutocomplete from '@/components/formik-fields/region-id-autocomplete'
 
 export interface LandFormValues {
     user_uuid: string
@@ -23,11 +23,11 @@ export interface LandFormValues {
 export default function LandForm() {
     return (
         <FormikForm>
-            <DateField name="planted_at" label="Tanggal Tanam" />
+            <DateField label="Tanggal Tanam" name="planted_at" />
 
             <NumericField
-                name="n_area_hectares"
                 label="Luas Lahan"
+                name="n_area_hectares"
                 numericFormatProps={{
                     slotProps: {
                         input: {
@@ -44,8 +44,8 @@ export default function LandForm() {
             <RegionIdAutocomplete />
 
             <TextField
-                name="address_detail"
                 label="Rincian Alamat/Lokasi/Penanda/Tempat"
+                name="address_detail"
                 textFieldProps={{
                     multiline: true,
                     rows: 2,
@@ -53,8 +53,8 @@ export default function LandForm() {
             />
 
             <TextField
-                name="rea_land_id"
                 label="LAND ID (REA)"
+                name="rea_land_id"
                 textFieldProps={{
                     required: false,
                 }}
@@ -63,8 +63,8 @@ export default function LandForm() {
             <FarmerGroupUuidSelect />
 
             <TextField
-                name="note"
                 label="Catatan"
+                name="note"
                 textFieldProps={{
                     multiline: true,
                     required: false,

@@ -3,9 +3,9 @@ export default function numberToCurrency(
     options?: Intl.NumberFormatOptions | undefined,
 ): string {
     return number.toLocaleString('id-ID', {
-        style: 'currency',
         currency: 'IDR',
         minimumFractionDigits: 0,
+        style: 'currency',
         ...options,
     })
 }

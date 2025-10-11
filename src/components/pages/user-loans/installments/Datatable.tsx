@@ -1,8 +1,9 @@
 // vendors
-import { useState, memo, useRef, type RefObject } from 'react'
+
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
+import { memo, type RefObject, useRef, useState } from 'react'
 // components
 import Datatable, {
     type DatatableProps,
@@ -57,9 +58,12 @@ export default function UserLoanInstallmentDatatable({
             </Box>
 
             <Datatable<InstallmentORM>
-                title="Daftar Pinjaman"
-                tableId="disburse-user-loans-datatable"
                 apiUrl={apiUrl}
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={DEFAULT_SORT_ORDER}
+                getRowDataCallback={fn => {
+                    getRowData.current = fn
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData?.current?.(dataIndex)
@@ -69,11 +73,8 @@ export default function UserLoanInstallmentDatatable({
                         }
                     }
                 }}
-                getRowDataCallback={fn => {
-                    getRowData.current = fn
-                }}
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={DEFAULT_SORT_ORDER}
+                tableId="disburse-user-loans-datatable"
+                title="Daftar Pinjaman"
             />
 
             <DatatableInfoBox />
@@ -81,37 +82,37 @@ export default function UserLoanInstallmentDatatable({
     )
 }
 
-import toDmy from '@/utils/to-dmy'
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
-import numberToCurrency from '@/utils/number-to-currency'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
+import numberToCurrency from '@/utils/number-to-currency'
+import toDmy from '@/utils/to-dmy'
 
 extend(relativeTime)
 
 const DEFAULT_SORT_ORDER = {
-    name: 'should_be_paid_at',
     direction: 'asc' as const,
+    name: 'should_be_paid_at',
 }
 
 const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: false,
         },
     },
     {
-        name: 'should_be_paid_at',
         label: 'Jatuh Tempo',
+        name: 'should_be_paid_at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'should_be_paid_at',
         label: 'Selisih hari',
+        name: 'should_be_paid_at',
         options: {
             customBodyRenderLite: dataIndex => {
                 const installment = getRowDataGlobal.current?.(dataIndex)
@@ -134,7 +135,7 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
                 }
 
                 return (
-                    <Box component="span" color={color}>
+                    <Box color={color} component="span">
                         {valueDate.fromNow()}
                     </Box>
                 )
@@ -143,8 +144,8 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
     },
 
     {
-        name: 'userLoan.user.name',
         label: 'Kreditur',
+        name: 'userLoan.user.name',
         options: {
             customBodyRenderLite: dataIndex =>
                 getRowDataGlobal.current?.(dataIndex)?.user_loan?.user.name,
@@ -152,24 +153,24 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
     },
 
     {
-        name: 'n_th',
         label: 'Angsuran ke-',
+        name: 'n_th',
     },
     {
-        name: 'amount_rp',
         label: 'Tagihan',
+        name: 'amount_rp',
         options: {
+            customBodyRender: (value: number) => numberToCurrency(value),
             setCellProps: () => ({
                 style: {
                     whiteSpace: 'nowrap',
                 },
             }),
-            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
     {
-        name: 'transaction.at',
         label: 'Tanggal Lunas',
+        name: 'transaction.at',
         options: {
             customBodyRender: value => (value ? toDmy(value) : '-'),
         },
@@ -181,22 +182,22 @@ const DatatableInfoBox = memo(function DatatableInfoBox() {
         <Box mt={1}>
             <Typography variant="caption">Informasi:</Typography>
             <Box component="ul" m={0}>
-                <Typography variant="caption" component="li">
+                <Typography component="li" variant="caption">
                     Selisih hari berwarna{' '}
                     <Typography
-                        variant="caption"
                         color="warning.main"
-                        component="span">
+                        component="span"
+                        variant="caption">
                         kuning
                     </Typography>{' '}
                     menandakan bahwa jatuh tempo dalam rentang 7 hari.
                 </Typography>
-                <Typography variant="caption" component="li">
+                <Typography component="li" variant="caption">
                     Selisih hari berwarna{' '}
                     <Typography
-                        variant="caption"
                         color="error.main"
-                        component="span">
+                        component="span"
+                        variant="caption">
                         merah
                     </Typography>{' '}
                     menandakan bahwa jatuh tempo telah lewat.

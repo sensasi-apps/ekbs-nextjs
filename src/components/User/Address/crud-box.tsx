@@ -1,6 +1,6 @@
-import { mutate } from 'swr'
-import { useState } from 'react'
-import axios from '@/lib/axios'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete'
+import HomeIcon from '@mui/icons-material/Home'
 
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -11,14 +11,12 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import ListItemText from '@mui/material/ListItemText'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import HomeIcon from '@mui/icons-material/Home'
-
+import { useState } from 'react'
+import { mutate } from 'swr'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import AddressForm from './Form'
+import axios from '@/lib/axios'
 import type UserAddressORM from '@/modules/user/types/orms/user-address'
+import AddressForm from './Form'
 
 const AddressListItem = ({
     data: { name, address, uuid: userAddressUuid },
@@ -47,8 +45,8 @@ const AddressListItem = ({
             disablePadding
             secondaryAction={
                 <IconButton
-                    edge="end"
                     aria-label="delete"
+                    edge="end"
                     onClick={handleDelete}>
                     <DeleteIcon />
                 </IconButton>
@@ -64,12 +62,12 @@ const AddressListItem = ({
                     {name}
                 </Typography>
                 <Typography gutterBottom>{address.detail}</Typography>
-                <Typography variant="caption" component="p">
+                <Typography component="p" variant="caption">
                     {province.name}, {regency.name}
                     {district ? ', ' + district.name : ''}
                     {village ? ', ' + village.name : ''}
                 </Typography>
-                <Typography variant="caption" component="p">
+                <Typography component="p" variant="caption">
                     {address.zip_code}
                 </Typography>
             </ListItemText>
@@ -78,9 +76,9 @@ const AddressListItem = ({
 }
 
 const Skeletons = () => (
-    <Box display="flex" alignItems="center" gap={2} mb={1}>
+    <Box alignItems="center" display="flex" gap={2} mb={1}>
         <div>
-            <Skeleton variant="circular" width="3em" height="3em" />
+            <Skeleton height="3em" variant="circular" width="3em" />
         </div>
         <div>
             <Skeleton width="4em" />
@@ -104,8 +102,8 @@ export default function UserAddressesCrudBox({
 
     return (
         <Box {...props}>
-            <Box display="flex" alignItems="center">
-                <Typography variant="h6" component="div">
+            <Box alignItems="center" display="flex">
+                <Typography component="div" variant="h6">
                     Alamat
                 </Typography>
 
@@ -121,7 +119,7 @@ export default function UserAddressesCrudBox({
                 [null, null, null].map((_, i) => <Skeletons key={i} />)}
 
             {!isLoading && userAddresses.length === 0 && (
-                <Typography variant="body2" color="GrayText">
+                <Typography color="GrayText" variant="body2">
                     <i>Belum ada data alamat</i>
                 </Typography>
             )}
@@ -130,8 +128,8 @@ export default function UserAddressesCrudBox({
                 <List>
                     {userAddresses.map(userAddress => (
                         <AddressListItem
-                            key={userAddress.uuid}
                             data={userAddress}
+                            key={userAddress.uuid}
                             userUuid={userUuid}
                         />
                     ))}
@@ -139,9 +137,9 @@ export default function UserAddressesCrudBox({
             )}
 
             <AddressForm
-                userUuid={userUuid}
                 isShow={isFormOpen}
                 onClose={() => setIsFormOpen(false)}
+                userUuid={userUuid}
             />
         </Box>
     )

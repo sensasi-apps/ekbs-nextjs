@@ -1,15 +1,15 @@
 'use client'
 
-// types
-import type AuthInfo from '@/modules/user/types/auth-info'
 // vendors
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import axios from '@/lib/axios'
+import PageTitle from '@/components/page-title'
 // components
 import UserAutocomplete from '@/components/user-autocomplete'
 import useAuthInfoState from '@/hooks/use-auth-info-state'
-import PageTitle from '@/components/page-title'
+import axios from '@/lib/axios'
+// types
+import type AuthInfo from '@/modules/user/types/auth-info'
 
 export default function Page() {
     const router = useRouter()
@@ -21,8 +21,8 @@ export default function Page() {
             <PageTitle title="Acting As" />
 
             <UserAutocomplete
-                label="Pilih User"
                 disabled={loading}
+                label="Pilih User"
                 onChange={(_, user) => {
                     if (!user) return
 

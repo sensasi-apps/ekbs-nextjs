@@ -1,7 +1,5 @@
 // types
-import type ActivityLogType from '@/types/orms/activity-log'
-// vendors
-import dayjs from 'dayjs'
+
 // materials
 import Skeleton from '@mui/material/Skeleton'
 import Table from '@mui/material/Table'
@@ -11,6 +9,9 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+// vendors
+import dayjs from 'dayjs'
+import type ActivityLogType from '@/types/orms/activity-log'
 
 export default function UserActivityLogsTable({
     data: userActivityLogs = [],
@@ -31,8 +32,8 @@ export default function UserActivityLogsTable({
                 </TableHead>
                 <TableBody>
                     <Rows
-                        userActivityLogs={userActivityLogs}
                         isLoading={isLoading}
+                        userActivityLogs={userActivityLogs}
                     />
                 </TableBody>
             </Table>
@@ -50,7 +51,7 @@ function Rows({
     if (userActivityLogs.length === 0)
         return (
             <TableRow>
-                <TableCell colSpan={7} align="center">
+                <TableCell align="center" colSpan={7}>
                     {isLoading && <Skeleton height="4em" />}
                     {!isLoading && <i>Tidak ada data</i>}
                 </TableCell>
@@ -91,7 +92,7 @@ function Values({
     return Object.entries(model_value_changed as object).map(
         ([key, value], i) => (
             <Typography key={i} variant="body2">
-                <Typography variant="caption" color="gray" component="span">
+                <Typography color="gray" component="span" variant="caption">
                     {key}:&nbsp;
                 </Typography>
                 {value as string}

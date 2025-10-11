@@ -13,22 +13,21 @@ export default function PalmBunchesDeliveryRates() {
     )
 }
 
-// types
-import type PalmBunchDeliveryRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
-import type PalmBunchDeliveryRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate'
+import SellIcon from '@mui/icons-material/Sell'
 // vendors
 import Fab from '@mui/material/Fab'
-import SellIcon from '@mui/icons-material/Sell'
-
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import PalmBunchDeliveryRatesForm from '@/components/PalmBunchDeliveryRates/Form'
+import PageTitle from '@/components/page-title'
+import type PalmBunchDeliveryRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate'
+// types
+import type PalmBunchDeliveryRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
+import numberToCurrency from '@/utils/number-to-currency'
 // utils
 import toDmy from '@/utils/to-dmy'
-import numberToCurrency from '@/utils/number-to-currency'
-import PageTitle from '@/components/page-title'
 
 function Crud() {
     const {
@@ -47,34 +46,31 @@ function Crud() {
 
     const columns = [
         {
-            name: 'id',
             label: 'ID',
+            name: 'id',
         },
         {
-            name: 'for_human_name',
             label: 'Nama',
+            name: 'for_human_name',
         },
         {
-            name: 'valid_from',
             label: 'Tanggal Berlaku',
+            name: 'valid_from',
             options: {
                 customBodyRender: toDmy,
             },
         },
         {
-            name: 'valid_until',
             label: 'Tanggal Berakhir',
+            name: 'valid_until',
             options: {
                 customBodyRender: toDmy,
             },
         },
         {
-            name: 'delivery_rates',
             label: 'Harga',
-            searchable: false,
+            name: 'delivery_rates',
             options: {
-                searchable: false,
-                sort: false,
                 customBodyRender: (rates: PalmBunchDeliveryRateORM[]) => (
                     <ul
                         style={{
@@ -89,7 +85,10 @@ function Crud() {
                         ))}
                     </ul>
                 ),
+                searchable: false,
+                sort: false,
             },
+            searchable: false,
         },
     ]
 
@@ -98,7 +97,7 @@ function Crud() {
             <Datatable
                 apiUrl="/palm-bunches/delivery-rates/datatable"
                 columns={columns}
-                defaultSortOrder={{ name: 'id', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'id' }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data =
@@ -115,10 +114,8 @@ function Crud() {
                 title="Daftar Tarif Angkut"
             />
             <Dialog
-                title={isNew ? 'Tarif Baru' : 'Ubah Tarif'}
-                maxWidth="md"
-                open={formOpen}
                 closeButtonProps={{
+                    disabled: loading,
                     onClick: () => {
                         if (
                             isDirty &&
@@ -131,18 +128,11 @@ function Crud() {
 
                         return handleClose()
                     },
-                    disabled: loading,
-                }}>
+                }}
+                maxWidth="md"
+                open={formOpen}
+                title={isNew ? 'Tarif Baru' : 'Ubah Tarif'}>
                 <PalmBunchDeliveryRatesForm
-                    data={data}
-                    loading={loading}
-                    setSubmitting={setSubmitting}
-                    onChange={setData}
-                    onSubmitted={async () => {
-                        await mutate()
-                        setSubmitting(false)
-                        handleClose()
-                    }}
                     actionsSlot={
                         <FormActions
                             onCancel={() => {
@@ -160,15 +150,24 @@ function Crud() {
                             submitting={submitting}
                         />
                     }
+                    data={data}
+                    loading={loading}
+                    onChange={setData}
+                    onSubmitted={async () => {
+                        await mutate()
+                        setSubmitting(false)
+                        handleClose()
+                    }}
+                    setSubmitting={setSubmitting}
                 />
             </Dialog>
             <Fab
+                color="success"
                 disabled={formOpen}
                 onClick={handleCreate}
-                color="success"
                 sx={{
-                    position: 'fixed',
                     bottom: 16,
+                    position: 'fixed',
                     right: 16,
                 }}>
                 <SellIcon />

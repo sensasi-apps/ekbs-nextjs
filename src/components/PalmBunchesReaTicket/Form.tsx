@@ -1,12 +1,7 @@
 // types
-import type { FormEvent } from 'react'
-import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
-import type FormType from '@/components/Global/Form/type'
-import type ActivityLogType from '@/types/orms/activity-log'
-// vendors
-import { useState } from 'react'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+
+// icons
+import InfoIcon from '@mui/icons-material/Info'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -14,22 +9,28 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/GridLegacy'
-// icons
-import InfoIcon from '@mui/icons-material/Info'
-// local components
-import GradingItemInputs from './Form/GradingItemInputs'
+import dayjs from 'dayjs'
+import type { FormEvent } from 'react'
+// vendors
+import { useState } from 'react'
+import type FormType from '@/components/Global/Form/type'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
-import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
-import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
-import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-import useValidationErrors from '@/hooks/useValidationErrors'
-import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import PalmBunch from '@/enums/permissions/PalmBunch'
 // enums
 import Role from '@/enums/role'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import useValidationErrors from '@/hooks/useValidationErrors'
+import axios from '@/lib/axios'
+import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
+import type ActivityLogType from '@/types/orms/activity-log'
+import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
+import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
+// local components
+import GradingItemInputs from './Form/GradingItemInputs'
+import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
 import ReaTiketPaymentDetailView from './Form/ReaTiketPaymentDetailView'
-import PalmBunch from '@/enums/permissions/PalmBunch'
 
 export default function PalmBunchesReaTicketForm({
     data,
@@ -83,31 +84,31 @@ export default function PalmBunchesReaTicketForm({
 
     return (
         <form
-            id="palm-bunches-rea-deliveries-form"
             autoComplete="off"
+            id="palm-bunches-rea-deliveries-form"
             onSubmit={handleSubmit}>
-            <Grid container columnSpacing={2} rowSpacing={4}>
-                <Grid item xs={12} sm={7}>
+            <Grid columnSpacing={2} container rowSpacing={4}>
+                <Grid item sm={7} xs={12}>
                     <PalmBunchesReaDeliveryMainInputs
-                        validationErrors={validationErrors}
                         clearByName={clearByName}
                         disabled={disabled}
+                        validationErrors={validationErrors}
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={5}>
+                <Grid item sm={5} xs={12}>
                     <GradingItemInputs
-                        disabled={disabled}
                         clearByName={clearByName}
+                        disabled={disabled}
                         validationErrors={validationErrors}
                     />
                 </Grid>
             </Grid>
 
             <PalmBunchesReaDeliveryFarmerInputs
+                clearByName={clearByName}
                 disabled={disabled}
                 validationErrors={validationErrors}
-                clearByName={clearByName}
             />
 
             {isAuthHasRole(Role.PALM_BUNCH_MANAGER) && (
@@ -115,16 +116,16 @@ export default function PalmBunchesReaTicketForm({
                     <ReaTiketPaymentDetailView data={data} />
 
                     <FormControlLabel
-                        sx={{ mt: 2 }}
-                        name="validate_now"
-                        disabled={disabled}
                         control={
                             <Checkbox
-                                value="true"
                                 defaultChecked={Boolean(data.validated_at)}
+                                value="true"
                             />
                         }
+                        disabled={disabled}
                         label="Data yang di-input sudah sesuai dengan yang diinginkan"
+                        name="validate_now"
+                        sx={{ mt: 2 }}
                     />
                 </>
             )}
@@ -169,9 +170,9 @@ const UserActivityLog = ({ data }: { data: ActivityLogType[] }) => {
                 Riwayat Data
             </Button>
             <UserActivityLogsDialogTable
+                data={data}
                 open={open}
                 setIsOpen={setOpen}
-                data={data}
             />
         </>
     )

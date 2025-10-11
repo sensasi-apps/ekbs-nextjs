@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
-// materials
-import Button from '@mui/material/Button'
 // icons
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify'
+// materials
+import Button from '@mui/material/Button'
+import type { Metadata } from 'next'
+import Link from 'next/link'
 // components
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
@@ -12,7 +12,7 @@ import PageClient from './page-client'
 export default function Page() {
     return (
         <>
-            <PageTitle title="Penjualan" subtitle="Belayan Spare Parts" />
+            <PageTitle subtitle="Belayan Spare Parts" title="Penjualan" />
 
             <Button
                 href="sales/report"
@@ -24,7 +24,7 @@ export default function Page() {
             </Button>
 
             <PageClient />
-            <Fab href="sales/create" component={Link} />
+            <Fab component={Link} href="sales/create" />
         </>
     )
 }

@@ -1,15 +1,14 @@
 'use client'
 
-// types
-import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
-// vendors
-import { useState } from 'react'
-import axios from '@/lib/axios'
-import { Formik } from 'formik'
+// icons
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation'
 // materials
 import Typography from '@mui/material/Typography'
+import { Formik } from 'formik'
+// vendors
+import { useState } from 'react'
+// types
+import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
@@ -19,17 +18,18 @@ import PageTitle from '@/components/page-title'
 import FarmInputHeGasSaleForm, {
     type FormValues,
 } from '@/components/pages/farm-input-he-gas-sales/Form'
-// icons
-import LocalGasStationIcon from '@mui/icons-material/LocalGasStation'
-// utils
-import toDmy from '@/utils/to-dmy'
-import formatNumber from '@/utils/format-number'
-import numberToCurrency from '@/utils/number-to-currency'
-import handle422 from '@/utils/handle-422'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums
 import FarmInputPermission from '@/enums/permissions/FarmInput'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+import formatNumber from '@/utils/format-number'
+import handle422 from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
+// utils
+import toDmy from '@/utils/to-dmy'
 
 /**
  * gas sales to heavy equipment rental unit
@@ -49,8 +49,24 @@ export default function FarmInputHeGasSales() {
             if (!productSale) return
 
             setInitialFormikValues({
-                uuid: productSale.uuid,
                 at: productSale.at,
+
+                buyer_user: productSale.buyer_user,
+                buyer_user_uuid: productSale.buyer_user?.uuid,
+                current_hm:
+                    productSale.business_unit_product_sale
+                        ?.inventory_item_checkup?.he?.hm,
+                has_tx: Boolean(productSale.transaction),
+
+                inventory_item:
+                    productSale.business_unit_product_sale
+                        ?.inventory_item_checkup?.inventory_item,
+
+                inventory_item_uuid:
+                    productSale.business_unit_product_sale
+                        ?.inventory_item_checkup?.inventory_item?.uuid,
+
+                is_paid: Boolean(productSale.transaction),
 
                 product: {
                     ...productSale.product_movement_details?.[0]?.product_state,
@@ -62,26 +78,10 @@ export default function FarmInputHeGasSales() {
                 product_id:
                     productSale.product_movement_details?.[0]?.product_id,
 
-                buyer_user: productSale.buyer_user,
-                buyer_user_uuid: productSale.buyer_user?.uuid,
-
-                inventory_item:
-                    productSale.business_unit_product_sale
-                        ?.inventory_item_checkup?.inventory_item,
-
-                inventory_item_uuid:
-                    productSale.business_unit_product_sale
-                        ?.inventory_item_checkup?.inventory_item?.uuid,
-
                 qty: (productSale.product_movement_details?.[0]?.qty ?? 0) * -1,
-                current_hm:
-                    productSale.business_unit_product_sale
-                        ?.inventory_item_checkup?.he?.hm,
                 rp_per_unit:
                     productSale.product_movement_details?.[0]?.rp_per_unit,
-
-                is_paid: Boolean(productSale.transaction),
-                has_tx: Boolean(productSale.transaction),
+                uuid: productSale.uuid,
             })
 
             setIsDialogOpen(true)
@@ -102,12 +102,12 @@ export default function FarmInputHeGasSales() {
             <PageTitle title="Penjualan BBM ke Alat Berat" />
 
             <Datatable
-                title="Riwayat"
-                tableId="farm-input-he-gas-sale-table"
                 apiUrl="/farm-inputs/he-gas-sales/datatable"
-                onRowClick={handleRowClick}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
+                onRowClick={handleRowClick}
+                tableId="farm-input-he-gas-sale-table"
+                title="Riwayat"
             />
 
             <Fab
@@ -119,10 +119,12 @@ export default function FarmInputHeGasSales() {
             </Fab>
 
             <DialogWithTitle
-                title={(isNew ? 'Tambah' : 'Perbaharui') + ' Data Penjualan'}
-                open={isDialogOpen}>
+                open={isDialogOpen}
+                title={(isNew ? 'Tambah' : 'Perbaharui') + ' Data Penjualan'}>
                 <Formik
+                    component={FarmInputHeGasSaleForm}
                     initialValues={initialFormikValues}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
@@ -130,14 +132,14 @@ export default function FarmInputHeGasSales() {
                                     values.uuid ? `/${values.uuid}` : ''
                                 }`,
                                 {
-                                    is_paid: values.is_paid ?? false,
                                     at: values.at,
-                                    product_id: values.product_id,
                                     buyer_user_uuid: values.buyer_user_uuid,
+                                    current_hm: values.current_hm,
                                     inventory_item_uuid:
                                         values.inventory_item_uuid,
+                                    is_paid: values.is_paid ?? false,
+                                    product_id: values.product_id,
                                     qty: values.qty,
-                                    current_hm: values.current_hm,
                                     rp_per_unit: values.rp_per_unit,
                                 },
                             )
@@ -147,8 +149,6 @@ export default function FarmInputHeGasSales() {
                             })
                             .catch(error => handle422(error, setErrors))
                     }
-                    onReset={handleClose}
-                    component={FarmInputHeGasSaleForm}
                 />
             </DialogWithTitle>
         </>
@@ -171,10 +171,10 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
                 product_state: { name, unit },
             }) => (
                 <Typography
-                    key={id}
-                    variant="overline"
                     component="li"
-                    lineHeight="unset">
+                    key={id}
+                    lineHeight="unset"
+                    variant="overline">
                     <span
                         dangerouslySetInnerHTML={{
                             __html: name,
@@ -193,22 +193,22 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
 
 const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: false,
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'buyerUser.name',
         label: 'Pemesan',
+        name: 'buyerUser.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData<ProductSaleORM>(dataIndex)
@@ -219,41 +219,41 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
         },
     },
     {
-        name: 'payment_method_id',
         label: 'Metode Pembayaran',
+        name: 'payment_method_id',
         options: {
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
         options: {
-            sort: false,
             display: false,
+            sort: false,
         },
     },
     {
-        name: 'productMovement.details.product_state',
         label: 'Barang',
+        name: 'productMovement.details.product_state',
         options: {
-            sort: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData<ProductSaleORM>(dataIndex)
                 if (!data) return ''
 
                 return pmdsCustomBodyRender(data.product_movement_details)
             },
+            sort: false,
         },
     },
     {
-        name: 'total_rp',
         label: 'Total Penjualan',
+        name: 'total_rp',
         options: {
-            sort: false,
-            searchable: false,
             customBodyRender: value => numberToCurrency(value ?? 0),
+            searchable: false,
+            sort: false,
         },
     },
     // {

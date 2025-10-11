@@ -1,8 +1,8 @@
-import { Form, Formik, type FormikProps } from 'formik'
-import myAxios from '@/lib/axios'
-import LoadingCenter from '@/components/loading-center'
 // materials
 import Button from '@mui/material/Button'
+import { Form, Formik, type FormikProps } from 'formik'
+import LoadingCenter from '@/components/loading-center'
+import myAxios from '@/lib/axios'
 // module scope
 import CertificationCheckboxes from '@/modules/clm/components/certification-checkboxes'
 
@@ -21,6 +21,7 @@ export default function CertificationUpdateForm({
 }) {
     return (
         <Formik<FormValues>
+            component={InnerForm}
             enableReinitialize
             initialValues={{
                 certifications,
@@ -33,7 +34,6 @@ export default function CertificationUpdateForm({
                     )
                     .then(() => onSubmitted())
             }
-            component={InnerForm}
         />
     )
 }

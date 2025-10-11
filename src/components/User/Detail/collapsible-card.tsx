@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from 'react'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 // materials
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -6,12 +7,11 @@ import CardHeader from '@mui/material/CardHeader'
 import CircularProgress from '@mui/material/CircularProgress'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import { type ReactNode, useState } from 'react'
+import LoadingCenter from '@/components/loading-center'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 //
 import UserDetailBox from './Box'
-import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
-import LoadingCenter from '@/components/loading-center'
 
 export default function UserDetailCollapsibleCard({
     editButton,
@@ -31,21 +31,21 @@ export default function UserDetailCollapsibleCard({
     return (
         <Card>
             <CardHeader
-                title="Detail Pengguna"
-                titleTypographyProps={{
-                    fontWeight: 'bold',
-                }}
                 action={
                     <IconButton
                         disabled={isLoading}
                         onClick={handleCollapseClick}>
                         {isLoading && (
-                            <CircularProgress size={20} color="inherit" />
+                            <CircularProgress color="inherit" size={20} />
                         )}
                         {!isLoading && !open && <KeyboardArrowDownIcon />}
                         {!isLoading && open && <KeyboardArrowUpIcon />}
                     </IconButton>
                 }
+                title="Detail Pengguna"
+                titleTypographyProps={{
+                    fontWeight: 'bold',
+                }}
             />
 
             <Collapse in={open && !isLoading}>

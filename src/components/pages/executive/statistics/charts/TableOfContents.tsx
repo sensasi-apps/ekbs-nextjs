@@ -1,7 +1,8 @@
 // vendors
-import { type ReactNode, memo } from 'react'
+
 // materials
 import Typography from '@mui/material/Typography'
+import { memo, type ReactNode } from 'react'
 // components
 import Link from '@/components/link'
 
@@ -67,21 +68,20 @@ const Ul = ({
     disablePadding?: boolean
 }) => (
     <Typography
-        variant="caption"
         component="ul"
         sx={{
-            m: 0,
-            pl: disablePadding ? 0 : 2,
-            listStyleType: 'none',
-
             '& > li > a': {
                 color: 'inherit',
             },
             '& > li::before': {
-                content: '"# "',
                 color: 'success.main',
+                content: '"# "',
             },
-        }}>
+            listStyleType: 'none',
+            m: 0,
+            pl: disablePadding ? 0 : 2,
+        }}
+        variant="caption">
         {children}
     </Typography>
 )

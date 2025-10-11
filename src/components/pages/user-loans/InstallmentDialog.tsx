@@ -1,14 +1,15 @@
 // types
-import type { UserLoanFormDataType } from './Form/types'
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+
 // vendors
 import Typography from '@mui/material/Typography'
 // components
 import SimpleDialog from '@/components/SimpleDialog'
-// children components
-import UserLoanInstallmentDialogTable from './InstallmentDialog/Table'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
+import type { UserLoanFormDataType } from './Form/types'
+// children components
+import UserLoanInstallmentDialogTable from './InstallmentDialog/Table'
 
 export default function UserLoanInstallmentDialog({
     data: loanValues,
@@ -35,18 +36,18 @@ export default function UserLoanInstallmentDialog({
 
     return (
         <SimpleDialog
-            title={
-                hasInstallments ? 'Tabel Angsuran' : 'Tabel Simulasi Angsuran'
-            }
             maxWidth="md"
             slotProps={{
                 buttonProps: {
-                    disabled: isProcessing || isRequiredDataNotFilled,
                     children: hasInstallments
                         ? 'Tabel Angsuran'
                         : 'Tabel Simulasi Angsuran',
+                    disabled: isProcessing || isRequiredDataNotFilled,
                 },
-            }}>
+            }}
+            title={
+                hasInstallments ? 'Tabel Angsuran' : 'Tabel Simulasi Angsuran'
+            }>
             <div
                 style={{
                     overflowX: 'auto',
@@ -60,7 +61,7 @@ export default function UserLoanInstallmentDialog({
                 }}>
                 <Typography variant="caption">Ringkasan:</Typography>
 
-                <Typography variant="body1" mb={2}>
+                <Typography mb={2} variant="body1">
                     Pinjaman{' '}
                     <strong>{numberToCurrency(proposed_rp || 0)}</strong> dengan
                     biaya jasa <strong>{interest_percent}%</strong> selama{' '}

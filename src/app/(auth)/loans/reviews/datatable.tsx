@@ -1,16 +1,17 @@
 // types
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
-import type { FormOpenStateType } from '@/app/(auth)/loans/reviews/page'
+
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 // vendors
 import { useState } from 'react'
-import Chip from '@mui/material/Chip'
-import Box from '@mui/material/Box'
+import type { FormOpenStateType } from '@/app/(auth)/loans/reviews/page'
 // components
 import Datatable, { getRowData } from '@/components/Datatable'
 import DATATABLE_COLUMNS from '@/components/pages/user-loans/DATATABLE_COLUMNS'
 import { DEFAULT_SORT_ORDER } from '@/components/pages/user-loans/Datatable'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 
 enum ApiUrlEnum {
     All = '/user-loans/datatable',
@@ -47,9 +48,9 @@ function UserLoanReviewDatatable({
             </Box>
 
             <Datatable
-                title="Daftar Pinjaman"
-                tableId="review-user-loans-datatable"
                 apiUrl={apiUrl}
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={DEFAULT_SORT_ORDER}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const userLoan = getRowData<UserLoanORM>(dataIndex)
@@ -61,25 +62,25 @@ function UserLoanReviewDatatable({
                         const formData: FormOpenStateType['formData'] =
                             userResponse
                                 ? {
-                                      uuid: userResponse.uuid,
-                                      user_loan_uuid: userLoan.uuid,
                                       is_approved: userResponse.is_approved,
+                                      user_loan_uuid: userLoan.uuid,
+                                      uuid: userResponse.uuid,
                                   }
                                 : {
-                                      uuid: '',
-                                      user_loan_uuid: userLoan.uuid,
                                       is_approved: '',
+                                      user_loan_uuid: userLoan.uuid,
+                                      uuid: '',
                                   }
 
                         onSetReviewState({
+                            formData,
                             isDialogOpen: true,
                             userLoan,
-                            formData,
                         })
                     }
                 }}
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={DEFAULT_SORT_ORDER}
+                tableId="review-user-loans-datatable"
+                title="Daftar Pinjaman"
             />
         </>
     )

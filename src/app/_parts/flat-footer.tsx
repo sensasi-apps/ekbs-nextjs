@@ -1,20 +1,21 @@
 // vendors
-import type { ReactNode } from 'react'
-import type { UrlObject } from 'url'
-import dayjs from 'dayjs'
+
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-// components
-import Link from '@/components/link'
+import dayjs from 'dayjs'
+import type { ReactNode } from 'react'
+import type { UrlObject } from 'url'
 // etc
 import packageJson from '@/../package.json'
+// components
+import Link from '@/components/link'
 
 const versionDateDayjs = dayjs(packageJson.versionDate)
 
 export default function FlatFooter() {
     return (
-        <Box component="footer" columnGap={2} display="flex" flexWrap="wrap">
+        <Box columnGap={2} component="footer" display="flex" flexWrap="wrap">
             {[
                 process.env.NEXT_PUBLIC_APP_NAME,
                 `v${packageJson.version} (${versionDateDayjs.format(' DD-MM-YYYY')})`,
@@ -36,7 +37,7 @@ export default function FlatFooter() {
 
 function Typo({ children }: { children: ReactNode }) {
     return (
-        <Typography variant="caption" component="span">
+        <Typography component="span" variant="caption">
             {children}
         </Typography>
     )

@@ -1,7 +1,5 @@
-import { useState } from 'react'
-import { mutate } from 'swr'
-import axios from '@/lib/axios'
-
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete'
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
@@ -9,12 +7,11 @@ import List from '@mui/material/List'
 import MuiListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
-
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-
+import { useState } from 'react'
+import { mutate } from 'swr'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import UserDriverForm from '@/components/User/Driver/Form'
+import axios from '@/lib/axios'
 import type UserORM from '../types/orms/user'
 
 function ListItem({
@@ -49,21 +46,21 @@ function ListItem({
             }>
             <ListItemText disableTypography>
                 <Typography
-                    variant="h6"
+                    alignItems="center"
                     component="p"
                     display="flex"
-                    alignItems="center">
+                    variant="h6">
                     {name}
                     <Typography
-                        variant="body2"
                         color="GrayText"
                         component="span"
-                        ml={1}>
+                        ml={1}
+                        variant="body2">
                         #{id}
                     </Typography>
                 </Typography>
 
-                <Typography variant="body2" color="GrayText" component="p">
+                <Typography color="GrayText" component="p" variant="body2">
                     {driver?.license_number}
                 </Typography>
             </ListItemText>
@@ -82,8 +79,8 @@ export default function UserDriversCrudBox({
 
     return (
         <Box>
-            <Box display="flex" alignItems="center">
-                <Typography variant="h6" component="div">
+            <Box alignItems="center" display="flex">
+                <Typography component="div" variant="h6">
                     Pengemudi
                 </Typography>
 
@@ -96,7 +93,7 @@ export default function UserDriversCrudBox({
             </Box>
 
             {drivers.length === 0 && !isFormOpen && (
-                <Typography variant="body2" color="GrayText">
+                <Typography color="GrayText" variant="body2">
                     <i>Belum ada data pengemudi</i>
                 </Typography>
             )}
@@ -105,9 +102,9 @@ export default function UserDriversCrudBox({
                 <List disablePadding>
                     {drivers.map(driver => (
                         <ListItem
-                            key={driver.uuid}
                             courierUserUuid={courierUserUuid}
                             data={driver}
+                            key={driver.uuid}
                         />
                     ))}
                 </List>

@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
-// materials
-import { ThemeProvider } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+// materials
+import { ThemeProvider } from '@mui/material/styles'
+import type { ReactNode } from 'react'
 // components
 import FlatFooter from '@/app/_parts/flat-footer'
 // parts
@@ -21,31 +21,31 @@ export default function Layout({ children }: { children: ReactNode }) {
         <ThemeProvider theme={THEME}>
             <Box
                 sx={{
-                    color: 'grey.500',
-
-                    minHeight: '100svh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-
-                    gap: 10,
-
-                    p: 4,
-                    pb: 4,
+                    backgroundAttachment: 'fixed',
+                    backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${BG_IMG_URL})`,
 
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
-                    backgroundAttachment: 'fixed',
-                    backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${BG_IMG_URL})`,
+                    color: 'grey.500',
+                    display: 'flex',
+                    flexDirection: 'column',
+
+                    gap: 10,
+                    justifyContent: 'space-between',
+
+                    minHeight: '100svh',
+
+                    p: 4,
+                    pb: 4,
                 }}>
                 <Container
-                    maxWidth="lg"
                     component="main"
+                    maxWidth="lg"
                     sx={{
-                        flexGrow: 1,
+                        alignItems: 'center',
 
                         display: 'flex',
-                        alignItems: 'center',
+                        flexGrow: 1,
                     }}>
                     {children}
                 </Container>

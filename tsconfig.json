@@ -1,32 +1,20 @@
 {
     "compilerOptions": {
-        // "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
+        "allowImportingTsExtensions": true,
         "allowJs": true,
         "esModuleInterop": true,
-        "resolveJsonModule": true,
         "incremental": true,
-        "target": "ES2020",
-        "useDefineForClassFields": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
         "lib": ["ES2020", "DOM", "DOM.Iterable", "ESNext", "WebWorker"],
         "module": "ESNext",
-        "skipLibCheck": true,
-        /* Bundler mode */
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "isolatedModules": true,
         "moduleDetection": "force",
+        "moduleResolution": "bundler",
         "noEmit": true,
-        "jsx": "preserve",
-        /* Linting */
-        "strict": true,
         "noFallthroughCasesInSwitch": true,
-        // "noUncheckedIndexedAccess": true,
         "noUncheckedSideEffectImports": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "verbatimModuleSyntax": true,
-        // etc
-        "types": ["@serwist/next/typings"],
         "paths": {
             "@/*": ["./src/*"]
         },
@@ -34,8 +22,15 @@
             {
                 "name": "next"
             }
-        ]
+        ],
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "target": "ES2020",
+        "types": ["@serwist/next/typings"],
+        "useDefineForClassFields": true,
+        "verbatimModuleSyntax": true
     },
-    "include": ["**/*.mjs", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-    "exclude": ["node_modules", "public/sw.js"]
+    "exclude": ["node_modules", "public/sw.js"],
+    "include": ["**/*.mjs", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
 }

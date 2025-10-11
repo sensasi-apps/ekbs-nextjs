@@ -1,20 +1,20 @@
 'use client'
 
-import type { AxiosError } from 'axios'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-// vendors
-import { useState, type FormEvent } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import axios from '@/lib/axios'
+// icons
+import LockResetIcon from '@mui/icons-material/LockReset'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-// icons
-import LockResetIcon from '@mui/icons-material/LockReset'
+import type { AxiosError } from 'axios'
+import { useRouter, useSearchParams } from 'next/navigation'
+// vendors
+import { type FormEvent, useState } from 'react'
 // components
 import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
+import axios from '@/lib/axios'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 
 export default function Page({
     params,
@@ -51,9 +51,9 @@ export default function Page({
             .then(() => {
                 const response = btoa(
                     JSON.stringify({
-                        status: 201,
                         message:
                             'Kata sandi berhasil diatur ulang. Silakan melakukan login dengan kata sandi baru Anda.',
+                        status: 201,
                     }),
                 )
 
@@ -71,27 +71,27 @@ export default function Page({
 
     return (
         <GuestWithFormSubLayout
-            title="Atur kata sandi"
             icon={<LockResetIcon />}
             isError={Boolean(validationErrors?.message)}
+            isLoading={isLoading}
             message={validationErrors?.message.toString()}
-            isLoading={isLoading}>
+            title="Atur kata sandi">
             <form
+                autoComplete="off"
                 onSubmit={submitForm}
-                style={{ marginTop: '1rem' }}
-                autoComplete="off">
+                style={{ marginTop: '1rem' }}>
                 <input
-                    type="hidden"
                     name="token"
-                    value={token ?? ''}
                     readOnly
+                    type="hidden"
+                    value={token ?? ''}
                 />
 
                 <input
-                    type="hidden"
                     name="email"
-                    value={email ?? ''}
                     readOnly
+                    type="hidden"
+                    value={email ?? ''}
                 />
 
                 <Box mb={2}>
@@ -100,31 +100,31 @@ export default function Page({
                 </Box>
 
                 <TextField
-                    required
+                    error={Boolean(validationErrors?.errors?.password)}
                     fullWidth
-                    margin="normal"
+                    helperText={validationErrors?.errors?.password}
                     label="Kata sandi baru"
-                    type="password"
+                    margin="normal"
                     name="password"
                     onChange={() => setValidationErrors(undefined)}
-                    error={Boolean(validationErrors?.errors?.password)}
-                    helperText={validationErrors?.errors?.password}
+                    required
+                    type="password"
                 />
 
                 <TextField
-                    required
                     fullWidth
-                    margin="dense"
                     label="Ulangi kata sandi baru"
-                    type="password"
+                    margin="dense"
                     name="password_confirmation"
+                    required
+                    type="password"
                 />
 
                 <Button
-                    type="submit"
                     fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 1 }}>
+                    sx={{ mb: 1, mt: 3 }}
+                    type="submit"
+                    variant="contained">
                     Simpan kata sandi
                 </Button>
             </form>

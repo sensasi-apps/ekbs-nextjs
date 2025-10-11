@@ -44,10 +44,10 @@ export default function calculateTotals({
     const totalRp = Math.ceil(totalRpWithoutInterest + totalInterest)
 
     return {
-        totalMovementRp,
-        totalServiceRp,
-        totalRpWithoutInterest,
         totalInterest,
+        totalMovementRp,
         totalRp,
+        totalRpWithoutInterest,
+        totalServiceRp,
     }
 }

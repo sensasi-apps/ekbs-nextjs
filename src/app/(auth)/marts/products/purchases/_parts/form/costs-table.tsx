@@ -13,7 +13,7 @@ import formatNumber from '@/utils/format-number'
 export function CostsTable({ data }: { data: ProductMovementCost[] }) {
     return (
         <>
-            <Typography gutterBottom fontWeight="bold" fontSize="1.3em">
+            <Typography fontSize="1.3em" fontWeight="bold" gutterBottom>
                 Biaya
             </Typography>
 
@@ -41,11 +41,11 @@ export function CostsTable({ data }: { data: ProductMovementCost[] }) {
 
                     {data.length === 0 && (
                         <TableRow>
-                            <TableCell colSpan={2} align="center">
+                            <TableCell align="center" colSpan={2}>
                                 <Typography
+                                    color="textSecondary"
                                     fontStyle="italic"
-                                    variant="body2"
-                                    color="textSecondary">
+                                    variant="body2">
                                     Tidak ada biaya
                                 </Typography>
                             </TableCell>

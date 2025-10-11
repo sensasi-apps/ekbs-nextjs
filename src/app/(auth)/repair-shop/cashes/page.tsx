@@ -7,7 +7,7 @@ import BusinessUnit from '@/enums/business-unit'
 export default function Cashes() {
     return (
         <>
-            <PageTitle title="Kas" subtitle="Belayan Spare Parts" />
+            <PageTitle subtitle="Belayan Spare Parts" title="Kas" />
             <UnitTxs businessUnit={BusinessUnit.BENGKEL} />
         </>
     )

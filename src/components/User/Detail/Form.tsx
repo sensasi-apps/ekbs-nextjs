@@ -1,39 +1,40 @@
 // types
-import type UserDetailORM from '@/modules/user/types/orms/user-detail'
-import type { FormEvent } from 'react'
-// vendors
-import { useState } from 'react'
-import { mutate } from 'swr'
-import { PatternFormat } from 'react-number-format'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
+import Grid from '@mui/material/GridLegacy'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import FormHelperText from '@mui/material/FormHelperText'
-import Grid from '@mui/material/GridLegacy'
+import dayjs from 'dayjs'
+import type { FormEvent } from 'react'
+// vendors
+import { useState } from 'react'
+import { PatternFormat } from 'react-number-format'
+import { mutate } from 'swr'
+import DatePicker from '@/components/DatePicker'
+import SelectFromApi from '@/components/Global/SelectFromApi'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import DatePicker from '@/components/DatePicker'
 import ImageInput from '@/components/image-input'
+import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
-// providers
-import useFormData from '@/providers/FormData'
+import MaritalStatusEnum from '@/enums/marital-status'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import SelectFromApi from '@/components/Global/SelectFromApi'
-import MaritalStatusEnum from '@/enums/marital-status'
+import axios from '@/lib/axios'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
+import type UserDetailORM from '@/modules/user/types/orms/user-detail'
+// providers
+import useFormData from '@/providers/FormData'
 import type DistrictType from '@/types/orms/district'
 import type RegencyType from '@/types/orms/regency'
 import type VillageType from '@/types/orms/village'
-import NumericFormat from '@/components/NumericFormat'
-import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 function getBirthRegion(userDetail?: UserDetailORM) {
     return (
@@ -104,11 +105,11 @@ export default function UserDetailForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit} autoComplete="off">
+        <form autoComplete="off" onSubmit={handleSubmit}>
             <ImageInput
-                name="pas_foto"
-                label="Pas Foto"
                 disabled={isLoading}
+                label="Pas Foto"
+                name="pas_foto"
                 onChange={clearByEvent}
                 value={pasFoto}
                 {...errorsToHelperTextObj(
@@ -118,27 +119,27 @@ export default function UserDetailForm() {
             />
 
             <PatternFormat
-                format="#### #### #### ####"
                 customInput={TextField}
-                minLength={15}
-                maxLength={16}
-                onChange={clearByEvent}
-                disabled={isLoading}
-                label="Nomor Induk Kependudukan"
-                name="citizen_id"
                 defaultValue={userDetail?.citizen_id ?? ''}
+                disabled={isLoading}
+                format="#### #### #### ####"
+                label="Nomor Induk Kependudukan"
+                maxLength={16}
+                minLength={15}
+                name="citizen_id"
+                onChange={clearByEvent}
                 {...errorsToHelperTextObj(validationErrors.citizen_id)}
             />
 
             <ImageInput
                 disabled={isLoading}
-                value={fotoKtp}
-                onChange={clearByEvent}
-                name="foto_ktp"
                 label="Foto KTP"
+                name="foto_ktp"
+                onChange={clearByEvent}
                 sx={{
                     mt: 2,
                 }}
+                value={fotoKtp}
                 {...errorsToHelperTextObj(
                     validationErrors.foto_ktp ??
                         validationErrors.foto_ktp_capture,
@@ -146,21 +147,21 @@ export default function UserDetailForm() {
             />
 
             <FormControl
-                fullWidth
-                margin="normal"
                 disabled={isLoading}
-                error={Boolean(validationErrors.gender_id)}>
+                error={Boolean(validationErrors.gender_id)}
+                fullWidth
+                margin="normal">
                 <FormLabel>Jenis Kelamin</FormLabel>
 
                 <RadioGroup
                     name="gender_id"
-                    value={gender ?? userDetail?.gender_id ?? null}
                     onChange={event => {
                         const { value } = event.target
 
                         clearByEvent(event)
                         setGender(value)
-                    }}>
+                    }}
+                    value={gender ?? userDetail?.gender_id ?? null}>
                     <FormControlLabel
                         control={<Radio value={1} />}
                         label="Laki-laki"
@@ -179,98 +180,101 @@ export default function UserDetailForm() {
             </FormControl>
 
             <input
-                type="hidden"
-                name="birth_region_id"
                 defaultValue={birthRegion?.id ?? ''}
+                name="birth_region_id"
+                type="hidden"
             />
 
             <Autocomplete
                 disabled={isLoading}
-                required={false}
+                endpoint={`/select2/administrative-regions`}
+                label="Tempat Lahir"
                 onChange={(
                     _,
                     value: DistrictType | RegencyType | VillageType,
                 ) => setBirthRegion(value)}
+                required={false}
                 value={birthRegion}
-                endpoint={`/select2/administrative-regions`}
-                label="Tempat Lahir"
             />
 
             <DatePicker
-                disabled={isLoading}
                 defaultValue={
                     userDetail?.birth_at ? dayjs(userDetail.birth_at) : null
                 }
+                disabled={isLoading}
                 slotProps={{
                     textField: {
-                        required: false,
-                        name: 'birth_at',
                         label: 'Tanggal Lahir',
+                        name: 'birth_at',
+                        required: false,
                         ...errorsToHelperTextObj(validationErrors.birth_at),
                     },
                 }}
             />
 
             <TextField
-                required={false}
+                defaultValue={userDetail?.bpjs_kesehatan_no ?? ''}
                 disabled={isLoading}
                 label="Nomor BPJS Kesehatan"
                 name="bpjs_kesehatan_no"
                 onChange={clearByEvent}
-                defaultValue={userDetail?.bpjs_kesehatan_no ?? ''}
+                required={false}
                 {...errorsToHelperTextObj(validationErrors.bpjs_kesehatan_no)}
             />
 
             <TextField
-                required={false}
+                defaultValue={userDetail?.job_title ?? ''}
                 disabled={isLoading}
                 label="Pekerjaan"
                 name="job_title"
                 onChange={clearByEvent}
-                defaultValue={userDetail?.job_title ?? ''}
+                required={false}
                 {...errorsToHelperTextObj(validationErrors.job_title)}
             />
 
             <TextField
-                required={false}
-                multiline
-                rows={2}
+                defaultValue={userDetail?.job_desc ?? ''}
                 disabled={isLoading}
                 label="Deskripsi Pekerjaan"
+                multiline
                 name="job_desc"
                 onChange={clearByEvent}
-                defaultValue={userDetail?.job_desc ?? ''}
+                required={false}
+                rows={2}
                 {...errorsToHelperTextObj(validationErrors.job_desc)}
             />
 
             <SelectFromApi
-                endpoint="/data/educations"
                 disabled={isLoading}
+                endpoint="/data/educations"
+                fullWidth
                 label="Pendidikan Terakhir"
                 margin="dense"
-                size="small"
-                fullWidth
+                onValueChange={value => {
+                    clearByName('last_education_id')
+                    setLastEducationId(value.id)
+                }}
                 selectProps={{
                     name: 'last_education_id',
                     value:
                         lastEducationId ?? userDetail?.last_education_id ?? '',
                 }}
-                onValueChange={value => {
-                    clearByName('last_education_id')
-                    setLastEducationId(value.id)
-                }}
+                size="small"
                 {...errorsToHelperTextObj(validationErrors.last_education_id)}
             />
 
-            <Grid container columnSpacing={2}>
+            <Grid columnSpacing={2} container>
                 <Grid item sm={6} xs={12}>
                     <SelectFromApi
-                        endpoint="/data/marital-statuses"
                         disabled={isLoading}
+                        endpoint="/data/marital-statuses"
+                        fullWidth
                         label="Status Pernikahan"
                         margin="dense"
-                        size="small"
-                        fullWidth
+                        onValueChange={value => {
+                            clearByName('marital_status_id')
+                            setMaritalStatusId(value.id)
+                        }}
                         selectProps={{
                             name: 'marital_status_id',
                             value:
@@ -278,10 +282,7 @@ export default function UserDetailForm() {
                                 userDetail?.marital_status_id ??
                                 '',
                         }}
-                        onValueChange={value => {
-                            clearByName('marital_status_id')
-                            setMaritalStatusId(value.id)
-                        }}
+                        size="small"
                         {...errorsToHelperTextObj(
                             validationErrors.marital_status_id,
                         )}
@@ -290,15 +291,15 @@ export default function UserDetailForm() {
 
                 <Grid item sm={6} xs={12}>
                     <NumericFormat
-                        required={false}
-                        label="Jumlah Anak"
-                        disabled={isLoading}
-                        name="n_children"
-                        onChange={clearByEvent}
-                        inputProps={{}}
-                        maxLength={2}
                         decimalScale={0}
                         defaultValue={userDetail?.n_children ?? ''}
+                        disabled={isLoading}
+                        inputProps={{}}
+                        label="Jumlah Anak"
+                        maxLength={2}
+                        name="n_children"
+                        onChange={clearByEvent}
+                        required={false}
                         {...errorsToHelperTextObj(validationErrors.n_children)}
                     />
                 </Grid>
@@ -306,16 +307,16 @@ export default function UserDetailForm() {
 
             <Box display="flex" justifyContent="end" mt={2}>
                 <Button
+                    color="info"
                     disabled={isLoading}
-                    onClick={() => handleClose()}
-                    color="info">
+                    onClick={() => handleClose()}>
                     Batal
                 </Button>
 
                 <Button
+                    color="info"
                     loading={isLoading}
                     type="submit"
-                    color="info"
                     variant="contained">
                     Simpan
                 </Button>

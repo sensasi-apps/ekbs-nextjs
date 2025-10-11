@@ -1,18 +1,19 @@
 // vendors
-import { memo } from 'react'
-import useSWR from 'swr'
+
 // materials
 import Grid from '@mui/material/Grid'
-// components
-import LineChart from '@/components/Chart/Line/Line'
-import StatCard from '@/components/StatCard'
+import { memo } from 'react'
+import useSWR from 'swr'
 import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
-// page components
-import FarmerGroupStatTable from './Tbs/FarmerGroupStatTable'
+// components
+import LineChart from '@/components/Chart/Line/Line'
+import StatCard from '@/components/StatCard'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
+// page components
+import FarmerGroupStatTable from './Tbs/FarmerGroupStatTable'
 
 const TbsSubsection = memo(function TbsSubsection() {
     const { data, isLoading } = useSWR<ApiResponseType>(
@@ -21,19 +22,19 @@ const TbsSubsection = memo(function TbsSubsection() {
 
     return (
         <Grid container spacing={1.5}>
-            <Grid size={{ xs: 12 }} id="bobot" sx={SX_SCROLL_MARGIN_TOP}>
+            <Grid id="bobot" size={{ xs: 12 }} sx={SX_SCROLL_MARGIN_TOP}>
                 <TbsWeightChartCard
                     data={data?.palm_bunch_weight_monthly_total}
                     isLoading={isLoading}
                 />
             </Grid>
             <Grid
-                size={{ xs: 12 }}
                 id="penjualan-pelunasan"
+                size={{ xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard
-                    title="penjualan-pelunasan — Bulanan"
-                    isLoading={isLoading}>
+                    isLoading={isLoading}
+                    title="penjualan-pelunasan — Bulanan">
                     <InOutLineChart
                         currency
                         data={data?.palm_bunch_sale_disburse_monthly_rp_total}
@@ -44,12 +45,12 @@ const TbsSubsection = memo(function TbsSubsection() {
             </Grid>
 
             <Grid
-                size={{ xs: 12 }}
                 id="kontribusi-kelompok-tani"
+                size={{ xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <StatCard
-                    title="Kontribusi Kelompok Tani"
-                    isLoading={isLoading}>
+                    isLoading={isLoading}
+                    title="Kontribusi Kelompok Tani">
                     {data?.palm_bunch_stat_per_farmer_group && (
                         <FarmerGroupStatTable
                             data={data?.palm_bunch_stat_per_farmer_group}
@@ -88,30 +89,30 @@ function TbsWeightChartCard({
     isLoading: boolean
 }) {
     return (
-        <StatCard title="Bobot TBS" isLoading={isLoading}>
+        <StatCard isLoading={isLoading} title="Bobot TBS">
             <LineChart
-                suffix="kg"
                 data={data}
                 lines={[
                     {
-                        type: 'monotone',
                         dataKey: 'n_kg',
                         name: 'Bobot',
                         stroke: 'var(--mui-palette-primary-main)',
+                        type: 'monotone',
                     },
                     {
-                        type: 'monotone',
                         dataKey: 'deduction_kg',
                         name: 'Potongan Grading',
                         stroke: 'var(--mui-palette-error-main)',
+                        type: 'monotone',
                     },
                     {
-                        type: 'monotone',
                         dataKey: 'incentive_kg',
                         name: 'Insentif Grading',
                         stroke: 'var(--mui-palette-success-main)',
+                        type: 'monotone',
                     },
                 ]}
+                suffix="kg"
             />
         </StatCard>
     )

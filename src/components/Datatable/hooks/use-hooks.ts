@@ -1,24 +1,25 @@
 // types
+
+import dayjs from 'dayjs'
 import type { DataTableProps, DataTableState } from 'mui-datatable-delight'
-import type { DatatableProps } from '../@types'
+import { enqueueSnackbar } from 'notistack'
 // vendors
 import {
-    useEffect,
-    useRef,
-    useState,
     type Dispatch,
     type KeyboardEvent,
     type RefObject,
     type SetStateAction,
+    useEffect,
+    useRef,
+    useState,
 } from 'react'
-import dayjs from 'dayjs'
-// hooks
-import useSwr from './use-swr'
+import type { DatatableProps } from '../@types'
 // functions
 import downloadXlsx from '../functions/downloadXlsx'
-import formatToDatatableParams from '../utils/formatToDatatableParams'
 import staticOptions from '../staticOptions'
-import { enqueueSnackbar } from 'notistack'
+import formatToDatatableParams from '../utils/formatToDatatableParams'
+// hooks
+import useSwr from './use-swr'
 
 export default function useHooks<T>(
     tableId: DatatableProps<T>['tableId'],
@@ -74,78 +75,13 @@ export default function useHooks<T>(
 
     const options: DataTableProps<T>['options'] = {
         ...staticOptions,
-        rowsPerPage,
-        sortOrder: sortOrder,
-        searchProps: {
-            onKeyUp: (ev: KeyboardEvent<HTMLInputElement>) => {
-                if (ev.key === 'Enter' && 'value' in ev.target) {
-                    handleSearchChange(
-                        ev.target.value as string,
-                        lastDataTableState,
-                        setDatatableSentRequestParamJson,
-                    )
-                }
-            },
-            onBlur: ev => {
-                handleSearchChange(
-                    ev.currentTarget.value,
-                    lastDataTableState,
-                    setDatatableSentRequestParamJson,
-                )
-            },
-        },
-        onSearchClose: () => {
-            handleSearchChange(
-                '',
-                lastDataTableState,
-                setDatatableSentRequestParamJson,
-            )
-        },
-        onTableChange: (action, tableState) => {
-            const newRequestParamsJson = JSON.stringify(
-                formatToDatatableParams(tableState),
-            )
-
-            if (
-                action !== 'search' &&
-                datatableSentRequestParamsJson !== newRequestParamsJson
-            ) {
-                setDatatableSentRequestParamJson(newRequestParamsJson)
-                lastDataTableState.current = tableState
-            }
-        },
-        onTableInit: (_, tableState) => {
-            lastDataTableState.current = tableState
-        },
+        count: recordsFiltered ?? recordsTotal ?? 0,
+        onChangeRowsPerPage: setRowsPerPage,
         onColumnSortChange(changedColumn, direction) {
             setSortOrder({
-                name: changedColumn,
                 direction,
+                name: changedColumn,
             })
-        },
-        onChangeRowsPerPage: setRowsPerPage,
-        onViewColumnsChange: (changedColumn: string, action: string) => {
-            if (action === 'add') {
-                setColumns(prev => {
-                    const col = prev.find(col => col.name === changedColumn)
-
-                    if (col && col.options) {
-                        col.options.display = true
-                    }
-
-                    return prev
-                })
-            } else {
-                setColumns(prev => {
-                    const col = prev.find(col => col.name === changedColumn)
-
-                    if (col && col.options) {
-                        col.options.display = false
-                    }
-
-                    return prev
-                })
-            }
         },
         onDownload: (_, __, ___, data) => {
             if (!lastDataTableState.current) {
@@ -185,14 +121,79 @@ export default function useHooks<T>(
 
             return false
         },
-        count: recordsFiltered ?? recordsTotal ?? 0,
+        onSearchClose: () => {
+            handleSearchChange(
+                '',
+                lastDataTableState,
+                setDatatableSentRequestParamJson,
+            )
+        },
+        onTableChange: (action, tableState) => {
+            const newRequestParamsJson = JSON.stringify(
+                formatToDatatableParams(tableState),
+            )
+
+            if (
+                action !== 'search' &&
+                datatableSentRequestParamsJson !== newRequestParamsJson
+            ) {
+                setDatatableSentRequestParamJson(newRequestParamsJson)
+                lastDataTableState.current = tableState
+            }
+        },
+        onTableInit: (_, tableState) => {
+            lastDataTableState.current = tableState
+        },
+        onViewColumnsChange: (changedColumn: string, action: string) => {
+            if (action === 'add') {
+                setColumns(prev => {
+                    const col = prev.find(col => col.name === changedColumn)
+
+                    if (col && col.options) {
+                        col.options.display = true
+                    }
+
+                    return prev
+                })
+            } else {
+                setColumns(prev => {
+                    const col = prev.find(col => col.name === changedColumn)
+
+                    if (col && col.options) {
+                        col.options.display = false
+                    }
+
+                    return prev
+                })
+            }
+        },
+        rowsPerPage,
+        searchProps: {
+            onBlur: ev => {
+                handleSearchChange(
+                    ev.currentTarget.value,
+                    lastDataTableState,
+                    setDatatableSentRequestParamJson,
+                )
+            },
+            onKeyUp: (ev: KeyboardEvent<HTMLInputElement>) => {
+                if (ev.key === 'Enter' && 'value' in ev.target) {
+                    handleSearchChange(
+                        ev.target.value as string,
+                        lastDataTableState,
+                        setDatatableSentRequestParamJson,
+                    )
+                }
+            },
+        },
+        sortOrder: sortOrder,
     }
 
     return {
-        data,
-        mutate,
         columns,
+        data,
         isLoading: isLoading || isValidating || isDownloading,
+        mutate,
         options,
 
         /**

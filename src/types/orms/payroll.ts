@@ -1,9 +1,9 @@
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/date-string'
-import type PayrollUser from './payroll-user'
-import type UserORM from '@/modules/user/types/orms/user'
-import type BusinessUnitORM from './business-unit'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+import type UserORM from '@/modules/user/types/orms/user'
+import type { Ymd } from '@/types/date-string'
+import type BusinessUnitORM from './business-unit'
+import type PayrollUser from './payroll-user'
 
 export default interface PayrollORM {
     uuid: UUID

@@ -13,7 +13,7 @@ import formatNumber from '@/utils/format-number'
 export function PmdsTable({ data }: { data: ProductMovementDetail[] }) {
     return (
         <>
-            <Typography mt={3} gutterBottom fontWeight="bold" fontSize="1.3em">
+            <Typography fontSize="1.3em" fontWeight="bold" gutterBottom mt={3}>
                 Daftar Barang
             </Typography>
 
@@ -52,7 +52,7 @@ export function PmdsTable({ data }: { data: ProductMovementDetail[] }) {
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={3} align="right">
+                        <TableCell align="right" colSpan={3}>
                             TOTAL
                         </TableCell>
                         <TableCell align="right">

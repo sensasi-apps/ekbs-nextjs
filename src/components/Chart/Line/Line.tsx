@@ -1,17 +1,18 @@
 // types
+
+// materials
+import Typography from '@mui/material/Typography'
 import type { TooltipProps } from 'recharts'
 // vendors
 import {
-    LineChart as RechartsLineChart,
     Line,
+    type LineProps,
+    LineChart as RechartsLineChart,
+    ResponsiveContainer,
+    Tooltip,
     XAxis,
     YAxis,
-    Tooltip,
-    ResponsiveContainer,
-    type LineProps,
 } from 'recharts'
-// materials
-import Typography from '@mui/material/Typography'
 // utils
 import formatNumber from '@/utils/format-number'
 
@@ -40,9 +41,9 @@ export default function LineChart({
     if (!data) {
         return (
             <Typography
-                variant="body1"
                 color="text.secondary"
-                textAlign="center">
+                textAlign="center"
+                variant="body1">
                 Terjadi kesalahan, silakan coba lagi nanti.
             </Typography>
         )
@@ -51,9 +52,9 @@ export default function LineChart({
     if (data.length === 0) {
         return (
             <Typography
-                variant="body1"
                 color="text.secondary"
-                textAlign="center">
+                textAlign="center"
+                variant="body1">
                 Tidak ada data
             </Typography>
         )
@@ -71,25 +72,25 @@ export default function LineChart({
         <ResponsiveContainer minHeight={250}>
             <RechartsLineChart
                 data={data}
-                style={{
-                    margin: '0 auto',
-                }}
                 margin={{
                     left: -10,
-                    top: 5,
                     right: 20,
+                    top: 5,
+                }}
+                style={{
+                    margin: '0 auto',
                 }}>
                 <XAxis dataKey="label" />
 
                 <YAxis
-                    type="number"
                     domain={['dataMin', 'dataMax']}
                     tickFormatter={(value: number) =>
                         formatNumber(value, {
-                            notation: 'compact',
                             compactDisplay: 'short',
+                            notation: 'compact',
                         })
                     }
+                    type="number"
                 />
 
                 <Tooltip
@@ -108,10 +109,10 @@ export default function LineChart({
                     lines.map((props, index) => <Line key={index} {...props} />)
                 ) : (
                     <Line
-                        type={type}
                         dataKey={dataKey}
                         name={name}
                         stroke={stroke}
+                        type={type}
                         {...restLineProps}
                     />
                 )}

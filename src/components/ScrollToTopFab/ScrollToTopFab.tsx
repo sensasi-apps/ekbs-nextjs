@@ -1,6 +1,6 @@
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { useEffect, useState } from 'react'
 import Fab from '../Fab'
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 
 export default function ScrollToTopFab() {
     const [show, setShow] = useState(false)
@@ -19,11 +19,11 @@ export default function ScrollToTopFab() {
 
     return (
         <Fab
-            in={show}
-            size="small"
             aria-label="kembali ke atas"
             color="info"
-            onClick={() => scrollTo({ top: 0 })}>
+            in={show}
+            onClick={() => scrollTo({ top: 0 })}
+            size="small">
             <ArrowUpwardIcon />
         </Fab>
     )

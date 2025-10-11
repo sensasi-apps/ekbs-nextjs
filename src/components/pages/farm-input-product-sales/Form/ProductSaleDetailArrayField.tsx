@@ -1,10 +1,8 @@
 // types
-import type Product from '@/modules/farm-inputs/types/orms/product'
-// vendors
-import { FieldArray } from 'formik'
-import { memo } from 'react'
-import useSWR from 'swr'
-import axios from '@/lib/axios'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
@@ -14,20 +12,23 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+// vendors
+import { FieldArray } from 'formik'
+import { memo } from 'react'
+import useSWR from 'swr'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import axios from '@/lib/axios'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import type Product from '@/modules/farm-inputs/types/orms/product'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import { EMPTY_FORM_DATA } from '../Form'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import numberToCurrency from '@/utils/number-to-currency'
-import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
-import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import { EMPTY_FORM_DATA } from '../Form'
 
 const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
     warehouse,
@@ -53,15 +54,15 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
             name="product_sale_details"
             render={({ replace, push, remove }) => (
                 <>
-                    <Typography variant="h6" component="div" mt={2} mb={0.5}>
+                    <Typography component="div" mb={0.5} mt={2} variant="h6">
                         Daftar Barang
-                        <Tooltip placement="top" arrow title="Tambah">
+                        <Tooltip arrow placement="top" title="Tambah">
                             <span>
                                 <IconButton
-                                    disabled={disabled}
                                     color="success"
-                                    size="small"
-                                    onClick={() => push({})}>
+                                    disabled={disabled}
+                                    onClick={() => push({})}
+                                    size="small">
                                     <AddCircleIcon />
                                 </IconButton>
                             </span>
@@ -69,12 +70,12 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                     </Typography>
 
                     {product_sale_details?.map((row, index) => (
-                        <Box display="flex" key={index} gap={1} mb={1.5}>
-                            <Tooltip placement="top" arrow title="Hapus">
+                        <Box display="flex" gap={1} key={index} mb={1.5}>
+                            <Tooltip arrow placement="top" title="Hapus">
                                 <span>
                                     <IconButton
-                                        disabled={index === 0 || disabled}
                                         color="error"
+                                        disabled={index === 0 || disabled}
                                         onClick={() => remove(index)}>
                                         <RemoveCircleIcon />
                                     </IconButton>
@@ -83,35 +84,28 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
 
                             <Grid container spacing={1}>
                                 <Grid
-                                    size={{
-                                        xs: 12,
-                                        sm: 8,
-                                    }}
                                     display="flex"
                                     flexDirection="column"
-                                    gap={1}>
+                                    gap={1}
+                                    size={{
+                                        sm: 8,
+                                        xs: 12,
+                                    }}>
                                     {isLoading ? (
                                         <Skeleton
-                                            variant="rounded"
                                             height="2.5em"
+                                            variant="rounded"
                                         />
                                     ) : (
                                         <Autocomplete
-                                            isOptionEqualToValue={(
-                                                option,
-                                                value,
-                                            ) => option.id === value.id}
-                                            options={products}
                                             disabled={disabled}
                                             getOptionLabel={(option: Product) =>
                                                 `#${option.id} - ${option.name}`
                                             }
-                                            value={
-                                                products.find(
-                                                    p =>
-                                                        p.id === row.product_id,
-                                                ) ?? null
-                                            }
+                                            isOptionEqualToValue={(
+                                                option,
+                                                value,
+                                            ) => option.id === value.id}
                                             onChange={(_, product) => {
                                                 const rp_per_unit = warehouse
                                                     ? product?.warehouses.find(
@@ -123,16 +117,17 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
 
                                                 replace(index, {
                                                     ...row,
-                                                    rp_per_unit: rp_per_unit,
-                                                    product_id: product?.id,
                                                     product,
+                                                    product_id: product?.id,
+                                                    rp_per_unit: rp_per_unit,
                                                 })
                                             }}
+                                            options={products}
                                             renderInput={params => (
                                                 <TextField
                                                     {...params}
-                                                    margin="none"
                                                     label="Nama Barang"
+                                                    margin="none"
                                                     {...errorsToHelperTextObj(
                                                         errors[
                                                             `product_sale_details.${index}.product_id`
@@ -140,6 +135,12 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                     )}
                                                 />
                                             )}
+                                            value={
+                                                products.find(
+                                                    p =>
+                                                        p.id === row.product_id,
+                                                ) ?? null
+                                            }
                                         />
                                     )}
 
@@ -147,15 +148,12 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                         <Grid container spacing={1}>
                                             <Grid
                                                 size={{
-                                                    xs: 12,
                                                     sm: 4,
+                                                    xs: 12,
                                                 }}>
                                                 <NumericFormat
-                                                    min="1"
-                                                    margin="none"
                                                     allowNegative
                                                     disabled={disabled}
-                                                    label="Jumlah"
                                                     InputProps={{
                                                         endAdornment: (
                                                             <InputAdornment position="end">
@@ -166,6 +164,9 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                                             </InputAdornment>
                                                         ),
                                                     }}
+                                                    label="Jumlah"
+                                                    margin="none"
+                                                    min="1"
                                                     onValueChange={({
                                                         floatValue,
                                                     }) =>
@@ -194,19 +195,19 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
 
                                             <Grid
                                                 size={{
-                                                    xs: 12,
                                                     sm: 4,
+                                                    xs: 12,
                                                 }}>
                                                 <NumericFormat
-                                                    min="1"
-                                                    margin="none"
                                                     disabled={disabled}
-                                                    label="Harga"
                                                     InputProps={{
                                                         startAdornment: (
                                                             <RpInputAdornment />
                                                         ),
                                                     }}
+                                                    label="Harga"
+                                                    margin="none"
+                                                    min="1"
                                                     onValueChange={({
                                                         floatValue,
                                                     }) =>
@@ -232,8 +233,8 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
 
                                 <Grid
                                     size={{
-                                        xs: 12,
                                         sm: 4,
+                                        xs: 12,
                                     }}
                                     sx={{
                                         '& .MuiInputBase-root': {
@@ -241,18 +242,18 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                                         },
                                     }}>
                                     <NumericFormat
-                                        required={false}
-                                        disabled
                                         allowNegative
-                                        margin="none"
-                                        label="Subtotal"
-                                        sx={{
-                                            height: '100%',
-                                        }}
+                                        disabled
                                         InputProps={{
                                             startAdornment: (
                                                 <RpInputAdornment />
                                             ),
+                                        }}
+                                        label="Subtotal"
+                                        margin="none"
+                                        required={false}
+                                        sx={{
+                                            height: '100%',
                                         }}
                                         value={
                                             row.qty && row.rp_per_unit
@@ -268,17 +269,17 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
 
                     <Box display="flex" gap={2} justifyContent="end">
                         <Typography
-                            variant="h6"
+                            color="gray"
                             component="span"
                             fontWeight="bold"
-                            color="gray">
+                            variant="h6">
                             TOTAL
                         </Typography>
 
                         <Typography
-                            variant="h6"
                             component="span"
-                            fontWeight="bold">
+                            fontWeight="bold"
+                            variant="h6">
                             {numberToCurrency(
                                 product_sale_details?.reduce(
                                     (acc, row) =>

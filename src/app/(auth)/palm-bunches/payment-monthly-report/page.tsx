@@ -1,9 +1,7 @@
 'use client'
 
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+// icons
+import RefreshIcon from '@mui/icons-material/Refresh'
 // materials
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
@@ -13,19 +11,21 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-// icons
-import RefreshIcon from '@mui/icons-material/Refresh'
+import dayjs from 'dayjs'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
-import IconButton from '@/components/IconButton'
-import PageTitle from '@/components/page-title'
-import PrintHandler from '@/components/PrintHandler'
 import Skeletons from '@/components/Global/Skeletons'
+import IconButton from '@/components/IconButton'
+import PrintHandler from '@/components/PrintHandler'
+import PageTitle from '@/components/page-title'
 import ScrollableXBox from '@/components/ScrollableXBox'
+import useDisablePage from '@/hooks/useDisablePage'
 // utils
 import formatNumber from '@/utils/format-number'
-import useDisablePage from '@/hooks/useDisablePage'
 
 type ApiResponseType = {
     name: string
@@ -51,8 +51,8 @@ export default function PalmBunchesPayrollMonthlyReport() {
     const { data, mutate, isLoading, isValidating } = useSWR<ApiResponseType>([
         'palm-bunches/payment-monthly-report',
         {
-            year: selectedDate.format('YYYY'),
             month: selectedDate.format('MM'),
+            year: selectedDate.format('YYYY'),
         },
     ])
 
@@ -65,10 +65,10 @@ export default function PalmBunchesPayrollMonthlyReport() {
                         <MonthPicker disabled={isLoading || isValidating} />
 
                         <IconButton
-                            title="Refresh"
                             disabled={isLoading || isValidating}
                             icon={RefreshIcon}
                             onClick={() => mutate()}
+                            title="Refresh"
                         />
                     </ScrollableXBox>
 
@@ -88,9 +88,9 @@ export default function PalmBunchesPayrollMonthlyReport() {
                                         },
                                     }}>
                                     <Typography
+                                        align="center"
                                         component="h6"
                                         fontSize="1.2rem"
-                                        align="center"
                                         lineHeight={1.2}
                                         mb={2}>
                                         Alur Penerimaan TBS
@@ -116,8 +116,8 @@ export default function PalmBunchesPayrollMonthlyReport() {
 const CURR_MONTH = dayjs().startOf('month')
 const BOLD_ROW_SX = {
     '& > td': {
-        fontWeight: 'bold',
         backgroundColor: 'rgba(128, 128, 128, 0.1)',
+        fontWeight: 'bold',
     },
 }
 
@@ -134,12 +134,10 @@ function MonthPicker({ disabled }: { disabled: boolean }) {
     return (
         <DatePicker
             disabled={disabled}
-            label="Bulan"
-            openTo="month"
             format="MMMM YYYY"
-            value={value}
-            minDate={dayjs('2023-10-01')}
+            label="Bulan"
             maxDate={dayjs().startOf('month')}
+            minDate={dayjs('2023-10-01')}
             onAccept={date =>
                 date
                     ? replace(
@@ -147,15 +145,17 @@ function MonthPicker({ disabled }: { disabled: boolean }) {
                       )
                     : undefined
             }
-            views={['year', 'month']}
-            sx={{
-                maxWidth: 300,
-            }}
+            openTo="month"
             slotProps={{
                 textField: {
                     fullWidth: false,
                 },
             }}
+            sx={{
+                maxWidth: 300,
+            }}
+            value={value}
+            views={['year', 'month']}
         />
     )
 }

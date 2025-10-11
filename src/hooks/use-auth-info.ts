@@ -1,5 +1,5 @@
-import type AuthInfo from '@/modules/user/types/auth-info'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import type AuthInfo from '@/modules/user/types/auth-info'
 
 export const LS_KEY = 'currentAuthInfo'
 

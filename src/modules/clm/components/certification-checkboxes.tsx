@@ -1,7 +1,7 @@
+import useSWR from 'swr'
 import CheckboxFields from '@/components/formik-fields/checkbox-fields'
 import LoadingCenter from '@/components/loading-center'
 import type CertificationORM from '@/modules/clm/types/orms/certification'
-import useSWR from 'swr'
 
 export default function CertificationCheckboxes() {
     const { data: certifications } = useSWR<
@@ -15,8 +15,8 @@ export default function CertificationCheckboxes() {
 
     return (
         <CheckboxFields
-            name="certifications"
             label="Sertifikasi"
+            name="certifications"
             options={certifications.map(({ id, name }) => ({
                 label: name,
                 value: `${id}`,

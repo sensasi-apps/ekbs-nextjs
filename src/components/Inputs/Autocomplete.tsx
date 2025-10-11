@@ -1,9 +1,5 @@
 // types
-import type { TextFieldProps } from '@mui/material/TextField'
-// vendors
-import { useState } from 'react'
-import axios from '@/lib/axios'
-import useSWRMutation from 'swr/mutation'
+
 // material-ui
 import MuiAutocomplete, {
     type AutocompleteProps as MuiAutocompletePropsTemp,
@@ -11,9 +7,14 @@ import MuiAutocomplete, {
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
+import type { TextFieldProps } from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+// vendors
+import { useState } from 'react'
+import useSWRMutation from 'swr/mutation'
 // components
 import TextField from '@/components/TextField'
+import axios from '@/lib/axios'
 
 // biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove
 type MuiAutocompleteProps = MuiAutocompletePropsTemp<any, false, false, false>
@@ -91,35 +92,19 @@ export default function Autocomplete({
                     elevation: 8,
                 },
             }}
-            isOptionEqualToValue={(option, value) => option?.id === value?.id}
-            options={options}
+            filterOptions={x => x}
             getOptionLabel={option => `#${option.id} - ${option.name}`}
+            isOptionEqualToValue={(option, value) => option?.id === value?.id}
+            loading={isMutating}
+            loadingText="Memuat..."
+            noOptionsText={getNoOptionsText()}
             onChange={props.onChange}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
-            noOptionsText={getNoOptionsText()}
-            loadingText="Memuat..."
-            filterOptions={x => x}
-            loading={isMutating}
-            renderOption={(props, option) => (
-                <li {...props} key={option.id}>
-                    <Box display="flex" alignItems="center">
-                        <Typography mr={1} variant="caption">
-                            {option.id}
-                        </Typography>
-                        {option.chip && (
-                            <Chip size="small" label={option.chip} />
-                        )}
-                        <Typography ml={1}>{option.name}</Typography>
-                    </Box>
-                </li>
-            )}
+            options={options}
             renderInput={params => (
                 <TextField
                     {...params}
-                    label={label}
-                    margin={margin}
-                    required={required}
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (
@@ -134,7 +119,23 @@ export default function Autocomplete({
                             </>
                         ),
                     }}
+                    label={label}
+                    margin={margin}
+                    required={required}
                 />
+            )}
+            renderOption={(props, option) => (
+                <li {...props} key={option.id}>
+                    <Box alignItems="center" display="flex">
+                        <Typography mr={1} variant="caption">
+                            {option.id}
+                        </Typography>
+                        {option.chip && (
+                            <Chip label={option.chip} size="small" />
+                        )}
+                        <Typography ml={1}>{option.name}</Typography>
+                    </Box>
+                </li>
             )}
             {...props}
         />

@@ -1,28 +1,29 @@
 // types
-import type PalmBunchORM from '@/modules/palm-bunch/types/orms/palm-bunch'
-import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
-// vendors
-import { useEffect, useState, memo } from 'react'
-import { NumericFormat } from 'react-number-format'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/GridLegacy'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
-import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import Typography from '@mui/material/Typography'
+// vendors
+import { memo, useEffect, useState } from 'react'
+import { NumericFormat } from 'react-number-format'
 // components
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import UserAutocomplete from '@/components/user-autocomplete'
-// providers
-import useFormData from '@/providers/useFormData'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import type PalmBunchORM from '@/modules/palm-bunch/types/orms/palm-bunch'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
+// providers
+import useFormData from '@/providers/useFormData'
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 function PalmBunchesReaDeliveryFarmerInputs({
@@ -64,20 +65,20 @@ function PalmBunchesReaDeliveryFarmerInputs({
 
     return (
         <>
-            <Typography variant="h6" component="h2" mt={3} mb={2}>
+            <Typography component="h2" mb={2} mt={3} variant="h6">
                 Data Pemilik Buah
-                <Tooltip title="Tambah Pemilik Buah" arrow placement="top">
+                <Tooltip arrow placement="top" title="Tambah Pemilik Buah">
                     <span>
                         <IconButton
-                            disabled={disabled}
                             color="success"
-                            size="small"
+                            disabled={disabled}
                             onClick={() =>
                                 setPalmBunches([
                                     ...palmBunches,
                                     {} as PalmBunchORM,
                                 ])
-                            }>
+                            }
+                            size="small">
                             <AddCircleIcon />
                         </IconButton>
                     </span>
@@ -86,15 +87,15 @@ function PalmBunchesReaDeliveryFarmerInputs({
 
             <Box display="flex" flexDirection="column" gap={2.5}>
                 {palmBunches.map((palmBunch, index) => (
-                    <Box display="flex" key={index} gap={1}>
+                    <Box display="flex" gap={1} key={index}>
                         <Tooltip
-                            title="Hapus Pemilik Buah"
+                            arrow
                             placement="top"
-                            arrow>
+                            title="Hapus Pemilik Buah">
                             <span>
                                 <IconButton
-                                    disabled={disabled || index === 0}
                                     color="error"
+                                    disabled={disabled || index === 0}
                                     onClick={() => {
                                         setPalmBunches(
                                             palmBunches.filter(
@@ -110,22 +111,23 @@ function PalmBunchesReaDeliveryFarmerInputs({
                         <Grid container spacing={1.5}>
                             <Grid item xs={12}>
                                 <input
-                                    type="hidden"
                                     name={`palm_bunches[${index}][uuid]`}
+                                    type="hidden"
                                     value={palmBunch.uuid || ''}
                                 />
 
                                 <input
-                                    type="hidden"
                                     name={`palm_bunches[${index}][owner_user_uuid]`}
+                                    type="hidden"
                                     value={palmBunch.owner_user_uuid || ''}
                                 />
 
                                 {isAuthHasPermission(PalmBunch.SEARCH_USER) ? (
                                     <UserAutocomplete
-                                        label="Nama"
                                         disabled={disabled}
                                         fullWidth
+                                        label="Nama"
+                                        onBlur={handleBlur}
                                         onChange={(_, user) => {
                                             clearByName(
                                                 `palm_bunches.${index}.owner_user_uuid`,
@@ -137,9 +139,7 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                                 owner_user_uuid: user?.uuid,
                                             })
                                         }}
-                                        value={palmBunch.owner_user || null}
                                         size="small"
-                                        onBlur={handleBlur}
                                         slotProps={{
                                             textField: {
                                                 error: Boolean(
@@ -153,10 +153,11 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                                     ]?.join(', '),
                                             },
                                         }}
+                                        value={palmBunch.owner_user || null}
                                     />
                                 ) : (
                                     <Box>
-                                        <Typography variant="caption" mr={1}>
+                                        <Typography mr={1} variant="caption">
                                             Pemilik:
                                         </Typography>
                                         #{palmBunch.owner_user?.id} —{' '}
@@ -164,13 +165,23 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                     </Box>
                                 )}
                             </Grid>
-                            <Grid item xs={12} sm>
+                            <Grid item sm xs={12}>
                                 <TextField
                                     disabled={disabled}
+                                    error={Boolean(
+                                        validationErrors[
+                                            `palm_bunches.${index}.land_desc`
+                                        ],
+                                    )}
                                     fullWidth
+                                    helperText={
+                                        validationErrors[
+                                            `palm_bunches.${index}.land_desc`
+                                        ]
+                                    }
                                     label="Kebun"
-                                    size="small"
                                     name={`palm_bunches[${index}][land_desc]`}
+                                    onBlur={handleBlur}
                                     onChange={event => {
                                         clearByName(
                                             `palm_bunches.${index}.land_desc`,
@@ -180,31 +191,26 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                             land_desc: event.target.value,
                                         })
                                     }}
-                                    onBlur={handleBlur}
+                                    size="small"
                                     value={palmBunch.land_desc ?? ''}
+                                />
+                            </Grid>
+                            <Grid item sm xs={12}>
+                                <SelectFromApi
+                                    disabled={disabled}
+                                    endpoint="/data/farmer-groups"
                                     error={Boolean(
                                         validationErrors[
-                                            `palm_bunches.${index}.land_desc`
+                                            `palm_bunches.${index}.farmer_group_uuid`
                                         ],
                                     )}
                                     helperText={
                                         validationErrors[
-                                            `palm_bunches.${index}.land_desc`
+                                            `palm_bunches.${index}.farmer_group_uuid`
                                         ]
                                     }
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm>
-                                <SelectFromApi
-                                    endpoint="/data/farmer-groups"
                                     label="Kelompok Tani"
-                                    size="small"
-                                    disabled={disabled}
-                                    selectProps={{
-                                        name: `palm_bunches[${index}][farmer_group_uuid]`,
-                                        value:
-                                            palmBunch.farmer_group_uuid || '',
-                                    }}
+                                    onBlur={handleBlur}
                                     onValueChange={value => {
                                         clearByName(
                                             `palm_bunches.${index}.uuid`,
@@ -214,36 +220,29 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                             farmer_group_uuid: value.uuid,
                                         })
                                     }}
-                                    onBlur={handleBlur}
-                                    error={Boolean(
-                                        validationErrors[
-                                            `palm_bunches.${index}.farmer_group_uuid`
-                                        ],
-                                    )}
-                                    helperText={
-                                        validationErrors[
-                                            `palm_bunches.${index}.farmer_group_uuid`
-                                        ]
-                                    }
+                                    selectProps={{
+                                        name: `palm_bunches[${index}][farmer_group_uuid]`,
+                                        value:
+                                            palmBunch.farmer_group_uuid || '',
+                                    }}
+                                    size="small"
                                 />
                             </Grid>
-                            <Grid item xs={12} sm>
+                            <Grid item sm xs={12}>
                                 <input
-                                    type="hidden"
                                     name={`palm_bunches[${index}][n_kg]`}
+                                    type="hidden"
                                     value={palmBunch.n_kg || ''}
                                 />
 
                                 <NumericFormat
                                     allowNegative={false}
-                                    thousandSeparator="."
-                                    decimalSeparator=","
                                     customInput={TextField}
+                                    decimalSeparator=","
                                     disabled={disabled}
+                                    error={Boolean(validationErrors.n_kg)}
                                     fullWidth
-                                    required
-                                    label="Bobot"
-                                    size="small"
+                                    helperText={validationErrors.n_kg}
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
@@ -252,9 +251,11 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                         ),
                                     }}
                                     inputProps={{
-                                        minLength: 1,
                                         maxLength: 6,
+                                        minLength: 1,
                                     }}
+                                    label="Bobot"
+                                    onBlur={handleBlur}
                                     onValueChange={({ floatValue }) => {
                                         clearByName(
                                             `palm_bunches.${index}.n_kg`,
@@ -265,10 +266,10 @@ function PalmBunchesReaDeliveryFarmerInputs({
                                             n_kg: floatValue,
                                         })
                                     }}
-                                    onBlur={handleBlur}
+                                    required
+                                    size="small"
+                                    thousandSeparator="."
                                     value={palmBunch.n_kg ?? ''}
-                                    error={Boolean(validationErrors.n_kg)}
-                                    helperText={validationErrors.n_kg}
                                 />
                             </Grid>
                         </Grid>
@@ -276,21 +277,21 @@ function PalmBunchesReaDeliveryFarmerInputs({
                 ))}
             </Box>
 
-            <Grid container my={2} columnSpacing={2}>
-                <Grid item xs={8} textAlign="right">
+            <Grid columnSpacing={2} container my={2}>
+                <Grid item textAlign="right" xs={8}>
                     TOTAL BOBOT
                 </Grid>
 
-                <Grid item xs={4} textAlign="left" fontWeight="bold">
+                <Grid fontWeight="bold" item textAlign="left" xs={4}>
                     <NumericFormat
+                        displayType="text"
+                        suffix=" kg"
                         value={
                             palmBunches.reduce(
                                 (a, b) => a + (b.n_kg || 0),
                                 0,
                             ) || 0
                         }
-                        suffix=" kg"
-                        displayType="text"
                     />
                 </Grid>
             </Grid>

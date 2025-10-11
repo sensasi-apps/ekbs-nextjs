@@ -1,7 +1,5 @@
 // types
-import type { ApiResponseType } from '../TxHistory'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-import type { ReactNode } from 'react'
+
 // materials
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -10,10 +8,13 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+import type { ReactNode } from 'react'
 // enums
 import TransactionTag from '@/modules/transaction/enums/transaction-tag'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // utils
 import formatNumber from '@/utils/format-number'
+import type { ApiResponseType } from '../TxHistory'
 
 type TxsGroup = { name: string; data: TransactionORM[] }
 
@@ -37,10 +38,10 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
         return (
             <Typography
                 color="text.disabled"
-                variant="caption"
+                component="div"
                 fontStyle="italic"
                 maxWidth="20em"
-                component="div">
+                variant="caption">
                 Tidak terdapat aktivitas transaksi pada rentang tanggal yang
                 dipilih
             </Typography>
@@ -268,8 +269,8 @@ function HeadingRow({ children }: { children: ReactNode }) {
                 colSpan={2}
                 sx={{
                     fontWeight: 'bold',
-                    textTransform: 'uppercase',
                     pb: 0.4,
+                    textTransform: 'uppercase',
                 }}>
                 {children}
             </TableCell>
@@ -295,11 +296,11 @@ function TotalRow({
                 backgroundColor: bg ? 'rgba(0, 0, 0, 0.1)' : 'inherit',
             }}>
             <TableCell
+                align="right"
                 sx={{
-                    textTransform: 'uppercase',
                     py: 1,
-                }}
-                align="right">
+                    textTransform: 'uppercase',
+                }}>
                 {desc}
             </TableCell>
             <TableCell>
@@ -385,7 +386,7 @@ function getTotalAndData(
         const index = acc.findIndex(d => d.name === tag)
 
         if (index === -1) {
-            acc.push({ name: tag ?? 'Lain-lain', data: [tx] })
+            acc.push({ data: [tx], name: tag ?? 'Lain-lain' })
         } else {
             acc[index].data.push(tx)
         }
@@ -399,8 +400,8 @@ function getTotalAndData(
     )
 
     return {
-        txses,
-        rpTotal,
         kgTotal,
+        rpTotal,
+        txses,
     }
 }

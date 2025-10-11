@@ -1,7 +1,5 @@
 // types
-import type { Dispatch, SetStateAction } from 'react'
-import type Debt from '@/types/orms/debt'
-import type DebtDetail from '@/types/orms/debt-detail'
+
 // materials
 import Button from '@mui/material/Button'
 import Table from '@mui/material/Table'
@@ -11,10 +9,13 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import type { Dispatch, SetStateAction } from 'react'
+import type Debt from '@/types/orms/debt'
+import type DebtDetail from '@/types/orms/debt-detail'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
-import toDmy from '@/utils/to-dmy'
 import shortUuid from '@/utils/short-uuid'
+import toDmy from '@/utils/to-dmy'
 
 type RowType = {
     uuid?: Debt['details'][0]['uuid']
@@ -67,15 +68,15 @@ export default function DebtDetailsTable({
                                     toDmy(paid)
                                 ) : uuid ? (
                                     <Button
-                                        size="small"
                                         onClick={() =>
                                             setDebtDetail({
-                                                uuid,
                                                 due,
                                                 paid: null,
                                                 rp,
+                                                uuid,
                                             })
-                                        }>
+                                        }
+                                        size="small">
                                         Lunasi
                                     </Button>
                                 ) : (
@@ -87,7 +88,7 @@ export default function DebtDetailsTable({
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={3} align="right">
+                        <TableCell align="right" colSpan={3}>
                             Total
                         </TableCell>
                         <TableCell align="right">

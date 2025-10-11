@@ -1,10 +1,5 @@
 // types
-import type { FormikProps } from 'formik'
-import type { HeavyEquipmentRentFormValues } from '.'
-import type CashType from '@/types/orms/cash'
-import type WalletType from '@/types/orms/wallet'
-// vendors
-import useSWR from 'swr'
+
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -15,20 +10,26 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import InputAdornment from '@mui/material/InputAdornment'
 import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
-import MenuItem from '@mui/material/MenuItem'
+import type { FormikProps } from 'formik'
+// vendors
+import useSWR from 'swr'
+import SelectFromApi from '@/components/Global/SelectFromApi'
 // components
 import LoadingAddorment from '@/components/LoadingAddorment'
 import NumericFormat from '@/components/NumericFormat'
-import SelectFromApi from '@/components/Global/SelectFromApi'
-// page components
-import CrediturCard from '../../../../../components/pages/user-loans/creditor-card'
+import type CashType from '@/types/orms/cash'
+import type WalletType from '@/types/orms/wallet'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
+// page components
+import CrediturCard from '../../../../../components/pages/user-loans/creditor-card'
+import type { HeavyEquipmentRentFormValues } from '.'
 
 export default function HerPaymentFields({
     values: {
@@ -97,35 +98,34 @@ export default function HerPaymentFields({
     return (
         <>
             <FormControl
-                margin="normal"
-                size="small"
                 disabled={isDisabled || is_paid}
+                error={Boolean(errors.payment_method)}
+                margin="normal"
                 required
-                error={Boolean(errors.payment_method)}>
+                size="small">
                 <FormLabel id="payment_method">Metode Pembayaran</FormLabel>
 
                 <RadioGroup
-                    row
                     aria-labelledby="payment_method"
                     name="payment_method"
-                    value={payment_method ?? null}
                     onChange={({ target: { value } }) =>
                         setFieldValue('payment_method', value)
-                    }>
+                    }
+                    row
+                    value={payment_method ?? null}>
                     <FormControlLabel
-                        value="cash"
-                        required
-                        disabled={isCashMethodDisabled}
                         control={<Radio size="small" />}
+                        disabled={isCashMethodDisabled}
                         label="Tunai"
+                        required
+                        value="cash"
                     />
 
                     <FormControlLabel
-                        value="wallet"
                         control={
                             <Radio
-                                size="small"
                                 disabled={isWalletMethodDisabled}
+                                size="small"
                             />
                         }
                         label={
@@ -140,35 +140,35 @@ export default function HerPaymentFields({
 
                                 {wallet?.balance !== undefined && !is_paid && (
                                     <Typography
-                                        variant="caption"
-                                        component="div"
                                         color={
                                             isBalanceEnough
                                                 ? undefined
                                                 : 'error.main'
-                                        }>
+                                        }
+                                        component="div"
+                                        variant="caption">
                                         {numberToCurrency(wallet.balance)}
                                     </Typography>
                                 )}
                             </>
                         }
+                        value="wallet"
                     />
 
                     <FormControlLabel
-                        value="installment"
                         control={
                             <Radio
-                                size="small"
                                 disabled={isInstallmentMethodDisabled}
+                                size="small"
                             />
                         }
                         label="Potong TBS"
+                        value="installment"
                     />
 
                     <FormControlLabel
-                        value="fgwallet"
                         control={
-                            <Radio size="small" disabled={isFgWalletDisabled} />
+                            <Radio disabled={isFgWalletDisabled} size="small" />
                         }
                         label={
                             <>
@@ -183,18 +183,19 @@ export default function HerPaymentFields({
                                 {fgWallet?.balance !== undefined &&
                                     !is_paid && (
                                         <Typography
-                                            variant="caption"
-                                            component="div"
                                             color={
                                                 isFgBalanceEnough
                                                     ? undefined
                                                     : 'error.main'
-                                            }>
+                                            }
+                                            component="div"
+                                            variant="caption">
                                             {numberToCurrency(fgWallet.balance)}
                                         </Typography>
                                     )}
                             </>
                         }
+                        value="fgwallet"
                     />
                 </RadioGroup>
 
@@ -214,19 +215,13 @@ export default function HerPaymentFields({
                         <CrediturCard data={by_user} />
                     )}
 
-                    <Typography variant="h6" component="div" mt={2}>
+                    <Typography component="div" mt={2} variant="h6">
                         Rincian Potongan TBS
                     </Typography>
 
                     <Box display="flex" gap={1} mt={1}>
                         <NumericFormat
-                            label="Jasa"
                             disabled={isDisabled}
-                            value={interest_percent}
-                            name="interest_percent"
-                            onValueChange={({ floatValue }) =>
-                                setFieldValue('interest_percent', floatValue)
-                            }
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -234,45 +229,51 @@ export default function HerPaymentFields({
                                     </InputAdornment>
                                 ),
                             }}
+                            label="Jasa"
+                            name="interest_percent"
+                            onValueChange={({ floatValue }) =>
+                                setFieldValue('interest_percent', floatValue)
+                            }
+                            value={interest_percent}
                             {...errorsToHelperTextObj(errors.interest_percent)}
                         />
 
                         <NumericFormat
-                            label="Jangka Waktu"
-                            disabled={isDisabled}
                             decimalScale={0}
+                            disabled={isDisabled}
+                            inputProps={{
+                                maxLength: 2,
+                                minLength: 1,
+                            }}
+                            label="Jangka Waktu"
                             min={1}
-                            value={n_term}
                             name="n_term"
                             onValueChange={({ floatValue }) =>
                                 setFieldValue('n_term', floatValue)
                             }
-                            inputProps={{
-                                minLength: 1,
-                                maxLength: 2,
-                            }}
+                            value={n_term}
                             {...errorsToHelperTextObj(errors.n_term)}
                         />
 
                         <FormControl
-                            required
-                            margin="dense"
                             disabled={isDisabled}
+                            error={Boolean(errors.term_unit)}
                             fullWidth
-                            error={Boolean(errors.term_unit)}>
+                            margin="dense"
+                            required>
                             <InputLabel size="small">
                                 Satuan Waktu Angsuran
                             </InputLabel>
 
                             <Select
                                 label="Satuan Waktu Angsuran"
-                                size="small"
-                                required
                                 name="term_unit"
-                                value={term_unit ?? ''}
                                 onChange={({ target: { value } }) =>
                                     setFieldValue('term_unit', value)
-                                }>
+                                }
+                                required
+                                size="small"
+                                value={term_unit ?? ''}>
                                 <MenuItem value="minggu">Minggu</MenuItem>
                                 <MenuItem value="bulan">Bulan</MenuItem>
                             </Select>
@@ -291,20 +292,14 @@ export default function HerPaymentFields({
                 unmountOnExit>
                 <div
                     style={{
-                        marginTop: '1rem',
                         marginBottom: '1rem',
+                        marginTop: '1rem',
                     }}>
                     <SelectFromApi
-                        required
+                        disabled={isDisabled}
                         endpoint="/data/cashes"
                         label="Telah Dibayar Ke Kas"
-                        size="small"
                         margin="dense"
-                        disabled={isDisabled}
-                        selectProps={{
-                            value: cashable_uuid ?? '',
-                            name: 'cashable_uuid',
-                        }}
                         onValueChange={({ uuid }: CashType) =>
                             setFieldValue('cashable_uuid', uuid)
                         }
@@ -314,16 +309,22 @@ export default function HerPaymentFields({
                                     <Chip
                                         label={cash.code}
                                         size="small"
-                                        variant="outlined"
                                         sx={{
                                             mr: 1,
                                         }}
+                                        variant="outlined"
                                     />
                                 )}
 
                                 {cash.name}
                             </MenuItem>
                         )}
+                        required
+                        selectProps={{
+                            name: 'cashable_uuid',
+                            value: cashable_uuid ?? '',
+                        }}
+                        size="small"
                         {...errorsToHelperTextObj(errors.cashable_uuid)}
                     />
                 </div>

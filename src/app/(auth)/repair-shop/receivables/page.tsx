@@ -10,7 +10,7 @@ export const metadata = {
 export default function Receivables() {
     return (
         <>
-            <PageTitle title="Piutang" subtitle="Belayan Spare Parts" />
+            <PageTitle subtitle="Belayan Spare Parts" title="Piutang" />
 
             <ReceivablesDatatable asManager type={BusinessUnit.BENGKEL} />
         </>

@@ -1,13 +1,14 @@
 // vendors
-import type { ReactNode } from 'react'
+
 // materials
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import Toolbar from '@mui/material/Toolbar'
+import type { ReactNode } from 'react'
+import NavBarItemGroup from './_parts/item-group'
 // parts
 import MobileDrawer from './_parts/mobile-drawer'
-import NavBarItemGroup from './_parts/item-group'
 // constants
 import NAV_ITEM_GROUPS from './NAV_ITEM_GROUPS'
 import WIDTH from './WIDTH'
@@ -16,10 +17,10 @@ export default function NavBar() {
     const navItems = (
         <List
             sx={{
-                mb: 16,
                 '& .MuiListItemIcon-root': {
                     justifyContent: 'center',
                 },
+                mb: 16,
             }}>
             {NAV_ITEM_GROUPS.map((items, index) => (
                 <NavBarItemGroup data={items} key={index} />
@@ -30,7 +31,7 @@ export default function NavBar() {
     return (
         <Box
             component="nav"
-            sx={{ width: { sm: WIDTH }, flexShrink: { sm: 0 } }}>
+            sx={{ flexShrink: { sm: 0 }, width: { sm: WIDTH } }}>
             <DesktopDrawer>{navItems}</DesktopDrawer>
             <MobileDrawer>{navItems}</MobileDrawer>
         </Box>
@@ -45,11 +46,11 @@ const drawerPaperSx = {
 function DesktopDrawer({ children }: { children: ReactNode }) {
     return (
         <Drawer
-            variant="permanent"
             sx={{
-                display: { xs: 'none', sm: 'block' },
                 '& .MuiDrawer-paper': drawerPaperSx,
-            }}>
+                display: { sm: 'block', xs: 'none' },
+            }}
+            variant="permanent">
             <Toolbar />
             {children}
         </Drawer>

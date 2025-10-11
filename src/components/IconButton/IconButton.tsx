@@ -1,5 +1,5 @@
-import type { ElementType } from 'react'
 import MuiIconButton, { type IconButtonProps } from '@mui/material/IconButton'
+import type { ElementType } from 'react'
 import Tooltip, { type TooltipProps } from '../Tooltip'
 
 export default function IconButton({
@@ -18,7 +18,7 @@ export default function IconButton({
     }
 }) {
     return (
-        <Tooltip title={title} placement="top" arrow {...tooltipProps}>
+        <Tooltip arrow placement="top" title={title} {...tooltipProps}>
             <MuiIconButton size="small" {...props}>
                 <Icon />
             </MuiIconButton>

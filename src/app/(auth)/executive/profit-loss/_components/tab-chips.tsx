@@ -1,11 +1,12 @@
 // vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
-import dayjs from 'dayjs'
-// materials
-import Chip from '@mui/material/Chip'
+
 // icons-materials
 import Refresh from '@mui/icons-material/Refresh'
+// materials
+import Chip from '@mui/material/Chip'
+import dayjs from 'dayjs'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useCallback } from 'react'
 // components
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
@@ -48,124 +49,124 @@ export function TabChips({
     return (
         <ScrollableXBox>
             <Chip
-                label="Umum"
-                disabled={disabled}
-                onClick={() => handleActiveTabChange('umum')}
                 color={activeTab === 'umum' ? 'success' : undefined}
+                disabled={disabled}
+                label="Umum"
+                onClick={() => handleActiveTabChange('umum')}
             />
 
             <Chip
-                label="Alat Berat"
-                disabled={disabled}
-                onClick={() => handleActiveTabChange('alat-berat')}
                 color={activeTab === 'alat-berat' ? 'success' : undefined}
+                disabled={disabled}
+                label="Alat Berat"
+                onClick={() => handleActiveTabChange('alat-berat')}
             />
 
             <Chip
-                label="Minimarket"
-                disabled={disabled}
-                onClick={() =>
-                    handleActiveTabChange(BusinessUnit.BELAYAN_MART.toString())
-                }
                 color={
                     activeTab === BusinessUnit.BELAYAN_MART.toString()
                         ? 'success'
                         : undefined
                 }
-            />
-
-            <Chip
-                label="SAPRODI"
                 disabled={disabled}
-                onClick={() => handleActiveTabChange('saprodi')}
-                color={activeTab === 'saprodi' ? 'success' : undefined}
-            />
-
-            <Chip
-                label="SPP"
-                disabled={disabled}
-                onClick={() => handleActiveTabChange('spp')}
-                color={activeTab === 'spp' ? 'success' : undefined}
-            />
-
-            <Chip
-                label="TBS"
-                disabled={disabled}
-                onClick={() => handleActiveTabChange('tbs')}
-                color={activeTab === 'tbs' ? 'success' : undefined}
-            />
-
-            <Chip
-                label="BENGKEL"
-                disabled={disabled}
+                label="Minimarket"
                 onClick={() =>
-                    handleActiveTabChange(BusinessUnit.BENGKEL.toString())
+                    handleActiveTabChange(BusinessUnit.BELAYAN_MART.toString())
                 }
+            />
+
+            <Chip
+                color={activeTab === 'saprodi' ? 'success' : undefined}
+                disabled={disabled}
+                label="SAPRODI"
+                onClick={() => handleActiveTabChange('saprodi')}
+            />
+
+            <Chip
+                color={activeTab === 'spp' ? 'success' : undefined}
+                disabled={disabled}
+                label="SPP"
+                onClick={() => handleActiveTabChange('spp')}
+            />
+
+            <Chip
+                color={activeTab === 'tbs' ? 'success' : undefined}
+                disabled={disabled}
+                label="TBS"
+                onClick={() => handleActiveTabChange('tbs')}
+            />
+
+            <Chip
                 color={
                     activeTab === BusinessUnit.BENGKEL.toString()
                         ? 'success'
                         : undefined
                 }
+                disabled={disabled}
+                label="BENGKEL"
+                onClick={() =>
+                    handleActiveTabChange(BusinessUnit.BENGKEL.toString())
+                }
             />
 
             <Chip
-                label="SPK"
-                disabled={disabled}
-                onClick={() =>
-                    handleActiveTabChange(
-                        BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString(),
-                    )
-                }
                 color={
                     activeTab ===
                     BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString()
                         ? 'success'
                         : undefined
                 }
+                disabled={disabled}
+                label="SPK"
+                onClick={() =>
+                    handleActiveTabChange(
+                        BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString(),
+                    )
+                }
             />
 
             <Chip
-                label="COFFEESHOP"
-                disabled={disabled}
-                onClick={() =>
-                    handleActiveTabChange(
-                        BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString(),
-                    )
-                }
                 color={
                     activeTab ===
                     BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString()
                         ? 'success'
                         : undefined
                 }
+                disabled={disabled}
+                label="COFFEESHOP"
+                onClick={() =>
+                    handleActiveTabChange(
+                        BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString(),
+                    )
+                }
             />
 
             <DatePicker
                 disabled={disabled}
+                format="YYYY"
+                label="Tahun"
+                maxDate={dayjs()}
+                minDate={dayjs('2024')}
+                onChange={date => handleYearChange(date?.format('YYYY') ?? '')}
                 slotProps={{
                     textField: {
                         fullWidth: false,
                     },
                 }}
                 sx={{
-                    minWidth: '8rem',
                     maxWidth: '8rem',
+                    minWidth: '8rem',
                     ml: 2,
                 }}
-                label="Tahun"
                 value={dayjs(`${year}-01-01`)}
-                format="YYYY"
-                onChange={date => handleYearChange(date?.format('YYYY') ?? '')}
-                minDate={dayjs('2024')}
-                maxDate={dayjs()}
                 views={['year']}
             />
 
             <IconButton
                 disabled={disabled}
+                icon={Refresh}
                 onClick={onRefreshClick}
                 title="Segarkan"
-                icon={Refresh}
             />
         </ScrollableXBox>
     )

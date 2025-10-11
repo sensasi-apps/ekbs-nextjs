@@ -1,14 +1,15 @@
 // vendors
-import { memo } from 'react'
+
+// icons-materials
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // materials
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-//
-import type { FormValuesType } from '../../../../components/pages/marts/products/sales/formik-wrapper'
+import { memo } from 'react'
 import IconButton from '@/components/IconButton'
 import formatNumber from '@/utils/format-number'
+//
+import type { FormValuesType } from '../../../../components/pages/marts/products/sales/formik-wrapper'
 
 function DetailItem({
     data: { qty, rp_per_unit, product },
@@ -23,54 +24,54 @@ function DetailItem({
         <>
             <Grid size={{ xs: 1 }}>
                 <IconButton
-                    title="Kurangi jumlah"
-                    size="small"
+                    color="error"
+                    component="div"
                     disabled={disabled}
                     icon={RemoveCircleIcon}
-                    tabIndex={-1}
                     onClick={ev => {
                         ev.stopPropagation()
                         onDecreaseQtyItem()
                     }}
+                    size="small"
                     sx={{
                         p: 0,
                     }}
-                    color="error"
-                    component="div"
+                    tabIndex={-1}
+                    title="Kurangi jumlah"
                 />
             </Grid>
             <Grid
                 component={Typography}
-                variant="overline"
-                lineHeight="1.5rem"
                 fontSize="1.1em"
-                whiteSpace="nowrap"
-                textOverflow="ellipsis"
+                lineHeight="1.5rem"
                 overflow="hidden"
                 pl={1}
-                size={7}>
+                size={7}
+                textOverflow="ellipsis"
+                variant="overline"
+                whiteSpace="nowrap">
                 {product?.name}
-                <Typography variant="caption" component="div">
+                <Typography component="div" variant="caption">
                     {formatNumber(Math.abs(qty))} {product?.unit} &times; RP{' '}
                     {formatNumber(rp_per_unit)}
                 </Typography>
             </Grid>
             <Grid
+                component={Typography}
+                fontSize="1.1em"
+                lineHeight="unset"
                 size={{ xs: 1 }}
                 textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset"
-                fontSize="1.1em">
+                variant="overline">
                 Rp
             </Grid>
             <Grid
-                textAlign="end"
                 component={Typography}
-                variant="overline"
-                lineHeight="unset"
                 fontSize="1.1em"
-                size={3}>
+                lineHeight="unset"
+                size={3}
+                textAlign="end"
+                variant="overline">
                 {formatNumber(qty * rp_per_unit)}
             </Grid>
         </>

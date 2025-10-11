@@ -1,5 +1,5 @@
-import Button from '@mui/material/Button'
 import Check from '@mui/icons-material/Check'
+import Button from '@mui/material/Button'
 
 export default function WithDeletedItemsCheckbox({
     checked,
@@ -11,10 +11,10 @@ export default function WithDeletedItemsCheckbox({
     return (
         <Button
             color="info"
+            endIcon={checked ? <Check /> : undefined}
             onClick={() => onChange(!checked)}
             size="small"
-            variant={checked ? 'outlined' : undefined}
-            endIcon={checked ? <Check /> : undefined}>
+            variant={checked ? 'outlined' : undefined}>
             Tampilkan yang sudah dihapus
         </Button>
     )

@@ -3,10 +3,10 @@
 // vendors
 import { useParams, useRouter } from 'next/navigation'
 import useSWR from 'swr'
-// components
-import LoadingCenter from '@/components/loading-center'
 // modules
 import SaleFormDialog from '@/app/(auth)/repair-shop/sales/_parts/components/sale-form-dialog'
+// components
+import LoadingCenter from '@/components/loading-center'
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 
 export default function Page() {
@@ -26,11 +26,11 @@ export default function Page() {
     return (
         <SaleFormDialog
             formData={{ ...data, is_finished: true }}
-            status={{
-                isDisabled: isFinished || true,
-            }}
             handleClose={() => {
                 back()
+            }}
+            status={{
+                isDisabled: isFinished || true,
             }}
         />
     )

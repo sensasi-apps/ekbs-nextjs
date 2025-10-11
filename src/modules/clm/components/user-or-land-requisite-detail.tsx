@@ -1,10 +1,11 @@
 // vendors
-import { useState } from 'react'
-import NextLink from 'next/link'
+
 // materials
 import Button from '@mui/material/Button'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
+import NextLink from 'next/link'
+import { useState } from 'react'
 // components
 import BackButton from '@/components/back-button'
 import FileList from '@/components/file-list'
@@ -28,30 +29,30 @@ export default function UserOrLandRequisiteDetail({
                 <BackButton />
 
                 <Button
-                    href={`${requisite_id}/update`}
                     color="warning"
-                    component={NextLink}>
+                    component={NextLink}
+                    href={`${requisite_id}/update`}>
                     Perbarui Data
                 </Button>
             </FlexBox>
 
-            <Typography variant="caption" component="div" mt={2}>
+            <Typography component="div" mt={2} variant="caption">
                 Berkas Syarat:
             </Typography>
 
-            <Typography variant="h5" component="div">
+            <Typography component="div" variant="h5">
                 {requisite?.name}
             </Typography>
 
             {getStatus(data)}
 
-            <Typography variant="caption" component="div" mt={2}>
+            <Typography component="div" mt={2} variant="caption">
                 Catatan:
             </Typography>
 
             <Typography component="div">{note}</Typography>
 
-            <Typography variant="caption" component="div" mt={2}>
+            <Typography component="div" mt={2} variant="caption">
                 Berkas:
             </Typography>
 
@@ -64,21 +65,21 @@ export default function UserOrLandRequisiteDetail({
             {(files ?? []).length > 0 && !approved_at && (
                 <FlexBox mt={2}>
                     <Switch
-                        id="show-delete-file-button"
-                        size="small"
                         checked={showDeleteFileButton}
-                        onChange={() => setShowDeleteFileButton(prev => !prev)}
                         color="warning"
+                        id="show-delete-file-button"
+                        onChange={() => setShowDeleteFileButton(prev => !prev)}
+                        size="small"
                     />
 
                     <Typography
-                        variant="caption"
+                        color="textDisabled"
                         component="label"
                         htmlFor="show-delete-file-button"
-                        color="textDisabled"
                         sx={{
                             cursor: 'pointer',
-                        }}>
+                        }}
+                        variant="caption">
                         tampilkan tombol hapus berkas?
                     </Typography>
                 </FlexBox>
@@ -88,9 +89,9 @@ export default function UserOrLandRequisiteDetail({
 }
 
 const BASE_TYPOGRAPHY_PROPS = {
-    variant: 'caption',
     component: 'div',
     mt: 1,
+    variant: 'caption',
 } as const
 
 function getStatus({

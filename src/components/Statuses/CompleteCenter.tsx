@@ -1,9 +1,9 @@
-import type { FC, ReactNode } from 'react'
+// icons
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-// icons
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import type { FC, ReactNode } from 'react'
 
 const CompleteCenter: FC<{
     children?: ReactNode
@@ -11,15 +11,15 @@ const CompleteCenter: FC<{
     message?: string
 }> = ({ message, isShow = true, children, ...props }) => (
     <Box
-        textAlign="center"
-        my={4}
         display={isShow ? 'block' : 'none'}
+        my={4}
+        textAlign="center"
         {...props}>
         <Typography>
-            <CheckCircleOutlineIcon sx={{ fontSize: '8rem' }} color="success" />
+            <CheckCircleOutlineIcon color="success" sx={{ fontSize: '8rem' }} />
         </Typography>
 
-        <Typography variant="overline" color="inherit">
+        <Typography color="inherit" variant="overline">
             {message || children || 'Berhasil.'}
         </Typography>
     </Box>

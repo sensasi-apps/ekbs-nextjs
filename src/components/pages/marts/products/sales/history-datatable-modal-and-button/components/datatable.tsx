@@ -1,13 +1,14 @@
 // types
-import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
+
 // components
 import DefaultDatatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
+import PrintHandler from '@/components/PrintHandler'
+import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
-import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/receipt'
 
 let getRowData: GetRowDataType<ProductMovementWithSale>
@@ -18,45 +19,45 @@ export default function Datatable() {
             apiUrl="marts/products/sales/datatable"
             columns={DATATABLE_COLUMNS}
             defaultSortOrder={DEFAULT_SORT_ORDER}
+            getRowDataCallback={fn => (getRowData = fn)}
             tableId="mart-sales-table"
             title="Riwayat Penjualan"
-            getRowDataCallback={fn => (getRowData = fn)}
         />
     )
 }
 
 const DEFAULT_SORT_ORDER = {
-    name: 'at',
     direction: 'desc' as const,
+    name: 'at',
 }
 
 const DATATABLE_COLUMNS: DatatableProps<ProductMovementWithSale>['columns'] = [
     {
-        name: 'sale.no',
         label: 'NO Struk',
+        name: 'sale.no',
     },
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
             display: false,
         },
     },
     {
-        name: 'at',
         label: 'Waktu',
+        name: 'at',
     },
     {
-        name: 'by_user.name',
         label: 'Kasir',
+        name: 'by_user.name',
         options: {
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'sale.buyer_user.name',
         label: 'Pelanggan',
+        name: 'sale.buyer_user.name',
         options: {
             searchable: false,
             sort: false,
@@ -64,24 +65,24 @@ const DATATABLE_COLUMNS: DatatableProps<ProductMovementWithSale>['columns'] = [
     },
 
     {
-        name: 'grand_total_rp',
         label: 'Total',
+        name: 'grand_total_rp',
         options: {
             customBodyRender: (value: number) =>
                 numberToCurrency(Math.abs(value)),
         },
     },
     {
-        name: 'transaction.cashable.name',
         label: 'Pembayaran',
+        name: 'transaction.cashable.name',
         options: {
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'uuid',
         label: 'Cetak',
+        name: 'uuid',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
@@ -97,13 +98,13 @@ const DATATABLE_COLUMNS: DatatableProps<ProductMovementWithSale>['columns'] = [
                         <Receipt
                             data={{
                                 at: data.at,
+                                costs: data.costs,
+                                details: data.details,
+                                saleBuyerUser: data.sale?.buyer_user,
                                 saleNo: data.sale.no,
                                 servedByUserName: data.by_user?.name ?? '-',
-                                saleBuyerUser: data.sale?.buyer_user,
-                                transactionCashName: transactionCashName,
-                                details: data.details,
-                                costs: data.costs,
                                 totalPayment: data.sale.total_payment,
+                                transactionCashName: transactionCashName,
                             }}
                         />
                     </PrintHandler>

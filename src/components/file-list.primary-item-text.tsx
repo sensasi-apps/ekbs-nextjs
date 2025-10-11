@@ -1,16 +1,15 @@
-import myAxios from '@/lib/axios'
-import { useState } from 'react'
-
+import CheckIcon from '@mui/icons-material/Check'
+import CloseIcon from '@mui/icons-material/Close'
+// icons
+import EditIcon from '@mui/icons-material/Edit'
 // materials
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-// icons
-import EditIcon from '@mui/icons-material/Edit'
-import CloseIcon from '@mui/icons-material/Close'
-import CheckIcon from '@mui/icons-material/Check'
+import { useState } from 'react'
+import myAxios from '@/lib/axios'
+import FlexBox from './flex-box'
 //
 import TextField from './TextField'
-import FlexBox from './flex-box'
 
 export default function FileListPrimaryItemText({
     fileNameUuid,
@@ -44,13 +43,13 @@ export default function FileListPrimaryItemText({
 
                 <Tooltip title="Ubah nama">
                     <IconButton
+                        aria-label="ubah nama"
+                        edge="end"
+                        onClick={toggleEdit}
+                        size="small"
                         sx={{
                             ml: 1,
-                        }}
-                        edge="end"
-                        size="small"
-                        aria-label="ubah nama"
-                        onClick={toggleEdit}>
+                        }}>
                         <EditIcon fontSize="small" />
                     </IconButton>
                 </Tooltip>
@@ -60,33 +59,33 @@ export default function FileListPrimaryItemText({
     return (
         <FlexBox>
             <TextField
+                fullWidth={false}
                 margin="none"
+                onChange={e => setEditedText(e.target.value)}
                 sx={{
                     width: '50%',
                 }}
-                fullWidth={false}
                 value={editedText}
-                onChange={e => setEditedText(e.target.value)}
             />
 
             <Tooltip title="Batal">
                 <IconButton
-                    edge="end"
-                    size="small"
                     aria-label="batal"
                     color="error"
-                    onClick={toggleEdit}>
+                    edge="end"
+                    onClick={toggleEdit}
+                    size="small">
                     <CloseIcon />
                 </IconButton>
             </Tooltip>
 
             <Tooltip title="Simpan">
                 <IconButton
+                    aria-label="simpan"
                     color="success"
                     edge="end"
-                    size="small"
-                    aria-label="simpan"
-                    onClick={handleSave}>
+                    onClick={handleSave}
+                    size="small">
                     <CheckIcon />
                 </IconButton>
             </Tooltip>

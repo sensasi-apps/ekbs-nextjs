@@ -1,12 +1,12 @@
 'use client'
 
-import { useIsCanReachItself } from '@/hooks/use-is-can-reach-itself'
-import blinkSxValue from '@/utils/blink-sx-value'
 import SignalWifiStatusbarConnectedNoInternet4 from '@mui/icons-material/SignalWifiStatusbarConnectedNoInternet4'
 import Alert from '@mui/material/Alert'
 import Tooltip from '@mui/material/Tooltip'
 import { useEffect, useState } from 'react'
 import { useIsOnline } from 'react-use-is-online'
+import { useIsCanReachItself } from '@/hooks/use-is-can-reach-itself'
+import blinkSxValue from '@/utils/blink-sx-value'
 
 /**
  * A component that displays an indicator when the device is not connected to the internet.
@@ -25,12 +25,8 @@ export function NoInternetIndicator() {
 
     return (
         <Tooltip
-            title={
-                <Alert severity="error" variant="filled">
-                    Perangkat anda sedang tidak terhubung ke internet, data yang
-                    anda lihat mungkin tidak mutakhir.
-                </Alert>
-            }
+            arrow
+            placement="left"
             slotProps={{
                 tooltip: {
                     sx: {
@@ -38,11 +34,15 @@ export function NoInternetIndicator() {
                     },
                 },
             }}
-            arrow
-            placement="left">
+            title={
+                <Alert severity="error" variant="filled">
+                    Perangkat anda sedang tidak terhubung ke internet, data yang
+                    anda lihat mungkin tidak mutakhir.
+                </Alert>
+            }>
             <SignalWifiStatusbarConnectedNoInternet4
-                sx={{ ...blinkSxValue, fontSize: '2rem' }}
                 color="error"
+                sx={{ ...blinkSxValue, fontSize: '2rem' }}
             />
         </Tooltip>
     )

@@ -1,21 +1,21 @@
 'use client'
 
-// vendors
-import { useIsOnline } from 'react-use-is-online'
-// materials
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
 // icons
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import GoogleIcon from '@mui/icons-material/Google'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-// components
-import CompleteCenter from '@/components/Statuses/CompleteCenter'
+// materials
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+// vendors
+import { useIsOnline } from 'react-use-is-online'
 import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
 import RedirectIfAuth from '@/components/redirect-if-auth'
+// components
+import CompleteCenter from '@/components/Statuses/CompleteCenter'
+import LoginForm from './_parts/form'
 // parts
 import useHooks from './_parts/use-hooks'
-import LoginForm from './_parts/form'
 
 export default function Page() {
     const { message, isLoading, isError, handleSubmit } = useHooks()
@@ -23,11 +23,11 @@ export default function Page() {
 
     return (
         <GuestWithFormSubLayout
-            title="Login"
             icon={<LockOutlinedIcon />}
-            isLoading={isLoading}
             isError={isError}
-            message={message}>
+            isLoading={isLoading}
+            message={message}
+            title="Login">
             <RedirectIfAuth />
 
             <CompleteCenter
@@ -45,24 +45,24 @@ export default function Page() {
             </Divider>
 
             <Button
+                color="inherit"
+                disabled={isOffline}
+                fullWidth
+                href="/oauth/google"
+                startIcon={<GoogleIcon />}
                 sx={{
                     mb: 2,
                 }}
-                href="/oauth/google"
-                fullWidth
-                color="inherit"
-                variant="contained"
-                disabled={isOffline}
-                startIcon={<GoogleIcon />}>
+                variant="contained">
                 Login dengan Google
             </Button>
 
             <Button
-                href="/"
-                fullWidth
-                variant="text"
                 color="info"
-                startIcon={<ArrowBack />}>
+                fullWidth
+                href="/"
+                startIcon={<ArrowBack />}
+                variant="text">
                 Kembali ke halaman depan
             </Button>
         </GuestWithFormSubLayout>

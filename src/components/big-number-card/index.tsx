@@ -1,15 +1,16 @@
 // vendors
-import type { ReactNode } from 'react'
-// materials
-import type { CardProps } from '@mui/material/Card'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+
 // icons-materials
 import TrendingDown from '@mui/icons-material/TrendingDown'
 import TrendingUp from '@mui/icons-material/TrendingUp'
+import Box from '@mui/material/Box'
+// materials
+import type { CardProps } from '@mui/material/Card'
+import Typography from '@mui/material/Typography'
+import type { ReactNode } from 'react'
+import formatNumber from '@/utils/format-number'
 //
 import StatCard from '../StatCard'
-import formatNumber from '@/utils/format-number'
 
 export default function BigNumberCard({
     title,
@@ -26,11 +27,11 @@ export default function BigNumberCard({
     return (
         <StatCard
             collapsible={collapsible}
-            disableFullscreen
-            title={title}
             color={isHigher ? 'success' : 'error'}
-            sx={sx}>
-            <Typography variant="h3" mb={1} component="div">
+            disableFullscreen
+            sx={sx}
+            title={title}>
+            <Typography component="div" mb={1} variant="h3">
                 {number1Prefix}
                 {formatNumber(number1, {
                     maximumFractionDigits: 2,
@@ -66,23 +67,23 @@ function Number2Text({
 
     return (
         <Typography
-            variant="subtitle1"
-            component="div"
-            color="grey"
-            display="flex"
-            lineHeight="unset"
             alignItems="center"
-            gap={1}>
+            color="grey"
+            component="div"
+            display="flex"
+            gap={1}
+            lineHeight="unset"
+            variant="subtitle1">
             <Box
-                lineHeight="unset"
-                component="span"
-                sx={{
-                    fontWeight: 'bold',
-                    color: isHigher ? 'success.dark' : 'error.dark',
-                }}
-                display="flex"
                 alignItems="center"
-                gap={0.5}>
+                component="span"
+                display="flex"
+                gap={0.5}
+                lineHeight="unset"
+                sx={{
+                    color: isHigher ? 'success.dark' : 'error.dark',
+                    fontWeight: 'bold',
+                }}>
                 {formatNumber(diffPercentage, {
                     maximumFractionDigits: 1,
                 })}

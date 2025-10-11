@@ -1,22 +1,7 @@
 {
-    "name": "ekbs",
-    "version": "0.11.15",
-    "versionDate": "2025-08-08",
     "author": {
         "name": "Sensasi Apps",
         "url": "https://github.com/sensasi-apps"
-    },
-    "private": true,
-    "scripts": {
-        "analyze:windows": "ANALYZE=true && next build",
-        "dev": "next dev -p 4000",
-        "build": "next build",
-        "start": "next start",
-        "lint": "biome check && tsc --noEmit",
-        "lint:fix": "biome check --write",
-        "test": "jest",
-        "test:watch": "jest --watch",
-        "knip": "knip"
     },
     "dependencies": {
         "@emotion/cache": "^11.14.0",
@@ -81,5 +66,20 @@
         "serwist": "^9.2.1",
         "typescript": "^5.9.3"
     },
-    "trustedDependencies": ["@sentry/cli"]
+    "name": "ekbs",
+    "private": true,
+    "scripts": {
+        "analyze:windows": "ANALYZE=true && next build",
+        "build": "next build",
+        "dev": "next dev -p 4000",
+        "knip": "knip",
+        "lint": "biome check && tsc --noEmit",
+        "lint:fix": "biome check --write",
+        "start": "next start",
+        "test": "jest",
+        "test:watch": "jest --watch"
+    },
+    "trustedDependencies": ["@sentry/cli"],
+    "version": "0.11.15",
+    "versionDate": "2025-08-08"
 }

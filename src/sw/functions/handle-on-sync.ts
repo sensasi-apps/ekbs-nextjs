@@ -39,8 +39,8 @@ export async function handleOnSync(queue: BackgroundSyncQueue) {
                     ...entry,
                     metadata: {
                         ...entry.metadata,
-                        status: status,
                         lastAttemptAt: Date.now(),
+                        status: status,
                     },
                 })
 

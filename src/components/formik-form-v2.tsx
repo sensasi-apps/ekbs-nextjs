@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react'
-import { Form, useFormikContext } from 'formik'
 // materials
 import Button from '@mui/material/Button'
 import Fade from '@mui/material/Fade'
 import LinearProgress from '@mui/material/LinearProgress'
+import { Form, useFormikContext } from 'formik'
+import type { ReactNode } from 'react'
 //
 import FlexBox from '@/components/flex-box'
 
@@ -15,7 +15,7 @@ export default function FormikForm({ children }: { children: ReactNode }) {
 
                 <LoadingIndicator />
 
-                <FlexBox mt={1} justifyContent="end">
+                <FlexBox justifyContent="end" mt={1}>
                     <ResetButton />
                     <SubmitButton />
                 </FlexBox>
@@ -30,10 +30,10 @@ function LoadingIndicator() {
     return (
         <Fade in={isSubmitting}>
             <LinearProgress
+                color="success"
                 sx={{
                     mt: 3,
                 }}
-                color="success"
             />
         </Fade>
     )
@@ -54,10 +54,10 @@ function SubmitButton() {
 
     return (
         <Button
-            variant="contained"
             color="success"
             loading={isSubmitting}
-            type="submit">
+            type="submit"
+            variant="contained">
             Simpan
         </Button>
     )

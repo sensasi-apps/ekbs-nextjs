@@ -2,11 +2,11 @@ import { createContext, type ReactNode, useContext, useState } from 'react'
 
 const FormDataCtx = createContext({
     data: undefined,
-    isNew: true,
-    isDataNotUndefined: false,
     handleClose: () => {},
     handleCreate: () => {},
     handleEdit: () => {},
+    isDataNotUndefined: false,
+    isNew: true,
 } as ContextType)
 
 /**
@@ -19,12 +19,12 @@ function FormDataProvider({ children }: { children: ReactNode }) {
         <FormDataCtx.Provider
             value={{
                 data,
-                // @ts-expect-error delete this file if fully migrated to formik
-                isNew: !(data?.uuid || data?.id),
-                isDataNotUndefined: data !== undefined,
                 handleClose: () => setData(undefined),
                 handleCreate: (data?: unknown) => setData(data ?? {}),
                 handleEdit: (data: unknown) => setData(data),
+                isDataNotUndefined: data !== undefined,
+                // @ts-expect-error delete this file if fully migrated to formik
+                isNew: !(data?.uuid || data?.id),
             }}>
             {children}
         </FormDataCtx.Provider>

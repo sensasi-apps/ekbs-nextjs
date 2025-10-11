@@ -1,9 +1,9 @@
-import MuiTableFooter from '@mui/material/TableFooter'
 import TableCell from '@mui/material/TableCell'
+import MuiTableFooter from '@mui/material/TableFooter'
 import TableRow from '@mui/material/TableRow'
-import globalFormatNumber from '@/utils/format-number'
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import ChipSmall from '@/components/ChipSmall'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+import globalFormatNumber from '@/utils/format-number'
 
 const LEFT_BORDER_STYLE = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
@@ -66,7 +66,6 @@ export default function TableFooter({ data }: { data: ProductSaleORM[] }) {
                     {formatNumber(marginTotalRp)}
 
                     <ChipSmall
-                        sx={{ ml: 2 }}
                         color={
                             isNaN(marginTotalPercentage)
                                 ? undefined
@@ -74,12 +73,13 @@ export default function TableFooter({ data }: { data: ProductSaleORM[] }) {
                                   ? 'success'
                                   : 'warning'
                         }
-                        variant="outlined"
                         label={
                             (isNaN(marginTotalPercentage)
                                 ? 0
                                 : formatNumber(marginTotalPercentage)) + '%'
                         }
+                        sx={{ ml: 2 }}
+                        variant="outlined"
                     />
                 </TableCell>
             </TableRow>

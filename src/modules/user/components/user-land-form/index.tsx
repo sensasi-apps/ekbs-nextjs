@@ -1,37 +1,38 @@
 // types
-import type Address from '@/types/orms/address'
-// vendors
-import {
-    useState,
-    useCallback,
-    type FormEvent,
-    type ChangeEvent,
-    type SyntheticEvent,
-} from 'react'
-import { mutate } from 'swr'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-// components
-import Autocomplete from '@/components/Inputs/Autocomplete'
+import dayjs from 'dayjs'
+// vendors
+import {
+    type ChangeEvent,
+    type FormEvent,
+    type SyntheticEvent,
+    useCallback,
+    useState,
+} from 'react'
+import { mutate } from 'swr'
 import DatePicker from '@/components/DatePicker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
+// components
+import Autocomplete from '@/components/Inputs/Autocomplete'
 import NumericFormat from '@/components/NumericFormat'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import axios from '@/lib/axios'
 import type LandORM from '@/modules/clm/types/orms/land'
+import type Address from '@/types/orms/address'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 const INITIAL_STATE = {
-    n_area_hectares: undefined,
-    rea_land_id: undefined,
-    planted_at: undefined,
-    region_id: undefined,
     detail: undefined,
-    zip_code: undefined,
+    n_area_hectares: undefined,
     note: undefined,
+    planted_at: undefined,
+    rea_land_id: undefined,
+    region_id: undefined,
+    zip_code: undefined,
 }
 
 const getRegion = (address?: Address): { id: number } | null => {
@@ -120,22 +121,22 @@ export default function UserLandForm(props: {
     return (
         <form onSubmit={handleSubmit}>
             <input
-                type="hidden"
-                name="n_area_hectares"
-                id="n_area_hectares"
                 defaultValue={n_area_hectares}
+                id="n_area_hectares"
+                name="n_area_hectares"
+                type="hidden"
             />
 
             <NumericFormat
-                disabled={isLoading}
-                name="n_area_hectares"
-                label="Luas Lahan"
                 defaultValue={n_area_hectares}
+                disabled={isLoading}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="start">Ha</InputAdornment>
                     ),
                 }}
+                label="Luas Lahan"
+                name="n_area_hectares"
                 onChange={event => {
                     const { value } = event.target
                     document
@@ -147,52 +148,53 @@ export default function UserLandForm(props: {
             />
 
             <TextField
-                fullWidth
+                defaultValue={rea_land_id}
                 disabled={isLoading}
+                error={Boolean(validationErrors.rea_land_id)}
+                fullWidth
+                helperText={validationErrors.rea_land_id}
                 label="LAND ID (REA)"
                 margin="dense"
                 name="rea_land_id"
-                defaultValue={rea_land_id}
                 onChange={clearValidationError}
-                error={Boolean(validationErrors.rea_land_id)}
-                helperText={validationErrors.rea_land_id}
             />
             <DatePicker
-                disabled={isLoading}
                 defaultValue={planted_at ? dayjs(planted_at) : null}
+                disabled={isLoading}
                 slotProps={{
                     textField: {
-                        required: false,
-                        name: 'planted_at',
-                        label: 'Tanggal Tanam',
                         error: Boolean(validationErrors.planted_at),
                         helperText: validationErrors.planted_at,
+                        label: 'Tanggal Tanam',
+                        name: 'planted_at',
                         onChange: clearValidationError,
+                        required: false,
                     },
                 }}
             />
 
             <SelectFromApi
-                selectProps={{
-                    name: 'farmer_group_uuid',
-                    defaultValue: farmer_group_uuid || '',
-                    required: true,
-                    disabled: isLoading,
-                }}
                 endpoint="/data/farmer-groups"
                 label="Kelompok Tani"
+                selectProps={{
+                    defaultValue: farmer_group_uuid || '',
+                    disabled: isLoading,
+                    name: 'farmer_group_uuid',
+                    required: true,
+                }}
             />
 
             <input
-                type="hidden"
-                name="region_id"
                 defaultValue={getRegion(address)?.id}
+                name="region_id"
+                type="hidden"
             />
             <Autocomplete
-                required
-                disabled={isLoading}
-                margin="dense"
                 defaultValue={getRegion(address)}
+                disabled={isLoading}
+                endpoint="/select2/administrative-regions"
+                label="Wilayah Administratif"
+                margin="dense"
                 onChange={(ev, value) => {
                     document
                         .querySelector('input[name="region_id"]')
@@ -200,67 +202,66 @@ export default function UserLandForm(props: {
 
                     clearValidationError(ev)
                 }}
-                endpoint="/select2/administrative-regions"
-                label="Wilayah Administratif"
+                required
             />
             <TextField
-                fullWidth
-                disabled={isLoading}
-                multiline
-                margin="dense"
-                name="detail"
-                label="Alamat Lengkap"
                 defaultValue={address?.detail}
+                disabled={isLoading}
                 error={Boolean(validationErrors.detail)}
-                onChange={clearValidationError}
+                fullWidth
                 helperText={validationErrors.detail}
+                label="Alamat Lengkap"
+                margin="dense"
+                multiline
+                name="detail"
+                onChange={clearValidationError}
             />
 
             <NumericFormat
-                fullWidth
-                disabled={isLoading}
-                margin="dense"
-                name="zip_code"
-                label="Kode Pos"
-                defaultValue={address?.zip_code}
-                thousandSeparator={false}
                 decimalScale={0}
+                defaultValue={address?.zip_code}
+                disabled={isLoading}
+                fullWidth
+                label="Kode Pos"
+                margin="dense"
                 maxLength={5}
+                name="zip_code"
                 onChange={clearValidationError}
+                thousandSeparator={false}
                 {...errorsToHelperTextObj(validationErrors.zip_code)}
             />
 
             <TextField
-                fullWidth
+                defaultValue={note}
                 disabled={isLoading}
-                multiline
-                rows={2}
+                error={Boolean(validationErrors.note)}
+                fullWidth
+                helperText={validationErrors.note}
                 label="Catatan tambahan"
                 margin="dense"
+                multiline
                 name="note"
-                defaultValue={note}
                 onChange={clearValidationError}
-                error={Boolean(validationErrors.note)}
-                helperText={validationErrors.note}
+                rows={2}
             />
             <Box display="flex" justifyContent="space-between" mt={2}>
-                <Button disabled={isLoading} color="error">
+                <Button color="error" disabled={isLoading}>
                     Hapus
                 </Button>
 
                 <div>
                     <Button
-                        disabled={isLoading}
-                        type="reset"
                         color="info"
-                        onClick={onCancel}>
+                        disabled={isLoading}
+                        onClick={onCancel}
+                        type="reset">
                         Batal
                     </Button>
                     <Button
-                        type="submit"
+                        color="info"
                         loading={isLoading}
-                        variant="contained"
-                        color="info">
+                        type="submit"
+                        variant="contained">
                         Simpan
                     </Button>
                 </div>

@@ -1,19 +1,20 @@
 // vendors
-import { memo } from 'react'
-import useSWR from 'swr'
+
 // materials
 import Grid from '@mui/material/Grid'
+import { memo } from 'react'
+import useSWR from 'swr'
+// page components
+import LineChart from '@/components/Chart/Line/Line'
 // icons
 // components
 import StatCard from '@/components/StatCard'
-// page components
-import LineChart from '@/components/Chart/Line/Line'
+// constants
+import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
+import GasPurchaseChartCard from './AlatBerat/GasPurchaseChartCard'
 // charts
 import HmTableCard from './AlatBerat/HmTableCard'
 import WorkHmChartCard from './AlatBerat/WorkHmChartCard'
-import GasPurchaseChartCard from './AlatBerat/GasPurchaseChartCard'
-// constants
-import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 
 export type ApiResponseType = {
     unit_current_hms: {
@@ -48,8 +49,8 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
     return (
         <Grid container spacing={1.5}>
             <Grid
-                size={{ xs: 12, sm: 4 }}
                 id="hm-unit"
+                size={{ sm: 4, xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <HmTableCard
                     data={data?.unit_current_hms}
@@ -58,8 +59,8 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
             </Grid>
 
             <Grid
-                size={{ xs: 12, sm: 8 }}
                 id="total-hm-kerja"
+                size={{ sm: 8, xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <WorkHmChartCard
                     data={data?.unit_hm_working_monthly}
@@ -67,7 +68,7 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
                 />
             </Grid>
 
-            <Grid size={{ xs: 12 }} id="omzet" sx={SX_SCROLL_MARGIN_TOP}>
+            <Grid id="omzet" size={{ xs: 12 }} sx={SX_SCROLL_MARGIN_TOP}>
                 <OmzetChartCard
                     data={data?.omzet_monthly ?? []}
                     isLoading={isLoading}
@@ -75,8 +76,8 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
             </Grid>
 
             <Grid
-                size={{ xs: 12 }}
                 id="pembelian-bbm"
+                size={{ xs: 12 }}
                 sx={SX_SCROLL_MARGIN_TOP}>
                 <GasPurchaseChartCard
                     data={data?.gas_purchases_monthly}
@@ -97,8 +98,8 @@ function OmzetChartCard({
     isLoading: boolean | undefined
 }) {
     return (
-        <StatCard title="Omzet — Bulanan" isLoading={isLoading}>
-            <LineChart prefix="Rp" data={data} />
+        <StatCard isLoading={isLoading} title="Omzet — Bulanan">
+            <LineChart data={data} prefix="Rp" />
         </StatCard>
     )
 }

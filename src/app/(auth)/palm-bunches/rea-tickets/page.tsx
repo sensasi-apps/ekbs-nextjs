@@ -1,51 +1,51 @@
 'use client'
 
-import type { UUID } from 'crypto'
-import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
-import type PalmBunchType from '@/modules/palm-bunch/types/orms/palm-bunch'
-import type Land from '@/modules/clm/types/orms/land'
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+// icons-materials
+import BackupTable from '@mui/icons-material/BackupTable'
+import ReceiptIcon from '@mui/icons-material/Receipt'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import BackupTable from '@mui/icons-material/BackupTable'
-import ReceiptIcon from '@mui/icons-material/Receipt'
+import type { UUID } from 'crypto'
+import dayjs from 'dayjs'
+import Link from 'next/link'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
 // components
 import Datatable, {
     type DatatableProps,
     getRowData,
     mutate,
 } from '@/components/Datatable'
-import Dialog from '@/components/Global/Dialog'
 import Fab from '@/components/Fab'
+import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
 import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
-import ScrollableXBox from '@/components/ScrollableXBox'
 // local components
 import MainForm from '@/components/PalmBunchesReaTicket/Form'
+import PageTitle from '@/components/page-title'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
-// providers
-import useFormData, { FormDataProvider } from '@/providers/useFormData'
+import ScrollableXBox from '@/components/ScrollableXBox'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/role'
-// utils
-import formatNumber from '@/utils/format-number'
-import blinkSxValue from '@/utils/blink-sx-value'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
-import PageTitle from '@/components/page-title'
+import type Land from '@/modules/clm/types/orms/land'
+import type PalmBunchType from '@/modules/palm-bunch/types/orms/palm-bunch'
+import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
+// providers
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
+import blinkSxValue from '@/utils/blink-sx-value'
+// utils
+import formatNumber from '@/utils/format-number'
 
 let currentUserUuid: UUID | undefined
 
@@ -59,18 +59,18 @@ export default function Page() {
         <>
             <PageTitle title="Daftar Tiket REA" />
             {isAuthHasPermission(PalmBunch.READ_STATISTIC) && (
-                <Box mb={4} display="flex" gap={1}>
+                <Box display="flex" gap={1} mb={4}>
                     <Button
-                        startIcon={<BackupTable />}
                         href="rea-tickets/export"
-                        LinkComponent={Link}>
+                        LinkComponent={Link}
+                        startIcon={<BackupTable />}>
                         Data Tiket
                     </Button>
 
                     <Button
-                        startIcon={<BackupTable />}
                         href="rea-tickets/summary-per-user"
-                        LinkComponent={Link}>
+                        LinkComponent={Link}
+                        startIcon={<BackupTable />}>
                         Data Per Pengguna
                     </Button>
                 </Box>
@@ -107,26 +107,23 @@ function Crud() {
             </ScrollableXBox>
 
             <Datatable
-                title="Riwayat"
-                tableId="PalmBunchDeliveryRateDatatable"
                 apiUrl={PalmBunchApiUrlEnum.TICKET_DATATABLE_DATA}
                 apiUrlParams={{
                     filter: searchParams?.get('filter') ?? '',
                 }}
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={{ direction: 'desc', name: 'id' }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData<PalmBunchesReaTicket>(dataIndex)
                         if (data) return handleEdit(data)
                     }
                 }}
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'id', direction: 'desc' }}
+                tableId="PalmBunchDeliveryRateDatatable"
+                title="Riwayat"
             />
 
             <Dialog
-                title={`${isNew ? 'Masukkan' : 'Perbarui'} Data Tiket`}
-                maxWidth="sm"
-                open={formOpen}
                 closeButtonProps={{
                     onClick: () => {
                         if (
@@ -141,22 +138,18 @@ function Crud() {
                         return handleClose()
                     },
                 }}
+                maxWidth="sm"
                 middleHead={
                     isNew ? (
                         <FormDataDraftsCrud
-                            modelName="PalmBuncesReaTicket"
                             dataKeyForNameId="ticket_no"
+                            modelName="PalmBuncesReaTicket"
                         />
                     ) : undefined
-                }>
+                }
+                open={formOpen}
+                title={`${isNew ? 'Masukkan' : 'Perbarui'} Data Tiket`}>
                 <MainForm
-                    data={data}
-                    loading={loading}
-                    setSubmitting={setSubmitting}
-                    onSubmitted={() => {
-                        mutate()
-                        handleClose()
-                    }}
                     actionsSlot={
                         <FormActions
                             onCancel={() => {
@@ -174,12 +167,19 @@ function Crud() {
                             submitting={submitting}
                         />
                     }
+                    data={data}
+                    loading={loading}
+                    onSubmitted={() => {
+                        mutate()
+                        handleClose()
+                    }}
+                    setSubmitting={setSubmitting}
                 />
             </Dialog>
 
             <Fab
-                in={isAuthHasPermission(PalmBunch.CREATE_TICKET)}
                 disabled={formOpen}
+                in={isAuthHasPermission(PalmBunch.CREATE_TICKET)}
                 onClick={handleCreate}>
                 <ReceiptIcon />
             </Fab>
@@ -189,53 +189,53 @@ function Crud() {
 
 const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
-        name: 'id',
         label: 'ID',
+        name: 'id',
     },
     {
-        name: 'spb_no',
         label: 'NO. SPB',
+        name: 'spb_no',
         options: {
             display: false,
         },
     },
     {
-        name: 'vebewe_no',
         label: 'NO. VEBEWE',
+        name: 'vebewe_no',
         options: {
             display: false,
         },
     },
     {
-        name: 'gradis_no',
         label: 'NO. GRADIS',
+        name: 'gradis_no',
         options: {
             display: false,
         },
     },
     {
-        name: 'wb_ticket_no',
         label: 'NO. TIKET WB',
+        name: 'wb_ticket_no',
         options: {
             display: false,
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
+            customBodyRender: (value: string) =>
+                dayjs(value).format('DD-MM-YYYY'),
             setCellProps: () => ({
                 style: {
                     whiteSpace: 'nowrap',
                 },
             }),
-            customBodyRender: (value: string) =>
-                dayjs(value).format('DD-MM-YYYY'),
         },
     },
     {
-        name: 'delivery.to_oil_mill_code',
         label: 'Pabrik',
+        name: 'delivery.to_oil_mill_code',
         options: {
             customBodyRenderLite: dataIndex =>
                 getRowData<PalmBunchesReaTicket>(dataIndex)?.delivery
@@ -243,15 +243,13 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         },
     },
     {
-        name: 'ticket_no',
         label: 'NO. Tiket',
+        name: 'ticket_no',
     },
     {
-        name: 'land',
         label: 'Info Land ID',
+        name: 'land',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender: (value: Land | undefined) => {
                 if (!value) return ''
 
@@ -259,26 +257,14 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
 
                 ${value.note ?? ''}`
             },
+            searchable: false,
+            sort: false,
         },
     },
     {
-        name: 'delivery.courierUser.name',
         label: 'Pengangkut',
+        name: 'delivery.courierUser.name',
         options: {
-            setCellProps: (_, rowIndex) => {
-                const isCurrentUserData =
-                    getRowData<PalmBunchesReaTicket>(rowIndex)?.delivery
-                        .courier_user?.uuid === currentUserUuid
-
-                return {
-                    sx: {
-                        whiteSpace: 'nowrap',
-                        color: isCurrentUserData ? 'success.main' : undefined,
-                        fontWeight: isCurrentUserData ? 'bold' : undefined,
-                    },
-                }
-            },
-
             customBodyRenderLite: dataIndex => {
                 const courier_user =
                     getRowData<PalmBunchesReaTicket>(dataIndex)?.delivery
@@ -288,27 +274,32 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
                     ? `#${courier_user.id} — ${courier_user.name}`
                     : ''
             },
+            setCellProps: (_, rowIndex) => {
+                const isCurrentUserData =
+                    getRowData<PalmBunchesReaTicket>(rowIndex)?.delivery
+                        .courier_user?.uuid === currentUserUuid
+
+                return {
+                    sx: {
+                        color: isCurrentUserData ? 'success.main' : undefined,
+                        fontWeight: isCurrentUserData ? 'bold' : undefined,
+                        whiteSpace: 'nowrap',
+                    },
+                }
+            },
         },
     },
     {
         name: 'delivery.courierUser.nickname',
         options: {
-            sort: false,
             display: 'excluded',
+            sort: false,
         },
     },
     {
-        name: 'delivery.palmBunches.ownerUser.name',
         label: 'Pemilik TBS',
+        name: 'delivery.palmBunches.ownerUser.name',
         options: {
-            sort: false,
-            setCellProps: () => {
-                return {
-                    sx: {
-                        whiteSpace: 'nowrap',
-                    },
-                }
-            },
             customBodyRenderLite: dataIndex => (
                 <ListInsideMuiDatatableCell
                     listItems={
@@ -337,24 +328,27 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
                     )}
                 />
             ),
+            setCellProps: () => {
+                return {
+                    sx: {
+                        whiteSpace: 'nowrap',
+                    },
+                }
+            },
+            sort: false,
         },
     },
     {
         name: 'delivery.palmBunches.ownerUser.nickname',
         options: {
-            sort: false,
             display: 'excluded',
+            sort: false,
         },
     },
     {
-        name: 'delivery.n_bunches',
         label: 'Janjang',
+        name: 'delivery.n_bunches',
         options: {
-            setCellProps: () => ({
-                style: {
-                    textAlign: 'right',
-                },
-            }),
             customBodyRenderLite: dataIndex => {
                 const data = getRowData<PalmBunchesReaTicket>(dataIndex)
 
@@ -364,18 +358,17 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
                     ? formatNumber(data.delivery.n_bunches)
                     : ''
             },
-        },
-    },
-    {
-        name: 'delivery.n_kg',
-        label: 'Bobot (kg)',
-        options: {
             setCellProps: () => ({
                 style: {
-                    whiteSpace: 'nowrap',
                     textAlign: 'right',
                 },
             }),
+        },
+    },
+    {
+        label: 'Bobot (kg)',
+        name: 'delivery.n_kg',
+        options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData<PalmBunchesReaTicket>(dataIndex)
 
@@ -385,36 +378,42 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
                     ? `${formatNumber(data.delivery.n_kg)}`
                     : ''
             },
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                    whiteSpace: 'nowrap',
+                },
+            }),
         },
     },
     {
-        name: 'status',
         label: 'Status',
+        name: 'status',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender: (value: string) => (
                 <Typography
                     color={value === 'Lunas' ? 'success.main' : 'warning.main'}
-                    variant="body2"
-                    component="div">
+                    component="div"
+                    variant="body2">
                     {value}
                 </Typography>
             ),
+            searchable: false,
+            sort: false,
         },
     },
 ]
 
 const SX_FOR_BADGE = {
     ':after': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        right: -3,
-        width: '1em',
-        height: '1em',
         backgroundColor: 'error.main',
         borderRadius: '50%',
+        content: '""',
+        height: '1em',
+        position: 'absolute',
+        right: -3,
+        top: 0,
+        width: '1em',
         ...blinkSxValue,
     },
 }
@@ -441,8 +440,8 @@ function FilterChips() {
     return (
         <>
             <Chip
-                label="Semua"
                 color={!filter ? 'success' : undefined}
+                label="Semua"
                 onClick={() => handleTabChange('')}
             />
 
@@ -451,39 +450,39 @@ function FilterChips() {
                     in={isAuthHasRole(Role.PALM_BUNCH_MANAGER)}
                     orientation="horizontal">
                     <Chip
-                        sx={stats?.unvalidated ? SX_FOR_BADGE : undefined}
+                        color={filter === 'unvalidated' ? 'success' : undefined}
+                        disabled={!stats?.unvalidated}
                         label={
                             'Belum Divalidasi' +
                             (stats?.unvalidated
                                 ? ` (${stats?.unvalidated})`
                                 : '')
                         }
-                        disabled={!stats?.unvalidated}
-                        color={filter === 'unvalidated' ? 'success' : undefined}
                         onClick={() => handleTabChange('unvalidated')}
+                        sx={stats?.unvalidated ? SX_FOR_BADGE : undefined}
                     />
                 </Collapse>
             </div>
 
             <Chip
+                color={filter === 'waiting' ? 'success' : undefined}
+                disabled={!stats?.waiting}
                 label={
                     'Menunggu REA' +
                     (stats?.waiting ? ` (${stats?.waiting})` : '')
                 }
-                color={filter === 'waiting' ? 'success' : undefined}
-                disabled={!stats?.waiting}
                 onClick={() => handleTabChange('waiting')}
             />
 
             <Chip
+                color={filter === 'unsynced' ? 'success' : undefined}
+                disabled={!stats?.unsynced}
                 label={
                     'Data Tidak Sinkron' +
                     (stats?.unsynced ? ` (${stats?.unsynced})` : '')
                 }
-                color={filter === 'unsynced' ? 'success' : undefined}
-                disabled={!stats?.unsynced}
-                sx={stats?.unsynced ? SX_FOR_BADGE : undefined}
                 onClick={() => handleTabChange('unsynced')}
+                sx={stats?.unsynced ? SX_FOR_BADGE : undefined}
             />
         </>
     )

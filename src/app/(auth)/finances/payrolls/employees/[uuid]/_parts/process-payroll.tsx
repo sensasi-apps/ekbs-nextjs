@@ -1,12 +1,12 @@
 // vendors
-import { useState } from 'react'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+
+// icons
+import LockIcon from '@mui/icons-material/Lock'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Chip from '@mui/material/Chip'
 import Checkbox from '@mui/material/Checkbox'
+import Chip from '@mui/material/Chip'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
@@ -23,27 +23,28 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-// icons
-import LockIcon from '@mui/icons-material/Lock'
+import dayjs from 'dayjs'
+import { useState } from 'react'
+import DatePicker from '@/components/DatePicker'
+import SelectFromApi from '@/components/Global/SelectFromApi'
+import InfoBox from '@/components/InfoBox'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
+import NumericFormat from '@/components/NumericFormat'
+import TextField from '@/components/TextField'
+import axios from '@/lib/axios'
+import type { Ymd } from '@/types/date-string'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+import type CashType from '@/types/orms/cash'
+import type Payroll from '@/types/orms/payroll'
 // components
 import type { PayrollType } from '@/types/orms/payroll'
-import type { Ymd } from '@/types/date-string'
-import type CashType from '@/types/orms/cash'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-import type Payroll from '@/types/orms/payroll'
-import DatePicker from '@/components/DatePicker'
-import InfoBox from '@/components/InfoBox'
-import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
-import SelectFromApi from '@/components/Global/SelectFromApi'
-import TextField from '@/components/TextField'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import numberToCurrency from '@/utils/number-to-currency'
 import handle422 from '@/utils/handle-422'
-import FinanceApiUrlEnum from '../../../../_enums/api-url'
+import numberToCurrency from '@/utils/number-to-currency'
 import ucWords from '@/utils/uc-words'
+import FinanceApiUrlEnum from '../../../../_enums/api-url'
 
 const SX_NOWRAP = { whiteSpace: 'nowrap' }
 
@@ -77,15 +78,15 @@ export default function ProcessPayrollForm({
                 FinanceApiUrlEnum.PROCESS_PAYROLL.replace('$uuid', data.uuid),
                 {
                     at,
-                    type,
-                    note,
                     cash_uuid: cashUuid,
-                    is_final: isFinal,
                     cost_shares: costShares?.map(costShare => ({
-                        uuid: costShare.uuid,
                         deduction_rp: costShare.deduction_rp,
+                        uuid: costShare.uuid,
                     })),
                     general_deduction_rp: generalRpDeduction,
+                    is_final: isFinal,
+                    note,
+                    type,
                 },
             )
             .then(() => {
@@ -104,7 +105,6 @@ export default function ProcessPayrollForm({
                 <Typography mb={1}>Rincian Penggajian:</Typography>
 
                 <DatePicker
-                    value={at ? dayjs(at) : null}
                     disabled={isDisabled}
                     label="Tanggal"
                     onChange={date =>
@@ -115,24 +115,25 @@ export default function ProcessPayrollForm({
                             ...errorsToHelperTextObj(errors?.at),
                         },
                     }}
+                    value={at ? dayjs(at) : null}
                 />
 
-                <FormControl fullWidth margin="dense" size="small" required>
+                <FormControl fullWidth margin="dense" required size="small">
                     <InputLabel id="type-select-label">Jenis</InputLabel>
                     <Select
-                        value={type}
-                        name="type"
-                        required
-                        label="Jenis"
                         disabled={isDisabled}
-                        labelId="type-select-label"
                         id="type-select"
+                        label="Jenis"
+                        labelId="type-select-label"
+                        name="type"
                         onChange={({ target }) =>
                             setType(target.value as PayrollType)
-                        }>
+                        }
+                        required
+                        value={type}>
                         {['pengelola', 'pengurus', 'pengawas', 'pendiri'].map(
                             type => (
-                                <MenuItem value={type} key={type}>
+                                <MenuItem key={type} value={type}>
                                     {ucWords(type)}
                                 </MenuItem>
                             ),
@@ -141,29 +142,23 @@ export default function ProcessPayrollForm({
                 </FormControl>
 
                 <TextField
+                    defaultValue={note}
+                    disabled={isDisabled}
+                    label="Catatan"
                     multiline
                     name="note"
-                    label="Catatan"
-                    disabled={isDisabled}
-                    rows={2}
-                    defaultValue={note}
                     onChange={({ target: { value } }) =>
                         debounce(() => setNote(value))
                     }
+                    rows={2}
                     {...errorsToHelperTextObj(errors?.note)}
                 />
 
                 <SelectFromApi
-                    required={isFinal}
+                    disabled={isDisabled}
                     endpoint="/data/cashes"
                     label="Telah Dibayar Dari Kas"
-                    size="small"
                     margin="dense"
-                    disabled={isDisabled}
-                    selectProps={{
-                        value: cashUuid ?? '',
-                        name: 'cash_uuid',
-                    }}
                     onValueChange={({ uuid }: CashType) => setCashUuid(uuid)}
                     renderOption={(cash: CashType) => (
                         <MenuItem key={cash.uuid} value={cash.uuid}>
@@ -171,16 +166,22 @@ export default function ProcessPayrollForm({
                                 <Chip
                                     label={cash.code}
                                     size="small"
-                                    variant="outlined"
                                     sx={{
                                         mr: 1,
                                     }}
+                                    variant="outlined"
                                 />
                             )}
 
                             {cash.name}
                         </MenuItem>
                     )}
+                    required={isFinal}
+                    selectProps={{
+                        name: 'cash_uuid',
+                        value: cashUuid ?? '',
+                    }}
+                    size="small"
                     {...errorsToHelperTextObj(errors?.cash_uuid)}
                 />
 
@@ -215,13 +216,13 @@ export default function ProcessPayrollForm({
 
                 <NumericFormat
                     disabled={isDisabled}
-                    value={generalRpDeduction}
-                    onValueChange={({ floatValue }) =>
-                        setGeneralRpDeduction(floatValue ?? 0)
-                    }
                     InputProps={{
                         startAdornment: <RpInputAdornment />,
                     }}
+                    onValueChange={({ floatValue }) =>
+                        setGeneralRpDeduction(floatValue ?? 0)
+                    }
+                    value={generalRpDeduction}
                     {...errorsToHelperTextObj(errors?.general_deduction_rp)}
                 />
 
@@ -246,7 +247,12 @@ export default function ProcessPayrollForm({
                                     <TableCell>
                                         <NumericFormat
                                             disabled={isDisabled}
-                                            value={costShare.deduction_rp}
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <RpInputAdornment />
+                                                ),
+                                            }}
+                                            margin="none"
                                             onValueChange={({ floatValue }) =>
                                                 setCostShares(prev =>
                                                     prev?.map(
@@ -262,12 +268,7 @@ export default function ProcessPayrollForm({
                                                     ),
                                                 )
                                             }
-                                            margin="none"
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <RpInputAdornment />
-                                                ),
-                                            }}
+                                            value={costShare.deduction_rp}
                                             {...errorsToHelperTextObj(
                                                 errors?.[
                                                     `cost_shares.${i}.deduction_rp`
@@ -325,7 +326,7 @@ export default function ProcessPayrollForm({
                 </TableContainer>
 
                 {errors && (
-                    <FormHelperText error component="div">
+                    <FormHelperText component="div" error>
                         {Object.values(errors).map((error, i) => (
                             <Box key={i}>{error}</Box>
                         ))}
@@ -337,10 +338,6 @@ export default function ProcessPayrollForm({
                         mt: 2,
                     }}>
                     <FormControlLabel
-                        disabled={isDisabled}
-                        sx={{
-                            maxWidth: 'fit-content',
-                        }}
                         control={
                             <Checkbox
                                 checked={isFinal}
@@ -349,27 +346,31 @@ export default function ProcessPayrollForm({
                                 }
                             />
                         }
+                        disabled={isDisabled}
                         label="Simpan Permanen"
+                        sx={{
+                            maxWidth: 'fit-content',
+                        }}
                     />
                 </FormGroup>
 
-                <Box display="flex" justifyContent="end" gap={1.5}>
+                <Box display="flex" gap={1.5} justifyContent="end">
                     <Button
-                        size="small"
                         color={isFinal ? 'warning' : 'info'}
                         disabled={loading}
-                        onClick={handleClose}>
+                        onClick={handleClose}
+                        size="small">
                         {data.processed_at ? 'Tutup' : 'Batal'}
                     </Button>
 
                     <Button
-                        size="small"
                         color={isFinal ? 'warning' : 'info'}
-                        variant="contained"
-                        startIcon={isFinal ? <LockIcon /> : undefined}
                         disabled={isDisabled}
                         loading={loading}
-                        onClick={handleSubmit}>
+                        onClick={handleSubmit}
+                        size="small"
+                        startIcon={isFinal ? <LockIcon /> : undefined}
+                        variant="contained">
                         {isFinal ? 'Proses Penggajian' : 'Simpan'}
                     </Button>
                 </Box>

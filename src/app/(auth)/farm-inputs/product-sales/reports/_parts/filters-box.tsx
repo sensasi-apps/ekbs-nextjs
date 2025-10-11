@@ -1,14 +1,15 @@
 // vendors
-import Box from '@mui/material/Box'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
-// components
-import DatePicker from '@/components/DatePicker'
-import IconButton from '@/components/IconButton'
+
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import RefreshIcon from '@mui/icons-material/Refresh'
+import Box from '@mui/material/Box'
+import dayjs, { Dayjs } from 'dayjs'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+// components
+import DatePicker from '@/components/DatePicker'
+import IconButton from '@/components/IconButton'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import aoaToXlsx from '@/utils/aoa-to-xlsx'
 
@@ -51,36 +52,35 @@ export default function FiltersBox({
         <Box display="flex" gap={2}>
             <DatePicker
                 disabled={disabled}
-                label="Dari Tanggal"
-                minDate={MIN_DATE}
                 disableHighlightToday
+                label="Dari Tanggal"
                 maxDate={tillDate ?? MAX_DATE}
-                value={fromDate}
+                minDate={MIN_DATE}
                 onChange={value => setFromDate(value)}
                 slotProps={{
                     textField: {
                         margin: 'none',
                     },
                 }}
+                value={fromDate}
             />
 
             <DatePicker
                 disabled={disabled}
-                label="Hingga Tanggal"
-                minDate={fromDate ?? MIN_DATE}
                 disableHighlightToday
+                label="Hingga Tanggal"
                 maxDate={MAX_DATE}
-                value={tillDate}
+                minDate={fromDate ?? MIN_DATE}
                 onChange={value => setTillDate(value)}
                 slotProps={{
                     textField: {
                         margin: 'none',
                     },
                 }}
+                value={tillDate}
             />
 
             <IconButton
-                title="Segarkan"
                 disabled={!(fromDate || tillDate || disabled)}
                 icon={RefreshIcon}
                 onClick={() => {
@@ -111,12 +111,12 @@ export default function FiltersBox({
                         onRefresh()
                     }
                 }}
+                title="Segarkan"
             />
 
             <IconButton
                 color="success"
                 disabled={disabled || data.length === 0}
-                title="Unduh Excel"
                 icon={BackupTableIcon}
                 onClick={() => {
                     handleDownloadExcel(
@@ -124,6 +124,7 @@ export default function FiltersBox({
                         `Laporan Penjualan SAPRODI ${from_date} s.d. ${till_date}`,
                     )
                 }}
+                title="Unduh Excel"
             />
         </Box>
     )

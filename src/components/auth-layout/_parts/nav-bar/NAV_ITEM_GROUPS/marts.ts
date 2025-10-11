@@ -1,5 +1,5 @@
 // types
-import type NavItemGroup from '../types/nav-item-group'
+
 // icons-materials
 import AllInbox from '@mui/icons-material/AllInbox'
 import Inventory from '@mui/icons-material/Inventory'
@@ -8,9 +8,9 @@ import QueryStats from '@mui/icons-material/QueryStats'
 import ShoppingCart from '@mui/icons-material/ShoppingCart'
 // enums
 import Mart from '@/enums/permissions/Mart'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const martsNavItemGroup: NavItemGroup = {
-    label: 'Belayan Mart',
     items: [
         // {
         //     label: 'Kas',
@@ -19,34 +19,35 @@ export const martsNavItemGroup: NavItemGroup = {
         //     forPermission: Mart.READ_SALE_REPORT,
         // },
         {
-            label: 'Statistik',
+            forPermission: Mart.READ_SALE_REPORT,
             href: '/marts/statistics',
             icon: QueryStats,
-            forPermission: Mart.READ_SALE_REPORT,
+            label: 'Statistik',
         },
         {
-            href: '/marts/products',
-            label: 'Produk',
-            icon: Inventory,
             forPermission: Mart.READ_PRODUCT,
+            href: '/marts/products',
+            icon: Inventory,
+            label: 'Produk',
         },
         {
-            href: '/marts/products/purchases',
-            label: 'Pembelian',
-            icon: ShoppingCart,
             forPermission: Mart.READ_PURCHASE,
+            href: '/marts/products/purchases',
+            icon: ShoppingCart,
+            label: 'Pembelian',
         },
         {
-            href: '/marts/products/opnames',
-            label: 'Opname',
-            icon: AllInbox,
             forPermission: Mart.READ_OPNAME,
+            href: '/marts/products/opnames',
+            icon: AllInbox,
+            label: 'Opname',
         },
         {
-            href: '/mart-product-sales',
-            label: 'Penjualan',
-            icon: PointOfSale,
             forPermission: Mart.READ_SALE,
+            href: '/mart-product-sales',
+            icon: PointOfSale,
+            label: 'Penjualan',
         },
     ],
+    label: 'Belayan Mart',
 }

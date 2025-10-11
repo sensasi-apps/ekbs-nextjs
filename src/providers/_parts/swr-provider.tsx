@@ -1,12 +1,12 @@
 'use client'
 
-// vendors
-import { useEffect, useState, type ReactNode } from 'react'
-import { SWRConfig } from 'swr'
 import { stringify } from 'qs'
-import axios from '@/lib/axios'
+// vendors
+import { type ReactNode, useEffect, useState } from 'react'
+import { SWRConfig } from 'swr'
 // components
 import LoadingCenter from '@/components/loading-center'
+import axios from '@/lib/axios'
 
 /**
  * SWRProvider component that sets up the SWR configuration for the application.
@@ -28,12 +28,12 @@ export default function SWRProvider({
     return (
         <SWRConfig
             value={{
-                fetcher: fetcher,
-                provider: cacheProvider,
                 dedupingInterval: 15000,
-                shouldRetryOnError: false,
-                revalidateOnFocus: false,
+                fetcher: fetcher,
                 keepPreviousData: true,
+                provider: cacheProvider,
+                revalidateOnFocus: false,
+                shouldRetryOnError: false,
             }}>
             {children}
         </SWRConfig>

@@ -1,14 +1,13 @@
-import type PalmBunchesReaGradingItemORM from '@/modules/palm-bunch/types/orms/palm-bunches-rea-grading-item'
-import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
-
-import { type FC, memo } from 'react'
-import useSWR from 'swr'
-import { NumericFormat } from 'react-number-format'
-
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+
+import { type FC, memo } from 'react'
+import { NumericFormat } from 'react-number-format'
+import useSWR from 'swr'
 // components
 import Skeletons from '@/components/Global/Skeletons'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
+import type PalmBunchesReaGradingItemORM from '@/modules/palm-bunch/types/orms/palm-bunches-rea-grading-item'
 // providers
 import useFormData from '@/providers/useFormData'
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
@@ -54,7 +53,7 @@ const GradingItemInputs: FC<{
 
     return (
         <>
-            <Typography variant="h6" component="h2" gutterBottom>
+            <Typography component="h2" gutterBottom variant="h6">
                 Data Grading
             </Typography>
 
@@ -64,43 +63,43 @@ const GradingItemInputs: FC<{
                 gradings.map((grading, index) => (
                     <div key={index}>
                         <input
-                            type="hidden"
                             name={`gradings[${index}][id]`}
+                            type="hidden"
                             value={grading.id ?? ''}
                         />
 
                         <input
-                            type="hidden"
                             name={`gradings[${index}][item_id]`}
+                            type="hidden"
                             value={grading.item.id}
                         />
 
                         <NumericFormat
-                            customInput={TextField}
-                            disabled={disabled}
-                            fullWidth
-                            required
-                            margin="dense"
-                            label={grading.item.name}
-                            size="small"
-                            thousandSeparator="."
-                            decimalSeparator=","
                             allowNegative={false}
-                            name={`gradings[${index}][value]`}
-                            InputProps={{
-                                endAdornment: grading.item.unit,
-                            }}
-                            onValueChange={({ floatValue }) =>
-                                handleChange(index, floatValue)
-                            }
-                            onBlur={handleBlur}
-                            value={grading.value ?? ''}
+                            customInput={TextField}
+                            decimalSeparator=","
+                            disabled={disabled}
                             error={Boolean(
                                 validationErrors[`gradings.${index}.value`],
                             )}
+                            fullWidth
                             helperText={
                                 validationErrors[`gradings.${index}.value`]
                             }
+                            InputProps={{
+                                endAdornment: grading.item.unit,
+                            }}
+                            label={grading.item.name}
+                            margin="dense"
+                            name={`gradings[${index}][value]`}
+                            onBlur={handleBlur}
+                            onValueChange={({ floatValue }) =>
+                                handleChange(index, floatValue)
+                            }
+                            required
+                            size="small"
+                            thousandSeparator="."
+                            value={grading.value ?? ''}
                         />
                     </div>
                 ))}

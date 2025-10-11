@@ -1,14 +1,15 @@
 // vendors
-import { type HTMLAttributes, useState } from 'react'
-import useSWR from 'swr'
+
 // materials
 import Autocomplete, {
     type AutocompleteProps,
 } from '@mui/material/Autocomplete'
 import Box, { type BoxProps } from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import TextField, { type TextFieldProps } from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import Chip from '@mui/material/Chip'
+import { type HTMLAttributes, useState } from 'react'
+import useSWR from 'swr'
 // components
 import FlexBox from '@/components/flex-box'
 // modules
@@ -74,16 +75,16 @@ export default function UserAutocomplete<
                 return (
                     <TextField
                         {...params}
-                        required
-                        variant="outlined"
-                        label={label}
-                        size="small"
-                        margin="dense"
-                        fullWidth
                         component="div"
+                        fullWidth
+                        label={label}
+                        margin="dense"
                         onChange={({ currentTarget: { value } }) => {
                             setSearchValue(value)
                         }}
+                        required
+                        size="small"
+                        variant="outlined"
                         {...slotProps?.textField}
                     />
                 )
@@ -160,11 +161,11 @@ function renderOption(
         <Box
             {...props}
             component="li"
-            width="100%"
             key={option.id}
             sx={{
                 height: 'unset !important',
-            }}>
+            }}
+            width="100%">
             <RenderMinimalUser data={option} gap={2} renderDetail />
         </Box>
     )
@@ -181,13 +182,13 @@ function RenderMinimalUser({
     return (
         <FlexBox {...props}>
             <Chip
-                size="small"
                 color="info"
                 label={id}
-                variant="outlined"
+                size="small"
                 sx={{
                     fontSize: '0.7rem',
                 }}
+                variant="outlined"
             />
 
             <div>
@@ -197,12 +198,12 @@ function RenderMinimalUser({
 
                 {renderDetail && (
                     <Typography
-                        variant="caption"
-                        component="div"
                         color="textDisabled"
-                        textTransform="lowercase"
+                        component="div"
                         fontSize="0.75rem"
-                        lineHeight="1em">
+                        lineHeight="1em"
+                        textTransform="lowercase"
+                        variant="caption">
                         {nickname && (
                             <>
                                 {nickname}

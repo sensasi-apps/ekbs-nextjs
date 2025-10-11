@@ -1,13 +1,14 @@
 // vendors
-import { memo, useEffect, useState } from 'react'
+
+// icons
+import Close from '@mui/icons-material/Close'
+import SearchIcon from '@mui/icons-material/Search'
 // materials
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-// icons
-import Close from '@mui/icons-material/Close'
-import SearchIcon from '@mui/icons-material/Search'
+import { memo, useEffect, useState } from 'react'
 
 function SearchTextField({
     value: valueProp,
@@ -24,37 +25,37 @@ function SearchTextField({
 
     return (
         <TextField
-            placeholder="Nama / Kode / Kategori"
             autoComplete="off"
-            name="product-search"
-            margin="none"
-            size="small"
-            value={value}
-            onChange={e => {
-                setValue(e.target.value)
-                onValueChange(e.target.value)
-            }}
             InputProps={{
-                startAdornment: (
-                    <InputAdornment position="start">
-                        <SearchIcon fontSize="small" color="disabled" />
-                    </InputAdornment>
-                ),
                 endAdornment: (
                     <InputAdornment position="end">
                         <Fade in={Boolean(value)}>
                             <IconButton
-                                size="small"
                                 onClick={() => {
                                     setValue('')
                                     onValueChange('')
-                                }}>
+                                }}
+                                size="small">
                                 <Close />
                             </IconButton>
                         </Fade>
                     </InputAdornment>
                 ),
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <SearchIcon color="disabled" fontSize="small" />
+                    </InputAdornment>
+                ),
             }}
+            margin="none"
+            name="product-search"
+            onChange={e => {
+                setValue(e.target.value)
+                onValueChange(e.target.value)
+            }}
+            placeholder="Nama / Kode / Kategori"
+            size="small"
+            value={value}
         />
     )
 }

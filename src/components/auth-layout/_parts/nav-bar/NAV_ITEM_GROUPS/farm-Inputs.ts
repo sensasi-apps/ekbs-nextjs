@@ -1,4 +1,3 @@
-import type NavItemGroup from '../types/nav-item-group'
 // icons-materials
 import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
 import AutoStories from '@mui/icons-material/AutoStories'
@@ -11,73 +10,74 @@ import Warehouse from '@mui/icons-material/Warehouse'
 // enums
 import FarmInput from '@/enums/permissions/FarmInput'
 import Role from '@/enums/role'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const farmInputsNavItemGroup: NavItemGroup = {
-    label: 'Saprodi',
     items: [
         // ################# USER CONTEXT SECTION #################
         {
             href: '/farm-inputs/my-purchases',
-            label: 'Pembelianku',
             icon: ShoppingCart,
+            label: 'Pembelianku',
         },
 
         // ################
         {
-            href: '/farm-inputs/products',
-            label: 'Produk',
-            icon: Inventory,
             forPermission: [FarmInput.CREATE_PRODUCT, FarmInput.UPDATE_PRODUCT],
+            href: '/farm-inputs/products',
+            icon: Inventory,
+            label: 'Produk',
         },
         {
-            label: 'Statistik',
+            forPermission: FarmInput.READ_STATISTIC,
             href: '/farm-inputs/statistics',
             icon: AlignHorizontalLeft,
-            forPermission: FarmInput.READ_STATISTIC,
+            label: 'Statistik',
         },
         {
-            label: 'Kas',
+            forPermission: FarmInput.READ_STATISTIC,
             href: '/farm-inputs/cashes',
             icon: AutoStories,
-            forPermission: FarmInput.READ_STATISTIC,
+            label: 'Kas',
         },
         {
-            label: 'Piutang',
+            forPermission: FarmInput.READ_RECEIVABLE,
             href: '/farm-inputs/receivables',
             icon: CreditCard,
-            forPermission: FarmInput.READ_RECEIVABLE,
+            label: 'Piutang',
         },
         {
-            href: '/farm-inputs/product-purchases',
-            label: 'Pembelian',
-            icon: ShoppingCart,
             forPermission: FarmInput.READ_PRODUCT_PURCHASE,
+            href: '/farm-inputs/product-purchases',
+            icon: ShoppingCart,
+            label: 'Pembelian',
         },
         {
-            href: '/farm-inputs/product-sales',
-            label: 'Penjualan',
-            icon: Receipt,
             forRole: [
                 // TODO: change to permission based
                 Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
                 Role.FARM_INPUT_SALES_PULAU_PINANG_WAREHOUSE,
                 Role.FARM_INPUT_MANAGER,
             ],
+            href: '/farm-inputs/product-sales',
+            icon: Receipt,
+            label: 'Penjualan',
         },
         {
-            href: '/farm-inputs/he-gas-sales',
-            label: 'Penjualan BBM ke Alat Berat',
-            icon: LocalGasStation,
             forRole: [
                 // TODO: change to permission based
                 Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
                 Role.FARM_INPUT_MANAGER,
             ],
+            href: '/farm-inputs/he-gas-sales',
+            icon: LocalGasStation,
+            label: 'Penjualan BBM ke Alat Berat',
         },
         {
             href: '/katalog-saprodi',
-            label: 'Katalog',
             icon: Warehouse,
+            label: 'Katalog',
         },
     ],
+    label: 'Saprodi',
 }

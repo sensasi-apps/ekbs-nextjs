@@ -1,22 +1,22 @@
 'use client'
 
-// types
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
+import { mutate } from '@/components/Datatable'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
-import { mutate } from '@/components/Datatable'
+import PageTitle from '@/components/page-title'
 // local components
 import UserLoanInstallmentDatatable from '@/components/pages/user-loans/installments/Datatable'
 import UserLoanInstallmentForm, {
     UserLoanInstallmentFormInitialValues,
 } from '@/components/pages/user-loans/installments/Form'
 import axios from '@/lib/axios'
+// types
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // utils
 import errorCatcher from '@/utils/handle-422'
-import PageTitle from '@/components/page-title'
 
 export default function UserLoansInstallmentsPage() {
     const [formData, setFormData] = useState(
@@ -42,12 +42,14 @@ export default function UserLoansInstallmentsPage() {
 
             <UserLoanInstallmentDatatable onEdit={handleEdit} />
 
-            <DialogWithTitle title="Pembayaran Angsuran" open={isOpenDialog}>
+            <DialogWithTitle open={isOpenDialog} title="Pembayaran Angsuran">
                 <Formik
-                    initialValues={formData}
+                    component={UserLoanInstallmentForm}
                     initialStatus={{
                         userLoanInstallment: userLoanInstallment,
                     }}
+                    initialValues={formData}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
@@ -60,8 +62,6 @@ export default function UserLoansInstallmentsPage() {
                             })
                             .catch(error => errorCatcher(error, setErrors))
                     }
-                    onReset={handleClose}
-                    component={UserLoanInstallmentForm}
                 />
             </DialogWithTitle>
         </>

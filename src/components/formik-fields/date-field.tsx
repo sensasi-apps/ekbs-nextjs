@@ -1,15 +1,15 @@
 'use client'
 
-// types
-import type { Ymd } from '@/types/date-string'
 import type { TextFieldProps } from '@mui/material/TextField'
+import dayjs from 'dayjs'
 // vendors
 import { Field, type FieldProps } from 'formik'
-import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
-import dayjs from 'dayjs'
+import { useDebouncedCallback } from 'use-debounce'
 // components
 import DatePicker, { type DatePickerProps } from '@/components/DatePicker'
+// types
+import type { Ymd } from '@/types/date-string'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
@@ -28,7 +28,7 @@ type DateFieldProps = {
 }
 
 export default function DateField({ name, ...restProps }: DateFieldProps) {
-    return <Field name={name} component={InnerComponent} {...restProps} />
+    return <Field component={InnerComponent} name={name} {...restProps} />
 }
 
 function InnerComponent({
@@ -52,11 +52,10 @@ function InnerComponent({
 
     return (
         <DatePicker
-            disableFuture
             disabled={disabled || isSubmitting}
-            name={name}
+            disableFuture
             label={label}
-            value={innerValue ? dayjs(innerValue) : null}
+            name={name}
             onChange={date => {
                 const value = date
                     ? (date.format('YYYY-MM-DD') as Ymd)
@@ -72,6 +71,7 @@ function InnerComponent({
                     ...textFieldProps,
                 },
             }}
+            value={innerValue ? dayjs(innerValue) : null}
             {...datePickerProps}
         />
     )

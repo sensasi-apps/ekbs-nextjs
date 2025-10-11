@@ -1,23 +1,23 @@
 'use client'
 
+// materials
+import Container from '@mui/material/Container'
 // vendors
 import type { UUID } from 'crypto'
 import { Formik } from 'formik'
 import { useParams, useRouter } from 'next/navigation'
 import useSWR from 'swr'
-import myAxios from '@/lib/axios'
-// materials
-import Container from '@mui/material/Container'
+import LoadingCenter from '@/components/loading-center'
 // components
 import PageTitle from '@/components/page-title'
-import LoadingCenter from '@/components/loading-center'
-// utils
-import handle422 from '@/utils/handle-422'
-// modules
-import type LandORM from '@/modules/clm/types/orms/land'
+import myAxios from '@/lib/axios'
 import LandForm, {
     type LandFormValues,
 } from '@/modules/clm/components/land-form'
+// modules
+import type LandORM from '@/modules/clm/types/orms/land'
+// utils
+import handle422 from '@/utils/handle-422'
 import shortUuid from '@/utils/short-uuid'
 
 export default function Page() {
@@ -36,24 +36,26 @@ export default function Page() {
     return (
         <Container maxWidth="sm">
             <PageTitle
-                title="Perbarui Lahan"
                 subtitle={shortUuid(land_uuid as UUID)}
+                title="Perbarui Lahan"
             />
 
             <Formik<LandFormValues>
+                component={LandForm}
                 initialStatus={{
                     region: data.address.region,
                 }}
                 initialValues={{
-                    user_uuid,
                     address_detail: data.address.detail,
-                    rea_land_id: data.rea_land_id,
-                    note: data.note,
                     farmer_group_uuid: data.farmer_group?.uuid,
                     n_area_hectares: data.n_area_hectares,
+                    note: data.note,
                     planted_at: data.planted_at,
+                    rea_land_id: data.rea_land_id,
                     region_id: data.address.region?.id,
+                    user_uuid,
                 }}
+                onReset={back}
                 onSubmit={(values, { setErrors }) =>
                     myAxios
                         .post(
@@ -63,8 +65,6 @@ export default function Page() {
                         .then(back)
                         .catch(err => handle422(err, setErrors))
                 }
-                component={LandForm}
-                onReset={back}
             />
         </Container>
     )

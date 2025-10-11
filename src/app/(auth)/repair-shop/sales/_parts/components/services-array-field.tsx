@@ -1,22 +1,23 @@
 // vendors
-import { useRef } from 'react'
-import {
-    type FieldProps,
-    type FieldArrayRenderProps,
-    Field,
-    FieldArray,
-} from 'formik'
-import useSWR from 'swr'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
+import Typography from '@mui/material/Typography'
+import {
+    Field,
+    FieldArray,
+    type FieldArrayRenderProps,
+    type FieldProps,
+} from 'formik'
+import { useRef } from 'react'
+import useSWR from 'swr'
 // components
 import NumericField from '@/components/formik-fields/numeric-field'
 import RemoveButton from '@/components/remove-button'
@@ -43,8 +44,8 @@ export default function ServicesArrayField({
 
                 return (
                     <>
-                        <Box display="flex" gap={2} alignItems="center" mb={2}>
-                            <Typography fontWeight="bold" component="div">
+                        <Box alignItems="center" display="flex" gap={2} mb={2}>
+                            <Typography component="div" fontWeight="bold">
                                 Layanan
                             </Typography>
 
@@ -56,18 +57,19 @@ export default function ServicesArrayField({
 
                         {services.map((_, i) => (
                             <Box
+                                alignItems="center"
                                 display="flex"
-                                key={i}
                                 gap={2}
-                                alignItems="center">
+                                key={i}>
                                 <RemoveButton
-                                    onClick={() => remove(i)}
                                     isDisabled={isDisabled}
+                                    onClick={() => remove(i)}
                                 />
 
                                 {i + 1}
 
                                 <ServiceField
+                                    isDisabled={isDisabled}
                                     name={`${name}.${i}.service_id`}
                                     onChange={(_, selected) => {
                                         setFieldValue(
@@ -80,13 +82,12 @@ export default function ServicesArrayField({
                                             selected?.default_price,
                                         )
                                     }}
-                                    isDisabled={isDisabled}
                                 />
 
                                 <NumericField
-                                    name={`${name}.${i}.rp`}
-                                    label="Harga (Rp)"
                                     disabled={isDisabled}
+                                    label="Harga (Rp)"
+                                    name={`${name}.${i}.rp`}
                                     numericFormatProps={{
                                         margin: 'none',
                                         value: services[i].rp,
@@ -131,27 +132,27 @@ function ServiceField({
 
                 return (
                     <Autocomplete
-                        isOptionEqualToValue={(option, value) =>
-                            option.id === value.id
-                        }
-                        id={field.name}
-                        value={value}
-                        options={services}
                         disabled={isDisabled}
                         fullWidth
                         getOptionLabel={sparePart =>
                             `${sparePart.id} — ${sparePart.name}`
                         }
+                        id={field.name}
+                        isOptionEqualToValue={(option, value) =>
+                            option.id === value.id
+                        }
                         onChange={onChange}
+                        options={services}
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                required
                                 label="Layanan"
-                                size="small"
                                 margin="none"
+                                required
+                                size="small"
                             />
                         )}
+                        value={value}
                     />
                 )
             }}
@@ -169,32 +170,32 @@ function AddItemButton({
     const nRow = useRef(1)
 
     return (
-        <Box display="flex" alignItems="center" mt={1}>
+        <Box alignItems="center" display="flex" mt={1}>
             <TextField
+                defaultValue={1}
                 disabled={isDisabled}
                 fullWidth={false}
-                size="small"
-                type="number"
-                defaultValue={1}
                 label="Tambah baris"
-                slotProps={{ input: { inputProps: { min: 1, max: 99 } } }}
+                onChange={e => (nRow.current = Number(e.target.value))}
+                size="small"
+                slotProps={{ input: { inputProps: { max: 99, min: 1 } } }}
                 sx={{
                     maxWidth: '4em',
                 }}
-                onChange={e => (nRow.current = Number(e.target.value))}
+                type="number"
             />
 
-            <Tooltip placement="top" arrow title="Tambah">
+            <Tooltip arrow placement="top" title="Tambah">
                 <span>
                     <IconButton
-                        disabled={isDisabled}
                         color="success"
-                        size="small"
+                        disabled={isDisabled}
                         onClick={() => {
                             for (let i = 0; i < nRow.current; i++) {
                                 push({})
                             }
-                        }}>
+                        }}
+                        size="small">
                         <AddCircleIcon />
                     </IconButton>
                 </span>

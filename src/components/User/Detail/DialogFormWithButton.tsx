@@ -1,17 +1,18 @@
 // vendors
+
+import CloseIcon from '@mui/icons-material/Close'
+// icons-materials
+import EditIcon from '@mui/icons-material/Edit'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
-// icons-materials
-import EditIcon from '@mui/icons-material/Edit'
-import CloseIcon from '@mui/icons-material/Close'
-// components
-import UserDetailForm from './Form'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 // providers
 import useFormData from '@/providers/FormData'
-import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
+// components
+import UserDetailForm from './Form'
 
 export default function UserDetailDialogFormWithButton() {
     const { data: { detail } = {} } = useUserDetailSwr()
@@ -23,17 +24,17 @@ export default function UserDetailDialogFormWithButton() {
         <>
             <Button
                 color="info"
+                onClick={handleEditClick}
                 size="small"
-                variant="outlined"
                 startIcon={<EditIcon />}
-                onClick={handleEditClick}>
+                variant="outlined">
                 Perbaharui detail pengguna
             </Button>
 
             <Dialog maxWidth="sm" open={isDataNotUndefined}>
                 <DialogTitle display="flex" justifyContent="space-between">
                     Perbaharui detail pengguna
-                    <IconButton size="small" onClick={() => handleClose()}>
+                    <IconButton onClick={() => handleClose()} size="small">
                         <CloseIcon />
                     </IconButton>
                 </DialogTitle>

@@ -1,10 +1,10 @@
 'use client'
 
-// vendors
-import { useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 // materials
 import Chip from '@mui/material/Chip'
+import Link from 'next/link'
+// vendors
+import { useSearchParams } from 'next/navigation'
 // components
 import ScrollableXBox from '@/components/ScrollableXBox'
 
@@ -23,39 +23,39 @@ export default function StateFilterChips() {
     return (
         <ScrollableXBox>
             <Chip
-                size="small"
-                component={Link}
-                label="Semua"
-                href={`?state=&type=${type}`}
                 clickable={Boolean(state)}
                 color={state ? undefined : 'success'}
+                component={Link}
+                href={`?state=&type=${type}`}
+                label="Semua"
+                size="small"
             />
 
             <Chip
-                size="small"
-                component={Link}
-                label="Dekat Jatuh Tempo"
-                href={`?state=due-soon&type=${type}`}
                 clickable={state !== 'due-soon'}
                 color={state === 'due-soon' ? 'success' : undefined}
+                component={Link}
+                href={`?state=due-soon&type=${type}`}
+                label="Dekat Jatuh Tempo"
+                size="small"
             />
 
             <Chip
-                size="small"
-                component={Link}
-                label="Jatuh Tempo"
-                href={`?state=due&type=${type}`}
                 clickable={state !== 'due'}
                 color={state === 'due' ? 'success' : undefined}
+                component={Link}
+                href={`?state=due&type=${type}`}
+                label="Jatuh Tempo"
+                size="small"
             />
 
             <Chip
-                size="small"
-                component={Link}
-                label="Lunas"
-                href={`?state=paid&type=${type}`}
                 clickable={state !== 'paid'}
                 color={state === 'paid' ? 'success' : undefined}
+                component={Link}
+                href={`?state=paid&type=${type}`}
+                label="Lunas"
+                size="small"
             />
         </ScrollableXBox>
     )
