@@ -1,24 +1,25 @@
 // types
-import type InventoryItem from '@/types/orms/inventory-item'
-// vendors
-import { memo, useState } from 'react'
-import { Formik } from 'formik'
-import axios from '@/lib/axios'
-// materials
-import IconButton from '@mui/material/IconButton'
+
 // icons
 import EditIcon from '@mui/icons-material/Edit'
+// materials
+import IconButton from '@mui/material/IconButton'
+import { Formik } from 'formik'
+// vendors
+import { memo, useState } from 'react'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
 import FormikForm from '@/components/formik-form'
 import TypographyWithLabel from '@/components/pages/user-loans/SummaryBox/TypographyWithLabel'
 import UserAutocomplete from '@/components/user-autocomplete'
-// utils
-import errorCatcher from '@/utils/handle-422'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+import type InventoryItem from '@/types/orms/inventory-item'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+// utils
+import errorCatcher from '@/utils/handle-422'
 
 const AssignPicButtonAndDialogForm = memo(
     function AssignPicButtonAndDialogForm({
@@ -46,24 +47,25 @@ const AssignPicButtonAndDialogForm = memo(
                     {pic_user ? `#${pic_user.id} ${pic_user.name}` : '-'}
                     {userCanUpdate && (
                         <IconButton
-                            size="small"
                             color="info"
-                            onClick={() => setIsDialogOpen(true)}>
+                            onClick={() => setIsDialogOpen(true)}
+                            size="small">
                             <EditIcon />
                         </IconButton>
                     )}
                 </TypographyWithLabel>
 
                 <DialogWithTitle
+                    open={isDialogOpen}
                     title={`${
                         latestPic ? 'Tambah' : 'Perbaharui'
-                    } Penanggung Jawab`}
-                    open={isDialogOpen}>
+                    } Penanggung Jawab`}>
                     <Formik
                         enableReinitialize
                         initialValues={{
                             pic_user_uuid: null,
                         }}
+                        onReset={() => setIsDialogOpen(false)}
                         onSubmit={(values, { setErrors }) =>
                             axios
                                 .post(
@@ -75,28 +77,27 @@ const AssignPicButtonAndDialogForm = memo(
                                     setIsDialogOpen(false)
                                 })
                                 .catch(error => errorCatcher(error, setErrors))
-                        }
-                        onReset={() => setIsDialogOpen(false)}>
+                        }>
                         {({ dirty, isSubmitting, setFieldValue, errors }) => {
                             const isDisabled = isSubmitting
 
                             return (
                                 <FormikForm
-                                    id="inventory-item-pic-form"
                                     autoComplete="off"
-                                    isNew={true}
                                     dirty={dirty}
-                                    submitting={isSubmitting}
+                                    id="inventory-item-pic-form"
+                                    isNew={true}
                                     processing={isSubmitting}
                                     slotProps={{
                                         submitButton: {
                                             disabled: isDisabled,
                                         },
-                                    }}>
+                                    }}
+                                    submitting={isSubmitting}>
                                     <UserAutocomplete
-                                        label="Pilih Penanggung Jawab"
                                         disabled={isDisabled}
                                         fullWidth
+                                        label="Pilih Penanggung Jawab"
                                         onChange={(_, user) => {
                                             setFieldValue(
                                                 'pic_user_uuid',

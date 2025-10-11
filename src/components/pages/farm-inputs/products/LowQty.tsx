@@ -1,8 +1,9 @@
 // vendors
-import { memo } from 'react'
+
 // materials
 import Box from '@mui/material/Box'
 import Tooltip from '@mui/material/Tooltip'
+import { memo } from 'react'
 // utils
 import blinkSxValue from '@/utils/blink-sx-value'
 
@@ -12,13 +13,13 @@ const FarmInputsProductsLowQty = memo(function FarmInputsProductsLowQty({
     children: React.ReactNode
 }) {
     return (
-        <Tooltip title="Persediaan menipis" placement="top" arrow>
+        <Tooltip arrow placement="top" title="Persediaan menipis">
             <Box
-                fontWeight="bold"
-                whiteSpace="nowrap"
                 color="warning.main"
+                component="span"
+                fontWeight="bold"
                 sx={blinkSxValue}
-                component="span">
+                whiteSpace="nowrap">
                 {children}
             </Box>
         </Tooltip>

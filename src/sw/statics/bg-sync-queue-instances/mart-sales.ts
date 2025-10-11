@@ -1,5 +1,5 @@
-import { handleOnSync } from '@/sw/functions/handle-on-sync'
 import { BackgroundSyncQueue } from 'serwist'
+import { handleOnSync } from '@/sw/functions/handle-on-sync'
 
 /**
  * A BackgroundSyncQueue instance for handling mart sales synchronization.

@@ -6,20 +6,20 @@ import Switch from '@mui/material/Switch'
 
 export default function IsActiveDisplay({ isActive = false }) {
     return (
-        <FormControl fullWidth margin="none" disabled>
+        <FormControl disabled fullWidth margin="none">
             <FormLabel>Status Akun</FormLabel>
             <FormControlLabel
+                control={
+                    <Switch
+                        checked={isActive}
+                        color="success"
+                        name="is_active"
+                    />
+                }
+                label={isActive ? 'Aktif' : 'Nonaktif'}
                 sx={{
                     color: isActive ? 'success.light' : 'text.secondary',
                 }}
-                label={isActive ? 'Aktif' : 'Nonaktif'}
-                control={
-                    <Switch
-                        color="success"
-                        name="is_active"
-                        checked={isActive}
-                    />
-                }
             />
         </FormControl>
     )

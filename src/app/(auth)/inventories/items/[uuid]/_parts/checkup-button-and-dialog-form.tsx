@@ -1,22 +1,23 @@
 // types
-import type InventoryItem from '@/types/orms/inventory-item'
-// vendors
-import { memo, useState } from 'react'
-import { FastField, Formik } from 'formik'
-import axios from '@/lib/axios'
-// materials
-import Button from '@mui/material/Button'
+
 // icons
 import RateReview from '@mui/icons-material/RateReview'
+// materials
+import Button from '@mui/material/Button'
+import { FastField, Formik } from 'formik'
+// vendors
+import { memo, useState } from 'react'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
 import FormikForm from '@/components/formik-form'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-// utils
-import errorCatcher from '@/utils/handle-422'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+import type InventoryItem from '@/types/orms/inventory-item'
+// utils
+import errorCatcher from '@/utils/handle-422'
 
 const CheckupButtonAndDialogForm = memo(function CheckupButtonAndDialogForm({
     uuid,
@@ -42,30 +43,31 @@ const CheckupButtonAndDialogForm = memo(function CheckupButtonAndDialogForm({
             {userCanUpdate && (
                 <Button
                     endIcon={<RateReview />}
-                    variant="outlined"
+                    onClick={() => setIsDialogOpen(true)}
                     size="small"
-                    sx={{
-                        mt: {
-                            xs: 1.5,
-                            sm: 'unset',
-                        },
-                    }}
                     style={{
                         marginBottom: '1em',
                     }}
-                    onClick={() => setIsDialogOpen(true)}>
+                    sx={{
+                        mt: {
+                            sm: 'unset',
+                            xs: 1.5,
+                        },
+                    }}
+                    variant="outlined">
                     Tambah Pemeriksaan
                 </Button>
             )}
 
             <DialogWithTitle
-                title="Tambah Catatan Pemeriksaan"
-                open={isDialogOpen}>
+                open={isDialogOpen}
+                title="Tambah Catatan Pemeriksaan">
                 <Formik
                     enableReinitialize
                     initialValues={{
                         note: undefined,
                     }}
+                    onReset={() => setIsDialogOpen(false)}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(`inventory-items/${uuid}/checkup`, values)
@@ -74,31 +76,30 @@ const CheckupButtonAndDialogForm = memo(function CheckupButtonAndDialogForm({
                                 setIsDialogOpen(false)
                             })
                             .catch(error => errorCatcher(error, setErrors))
-                    }
-                    onReset={() => setIsDialogOpen(false)}>
+                    }>
                     {({ dirty, isSubmitting }) => {
                         const isDisabled = isSubmitting
 
                         return (
                             <FormikForm
-                                id="inventory-item-checkup-form"
                                 autoComplete="off"
-                                isNew={true}
                                 dirty={dirty}
-                                submitting={isSubmitting}
+                                id="inventory-item-checkup-form"
+                                isNew={true}
                                 processing={isSubmitting}
                                 slotProps={{
                                     submitButton: {
                                         disabled: isDisabled,
                                     },
-                                }}>
+                                }}
+                                submitting={isSubmitting}>
                                 <FastField
-                                    name="note"
                                     component={TextFieldFastableComponent}
+                                    disabled={isSubmitting}
                                     label="Pemeriksaan"
                                     multiline
+                                    name="note"
                                     rows={2}
-                                    disabled={isSubmitting}
                                 />
                             </FormikForm>
                         )

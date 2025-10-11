@@ -1,7 +1,7 @@
 import axios from '@/lib/axios'
-import type { FormValues } from './form'
-import ApiUrl from './api-url'
 import type ProductMovement from '@/modules/mart/types/orms/product-movement'
+import ApiUrl from './api-url'
+import type { FormValues } from './form'
 
 export default function getAxiosRequest(
     action: 'create' | 'update',

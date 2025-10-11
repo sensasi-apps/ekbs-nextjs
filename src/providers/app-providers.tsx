@@ -1,15 +1,16 @@
 // types
-import type { ReactNode } from 'react'
-// vendors
-import { ThemeProvider } from '@mui/material/styles'
+
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
+// vendors
+import { ThemeProvider } from '@mui/material/styles'
+import type { ReactNode } from 'react'
 // providers
 // statics
 import THEME from '@/providers/@statics/theme'
+import SnackbarProvider from './_parts/snackbar-provider'
 // parts
 import SWRProvider from './_parts/swr-provider'
-import SnackbarProvider from './_parts/snackbar-provider'
 import './_parts/setup-dayjs-locale'
 
 /**
@@ -29,25 +30,23 @@ export function AppProviders({ children }: { children: ReactNode }) {
             <GlobalStyles
                 styles={{
                     '::-webkit-scrollbar': {
-                        width: '8px',
                         height: '8px',
+                        width: '8px',
                     },
 
                     '::-webkit-scrollbar-thumb': {
-                        borderRadius: '8px',
-                        backgroundColor: 'rgba(128,128,128,0.5)',
-
                         '&:hover': {
                             backgroundColor: 'rgba(128,128,128,0.7)',
                         },
+                        backgroundColor: 'rgba(128,128,128,0.5)',
+                        borderRadius: '8px',
                     },
 
                     '::-webkit-scrollbar-track': {
-                        backgroundColor: 'rgba(128,128,128,0.1)',
-
                         '&:hover': {
                             backgroundColor: 'rgba(128,128,128,0.2)',
                         },
+                        backgroundColor: 'rgba(128,128,128,0.1)',
                     },
                 }}
             />

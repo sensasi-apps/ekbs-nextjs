@@ -1,18 +1,19 @@
 // types
-import type { SvgIconOwnProps } from '@mui/material/SvgIcon'
-// vendors
-import { memo } from 'react'
-// materials
-import Box from '@mui/material/Box'
-import Chip, { type ChipProps } from '@mui/material/Chip'
-import Skeleton from '@mui/material/Skeleton'
+
 // icons
 import BadgeIcon from '@mui/icons-material/Badge'
 import Diversity3Icon from '@mui/icons-material/Diversity3'
 import FireTruckIcon from '@mui/icons-material/FireTruck'
+import GrassIcon from '@mui/icons-material/Grass'
 import GroupsIcon from '@mui/icons-material/Groups'
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
-import GrassIcon from '@mui/icons-material/Grass'
+// materials
+import Box from '@mui/material/Box'
+import Chip, { type ChipProps } from '@mui/material/Chip'
+import Skeleton from '@mui/material/Skeleton'
+import type { SvgIconOwnProps } from '@mui/material/SvgIcon'
+// vendors
+import { memo } from 'react'
 
 const UserRoleChips = memo(function UserRoleChips({
     data,
@@ -25,12 +26,12 @@ const UserRoleChips = memo(function UserRoleChips({
 
     return roleNames.map(roleName => (
         <Chip
-            variant={variant}
-            key={roleName}
-            size={size}
-            label={roleName}
-            icon={getRoleIconByIdName(roleName)}
             color={getRoleColor(roleName)}
+            icon={getRoleIconByIdName(roleName)}
+            key={roleName}
+            label={roleName}
+            size={size}
+            variant={variant}
         />
     ))
 })

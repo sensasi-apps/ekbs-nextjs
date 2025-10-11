@@ -20,10 +20,10 @@ export default function TextField({
 }: TextFieldProps) {
     return (
         <MuiTextField
-            required={required}
             fullWidth={fullWidth}
-            size={size}
             margin={margin}
+            required={required}
+            size={size}
             {...props}
         />
     )

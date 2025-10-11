@@ -1,12 +1,12 @@
-import type { Ymd } from '@/types/date-string'
 import type { UUID } from 'crypto'
-import type ActivityLogORM from '@/types/orms/activity-log'
-import type BusinessUnitProductSaleORM from '@/types/orms/business-unit-product-sale'
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type ProductMovementORM from '@/modules/farm-inputs/types/orms/product-movement'
 import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type UserORM from '@/modules/user/types/orms/user'
+import type { Ymd } from '@/types/date-string'
+import type ActivityLogORM from '@/types/orms/activity-log'
+import type BusinessUnitProductSaleORM from '@/types/orms/business-unit-product-sale'
 
 export default interface ProductSaleORM {
     uuid: UUID

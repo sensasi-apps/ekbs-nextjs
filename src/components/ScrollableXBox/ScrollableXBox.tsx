@@ -1,5 +1,5 @@
-import { memo } from 'react'
 import Box, { type BoxProps } from '@mui/material/Box'
+import { memo } from 'react'
 
 /**
  * Box with default scrollable x params
@@ -21,11 +21,11 @@ const ScrollableXBox = memo(function ScrollableXBox({
 
     return (
         <Box
+            alignItems="center"
             display="flex"
             gap={1}
-            whiteSpace="nowrap"
-            alignItems="center"
             sx={appliedSx}
+            whiteSpace="nowrap"
             {...props}
         />
     )

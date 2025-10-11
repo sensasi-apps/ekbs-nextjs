@@ -1,17 +1,17 @@
 'use client'
 
-// vendors
-import { useCallback } from 'react'
-import { useRouter } from 'next/navigation'
-import myAxios from '@/lib/axios'
-// materials
-import Button from '@mui/material/Button'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+// materials
+import Button from '@mui/material/Button'
+import { useRouter } from 'next/navigation'
+// vendors
+import { useCallback } from 'react'
 // components
 import LoadingCenter from '@/components/loading-center'
 // hooks
 import useAuthInfoState from '@/hooks/use-auth-info-state'
+import myAxios from '@/lib/axios'
 
 export default function PolicyActions() {
     const { back } = useRouter()
@@ -42,10 +42,10 @@ export default function PolicyActions() {
             {!authInfo.is_agreed_tncp && (
                 <form onSubmit={handleSubmit}>
                     <Button
+                        fullWidth
                         size="large"
                         type="submit"
-                        variant="contained"
-                        fullWidth>
+                        variant="contained">
                         Saya telah membaca dan menyetujui Syarat, Ketentuan, dan
                         Kebijakan Privasi ini
                     </Button>
@@ -53,17 +53,17 @@ export default function PolicyActions() {
             )}
 
             {authInfo.is_agreed_tncp && (
-                <Button onClick={back} startIcon={<ArrowBackIcon />} fullWidth>
+                <Button fullWidth onClick={back} startIcon={<ArrowBackIcon />}>
                     Kembali
                 </Button>
             )}
 
             {!authInfo.is_agreed_tncp && (
                 <Button
-                    size="small"
-                    href="/logout"
                     endIcon={<ArrowForwardIcon />}
-                    fullWidth>
+                    fullWidth
+                    href="/logout"
+                    size="small">
                     Saya tidak menyetujui Syarat, Ketentuan, dan Kebijakan
                     (logout)
                 </Button>

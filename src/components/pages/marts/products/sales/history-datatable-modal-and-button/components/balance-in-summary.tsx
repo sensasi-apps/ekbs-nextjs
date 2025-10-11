@@ -1,7 +1,7 @@
 // vendors
-import React, { type ReactNode, useState } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
-import useSWR from 'swr'
+
+// icons-materials
+import RefreshIcon from '@mui/icons-material/Refresh'
 // materials
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -11,14 +11,15 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import RefreshIcon from '@mui/icons-material/Refresh'
+import dayjs, { Dayjs } from 'dayjs'
+import React, { type ReactNode, useState } from 'react'
+import useSWR from 'swr'
 // components
 import DateTimePicker from '@/components/DateTimePicker'
 import IconButton from '@/components/IconButton'
+import PrintHandler from '@/components/PrintHandler'
 // utils
 import formatNumber from '@/utils/format-number'
-import PrintHandler from '@/components/PrintHandler'
 
 type BalanceInSummaryRow = {
     cash_name: string
@@ -60,21 +61,18 @@ export default function BalanceInSummary() {
         <>
             <FiltersBox
                 disabled={false}
-                handleDateChange={handleDateChange}
-                handleRefresh={() => mutate(rows)}
                 downloadButton={
                     <PrintHandler
                         documentTitle="Rangkuman Saldo Masuk — Belayan Mart"
                         slotProps={{
                             printButton: {
-                                size: 'small',
                                 disabled:
                                     !isParamsValid || isLoading || isValidating,
+                                size: 'small',
                             },
                         }}>
                         <Box
                             sx={{
-                                textTransform: 'uppercase !important',
                                 '*': {
                                     color: 'black !important',
                                 },
@@ -82,9 +80,10 @@ export default function BalanceInSummary() {
                                     borderBottom: '1px solid',
                                 },
                                 '& tfoot td': {
-                                    fontWeight: 'bold',
                                     borderBottom: 'unset',
+                                    fontWeight: 'bold',
                                 },
+                                textTransform: 'uppercase !important',
                             }}>
                             <Typography>
                                 Rangkuman Saldo Masuk — Belayan Mart
@@ -99,6 +98,8 @@ export default function BalanceInSummary() {
                         </Box>
                     </PrintHandler>
                 }
+                handleDateChange={handleDateChange}
+                handleRefresh={() => mutate(rows)}
             />
 
             <MainTable data={rows} />
@@ -120,40 +121,40 @@ function FiltersBox({
     downloadButton: ReactNode
 }) {
     return (
-        <Box display="flex" gap={1} alignItems="center" mb={4}>
+        <Box alignItems="center" display="flex" gap={1} mb={4}>
             <DateTimePicker
+                disabled={disabled}
+                format="DD-MM-YYYY HH:mm"
+                label="Dari"
+                maxDate={dayjs().endOf('month')}
+                minDate={FROM_DATE}
+                onChange={date => handleDateChange('fromAt', date ?? undefined)}
                 slotProps={{
                     textField: {
                         id: 'fromAt',
                     },
                 }}
-                label="Dari"
-                format="DD-MM-YYYY HH:mm"
-                disabled={disabled}
-                minDate={FROM_DATE}
-                maxDate={dayjs().endOf('month')}
-                onChange={date => handleDateChange('fromAt', date ?? undefined)}
             />
 
             <DateTimePicker
+                disabled={disabled}
+                format="DD-MM-YYYY HH:mm"
+                label="Hingga"
+                maxDate={dayjs().endOf('month')}
+                minDate={FROM_DATE}
+                onChange={date => handleDateChange('toAt', date ?? undefined)}
                 slotProps={{
                     textField: {
                         id: 'toAt',
                     },
                 }}
-                label="Hingga"
-                format="DD-MM-YYYY HH:mm"
-                disabled={disabled}
-                minDate={FROM_DATE}
-                maxDate={dayjs().endOf('month')}
-                onChange={date => handleDateChange('toAt', date ?? undefined)}
             />
 
             <IconButton
-                title="Segarkan"
+                disabled={disabled}
                 icon={RefreshIcon}
                 onClick={() => handleRefresh()}
-                disabled={disabled}
+                title="Segarkan"
             />
 
             {downloadButton}
@@ -164,13 +165,13 @@ function FiltersBox({
 function MainTable({ data: rows }: { data: BalanceInSummaryRow[] }) {
     return (
         <Table
-            size="small"
             aria-label="sales report"
+            size="small"
             sx={{
-                mt: 2,
                 '& td, & th': {
                     p: 0.5,
                 },
+                mt: 2,
             }}>
             <TableHead>
                 <TableRow>

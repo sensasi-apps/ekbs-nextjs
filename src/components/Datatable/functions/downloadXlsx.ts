@@ -1,15 +1,16 @@
 // types
-import type { DatatableProps } from '../@types'
-import type YajraDatatable from '@/types/yajra-datatable-response'
+
+import dayjs from 'dayjs'
 // vendors
 import type { DataTableState } from 'mui-datatable-delight'
-import dayjs from 'dayjs'
-import axios from '@/lib/axios'
 import { utils, writeFileXLSX } from 'xlsx'
-// utils
-import formatToDatatableParams from '../utils/formatToDatatableParams'
 // etc
 import packageJson from '@/../package.json'
+import axios from '@/lib/axios'
+import type YajraDatatable from '@/types/yajra-datatable-response'
+import type { DatatableProps } from '../@types'
+// utils
+import formatToDatatableParams from '../utils/formatToDatatableParams'
 
 export default async function downloadXlsx<T>(
     apiUrl: DatatableProps<T>['apiUrl'],
@@ -27,8 +28,8 @@ export default async function downloadXlsx<T>(
                     ...tableState,
                     columns: headerCols,
                 }),
-                start: 0,
                 length: undefined,
+                start: 0,
             },
         })
         .then(({ data }) => {

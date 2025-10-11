@@ -1,21 +1,21 @@
 'use client'
-// types
-import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
-import type ProductType from '@/modules/farm-inputs/types/orms/product'
-// vendors
-import { useSearchParams } from 'next/navigation'
-import Head from 'next/head'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
+import Head from 'next/head'
+// vendors
+import { useSearchParams } from 'next/navigation'
+import WarehouseSelectionButton from '@/app/(public)/katalog-saprodi/_parts/warehouse-selection-button'
+// types
+import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
 // components
 import Datatable from '@/components/Datatable'
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
-import WarehouseSelectionButton from '@/app/(public)/katalog-saprodi/_parts/warehouse-selection-button'
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
+import formatNumber from '@/utils/format-number'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
-import formatNumber from '@/utils/format-number'
 
 interface DataType extends Omit<ProductType, 'warehouses'> {
     qty: number
@@ -39,11 +39,11 @@ export default function Page() {
             </Head>
 
             <Box mb={2}>
-                <Typography variant="h4" component="h1">
+                <Typography component="h1" variant="h4">
                     {pageTitle}
                 </Typography>
 
-                <Typography variant="subtitle1" component="h2">
+                <Typography component="h2" variant="subtitle1">
                     Koperasi Belayan Sejahtera
                 </Typography>
 
@@ -54,36 +54,36 @@ export default function Page() {
                 apiUrl={'/public/produk-saprodi/datatable/' + warehouse}
                 columns={columns}
                 defaultSortOrder={{
-                    name: 'category_name',
                     direction: 'asc',
+                    name: 'category_name',
                 }}
-                tableId="products-table"
-                title={'Daftar Produk — Gudang ' + warehouse.toUpperCase()}
                 getRowDataCallback={fn => (getRowData = fn)}
                 swrOptions={{
                     revalidateOnMount: true,
                 }}
+                tableId="products-table"
+                title={'Daftar Produk — Gudang ' + warehouse.toUpperCase()}
             />
             <Box mt={1}>
                 <Typography variant="caption">Keterangan:</Typography>
                 <Box component="ul" m={0}>
-                    <Typography variant="caption" component="li">
+                    <Typography component="li" variant="caption">
                         Stok berwarna{' '}
                         <Typography
-                            variant="caption"
                             color="warning.main"
-                            component="span">
+                            component="span"
+                            variant="caption">
                             kuning
                         </Typography>{' '}
                         menandakan persediaan telah menipis.
                     </Typography>
 
-                    <Typography variant="caption" component="li">
+                    <Typography component="li" variant="caption">
                         Stok berwarna{' '}
                         <Typography
-                            variant="caption"
                             color="error.main"
-                            component="span">
+                            component="span"
+                            variant="caption">
                             merah
                         </Typography>{' '}
                         menandakan persediaan telah habis.
@@ -96,8 +96,8 @@ export default function Page() {
 
 const columns: DatatableProps<DataType>['columns'] = [
     {
-        name: 'category_name',
         label: 'Kategori',
+        name: 'category_name',
         options: {
             customBodyRender: (text: string) => (
                 <Chip label={text} size="small" variant="outlined" />
@@ -105,15 +105,15 @@ const columns: DatatableProps<DataType>['columns'] = [
         },
     },
     {
-        name: 'id',
         label: 'ID',
+        name: 'id',
         options: {
             display: 'excluded',
         },
     },
     {
-        name: 'code',
         label: 'Kode',
+        name: 'code',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
@@ -123,9 +123,9 @@ const columns: DatatableProps<DataType>['columns'] = [
 
                 return (
                     <Typography
-                        variant="overline"
                         fontFamily="monospace"
-                        lineHeight="inherit">
+                        lineHeight="inherit"
+                        variant="overline">
                         {code ?? id}
                     </Typography>
                 )
@@ -133,19 +133,19 @@ const columns: DatatableProps<DataType>['columns'] = [
         },
     },
     {
-        name: 'name',
         label: 'Nama',
+        name: 'name',
     },
     {
-        name: 'description',
         label: 'Deskripsi',
+        name: 'description',
         options: {
             display: false,
         },
     },
     {
-        name: 'qty',
         label: 'Stok',
+        name: 'qty',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
@@ -157,15 +157,15 @@ const columns: DatatableProps<DataType>['columns'] = [
 
                 const base = (
                     <Box
+                        color={qty === 0 ? 'error.main' : undefined}
                         component="span"
                         lineHeight="inherit"
-                        whiteSpace="nowrap"
-                        color={qty === 0 ? 'error.main' : undefined}>
+                        whiteSpace="nowrap">
                         {formatNumber(qty)}{' '}
                         <Typography
-                            variant="overline"
                             fontFamily="monospace"
-                            lineHeight="inherit">
+                            lineHeight="inherit"
+                            variant="overline">
                             {unit}
                         </Typography>
                     </Box>
@@ -183,8 +183,8 @@ const columns: DatatableProps<DataType>['columns'] = [
         },
     },
     {
-        name: 'default_sell_price',
         label: 'Harga Satuan (Tunai)',
+        name: 'default_sell_price',
         options: {
             customBodyRender: value => (
                 <>{value ? numberToCurrency(value) : ''}</>
@@ -192,27 +192,27 @@ const columns: DatatableProps<DataType>['columns'] = [
         },
     },
     {
-        name: 'default_sell_price',
         label: 'Harga Satuan (Potong 1x)',
+        name: 'default_sell_price',
         options: {
-            sort: false,
-            searchable: false,
             customBodyRender: value =>
                 value
                     ? numberToCurrency(Math.ceil(value + (value * 4) / 100))
                     : '',
+            searchable: false,
+            sort: false,
         },
     },
     {
-        name: 'default_sell_price',
         label: 'Harga Satuan (Potong 2x)',
+        name: 'default_sell_price',
         options: {
-            sort: false,
-            searchable: false,
             customBodyRender: value =>
                 value
                     ? numberToCurrency(Math.ceil(value + (value * 8) / 100))
                     : '',
+            searchable: false,
+            sort: false,
         },
     },
 ]

@@ -1,11 +1,8 @@
 // types
-import type User from '@/modules/user/types/orms/user'
-import type Role from '@/types/orms/role'
-import type { FormEvent } from 'react'
-// vendors
-import { useState } from 'react'
-import useSWR, { mutate } from 'swr'
-import axios from '@/lib/axios'
+
+// icons
+import CloseIcon from '@mui/icons-material/Close'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -21,15 +18,19 @@ import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-// icons
-import CloseIcon from '@mui/icons-material/Close'
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import type { FormEvent } from 'react'
+// vendors
+import { useState } from 'react'
+import useSWR, { mutate } from 'swr'
 // components
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import ErrorCenter from '@/components/Statuses/ErrorCenter'
+import LoadingCenter from '@/components/Statuses/LoadingCenter'
 // utils
 import { getRoleIconByIdName } from '@/components/User/RoleChips'
+import axios from '@/lib/axios'
+import type User from '@/modules/user/types/orms/user'
+import type Role from '@/types/orms/role'
 
 export default function RolesAndPermissionButtonAndDialogForm({
     data: user = {} as User,
@@ -80,11 +81,11 @@ export default function RolesAndPermissionButtonAndDialogForm({
     return (
         <>
             <Button
-                disabled={!user.uuid || isDataLoading}
                 color="warning"
+                disabled={!user.uuid || isDataLoading}
+                onClick={() => setIsOpen(true)}
                 size="small"
-                startIcon={<ManageAccountsIcon />}
-                onClick={() => setIsOpen(true)}>
+                startIcon={<ManageAccountsIcon />}>
                 Atur Peran
             </Button>
 
@@ -108,10 +109,10 @@ export default function RolesAndPermissionButtonAndDialogForm({
 
                         {!(isComplete || isLoading || error) && (
                             <Box
+                                component="form"
                                 display="flex"
                                 flexDirection="column"
                                 gap={3}
-                                component="form"
                                 id="set_roles_and_permission"
                                 onSubmit={handleSubmit}
                                 textTransform="capitalize">
@@ -132,16 +133,16 @@ export default function RolesAndPermissionButtonAndDialogForm({
                             <Button
                                 color="info"
                                 disabled={isLoading}
-                                type="reset"
-                                onClick={handleClose}>
+                                onClick={handleClose}
+                                type="reset">
                                 Batal
                             </Button>
                             <Button
                                 color="info"
                                 disabled={isLoading}
-                                variant="contained"
                                 form="set_roles_and_permission"
-                                type="submit">
+                                type="submit"
+                                variant="contained">
                                 Simpan
                             </Button>
                         </DialogActions>
@@ -160,9 +161,9 @@ function DialogTitle({
     onClose: () => void
 }) {
     return (
-        <MuiDialogTitle display="flex" flexDirection="row" alignItems="center">
+        <MuiDialogTitle alignItems="center" display="flex" flexDirection="row">
             <ManageAccountsIcon color="warning" />
-            <Typography variant="h6" component="div" ml={1} flexGrow={1}>
+            <Typography component="div" flexGrow={1} ml={1} variant="h6">
                 Pengaturan peran
             </Typography>
 
@@ -203,16 +204,16 @@ const ROLE_GROUPS_ID: {
     [key: (typeof ROLE_GROUPS)[number]]: string
 } = {
     basic: 'identifikasi dasar',
-    finance: 'keuangan',
-    loan: 'pinjaman',
-    system: 'sistem',
-    'palm bunch': 'TBS',
-    'farm inputs': 'SAPRODI',
-    inventory: 'inventaris',
-    'heavy equipment rent': 'sewa alat berat',
-    mart: 'Belayan Mart',
-    'repair shop': 'Belayan Spare Parts',
     clm: 'Sertifikasi dan Pengelolaan Kebun',
+    'farm inputs': 'SAPRODI',
+    finance: 'keuangan',
+    'heavy equipment rent': 'sewa alat berat',
+    inventory: 'inventaris',
+    loan: 'pinjaman',
+    mart: 'Belayan Mart',
+    'palm bunch': 'TBS',
+    'repair shop': 'Belayan Spare Parts',
+    system: 'sistem',
 }
 
 function CheckboxesByGroupName({
@@ -227,7 +228,7 @@ function CheckboxesByGroupName({
     return (
         <>
             <Divider textAlign="left">
-                <Typography variant="caption" color="primary">
+                <Typography color="primary" variant="caption">
                     {ROLE_GROUPS_ID[groupName]}
                 </Typography>
             </Divider>
@@ -235,11 +236,11 @@ function CheckboxesByGroupName({
             <FormGroup row>
                 {isLoading && (
                     <Skeleton
-                        variant="rounded"
                         sx={{
-                            width: '100%',
                             height: '2em',
+                            width: '100%',
                         }}
+                        variant="rounded"
                     />
                 )}
 
@@ -248,30 +249,30 @@ function CheckboxesByGroupName({
                     .map(role => (
                         <Tooltip
                             arrow={true}
-                            key={role.id}
                             disableHoverListener={
                                 !isDisabled(user, role.name_id)
                             }
-                            title="Tidak dapat mengatur peran, silakan mengaturnya melalui tanggal bergabung / keluar"
-                            placement="top">
+                            key={role.id}
+                            placement="top"
+                            title="Tidak dapat mengatur peran, silakan mengaturnya melalui tanggal bergabung / keluar">
                             <FormControlLabel
-                                label={role.name_id}
-                                disabled={isDisabled(user, role.name_id)}
                                 control={
                                     <Checkbox
                                         checkedIcon={getRoleIconByIdName(
                                             role.name_id,
                                         )}
-                                        name="roles"
-                                        value={role.name}
                                         color="warning"
                                         defaultChecked={
                                             user.role_names_id?.includes(
                                                 role.name_id,
                                             ) || false
                                         }
+                                        name="roles"
+                                        value={role.name}
                                     />
                                 }
+                                disabled={isDisabled(user, role.name_id)}
+                                label={role.name_id}
                             />
                         </Tooltip>
                     ))}

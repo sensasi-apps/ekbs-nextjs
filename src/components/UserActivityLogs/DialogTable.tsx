@@ -1,14 +1,15 @@
 // types
-import type ActivityLogType from '@/types/orms/activity-log'
-// vendors
-import { type Dispatch, type SetStateAction, memo } from 'react'
-// materials
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import IconButton from '@mui/material/IconButton'
+
 // icons
 import CloseIcon from '@mui/icons-material/Close'
+// materials
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
+// vendors
+import { type Dispatch, memo, type SetStateAction } from 'react'
+import type ActivityLogType from '@/types/orms/activity-log'
 // components
 import UserActivityLogsTable from './Table'
 
@@ -24,13 +25,13 @@ const UserActivityLogsDialogTable = memo(function UserActivityLogsDialogTable({
     const handleClose = () => setIsOpen(false)
 
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog onClose={handleClose} open={open}>
             <DialogTitle
-                display="flex"
-                justifyContent="space-between"
                 alignItems="center"
+                component="div"
+                display="flex"
                 fontWeight="bold"
-                component="div">
+                justifyContent="space-between">
                 Detail Log
                 <IconButton onClick={handleClose}>
                     <CloseIcon />

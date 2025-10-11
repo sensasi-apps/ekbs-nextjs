@@ -1,15 +1,16 @@
 // types
-import type Product from '@/modules/farm-inputs/types/orms/product'
-// vendors
-import { memo } from 'react'
-// materials
-import TableContainer from '@mui/material/TableContainer'
+
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
+// materials
+import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+// vendors
+import { memo } from 'react'
+import type Product from '@/modules/farm-inputs/types/orms/product'
 // utils
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
@@ -74,7 +75,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                 <TableBody>
                     {!data && (
                         <TableRow>
-                            <TableCell colSpan={17} align="center">
+                            <TableCell align="center" colSpan={17}>
                                 <i>Tidak ada data</i>
                             </TableCell>
                         </TableRow>
@@ -116,7 +117,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                                 <TableCell>{name}</TableCell>
                                 <TableCell>{unit}</TableCell>
 
-                                <TableCell sx={LEFT_BORDER_STYLE} align="right">
+                                <TableCell align="right" sx={LEFT_BORDER_STYLE}>
                                     {formatNumber(initial_qty)}
                                 </TableCell>
                                 <TableCell align="right">
@@ -126,7 +127,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                                     {roundedCurrencyFormat(initial_worth ?? 0)}
                                 </TableCell>
 
-                                <TableCell sx={LEFT_BORDER_STYLE} align="right">
+                                <TableCell align="right" sx={LEFT_BORDER_STYLE}>
                                     {formatNumber(in_qty)}
                                 </TableCell>
                                 <TableCell align="right">
@@ -136,7 +137,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                                     {roundedCurrencyFormat(in_worth ?? 0)}
                                 </TableCell>
 
-                                <TableCell sx={LEFT_BORDER_STYLE} align="right">
+                                <TableCell align="right" sx={LEFT_BORDER_STYLE}>
                                     {formatNumber(out_qty)}
                                 </TableCell>
                                 <TableCell align="right">
@@ -146,7 +147,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                                     {roundedCurrencyFormat(out_worth)}
                                 </TableCell>
 
-                                <TableCell sx={LEFT_BORDER_STYLE} align="right">
+                                <TableCell align="right" sx={LEFT_BORDER_STYLE}>
                                     {formatNumber(final_qty)}
                                 </TableCell>
                                 <TableCell align="right">
@@ -156,7 +157,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                                     {roundedCurrencyFormat(final_worth ?? 0)}
                                 </TableCell>
 
-                                <TableCell sx={LEFT_BORDER_STYLE} align="right">
+                                <TableCell align="right" sx={LEFT_BORDER_STYLE}>
                                     {roundedCurrencyFormat(default_sell_price)}
                                 </TableCell>
                                 <TableCell align="right">
@@ -170,7 +171,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                     <TableRow>
                         <TableCell colSpan={5}>Total</TableCell>
 
-                        <TableCell sx={LEFT_BORDER_STYLE} colSpan={2} />
+                        <TableCell colSpan={2} sx={LEFT_BORDER_STYLE} />
                         <TableCell align="right">
                             {roundedCurrencyFormat(
                                 data?.reduce(

@@ -1,11 +1,12 @@
 // vendors
-import { Field, type FieldProps } from 'formik'
+
+import MuiCheckbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
 // materials
 import FormGroup from '@mui/material/FormGroup'
-import FormLabel from '@mui/material/FormLabel'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
-import MuiCheckbox from '@mui/material/Checkbox'
+import FormLabel from '@mui/material/FormLabel'
+import { Field, type FieldProps } from 'formik'
 
 export default function CheckboxFields({
     disabled,
@@ -33,17 +34,17 @@ export default function CheckboxFields({
             {options.map(({ label, value }) => (
                 <Field
                     key={label}
-                    type="checkbox"
                     name={name}
                     required={required}
+                    type="checkbox"
                     value={value}>
                     {({ field, meta: { error } }: FieldProps) => {
                         return (
                             <>
                                 <FormControlLabel
+                                    control={<MuiCheckbox size="small" />}
                                     disabled={disabled}
                                     id={name + '-checkbox'}
-                                    control={<MuiCheckbox size="small" />}
                                     label={label}
                                     {...field}
                                 />

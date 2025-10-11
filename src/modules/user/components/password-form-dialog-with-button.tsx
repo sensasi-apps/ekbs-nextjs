@@ -1,24 +1,22 @@
-import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react'
-
+import CloseIcon from '@mui/icons-material/Close'
+import KeyIcon from '@mui/icons-material/Key'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
-import CloseIcon from '@mui/icons-material/Close'
-import KeyIcon from '@mui/icons-material/Key'
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react'
 import CompleteCenter from '@/components/Statuses/CompleteCenter'
 import ErrorCenter from '@/components/Statuses/ErrorCenter'
+import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import axios from '@/lib/axios'
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
-import type UserORM from '../types/orms/user'
 import handle422 from '@/utils/handle-422'
+import type UserORM from '../types/orms/user'
 
 const EMPTY_PASSWORDS_DATA = {
     new_password: '',
@@ -110,28 +108,28 @@ export default function SetPasswordButtonAndDialogForm({
     return (
         <>
             <Button
-                disabled={!user?.uuid || user.is_active === false}
-                variant="outlined"
                 color="warning"
+                disabled={!user?.uuid || user.is_active === false}
+                onClick={() => setIsOpen(true)}
                 size="small"
                 startIcon={<KeyIcon />}
-                onClick={() => setIsOpen(true)}>
+                variant="outlined">
                 Atur kata sandi
             </Button>
 
             <Dialog
                 fullWidth
                 maxWidth="xs"
-                open={isOpen}
-                onKeyDown={e => e.key === 'Escape' && setIsOpen(false)}>
+                onKeyDown={e => e.key === 'Escape' && setIsOpen(false)}
+                open={isOpen}>
                 <DialogContent>
-                    <Box display="flex" mb={1.5} alignItems="center">
+                    <Box alignItems="center" display="flex" mb={1.5}>
                         <KeyIcon color="warning" />
                         <Typography
-                            variant="h6"
                             component="h2"
+                            flexGrow={1}
                             ml={1}
-                            flexGrow={1}>
+                            variant="h6">
                             Pengaturan kata sandi
                         </Typography>
 
@@ -168,29 +166,29 @@ export default function SetPasswordButtonAndDialogForm({
                         </DialogContentText>
                         <form id="set_password_form" onSubmit={handleSubmit}>
                             <TextField
+                                error={Boolean(validationErrors.new_password)}
+                                fullWidth
+                                helperText={validationErrors.new_password}
+                                label="Kata sandi baru"
                                 margin="dense"
                                 name="new_password"
-                                label="Kata sandi baru"
-                                type="password"
-                                fullWidth
                                 onChange={handleChange}
-                                error={Boolean(validationErrors.new_password)}
-                                helperText={validationErrors.new_password}
+                                type="password"
                             />
 
                             <TextField
-                                margin="dense"
-                                name="new_password_confirmation"
-                                label="Ulangi kata sandi baru"
-                                type="password"
-                                fullWidth
-                                onChange={handleChange}
                                 error={Boolean(
                                     validationErrors.new_password_confirmation,
                                 )}
+                                fullWidth
                                 helperText={
                                     validationErrors.new_password_confirmation
                                 }
+                                label="Ulangi kata sandi baru"
+                                margin="dense"
+                                name="new_password_confirmation"
+                                onChange={handleChange}
+                                type="password"
                             />
                         </form>
                     </Box>
@@ -201,8 +199,8 @@ export default function SetPasswordButtonAndDialogForm({
                         <Button
                             color="warning"
                             disabled={isSubmitDisabled()}
-                            type="submit"
-                            form="set_password_form">
+                            form="set_password_form"
+                            type="submit">
                             Simpan
                         </Button>
                     </DialogActions>

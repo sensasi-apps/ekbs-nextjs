@@ -37,11 +37,11 @@ export function handleBgSyncRequest(event: FetchEvent) {
 
     if (isEndpointMatch(event, MartEndpoint.STORE_SALE)) {
         martSales.pushRequest({
-            request: event.request,
             metadata: {
-                status: 'baru diantrekan',
                 lastAttemptAt: null,
+                status: 'baru diantrekan',
             },
+            request: event.request,
         })
 
         response = constructJsonResponse({

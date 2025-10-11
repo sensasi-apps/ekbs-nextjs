@@ -2,24 +2,24 @@
 
 // types
 import type { FormikConfig } from 'formik'
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+import { Formik } from 'formik'
 // vendors
 import { useState } from 'react'
-import { Formik } from 'formik'
-import axios from '@/lib/axios'
 // components
 import { mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import PageTitle from '@/components/page-title'
+// enums
+import ApiUrlEnum from '@/components/pages/user-loans/ApiUrlEnum'
+import UserLoanDisburseDatatable from '@/components/pages/user-loans/disburse/Datatable'
 import UserLoanDisburseForm, {
     type FormValuesType,
 } from '@/components/pages/user-loans/disburse/Form'
-import UserLoanDisburseDatatable from '@/components/pages/user-loans/disburse/Datatable'
 // utils
 import useDisablePage from '@/hooks/useDisablePage'
+import axios from '@/lib/axios'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import errorCatcher from '@/utils/handle-422'
-// enums
-import ApiUrlEnum from '@/components/pages/user-loans/ApiUrlEnum'
 
 export default function UserLoansDisbursesPage() {
     useDisablePage()
@@ -59,15 +59,15 @@ export default function UserLoansDisbursesPage() {
             <PageTitle title="Pencairan Pinjaman" />
             <UserLoanDisburseDatatable onEdit={handleEdit} />
 
-            <DialogWithTitle title="Pencairan Pinjaman" open={isDialogOpen}>
+            <DialogWithTitle open={isDialogOpen} title="Pencairan Pinjaman">
                 <Formik
-                    initialValues={formData}
+                    component={UserLoanDisburseForm}
                     initialStatus={{
                         userLoan: userLoan,
                     }}
-                    onSubmit={handleSubmit}
+                    initialValues={formData}
                     onReset={handleClose}
-                    component={UserLoanDisburseForm}
+                    onSubmit={handleSubmit}
                 />
             </DialogWithTitle>
         </>

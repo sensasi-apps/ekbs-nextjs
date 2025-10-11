@@ -1,15 +1,16 @@
 // vendors
-import type { FieldProps } from 'formik'
-import { memo } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
+
+// icons-materials
+import AddCircle from '@mui/icons-material/AddCircle'
 // materials
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
-// icons-materials
-import AddCircle from '@mui/icons-material/AddCircle'
+import type { FieldProps } from 'formik'
+import { memo } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
+import CostItem from '../../../../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/cost-item'
 //
 import type { FormikStatusType, FormValuesType } from '../../../../..'
-import CostItem from '../../../../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/cost-item'
 
 function CostFieldComponent({
     form: { setFieldValue, isSubmitting, errors, status, getFieldMeta },
@@ -30,36 +31,31 @@ function CostFieldComponent({
 
     return (
         <>
-            <Grid container alignItems="center" spacing={1}>
+            <Grid alignItems="center" container spacing={1}>
                 {value.map((cost, i) => (
                     <CostItem
-                        key={i}
-                        index={i}
-                        disabled={isSubmitting || !!typedStatus?.isDisabled}
                         data={cost}
-                        setFieldValue={setFieldValue}
+                        disabled={isSubmitting || !!typedStatus?.isDisabled}
+                        error={error?.[i] as { name?: string; rp?: string }}
+                        errors={errors}
+                        index={i}
                         /**
                          * @todo remove errors prop
                          */
-                        errors={errors}
-                        error={error?.[i] as { name?: string; rp?: string }}
+                        key={i}
+                        onDataChange={data => debounceHandleDataChange(i, data)}
                         onRemove={() =>
                             setFieldValue(name, [
                                 ...value.slice(0, i),
                                 ...value.slice(i + 1),
                             ])
                         }
-                        onDataChange={data => debounceHandleDataChange(i, data)}
+                        setFieldValue={setFieldValue}
                     />
                 ))}
             </Grid>
 
             <Button
-                sx={{
-                    mt: 2,
-                }}
-                startIcon={<AddCircle />}
-                size="small"
                 color="success"
                 disabled={isSubmitting || !!typedStatus?.isDisabled}
                 onClick={() =>
@@ -70,7 +66,12 @@ function CostFieldComponent({
                             rp: null,
                         },
                     ])
-                }>
+                }
+                size="small"
+                startIcon={<AddCircle />}
+                sx={{
+                    mt: 2,
+                }}>
                 Tambah Biaya Lainnya
             </Button>
         </>

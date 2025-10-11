@@ -1,9 +1,9 @@
-import type Land from '@/modules/clm/types/orms/land'
 import Dialog from '@/components/Global/Dialog'
+import LoadingCenter from '@/components/loading-center'
+import type Land from '@/modules/clm/types/orms/land'
 import UserLandForm from '@/modules/user/components/user-land-form'
 import useFormData from '@/providers/useFormData'
 import useUserDetailSwr from '../../hooks/use-user-detail-swr'
-import LoadingCenter from '@/components/loading-center'
 
 export default function UserLandFormDialogWithUseContexts() {
     const { data: user } = useUserDetailSwr()
@@ -14,19 +14,19 @@ export default function UserLandFormDialogWithUseContexts() {
 
     return (
         <Dialog
-            open={formOpen}
-            title={`${isNew ? 'Tambah' : 'Perbarui'} Data Kebun`}
             closeButtonProps={{
-                onClick: handleClose,
                 disabled: loading,
-            }}>
+                onClick: handleClose,
+            }}
+            open={formOpen}
+            title={`${isNew ? 'Tambah' : 'Perbarui'} Data Kebun`}>
             <UserLandForm
                 data={data as Land}
-                userUuid={user.uuid}
-                onCancel={handleClose}
                 isLoading={loading}
-                setIsLoading={setSubmitting}
+                onCancel={handleClose}
                 onSubmit={handleClose}
+                setIsLoading={setSubmitting}
+                userUuid={user.uuid}
             />
         </Dialog>
     )

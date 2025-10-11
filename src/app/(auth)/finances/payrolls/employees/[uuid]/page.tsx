@@ -1,10 +1,10 @@
 'use client'
 
-import type Payroll from '@/types/orms/payroll'
-// vendors
-import { useParams } from 'next/navigation'
-import { useState } from 'react'
-import useSWR from 'swr'
+// components
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+// icons
+import SettingsIcon from '@mui/icons-material/Settings'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -12,25 +12,25 @@ import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Typography from '@mui/material/Typography'
-// icons
-import SettingsIcon from '@mui/icons-material/Settings'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-// components
-import AddCircleIcon from '@mui/icons-material/AddCircle'
+// vendors
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
+import useSWR from 'swr'
+// parts
+import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
+import PayrollsEmployeesTable from '@/app/(auth)/finances/payrolls/employees/_parts/employees/Table'
+import PayrollDeleteForm from '@/app/(auth)/finances/payrolls/employees/[uuid]/_parts/delete'
+import PayrollUsersForm from '@/app/(auth)/finances/payrolls/employees/[uuid]/_parts/payroll-users'
+import ProcessPayrollForm from '@/app/(auth)/finances/payrolls/employees/[uuid]/_parts/process-payroll'
 import BackButton from '@/components/back-button'
 import IconButton from '@/components/IconButton'
 import InfoBox from '@/components/InfoBox'
 import LoadingCenter from '@/components/loading-center'
 import PrintHandler from '@/components/PrintHandler'
-// parts
-import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
-import PayrollUsersForm from '@/app/(auth)/finances/payrolls/employees/[uuid]/_parts/payroll-users'
-import PayrollsEmployeesTable from '@/app/(auth)/finances/payrolls/employees/_parts/employees/Table'
-import ProcessPayrollForm from '@/app/(auth)/finances/payrolls/employees/[uuid]/_parts/process-payroll'
-import PayrollDeleteForm from '@/app/(auth)/finances/payrolls/employees/[uuid]/_parts/delete'
+import type Payroll from '@/types/orms/payroll'
+import numberToCurrency from '@/utils/number-to-currency'
 // utils
 import toDmy from '@/utils/to-dmy'
-import numberToCurrency from '@/utils/number-to-currency'
 
 export default function FinancePayrollEmployee() {
     const params = useParams()
@@ -61,7 +61,7 @@ export default function FinancePayrollEmployee() {
                 </Typography>
 
                 {data && (
-                    <Box display="flex" gap={1} alignItems="center">
+                    <Box alignItems="center" display="flex" gap={1}>
                         {!data.processed_at && (
                             <PayrollDeleteForm
                                 disabled={false}
@@ -71,19 +71,19 @@ export default function FinancePayrollEmployee() {
 
                         {data.processed_at ? (
                             <IconButton
-                                title="Lihat rincian pembagian beban"
                                 icon={VisibilityIcon}
                                 onClick={() => setProcessDialogOpen(true)}
+                                title="Lihat rincian pembagian beban"
                             />
                         ) : (
                             <Button
-                                variant="contained"
-                                startIcon={<SettingsIcon />}
+                                onClick={() => setProcessDialogOpen(true)}
                                 size="small"
+                                startIcon={<SettingsIcon />}
                                 sx={{
                                     m: 1,
                                 }}
-                                onClick={() => setProcessDialogOpen(true)}>
+                                variant="contained">
                                 Proses
                             </Button>
                         )}
@@ -96,24 +96,24 @@ export default function FinancePayrollEmployee() {
 
                                 <MainContent
                                     data={data}
-                                    mutate={mutate}
-                                    isSwrLoading={false}
                                     disabled={false}
+                                    isSwrLoading={false}
+                                    mutate={mutate}
                                 />
                             </PrintHandler>
                         )}
 
                         <Dialog
-                            open={processDialogOpen}
+                            fullWidth
                             maxWidth="lg"
-                            fullWidth>
+                            open={processDialogOpen}>
                             <DialogContent>
                                 <ProcessPayrollForm
                                     data={data}
-                                    mutate={mutate}
                                     handleClose={() =>
                                         setProcessDialogOpen(false)
                                     }
+                                    mutate={mutate}
                                 />
                             </DialogContent>
                         </Dialog>
@@ -123,9 +123,9 @@ export default function FinancePayrollEmployee() {
 
             <MainContent
                 data={data}
-                mutate={mutate}
-                isSwrLoading={false}
                 disabled={false}
+                isSwrLoading={false}
+                mutate={mutate}
             />
         </>
     )
@@ -147,7 +147,6 @@ function MainContent({
     return (
         <>
             <InfoBox
-                loading={isSwrLoading}
                 data={[
                     {
                         label: 'Kode',
@@ -196,6 +195,7 @@ function MainContent({
                         value: data?.processed_by_user?.name,
                     },
                 ]}
+                loading={isSwrLoading}
             />
 
             <Box display="flex" mt={3}>
@@ -204,15 +204,15 @@ function MainContent({
                 {!data?.processed_by_user_uuid && (
                     <>
                         <IconButton
-                            disabled={disabled}
                             color="success"
-                            onClick={() => setOpen(true)}
+                            disabled={disabled}
                             icon={AddCircleIcon}
+                            onClick={() => setOpen(true)}
                             title="Tambah"
                         />
 
                         {data?.uuid && (
-                            <Dialog open={open} maxWidth="xs" fullWidth>
+                            <Dialog fullWidth maxWidth="xs" open={open}>
                                 <DialogTitle>Tambah Penerima</DialogTitle>
                                 <DialogContent>
                                     <PayrollUsersForm
@@ -230,8 +230,8 @@ function MainContent({
             </Box>
 
             <PayrollsEmployeesTable
-                loading={isSwrLoading}
                 data={data}
+                loading={isSwrLoading}
                 mutate={mutate}
             />
         </>

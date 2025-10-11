@@ -5,16 +5,16 @@ import Typography from '@mui/material/Typography'
 export default function LoadingCenter(props: BoxProps) {
     return (
         <Box
+            alignItems="center"
             display="flex"
             flexDirection="column"
             gap={2}
-            justifyContent="center"
-            alignItems="center"
             height="100%"
+            justifyContent="center"
             width="100%"
             {...props}>
             <CircularProgress />
-            <Typography variant="body2" color="primary">
+            <Typography color="primary" variant="body2">
                 Sedang memuat...
             </Typography>
         </Box>

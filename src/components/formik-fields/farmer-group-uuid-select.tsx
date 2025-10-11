@@ -1,7 +1,7 @@
 'use client'
 
-import SelectFromApi from '@/components/Global/SelectFromApi'
 import { useFormikContext } from 'formik'
+import SelectFromApi from '@/components/Global/SelectFromApi'
 
 export default function FarmerGroupUuidSelect() {
     const { isSubmitting, getFieldProps, errors } = useFormikContext<{
@@ -12,18 +12,18 @@ export default function FarmerGroupUuidSelect() {
 
     return (
         <SelectFromApi
+            endpoint="/data/farmer-groups"
+            error={Boolean(errors['farmer_group_uuid'])}
+            helperText={errors['farmer_group_uuid']}
+            label="Kelompok Tani"
+            margin="dense"
+            onChange={onChange}
             selectProps={{
+                disabled: isSubmitting,
                 name: name,
                 size: 'small',
                 value: value ?? '',
-                disabled: isSubmitting,
             }}
-            margin="dense"
-            onChange={onChange}
-            endpoint="/data/farmer-groups"
-            label="Kelompok Tani"
-            helperText={errors['farmer_group_uuid']}
-            error={Boolean(errors['farmer_group_uuid'])}
         />
     )
 }

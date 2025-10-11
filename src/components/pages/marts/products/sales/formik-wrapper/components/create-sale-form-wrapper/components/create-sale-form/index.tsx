@@ -1,24 +1,25 @@
 // types
-import type { FormikStatusType, FormValuesType } from '../../../..'
-// vendors
-import { Field, type FieldProps, useFormikContext } from 'formik'
-import { memo } from 'react'
+
 // materials
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+// vendors
+import { Field, type FieldProps, useFormikContext } from 'formik'
+import { memo } from 'react'
+import DefaultItemDesc from '@/app/mart-product-sales/_parts/shared-subcomponents/default-item-desc'
 // sub-components
 import NumericField from '@/components/formik-fields/numeric-field'
+// hooks
+import useAuthInfo from '@/hooks/use-auth-info'
+// utils
+import formatNumber from '@/utils/format-number'
+import type { FormikStatusType, FormValuesType } from '../../../..'
 import BuyerUserUuidFieldComponent from './components/buyer-user-uuid-field-component'
 import CashableUuidFieldComponent from './components/cashable-uuid-field-component'
 import CostsFieldComponent from './components/costs-field-component'
-import DefaultItemDesc from '@/app/mart-product-sales/_parts/shared-subcomponents/default-item-desc'
 import DetailsFieldComponent from './components/details-field-component'
-// utils
-import formatNumber from '@/utils/format-number'
-// hooks
-import useAuthInfo from '@/hooks/use-auth-info'
 
 function CreateSaleForm() {
     const user = useAuthInfo()
@@ -35,24 +36,24 @@ function CreateSaleForm() {
 
             <DefaultItemDesc desc="Kasir" value={user?.name ?? ''} />
 
-            <Box display="flex" alignItems="center">
+            <Box alignItems="center" display="flex">
                 <DefaultItemDesc desc="Pelanggan" value="" />
 
                 <Field
-                    name="buyer_user"
                     component={BuyerUserUuidFieldComponent}
+                    name="buyer_user"
                 />
             </Box>
 
             <DefaultItemDesc desc="Pembayaran Ke" value="" />
 
             <Field
-                name="cashable_uuid"
                 component={CashableUuidFieldComponent}
+                name="cashable_uuid"
             />
 
-            <Box mt={4} display="flex" flexDirection="column" gap={1.5}>
-                <Field name="details" component={DetailsFieldComponent} />
+            <Box display="flex" flexDirection="column" gap={1.5} mt={4}>
+                <Field component={DetailsFieldComponent} name="details" />
             </Box>
 
             <Divider
@@ -62,7 +63,7 @@ function CreateSaleForm() {
             />
 
             <Box>
-                <Field name="costs" component={CostsFieldComponent} />
+                <Field component={CostsFieldComponent} name="costs" />
             </Box>
 
             <Divider
@@ -71,38 +72,38 @@ function CreateSaleForm() {
                 }}
             />
 
-            <Grid container alignItems="center">
+            <Grid alignItems="center" container>
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
+                    pl={1}
                     size={{
                         xs: 7,
                     }}
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em"
-                    whiteSpace="nowrap"
                     textOverflow="ellipsis"
-                    pl={1}>
+                    variant="overline"
+                    whiteSpace="nowrap">
                     Total
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
                     size={{ xs: 1 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    variant="overline">
                     Rp
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
                     size={{ xs: 4 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    variant="overline">
                     <Field
                         component={({ form: { values } }: FieldProps) => {
                             const formValues = values as FormValuesType
@@ -126,51 +127,51 @@ function CreateSaleForm() {
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
+                    pl={1}
                     size={{
                         xs: 7,
                     }}
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em"
-                    whiteSpace="nowrap"
                     textOverflow="ellipsis"
-                    pl={1}>
+                    variant="overline"
+                    whiteSpace="nowrap">
                     BAYAR
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
                     size={{ xs: 1 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    variant="overline">
                     Rp
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
+                    paddingLeft={2}
                     size={{ xs: 4 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em"
-                    paddingLeft={2}>
+                    variant="overline">
                     {typedStatus.isFormOpen && (
                         <NumericField
-                            name="total_payment"
                             disabled={typedStatus.isDisabled || isSubmitting}
+                            name="total_payment"
                             numericFormatProps={{
                                 InputProps: {
                                     autoComplete: 'off',
                                 },
                                 inputProps: {
                                     sx: {
-                                        py: 0.5,
-                                        px: 0.75,
-                                        textAlign: 'right',
                                         autocomplete: 'off',
+                                        px: 0.75,
+                                        py: 0.5,
+                                        textAlign: 'right',
                                     },
                                 },
                             }}
@@ -179,37 +180,37 @@ function CreateSaleForm() {
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
+                    pl={1}
                     size={{
                         xs: 7,
                     }}
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em"
-                    whiteSpace="nowrap"
                     textOverflow="ellipsis"
-                    pl={1}>
+                    variant="overline"
+                    whiteSpace="nowrap">
                     Kembalian
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
                     size={{ xs: 1 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em">
+                    variant="overline">
                     Rp
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    lineHeight="unset"
+                    paddingLeft={2}
                     size={{ xs: 4 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    fontSize="1em"
-                    paddingLeft={2}>
+                    variant="overline">
                     <Field
                         component={({ form: { values } }: FieldProps) => {
                             const formValues = values as FormValuesType

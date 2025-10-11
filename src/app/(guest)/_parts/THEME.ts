@@ -1,7 +1,7 @@
 'use client'
 
-import MAIN_THEME from '@/providers/@statics/theme'
 import { createTheme, THEME_ID } from '@mui/material/styles'
+import MAIN_THEME from '@/providers/@statics/theme'
 
 const LIGHT = createTheme({
     palette: {
@@ -10,14 +10,14 @@ const LIGHT = createTheme({
 })
 
 const PAGE_THEME = createTheme({
+    components: MAIN_THEME.components,
     palette: {
+        error: LIGHT.palette.error,
         mode: 'dark',
         primary: LIGHT.palette.primary,
         success: LIGHT.palette.success,
         warning: LIGHT.palette.warning,
-        error: LIGHT.palette.error,
     },
-    components: MAIN_THEME.components,
 })
 
 const THEME = { [THEME_ID]: PAGE_THEME }

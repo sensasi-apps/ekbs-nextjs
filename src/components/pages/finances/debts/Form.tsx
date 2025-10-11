@@ -1,12 +1,5 @@
 // types
-import type { Dispatch, SetStateAction } from 'react'
-import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/date-string'
-import type Debt from '@/types/orms/debt'
-import type DebtDetail from '@/types/orms/debt-detail'
-// vendors
-import { Field, type FieldProps, type FormikProps } from 'formik'
-import dayjs from 'dayjs'
+
 // materials
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -18,21 +11,29 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
-// components
-import DebtDetailsTable from './Form/DebtDetailsTable'
-// formik
-import FormikForm from '@/components/formik-form'
+import type { UUID } from 'crypto'
+import dayjs from 'dayjs'
+// vendors
+import { Field, type FieldProps, type FormikProps } from 'formik'
+import type { Dispatch, SetStateAction } from 'react'
 import DateField from '@/components/formik-fields/date-field'
 import NumericField from '@/components/formik-fields/numeric-field'
 import TextField from '@/components/formik-fields/text-field'
+// formik
+import FormikForm from '@/components/formik-form'
+import SelectFromApi from '@/components/Global/SelectFromApi'
+import InterestUnit from '@/modules/installment/enums/debt-interest-unit'
+// enums
+import TermUnit from '@/modules/installment/enums/debt-term-unit'
+import type { Ymd } from '@/types/date-string'
+import type Debt from '@/types/orms/debt'
+import type DebtDetail from '@/types/orms/debt-detail'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import shortUuid from '@/utils/short-uuid'
 import ucWords from '@/utils/uc-words'
-// enums
-import TermUnit from '@/modules/installment/enums/debt-term-unit'
-import InterestUnit from '@/modules/installment/enums/debt-interest-unit'
-import SelectFromApi from '@/components/Global/SelectFromApi'
+// components
+import DebtDetailsTable from './Form/DebtDetailsTable'
 
 export default function FinancesDebtForm({
     dirty,
@@ -51,31 +52,31 @@ export default function FinancesDebtForm({
 
     return (
         <FormikForm
-            id="debts-form"
             autoComplete="off"
-            isNew={isNew}
             dirty={dirty}
+            id="debts-form"
+            isNew={isNew}
             processing={isSubmitting}
-            submitting={isSubmitting}
             slotProps={{
                 submitButton: {
-                    disabled: isSubmitting,
                     confirmationText: values.is_final
                         ? 'Perubahan yang dilakukan bersifat final dan tidak dapat diubah lagi. Apakah Anda yakin?'
                         : undefined,
+                    disabled: isSubmitting,
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             {debtData?.uuid && (
                 <TextField
-                    name="uuid"
-                    label="Kode"
                     disabled
-                    value={shortUuid(debtData.uuid as UUID)}
+                    label="Kode"
+                    name="uuid"
                     textFieldProps={{
                         margin: 'normal',
-                        variant: 'filled',
                         required: false,
+                        variant: 'filled',
                     }}
+                    value={shortUuid(debtData.uuid as UUID)}
                 />
             )}
 
@@ -89,34 +90,34 @@ export default function FinancesDebtForm({
                             disabled={isDisabled}
                             endpoint="/data/business-units"
                             label="Unit Bisnis"
-                            size="small"
                             margin="dense"
+                            onChange={onChange}
                             selectProps={{
-                                value: value ?? '',
                                 name: name,
                                 onBlur: onBlur,
+                                value: value ?? '',
                             }}
-                            onChange={onChange}
+                            size="small"
                             {...errorsToHelperTextObj(error)}
                         />
                     )
                 }}
             </Field>
 
-            <DateField name="at" label="Tanggal" disabled={isDisabled} />
+            <DateField disabled={isDisabled} label="Tanggal" name="at" />
 
             <NumericField
-                name="base_rp"
-                label="Nilai Dasar Hutang"
                 disabled={isDisabled}
+                label="Nilai Dasar Hutang"
+                name="base_rp"
             />
 
             <Grid container>
                 <Grid size={{ xs: 6 }}>
                     <NumericField
-                        name="term"
-                        label="Tenor"
                         disabled={isDisabled}
+                        label="Tenor"
+                        name="term"
                     />
                 </Grid>
 
@@ -126,22 +127,22 @@ export default function FinancesDebtForm({
                             <FormControl
                                 fullWidth
                                 margin="dense"
-                                size="small"
-                                required>
+                                required
+                                size="small">
                                 <InputLabel id="term_unit-select-label">
                                     Satuan
                                 </InputLabel>
 
                                 <Select
                                     {...field}
-                                    value={field.value ?? ''}
-                                    required
-                                    label="Satuan"
                                     disabled={isDisabled}
+                                    id="term_unit-select"
+                                    label="Satuan"
                                     labelId="term_unit-select-label"
-                                    id="term_unit-select">
+                                    required
+                                    value={field.value ?? ''}>
                                     {Object.values(TermUnit).map(unit => (
-                                        <MenuItem value={unit} key={unit}>
+                                        <MenuItem key={unit} value={unit}>
                                             {ucWords(unit)}
                                         </MenuItem>
                                     ))}
@@ -155,9 +156,9 @@ export default function FinancesDebtForm({
             <Grid container>
                 <Grid size={{ xs: 6 }}>
                     <NumericField
-                        name="interest"
-                        label="Bunga"
                         disabled={isDisabled}
+                        label="Bunga"
+                        name="interest"
                     />
                 </Grid>
 
@@ -167,22 +168,22 @@ export default function FinancesDebtForm({
                             <FormControl
                                 fullWidth
                                 margin="dense"
-                                size="small"
-                                required>
+                                required
+                                size="small">
                                 <InputLabel id="interest_unit-select-label">
                                     Satuan
                                 </InputLabel>
 
                                 <Select
                                     {...field}
-                                    value={field.value ?? ''}
-                                    required
-                                    label="Satuan"
                                     disabled={isDisabled}
+                                    id="interest_unit-select"
+                                    label="Satuan"
                                     labelId="interest_unit-select-label"
-                                    id="interest_unit-select">
+                                    required
+                                    value={field.value ?? ''}>
                                     {Object.values(InterestUnit).map(unit => (
-                                        <MenuItem value={unit} key={unit}>
+                                        <MenuItem key={unit} value={unit}>
                                             {ucWords(unit)}
                                         </MenuItem>
                                     ))}
@@ -194,12 +195,12 @@ export default function FinancesDebtForm({
             </Grid>
 
             <TextField
-                name="note"
-                label="Catatan / Informasi Tambahan"
                 disabled={isSubmitting || isDisabled}
+                label="Catatan / Informasi Tambahan"
+                name="note"
                 textFieldProps={{
-                    required: false,
                     multiline: true,
+                    required: false,
                     rows: 3,
                 }}
             />
@@ -227,20 +228,18 @@ export default function FinancesDebtForm({
                     form: { setFieldValue },
                 }: FieldProps<boolean>) => (
                     <FormControl
-                        margin="normal"
+                        disabled={isSubmitting || Boolean(debtData?.hasDetails)}
                         error={Boolean(error)}
-                        disabled={
-                            isSubmitting || Boolean(debtData?.hasDetails)
-                        }>
+                        margin="normal">
                         <FormGroup>
                             <FormControlLabel
                                 control={
                                     <Switch
-                                        size="small"
                                         checked={value}
                                         onChange={() =>
                                             setFieldValue(name, !value)
                                         }
+                                        size="small"
                                     />
                                 }
                                 label="Simpan Permanen"

@@ -1,21 +1,21 @@
 'use client'
 
-// vendors
-import { useRef } from 'react'
-import { useSearchParams } from 'next/navigation'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
 // materials
 import Fade from '@mui/material/Fade'
-// components
-import FlexColumnBox from '@/components/FlexColumnBox'
-import LoadingCenter from '@/components/loading-center'
-import PageTitle from '@/components/page-title'
+import dayjs from 'dayjs'
+import { useSearchParams } from 'next/navigation'
+// vendors
+import { useRef } from 'react'
+import useSWR from 'swr'
 // page components
 import { TabChips } from '@/app/(auth)/executive/profit-loss/_components/tab-chips'
 import Table, {
     type ItemRow,
 } from '@/app/(auth)/executive/profit-loss/_components/table'
+// components
+import FlexColumnBox from '@/components/FlexColumnBox'
+import LoadingCenter from '@/components/loading-center'
+import PageTitle from '@/components/page-title'
 // enums
 import BusinessUnit from '@/enums/business-unit'
 import myAxios from '@/lib/axios'
@@ -49,8 +49,8 @@ export default function Page() {
         [
             'executive/profit-loss-data',
             {
-                year: year,
                 recache: isRecache.current,
+                year: year,
             },
         ],
         fetcher,
@@ -61,57 +61,57 @@ export default function Page() {
     return (
         <FlexColumnBox gap={4}>
             <div>
-                <PageTitle title="Laporan Laba-Rugi" subtitle={year} />
+                <PageTitle subtitle={year} title="Laporan Laba-Rugi" />
             </div>
 
             <TabChips
+                activeTab={activeTab}
                 disabled={isLoading || isValidating}
                 onRefreshClick={() => {
                     isRecache.current = true
 
                     mutate()
                 }}
-                activeTab={activeTab}
                 year={year}
             />
 
-            <Table1WithFade name="umum" data={general} activeTab={activeTab} />
+            <Table1WithFade activeTab={activeTab} data={general} name="umum" />
 
             <Table1WithFade
-                name="alat-berat"
+                activeTab={activeTab}
                 data={heavyEquipmentRent}
-                activeTab={activeTab}
+                name="alat-berat"
             />
 
             <Table2WithFade
-                name={BusinessUnit.BELAYAN_MART.toString()}
+                activeTab={activeTab}
                 data={belayanMart}
-                activeTab={activeTab}
+                name={BusinessUnit.BELAYAN_MART.toString()}
             />
 
             <Table2WithFade
-                name="saprodi"
+                activeTab={activeTab}
                 data={farmInput}
-                activeTab={activeTab}
+                name="saprodi"
             />
-            <Table1WithFade name="spp" data={userLoan} activeTab={activeTab} />
-            <Table1WithFade name="tbs" data={palmBunch} activeTab={activeTab} />
+            <Table1WithFade activeTab={activeTab} data={userLoan} name="spp" />
+            <Table1WithFade activeTab={activeTab} data={palmBunch} name="tbs" />
             <Table2WithFade
-                name={BusinessUnit.BENGKEL.toString()}
+                activeTab={activeTab}
                 data={repairShop}
-                activeTab={activeTab}
+                name={BusinessUnit.BENGKEL.toString()}
             />
 
             <Table1WithFade
-                name={BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString()}
+                activeTab={activeTab}
                 data={sertifikasiDanPengelolaanKebun}
-                activeTab={activeTab}
+                name={BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN.toString()}
             />
 
             <Table1WithFade
-                name={BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString()}
-                data={coffeeShopDepanKantor}
                 activeTab={activeTab}
+                data={coffeeShopDepanKantor}
+                name={BusinessUnit.COFFEESHOP_DEPAN_KANTOR.toString()}
             />
         </FlexColumnBox>
     )
@@ -179,27 +179,27 @@ function Table1WithFade({
 
     const subTableProps = [
         {
-            header: 'Pendapatan',
             data: data.incomes,
             footer: 'Total (I)',
+            header: 'Pendapatan',
         },
         {
-            header: 'Beban',
             data: data.outcomes,
             footer: 'Total (II)',
+            header: 'Beban',
         },
     ]
 
     if (data.corrections) {
         subTableProps.unshift({
-            header: 'Koreksi',
             data: [
                 {
-                    name: 'Koreksi',
                     data: data.corrections,
+                    name: 'Koreksi',
                 },
             ],
             footer: 'Total Koreksi',
+            header: 'Koreksi',
         })
     }
 
@@ -207,12 +207,12 @@ function Table1WithFade({
         <Fade in={activeTab === name} unmountOnExit>
             <div>
                 <Table
-                    subTables={subTableProps}
                     footer={{
                         incomes: data.incomes,
-                        outcomes: data.outcomes,
                         info: 'I - II',
+                        outcomes: data.outcomes,
                     }}
+                    subTables={subTableProps}
                 />
             </div>
         </Fade>
@@ -232,63 +232,63 @@ function Table2WithFade({
 
     const subTableProps = [
         {
-            header: 'Penjualan',
             data: data?.sales,
             footer: 'Total',
+            header: 'Penjualan',
         },
         {
-            header: 'Pembelian',
             data: data?.purchases,
             footer: 'Total',
+            header: 'Pembelian',
         },
         {
-            header: 'Opname',
             data: data?.opname,
             footer: 'Total',
+            header: 'Opname',
         },
         {
-            header: 'HPP',
             data: data?.hpp,
             footer: 'Total',
+            header: 'HPP',
         },
         {
-            header: 'Laba Penjualan',
             data: [
                 {
-                    name: 'Total Penjualan',
                     data: calcMonthlyTotal(data?.sales ?? []),
+                    name: 'Total Penjualan',
                 },
                 {
-                    name: '(-)Total HPP',
                     data: calcMonthlyTotal(data?.hpp ?? []).map(
                         total => total * -1,
                     ),
+                    name: '(-)Total HPP',
                 },
             ],
             footer: 'Total (I)',
+            header: 'Laba Penjualan',
         },
         {
-            header: 'Pendapatan Lain',
             data: data?.other_incomes,
             footer: 'Total (II)',
+            header: 'Pendapatan Lain',
         },
         {
-            header: 'Beban',
             data: data?.outcomes,
             footer: 'Total (III)',
+            header: 'Beban',
         },
     ]
 
     if (data.corrections) {
         subTableProps.unshift({
-            header: 'Koreksi',
             data: [
                 {
-                    name: 'Koreksi',
                     data: data.corrections,
+                    name: 'Koreksi',
                 },
             ],
             footer: 'Total Koreksi',
+            header: 'Koreksi',
         })
     }
 
@@ -296,18 +296,18 @@ function Table2WithFade({
         <Fade in={activeTab === name} unmountOnExit>
             <div>
                 <Table
-                    subTables={subTableProps}
                     footer={{
                         incomes: [
                             ...(data?.sales ?? []),
                             ...(data?.other_incomes ?? []),
                         ],
+                        info: '= I + II - III',
                         outcomes: [
                             ...(data?.outcomes ?? []),
                             ...(data?.hpp ?? []),
                         ],
-                        info: '= I + II - III',
                     }}
+                    subTables={subTableProps}
                 />
             </div>
         </Fade>

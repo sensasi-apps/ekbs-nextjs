@@ -1,8 +1,8 @@
 // materials
 import Paper from '@mui/material/Paper'
+import PolicyActions from './actions'
 // parts
 import PolicyContent from './content'
-import PolicyActions from './actions'
 
 export default function Page() {
     return (
@@ -16,12 +16,12 @@ export default function Page() {
 
             <Paper
                 sx={{
-                    position: 'sticky',
                     bottom: 0,
-                    p: 3,
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 4,
+                    p: 3,
+                    position: 'sticky',
                 }}>
                 <PolicyActions />
             </Paper>

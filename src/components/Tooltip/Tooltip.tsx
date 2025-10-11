@@ -12,7 +12,7 @@ export type TooltipProps = MuiTooltipProps
  */
 export default function Tooltip({ children, ...restProps }: TooltipProps) {
     return (
-        <MuiTooltip placement="top" arrow {...restProps}>
+        <MuiTooltip arrow placement="top" {...restProps}>
             <span>{children}</span>
         </MuiTooltip>
     )

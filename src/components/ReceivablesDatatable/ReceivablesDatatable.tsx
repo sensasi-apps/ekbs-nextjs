@@ -1,33 +1,33 @@
 'use client'
 
+// materials
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import dayjs from 'dayjs'
+// utils
+// vendors
+import { Formik } from 'formik'
 // types
 import type {
     DatatableProps,
     GetRowDataType,
     MutateType,
 } from '@/components/Datatable'
-import dayjs from 'dayjs'
-// utils
-// vendors
-import { Formik } from 'formik'
-import axios from '@/lib/axios'
-import shortUuid from '@/utils/short-uuid'
-// materials
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 // components
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
-import Dialog from '../Global/Dialog'
-// locals
-import { useHooks } from './hooks/useHooks'
-import StateFilterChips from './components/state-filter-chips'
-import TypeFilterChips from './components/type-filter-chips'
-// utils
-import handle422 from '@/utils/handle-422'
-import ReceivablePaymentForm from './PaymentForm'
+import type BusinessUnit from '@/enums/business-unit'
+import axios from '@/lib/axios'
 import formatNumber from '@/utils/format-number'
 import getInstallmentColor from '@/utils/get-installment-color'
-import type BusinessUnit from '@/enums/business-unit'
+// utils
+import handle422 from '@/utils/handle-422'
+import shortUuid from '@/utils/short-uuid'
+import Dialog from '../Global/Dialog'
+import StateFilterChips from './components/state-filter-chips'
+import TypeFilterChips from './components/type-filter-chips'
+// locals
+import { useHooks } from './hooks/useHooks'
+import ReceivablePaymentForm from './PaymentForm'
 import type ApiResponseItem from './types/api-response-item'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
@@ -58,12 +58,10 @@ export default function ReceivablesDatatable({
             <Datatable
                 apiUrl={DATATABLE_ENDPOINT_URL}
                 apiUrlParams={{
-                    type: typeProp ?? (type as string | undefined),
-                    state: state as string | undefined,
                     asManager: asManager ? 'true' : '',
+                    state: state as string | undefined,
+                    type: typeProp ?? (type as string | undefined),
                 }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
                 columns={
                     asManager
                         ? DATATABLE_COLUMNS
@@ -72,16 +70,23 @@ export default function ReceivablesDatatable({
                           )
                 }
                 defaultSortOrder={{
-                    name: 'should_be_paid_at',
                     direction: 'asc',
+                    name: 'should_be_paid_at',
                 }}
+                download={true}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData(dataIndex)
                         if (!data) return
 
                         return setFormikProps({
+                            status: data,
                             values: {
+                                adjustment_rp: data.transaction?.amount
+                                    ? data.transaction?.amount - data.amount_rp
+                                    : undefined,
                                 at: data.transaction?.at,
                                 cashable_uuid: data.transaction?.cashable_uuid,
                                 payment_method:
@@ -93,27 +98,24 @@ export default function ReceivablesDatatable({
                                             'App\\Models\\UserCash'
                                           ? 'wallet'
                                           : undefined,
-                                adjustment_rp: data.transaction?.amount
-                                    ? data.transaction?.amount - data.amount_rp
-                                    : undefined,
                             },
-                            status: data,
                         })
                     }
                 }}
                 tableId="receiveables-table"
                 title={asManager ? 'Daftar Piutang' : 'Daftar Tagihan'}
-                download={true}
             />
 
             <Dialog
-                title="Pelunasan Angsuran"
+                maxWidth="xs"
                 open={Boolean(formikProps)}
-                maxWidth="xs">
+                title="Pelunasan Angsuran">
                 {formikProps?.values && formikProps?.status && (
                     <Formik
-                        initialValues={formikProps.values}
+                        component={ReceivablePaymentForm}
                         initialStatus={formikProps.status}
+                        initialValues={formikProps.values}
+                        onReset={closeFormDialog}
                         onSubmit={(values, { setErrors }) =>
                             axios
                                 .put(
@@ -126,8 +128,6 @@ export default function ReceivablesDatatable({
                                 })
                                 .catch(error => handle422(error, setErrors))
                         }
-                        onReset={closeFormDialog}
-                        component={ReceivablePaymentForm}
                     />
                 )}
             </Dialog>
@@ -137,8 +137,8 @@ export default function ReceivablesDatatable({
 
 const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
     {
-        name: 'uuid',
         label: 'Kode',
+        name: 'uuid',
         options: {
             customBodyRender: value => shortUuid(value),
         },
@@ -146,30 +146,30 @@ const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
 
     // User ID
     {
-        name: 'user_id',
         label: 'ID Pengguna',
+        name: 'user_id',
         options: {
-            sort: false,
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
                 },
             }),
+            sort: false,
         },
     },
 
     // User Name
     {
-        name: 'user_name',
         label: 'Nama Pengguna',
+        name: 'user_name',
         options: {
             sort: false,
         },
     },
 
     {
-        name: 'user_roles',
         label: 'Peran',
+        name: 'user_roles',
         options: {
             display: false,
             sort: false,
@@ -178,51 +178,51 @@ const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
 
     // Transaction Date
     {
-        name: 'at',
         label: 'TGL. Transaksi',
+        name: 'at',
         options: {
-            setCellProps: getNoWrapCellProps,
             searchable: false,
+            setCellProps: getNoWrapCellProps,
             sort: false,
         },
     },
 
     // Installmentable UUID (short)
     {
-        name: 'installmentable_uuid',
         label: 'Kode Referensi',
+        name: 'installmentable_uuid',
         options: {
-            sort: false,
             customBodyRender: value => shortUuid(value),
+            sort: false,
         },
     },
 
     // Installmentable Classname (Type)
     {
-        name: 'installmentable_classname',
         label: 'Jenis',
+        name: 'installmentable_classname',
         options: {
-            sort: false,
-            searchable: false,
             customBodyRender: getInstallmentTypeByClassname,
+            searchable: false,
+            sort: false,
         },
     },
 
     // Amount
     {
-        name: 'amount_rp',
         label: 'Nilai (Rp)',
+        name: 'amount_rp',
         options: {
+            customBodyRender: (value: number) => formatNumber(value),
             searchable: false,
             setCellProps: getNoWrapCellProps,
-            customBodyRender: (value: number) => formatNumber(value),
         },
     },
 
     // Due Date
     {
-        name: 'should_be_paid_at',
         label: 'Jatuh Tempo',
+        name: 'should_be_paid_at',
         options: {
             setCellProps: getNoWrapCellProps,
         },
@@ -230,11 +230,9 @@ const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
 
     // Current State
     {
-        name: 'state',
         label: 'Status',
+        name: 'state',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender: value => value, // for download purpose
             customBodyRenderLite: dataIndex => {
                 const installment = getRowData(dataIndex)
@@ -245,9 +243,9 @@ const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
                             {installment.state}
                             {installment?.transaction?.at && (
                                 <Typography
-                                    variant="caption"
+                                    component="div"
                                     fontSize="0.7rem"
-                                    component="div">
+                                    variant="caption">
                                     TGL:{' '}
                                     {dayjs(installment.transaction.at).format(
                                         'DD-MM-YYYY',
@@ -257,6 +255,8 @@ const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
                         </Box>
                     )
             },
+            searchable: false,
+            sort: false,
         },
     },
 ]

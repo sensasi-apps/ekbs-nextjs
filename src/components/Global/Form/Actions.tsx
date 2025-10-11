@@ -1,8 +1,9 @@
 // vendors
-import { useIsOnline } from 'react-use-is-online'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import { useIsOnline } from 'react-use-is-online'
 
 export default function FormActions({
     submitting,
@@ -21,35 +22,35 @@ export default function FormActions({
 
     return (
         <Box
+            alignContent="end"
             display="flex"
             justifyContent={onDelete ? 'space-between' : 'flex-end'}
-            alignContent="end"
             mt={2}>
             {onDelete && (
                 <Button
-                    onClick={onDelete}
+                    color="error"
                     disabled={submitting || disabled || isOffline}
                     loading={deleting}
-                    color="error">
+                    onClick={onDelete}>
                     Hapus
                 </Button>
             )}
 
             <Box display="flex" gap={1}>
                 <Button
-                    disabled={submitting || deleting || disabled}
-                    type="reset"
                     color="info"
-                    onClick={onCancel}>
+                    disabled={submitting || deleting || disabled}
+                    onClick={onCancel}
+                    type="reset">
                     Batal
                 </Button>
 
                 <Button
-                    type="submit"
+                    color="info"
                     disabled={deleting || disabled || isOffline}
                     loading={submitting}
-                    variant={isOffline ? 'outlined' : 'contained'}
-                    color="info">
+                    type="submit"
+                    variant={isOffline ? 'outlined' : 'contained'}>
                     Simpan
                 </Button>
             </Box>

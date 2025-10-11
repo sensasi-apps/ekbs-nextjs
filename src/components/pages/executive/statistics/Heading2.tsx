@@ -11,11 +11,11 @@ export default function Heading2({
 } & TypographyProps) {
     return (
         <Typography
-            variant="h5"
+            alignItems="center"
             component="h2"
             display="flex"
-            alignItems="center"
             gap={2}
+            variant="h5"
             {...rest}>
             {startIcon}
             {children}

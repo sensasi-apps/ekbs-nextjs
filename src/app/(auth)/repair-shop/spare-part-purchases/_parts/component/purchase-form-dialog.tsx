@@ -1,6 +1,5 @@
 // vendors
-import { FieldArray, Formik, type FormikProps } from 'formik'
-import { useState } from 'react'
+
 // materials
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
@@ -11,20 +10,22 @@ import Fade from '@mui/material/Fade'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import Grid from '@mui/material/Grid'
-// components
-import FormikForm from '@/components/formik-form'
+import { FieldArray, Formik, type FormikProps } from 'formik'
+import { useState } from 'react'
 import DateField from '@/components/formik-fields/date-field'
 import TextField from '@/components/formik-fields/text-field'
+// components
+import FormikForm from '@/components/formik-form'
+import SelectFromApi from '@/components/Global/SelectFromApi'
 // utils
 import myAxios from '@/lib/axios'
-import handle422 from '@/utils/handle-422'
 // feature scope
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
-import Endpoint from '../enums/endpoint'
-import SelectFromApi from '@/components/Global/SelectFromApi'
-import DetailsField from './details-field'
-import CostsField from './costs-field'
 import type CashType from '@/types/orms/cash'
+import handle422 from '@/utils/handle-422'
+import Endpoint from '../enums/endpoint'
+import CostsField from './costs-field'
+import DetailsField from './details-field'
 
 type FormData = Partial<
     SparePartMovement & {
@@ -42,15 +43,16 @@ export default function PurchaseFormDialog({
     const isNew = !formData?.uuid
 
     return (
-        <Dialog open fullScreen disablePortal>
+        <Dialog disablePortal fullScreen open>
             <DialogTitle>
                 {isNew ? 'Tambah' : 'Ubah'} Data Pembelian
             </DialogTitle>
 
             <DialogContent>
                 <Formik<FormData>
-                    validateOnChange={false}
+                    component={PurchaseFormikForm}
                     initialValues={formData ?? {}}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors, resetForm }) => {
                         const request = isNew
                             ? myAxios.post(Endpoint.CREATE, values)
@@ -66,8 +68,7 @@ export default function PurchaseFormDialog({
                             .then(resetForm)
                             .catch(error => handle422(error, setErrors))
                     }}
-                    onReset={handleClose}
-                    component={PurchaseFormikForm}
+                    validateOnChange={false}
                 />
             </DialogContent>
         </Dialog>
@@ -84,22 +85,22 @@ function PurchaseFormikForm({
 
     return (
         <FormikForm
-            id="spare-part-purchase-form"
             autoComplete="off"
-            isNew={!values.uuid}
             dirty={dirty}
+            id="spare-part-purchase-form"
+            isNew={!values.uuid}
             processing={isSubmitting}
-            submitting={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: isDisabled,
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             <Grid container spacing={4}>
                 <LeftGrid
                     isDisabled={isDisabled}
-                    values={values}
                     setFieldValue={setFieldValue}
+                    values={values}
                 />
                 <RightGrid isDisabled={isDisabled} values={values} />
             </Grid>
@@ -122,21 +123,20 @@ function LeftGrid({
     const [showCashSelect, setShowCashSelect] = useState(!!values.finalized_at)
 
     return (
-        <Grid size={{ xs: 12, sm: 4 }}>
-            <DateField name="at" label="Tanggal" disabled={isDisabled} />
+        <Grid size={{ sm: 4, xs: 12 }}>
+            <DateField disabled={isDisabled} label="Tanggal" name="at" />
             <TextField
-                name="note"
-                label="Catatan"
                 disabled={isDisabled}
+                label="Catatan"
+                name="note"
                 textFieldProps={{
-                    required: false,
                     multiline: true,
+                    required: false,
                 }}
             />
 
             <FormGroup>
                 <FormControlLabel
-                    disabled={isDisabled}
                     checked={Boolean(values.finalized_at) || showCashSelect}
                     control={
                         <Checkbox
@@ -145,6 +145,7 @@ function LeftGrid({
                             }}
                         />
                     }
+                    disabled={isDisabled}
                     label="Simpan Permanen"
                 />
             </FormGroup>
@@ -154,11 +155,13 @@ function LeftGrid({
                     <SelectFromApi
                         disabled={isDisabled}
                         endpoint="/data/cashes"
-                        label="Telah dibayar melalui kas"
                         fullWidth
-                        required
-                        size="small"
+                        label="Telah dibayar melalui kas"
                         margin="dense"
+                        onValueChange={(value: CashType) =>
+                            setFieldValue('cash_uuid', value.uuid)
+                        }
+                        required
                         selectProps={{
                             name: 'cash_uuid',
                             value:
@@ -166,9 +169,7 @@ function LeftGrid({
                                 values.cash_uuid ??
                                 '',
                         }}
-                        onValueChange={(value: CashType) =>
-                            setFieldValue('cash_uuid', value.uuid)
-                        }
+                        size="small"
                     />
                 </span>
             </Fade>
@@ -187,7 +188,7 @@ function LeftGrid({
 
 function RightGrid({ isDisabled }: InnerGrid) {
     return (
-        <Grid size={{ xs: 12, sm: 8 }}>
+        <Grid size={{ sm: 8, xs: 12 }}>
             <FieldArray
                 name="details"
                 render={props => (

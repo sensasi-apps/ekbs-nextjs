@@ -38,10 +38,10 @@ enum ReducerActions {
 
 const initialState: StateType = {
     data: {},
-    initialDataInString: '{}',
-    formOpen: false,
-    submitting: false,
     deleting: false,
+    formOpen: false,
+    initialDataInString: '{}',
+    submitting: false,
 }
 
 interface ReducerActionType<T = object> {
@@ -61,8 +61,8 @@ const reducer: Reducer<StateType, ReducerActionType> = (state, action) => {
         return {
             ...state,
             data: {},
-            initialDataInString: '{}',
             formOpen: true,
+            initialDataInString: '{}',
         }
     }
 
@@ -70,8 +70,8 @@ const reducer: Reducer<StateType, ReducerActionType> = (state, action) => {
         return {
             ...state,
             data: action.payload as object,
-            initialDataInString: JSON.stringify(action.payload),
             formOpen: true,
+            initialDataInString: JSON.stringify(action.payload),
         }
     }
 
@@ -122,26 +122,26 @@ export const FormDataProvider: FC<{
                     dispatch({ type: ReducerActions.HandleCreate }),
                 handleEdit: data =>
                     dispatch({
-                        type: ReducerActions.HandleEdit,
                         payload: data,
+                        type: ReducerActions.HandleEdit,
                     }),
-                isNew,
                 isDirty,
+                isNew,
                 loading: state.submitting || state.deleting,
                 setData: data =>
                     dispatch({
-                        type: ReducerActions.SetData,
                         payload: data,
+                        type: ReducerActions.SetData,
                     }),
                 setDeleting: (value: boolean) =>
                     dispatch({
-                        type: ReducerActions.SetDeleting,
                         payload: value,
+                        type: ReducerActions.SetDeleting,
                     }),
                 setSubmitting: (value: boolean) =>
                     dispatch({
-                        type: ReducerActions.SetSubmitting,
                         payload: value,
+                        type: ReducerActions.SetSubmitting,
                     }),
             }}>
             {children}

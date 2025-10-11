@@ -1,49 +1,50 @@
 // types
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-// vendors
-import { useDebounce } from 'use-debounce'
-import { useState } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
-import Head from 'next/head'
-import Image from 'next/image'
-import useSWR from 'swr'
-// materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import Chip from '@mui/material/Chip'
-import Fade from '@mui/material/Fade'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
+
 // icons
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
+import Dialog from '@mui/material/Dialog'
+import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import dayjs, { Dayjs } from 'dayjs'
+import Head from 'next/head'
+import Image from 'next/image'
+import { useState } from 'react'
+import useSWR from 'swr'
+// vendors
+import { useDebounce } from 'use-debounce'
+// pages type
+import type { DataType } from '@/app/(auth)/finances/wallets/page'
+import Skeletons from '@/components/Global/Skeletons'
+// enums
+import Wallet from '@/enums/permissions/Wallet'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+// utils
+import numberToCurrency from '@/utils/number-to-currency'
+import toDmy from '@/utils/to-dmy'
 // components
 import FlexColumnBox from '../FlexColumnBox'
 import InfoBox from '../InfoBox'
+import PrintHandler from '../PrintHandler'
 import ScrollableXBox from '../ScrollableXBox'
-import Skeletons from '@/components/Global/Skeletons'
 import TextField from '../TextField'
+import WalletTxButtonAndForm from './TxButtonAndForm'
 // components/TxHistory
 import DatePickers, {
     DEFAULT_END_DATE,
     DEFAULT_START_DATE,
 } from './TxHistory/DatePickers'
-import SummaryByTag from './TxHistory/summary-by-tag'
 import TxHistoryItem from './TxHistory/Item'
-import WalletTxButtonAndForm from './TxButtonAndForm'
-// utils
-import numberToCurrency from '@/utils/number-to-currency'
-import PrintHandler from '../PrintHandler'
-import toDmy from '@/utils/to-dmy'
-// enums
-import Wallet from '@/enums/permissions/Wallet'
-import InstallmentDataTable from './tx-form/installment-datatable'
-// pages type
-import type { DataType } from '@/app/(auth)/finances/wallets/page'
+import SummaryByTag from './TxHistory/summary-by-tag'
 import CorrectionTxDataTable from './tx-form/correction-tx-datatable'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import InstallmentDataTable from './tx-form/installment-datatable'
 
 export type ApiResponseType = {
     balanceFrom: number
@@ -119,8 +120,8 @@ export default function TxHistory({
                                 Wallet.CREATE_USER_WALLET_TRANSACTION,
                             ) && (
                                 <WalletTxButtonAndForm
-                                    disabled={loading}
                                     data={walletData}
+                                    disabled={loading}
                                     onSubmit={() => {
                                         mutateHistory()
                                         mutateWalletData()
@@ -137,12 +138,12 @@ export default function TxHistory({
                                     },
                                 }}>
                                 <PrintTemplate
-                                    tab={activeTab}
-                                    walletData={walletData}
                                     fromDate={fromDate}
-                                    toDate={toDate}
                                     loading={loading}
+                                    tab={activeTab}
+                                    toDate={toDate}
                                     txs={txs}
+                                    walletData={walletData}
                                 />
                             </PrintHandler>
                         )}
@@ -155,31 +156,31 @@ export default function TxHistory({
                     <>
                         <ScrollableXBox>
                             <Chip
-                                label="Rangkuman"
                                 color="success"
+                                label="Rangkuman"
+                                onClick={() => setActiveTab('rangkuman')}
                                 size="small"
                                 variant={
                                     activeTab === 'rangkuman'
                                         ? 'filled'
                                         : 'outlined'
                                 }
-                                onClick={() => setActiveTab('rangkuman')}
                             />
 
                             <Chip
-                                label="Rincian"
                                 color="success"
+                                label="Rincian"
+                                onClick={() => setActiveTab('rincian')}
                                 size="small"
                                 variant={
                                     activeTab === 'rincian'
                                         ? 'filled'
                                         : 'outlined'
                                 }
-                                onClick={() => setActiveTab('rincian')}
                             />
                         </ScrollableXBox>
 
-                        <Body data={txs} activeTab={activeTab} />
+                        <Body activeTab={activeTab} data={txs} />
                     </>
                 )}
             </Box>
@@ -204,9 +205,9 @@ function Header({ data }: { data: DataType }) {
 
                 <Typography
                     color="text.primary"
-                    variant="h4"
+                    component="div"
                     fontWeight="bold"
-                    component="div">
+                    variant="h4">
                     {numberToCurrency(data.balance ?? 0)}
                 </Typography>
             </Box>
@@ -218,13 +219,13 @@ function Header({ data }: { data: DataType }) {
                     </Typography>
 
                     <Button
-                        size="small"
                         color="warning"
-                        variant="outlined"
+                        onClick={() => setIsPiutangDialogOpen(true)}
+                        size="small"
                         sx={{
                             ml: 1,
                         }}
-                        onClick={() => setIsPiutangDialogOpen(true)}>
+                        variant="outlined">
                         {numberToCurrency(data.unpaid_installment_total_rp)}
                     </Button>
                 </Box>
@@ -237,31 +238,31 @@ function Header({ data }: { data: DataType }) {
                     </Typography>
 
                     <Button
-                        size="small"
                         color="warning"
-                        variant="outlined"
+                        onClick={() => setIsCorrectionDialogOpen(true)}
+                        size="small"
                         sx={{
                             ml: 1,
                         }}
-                        onClick={() => setIsCorrectionDialogOpen(true)}>
+                        variant="outlined">
                         {numberToCurrency(data.correction_total_rp)}
                     </Button>
                 </Box>
             )}
 
             <Dialog
-                open={isPiutangDialogOpen}
-                maxWidth="md"
                 fullWidth
-                onClose={() => setIsPiutangDialogOpen(false)}>
+                maxWidth="md"
+                onClose={() => setIsPiutangDialogOpen(false)}
+                open={isPiutangDialogOpen}>
                 <InstallmentDataTable userUuid={data.user_uuid} />
             </Dialog>
 
             <Dialog
-                open={isCorrectionDialogOpen}
-                maxWidth="md"
                 fullWidth
-                onClose={() => setIsCorrectionDialogOpen(false)}>
+                maxWidth="md"
+                onClose={() => setIsCorrectionDialogOpen(false)}
+                open={isCorrectionDialogOpen}>
                 <CorrectionTxDataTable userUuid={data.user_uuid} />
             </Dialog>
         </Box>
@@ -292,23 +293,23 @@ function Body({
 
     return (
         <>
-            <Fade in={activeTab === 'rangkuman'} unmountOnExit exit={false}>
+            <Fade exit={false} in={activeTab === 'rangkuman'} unmountOnExit>
                 <span>
                     <SummaryByTag data={txs} />
                 </span>
             </Fade>
 
-            <Fade in={activeTab === 'rincian'} unmountOnExit exit={false}>
+            <Fade exit={false} in={activeTab === 'rincian'} unmountOnExit>
                 <span>
                     <FlexColumnBox>
                         <Box>
                             <Typography
-                                lineHeight="1em"
-                                variant="overline"
                                 color="text.disabled"
                                 component="div"
                                 fontWeight="bold"
-                                mb={0.5}>
+                                lineHeight="1em"
+                                mb={0.5}
+                                variant="overline">
                                 Rangkuman
                             </Typography>
                             <SummaryTable data={txs} />
@@ -325,12 +326,12 @@ function Body({
                                     <TextField
                                         autoComplete="off"
                                         margin="none"
-                                        required={false}
-                                        placeholder="Cari..."
-                                        value={searchTerm}
                                         onChange={({ target }) =>
                                             setSearchTerm(target.value)
                                         }
+                                        placeholder="Cari..."
+                                        required={false}
+                                        value={searchTerm}
                                     />
                                 </Box>
                             </Fade>
@@ -347,16 +348,16 @@ function Body({
                                     })
                                 }>
                                 <Fade
+                                    exit={false}
                                     in={!showSearch}
-                                    unmountOnExit
-                                    exit={false}>
+                                    unmountOnExit>
                                     <SearchIcon />
                                 </Fade>
 
                                 <Fade
+                                    exit={false}
                                     in={showSearch}
-                                    unmountOnExit
-                                    exit={false}>
+                                    unmountOnExit>
                                     <CloseIcon />
                                 </Fade>
                             </IconButton>
@@ -364,11 +365,11 @@ function Body({
 
                         <Box>
                             <Typography
-                                variant="overline"
-                                lineHeight="1em"
                                 color="text.disabled"
                                 component="div"
-                                fontWeight="bold">
+                                fontWeight="bold"
+                                lineHeight="1em"
+                                variant="overline">
                                 Rincian
                             </Typography>
 
@@ -403,14 +404,14 @@ function TxsList({
         <FlexColumnBox gap={1}>
             {txs.balanceFrom !== undefined && (
                 <TxHistoryItem
-                    desc="Saldo Awal"
                     amount={txs.balanceFrom}
+                    desc="Saldo Awal"
                     slotProps={{
-                        typography: {
-                            variant: 'body1',
-                        },
                         chip: {
                             size: 'medium',
+                        },
+                        typography: {
+                            variant: 'body1',
                         },
                     }}
                 />
@@ -427,46 +428,46 @@ function TxsList({
                         <FlexColumnBox gap={2} key={i}>
                             <Box
                                 sx={{
-                                    mt: 1.5,
-                                    position: 'sticky',
-                                    top: 0,
                                     backgroundColor:
                                         'var(--mui-palette-background-paper)',
                                     backgroundImage: 'var(--mui-overlays-24)',
-                                    color: 'success.main',
-                                    borderBottomRightRadius: '4px',
                                     borderBottomLeftRadius: '4px',
+                                    borderBottomRightRadius: '4px',
+                                    color: 'success.main',
+                                    mt: 1.5,
+                                    position: 'sticky',
+                                    top: 0,
                                 }}>
                                 <Box
+                                    alignItems="center"
                                     display="flex"
                                     justifyContent="space-between"
-                                    alignItems="center"
                                     sx={{
+                                        borderColor: 'success.main',
+                                        borderRadius: '4px',
+                                        borderStyle: 'solid',
+                                        borderWidth: '1px',
                                         px: 1,
                                         py: 0.2,
-                                        borderColor: 'success.main',
-                                        borderWidth: '1px',
-                                        borderStyle: 'solid',
-                                        borderRadius: '4px',
                                     }}>
                                     <Typography
-                                        lineHeight="inherit"
-                                        variant="body2"
+                                        component="div"
                                         fontWeight="bold"
-                                        component="div">
+                                        lineHeight="inherit"
+                                        variant="body2">
                                         {txsGroup.date}
                                     </Typography>
 
                                     <Typography
-                                        lineHeight="inherit"
-                                        variant="caption"
-                                        fontWeight="bold"
                                         color={
                                             dailyTotal < 0
                                                 ? 'text.secondary'
                                                 : 'success'
                                         }
-                                        component="div">
+                                        component="div"
+                                        fontWeight="bold"
+                                        lineHeight="inherit"
+                                        variant="caption">
                                         {numberToCurrency(dailyTotal)}
                                     </Typography>
                                 </Box>
@@ -474,9 +475,9 @@ function TxsList({
 
                             {txsGroup.txs.map((tx, i) => (
                                 <TxHistoryItem
-                                    key={i}
-                                    desc={tx.desc}
                                     amount={tx.amount}
+                                    desc={tx.desc}
+                                    key={i}
                                     tags={tx.tags.map(tag => tag.name.id)}
                                 />
                             ))}
@@ -486,10 +487,10 @@ function TxsList({
             ) : (
                 <Typography
                     color="text.disabled"
-                    variant="caption"
+                    component="div"
                     fontStyle="italic"
                     maxWidth="20em"
-                    component="div">
+                    variant="caption">
                     Tidak terdapat aktivitas transaksi pada rentang tanggal yang
                     dipilih
                 </Typography>
@@ -497,15 +498,15 @@ function TxsList({
 
             {txs.balanceTo !== undefined && (
                 <TxHistoryItem
-                    mt={2}
-                    desc="Saldo Akhir"
                     amount={txs.balanceTo}
+                    desc="Saldo Akhir"
+                    mt={2}
                     slotProps={{
-                        typography: {
-                            variant: 'body1',
-                        },
                         chip: {
                             size: 'medium',
+                        },
+                        typography: {
+                            variant: 'body1',
                         },
                     }}
                 />
@@ -517,12 +518,6 @@ function TxsList({
 function SummaryTable({ data }: { data: ApiResponseType }) {
     return (
         <InfoBox
-            ml="-3px"
-            sx={{
-                '*': {
-                    lineHeight: '1.1em',
-                },
-            }}
             data={[
                 {
                     label: 'Saldo Awal',
@@ -549,6 +544,12 @@ function SummaryTable({ data }: { data: ApiResponseType }) {
                     value: numberToCurrency(data.balanceTo),
                 },
             ]}
+            ml="-3px"
+            sx={{
+                '*': {
+                    lineHeight: '1.1em',
+                },
+            }}
         />
     )
 }
@@ -585,36 +586,36 @@ function PrintTemplate({
 
             <Box display="flex" gap={2}>
                 <Image
-                    src="/assets/pwa-icons/green-transparent.svg"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: '6em', height: '6em' }}
                     alt="logo"
+                    height={0}
                     priority
+                    sizes="100vw"
+                    src="/assets/pwa-icons/green-transparent.svg"
+                    style={{ height: '6em', width: '6em' }}
+                    width={0}
                 />
 
                 <FlexColumnBox gap={1}>
                     <Typography>{title}</Typography>
                     <Box>
                         <Typography
-                            variant="caption"
                             color="text.disabled"
-                            component="div">
+                            component="div"
+                            variant="caption">
                             Periode Transaksi:
                         </Typography>
-                        <Typography variant="caption" component="div">
+                        <Typography component="div" variant="caption">
                             {dateRangeText}
                         </Typography>
                     </Box>
                     <Box>
                         <Typography
-                            variant="caption"
                             color="text.disabled"
-                            component="div">
+                            component="div"
+                            variant="caption">
                             Waktu Cetak:
                         </Typography>
-                        <Typography variant="caption" component="div">
+                        <Typography component="div" variant="caption">
                             {dayjs().format('DD-MM-YYYY HH:mm:ss')}
                         </Typography>
                     </Box>
@@ -624,20 +625,20 @@ function PrintTemplate({
             <FlexColumnBox gap={2}>
                 <Box mt={1}>
                     <Typography
-                        variant="caption"
                         color="text.disabled"
-                        component="div">
+                        component="div"
+                        variant="caption">
                         Nama:
                     </Typography>
                     <Typography
-                        variant="body1"
                         component="div"
-                        fontWeight="bold">
+                        fontWeight="bold"
+                        variant="body1">
                         #{walletData.user?.id} &mdash; {walletData.user?.name}
                     </Typography>
                 </Box>
 
-                {!loading && txs && <Body data={txs} activeTab={activeTab} />}
+                {!loading && txs && <Body activeTab={activeTab} data={txs} />}
             </FlexColumnBox>
         </>
     )

@@ -4,9 +4,9 @@
 import { useParams } from 'next/navigation'
 import useSWR from 'swr'
 import LoadingCenter from '@/components/loading-center'
+import UserOrLandRequisiteDetail from '@/modules/clm/components/user-or-land-requisite-detail'
 // modules
 import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
-import UserOrLandRequisiteDetail from '@/modules/clm/components/user-or-land-requisite-detail'
 
 type ApiResponse = RequisiteLandORM & {
     uuid?: string

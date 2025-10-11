@@ -1,13 +1,14 @@
 // types
-import type { ReactNode } from 'react'
-// vendors
-import Box from '@mui/material/Box'
-import Fab, { type FabProps } from '@mui/material/Fab'
-import Typography from '@mui/material/Typography'
+
 import Insights from '@mui/icons-material/Insights'
 import Login from '@mui/icons-material/Login'
 import OpenInNew from '@mui/icons-material/OpenInNew'
 import Warehouse from '@mui/icons-material/Warehouse'
+// vendors
+import Box from '@mui/material/Box'
+import Fab, { type FabProps } from '@mui/material/Fab'
+import Typography from '@mui/material/Typography'
+import type { ReactNode } from 'react'
 
 export default function Landing() {
     return (
@@ -23,11 +24,11 @@ export default function Landing() {
 
 const FAB_DEFAULT_PROPS: FabProps = {
     color: 'warning',
-    variant: 'extended',
     size: 'small',
     sx: {
         px: 2,
     },
+    variant: 'extended',
 }
 
 const MR_ICON_DEFAULT_SX = {
@@ -47,7 +48,7 @@ function Section({
 }) {
     return (
         <Box>
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography gutterBottom variant="subtitle1">
                 {introText}
             </Typography>
 
@@ -60,26 +61,26 @@ function HeroSection() {
     return (
         <Section introText="Anda sedang berada pada laman aplikasi">
             <Box
-                display="flex"
-                gap={2}
                 alignItems="center"
+                display="flex"
                 flexWrap="wrap"
-                textOverflow="clip"
-                mb={8}>
+                gap={2}
+                mb={8}
+                textOverflow="clip">
                 <Typography
-                    variant="h3"
+                    color="grey.300"
                     component="h1"
                     fontWeight="bold"
-                    color="grey.300"
-                    maxWidth="640px">
+                    maxWidth="640px"
+                    variant="h3">
                     {process.env.NEXT_PUBLIC_APP_NAME}
                 </Typography>
             </Box>
 
             <Fab
                 {...FAB_DEFAULT_PROPS}
-                href="login"
                 color="success"
+                href="login"
                 size="large"
                 sx={{
                     fontSize: '1.1rem',
@@ -95,7 +96,7 @@ function HeroSection() {
 function PublicPagesSection() {
     return (
         <Section introText="kunjungi halaman publik">
-            <Box display="flex" gap={2} flexWrap="wrap">
+            <Box display="flex" flexWrap="wrap" gap={2}>
                 <Fab href="katalog-saprodi" {...FAB_DEFAULT_PROPS}>
                     <Warehouse sx={MR_ICON_DEFAULT_SX} />
                     Katalog Saprodi
@@ -113,7 +114,7 @@ function PublicPagesSection() {
 function EtcSection() {
     return (
         <Section introText="atau lainnya">
-            <Box display="flex" gap={2} flexWrap="wrap">
+            <Box display="flex" flexWrap="wrap" gap={2}>
                 <Fab {...FAB_DEFAULT_PROPS} href="https://belayansejahtera.org">
                     Berita
                     <OpenInNew sx={ML_ICON_DEFAULT_SX} />

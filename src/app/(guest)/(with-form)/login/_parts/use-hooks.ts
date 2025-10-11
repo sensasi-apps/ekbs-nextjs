@@ -1,12 +1,12 @@
 // vendors
 import { AxiosError } from 'axios'
 import { sha3_256 } from 'js-sha3'
-import { useEffect, useState, useCallback, type FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { type FormEvent, useCallback, useEffect, useState } from 'react'
+import useAuthInfoState from '@/hooks/use-auth-info-state'
+import axios from '@/lib/axios'
 //
 import type AuthInfo from '@/modules/user/types/auth-info'
-import axios from '@/lib/axios'
-import useAuthInfoState from '@/hooks/use-auth-info-state'
 
 // ============================
 // Helpers
@@ -15,7 +15,7 @@ function parseBase64Response(encoded: string) {
     try {
         return JSON.parse(atob(encoded)) as { status: number; message: string }
     } catch {
-        return { status: 500, message: 'Terjadi kesalahan' }
+        return { message: 'Terjadi kesalahan', status: 500 }
     }
 }
 
@@ -66,11 +66,11 @@ async function loginUser(
 
 function buildErrorResponse(err: AxiosError<{ message?: string }>) {
     return {
-        status: err.response?.status,
         message:
             err.response?.data.message ??
             err.response?.statusText ??
             err.message,
+        status: err.response?.status,
     }
 }
 
@@ -134,5 +134,5 @@ export default function useHooks() {
         [setAuthInfo, replace],
     )
 
-    return { isLoading, isError, message, handleSubmit }
+    return { handleSubmit, isError, isLoading, message }
 }

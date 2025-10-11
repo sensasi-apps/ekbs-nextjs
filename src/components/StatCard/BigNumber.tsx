@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
 import Typography from '@mui/material/Typography'
+import type { ReactNode } from 'react'
 import StatCard, { type StatCardProps } from './StatCard'
 
 export default function BigNumber({
@@ -13,15 +13,15 @@ export default function BigNumber({
 }) {
     return (
         <StatCard {...props}>
-            <Typography variant="h2" component="div" whiteSpace="nowrap">
+            <Typography component="div" variant="h2" whiteSpace="nowrap">
                 {primary}
             </Typography>
 
             {secondary && (
                 <Typography
-                    variant="subtitle2"
+                    color="GrayText"
                     component="div"
-                    color="GrayText">
+                    variant="subtitle2">
                     {secondary}
                 </Typography>
             )}

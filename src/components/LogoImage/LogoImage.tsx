@@ -2,13 +2,13 @@ import Image from 'next/image'
 
 const LogoImage = () => (
     <Image
-        src="/assets/pwa-icons/white-green.svg"
         alt="logo"
-        width={50}
         height={50}
+        src="/assets/pwa-icons/white-green.svg"
         style={{
             borderRadius: '15%',
         }}
+        width={50}
     />
 )
 

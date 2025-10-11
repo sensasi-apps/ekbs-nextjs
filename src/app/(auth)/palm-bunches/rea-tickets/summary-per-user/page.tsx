@@ -1,28 +1,28 @@
 'use client'
 
-import type { Ymd } from '@/types/date-string'
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+// icons-materials
+import Download from '@mui/icons-material/Download'
+import Refresh from '@mui/icons-material/Refresh'
 // materials
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Fade from '@mui/material/Fade'
 import LinearProgress from '@mui/material/LinearProgress'
-// icons-materials
-import Download from '@mui/icons-material/Download'
-import Refresh from '@mui/icons-material/Refresh'
+import dayjs from 'dayjs'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 // global components
 import { AoaTable } from '@/components/aoa-table'
-import { toYmd } from '@/utils/to-ymd'
 import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 import PageTitle from '@/components/page-title'
+import type { Ymd } from '@/types/date-string'
 // utils
 import aoaToXlsx, { type AoaRows } from '@/utils/aoa-to-xlsx'
+import { toYmd } from '@/utils/to-ymd'
 
 export default function Page() {
     const { replace } = useRouter()
@@ -50,9 +50,12 @@ export default function Page() {
 
             <PageTitle title="Rangkuman Per Pengguna" />
 
-            <Box display="flex" gap={2} alignItems="center" my={2}>
+            <Box alignItems="center" display="flex" gap={2} my={2}>
                 <Filters
                     disabled={isLoading}
+                    onDownload={() =>
+                        aoaToXlsx(`Tiket TBS ${from_date}-${till_date}`, data)
+                    }
                     onRefresh={(from_date, till_date) => {
                         const query = new URLSearchParams(
                             searchParams?.toString() ?? '',
@@ -63,9 +66,6 @@ export default function Page() {
                         replace(`?${query.toString()}`)
                         mutate()
                     }}
-                    onDownload={() =>
-                        aoaToXlsx(`Tiket TBS ${from_date}-${till_date}`, data)
-                    }
                 />
             </Box>
 
@@ -75,18 +75,18 @@ export default function Page() {
 
             {data.length === 0 && (
                 <Divider
-                    variant="middle"
                     sx={{
                         mt: 2,
-                    }}>
+                    }}
+                    variant="middle">
                     Tidak ada data
                 </Divider>
             )}
 
             {data.length > 0 && (
                 <AoaTable
-                    headers={data[0] as string[]}
                     dataRows={data.slice(1)}
+                    headers={data[0] as string[]}
                 />
             )}
         </>
@@ -126,33 +126,33 @@ function Filters({
     return (
         <>
             <DatePicker
-                label="Dari Tanggal"
                 disabled={disabled}
-                value={fromDate ? dayjs(fromDate) : null}
+                label="Dari Tanggal"
                 onChange={value => setFromDate(value ? toYmd(value) : null)}
+                value={fromDate ? dayjs(fromDate) : null}
             />
 
             <DatePicker
-                label="Hingga Tanggal"
                 disabled={disabled}
-                value={tillDate ? dayjs(tillDate) : null}
+                label="Hingga Tanggal"
                 onChange={value => setTillDate(value ? toYmd(value) : null)}
+                value={tillDate ? dayjs(tillDate) : null}
             />
 
             <IconButton
                 disabled={disabled || !fromDate || !tillDate}
                 icon={Refresh}
-                title="Segarkan"
                 onClick={() =>
                     fromDate && tillDate && onRefresh(fromDate, tillDate)
                 }
+                title="Segarkan"
             />
 
             <IconButton
                 disabled={disabled || !fromDate || !tillDate}
                 icon={Download}
-                title="Unduh"
                 onClick={onDownload}
+                title="Unduh"
             />
         </>
     )

@@ -1,5 +1,5 @@
 // vendors
-import { validate } from 'uuid'
+
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -8,13 +8,14 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import formatNumber from '@/utils/format-number'
-// modules
-import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-part-movement'
-import shortUuid from '@/utils/short-uuid'
 import type { UUID } from 'crypto'
 import { memo } from 'react'
+import { validate } from 'uuid'
 import NumericField from '@/components/formik-fields/numeric-field'
+// modules
+import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-part-movement'
+import formatNumber from '@/utils/format-number'
+import shortUuid from '@/utils/short-uuid'
 
 export default function DetailTable({
     data,
@@ -60,7 +61,7 @@ export default function DetailTable({
                 <TableBody>
                     {data.length === 0 && (
                         <TableRow>
-                            <TableCell colSpan={8} align="center">
+                            <TableCell align="center" colSpan={8}>
                                 Tidak ada data
                             </TableCell>
                         </TableRow>
@@ -68,11 +69,11 @@ export default function DetailTable({
 
                     {data.map((row, index) => (
                         <DetailRow
-                            print={print}
-                            index={index}
-                            key={row.id}
                             data={row}
                             finished={finished}
+                            index={index}
+                            key={row.id}
+                            print={print}
                             // setDetailQuantities={setDetailQuantities}
                         />
                     ))}
@@ -101,7 +102,7 @@ function Footer({ data }: { data: SparePartMovementORM['details'] }) {
     return (
         <TableFooter>
             <TableRow>
-                <TableCell colSpan={7} align="right">
+                <TableCell align="right" colSpan={7}>
                     TOTAL
                 </TableCell>
 
@@ -151,10 +152,12 @@ const DetailRow = memo(function DetailRow({
                     <NumericField
                         name={`${index}.physical_qty`}
                         numericFormatProps={{
-                            margin: 'none',
-                            sx: {
-                                displayPrint: 'none',
+                            inputProps: {
+                                sx: {
+                                    textAlign: 'end !important',
+                                },
                             },
+                            margin: 'none',
 
                             slotProps: {
                                 input: {
@@ -164,10 +167,8 @@ const DetailRow = memo(function DetailRow({
                                     },
                                 },
                             },
-                            inputProps: {
-                                sx: {
-                                    textAlign: 'end !important',
-                                },
+                            sx: {
+                                displayPrint: 'none',
                             },
                         }}
                     />

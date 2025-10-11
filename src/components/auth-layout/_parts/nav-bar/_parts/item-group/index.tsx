@@ -2,11 +2,11 @@
 
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
-import type NavItemGroup from '../../types/nav-item-group'
-import NavBarListItem from './_parts/list-item'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import type NavItemGroup from '../../types/nav-item-group'
+import NavBarListItem from './_parts/list-item'
 
 export default function NavBarItemGroup({
     data: { label, items },
@@ -30,12 +30,12 @@ export default function NavBarItemGroup({
             />
 
             <Typography
+                color="grey"
+                component="div"
+                fontWeight="bold"
                 ml={4}
                 mt={2}
-                variant="overline"
-                color="grey"
-                fontWeight="bold"
-                component="div">
+                variant="overline">
                 {label}
             </Typography>
 

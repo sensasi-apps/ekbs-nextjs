@@ -1,18 +1,19 @@
 // types
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
+
+// icons
+import CreditCardIcon from '@mui/icons-material/CreditCard'
+// materials
+import Grid from '@mui/material/Grid'
 // vendors
 import { memo } from 'react'
 import useSWR from 'swr'
-// materials
-import Grid from '@mui/material/Grid'
-// icons
-import CreditCardIcon from '@mui/icons-material/CreditCard'
-// components
-import BigNumber from '@/components/StatCard/BigNumber'
 import FlexColumnBox from '@/components/FlexColumnBox'
-import ScrollableXBox from '@/components/ScrollableXBox'
 // page components
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
+import ScrollableXBox from '@/components/ScrollableXBox'
+// components
+import BigNumber from '@/components/StatCard/BigNumber'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 
@@ -50,19 +51,19 @@ const ReceivableSection = memo(function ReceivableSection() {
 
             <Grid container spacing={1.5}>
                 <Grid
-                    size={{
-                        xs: 12,
-                        md: 6,
-                    }}
                     display="flex"
                     flexDirection="column"
-                    gap={1.5}>
+                    gap={1.5}
+                    size={{
+                        md: 6,
+                        xs: 12,
+                    }}>
                     <BigNumber
-                        title="Total — Saat Ini"
                         isLoading={isLoading}
                         primary={numberToCurrency(total1, {
                             notation: 'compact',
                         })}
+                        title="Total — Saat Ini"
                     />
 
                     <ScrollableXBox
@@ -73,46 +74,46 @@ const ReceivableSection = memo(function ReceivableSection() {
                             },
                         }}>
                         <BigNumber
-                            title="Alat Berat"
                             isLoading={isLoading}
                             primary={numberToCurrency(alatBerat1, {
                                 notation: 'compact',
                             })}
+                            title="Alat Berat"
                         />
 
                         <BigNumber
-                            title="SAPRODI"
                             isLoading={isLoading}
                             primary={numberToCurrency(saprodi1, {
                                 notation: 'compact',
                             })}
+                            title="SAPRODI"
                         />
 
                         <BigNumber
-                            title="SPP"
                             isLoading={isLoading}
                             primary={numberToCurrency(spp1, {
                                 notation: 'compact',
                             })}
+                            title="SPP"
                         />
                     </ScrollableXBox>
                 </Grid>
 
                 <Grid
-                    size={{
-                        xs: 12,
-                        md: 6,
-                    }}
                     display="flex"
                     flexDirection="column"
-                    gap={1.5}>
+                    gap={1.5}
+                    size={{
+                        md: 6,
+                        xs: 12,
+                    }}>
                     <BigNumber
-                        title="Total — Lewat Jatuh Tempo"
-                        isLoading={isLoading}
                         color={total2 > 0 ? 'error' : 'success'}
+                        isLoading={isLoading}
                         primary={numberToCurrency(total2, {
                             notation: 'compact',
                         })}
+                        title="Total — Lewat Jatuh Tempo"
                     />
 
                     <ScrollableXBox
@@ -123,30 +124,30 @@ const ReceivableSection = memo(function ReceivableSection() {
                             },
                         }}>
                         <BigNumber
-                            title="Alat Berat"
-                            isLoading={isLoading}
                             color={alatBerat2 > 0 ? 'error' : 'success'}
+                            isLoading={isLoading}
                             primary={numberToCurrency(alatBerat2, {
                                 notation: 'compact',
                             })}
+                            title="Alat Berat"
                         />
 
                         <BigNumber
-                            title="SAPRODI"
-                            isLoading={isLoading}
                             color={saprodi2 > 0 ? 'error' : 'success'}
+                            isLoading={isLoading}
                             primary={numberToCurrency(saprodi2, {
                                 notation: 'compact',
                             })}
+                            title="SAPRODI"
                         />
 
                         <BigNumber
-                            title="SPP"
-                            isLoading={isLoading}
                             color={spp2 > 0 ? 'error' : 'success'}
+                            isLoading={isLoading}
                             primary={numberToCurrency(spp2, {
                                 notation: 'compact',
                             })}
+                            title="SPP"
                         />
                     </ScrollableXBox>
                 </Grid>
@@ -159,18 +160,6 @@ export default ReceivableSection
 
 function calc(data: ApiResponseType | undefined) {
     return {
-        total1:
-            data?.all_unpaid_receivables.reduce(
-                (acc, curr) => acc + curr.amount_rp_sum,
-                0,
-            ) ?? 0,
-
-        total2:
-            data?.pass_due_receivables.reduce(
-                (acc, curr) => acc + curr.amount_rp_sum,
-                0,
-            ) ?? 0,
-
         alatBerat1:
             data?.all_unpaid_receivables.find(
                 item =>
@@ -210,5 +199,16 @@ function calc(data: ApiResponseType | undefined) {
                 item =>
                     item.installmentable_classname === 'App\\Models\\UserLoan',
             )?.amount_rp_sum ?? 0,
+        total1:
+            data?.all_unpaid_receivables.reduce(
+                (acc, curr) => acc + curr.amount_rp_sum,
+                0,
+            ) ?? 0,
+
+        total2:
+            data?.pass_due_receivables.reduce(
+                (acc, curr) => acc + curr.amount_rp_sum,
+                0,
+            ) ?? 0,
     }
 }

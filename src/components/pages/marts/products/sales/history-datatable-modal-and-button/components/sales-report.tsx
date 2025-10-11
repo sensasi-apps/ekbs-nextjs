@@ -1,8 +1,8 @@
 // vendors
-import { useRouter } from 'next/navigation'
-import { type ReactNode, useState } from 'react'
-import dayjs, { type Dayjs } from 'dayjs'
-import useSWR from 'swr'
+
+// icons-materials
+import Download from '@mui/icons-material/Download'
+import RefreshIcon from '@mui/icons-material/Refresh'
 // materials
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
@@ -14,18 +14,18 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-// icons-materials
-import Download from '@mui/icons-material/Download'
-import RefreshIcon from '@mui/icons-material/Refresh'
+import dayjs, { type Dayjs } from 'dayjs'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { type ReactNode, useState } from 'react'
+import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
 // utils
 import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
+import aoaToXlsx from '@/utils/aoa-to-xlsx'
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
-import aoaToXlsx from '@/utils/aoa-to-xlsx'
-import { useSearchParams } from 'next/navigation'
 
 export default function SalesReport() {
     const { replace } = useRouter()
@@ -76,13 +76,27 @@ export default function SalesReport() {
     return (
         <>
             <FiltersBox
-                fromAt={fromAt}
-                toAt={toAt}
                 disabled={isLoading || isValidating}
+                downloadButton={
+                    <IconButton
+                        disabled={isLoading || isValidating || !rows.length}
+                        icon={Download}
+                        onClick={() => {
+                            if (fromAt && toAt) {
+                                handleDownloadExcel(
+                                    rows,
+                                    `Laporan Penjualan Belayan Mart — ${toDmy(fromAt)} s/d ${toDmy(toAt)} — ${dayjs().format('YYYYMMDDHHmmss')}`,
+                                )
+                            }
+                        }}
+                        title="Unduh"
+                    />
+                }
+                fromAt={fromAt}
                 handleDateChange={handleDateChange}
                 refreshButton={
                     <IconButton
-                        title="Segarkan"
+                        disabled={isLoading || isValidating || !fromAt || !toAt}
                         icon={RefreshIcon}
                         onClick={() => {
                             if (
@@ -96,24 +110,10 @@ export default function SalesReport() {
                                 mutate()
                             }
                         }}
-                        disabled={isLoading || isValidating || !fromAt || !toAt}
+                        title="Segarkan"
                     />
                 }
-                downloadButton={
-                    <IconButton
-                        title="Unduh"
-                        icon={Download}
-                        onClick={() => {
-                            if (fromAt && toAt) {
-                                handleDownloadExcel(
-                                    rows,
-                                    `Laporan Penjualan Belayan Mart — ${toDmy(fromAt)} s/d ${toDmy(toAt)} — ${dayjs().format('YYYYMMDDHHmmss')}`,
-                                )
-                            }
-                        }}
-                        disabled={isLoading || isValidating || !rows.length}
-                    />
-                }
+                toAt={toAt}
             />
 
             <Fade in={isLoading || isValidating}>
@@ -173,39 +173,39 @@ function FiltersBox({
 }) {
     return (
         <>
-            <Box display="flex" gap={1} alignItems="center" mb={4}>
+            <Box alignItems="center" display="flex" gap={1} mb={4}>
                 <DatePicker
+                    disabled={disabled}
+                    format="DD-MM-YYYY"
+                    label="Dari"
+                    maxDate={dayjs().endOf('month')}
+                    minDate={FROM_DATE}
+                    onChange={date =>
+                        handleDateChange('fromAt', date ?? undefined)
+                    }
                     slotProps={{
                         textField: {
                             id: 'fromAt',
                         },
                     }}
                     value={fromAt ?? null}
-                    label="Dari"
-                    format="DD-MM-YYYY"
-                    disabled={disabled}
-                    minDate={FROM_DATE}
-                    maxDate={dayjs().endOf('month')}
-                    onChange={date =>
-                        handleDateChange('fromAt', date ?? undefined)
-                    }
                 />
 
                 <DatePicker
+                    disabled={disabled}
+                    format="DD-MM-YYYY"
+                    label="Hingga"
+                    maxDate={dayjs().endOf('month')}
+                    minDate={FROM_DATE}
+                    onChange={date =>
+                        handleDateChange('toAt', date ?? undefined)
+                    }
                     slotProps={{
                         textField: {
                             id: 'toAt',
                         },
                     }}
                     value={toAt ?? null}
-                    label="Hingga"
-                    format="DD-MM-YYYY"
-                    disabled={disabled}
-                    minDate={FROM_DATE}
-                    maxDate={dayjs().endOf('month')}
-                    onChange={date =>
-                        handleDateChange('toAt', date ?? undefined)
-                    }
                 />
 
                 {refreshButton}
@@ -235,14 +235,14 @@ function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
     return (
         <TableContainer>
             <Table
-                size="small"
                 aria-label="sales report"
+                size="small"
                 sx={{
-                    whiteSpace: 'nowrap',
                     // MINIMUM PADDING
                     '& td, & th': {
                         padding: '4px 8px',
                     },
+                    whiteSpace: 'nowrap',
                 }}>
                 <TableHead>
                     <TableRow>
@@ -254,7 +254,7 @@ function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
 
                 <TableBody>
                     {rows.map((data, i) => (
-                        <ItemTableRow key={i} index={i} data={data} />
+                        <ItemTableRow data={data} index={i} key={i} />
                     ))}
                 </TableBody>
 
@@ -402,9 +402,9 @@ function ItemTableRow({
             <TableCell align="left">
                 <ul
                     style={{
-                        padding: 0,
-                        margin: 0,
                         listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
                     }}>
                     {details.map(({ product_state, product }, i) => (
                         <li key={i}>{product_state?.name ?? product?.name}</li>
@@ -415,9 +415,9 @@ function ItemTableRow({
             <TableCell align="right">
                 <ul
                     style={{
-                        padding: 0,
-                        margin: 0,
                         listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
                     }}>
                     {details.map(({ qty }, i) => (
                         <li key={i}>{formatNumber(-qty)}</li>
@@ -428,9 +428,9 @@ function ItemTableRow({
             <TableCell align="right">
                 <ul
                     style={{
-                        padding: 0,
-                        margin: 0,
                         listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
                     }}>
                     {details.map(({ warehouse_state }, i) => (
                         <li key={i}>
@@ -445,17 +445,17 @@ function ItemTableRow({
             <TableCell align="right">
                 <ul
                     style={{
-                        padding: 0,
-                        margin: 0,
                         listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
                     }}>
                     {details.map(({ qty, warehouse_state }, i) => (
                         <li
                             key={i}
                             style={{
-                                padding: 0,
-                                margin: 0,
                                 listStyle: 'none',
+                                margin: 0,
+                                padding: 0,
                             }}>
                             {formatNumber(
                                 -qty * (warehouse_state?.cost_rp_per_unit ?? 0),
@@ -468,9 +468,9 @@ function ItemTableRow({
             <TableCell align="right">
                 <ul
                     style={{
-                        padding: 0,
-                        margin: 0,
                         listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
                     }}>
                     {details.map(({ cost_rp_per_unit, rp_per_unit }, i) => (
                         <li key={i}>
@@ -483,9 +483,9 @@ function ItemTableRow({
             <TableCell align="right">
                 <ul
                     style={{
-                        padding: 0,
-                        margin: 0,
                         listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
                     }}>
                     {details.map(
                         ({ qty, cost_rp_per_unit, rp_per_unit }, i) => (
@@ -502,9 +502,9 @@ function ItemTableRow({
             <TableCell align="right">
                 <ul
                     style={{
-                        padding: 0,
-                        margin: 0,
                         listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
                     }}>
                     {details.map(
                         (
@@ -533,9 +533,9 @@ function ItemTableRow({
             <TableCell align="right">
                 <ul
                     style={{
-                        padding: 0,
-                        margin: 0,
                         listStyle: 'none',
+                        margin: 0,
+                        padding: 0,
                     }}>
                     {details.map((item, i) => (
                         <li key={i}>

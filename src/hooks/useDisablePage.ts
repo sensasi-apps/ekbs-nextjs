@@ -1,10 +1,10 @@
 import { useRouter } from 'next/navigation'
-import { type OptionsObject, enqueueSnackbar } from 'notistack'
+import { enqueueSnackbar, type OptionsObject } from 'notistack'
 import { useEffect } from 'react'
 
 const SNACKBAR_OPTIONS: OptionsObject = {
-    variant: 'warning',
     persist: true,
+    variant: 'warning',
 }
 
 export default function useDisablePage() {

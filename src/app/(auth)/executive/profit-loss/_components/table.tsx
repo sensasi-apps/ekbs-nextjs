@@ -1,5 +1,7 @@
 // vendors
-import dayjs from 'dayjs'
+
+// icons-materials
+import InfoOutlined from '@mui/icons-material/InfoOutlined'
 // materials
 import Box from '@mui/material/Box'
 import MuiTable from '@mui/material/Table'
@@ -10,11 +12,10 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow, { type TableRowProps } from '@mui/material/TableRow'
 import Tooltip from '@mui/material/Tooltip'
-// icons-materials
-import InfoOutlined from '@mui/icons-material/InfoOutlined'
+import dayjs from 'dayjs'
+import blinkSxValue from '@/utils/blink-sx-value'
 // utils
 import formatNumber from '@/utils/format-number'
-import blinkSxValue from '@/utils/blink-sx-value'
 
 export type ItemRow = {
     name: string
@@ -77,8 +78,8 @@ interface SubTableProps {
 }
 
 const HEADER_SX = {
-    fontWeight: 'bold',
     fontSize: '0.8rem',
+    fontWeight: 'bold',
 }
 
 function SubTable({ header, data, footer }: SubTableProps) {
@@ -113,7 +114,7 @@ function SubTable({ header, data, footer }: SubTableProps) {
                 <TableCell sx={HEADER_SX}>{footer}</TableCell>
 
                 {sums.map((sum, i) => (
-                    <RpItemCell sx={HEADER_SX} key={i} data={sum} />
+                    <RpItemCell data={sum} key={i} sx={HEADER_SX} />
                 ))}
             </TableRow>
         </>
@@ -137,13 +138,13 @@ function CustomRow({
         <TableRow sx={sxRow}>
             <TableCell sx={SX_CELL_DATA}>
                 {info ? (
-                    <Tooltip title={info} arrow placement="right">
+                    <Tooltip arrow placement="right" title={info}>
                         <Box
+                            component="span"
                             sx={{
                                 textDecoration: 'underline',
                                 textDecorationStyle: 'dashed',
-                            }}
-                            component="span">
+                            }}>
                             {name}{' '}
                             <InfoOutlined
                                 sx={{
@@ -159,7 +160,7 @@ function CustomRow({
             </TableCell>
 
             {data?.map((subItem, i) => (
-                <RpItemCell key={i} data={subItem} sx={SX_CELL_DATA} />
+                <RpItemCell data={subItem} key={i} sx={SX_CELL_DATA} />
             ))}
         </TableRow>
     )
@@ -198,21 +199,21 @@ function CustomTableFooter({
         <TableFooter>
             {[
                 {
-                    name: 'Laba Kotor',
                     data: diffs,
                     info: info,
+                    name: 'Laba Kotor',
                 },
                 {
-                    name: 'PPH Pasal 25 @10%',
                     data: diffsPph25,
+                    name: 'PPH Pasal 25 @10%',
                 },
                 {
-                    name: 'PPH 23',
                     data: diffs.map(() => 0),
+                    name: 'PPH 23',
                 },
                 {
-                    name: 'Laba Bersih Sebelum Pajak',
                     data: nets,
+                    name: 'Laba Bersih Sebelum Pajak',
                 },
             ].map((item, i) => (
                 <CustomRow key={i} {...item} />
@@ -227,16 +228,16 @@ function RpItemCell({
 }: Omit<TableCellProps, 'children'> & { data: number }) {
     return (
         <TableCell
+            align="right"
             sx={{
                 ...sx,
                 color: data < 0 ? 'error.light' : undefined,
-            }}
-            align="right">
+            }}>
             {data ? (
                 <Box
+                    component="span"
                     display="flex"
                     gap={2}
-                    component="span"
                     justifyContent="space-between">
                     <span>Rp.</span>
 

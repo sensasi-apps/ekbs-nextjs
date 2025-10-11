@@ -1,14 +1,7 @@
 'use client'
 
-// vendors
-import { useRouter } from 'next/navigation'
-// types
-import type { Ymd } from '@/types/date-string'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-// vendors
-import { useSearchParams } from 'next/navigation'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+//icons
+import BackupTableIcon from '@mui/icons-material/BackupTable'
 // materials
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
@@ -19,20 +12,26 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import dayjs from 'dayjs'
+// vendors
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
+import SelectFromApi from '@/components/Global/SelectFromApi'
 import IconButton from '@/components/IconButton'
 import InfoBox from '@/components/InfoBox'
-import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/PrintHandler'
+import PageTitle from '@/components/page-title'
 import ScrollToTopFab from '@/components/ScrollToTopFab'
-import SelectFromApi from '@/components/Global/SelectFromApi'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+// types
+import type { Ymd } from '@/types/date-string'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
-//icons
-import BackupTableIcon from '@mui/icons-material/BackupTable'
 
 const ApiUrl = '/transactions/gajian-tbs/data'
 
@@ -88,7 +87,6 @@ export default function TbsPayrollList() {
                                         },
                                     }}>
                                     <InfoBox
-                                        mb={2}
                                         data={[
                                             {
                                                 label: 'TGL',
@@ -103,15 +101,16 @@ export default function TbsPayrollList() {
                                                 )?.innerText,
                                             },
                                         ]}
+                                        mb={2}
                                     />
                                     <MainTable data={data} />
                                 </PrintHandler>
                                 <IconButton
-                                    title="Download Excel"
-                                    icon={BackupTableIcon}
                                     color="success"
-                                    href={downloadUrl}
                                     download
+                                    href={downloadUrl}
+                                    icon={BackupTableIcon}
+                                    title="Download Excel"
                                 />
                             </Box>
                             <MainTable data={data} />
@@ -137,36 +136,36 @@ function FilterForm({ disabled }: { disabled: boolean }) {
     return (
         <Box maxWidth={300}>
             <DatePicker
-                name="at"
-                value={at ? dayjs(at as string) : null}
                 disabled={disabled}
-                maxDate={dayjs().endOf('month')}
                 label="Tanggal"
+                maxDate={dayjs().endOf('month')}
+                name="at"
                 onChange={date =>
                     replace(
                         `?at=${date?.format('YYYY-MM-DD')}&to_cash_uuid=${to_cash_uuid}`,
                     )
                 }
+                value={at ? dayjs(at as string) : null}
             />
 
             <SelectFromApi
-                required
+                disabled={disabled}
                 endpoint="/data/cashes"
                 label="Melalui Kas"
-                size="small"
                 margin="dense"
-                disabled={disabled}
                 onChange={({ target }) => {
                     const value =
                         'value' in target ? (target.value as string) : ''
 
                     replace(`?at=${at}&to_cash_uuid=${value}`)
                 }}
+                required
                 selectProps={{
                     id: 'cashSelect',
-                    value: to_cash_uuid ?? '',
                     name: 'to_cash_uuid',
+                    value: to_cash_uuid ?? '',
                 }}
+                size="small"
             />
         </Box>
     )
@@ -210,7 +209,7 @@ function MainTable({ data: txs }: { data: TransactionORM[] }) {
                         })
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={4} align="center">
+                            <TableCell align="center" colSpan={4}>
                                 <i>Tidak ada data</i>
                             </TableCell>
                         </TableRow>
@@ -218,7 +217,7 @@ function MainTable({ data: txs }: { data: TransactionORM[] }) {
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={3} align="center">
+                        <TableCell align="center" colSpan={3}>
                             TOTAL
                         </TableCell>
                         <TableCell>

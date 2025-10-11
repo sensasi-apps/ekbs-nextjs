@@ -1,31 +1,32 @@
 // types
-import type { Ymd } from '@/types/date-string'
-import type { OnRowClickType } from '@/components/Datatable'
-import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-// vendors
-import { Formik } from 'formik'
-import { useCallback, useRef, useState, type MutableRefObject } from 'react'
-import Chip, { type ChipProps } from '@mui/material/Chip'
-import { green } from '@mui/material/colors'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
+import Chip, { type ChipProps } from '@mui/material/Chip'
+import { green } from '@mui/material/colors'
+import dayjs from 'dayjs'
+// vendors
+import { Formik } from 'formik'
+import { type MutableRefObject, useCallback, useRef, useState } from 'react'
+import type { OnRowClickType } from '@/components/Datatable'
 // components
 import Datatable, { getNoWrapCellProps, mutate } from '@/components/Datatable'
+import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import axios from '@/lib/axios'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+import type { Ymd } from '@/types/date-string'
+import formatNumber from '@/utils/format-number'
+// utils
+import errorCatcher from '@/utils/handle-422'
+import toDmy from '@/utils/to-dmy'
+import { mutate as mutateCashlist } from '../cash/list'
 // local components
 import TransactionForm, {
     type FormValuesType,
     transactionToFormValues,
 } from './form'
-import { mutate as mutateCashlist } from '../cash/list'
-// utils
-import errorCatcher from '@/utils/handle-422'
-import toDmy from '@/utils/to-dmy'
-import formatNumber from '@/utils/format-number'
 
 type CustomTx = TransactionORM & {
     tag_names: string
@@ -63,19 +64,21 @@ export default function TransactionCrud() {
             <Datatable<CustomTx>
                 apiUrl="/transactions/datatable"
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
                 download
                 getRowDataCallback={fn => (getRowDataRef.current = fn)}
                 onRowClick={handleRowClick}
-                title="Riwayat Transaksi"
                 tableId="transaction-datatable"
+                title="Riwayat Transaksi"
             />
 
-            <DialogWithTitle title={dialogTitle} open={isDialogOpen}>
+            <DialogWithTitle open={isDialogOpen} title={dialogTitle}>
                 <Formik
+                    component={TransactionForm}
                     enableReinitialize
-                    initialValues={values ?? {}}
                     initialStatus={status}
+                    initialValues={values ?? {}}
+                    onReset={() => setIsDialogOpen(false)}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
@@ -89,12 +92,11 @@ export default function TransactionCrud() {
                             })
                             .catch(error => errorCatcher(error, setErrors))
                     }
-                    onReset={() => setIsDialogOpen(false)}
-                    component={TransactionForm}
                 />
             </DialogWithTitle>
 
             <Fab
+                aria-label="tambah transaksi"
                 disabled={isDialogOpen}
                 onClick={() => {
                     setValues({
@@ -103,8 +105,7 @@ export default function TransactionCrud() {
                     setStatus(undefined)
                     setDialogTitle('Transaksi Baru')
                     setIsDialogOpen(true)
-                }}
-                aria-label="tambah transaksi">
+                }}>
                 <PaymentsIcon />
             </Fab>
         </>
@@ -113,32 +114,32 @@ export default function TransactionCrud() {
 
 const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: 'excluded',
         },
     },
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRender: toDmy,
+            setCellProps: getNoWrapCellProps,
         },
     },
 
     {
-        name: 'cash_name',
         label: 'Kas',
+        name: 'cash_name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowDataRefGlobal.current?.(dataIndex)
@@ -148,39 +149,38 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
 
                 return (
                     <Chip
+                        color={chipColor}
                         label={data?.cash_name}
                         size="small"
-                        color={chipColor}
                     />
                 )
             },
         },
     },
     {
-        name: 'wallet_name',
         label: 'Wallet',
+        name: 'wallet_name',
         options: {
-            sort: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowDataRefGlobal.current?.(dataIndex)
 
                 return data?.wallet_name ? (
                     <Chip
+                        color={data?.wallet_chip_color}
                         label={data?.wallet_name}
                         size="small"
-                        color={data?.wallet_chip_color}
                     />
                 ) : (
                     ''
                 )
             },
+            sort: false,
         },
     },
     {
-        name: 'tag_names',
         label: 'Akun',
+        name: 'tag_names',
         options: {
-            sort: false,
             customBodyRenderLite: dataIndex => {
                 return getRowDataRefGlobal
                     .current?.(dataIndex)
@@ -189,11 +189,12 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
                         <Chip key={tagName} label={tagName} size="small" />
                     ))
             },
+            sort: false,
         },
     },
     {
-        name: 'amount',
         label: 'Nilai (Rp)',
+        name: 'amount',
         options: {
             customBodyRenderLite: dataIndex => {
                 const value = getRowDataRefGlobal.current?.(dataIndex)?.amount
@@ -201,11 +202,11 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
                 return (
                     <span
                         style={{
-                            textAlign: 'right',
                             color:
                                 typeof value === 'number' && value <= 0
                                     ? 'inherit'
                                     : green[500],
+                            textAlign: 'right',
                         }}>
                         {formatNumber(value ?? 0)}
                     </span>
@@ -214,20 +215,20 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         },
     },
     {
-        name: 'desc',
         label: 'Perihal',
+        name: 'desc',
         options: {
             sort: false,
         },
     },
     {
-        name: 'userActivityLogs.user.name',
         label: 'Oleh',
+        name: 'userActivityLogs.user.name',
         options: {
-            sort: false,
             customBodyRenderLite: (_, rowIndex) =>
                 getRowDataRefGlobal.current?.(rowIndex)?.user_activity_logs?.[0]
                     ?.user.name,
+            sort: false,
         },
     },
 ]

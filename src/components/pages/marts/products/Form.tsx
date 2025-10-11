@@ -1,5 +1,10 @@
 // types
-import type Product from '@/modules/mart/types/orms/product'
+
+// materials
+import Alert from '@mui/material/Alert'
+import Autocomplete from '@mui/material/Autocomplete'
+import Grid from '@mui/material/Grid'
+import MuiTextField from '@mui/material/TextField'
 // vendors
 import {
     FastField,
@@ -7,19 +12,15 @@ import {
     type FieldProps,
     type FormikProps,
 } from 'formik'
-import Autocomplete from '@mui/material/Autocomplete'
-import MuiTextField from '@mui/material/TextField'
 import useSWR from 'swr'
-// materials
-import Alert from '@mui/material/Alert'
-import Grid from '@mui/material/Grid'
-// components
-import FormikForm from '@/components/formik-form'
 import NumericField from '@/components/formik-fields/numeric-field'
 import TextField from '@/components/formik-fields/text-field'
-import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'
+// components
+import FormikForm from '@/components/formik-form'
+import type Product from '@/modules/mart/types/orms/product'
 // utils
 import toDmy from '@/utils/to-dmy'
+import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'
 
 export default function ProductForm({
     isSubmitting,
@@ -43,17 +44,13 @@ export default function ProductForm({
 
     return (
         <FormikForm
-            id="product-form"
             dirty={dirty || Boolean(dataFromDb?.deleted_at)}
-            submitting={isSubmitting}
-            processing={isSubmitting}
+            id="product-form"
             isNew={!dataFromDb?.id}
+            processing={isSubmitting}
             slotProps={{
-                submitButton: {
-                    disabled: isDisabled,
-                },
                 deleteButton: {
-                    titleText: 'Nonaktifkan Produk',
+                    children: 'Nonaktifkan Produk',
                     confirmationText:
                         'Produk yang dinonaktifkan tidak akan muncul di daftar produk',
                     disabled: isDisabled || Boolean(dataFromDb?.deleted_at),
@@ -63,9 +60,13 @@ export default function ProductForm({
                               handleDelete().finally(() => setSubmitting(false))
                           }
                         : undefined,
-                    children: 'Nonaktifkan Produk',
+                    titleText: 'Nonaktifkan Produk',
                 },
-            }}>
+                submitButton: {
+                    disabled: isDisabled,
+                },
+            }}
+            submitting={isSubmitting}>
             {dataFromDb?.deleted_at && (
                 <Alert
                     severity="warning"
@@ -78,38 +79,38 @@ export default function ProductForm({
                 </Alert>
             )}
 
-            <Grid container columnSpacing={1.5}>
-                <Grid size={{ xs: 12, sm: 6 }}>
+            <Grid columnSpacing={1.5} container>
+                <Grid size={{ sm: 6, xs: 12 }}>
                     <TextField
-                        name="name"
-                        label="Nama"
                         disabled={isDisabled}
+                        label="Nama"
+                        name="name"
                         textFieldProps={{
                             variant: 'standard',
                         }}
                     />
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ sm: 6, xs: 12 }}>
                     <TextField
-                        name="code"
-                        label="Kode"
                         disabled={isDisabled}
+                        label="Kode"
+                        name="code"
                         textFieldProps={{
-                            variant: 'standard',
                             required: false,
+                            variant: 'standard',
                         }}
                     />
                 </Grid>
             </Grid>
 
             <TextField
-                name="barcode_reg_id"
-                label="Barcode"
                 disabled={isDisabled}
+                label="Barcode"
+                name="barcode_reg_id"
                 textFieldProps={{
-                    variant: 'standard',
                     required: false,
+                    variant: 'standard',
                 }}
             />
 
@@ -117,8 +118,6 @@ export default function ProductForm({
                 {({ field }: FieldProps<string>) => (
                     <Autocomplete
                         freeSolo
-                        options={categoryNames ?? []}
-                        value={field.value}
                         onChange={(_, value) =>
                             field.onChange({
                                 target: {
@@ -127,53 +126,55 @@ export default function ProductForm({
                                 },
                             })
                         }
+                        options={categoryNames ?? []}
                         renderInput={params => (
                             <MuiTextField
                                 {...params}
                                 {...field}
-                                required
-                                margin="normal"
-                                label="Kategori"
                                 disabled={isDisabled}
+                                label="Kategori"
+                                margin="normal"
+                                required
                                 variant="standard"
                             />
                         )}
+                        value={field.value}
                     />
                 )}
             </FastField>
 
             <TextField
-                name="description"
-                label="Deskripsi"
                 disabled={isDisabled}
+                label="Deskripsi"
+                name="description"
                 textFieldProps={{
-                    variant: 'standard',
-                    required: false,
                     multiline: true,
+                    required: false,
+                    variant: 'standard',
                 }}
             />
 
-            <Grid container columnSpacing={1.5} mb={2}>
-                <Grid size={{ xs: 12, sm: 8 }}>
+            <Grid columnSpacing={1.5} container mb={2}>
+                <Grid size={{ sm: 8, xs: 12 }}>
                     <NumericField
-                        name="low_number"
-                        label="Persediaan Menipis Pada"
                         disabled={isDisabled}
+                        label="Persediaan Menipis Pada"
+                        name="low_number"
                         numericFormatProps={{
-                            variant: 'standard',
-                            required: false,
                             inputProps: {
-                                minLength: 1,
                                 maxLength: 19,
+                                minLength: 1,
                             },
+                            required: false,
+                            variant: 'standard',
                         }}
                     />
                 </Grid>
-                <Grid size={{ xs: 12, sm: 4 }}>
+                <Grid size={{ sm: 4, xs: 12 }}>
                     <TextField
-                        name="unit"
-                        label="Satuan"
                         disabled={isDisabled}
+                        label="Satuan"
+                        name="unit"
                         textFieldProps={{
                             variant: 'standard',
                         }}

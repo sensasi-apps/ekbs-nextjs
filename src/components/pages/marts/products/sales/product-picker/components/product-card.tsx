@@ -1,5 +1,7 @@
 // vendors
-import { memo } from 'react'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -10,16 +12,15 @@ import CardContent from '@mui/material/CardContent'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 import Zoom from '@mui/material/Zoom'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { useFormikContext } from 'formik'
+import { memo } from 'react'
+import ChipSmall from '@/components/ChipSmall'
 // components
 import type Product from '@/modules/mart/types/orms/product'
-import ChipSmall from '@/components/ChipSmall'
+import formatNumber from '@/utils/format-number'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
-import { useFormikContext } from 'formik'
 import type { FormikStatusType } from '../../formik-wrapper'
-import formatNumber from '@/utils/format-number'
 
 function ProductCard({
     qty,
@@ -60,13 +61,13 @@ function ProductCard({
         <Zoom in>
             <Card
                 component="span"
-                variant={isDisabled ? 'elevation' : 'outlined'}
                 elevation={0}
                 sx={{
                     borderRadius: 4,
                     textDecoration: deleted_at ? 'line-through' : 'none',
-                }}>
-                <CardActionArea onClick={onClick} disabled={isDisabled}>
+                }}
+                variant={isDisabled ? 'elevation' : 'outlined'}>
+                <CardActionArea disabled={isDisabled} onClick={onClick}>
                     <CardContent
                         sx={{
                             display: 'flex',
@@ -75,26 +76,26 @@ function ProductCard({
                         }}>
                         {is_in_opname && (
                             <ChipSmall
+                                color="warning"
                                 component="div"
                                 label="OPNAME"
                                 variant="filled"
-                                color="warning"
                             />
                         )}
 
                         {qty <= 0 && (
                             <ChipSmall
+                                color="error"
                                 component="div"
                                 label="KOSONG"
                                 variant="filled"
-                                color="error"
                             />
                         )}
 
                         <Box
                             display="flex"
-                            justifyContent="space-between"
-                            gap={1}>
+                            gap={1}
+                            justifyContent="space-between">
                             <ChipSmall
                                 label={category_name ?? 'Tanpa Kategori'}
                                 variant="outlined"
@@ -106,9 +107,9 @@ function ProductCard({
                         </Box>
 
                         <Typography
+                            color="text.disabled"
                             component="div"
-                            variant="caption"
-                            color="text.disabled">
+                            variant="caption">
                             #{getHighlightedText(id.toString(), searchText)}
                             {code ? (
                                 <>
@@ -135,34 +136,34 @@ function ProductCard({
                             {getHighlightedText(name, searchText)}
 
                             <Typography
-                                mt={-1}
                                 color="text.disabled"
+                                component="span"
+                                mt={-1}
                                 sx={{
                                     verticalAlign: 'middle',
                                 }}
-                                variant="caption"
-                                component="span">
+                                variant="caption">
                                 {' '}
                                 {formatNumber(qty)}
                             </Typography>
                         </Typography>
 
                         <Typography
-                            variant="h5"
+                            color="success.main"
                             component="div"
-                            color="success.main">
+                            variant="h5">
                             {numberToCurrency(defaultSellPrice)}
                         </Typography>
 
                         <Typography
-                            mt={-1}
                             color="text.disabled"
+                            mt={-1}
                             variant="overline">
                             / {unit}
                         </Typography>
 
                         {description && (
-                            <Typography variant="body2" color="text.disabled">
+                            <Typography color="text.disabled" variant="body2">
                                 {description}
                             </Typography>
                         )}
@@ -182,13 +183,13 @@ function getHighlightedText(text: string, highlight: string) {
         <>
             {parts.map((part, i) => (
                 <Box
-                    component="span"
-                    key={i}
                     color={
                         part.toLowerCase() === highlight.toLowerCase()
                             ? 'warning.main'
                             : undefined
-                    }>
+                    }
+                    component="span"
+                    key={i}>
                     {part}
                 </Box>
             ))}

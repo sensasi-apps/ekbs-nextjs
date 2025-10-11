@@ -1,34 +1,34 @@
 'use client'
 
-// types
-import type RentItemRent from '@/types/orms/rent-item-rent'
-import type {
-    GetRowDataType,
-    MutateType,
-    OnRowClickType,
-} from '@/components/Datatable'
+// icons
+import EventNoteIcon from '@mui/icons-material/EventNote'
 // vendors
 import { Formik } from 'formik'
 import { useState } from 'react'
-import axios from '@/lib/axios'
-// icons
-import EventNoteIcon from '@mui/icons-material/EventNote'
-// components
-import DialogWithTitle from '@/components/DialogWithTitle'
-import Fab from '@/components/Fab'
-import PageTitle from '@/components/page-title'
+// enums
+import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
 // page components
 import HeavyEquipmentRentForm, {
     type HeavyEquipmentRentFormValues,
 } from '@/app/(auth)/heavy-equipment-rents/_parts/form'
 import HeavyEquipmentRentsDatatable from '@/app/(auth)/heavy-equipment-rents/_parts/her-datatable'
-// utils
-import errorCatcher from '@/utils/handle-422'
-// enums
-import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
+import type {
+    GetRowDataType,
+    MutateType,
+    OnRowClickType,
+} from '@/components/Datatable'
+// components
+import DialogWithTitle from '@/components/DialogWithTitle'
+import Fab from '@/components/Fab'
+import PageTitle from '@/components/page-title'
 import HerPermission from '@/enums/permissions/heavy-equipment-rent'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+// types
+import type RentItemRent from '@/types/orms/rent-item-rent'
+// utils
+import errorCatcher from '@/utils/handle-422'
 
 let mutate: MutateType<RentItemRent>
 let getRowData: GetRowDataType<RentItemRent>
@@ -53,15 +53,15 @@ export default function HeavyEquipmentRent() {
     const handleEdit = (data: RentItemRent) => {
         const formedData: HeavyEquipmentRentFormValues = {
             ...data,
+            cashable_uuid: data.transaction?.cashable_uuid,
+            farmer_group_uuid: data.farmer_group?.uuid,
+            interest_percent: data.installment?.interest_percent,
+            is_validated_by_admin: Boolean(data.validated_by_admin_at),
+            n_term: data.installment?.n_term,
             operated_by_user: data.heavy_equipment_rent?.operated_by_user,
             operated_by_user_uuid:
                 data.heavy_equipment_rent?.operated_by_user_uuid,
-            farmer_group_uuid: data.farmer_group?.uuid,
-            n_term: data.installment?.n_term,
             term_unit: data.installment?.term_unit,
-            interest_percent: data.installment?.interest_percent,
-            is_validated_by_admin: Boolean(data.validated_by_admin_at),
-            cashable_uuid: data.transaction?.cashable_uuid,
         }
 
         setInitialFormikValues(formedData)
@@ -88,40 +88,41 @@ export default function HeavyEquipmentRent() {
             <PageTitle title="Penyewaan Alat Berat" />
 
             <HeavyEquipmentRentsDatatable
+                as="admin"
+                getRowDataCallback={fn => (getRowData = fn)}
                 handleRowClick={handleRowClick}
                 mutateCallback={fn => (mutate = fn)}
-                getRowDataCallback={fn => (getRowData = fn)}
-                as="admin"
             />
 
             <DialogWithTitle
-                title={`${isNew ? 'Tambah' : 'Perbaharui'} Data Penyewaan`}
-                open={isDialogOpen}>
+                open={isDialogOpen}
+                title={`${isNew ? 'Tambah' : 'Perbaharui'} Data Penyewaan`}>
                 <Formik
                     enableReinitialize
                     initialValues={initialFormikValues}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) => {
                         const formData = {
                             by_user_uuid: values.by_user_uuid,
+
+                            // if payment_method is cash
+                            cashable_uuid: values.cashable_uuid,
+                            farmer_group_uuid: values.farmer_group_uuid,
                             for_at: values.for_at,
                             for_n_units: values.for_n_units,
+                            interest_percent: values.interest_percent,
                             inventory_item_uuid: values.inventory_item_uuid,
                             is_validated_by_admin: values.is_validated_by_admin,
+
+                            // if payment_method is installment
+                            n_term: values.n_term,
                             note: values.note,
                             operated_by_user_uuid: values.operated_by_user_uuid,
                             payment_method: values.payment_method,
                             rate_rp_per_unit: values.rate_rp_per_unit,
                             rate_unit: values.rate_unit,
-                            type: values.type,
-                            farmer_group_uuid: values.farmer_group_uuid,
-
-                            // if payment_method is installment
-                            n_term: values.n_term,
                             term_unit: values.term_unit,
-                            interest_percent: values.interest_percent,
-
-                            // if payment_method is cash
-                            cashable_uuid: values.cashable_uuid,
+                            type: values.type,
                         }
 
                         return axios
@@ -137,8 +138,7 @@ export default function HeavyEquipmentRent() {
                                 handleClose()
                             })
                             .catch(error => errorCatcher(error, setErrors))
-                    }}
-                    onReset={handleClose}>
+                    }}>
                     {props => (
                         <HeavyEquipmentRentForm
                             {...props}

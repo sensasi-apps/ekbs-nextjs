@@ -1,46 +1,47 @@
 // types
-import type NavItemGroup from '../types/nav-item-group'
+
 // icons-materials
 import Biotech from '@mui/icons-material/Biotech'
 import Group from '@mui/icons-material/Group'
+import TicketIcon from '@mui/icons-material/LocalActivity'
 import Note from '@mui/icons-material/Note'
 import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle'
-import TicketIcon from '@mui/icons-material/LocalActivity'
 // enums
 import Role from '@/enums/role'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const supermans: NavItemGroup = {
-    label: 'Superman',
     items: [
         {
+            forRole: Role.SUPERMAN,
             href: '/roles',
-            label: 'Peran',
             icon: SupervisedUserCircle,
-            forRole: Role.SUPERMAN,
+            label: 'Peran',
         },
         {
+            forRole: Role.SUPERMAN,
             href: '/acting-as',
-            label: 'Acting As',
             icon: Group,
-            forRole: Role.SUPERMAN,
+            label: 'Acting As',
         },
         {
+            forRole: Role.SUPERMAN,
             href: '/logs',
-            label: 'Logs',
             icon: Note,
-            forRole: Role.SUPERMAN,
+            label: 'Logs',
         },
         {
+            forRole: Role.SUPERMAN,
             href: '/test',
-            label: 'Test',
             icon: Biotech,
-            forRole: Role.SUPERMAN,
+            label: 'Test',
         },
         {
-            href: '/ticketing-system',
-            label: 'Sistem Tiket',
-            icon: TicketIcon,
             forRole: Role.SUPERMAN,
+            href: '/ticketing-system',
+            icon: TicketIcon,
+            label: 'Sistem Tiket',
         },
     ],
+    label: 'Superman',
 }

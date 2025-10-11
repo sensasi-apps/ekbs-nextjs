@@ -1,19 +1,19 @@
 // types
 import type { UUID } from 'crypto'
-import type DebtDetailORM from '@/types/orms/debt-detail'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // vendors
 import { Field, type FieldProps, type FormikProps } from 'formik'
-// formik
-import FormikForm from '@/components/formik-form'
 import DateField from '@/components/formik-fields/date-field'
 import NumericField from '@/components/formik-fields/numeric-field'
 import TextField from '@/components/formik-fields/text-field'
 import TxTagField from '@/components/formik-fields/tx-tag-field'
+// formik
+import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+import type DebtDetailORM from '@/types/orms/debt-detail'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // utils
 import shortUuid from '@/utils/short-uuid'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function SettlementForm({
     dirty,
@@ -31,27 +31,27 @@ export default function SettlementForm({
 
     return (
         <FormikForm
-            id="debt-settlement-form"
             autoComplete="off"
-            isNew={isNew}
             dirty={dirty}
+            id="debt-settlement-form"
+            isNew={isNew}
             processing={isSubmitting}
-            submitting={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: isDisabled,
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             <TextField
-                name="uuid"
-                label="Kode"
                 disabled
-                value={shortUuid(typedStatus.uuid as UUID)}
+                label="Kode"
+                name="uuid"
                 textFieldProps={{
                     margin: 'normal',
-                    variant: 'filled',
                     required: false,
+                    variant: 'filled',
                 }}
+                value={shortUuid(typedStatus.uuid as UUID)}
             />
 
             <Field name="cashable_uuid">
@@ -60,29 +60,29 @@ export default function SettlementForm({
                     meta: { error },
                 }: FieldProps<UUID>) => (
                     <SelectFromApi
-                        required
+                        disabled={isDisabled}
                         endpoint="/data/cashes"
                         label="Kas"
-                        size="small"
                         margin="dense"
-                        disabled={isDisabled}
-                        selectProps={{
-                            value: value ?? '',
-                            name: name,
-                        }}
                         onChange={onChange}
+                        required
+                        selectProps={{
+                            name: name,
+                            value: value ?? '',
+                        }}
+                        size="small"
                         {...errorsToHelperTextObj(error)}
                     />
                 )}
             </Field>
 
-            <DateField name="paid" label="Tanggal" disabled={isDisabled} />
-            <NumericField name="rp" label="Total Bayar" disabled={isDisabled} />
+            <DateField disabled={isDisabled} label="Tanggal" name="paid" />
+            <NumericField disabled={isDisabled} label="Total Bayar" name="rp" />
 
             <TxTagField
-                name="tag"
-                label="Akun"
                 disabled={isDisabled}
+                label="Akun"
+                name="tag"
                 type="expense"
             />
         </FormikForm>

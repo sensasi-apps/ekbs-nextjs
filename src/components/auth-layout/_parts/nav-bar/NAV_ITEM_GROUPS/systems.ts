@@ -1,19 +1,19 @@
 // types
-import type NavItemGroup from '../types/nav-item-group'
+
 // icons-materials
 import GroupIcon from '@mui/icons-material/Group'
 // import SettingsIcon from '@mui/icons-material/Settings'
 // enums
 import Role from '@/enums/role'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const systemsNavItemGroup: NavItemGroup = {
-    label: 'Sistem',
     items: [
         {
-            href: '/systems/users',
-            label: 'Pengguna',
-            icon: GroupIcon,
             forRole: Role.USER_ADMIN,
+            href: '/systems/users',
+            icon: GroupIcon,
+            label: 'Pengguna',
         },
         // {
         //     href: '/systems/settings',
@@ -22,4 +22,5 @@ export const systemsNavItemGroup: NavItemGroup = {
         //     forRole: Role.SYSTEM_CONFIGURATOR,
         // },
     ],
+    label: 'Sistem',
 }

@@ -1,6 +1,6 @@
+import Info from '@mui/icons-material/Info'
 import Box from '@mui/material/Box'
 import Tooltip from '@mui/material/Tooltip'
-import Info from '@mui/icons-material/Info'
 
 export default function TextShortener({
     text,
@@ -11,8 +11,14 @@ export default function TextShortener({
 }) {
     return (
         <Tooltip
+            arrow
+            leaveDelay={1000}
+            placement="right"
+            sx={{
+                textTransform: 'uppercase',
+            }}
             title={
-                <Box display="flex" gap={0.5} alignItems="center">
+                <Box alignItems="center" display="flex" gap={0.5}>
                     <Info
                         sx={{
                             fontSize: '1.5em',
@@ -20,13 +26,7 @@ export default function TextShortener({
                     />
                     {text}
                 </Box>
-            }
-            sx={{
-                textTransform: 'uppercase',
-            }}
-            arrow
-            placement="right"
-            leaveDelay={1000}>
+            }>
             <span
                 style={{
                     cursor: 'help',

@@ -1,16 +1,17 @@
 // types
-import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
-// vendors
-import { useState, useEffect } from 'react'
+
 // materials
 import InputAdornment from '@mui/material/InputAdornment'
+// vendors
+import { useEffect, useState } from 'react'
 // components
 import TextField from '@/components/TextField'
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // providers
 import useFormData from '@/providers/useFormData'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 // utils
 import { alpaNumeric } from '@/utils/regexs'
-import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 
 let tempValue: string | undefined
 
@@ -38,25 +39,19 @@ export default function SpbNoInput({
     return (
         <TextField
             disabled={disabled}
-            label="No. SPB"
-            name="spb_no"
+            error={Boolean(validationErrors.spb_no)}
+            helperText={validationErrors.spb_no}
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">BS-MI</InputAdornment>
                 ),
             }}
             inputProps={{
-                minLength: 7,
                 maxLength: 8,
+                minLength: 7,
             }}
-            onChange={event => {
-                const { value } = event.target
-                if (value !== '' && !alpaNumeric.test(value)) return
-                tempValue = value.toUpperCase()
-
-                clearByName('spb_no')
-                setInternalValue(tempValue)
-            }}
+            label="No. SPB"
+            name="spb_no"
             onBlur={() =>
                 data.id
                     ? null
@@ -65,9 +60,15 @@ export default function SpbNoInput({
                           spb_no: tempValue,
                       })
             }
+            onChange={event => {
+                const { value } = event.target
+                if (value !== '' && !alpaNumeric.test(value)) return
+                tempValue = value.toUpperCase()
+
+                clearByName('spb_no')
+                setInternalValue(tempValue)
+            }}
             value={internalValue}
-            error={Boolean(validationErrors.spb_no)}
-            helperText={validationErrors.spb_no}
         />
     )
 }

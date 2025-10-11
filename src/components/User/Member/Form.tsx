@@ -1,22 +1,23 @@
 // vendors
-import { useState } from 'react'
-import { mutate } from 'swr'
-import axios from '@/lib/axios'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import dayjs from 'dayjs'
+import { useState } from 'react'
+import { mutate } from 'swr'
 //components
 import DatePicker from '@/components/DatePicker'
 import TextField from '@/components/TextField'
+// hooks
+import useValidationErrors from '@/hooks/useValidationErrors'
+import axios from '@/lib/axios'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 // providers
 import useFormData from '@/providers/FormData'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-// hooks
-import useValidationErrors from '@/hooks/useValidationErrors'
 import errorCatcher from '@/utils/handle-422'
-import dayjs from 'dayjs'
-import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 export default function MemberForm() {
     const { data: userWithDetails } = useUserDetailSwr()
@@ -62,11 +63,11 @@ export default function MemberForm() {
                     .finally(() => setIsLoading(false))
             }}>
             <DatePicker
-                label="Tanggal Bergabung"
-                disabled={isLoading}
                 defaultValue={
                     member?.joined_at ? dayjs(member?.joined_at) : null
                 }
+                disabled={isLoading}
+                label="Tanggal Bergabung"
                 onChange={() => clearByName('joined_at')}
                 slotProps={{
                     textField: {
@@ -77,56 +78,56 @@ export default function MemberForm() {
             />
 
             <DatePicker
-                label="Tanggal Berhenti/Keluar"
-                disabled={isLoading}
                 defaultValue={
                     member?.unjoined_at ? dayjs(member?.unjoined_at) : null
                 }
+                disabled={isLoading}
+                label="Tanggal Berhenti/Keluar"
                 onChange={() => clearByName('unjoined_at')}
                 slotProps={{
                     textField: {
-                        required: false,
                         name: 'unjoined_at',
+                        required: false,
                         ...errorsToHelperTextObj(validationErrors.unjoined_at),
                     },
                 }}
             />
 
             <TextField
-                multiline
-                rows={2}
-                disabled={isLoading}
-                name="unjoined_reason"
-                label="Alasan Berhenti/Keluar"
-                onChange={clearByEvent}
                 defaultValue={member?.unjoined_reason || ''}
+                disabled={isLoading}
+                label="Alasan Berhenti/Keluar"
+                multiline
+                name="unjoined_reason"
+                onChange={clearByEvent}
                 required={false}
+                rows={2}
                 {...errorsToHelperTextObj(validationErrors.unjoined_reason)}
             />
 
             <TextField
-                multiline
-                rows={2}
-                disabled={isLoading}
-                name="note"
-                label="Catatan tambahan"
-                onChange={clearByEvent}
                 defaultValue={member?.note || ''}
+                disabled={isLoading}
+                label="Catatan tambahan"
+                multiline
+                name="note"
+                onChange={clearByEvent}
                 required={false}
+                rows={2}
                 {...errorsToHelperTextObj(validationErrors.note)}
             />
 
-            <Box display="flex" mt={2} justifyContent="end">
+            <Box display="flex" justifyContent="end" mt={2}>
                 <Button
+                    color="info"
                     disabled={isLoading}
-                    onClick={() => handleClose()}
-                    color="info">
+                    onClick={() => handleClose()}>
                     Batal
                 </Button>
                 <Button
+                    color="info"
                     loading={isLoading}
                     type="submit"
-                    color="info"
                     variant="contained">
                     Simpan
                 </Button>

@@ -1,6 +1,6 @@
+import { memo } from 'react'
 import BigNumber from '@/components/StatCard/BigNumber'
 import formatNumber from '@/utils/format-number'
-import { memo } from 'react'
 
 const TotalMemberParticipationBigNumber = memo(
     function TotalMemberParticipationBigNumber({
@@ -14,7 +14,6 @@ const TotalMemberParticipationBigNumber = memo(
     }) {
         return (
             <BigNumber
-                title="Partisipasi — Bulan Ini"
                 isLoading={isLoading}
                 primary={
                     !isLoading && memberTotal && currentParticipationTotal
@@ -31,6 +30,7 @@ const TotalMemberParticipationBigNumber = memo(
                           )}/${formatNumber(memberTotal)} org`
                         : '0/' + formatNumber(memberTotal ?? 0) + ' org'
                 }
+                title="Partisipasi — Bulan Ini"
             />
         )
     },

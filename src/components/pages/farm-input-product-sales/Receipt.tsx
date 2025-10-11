@@ -1,19 +1,20 @@
 // types
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import type { ReactNode } from 'react'
-// vendors
-import { memo } from 'react'
-import Image from 'next/image'
+
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import dayjs from 'dayjs'
+import Image from 'next/image'
+import type { ReactNode } from 'react'
+// vendors
+import { memo } from 'react'
 // components
 import ReceiptInstalmentTable from '@/components/pages/farm-input-product-sales/Receipt/InstallmentTable'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+import formatNumber from '@/utils/format-number'
 // utils
 import toDmy from '@/utils/to-dmy'
-import formatNumber from '@/utils/format-number'
-import dayjs from 'dayjs'
 
 const ProductSaleReceipt = memo(function ProductSaleReceipt({
     data,
@@ -49,29 +50,29 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
 
     return (
         <Box>
-            <Box display="flex" gap={3} alignItems="center">
+            <Box alignItems="center" display="flex" gap={3}>
                 <Image
-                    src="/assets/pwa-icons/green-transparent.svg"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: '6em', height: '6em' }}
                     alt="logo"
+                    height={0}
                     priority
+                    sizes="100vw"
+                    src="/assets/pwa-icons/green-transparent.svg"
+                    style={{ height: '6em', width: '6em' }}
+                    width={0}
                 />
 
                 <Box>
                     <Typography variant="h6">Nota Penjualan</Typography>
-                    <Typography variant="caption" component="div">
+                    <Typography component="div" variant="caption">
                         {toDmy(at)}
                     </Typography>
-                    <Typography variant="caption" component="div">
+                    <Typography component="div" variant="caption">
                         {uuid}
                     </Typography>
                 </Box>
             </Box>
 
-            <Grid container columnSpacing={1} mb={2.5}>
+            <Grid columnSpacing={1} container mb={2.5}>
                 <RowTextGrids title="Kode" value={short_uuid} />
 
                 <RowTextGrids
@@ -92,11 +93,11 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
             </Grid>
 
             <Typography
-                variant="caption"
                 component="div"
-                textAlign="center"
                 fontWeight="bold"
-                mb={0.5}>
+                mb={0.5}
+                textAlign="center"
+                variant="caption">
                 DAFTAR BARANG
             </Typography>
 
@@ -108,82 +109,82 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                     product_state: { name, unit },
                 }) => (
                     <Grid
-                        key={product_id}
+                        alignItems="center"
                         container
-                        mb={0.5}
-                        alignItems="center">
+                        key={product_id}
+                        mb={0.5}>
                         <Grid
+                            component={Typography}
+                            fontSize="1em"
+                            lineHeight="unset"
                             size={{ xs: 2 }}
                             textAlign="center"
                             textTransform="uppercase"
-                            component={Typography}
-                            variant="overline"
-                            lineHeight="unset"
-                            fontSize="1em">
+                            variant="overline">
                             {formatNumber(Math.abs(qty))} {unit}
                         </Grid>
 
                         <Grid
-                            size={{ xs: 6 }}
                             component={Typography}
-                            variant="overline"
-                            lineHeight="unset"
                             fontSize="1em"
-                            whiteSpace="nowrap"
-                            overflow="hidden">
+                            lineHeight="unset"
+                            overflow="hidden"
+                            size={{ xs: 6 }}
+                            variant="overline"
+                            whiteSpace="nowrap">
                             {name}
-                            <Typography variant="caption" component="div">
+                            <Typography component="div" variant="caption">
                                 @ RP {formatNumber(rp_per_unit)}
                             </Typography>
                         </Grid>
 
                         <Grid
+                            component={Typography}
+                            fontSize="1em"
+                            lineHeight="unset"
                             size={{ xs: 1 }}
                             textAlign="end"
-                            component={Typography}
-                            variant="overline"
-                            lineHeight="unset"
-                            fontSize="1em">
+                            variant="overline">
                             Rp
                         </Grid>
 
                         <Grid
+                            component={Typography}
+                            fontSize="1em"
+                            lineHeight="unset"
                             size={{ xs: 3 }}
                             textAlign="end"
-                            component={Typography}
-                            variant="overline"
-                            lineHeight="unset"
-                            fontSize="1em">
+                            variant="overline">
                             {formatNumber(Math.abs(qty) * rp_per_unit)}
                         </Grid>
                     </Grid>
                 ),
             )}
 
-            <Grid container rowSpacing={0.5} alignItems="center">
+            <Grid alignItems="center" container rowSpacing={0.5}>
                 {Boolean(adjustment_rp) && (
                     <>
                         <Grid size={{ xs: 2 }} />
 
                         <Grid
-                            size={{ xs: 6 }}
                             component={Typography}
+                            size={{ xs: 6 }}
                             variant="caption">
                             PENYESUAIAN
                         </Grid>
 
                         <Grid
+                            component={Typography}
                             size={{ xs: 1 }}
                             textAlign="end"
-                            component={Typography}
                             variant="caption">
                             Rp
                         </Grid>
 
                         <Grid
+                            component={Typography}
                             size={{ xs: 3 }}
                             textAlign="end"
-                            component={Typography}
                             variant="caption">
                             {formatNumber(adjustment_rp ?? 0)}
                         </Grid>
@@ -195,25 +196,25 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                         <Grid size={{ xs: 2 }} />
 
                         <Grid
-                            size={{ xs: 6 }}
                             component={Typography}
+                            size={{ xs: 6 }}
                             variant="caption">
                             Jasa ({interest_percent}% &times; {n_term}{' '}
                             {n_term_unit})
                         </Grid>
 
                         <Grid
+                            component={Typography}
                             size={{ xs: 1 }}
                             textAlign="end"
-                            component={Typography}
                             variant="caption">
                             Rp
                         </Grid>
 
                         <Grid
+                            component={Typography}
                             size={{ xs: 3 }}
                             textAlign="end"
-                            component={Typography}
                             variant="caption">
                             {formatNumber(total_rp - total_base_rp)}
                         </Grid>
@@ -222,28 +223,28 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
 
                 {/* footer */}
                 <Grid size={{ xs: 8 }} textAlign="center">
-                    <Typography variant="caption" fontWeight="bold">
+                    <Typography fontWeight="bold" variant="caption">
                         TOTAL KESELURUHAN
                     </Typography>
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    fontWeight="bold"
                     size={{ xs: 1 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    fontSize="1em"
-                    fontWeight="bold">
+                    variant="overline">
                     Rp
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    fontSize="1em"
+                    fontWeight="bold"
                     size={{ xs: 3 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    fontSize="1em"
-                    fontWeight="bold">
+                    variant="overline">
                     {formatNumber(total_rp)}
                 </Grid>
             </Grid>
@@ -251,12 +252,12 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
             {payment_method === 'installment' && (
                 <>
                     <Typography
-                        variant="caption"
                         component="div"
-                        textAlign="center"
                         fontWeight="bold"
+                        mb={0.5}
                         mt={3}
-                        mb={0.5}>
+                        textAlign="center"
+                        variant="caption">
                         RINCIAN POTONGAN TBS
                     </Typography>
 
@@ -275,11 +276,11 @@ const ProductSaleReceipt = memo(function ProductSaleReceipt({
                     Desa Muai, {dayjs(at).format('D MMMM YYYY')}
                 </Typography>
 
-                <Typography variant="body2" mb={6}>
+                <Typography mb={6} variant="body2">
                     Pembeli
                 </Typography>
 
-                <Typography variant="body2" textTransform="capitalize">
+                <Typography textTransform="capitalize" variant="body2">
                     #{buyer_user?.id} &mdash; {buyer_user?.name.toLowerCase()}
                 </Typography>
             </Box>
@@ -298,13 +299,13 @@ const RowTextGrids = ({
 }) => (
     <>
         <Grid size={{ xs: 2 }}>
-            <Typography variant="caption" component="div">
+            <Typography component="div" variant="caption">
                 {title}
             </Typography>
         </Grid>
 
         <Grid size={{ xs: 1 }} textAlign="end">
-            <Typography variant="caption" component="div">
+            <Typography component="div" variant="caption">
                 :
             </Typography>
         </Grid>

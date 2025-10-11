@@ -1,10 +1,10 @@
 import type { AxiosResponse } from 'axios'
-import { type OptionsObject, enqueueSnackbar } from 'notistack'
+import { enqueueSnackbar, type OptionsObject } from 'notistack'
 import SNACKBAR_419_OPTIONS from '../SNACKBAR_419_OPTIONS'
 
 const SNACKBAR_OPTIONS: OptionsObject = {
-    variant: 'error',
     persist: true,
+    variant: 'error',
 }
 
 export function handleServerError({ status, data }: AxiosResponse) {

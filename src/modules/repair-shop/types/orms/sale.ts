@@ -1,7 +1,7 @@
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 import type SaleService from '@/modules/repair-shop/types/orms/sale-service'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type User from '@/modules/user/types/orms/user'
 import type SaleSparePartInstallmentMargin from './sale_spare_part_installment_margin'
 

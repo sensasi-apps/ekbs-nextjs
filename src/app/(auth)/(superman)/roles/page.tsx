@@ -1,12 +1,12 @@
 'use client'
 
-import type Role from '@/types/orms/role'
-import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
-import FormActions from '@/components/Global/Form/Actions'
 import Dialog from '@/components/Global/Dialog'
-import RoleForm from '@/components/Role/Form'
+import FormActions from '@/components/Global/Form/Actions'
 import PageTitle from '@/components/page-title'
+import RoleForm from '@/components/Role/Form'
+import useFormData, { FormDataProvider } from '@/providers/useFormData'
+import type Role from '@/types/orms/role'
 
 export default function Page() {
     return (
@@ -49,8 +49,9 @@ function CrudForm() {
     return (
         <>
             <Datatable
-                tableId="roles-datatable"
                 apiUrl="/roles/datatable"
+                columns={columns}
+                defaultSortOrder={{ direction: 'asc', name: 'name' }}
                 onRowClick={(_, { rowIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData<Role>(rowIndex)
@@ -59,33 +60,32 @@ function CrudForm() {
                         return handleEdit(data)
                     }
                 }}
-                columns={columns}
-                defaultSortOrder={{ name: 'name', direction: 'asc' }}
+                tableId="roles-datatable"
             />
 
             <Dialog
-                open={formOpen}
-                title={'Perbaharui Data Peran'}
-                maxWidth="sm"
                 closeButtonProps={{
-                    onClick: handleClose,
                     disabled: loading,
-                }}>
+                    onClick: handleClose,
+                }}
+                maxWidth="sm"
+                open={formOpen}
+                title={'Perbaharui Data Peran'}>
                 <RoleForm
-                    data={data as Role}
-                    loading={loading}
-                    setSubmitting={setSubmitting}
-                    onSubmitted={async () => {
-                        await mutate()
-                        handleClose()
-                        setSubmitting(false)
-                    }}
                     actionsSlot={
                         <FormActions
                             onCancel={handleClose}
                             submitting={submitting}
                         />
                     }
+                    data={data as Role}
+                    loading={loading}
+                    onSubmitted={async () => {
+                        await mutate()
+                        handleClose()
+                        setSubmitting(false)
+                    }}
+                    setSubmitting={setSubmitting}
                 />
             </Dialog>
         </>

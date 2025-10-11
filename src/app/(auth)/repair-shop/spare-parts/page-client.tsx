@@ -1,28 +1,28 @@
 'use client'
 
-// vendors
-import { useRef, useState } from 'react'
 // materials
 import Chip from '@mui/material/Chip'
-// global components
-import Datatable, {
-    getNoWrapCellProps,
-    type DatatableProps,
-    type GetRowDataType,
-    type MutateType,
-} from '@/components/Datatable'
-import FlexBox from '@/components/flex-box'
-import Fab from '@/components/Fab'
-import TextShortener from '@/components/text-shortener'
-import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
-// utils
-import formatNumber from '@/utils/format-number'
-// feature scope
-import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
-import type VehicleType from '@/modules/repair-shop/enums/vehicle-type'
+// vendors
+import { useRef, useState } from 'react'
 import SparePartFormDialog, {
     type FormData,
 } from '@/app/(auth)/repair-shop/spare-parts/_parts/form-dialog'
+// global components
+import Datatable, {
+    type DatatableProps,
+    type GetRowDataType,
+    getNoWrapCellProps,
+    type MutateType,
+} from '@/components/Datatable'
+import Fab from '@/components/Fab'
+import FlexBox from '@/components/flex-box'
+import TextShortener from '@/components/text-shortener'
+import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
+import type VehicleType from '@/modules/repair-shop/enums/vehicle-type'
+// feature scope
+import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
+// utils
+import formatNumber from '@/utils/format-number'
 
 let getRowDataRef: {
     current?: GetRowDataType<SparePart>
@@ -55,7 +55,7 @@ export default function PageClient() {
                 }}
             />
 
-            <FlexBox mb={2} justifyContent="end">
+            <FlexBox justifyContent="end" mb={2}>
                 <WithDeletedItemsCheckbox
                     checked={withDeletedItems}
                     onChange={setWithDeletedItems}
@@ -63,13 +63,13 @@ export default function PageClient() {
             </FlexBox>
 
             <Datatable<SparePart>
-                download
                 apiUrl="repair-shop/spare-parts/datatable"
                 apiUrlParams={{
                     withDeletedItems: withDeletedItems ? 1 : 0,
                 }}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'name', direction: 'asc' }}
+                defaultSortOrder={{ direction: 'asc', name: 'name' }}
+                download
                 getRowDataCallback={fn => {
                     _getRowDataRef.current = fn
                     getRowDataRef = _getRowDataRef
@@ -82,11 +82,11 @@ export default function PageClient() {
                         if (data) {
                             setFormData({
                                 ...data,
-                                margin_percent:
-                                    data.warehouses[0].margin_percent,
                                 installment_margin_percent:
                                     data.warehouses[0]
                                         .installment_margin_percent,
+                                margin_percent:
+                                    data.warehouses[0].margin_percent,
                             } satisfies Required<FormData>)
                         }
                     }
@@ -100,14 +100,14 @@ export default function PageClient() {
                     return {
                         sx: {
                             '& td': {
-                                textDecoration: 'line-through',
                                 color: 'gray',
+                                textDecoration: 'line-through',
                             },
                         },
                     }
                 }}
-                title="Daftar Suku Cadang"
                 tableId="spare-part-datatable"
+                title="Daftar Suku Cadang"
             />
         </>
     )
@@ -115,25 +115,25 @@ export default function PageClient() {
 
 const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
     {
-        name: 'id',
         label: 'ID',
+        name: 'id',
     },
     {
-        name: 'code',
         label: 'Kode',
+        name: 'code',
         options: {
             customBodyRender: (value: string) => (
-                <TextShortener text={value} maxChar={12} />
+                <TextShortener maxChar={12} text={value} />
             ),
         },
     },
     {
-        name: 'name',
         label: 'Nama',
+        name: 'name',
     },
     {
-        name: 'vehicle_type',
         label: 'Jenis Kendaraan',
+        name: 'vehicle_type',
         options: {
             customBodyRender: (value: VehicleType, rowIndex) => {
                 const isDeleted = Boolean(
@@ -142,9 +142,9 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
 
                 return (
                     <Chip
-                        label={value === 'car' ? 'mobil' : 'motor'}
                         color={value === 'car' ? 'success' : 'warning'}
                         disabled={isDeleted}
+                        label={value === 'car' ? 'mobil' : 'motor'}
                         size="small"
                     />
                 )
@@ -152,12 +152,12 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         },
     },
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
     },
     {
-        name: 'id',
         label: 'Total QTY',
+        name: 'id',
         options: {
             customBodyRender: (_, rowIndex) => {
                 const totalQty =
@@ -173,8 +173,8 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         },
     },
     {
-        name: 'warehouses.base_rp_per_unit',
         label: 'HPP',
+        name: 'warehouses.base_rp_per_unit',
         options: {
             customBodyRender: (_, rowIndex) => {
                 const baseRpPerUnit =
@@ -188,10 +188,9 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         },
     },
     {
-        name: 'warehouses.margin_percent',
         label: 'Harga Jual',
+        name: 'warehouses.margin_percent',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRender: (_, rowIndex) => {
                 const data = getRowDataRef.current?.(rowIndex)
 
@@ -211,6 +210,7 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
                 )
             },
             searchable: false,
+            setCellProps: getNoWrapCellProps,
             sort: false,
         },
     },

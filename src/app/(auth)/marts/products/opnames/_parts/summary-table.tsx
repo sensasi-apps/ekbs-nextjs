@@ -1,21 +1,22 @@
 // types
-import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
-// vendors
-import { memo, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import dayjs from 'dayjs'
+
+// icons-materials
+import Edit from '@mui/icons-material/Edit'
 // materials
 import IconButton from '@mui/material/IconButton'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
-// icons-materials
-import Edit from '@mui/icons-material/Edit'
+import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
+// vendors
+import { memo, useState } from 'react'
+import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
 // utils
 import formatNumber from '@/utils/format-number'
-import FormDialog from './form-dialog'
 import { type CreateFormValues } from './form'
+import FormDialog from './form-dialog'
 
 function SummaryTable({ data }: { data: ProductMovementOpname }) {
     const { refresh } = useRouter()
@@ -29,11 +30,11 @@ function SummaryTable({ data }: { data: ProductMovementOpname }) {
         <Table
             size="small"
             sx={{
-                width: 'unset',
                 '& td': {
-                    py: 0.3,
                     borderBottom: 'unset',
+                    py: 0.3,
                 },
+                width: 'unset',
             }}>
             <TableBody>
                 <TableRow>
@@ -174,20 +175,20 @@ function SummaryTable({ data }: { data: ProductMovementOpname }) {
                     <TableCell>
                         : {data.note}
                         <IconButton
+                            onClick={() =>
+                                setFormValues({ at: data.at, note: data.note })
+                            }
                             size="small"
                             sx={{
                                 ml: 1,
-                            }}
-                            onClick={() =>
-                                setFormValues({ at: data.at, note: data.note })
-                            }>
+                            }}>
                             <Edit />
                         </IconButton>
                         <FormDialog
                             formValues={formValues}
-                            selectedRow={data}
-                            onSubmitted={() => refresh()}
                             onClose={handleClose}
+                            onSubmitted={() => refresh()}
+                            selectedRow={data}
                         />
                     </TableCell>
                 </TableRow>

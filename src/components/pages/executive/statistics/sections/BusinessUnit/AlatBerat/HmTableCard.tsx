@@ -1,5 +1,5 @@
 // types
-import type { ApiResponseType } from '../AlatBerat'
+
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow'
 import StatCard from '@/components/StatCard'
 // utils
 import formatNumber from '@/utils/format-number'
+import type { ApiResponseType } from '../AlatBerat'
 
 export default function HmTableCard({
     data,
@@ -20,7 +21,7 @@ export default function HmTableCard({
     isLoading: boolean | undefined
 }) {
     return (
-        <StatCard title="HM Unit — Saat Ini" isLoading={isLoading}>
+        <StatCard isLoading={isLoading} title="HM Unit — Saat Ini">
             <TableContainer>
                 <Table>
                     <TableHead>

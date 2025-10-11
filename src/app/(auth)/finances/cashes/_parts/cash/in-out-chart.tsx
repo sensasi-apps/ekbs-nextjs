@@ -1,10 +1,11 @@
 // types
-import type { StatCardProps } from '@/components/StatCard'
+
 // vendors
 import useSWR from 'swr'
+import LineChart from '@/components/Chart/Line'
+import type { StatCardProps } from '@/components/StatCard'
 // components
 import StatCard from '@/components/StatCard'
-import LineChart from '@/components/Chart/Line'
 
 export default function InOutCashChart({
     title = 'Saldo Masuk-Keluar — Bulanan',
@@ -32,31 +33,31 @@ export default function InOutCashChart({
 
     return (
         <StatCard
-            title={title}
             isLoading={isLoading || isLoadingProp}
+            title={title}
             {...props}>
             <LineChart
-                prefix="Rp"
                 data={disableAutoFetch ? dataProp : data}
+                lines={[
+                    {
+                        dataKey: 'inbound',
+                        name: 'Masuk',
+                        stroke: 'var(--mui-palette-success-main)',
+                        type: 'monotone',
+                    },
+                    {
+                        dataKey: 'outbound',
+                        name: 'Keluar',
+                        stroke: 'var(--mui-palette-error-main)',
+                        type: 'monotone',
+                    },
+                ]}
+                prefix="Rp"
                 slotsProps={{
                     tooltip: {
                         labelFormatter: value => `Bulan ${value}`,
                     },
                 }}
-                lines={[
-                    {
-                        type: 'monotone',
-                        dataKey: 'inbound',
-                        name: 'Masuk',
-                        stroke: 'var(--mui-palette-success-main)',
-                    },
-                    {
-                        type: 'monotone',
-                        dataKey: 'outbound',
-                        name: 'Keluar',
-                        stroke: 'var(--mui-palette-error-main)',
-                    },
-                ]}
             />
         </StatCard>
     )

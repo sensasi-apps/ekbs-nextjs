@@ -1,6 +1,5 @@
 // types
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+
 //materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -8,6 +7,8 @@ import TableCell from '@mui/material/TableCell'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // utils
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
@@ -31,13 +32,13 @@ export default function ReceiptInstalmentTable({
 
     return (
         <Table
-            size="small"
             padding="none"
+            size="small"
             sx={{
                 '& td, th': {
-                    padding: '0.2em',
                     border: 'none',
                     fontSize: '0.8em',
+                    padding: '0.2em',
                 },
                 '& th': {
                     fontWeight: 'bold',
@@ -76,13 +77,13 @@ export default function ReceiptInstalmentTable({
                 {installments.map(installment => {
                     return (
                         <InstallmentTableRow
-                            key={installment.n_th}
+                            base_rp={base_rp}
                             data={installment}
+                            interest_rp={interestRp}
+                            key={installment.n_th}
                             remaining_rp={
                                 (remaining_rp = remaining_rp - base_rp)
                             }
-                            base_rp={base_rp}
-                            interest_rp={interestRp}
                         />
                     )
                 })}

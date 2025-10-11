@@ -1,8 +1,8 @@
 'use client'
 
+import axios, { AxiosError } from 'axios'
 // vendors
 import { enqueueSnackbar } from 'notistack'
-import axios, { AxiosError } from 'axios'
 // utils
 import { handleServerError } from './axios/functions/handle-server-error'
 import { getCurrentAuthToken } from './axios/getCurrentAuthToken'
@@ -55,9 +55,8 @@ myAxios.interceptors.response.use(undefined, (error: AxiosError) => {
         enqueueSnackbar(
             'Permintaan gagal dikirimkan, mohon periksa kembali koneksi internet anda.',
             {
-                variant: 'error',
-
                 persist: true,
+                variant: 'error',
             },
         )
     }

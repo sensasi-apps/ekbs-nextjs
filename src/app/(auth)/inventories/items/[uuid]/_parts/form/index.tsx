@@ -1,10 +1,5 @@
 // types
-import type InventoryItem from '@/types/orms/inventory-item'
-import type { FormikProps } from 'formik'
-// vendors
-import { memo, useState } from 'react'
-import dayjs from 'dayjs'
-import { FastField } from 'formik'
+
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Chip from '@mui/material/Chip'
@@ -14,17 +9,23 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import InputAdornment from '@mui/material/InputAdornment'
 import Switch from '@mui/material/Switch'
+import dayjs from 'dayjs'
+import type { FormikProps } from 'formik'
+import { FastField } from 'formik'
+// vendors
+import { memo, useState } from 'react'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/formik-form'
-import NumericFormat from '@/components/NumericFormat'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
+import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-// utils
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import type InventoryItem from '@/types/orms/inventory-item'
+// utils
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 const InventoryItemForm = memo(function InventoryItemForm({
     dirty,
@@ -61,16 +62,12 @@ const InventoryItemForm = memo(function InventoryItemForm({
 
     return (
         <FormikForm
-            id="inventory-items-form"
             autoComplete="off"
-            isNew={isNew}
             dirty={dirty}
+            id="inventory-items-form"
+            isNew={isNew}
             processing={isPropcessing}
-            submitting={isSubmitting}
             slotProps={{
-                submitButton: {
-                    disabled: isDisabled,
-                },
                 cancelButton: {
                     children: 'Batal',
                 },
@@ -79,80 +76,83 @@ const InventoryItemForm = memo(function InventoryItemForm({
                         transform: isNew ? undefined : 'translate(-1em, -1em)',
                     },
                 },
-            }}>
+                submitButton: {
+                    disabled: isDisabled,
+                },
+            }}
+            submitting={isSubmitting}>
             {!isNew && (
                 <FastField
-                    name="uuid"
                     component={TextFieldFastableComponent}
                     disabled={true}
-                    variant="filled"
                     label="UUID"
                     margin="normal"
+                    name="uuid"
+                    variant="filled"
                     {...errorsToHelperTextObj(errors.uuid)}
                 />
             )}
 
             <FastField
-                name="code"
                 component={TextFieldFastableComponent}
-                required={false}
                 disabled={isDisabled}
                 label="Kode"
+                name="code"
+                required={false}
                 {...errorsToHelperTextObj(errors.code)}
             />
 
             <FastField
-                name="name"
                 component={TextFieldFastableComponent}
                 disabled={isDisabled}
                 label="Nama Inventaris"
+                name="name"
                 {...errorsToHelperTextObj(errors.name)}
             />
 
             <Autocomplete
-                multiple
-                options={[]}
-                value={tags ?? []}
                 disabled={isDisabled}
                 freeSolo
+                multiple
+                onChange={(_, values) => setFieldValue('tags', values)}
+                options={[]}
+                renderInput={params => (
+                    <TextField
+                        {...params}
+                        label="Penanda"
+                        placeholder="tekan enter untuk menambahkan penanda"
+                        required={false}
+                    />
+                )}
                 renderTags={(value: readonly string[], getTagProps) =>
                     value.map((option: string, index: number) => {
                         const { key, ...rest } = getTagProps({ index })
                         return (
                             <Chip
                                 key={key}
-                                variant="filled"
                                 label={option}
                                 size="small"
+                                variant="filled"
                                 {...rest}
                             />
                         )
                     })
                 }
-                onChange={(_, values) => setFieldValue('tags', values)}
-                renderInput={params => (
-                    <TextField
-                        {...params}
-                        required={false}
-                        label="Penanda"
-                        placeholder="tekan enter untuk menambahkan penanda"
-                    />
-                )}
+                value={tags ?? []}
             />
 
             <FastField
-                name="desc"
                 component={TextFieldFastableComponent}
-                required={false}
-                multiline
                 disabled={isDisabled}
-                rows={2}
                 label="Catatan"
+                multiline
+                name="desc"
+                required={false}
+                rows={2}
                 {...errorsToHelperTextObj(errors.desc)}
             />
 
             <DatePicker
-                value={owned_at ? dayjs(owned_at) : null}
                 disabled={isDisabled}
                 label="Dimiliki Sejak"
                 onChange={date =>
@@ -164,12 +164,13 @@ const InventoryItemForm = memo(function InventoryItemForm({
                         ...errorsToHelperTextObj(errors.owned_at),
                     },
                 }}
+                value={owned_at ? dayjs(owned_at) : null}
             />
 
             <FormControl
-                margin="dense"
-                fullWidth
                 disabled={isDisabled}
+                fullWidth
+                margin="dense"
                 style={{
                     paddingLeft: '1em',
                 }}>
@@ -178,10 +179,10 @@ const InventoryItemForm = memo(function InventoryItemForm({
                         control={
                             <Switch
                                 checked={isFunctional}
+                                name="is_unfunctional"
                                 onChange={({ target: { checked } }) =>
                                     setIsFunctional(checked)
                                 }
-                                name="is_unfunctional"
                             />
                         }
                         label="Dapat digunakan"
@@ -192,11 +193,11 @@ const InventoryItemForm = memo(function InventoryItemForm({
             <Fade in={!isFunctional} unmountOnExit>
                 <span>
                     <FastField
-                        name="unfunctional_note"
                         component={TextFieldFastableComponent}
-                        multiline
                         disabled={isDisabled}
                         label="Catatan Kerusakan"
+                        multiline
+                        name="unfunctional_note"
                         rows={2}
                         {...errorsToHelperTextObj(errors.unfunctional_note)}
                     />
@@ -204,9 +205,9 @@ const InventoryItemForm = memo(function InventoryItemForm({
             </Fade>
 
             <FormControl
+                disabled={!owned_at || isDisabled}
                 fullWidth
                 margin="dense"
-                disabled={!owned_at || isDisabled}
                 style={{
                     paddingLeft: '1em',
                 }}>
@@ -215,10 +216,10 @@ const InventoryItemForm = memo(function InventoryItemForm({
                         control={
                             <Switch
                                 checked={!isDisowned}
+                                name="is_disowned"
                                 onChange={({ target: { checked } }) =>
                                     setIsDisowned(!checked)
                                 }
-                                name="is_disowned"
                             />
                         }
                         label="Aktif"
@@ -229,7 +230,6 @@ const InventoryItemForm = memo(function InventoryItemForm({
             <Fade in={isDisowned} unmountOnExit>
                 <span>
                     <DatePicker
-                        value={disowned_at ? dayjs(disowned_at) : null}
                         disabled={isDisabled}
                         label="Tanggal Nonaktif"
                         onChange={date =>
@@ -244,24 +244,25 @@ const InventoryItemForm = memo(function InventoryItemForm({
                                 ...errorsToHelperTextObj(errors.disowned_at),
                             },
                         }}
+                        value={disowned_at ? dayjs(disowned_at) : null}
                     />
 
                     <FastField
-                        name="disowned_note"
                         component={TextFieldFastableComponent}
-                        multiline
                         disabled={isDisabled}
-                        rows={2}
                         label="Alasan Penonaktifan"
+                        multiline
+                        name="disowned_note"
+                        rows={2}
                         {...errorsToHelperTextObj(errors.disowned_note)}
                     />
                 </span>
             </Fade>
 
             <FormControl
+                disabled={!owned_at || isDisabled}
                 fullWidth
                 margin="dense"
-                disabled={!owned_at || isDisabled}
                 style={{
                     paddingLeft: '1em',
                 }}>
@@ -270,10 +271,10 @@ const InventoryItemForm = memo(function InventoryItemForm({
                         control={
                             <Switch
                                 checked={isRentable}
+                                name="is_rentalable"
                                 onChange={({ target: { checked } }) =>
                                     setIsRentable(checked)
                                 }
-                                name="is_rentalable"
                             />
                         }
                         label="Dapat disewakan"
@@ -285,8 +286,19 @@ const InventoryItemForm = memo(function InventoryItemForm({
                 <span>
                     <NumericFormat
                         disabled={isDisabled}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    / {default_rate_unit}
+                                </InputAdornment>
+                            ),
+                            startAdornment: <RpInputAdornment />,
+                        }}
+                        inputProps={{
+                            maxLength: 19,
+                            minLength: 1,
+                        }}
                         label="Biaya Sewa Default"
-                        value={default_rate_rp_per_unit}
                         name="default_rate_rp_per_unit"
                         onValueChange={({ floatValue }) =>
                             setFieldValue(
@@ -294,18 +306,7 @@ const InventoryItemForm = memo(function InventoryItemForm({
                                 floatValue,
                             )
                         }
-                        InputProps={{
-                            startAdornment: <RpInputAdornment />,
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    / {default_rate_unit}
-                                </InputAdornment>
-                            ),
-                        }}
-                        inputProps={{
-                            minLength: 1,
-                            maxLength: 19,
-                        }}
+                        value={default_rate_rp_per_unit}
                         {...errorsToHelperTextObj(
                             errors.default_rate_rp_per_unit,
                         )}

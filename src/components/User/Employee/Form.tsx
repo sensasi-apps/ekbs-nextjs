@@ -1,8 +1,5 @@
 // types
-import type { FormikProps } from 'formik'
-// vendors
-import { useDebouncedCallback } from 'use-debounce'
-import dayjs from 'dayjs'
+
 // materials
 import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
@@ -10,16 +7,20 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
+import dayjs from 'dayjs'
+import type { FormikProps } from 'formik'
+// vendors
+import { useDebouncedCallback } from 'use-debounce'
+import DatePicker from '@/components/DatePicker'
 // components
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import DatePicker from '@/components/DatePicker'
-// utils
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import BusinessUnit from '@/enums/business-unit'
-// functions
-import { toYmd } from '@/utils/to-ymd'
 // features
 import type Employee from '@/modules/user/types/orms/employee'
+// utils
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+// functions
+import { toYmd } from '@/utils/to-ymd'
 
 export default function EmployeeForm({
     id,
@@ -48,41 +49,41 @@ export default function EmployeeForm({
     return (
         <form id={id} onSubmit={handleSubmit}>
             <SelectFromApi
+                disabled={isSubmitting}
                 endpoint="/data/employee-statuses"
                 label="Status Karyawan"
-                disabled={isSubmitting}
-                required
                 margin="normal"
-                size="small"
-                selectProps={{
-                    value: employee_status_id ?? '',
-                    name: 'employee_status_id',
-                }}
                 onChange={({ target: { value } }) =>
                     setFieldValue('employee_status_id', value as string)
                 }
+                required
+                selectProps={{
+                    name: 'employee_status_id',
+                    value: employee_status_id ?? '',
+                }}
+                size="small"
                 {...errorsToHelperTextObj(errors?.employee_status_id)}
             />
 
             <FormControl
-                size="small"
-                required
+                disabled={isSubmitting}
                 fullWidth
                 margin="normal"
-                disabled={isSubmitting}>
+                required
+                size="small">
                 <InputLabel id="business-unit-lable">Unit Bisnis</InputLabel>
 
                 <Select
-                    required
-                    labelId="business-unit-lable"
                     id="business-unit-select"
-                    value={business_unit_id ?? ''}
                     label="Unit Bisnis"
+                    labelId="business-unit-lable"
                     onChange={({ target: { value } }) =>
                         setFieldValue('business_unit_id', value)
-                    }>
+                    }
+                    required
+                    value={business_unit_id ?? ''}>
                     {BUSINESS_UNIT_OPTIONS.map(({ value, label }, i) => (
-                        <MenuItem value={value} key={i}>
+                        <MenuItem key={i} value={value}>
                             {label}
                         </MenuItem>
                     ))}
@@ -90,23 +91,23 @@ export default function EmployeeForm({
             </FormControl>
 
             <TextField
-                fullWidth
-                required
+                defaultValue={position ?? null}
                 disabled={isSubmitting}
-                name="position"
+                fullWidth
                 label="Jabatan"
                 margin="normal"
-                size="small"
+                name="position"
                 onChange={({ target: { value } }) =>
                     setFieldValue__debounced('position', value)
                 }
-                defaultValue={position ?? null}
+                required
+                size="small"
                 {...errorsToHelperTextObj(errors?.position)}
             />
 
             <DatePicker
-                disabled={isSubmitting}
                 defaultValue={joined_at ? dayjs(joined_at) : null}
+                disabled={isSubmitting}
                 disableFuture
                 onChange={date =>
                     setFieldValue__debounced(
@@ -116,17 +117,17 @@ export default function EmployeeForm({
                 }
                 slotProps={{
                     textField: {
-                        name: 'joined_at',
                         label: 'Tanggal Bergabung',
                         margin: 'normal',
+                        name: 'joined_at',
                         ...errorsToHelperTextObj(errors?.joined_at),
                     },
                 }}
             />
 
             <DatePicker
-                disabled={isSubmitting}
                 defaultValue={unjoined_at ? dayjs(unjoined_at) : null}
+                disabled={isSubmitting}
                 onChange={date =>
                     setFieldValue__debounced(
                         'unjoined_at',
@@ -135,10 +136,10 @@ export default function EmployeeForm({
                 }
                 slotProps={{
                     textField: {
-                        required: false,
+                        label: 'Tanggal Keluar',
                         margin: 'normal',
                         name: 'unjoined_at',
-                        label: 'Tanggal Keluar',
+                        required: false,
                         ...errorsToHelperTextObj(errors?.unjoined_at),
                     },
                 }}
@@ -146,33 +147,33 @@ export default function EmployeeForm({
 
             <Fade in={!!unjoined_at} unmountOnExit>
                 <TextField
-                    fullWidth
-                    multiline
+                    defaultValue={unjoined_reason ?? ''}
                     disabled={isSubmitting}
-                    name="unjoined_reason"
+                    fullWidth
                     label="Alasan Berhenti/Keluar"
                     margin="normal"
-                    size="small"
-                    defaultValue={unjoined_reason ?? ''}
+                    multiline
+                    name="unjoined_reason"
                     onChange={({ target: { value } }) =>
                         setFieldValue__debounced('unjoined_reason', value)
                     }
+                    size="small"
                     {...errorsToHelperTextObj(errors?.unjoined_reason)}
                 />
             </Fade>
 
             <TextField
-                fullWidth
-                multiline
-                name="note"
+                defaultValue={note ?? ''}
                 disabled={isSubmitting}
+                fullWidth
                 label="Catatan tambahan"
                 margin="normal"
-                size="small"
-                defaultValue={note ?? ''}
+                multiline
+                name="note"
                 onChange={({ target: { value } }) =>
                     setFieldValue__debounced('note', value)
                 }
+                size="small"
                 {...errorsToHelperTextObj(errors?.note)}
             />
         </form>
@@ -186,35 +187,35 @@ const BUSINESS_UNIT_OPTIONS: {
     label: string
 }[] = [
     {
-        value: BusinessUnit.ALAT_BERAT,
         label: 'Alat Berat',
+        value: BusinessUnit.ALAT_BERAT,
     },
     {
-        value: BusinessUnit.BELAYAN_MART,
         label: 'Belayan Mart',
+        value: BusinessUnit.BELAYAN_MART,
     },
     {
-        value: BusinessUnit.BENGKEL,
         label: 'Bengkel',
+        value: BusinessUnit.BENGKEL,
     },
     {
-        value: BusinessUnit.COFFEESHOP_DEPAN_KANTOR,
         label: 'Coffeeshop Depan Kantor',
+        value: BusinessUnit.COFFEESHOP_DEPAN_KANTOR,
     },
     {
-        value: BusinessUnit.SAPRODI,
         label: 'Saprodi',
+        value: BusinessUnit.SAPRODI,
     },
     {
-        value: BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN,
         label: 'Sertifikasi dan Pengelolaan Kebun',
+        value: BusinessUnit.SERTIFIKASI_DAN_PENGELOLAAN_KEBUN,
     },
     {
-        value: BusinessUnit.SPP,
         label: 'SPP',
+        value: BusinessUnit.SPP,
     },
     {
-        value: BusinessUnit.TBS,
         label: 'TBS',
+        value: BusinessUnit.TBS,
     },
 ]

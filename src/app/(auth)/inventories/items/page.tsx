@@ -1,33 +1,33 @@
 'use client'
 
+import ReceiptIcon from '@mui/icons-material/Receipt'
+// icons
+import WarningIcon from '@mui/icons-material/Warning'
+// materials
+import Typography from '@mui/material/Typography'
+import { useRouter } from 'next/navigation'
+// vendors
+import { useState } from 'react'
 // types
 import type { InventoryItemFormValues } from '@/app/(auth)/inventories/items/[uuid]/_parts/form'
+// page components
+import InventoryItemFormWithFormik from '@/app/(auth)/inventories/items/[uuid]/_parts/form/with-formik'
 import type {
     DatatableProps,
     GetRowDataType,
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type InventoryItem from '@/types/orms/inventory-item'
-// vendors
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-// materials
-import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
-// page components
-import InventoryItemFormWithFormik from '@/app/(auth)/inventories/items/[uuid]/_parts/form/with-formik'
-// icons
-import WarningIcon from '@mui/icons-material/Warning'
-import ReceiptIcon from '@mui/icons-material/Receipt'
-// utils
-import toDmy from '@/utils/to-dmy'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import type InventoryItem from '@/types/orms/inventory-item'
+// utils
+import toDmy from '@/utils/to-dmy'
 
 let mutate: MutateType<InventoryItem>
 let getRowData: GetRowDataType<InventoryItem>
@@ -64,27 +64,27 @@ export default function InventoryItems() {
             <PageTitle title="Inventaris" />
 
             <Datatable
-                title="Daftar"
-                tableId="inventory-item-table"
                 apiUrl="/inventory-items/datatable"
-                onRowClick={handleRowClick}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'owned_at', direction: 'desc' }}
-                mutateCallback={fn => (mutate = fn)}
+                defaultSortOrder={{ direction: 'desc', name: 'owned_at' }}
                 getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
+                onRowClick={handleRowClick}
+                tableId="inventory-item-table"
+                title="Daftar"
             />
 
             {isAuthHasPermission('create inventory item') && (
                 <DialogWithTitle
-                    title={`${isNew ? 'Tambah' : 'Perbaharui'} Inventaris`}
-                    open={isDialogOpen}>
+                    open={isDialogOpen}
+                    title={`${isNew ? 'Tambah' : 'Perbaharui'} Inventaris`}>
                     <InventoryItemFormWithFormik
                         initialValues={initialFormikValues}
+                        onReset={handleClose}
                         onSubmitted={() => {
                             mutate()
                             handleClose()
                         }}
-                        onReset={handleClose}
                     />
                 </DialogWithTitle>
             )}
@@ -100,45 +100,45 @@ export default function InventoryItems() {
 
 const DATATABLE_COLUMNS: DatatableProps<InventoryItem>['columns'] = [
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: false,
         },
     },
     {
-        name: 'name',
         label: 'Nama',
+        name: 'name',
     },
     {
-        name: 'owned_at',
         label: 'Dimiliki pada',
+        name: 'owned_at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'tags.name',
         label: 'Penanda',
+        name: 'tags.name',
         options: {
-            sort: false,
             customBodyRenderLite: dataIndex => {
                 const tags = getRowData(dataIndex)?.tags ?? []
 
                 return tags.map(({ name: { id } }) => id).join(', ')
             },
+            sort: false,
         },
     },
     {
-        name: 'desc',
         label: 'Deskripsi',
+        name: 'desc',
         options: {
             display: false,
         },
     },
     {
-        name: 'unfunctional_note',
         label: 'Fungsionalitas',
+        name: 'unfunctional_note',
         options: {
             customBodyRender: value =>
                 value ? (
@@ -151,8 +151,8 @@ const DATATABLE_COLUMNS: DatatableProps<InventoryItem>['columns'] = [
         },
     },
     {
-        name: 'latestPic.picUser.name',
         label: 'Penanggung Jawab',
+        name: 'latestPic.picUser.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const { id, name } =
@@ -163,8 +163,8 @@ const DATATABLE_COLUMNS: DatatableProps<InventoryItem>['columns'] = [
         },
     },
     {
-        name: 'latestCheckup.note',
         label: 'Pemeriksaan Terakhir',
+        name: 'latestCheckup.note',
         options: {
             customBodyRenderLite: dataIndex => {
                 const checkup = getRowData(dataIndex)?.latest_checkup
@@ -174,7 +174,7 @@ const DATATABLE_COLUMNS: DatatableProps<InventoryItem>['columns'] = [
                     <>
                         {checkup.note}
                         <br />
-                        <Typography variant="caption" color="textSecondary">
+                        <Typography color="textSecondary" variant="caption">
                             {toDmy(checkup.at)} oleh #{checkup.by_user.id}{' '}
                             {checkup.by_user.name}
                         </Typography>

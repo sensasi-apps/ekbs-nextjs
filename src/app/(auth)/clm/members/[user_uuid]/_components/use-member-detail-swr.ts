@@ -1,12 +1,11 @@
 import useSWR from 'swr'
-
-import type User from '@/modules/user/types/orms/user'
-import type UserSocial from '@/modules/user/types/orms/user-social'
-import type Social from '@/modules/user/types/orms/social'
 // modules
 import type CertificationORM from '@/modules/clm/types/orms/certification'
 import type LandORM from '@/modules/clm/types/orms/land'
 import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
+import type Social from '@/modules/user/types/orms/social'
+import type User from '@/modules/user/types/orms/user'
+import type UserSocial from '@/modules/user/types/orms/user-social'
 
 export interface ClmMemberDetailResponse {
     lands: LandORM[]

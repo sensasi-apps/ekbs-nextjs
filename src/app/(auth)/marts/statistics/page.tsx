@@ -1,11 +1,7 @@
 'use client'
 
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
-import dayjs, { type Dayjs } from 'dayjs'
-import useSWR from 'swr'
+// icons-materials
+import RefreshIcon from '@mui/icons-material/Refresh'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -22,17 +18,21 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import RefreshIcon from '@mui/icons-material/Refresh'
+import dayjs, { type Dayjs } from 'dayjs'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
+import { useDebouncedCallback } from 'use-debounce'
 // components
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
-import PageTitle from '@/components/page-title'
 import NumericFormat from '@/components/NumericFormat'
-//
-import type Product from '@/modules/mart/types/orms/product'
+import PageTitle from '@/components/page-title'
 // enums
 import Statistic from '@/modules/mart/enums/statistic-api-url'
+//
+import type Product from '@/modules/mart/types/orms/product'
 // utils
 import formatNumber from '@/utils/format-number'
 
@@ -120,7 +120,7 @@ function DataTable({
                     <TableBody>
                         {data.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={3} align="center">
+                                <TableCell align="center" colSpan={3}>
                                     Tidak ada data
                                 </TableCell>
                             </TableRow>
@@ -140,7 +140,7 @@ function DataTable({
             </TableContainer>
 
             {data.length > (minRow ?? data.length) && (
-                <Typography variant="caption" mt={1} color="gray">
+                <Typography color="gray" mt={1} variant="caption">
                     Dan {data.length - (minRow ?? data.length)} data lainnya
                 </Typography>
             )}
@@ -176,57 +176,57 @@ function FiltersBox({
     }, [from, to])
 
     return (
-        <Box display="flex" gap={3} alignItems="center" mb={3}>
+        <Box alignItems="center" display="flex" gap={3} mb={3}>
             <DatePicker
-                label="TGL. Awal"
                 disabled={disabled}
-                value={fromDate}
+                disableHighlightToday
+                label="TGL. Awal"
                 minDate={MIN_DATE}
                 onChange={value => setFromDate(value)}
-                disableHighlightToday
+                value={fromDate}
             />
 
             <DatePicker
-                label="TGL. Akhir"
-                value={toDate}
                 disabled={disabled}
+                disableHighlightToday
+                label="TGL. Akhir"
                 minDate={fromDate ?? MIN_DATE}
                 onChange={value => setToDate(value)}
-                disableHighlightToday
+                value={toDate}
             />
 
             <IconButton
-                icon={RefreshIcon}
                 disabled={disabled || !fromDate || !toDate}
-                title="Segarkan"
+                icon={RefreshIcon}
                 onClick={() =>
                     replace(
                         `?from=${fromDate?.format('YYYY-MM-DD')}&to=${toDate?.format('YYYY-MM-DD')}&min_qty_speed=${min_qty_speed}`,
                     )
                 }
+                title="Segarkan"
             />
 
             <NumericFormat
-                label="Kecepatan Minimum"
-                disabled={disabled}
                 allowNegative={false}
-                value={Number(min_qty_speed ?? DEFAULT_SPEED)}
-                onValueChange={({ floatValue }) =>
-                    onQtySpeedChange(floatValue ?? DEFAULT_SPEED)
-                }
+                disabled={disabled}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">qty/hari</InputAdornment>
+                    ),
+                    startAdornment: (
+                        <InputAdornment position="start">≥</InputAdornment>
+                    ),
+                }}
                 inputProps={{
                     sx: {
                         textAlign: 'center',
                     },
                 }}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">≥</InputAdornment>
-                    ),
-                    endAdornment: (
-                        <InputAdornment position="end">qty/hari</InputAdornment>
-                    ),
-                }}
+                label="Kecepatan Minimum"
+                onValueChange={({ floatValue }) =>
+                    onQtySpeedChange(floatValue ?? DEFAULT_SPEED)
+                }
+                value={Number(min_qty_speed ?? DEFAULT_SPEED)}
             />
         </Box>
     )
@@ -236,11 +236,11 @@ function FSNCard({ title, data }: { title: string; data: DataFromResponse }) {
     return (
         <Card>
             <CardContent>
-                <Typography variant="h6" gutterBottom>
+                <Typography gutterBottom variant="h6">
                     {title}
                 </Typography>
 
-                <DataTable minRow={MIN_ROW} data={data} />
+                <DataTable data={data} minRow={MIN_ROW} />
             </CardContent>
 
             {data.length > MIN_ROW && (
@@ -269,27 +269,27 @@ function FSNCardsGrid({
         <Grid container spacing={3}>
             <Grid
                 size={{
-                    xs: 12,
-                    sm: 12,
                     md: 4,
+                    sm: 12,
+                    xs: 12,
                 }}>
-                <FSNCard title="Pergerakan Cepat" data={fastData} />
+                <FSNCard data={fastData} title="Pergerakan Cepat" />
             </Grid>
             <Grid
                 size={{
-                    xs: 12,
-                    sm: 12,
                     md: 4,
+                    sm: 12,
+                    xs: 12,
                 }}>
-                <FSNCard title="Pergerakan Lambat" data={slowData} />
+                <FSNCard data={slowData} title="Pergerakan Lambat" />
             </Grid>
             <Grid
                 size={{
-                    xs: 12,
-                    sm: 12,
                     md: 4,
+                    sm: 12,
+                    xs: 12,
                 }}>
-                <FSNCard title="Tidak Bergerak" data={noData} />
+                <FSNCard data={noData} title="Tidak Bergerak" />
             </Grid>
         </Grid>
     )
@@ -300,11 +300,11 @@ function SeeAllButtonAndDialog({ data }: { data: DataFromResponse }) {
 
     return (
         <>
-            <Button size="small" onClick={() => setOpen(true)}>
+            <Button onClick={() => setOpen(true)} size="small">
                 Lihat Semua
             </Button>
 
-            <Dialog open={open} onClose={() => setOpen(false)}>
+            <Dialog onClose={() => setOpen(false)} open={open}>
                 <DataTable data={data} />
             </Dialog>
         </>

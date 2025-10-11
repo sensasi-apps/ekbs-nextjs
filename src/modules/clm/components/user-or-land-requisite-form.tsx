@@ -1,20 +1,21 @@
 // vendors
-import { Formik, type FormikProps } from 'formik'
+
 // materials
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
-// formik
-import FormikForm from '@/components/formik-form-v2'
+import { Formik, type FormikProps } from 'formik'
+import CheckboxFields from '@/components/formik-fields/checkbox-fields'
 import FileField from '@/components/formik-fields/file-field'
 import TextField from '@/components/formik-fields/text-field'
-import CheckboxFields from '@/components/formik-fields/checkbox-fields'
-// utils
-import handle422 from '@/utils/handle-422'
+// formik
+import FormikForm from '@/components/formik-form-v2'
 import myAxios from '@/lib/axios'
 import type RequisiteUser from '@/modules/clm/types/orms/requisite-user'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // orms
 import type File from '@/types/orms/file'
+// utils
+import handle422 from '@/utils/handle-422'
 
 interface UserOrLandRequisiteFormField {
     note: RequisiteUser['note']
@@ -39,7 +40,11 @@ export default function UserOrLandRequisiteForm({
 
     return (
         <Formik<UserOrLandRequisiteFormField>
+            component={Form}
             initialValues={data}
+            onReset={() => {
+                history.back()
+            }}
             onSubmit={(values, { setErrors }) => {
                 return myAxios
                     .post(postUrl, values, {
@@ -52,10 +57,6 @@ export default function UserOrLandRequisiteForm({
                     })
                     .catch(error => handle422(error, setErrors))
             }}
-            component={Form}
-            onReset={() => {
-                history.back()
-            }}
         />
     )
 }
@@ -65,17 +66,17 @@ function Form({ errors }: FormikProps<UserOrLandRequisiteFormField>) {
         <>
             <FormikForm>
                 <TextField
-                    name="note"
                     label="Catatan"
+                    name="note"
                     textFieldProps={{
                         multiline: true,
-                        rows: 2,
                         required: false,
+                        rows: 2,
                     }}
                 />
 
                 <Box mt={2}>
-                    <FileField name="files" multiple />
+                    <FileField multiple name="files" />
                 </Box>
 
                 <Box mt={4}>

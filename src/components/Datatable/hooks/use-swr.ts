@@ -1,7 +1,7 @@
 import type { SWRConfiguration } from 'swr'
+import useSWRVendor from 'swr'
 import type YajraDatatable from '@/types/yajra-datatable-response'
 import type { DatatableProps } from '../@types'
-import useSWRVendor from 'swr'
 
 export default function useSwr<T>(
     apiUrl: DatatableProps['apiUrl'],

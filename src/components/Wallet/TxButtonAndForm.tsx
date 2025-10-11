@@ -1,16 +1,17 @@
 // types
-import type WalletType from '@/types/orms/wallet'
-// vendors
-import { Formik } from 'formik'
-import { useState } from 'react'
-import axios from '@/lib/axios'
+
+// icons
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 // materials
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-// icons
-import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
+// vendors
+import { Formik } from 'formik'
+import { useState } from 'react'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
+import axios from '@/lib/axios'
+import type WalletType from '@/types/orms/wallet'
 // utils
 import handle422 from '@/utils/handle-422'
 import WalletTxForm from './TxForm'
@@ -36,22 +37,24 @@ export default function WalletTxButtonAndForm({
 
     return (
         <>
-            <Tooltip title="Tambah Transaksi" placement="top" arrow>
+            <Tooltip arrow placement="top" title="Tambah Transaksi">
                 <span>
                     <IconButton
-                        disabled={disabled}
                         color="success"
-                        size="small"
-                        onClick={handleCreate}>
+                        disabled={disabled}
+                        onClick={handleCreate}
+                        size="small">
                         <PointOfSaleIcon />
                     </IconButton>
                 </span>
             </Tooltip>
 
-            <DialogWithTitle title="Tambah Transaksi" open={open} maxWidth="xs">
+            <DialogWithTitle maxWidth="xs" open={open} title="Tambah Transaksi">
                 <Formik
-                    initialValues={{}}
+                    component={WalletTxForm}
                     initialStatus={data}
+                    initialValues={{}}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
@@ -64,8 +67,6 @@ export default function WalletTxButtonAndForm({
                             })
                             .catch(error => handle422(error, setErrors))
                     }
-                    onReset={handleClose}
-                    component={WalletTxForm}
                 />
             </DialogWithTitle>
         </>

@@ -1,21 +1,22 @@
 // vendors
-import type { UUID } from 'crypto'
+
 // import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-// utils
-import formatNumber from '@/utils/format-number'
+import type { UUID } from 'crypto'
+import type { ReactNode } from 'react'
+import ChipSmall from '@/components/ChipSmall'
 // assets
 // import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
 import type { Sale } from '@/modules/repair-shop/types/orms/sale'
+import type SaleSparePartInstallmentMargin from '@/modules/repair-shop/types/orms/sale_spare_part_installment_margin'
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 // utils
+import formatNumber from '@/utils/format-number'
+// utils
 import shortUuid from '@/utils/short-uuid'
-import type { ReactNode } from 'react'
-import ChipSmall from '@/components/ChipSmall'
-import type SaleSparePartInstallmentMargin from '@/modules/repair-shop/types/orms/sale_spare_part_installment_margin'
 
 export default function Receipt({ data }: { data: Sale }) {
     const totalRpSparePart =
@@ -30,25 +31,25 @@ export default function Receipt({ data }: { data: Sale }) {
     return (
         <Box
             sx={{
-                color: 'black !important',
-                textTransform: 'uppercase',
-                maxWidth: '80mm',
-                '& > *': {
-                    fontSize: '0.7em',
-                },
                 '* > span': {
                     lineHeight: 1.5,
                 },
+                '& > *': {
+                    fontSize: '0.7em',
+                },
+                color: 'black !important',
+                maxWidth: '80mm',
+                textTransform: 'uppercase',
             }}>
             <Typography fontWeight="bold" lineHeight="1em">
                 {`${data.finished_at ? 'Struk' : 'Faktur'} Penjualan Belayan Spare Part`}
             </Typography>
 
-            <Typography variant="overline" fontSize="0.5em">
+            <Typography fontSize="0.5em" variant="overline">
                 {data.uuid}
             </Typography>
 
-            <Box display="flex" gap={2} alignItems="center" mt={1} mb={1}>
+            <Box alignItems="center" display="flex" gap={2} mb={1} mt={1}>
                 {/* <Image
                     width={96} // 6 rem
                     height={96} // 6 rem
@@ -75,10 +76,10 @@ export default function Receipt({ data }: { data: Sale }) {
                             data.customer ? (
                                 <>
                                     <ChipSmall
-                                        label={data.customer.id}
                                         color="info"
-                                        variant="outlined"
+                                        label={data.customer.id}
                                         sx={{ mr: 1 }}
+                                        variant="outlined"
                                     />
                                     {data.customer.name}
                                 </>
@@ -101,11 +102,11 @@ export default function Receipt({ data }: { data: Sale }) {
                         Layanan:
                     </Typography>
 
-                    <Grid container alignItems="center" spacing={0.5} mt={0.5}>
+                    <Grid alignItems="center" container mt={0.5} spacing={0.5}>
                         {data.sale_services.map(service => (
                             <RowGrids
-                                key={service.id}
                                 desc={service.state.name}
+                                key={service.id}
                                 value={service.rp ?? 0}
                             />
                         ))}
@@ -121,26 +122,26 @@ export default function Receipt({ data }: { data: Sale }) {
                         </Typography>
 
                         <Grid
-                            container
                             alignItems="center"
-                            spacing={0.5}
-                            mt={0.5}>
+                            container
+                            mt={0.5}
+                            spacing={0.5}>
                             {data.spare_part_movement.details.map(detail => (
                                 <DetailItem
-                                    key={detail.id}
                                     data={detail}
                                     installmentMargin={data.spare_part_margins?.find(
                                         margin =>
                                             margin.spare_part_warehouse_id ===
                                             detail.spare_part_warehouse_id,
                                     )}
+                                    key={detail.id}
                                 />
                             ))}
                         </Grid>
                     </Box>
                 )}
 
-            <Grid container alignItems="center" mt={1}>
+            <Grid alignItems="center" container mt={1}>
                 {Boolean(data.adjustment_rp && data.adjustment_rp > 0) && (
                     <>
                         <RowGrids
@@ -154,7 +155,7 @@ export default function Receipt({ data }: { data: Sale }) {
                     </>
                 )}
 
-                <RowGrids desc="Total Akhir" value={data.final_rp} bold />
+                <RowGrids bold desc="Total Akhir" value={data.final_rp} />
             </Grid>
         </Box>
     )
@@ -172,35 +173,35 @@ function RowGrids({
     return (
         <>
             <Grid
+                component={Typography}
+                fontWeight={bold ? 'bold' : 'normal'}
+                lineHeight="unset"
                 size={{
                     xs: 8,
                 }}
-                component={Typography}
-                variant="overline"
-                lineHeight="unset"
-                fontWeight={bold ? 'bold' : 'normal'}
-                textOverflow="ellipsis">
+                textOverflow="ellipsis"
+                variant="overline">
                 {desc}
             </Grid>
 
             <Grid
+                component={Typography}
+                lineHeight="unset"
                 size={{ xs: 1 }}
                 textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset">
+                variant="overline">
                 Rp
             </Grid>
 
             <Grid
+                component={Typography}
+                fontWeight={bold ? 'bold' : 'normal'}
+                lineHeight="unset"
                 size={{
                     xs: 3,
                 }}
                 textAlign="end"
-                component={Typography}
-                variant="overline"
-                fontWeight={bold ? 'bold' : 'normal'}
-                lineHeight="unset">
+                variant="overline">
                 {formatNumber(value)}
             </Grid>
         </>
@@ -235,36 +236,36 @@ function DetailItem({
                 size={{
                     xs: 8,
                 }}>
-                <Typography variant="overline" lineHeight="unset">
+                <Typography lineHeight="unset" variant="overline">
                     {spare_part_state?.name}
                 </Typography>
 
                 <Typography
-                    variant="caption"
                     component="div"
+                    fontSize="0.9em"
                     lineHeight="unset"
-                    fontSize="0.9em">
+                    variant="caption">
                     {qtyDisplay} &times; {rpPerUnitDisplay}
                 </Typography>
             </Grid>
 
             <Grid
+                component={Typography}
+                lineHeight="unset"
                 size={{ xs: 1 }}
                 textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset">
+                variant="overline">
                 Rp
             </Grid>
 
             <Grid
+                component={Typography}
+                lineHeight="unset"
                 size={{
                     xs: 3,
                 }}
                 textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset">
+                variant="overline">
                 {subtotalDisplay}
             </Grid>
         </>
@@ -281,17 +282,17 @@ function DefaultItemDesc({
     return (
         <Box display="flex" gap={1}>
             <Typography
-                variant="caption"
                 component="div"
                 sx={{
                     ':after': {
                         content: '":"',
                     },
-                }}>
+                }}
+                variant="caption">
                 {desc}
             </Typography>
 
-            <Typography variant="caption" component="div" fontWeight="bold">
+            <Typography component="div" fontWeight="bold" variant="caption">
                 {value}
             </Typography>
         </Box>
@@ -300,8 +301,8 @@ function DefaultItemDesc({
 
 function translatePaymentMethod(paymentMethod: Sale['payment_method']) {
     return {
-        cash: 'Tunai',
         'business-unit': 'Unit Bisnis',
+        cash: 'Tunai',
         installment: 'Angsuran',
     }[paymentMethod]
 }

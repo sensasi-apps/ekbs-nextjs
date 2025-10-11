@@ -1,16 +1,5 @@
 // types
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-// vendors
-// import axios from '@/lib/axios'
-import dayjs from 'dayjs'
-import {
-    FastField,
-    type FastFieldProps,
-    Field,
-    Form,
-    type FormikProps,
-    // useFormik,
-} from 'formik'
+
 // materials
 // import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
@@ -23,25 +12,37 @@ import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
+// vendors
+// import axios from '@/lib/axios'
+import dayjs from 'dayjs'
+import {
+    FastField,
+    type FastFieldProps,
+    Field,
+    Form,
+    type FormikProps,
+    // useFormik,
+} from 'formik'
 // icons
 // import DeleteIcon from '@mui/icons-material/Delete'
 // components
 import DatePicker from '@/components/DatePicker'
+import FormLoadingBar from '@/components/Dialog/LoadingBar'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
-import FormLoadingBar from '@/components/Dialog/LoadingBar'
-import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
+import NumericFormat from '@/components/NumericFormat'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import BusinessUnit from '@/enums/business-unit'
 // import UserActivityLogsDialogTable from '@/components/UserActivityLogs/DialogTable'
 // providers
 // import useAuth from '@/providers/Auth'
 // utils
 // import errorCatcher from '@/utils/errorCatcher'
 import TransactionTag from '@/modules/transaction/enums/transaction-tag'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import getUnitTxTags from '@/utils/get-unit-tx-tags'
-import BusinessUnit from '@/enums/business-unit'
 
 export default function UnitTxForm({
     dirty,
@@ -107,24 +108,24 @@ export default function UnitTxForm({
                 <FastField name="type">
                     {({ field }: FastFieldProps) => (
                         <FormControl
+                            disabled={isDisabled}
                             margin="dense"
-                            required
-                            disabled={isDisabled}>
+                            required>
                             <FormLabel id="type">Jenis Transaksi</FormLabel>
                             <RadioGroup
-                                row
                                 aria-labelledby="type"
+                                row
                                 {...field}
                                 value={field.value ?? null}>
                                 <FormControlLabel
-                                    value="income"
                                     control={<Radio required />}
                                     label="Masuk"
+                                    value="income"
                                 />
                                 <FormControlLabel
-                                    value="expense"
                                     control={<Radio />}
                                     label="Keluar"
+                                    value="expense"
                                 />
                                 {/* <FormControlLabel
                                     value="transfer"
@@ -143,26 +144,26 @@ export default function UnitTxForm({
                         form,
                     }: FastFieldProps) => (
                         <DatePicker
-                            slotProps={{
-                                textField: {
-                                    fullWidth: true,
-                                    required: true,
-                                    margin: 'dense',
-                                    size: 'small',
-                                    error: Boolean(error),
-                                    helperText: error,
-                                    name: name,
-                                },
-                            }}
-                            value={value ? dayjs(value) : null}
-                            label="Tanggal"
                             disabled={isDisabled}
+                            label="Tanggal"
                             onChange={value =>
                                 form.setFieldValue(
                                     name,
                                     value?.format('YYYY-MM-DD') ?? '',
                                 )
                             }
+                            slotProps={{
+                                textField: {
+                                    error: Boolean(error),
+                                    fullWidth: true,
+                                    helperText: error,
+                                    margin: 'dense',
+                                    name: name,
+                                    required: true,
+                                    size: 'small',
+                                },
+                            }}
+                            value={value ? dayjs(value) : null}
                         />
                     )}
                 </FastField>
@@ -188,24 +189,24 @@ export default function UnitTxForm({
                                     gap: '0.5em',
                                 }}>
                                 <SelectFromApi
-                                    required
+                                    disabled={isDisabled}
                                     endpoint="/data/cashes"
+                                    error={Boolean(error)}
+                                    helperText={error}
                                     label={
                                         type === 'income'
                                             ? 'Ke Kas'
                                             : 'Dari Kas'
                                     }
-                                    size="small"
                                     margin="dense"
-                                    disabled={isDisabled}
+                                    onChange={onChange}
+                                    required
                                     selectProps={{
-                                        value: value ?? '',
                                         name: name,
                                         onBlur: onBlur,
+                                        value: value ?? '',
                                     }}
-                                    error={Boolean(error)}
-                                    helperText={error}
-                                    onChange={onChange}
+                                    size="small"
                                 />
 
                                 {/* {type === 'transfer' &&
@@ -296,26 +297,26 @@ export default function UnitTxForm({
                         return (
                             <FormControl
                                 fullWidth
-                                size="small"
                                 margin="dense"
-                                required>
+                                required
+                                size="small">
                                 <InputLabel id="category-select-label">
                                     Kategori
                                 </InputLabel>
 
                                 <Select
-                                    labelId="category-select-label"
-                                    id="category-select"
-                                    required
                                     disabled={isDisabled}
+                                    id="category-select"
+                                    label="Kategori"
+                                    labelId="category-select-label"
+                                    name={name}
+                                    onChange={onChange}
+                                    required
                                     value={
                                         value && categories.includes(value)
                                             ? value
                                             : ''
-                                    }
-                                    label="Kategori"
-                                    name={name}
-                                    onChange={onChange}>
+                                    }>
                                     {categories.map(
                                         (category: string, index: number) => (
                                             <MenuItem
@@ -346,33 +347,33 @@ export default function UnitTxForm({
                         return (
                             <NumericFormat
                                 disabled={isDisabled}
+                                error={Boolean(error)}
+                                helperText={error}
+                                InputProps={{
+                                    startAdornment: <RpInputAdornment />,
+                                }}
+                                inputProps={{
+                                    maxLength: 19,
+                                    minLength: 1,
+                                }}
                                 label="Jumlah"
-                                value={value}
                                 name={name}
                                 onValueChange={({ value }) =>
                                     setFieldValue(name, value)
                                 }
-                                InputProps={{
-                                    startAdornment: <RpInputAdornment />,
-                                }}
-                                error={Boolean(error)}
-                                helperText={error}
-                                inputProps={{
-                                    minLength: 1,
-                                    maxLength: 19,
-                                }}
+                                value={value}
                             />
                         )
                     }}
                 </FastField>
 
                 <FastField
-                    name="desc"
                     component={TextFieldFastableComponent}
-                    multiline
                     disabled={isDisabled}
-                    rows={2}
                     label="Deskripsi"
+                    multiline
+                    name="desc"
+                    rows={2}
                 />
 
                 <div
@@ -403,10 +404,10 @@ export default function UnitTxForm({
                     />
 
                     <FormSubmitButton
-                        oldDirty={isOldDirty}
                         disabled={isDisabled || !dirty}
-                        loading={isSubmitting}
                         form="transaction-form"
+                        loading={isSubmitting}
+                        oldDirty={isOldDirty}
                     />
                 </div>
             </Form>

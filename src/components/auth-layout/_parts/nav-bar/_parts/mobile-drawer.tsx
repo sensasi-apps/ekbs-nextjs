@@ -1,10 +1,10 @@
 'use client'
 
-// vendors
-import type { ReactNode } from 'react'
 // materials
 import Drawer from '@mui/material/Drawer'
 import Toolbar from '@mui/material/Toolbar'
+// vendors
+import type { ReactNode } from 'react'
 // atoms
 import { useIsNavbarOpen, useToggleIsNavbarOpen } from '@/atoms/is-navbar-open'
 // constants
@@ -25,16 +25,16 @@ export default function MobileDrawer({ children }: MobileDrawerProps) {
 
     return (
         <Drawer
-            variant="temporary"
-            open={isDrawerOpen}
             onClose={toggleDrawer}
+            open={isDrawerOpen}
             slotProps={{
                 root: { keepMounted: true }, // Improve mobile performance
             }}
             sx={{
-                display: { xs: 'block', sm: 'none' },
                 '& .MuiDrawer-paper': drawerPaperSx,
-            }}>
+                display: { sm: 'none', xs: 'block' },
+            }}
+            variant="temporary">
             <Toolbar />
             {children}
         </Drawer>

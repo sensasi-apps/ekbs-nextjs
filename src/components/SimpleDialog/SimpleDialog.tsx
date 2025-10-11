@@ -1,17 +1,18 @@
 // types
-import type { DialogProps } from '@mui/material/Dialog'
-import type { DialogTitleProps } from '@mui/material/DialogTitle'
-import type { IconButtonProps } from '@mui/material/IconButton'
-// vendors
-import { useState } from 'react'
-// materials
-import Button, { type ButtonProps } from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
-import IconButton from '@mui/material/IconButton'
+
 // icons
 import CloseIcon from '@mui/icons-material/Close'
+// materials
+import Button, { type ButtonProps } from '@mui/material/Button'
+import type { DialogProps } from '@mui/material/Dialog'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import type { DialogTitleProps } from '@mui/material/DialogTitle'
+import DialogTitle from '@mui/material/DialogTitle'
+import type { IconButtonProps } from '@mui/material/IconButton'
+import IconButton from '@mui/material/IconButton'
+// vendors
+import { useState } from 'react'
 
 /**
  * A simple dialog component that displays a title, content, and a close button. with own open-close button.
@@ -39,18 +40,18 @@ export default function SimpleDialog({
     return (
         <>
             <Button
+                color="info"
                 onClick={() => setOpen(true)}
                 size="small"
-                color="info"
                 {...slotProps?.buttonProps}
             />
 
             <Dialog
+                disableRestoreFocus
                 fullWidth
                 maxWidth="xs"
-                disableRestoreFocus
-                open={open}
                 onClose={() => setOpen(true)}
+                open={open}
                 {...props}>
                 <DialogTitle
                     display="flex"
@@ -58,7 +59,7 @@ export default function SimpleDialog({
                     {...slotProps?.dialogTitle}>
                     {title}
 
-                    <IconButton size="small" onClick={() => setOpen(false)}>
+                    <IconButton onClick={() => setOpen(false)} size="small">
                         <CloseIcon />
                     </IconButton>
                 </DialogTitle>

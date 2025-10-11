@@ -1,7 +1,6 @@
-import { useState } from 'react'
-import { mutate } from 'swr'
-
-import axios from '@/lib/axios'
+import AddIcon from '@mui/icons-material/Add'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
@@ -11,15 +10,14 @@ import ListItemText from '@mui/material/ListItemText'
 import Skeleton from '@mui/material/Skeleton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { useState } from 'react'
+import { mutate } from 'swr'
+import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import axios from '@/lib/axios'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
+import type UserBankAccountORM from '@/modules/user/types/orms/user-bank-account'
 //
 import UserBankAccForm from './form'
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import type UserBankAccountORM from '@/modules/user/types/orms/user-bank-account'
-import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 function ListItem({
     data: { uuid, no_decrypted, name },
@@ -53,12 +51,12 @@ function ListItem({
                     </IconButton>
                     <Tooltip title="Salin">
                         <IconButton
-                            edge="end"
-                            size="large"
                             aria-label="copy"
+                            edge="end"
                             onClick={() =>
                                 navigator.clipboard.writeText(no_decrypted)
-                            }>
+                            }
+                            size="large">
                             <ContentCopyIcon />
                         </IconButton>
                     </Tooltip>
@@ -81,14 +79,14 @@ export default function UserBankAccsCrudBox() {
 
     return (
         <Box>
-            <Box display="flex" alignItems="center">
-                <Typography variant="h6" component="div">
+            <Box alignItems="center" display="flex">
+                <Typography component="div" variant="h6">
                     Rekening Bank
                 </Typography>
 
                 <IconButton
-                    disabled={isLoading}
                     color="success"
+                    disabled={isLoading}
                     onClick={() => setIsFormOpen(true)}>
                     <AddIcon />
                 </IconButton>
@@ -103,7 +101,7 @@ export default function UserBankAccsCrudBox() {
             )}
 
             {!isLoading && bank_accs?.length === 0 && (
-                <Typography variant="body2" color="GrayText">
+                <Typography color="GrayText" variant="body2">
                     <i>Belum ada data rekening</i>
                 </Typography>
             )}
@@ -112,8 +110,8 @@ export default function UserBankAccsCrudBox() {
                 <List>
                     {bank_accs.map(bankAcc => (
                         <ListItem
-                            key={bankAcc.uuid}
                             data={bankAcc}
+                            key={bankAcc.uuid}
                             userUuid={userUuid}
                         />
                     ))}
@@ -121,9 +119,9 @@ export default function UserBankAccsCrudBox() {
             )}
 
             <UserBankAccForm
-                userUuid={userUuid}
                 isShow={isFormOpen}
                 onClose={() => setIsFormOpen(false)}
+                userUuid={userUuid}
             />
         </Box>
     )

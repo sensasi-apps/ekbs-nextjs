@@ -1,11 +1,11 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import dayjs from 'dayjs'
 // materials
 import InventoryIcon from '@mui/icons-material/Inventory'
+import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
+// vendors
+import { useState } from 'react'
 // components
 import Datatable, {
     type DatatableProps,
@@ -13,17 +13,17 @@ import Datatable, {
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
-// utils
-import formatNumber from '@/utils/format-number'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import Permission from '@/modules/repair-shop/enums/permission'
+// modules
+import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-part-movement'
+// utils
+import formatNumber from '@/utils/format-number'
 // page components
 import SparePartQtyAdjustmentFormDialog, {
     type CreateFormValues,
 } from './spare-part-qty-adjustment-form-dialog'
-// modules
-import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-part-movement'
-import Permission from '@/modules/repair-shop/enums/permission'
 
 let getRowData: GetRowDataType<SparePartMovementORM>
 
@@ -40,8 +40,8 @@ export default function Page() {
     return (
         <>
             <PageTitle
-                title="Opname Persediaan"
                 subtitle="Belayan Spare Parts"
+                title="Opname Persediaan"
             />
 
             {/* <Box mb={2}>
@@ -52,7 +52,8 @@ export default function Page() {
 
             <Datatable
                 apiUrl="/repair-shop/spare-parts/qty-adjustments/datatable-data"
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                columns={columns}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
                 getRowDataCallback={fn => (getRowData = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
@@ -65,22 +66,21 @@ export default function Page() {
                     }
                 }}
                 tableId="spare-part-qty-adjustments-datatable"
-                columns={columns}
             />
 
             <SparePartQtyAdjustmentFormDialog
                 formValues={formValues}
+                onClose={handleClose}
                 onSubmitted={uuid =>
                     push(`/repair-shop/spare-part-qty-adjustments/${uuid}`)
                 }
-                onClose={handleClose}
             />
 
             <Fab
+                disabled={!!formValues}
                 in={isAuthHasPermission(
                     Permission.CREATE_SPARE_PART_QTY_ADJUSTMENT,
                 )}
-                disabled={!!formValues}
                 onClick={() =>
                     setFormValues({
                         at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
@@ -95,86 +95,86 @@ export default function Page() {
 
 const columns: DatatableProps<SparePartMovementORM>['columns'] = [
     {
-        name: 'uuid',
         label: 'ID',
+        name: 'uuid',
         options: {
             display: 'excluded',
         },
     },
 
     {
-        name: 'at',
         label: 'Waktu Mulai',
+        name: 'at',
         options: {
             customBodyRender: value => dayjs(value).format('YYYY-MM-DD HH:mm'),
         },
     },
 
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
             searchable: false,
         },
     },
 
     {
-        name: 'n_items',
         label: 'Jumlah Suku Cadang',
+        name: 'n_items',
         options: {
-            searchable: false,
-            sort: false,
-            setCellProps: () => ({
-                sx: { textAlign: 'right' },
-            }),
             customBodyRender: value => formatNumber(value),
+            searchable: false,
+            setCellProps: () => ({
+                sx: { textAlign: 'right' },
+            }),
+            sort: false,
         },
     },
 
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
     },
 
     {
-        name: 'found_rp',
         label: 'Ditemukan (Rp)',
+        name: 'found_rp',
         options: {
             searchable: false,
-            sort: false,
             setCellProps: () => ({
                 sx: { textAlign: 'right' },
             }),
+            sort: false,
         },
     },
 
     {
-        name: 'lost_rp',
         label: 'Hilang (Rp)',
+        name: 'lost_rp',
         options: {
             searchable: false,
-            sort: false,
             setCellProps: () => ({
                 sx: { textAlign: 'right' },
             }),
+            sort: false,
         },
     },
 
     {
-        name: 'sum_value_rp',
         label: 'Selisih (Rp)',
+        name: 'sum_value_rp',
         options: {
             searchable: false,
-            sort: false,
             setCellProps: () => ({
                 sx: { textAlign: 'right' },
             }),
+            sort: false,
         },
     },
 
     {
-        name: 'finalized_at',
         label: 'Waktu Selesai',
+        name: 'finalized_at',
         options: {
             customBodyRender: value =>
                 value ? dayjs(value).format('YYYY-MM-DD HH:mm') : null,

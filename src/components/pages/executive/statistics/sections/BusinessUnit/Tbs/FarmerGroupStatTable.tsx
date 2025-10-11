@@ -2,14 +2,14 @@
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import TableContainer from '@mui/material/TableContainer'
-// components
-import { type ApiResponseType } from '../Tbs'
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
+// components
+import { type ApiResponseType } from '../Tbs'
 
 const CELL_SX_BORDER_LEFT = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
@@ -38,9 +38,9 @@ export default function FarmerGroupStatTable({
                     <TableRow>
                         {months.map((monthName, i) => (
                             <TableCell
-                                key={i}
-                                colSpan={2}
                                 align="center"
+                                colSpan={2}
+                                key={i}
                                 sx={CELL_SX_BORDER_LEFT}>
                                 {monthName}
                             </TableCell>
@@ -49,10 +49,10 @@ export default function FarmerGroupStatTable({
                     <TableRow>
                         {months.map((_, i) => (
                             <WeightRpCols
-                                key={i}
+                                align="center"
                                 data1="Bobot"
                                 data2="Nilai"
-                                align="center"
+                                key={i}
                             />
                         ))}
                     </TableRow>
@@ -76,11 +76,11 @@ export default function FarmerGroupStatTable({
 
                                 return (
                                     <WeightRpCols
-                                        key={i}
                                         data1={
                                             formatNumber(sum_kg ?? 0) + ' kg'
                                         }
                                         data2={numberToCurrency(sum_rp ?? 0)}
+                                        key={i}
                                     />
                                 )
                             })}
@@ -97,7 +97,6 @@ export default function FarmerGroupStatTable({
                             )
                             return (
                                 <WeightRpCols
-                                    key={i}
                                     data1={
                                         formatNumber(
                                             items.reduce(
@@ -113,6 +112,7 @@ export default function FarmerGroupStatTable({
                                             0,
                                         ) ?? 0,
                                     )}
+                                    key={i}
                                 />
                             )
                         })}

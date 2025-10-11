@@ -1,27 +1,27 @@
 'use client'
 
-// types
-import type RentItemRent from '@/types/orms/rent-item-rent'
+// vendors
+import { Formik } from 'formik'
+import { useState } from 'react'
+import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
+// page components
+import HeavyEquipmentRentFinishTaskForm, {
+    type HerFinishTaskFormValues,
+} from '@/app/(auth)/heavy-equipment-rents/_parts/form/finish-task'
+import HeavyEquipmentRentsDatatable from '@/app/(auth)/heavy-equipment-rents/_parts/her-datatable'
 import type {
     GetRowDataType,
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-// vendors
-import { Formik } from 'formik'
-import { useState } from 'react'
-import axios from '@/lib/axios'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
-// page components
-import HeavyEquipmentRentFinishTaskForm, {
-    type HerFinishTaskFormValues,
-} from '@/app/(auth)/heavy-equipment-rents/_parts/form/finish-task'
+import PageTitle from '@/components/page-title'
+import axios from '@/lib/axios'
+// types
+import type RentItemRent from '@/types/orms/rent-item-rent'
 // utils
 import errorCatcher from '@/utils/handle-422'
-import HeavyEquipmentRentsDatatable from '@/app/(auth)/heavy-equipment-rents/_parts/her-datatable'
-import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
-import PageTitle from '@/components/page-title'
 
 let mutate: MutateType<RentItemRent>
 let getRowData: GetRowDataType<RentItemRent>
@@ -44,14 +44,14 @@ export default function HeavyEquipmentRentsTasks() {
     const handleEdit = (data: RentItemRent) => {
         const formedData: HerFinishTaskFormValues = {
             ...data,
-            start_hm:
-                data.rate_unit === 'H.M'
-                    ? (data.heavy_equipment_rent?.start_hm ?? undefined)
-                    : 0,
             end_hm:
                 data.rate_unit === 'H.M'
                     ? (data.heavy_equipment_rent?.end_hm ?? undefined)
                     : 1,
+            start_hm:
+                data.rate_unit === 'H.M'
+                    ? (data.heavy_equipment_rent?.start_hm ?? undefined)
+                    : 0,
         }
 
         setInitialFormikValues(formedData)
@@ -67,23 +67,25 @@ export default function HeavyEquipmentRentsTasks() {
             <PageTitle title="Tugas Alat Berat" />
 
             <HeavyEquipmentRentsDatatable
+                as="operator"
+                getRowDataCallback={fn => (getRowData = fn)}
                 handleRowClick={handleRowClick}
                 mutateCallback={fn => (mutate = fn)}
-                getRowDataCallback={fn => (getRowData = fn)}
-                as="operator"
             />
 
             <DialogWithTitle
-                title={`${isNew ? 'Tambah' : 'Perbaharui'} Data Penyewaan`}
-                open={isDialogOpen}>
+                open={isDialogOpen}
+                title={`${isNew ? 'Tambah' : 'Perbaharui'} Data Penyewaan`}>
                 <Formik
+                    component={HeavyEquipmentRentFinishTaskForm}
                     enableReinitialize
                     initialValues={initialFormikValues}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) => {
                         const formData = {
+                            end_hm: values.end_hm ?? 0,
                             finished_at: values.finished_at ?? null,
                             start_hm: values.start_hm ?? 0,
-                            end_hm: values.end_hm ?? 0,
                         }
 
                         return axios
@@ -103,8 +105,6 @@ export default function HeavyEquipmentRentsTasks() {
                             })
                             .catch(error => errorCatcher(error, setErrors))
                     }}
-                    onReset={handleClose}
-                    component={HeavyEquipmentRentFinishTaskForm}
                 />
             </DialogWithTitle>
         </>

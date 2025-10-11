@@ -1,12 +1,7 @@
 // types
-import type CashType from '@/types/orms/cash'
-import type { UUID } from 'crypto'
-import type Wallet from '@/types/orms/wallet'
-// vendors
-import { FastField, type FormikProps } from 'formik'
-import { memo, useState } from 'react'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+
+// icons
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 // materials
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
@@ -16,8 +11,8 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import Grid from '@mui/material/GridLegacy'
 import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
 import InputAdornment from '@mui/material/InputAdornment'
+import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
@@ -25,35 +20,41 @@ import Select from '@mui/material/Select'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
-// components
-import CreditorCard from '../user-loans/creditor-card'
+import type { UUID } from 'crypto'
+import dayjs from 'dayjs'
+// vendors
+import { FastField, type FormikProps } from 'formik'
+import { memo, useState } from 'react'
+import useSWR from 'swr'
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/formik-form'
+import SelectFromApi from '@/components/Global/SelectFromApi'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 import LoadingAdornment from '@/components/LoadingAddorment'
 import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
-import ProductSaleDetailArrayField from './Form/ProductSaleDetailArrayField'
-import SelectFromApi from '@/components/Global/SelectFromApi'
+import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import UserActivityLogs from '@/components/UserActivityLogs'
 import UserAutocomplete from '@/components/user-autocomplete'
-// icons
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
+import Role from '@/enums/role'
+// hooks
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
+// enums
+import type ProductMovement from '@/modules/farm-inputs/types/orms/product-movement'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+// modules
+import type MinimalUser from '@/modules/user/types/minimal-user'
+import type CashType from '@/types/orms/cash'
+import type Wallet from '@/types/orms/wallet'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
-import UserActivityLogs from '@/components/UserActivityLogs'
-import TextField from '@/components/TextField'
-// enums
-import type ProductMovement from '@/modules/farm-inputs/types/orms/product-movement'
-import Role from '@/enums/role'
-import Warehouse from '@/modules/farm-inputs/enums/warehouse'
-// hooks
-import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
-// modules
-import type MinimalUser from '@/modules/user/types/minimal-user'
-import type ProductType from '@/modules/farm-inputs/types/orms/product'
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+// components
+import CreditorCard from '../user-loans/creditor-card'
+import ProductSaleDetailArrayField from './Form/ProductSaleDetailArrayField'
 
 const ProductSaleForm = memo(function ProductSaleForm({
     dirty,
@@ -114,55 +115,55 @@ const ProductSaleForm = memo(function ProductSaleForm({
 
     return (
         <FormikForm
-            id="product-sale-form"
             autoComplete="off"
-            isNew={false}
             dirty={dirty}
+            id="product-sale-form"
+            isNew={false}
             processing={isPropcessing}
-            submitting={isSubmitting}
             slotProps={{
                 submitButton: {
                     disabled: isDisabled,
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             {!isNew && (
                 <Grid container spacing={1}>
-                    <Grid item xs={6} sm={9}>
+                    <Grid item sm={9} xs={6}>
                         <TextField
                             disabled
                             label="UUID"
-                            variant="filled"
                             value={uuid}
+                            variant="filled"
                         />
                     </Grid>
 
-                    <Grid item xs={6} sm={3}>
+                    <Grid item sm={3} xs={6}>
                         <TextField
                             disabled
                             label="Kode"
-                            variant="filled"
                             value={short_uuid}
+                            variant="filled"
                         />
                     </Grid>
                 </Grid>
             )}
 
             <Fade in={isNeedToDetermineWarehouse} unmountOnExit>
-                <FormControl size="small" disabled={isDisabled}>
+                <FormControl disabled={isDisabled} size="small">
                     <FormLabel id="gudang-buttons-group-label">
                         Gudang
                     </FormLabel>
 
                     <ToggleButtonGroup
-                        disabled={isDisabled}
                         aria-labelledby="gudang-buttons-group-label"
                         color="primary"
-                        value={warehouse}
+                        disabled={isDisabled}
                         exclusive
-                        size="small"
                         onChange={(_, value) =>
                             setFieldValue('warehouse', value)
-                        }>
+                        }
+                        size="small"
+                        value={warehouse}>
                         {Object.values(Warehouse).map((warehouse, i) => (
                             <ToggleButton key={i} value={warehouse}>
                                 {warehouse}
@@ -174,13 +175,12 @@ const ProductSaleForm = memo(function ProductSaleForm({
                 </FormControl>
             </Fade>
 
-            <Grid container columnSpacing={1.5}>
-                <Grid item xs={12} sm={6}>
+            <Grid columnSpacing={1.5} container>
+                <Grid item sm={6} xs={12}>
                     <DatePicker
-                        value={at ? dayjs(at) : null}
                         disabled={isDisabled}
-                        maxDate={dayjs().add(1, 'day')}
                         label="Tanggal"
+                        maxDate={dayjs().add(1, 'day')}
                         onChange={date =>
                             setFieldValue('at', date?.format('YYYY-MM-DD'))
                         }
@@ -190,90 +190,90 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                 ...errorsToHelperTextObj(errors.at),
                             },
                         }}
+                        value={at ? dayjs(at) : null}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item sm={6} xs={12}>
                     <UserAutocomplete
-                        label="Pengguna"
                         disabled={isDisabled}
                         fullWidth
+                        label="Pengguna"
                         onChange={(_, user) => {
                             setUserAutocompleteValue(user)
                             setFieldValue('buyer_user_uuid', user?.uuid)
                         }}
-                        value={userAutocompleteValue}
                         size="small"
                         slotProps={{
                             textField: {
+                                margin: 'dense',
                                 required: ['installment', 'wallet'].includes(
                                     payment_method ?? '',
                                 ),
-                                margin: 'dense',
                                 ...errorsToHelperTextObj(
                                     errors.buyer_user_uuid,
                                 ),
                             },
                         }}
+                        value={userAutocompleteValue}
                     />
                 </Grid>
             </Grid>
 
             <FastField
-                name="note"
                 component={TextFieldFastableComponent}
-                required={false}
-                multiline
                 disabled={isDisabled}
-                rows={2}
                 label="Catatan"
+                multiline
+                name="note"
+                required={false}
+                rows={2}
                 {...errorsToHelperTextObj(errors.note)}
             />
 
             <ProductSaleDetailArrayField
-                warehouse={warehouse ?? warehouseAuto}
-                errors={errors}
                 data={product_sale_details}
                 disabled={isDisabled}
+                errors={errors}
+                warehouse={warehouse ?? warehouseAuto}
             />
 
             <FormControl
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                }}
+                disabled={isDisabled}
+                error={Boolean(errors.payment_method)}
                 margin="normal"
                 required
                 size="small"
-                disabled={isDisabled}
-                error={Boolean(errors.payment_method)}>
+                style={{
+                    alignItems: 'center',
+                    display: 'flex',
+                }}>
                 <FormLabel id="payment_method">Metode Pembayaran</FormLabel>
 
                 <RadioGroup
-                    row
                     aria-labelledby="payment_method"
                     name="payment_method"
-                    value={payment_method}
                     onChange={({ target: { value } }) =>
                         setFieldValue('payment_method', value)
-                    }>
+                    }
+                    row
+                    value={payment_method}>
                     <FormControlLabel
-                        value="cash"
                         control={<Radio required size="small" />}
                         label="Tunai"
+                        value="cash"
                     />
 
                     <div>
                         <FormControlLabel
-                            value="wallet"
                             control={
                                 <Radio
-                                    size="small"
                                     disabled={
                                         !userAutocompleteValue?.uuid ||
                                         !wallet ||
                                         !isBalanceEnough ||
                                         isDisabled
                                     }
+                                    size="small"
                                 />
                             }
                             label={
@@ -289,13 +289,13 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                     {userAutocompleteValue?.uuid &&
                                         !is_paid && (
                                             <Typography
-                                                variant="caption"
-                                                component="div"
                                                 color={
                                                     isBalanceEnough
                                                         ? undefined
                                                         : 'error.main'
-                                                }>
+                                                }
+                                                component="div"
+                                                variant="caption">
                                                 {wallet?.balance
                                                     ? numberToCurrency(
                                                           wallet.balance,
@@ -305,20 +305,21 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                         )}
                                 </>
                             }
+                            value="wallet"
                         />
                     </div>
 
                     <FormControlLabel
-                        value="installment"
                         control={
                             <Radio
-                                size="small"
                                 disabled={
                                     !userAutocompleteValue?.uuid || isDisabled
                                 }
+                                size="small"
                             />
                         }
                         label="Potong TBS"
+                        value="installment"
                     />
                 </RadioGroup>
 
@@ -333,15 +334,21 @@ const ProductSaleForm = memo(function ProductSaleForm({
                         <CreditorCard data={userAutocompleteValue} />
                     )}
 
-                    <Typography variant="h6" component="div" mt={2}>
+                    <Typography component="div" mt={2} variant="h6">
                         Rincian Potongan TBS
                     </Typography>
 
                     <Box display="flex" gap={1} mt={1}>
                         <NumericFormat
-                            label="Jasa"
                             disabled={isDisabled}
-                            value={interest_percent}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        %
+                                    </InputAdornment>
+                                ),
+                            }}
+                            label="Jasa"
                             name="interest_percent"
                             onValueChange={({ floatValue }) =>
                                 debounce(() =>
@@ -351,54 +358,48 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                     ),
                                 )
                             }
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        %
-                                    </InputAdornment>
-                                ),
-                            }}
+                            value={interest_percent}
                             {...errorsToHelperTextObj(errors.interest_percent)}
                         />
 
                         <NumericFormat
-                            label="Jangka Waktu"
-                            disabled={isDisabled}
                             decimalScale={0}
+                            disabled={isDisabled}
+                            inputProps={{
+                                maxLength: 2,
+                                minLength: 1,
+                            }}
+                            label="Jangka Waktu"
                             min={1}
-                            value={n_term}
                             name="n_term"
                             onValueChange={({ floatValue }) =>
                                 debounce(() =>
                                     setFieldValue('n_term', floatValue),
                                 )
                             }
-                            inputProps={{
-                                minLength: 1,
-                                maxLength: 2,
-                            }}
+                            value={n_term}
                             {...errorsToHelperTextObj(errors.n_term)}
                         />
 
                         <FormControl
-                            required
-                            margin="dense"
                             disabled={isDisabled}
+                            error={Boolean(errors.n_term_unit)}
                             fullWidth
-                            error={Boolean(errors.n_term_unit)}>
+                            margin="dense"
+                            required>
                             <InputLabel size="small">
                                 Satuan Waktu Angsuran
                             </InputLabel>
 
                             <Select
                                 label="Satuan Waktu Angsuran"
-                                size="small"
-                                required
                                 name="n_term_unit"
-                                value={n_term_unit}
                                 onChange={({ target: { value } }) =>
                                     setFieldValue('n_term_unit', value)
-                                }>
+                                }
+                                required
+                                size="small"
+                                value={n_term_unit}>
                                 <MenuItem value="minggu">Minggu</MenuItem>
                                 <MenuItem value="bulan">Bulan</MenuItem>
                             </Select>
@@ -411,19 +412,19 @@ const ProductSaleForm = memo(function ProductSaleForm({
                     </Box>
 
                     <Box
+                        alignItems="flex-end"
                         display="flex"
                         gap={1.5}
-                        alignItems="flex-end"
                         justifyContent="end">
                         <Typography
-                            variant="h6"
-                            component="span"
                             color="gray"
-                            fontWeight="bold">
+                            component="span"
+                            fontWeight="bold"
+                            variant="h6">
                             TOTAL KESELURUHAN
                         </Typography>
 
-                        <Typography variant="h6" component="span">
+                        <Typography component="span" variant="h6">
                             {numberToCurrency(
                                 totalRp +
                                     Math.ceil(
@@ -439,39 +440,26 @@ const ProductSaleForm = memo(function ProductSaleForm({
 
             {payment_method === 'cash' && (
                 <>
-                    <Grid container mt={1} spacing={1.5} alignItems="end">
-                        <Grid item xs={9} textAlign="end">
+                    <Grid alignItems="end" container mt={1} spacing={1.5}>
+                        <Grid item textAlign="end" xs={9}>
                             <Typography
-                                variant="h6"
-                                component="div"
                                 color="gray"
-                                fontWeight="bold">
+                                component="div"
+                                fontWeight="bold"
+                                variant="h6">
                                 TOTAL KESELURUHAN
                             </Typography>
                         </Grid>
 
                         <Grid item xs={3}>
                             <NumericFormat
-                                label="Penyesuaian"
                                 allowNegative
-                                disabled={isDisabled}
                                 decimalScale={0}
-                                value={adjustment_rp}
-                                name="adjustment_rp"
-                                onValueChange={({ floatValue }) =>
-                                    debounce(() =>
-                                        setFieldValue(
-                                            'adjustment_rp',
-                                            floatValue,
-                                        ),
-                                    )
-                                }
+                                disabled={isDisabled}
                                 InputProps={{
-                                    startAdornment: <RpInputAdornment />,
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
-                                                size="small"
                                                 color="warning"
                                                 disabled={isDisabled}
                                                 onClick={() =>
@@ -483,23 +471,36 @@ const ProductSaleForm = memo(function ProductSaleForm({
                                                             1000 -
                                                             totalRp,
                                                     )
-                                                }>
+                                                }
+                                                size="small">
                                                 <AutoFixHighIcon />
                                             </IconButton>
                                         </InputAdornment>
                                     ),
+                                    startAdornment: <RpInputAdornment />,
                                     sx: {
                                         paddingRight: 0,
                                     },
                                 }}
                                 inputProps={{
-                                    minLength: 1,
                                     maxLength: 3,
+                                    minLength: 1,
                                 }}
+                                label="Penyesuaian"
+                                name="adjustment_rp"
+                                onValueChange={({ floatValue }) =>
+                                    debounce(() =>
+                                        setFieldValue(
+                                            'adjustment_rp',
+                                            floatValue,
+                                        ),
+                                    )
+                                }
+                                value={adjustment_rp}
                                 {...errorsToHelperTextObj(errors.adjustment_rp)}
                             />
 
-                            <Typography variant="h6" component="div">
+                            <Typography component="div" variant="h6">
                                 {numberToCurrency(
                                     totalRp + (adjustment_rp ?? 0),
                                 )}
@@ -509,23 +510,23 @@ const ProductSaleForm = memo(function ProductSaleForm({
 
                     <div
                         style={{
-                            marginTop: '1rem',
                             marginBottom: '1rem',
+                            marginTop: '1rem',
                         }}>
                         <SelectFromApi
-                            required
+                            disabled={isDisabled}
                             endpoint="/data/cashes"
                             label="Telah Dibayar Ke Kas"
-                            size="small"
                             margin="dense"
-                            disabled={isDisabled}
-                            selectProps={{
-                                value: cashable_uuid,
-                                name: 'cashable_uuid',
-                            }}
                             onValueChange={({ uuid }: CashType) =>
                                 setFieldValue('cashable_uuid', uuid)
                             }
+                            required
+                            selectProps={{
+                                name: 'cashable_uuid',
+                                value: cashable_uuid,
+                            }}
+                            size="small"
                             {...errorsToHelperTextObj(errors.cashable_uuid)}
                         />
                     </div>
@@ -568,16 +569,16 @@ export const EMPTY_FORM_DATA: Partial<{
     n_term_unit: null | ProductSaleORM['n_term_unit']
 }> = {
     buyer_user_uuid: null,
+    cashable_uuid: '',
     note: '',
-    product_sale_details: [
-        {
-            product_id: null,
-            product: null,
-        },
-    ],
 
     payment_method: null,
-    cashable_uuid: '',
+    product_sale_details: [
+        {
+            product: null,
+            product_id: null,
+        },
+    ],
 }
 
 export const EMPTY_FORM_STATUS: null | ProductSaleORM = null

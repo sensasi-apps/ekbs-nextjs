@@ -1,18 +1,18 @@
 'use client'
 
-// types
-import type { ReactNode } from 'react'
-import type { IconButtonProps } from '@mui/material/IconButton'
-import type { TooltipProps } from '@mui/material/Tooltip'
-// vendors
-import { memo, useRef } from 'react'
-import { useReactToPrint, type UseReactToPrintOptions } from 'react-to-print'
-import PrintLayout from '@/components/print-layout'
-// materials
-import IconButton from '@mui/material/IconButton'
-import Tooltip from '@mui/material/Tooltip'
 // icons
 import PrintIcon from '@mui/icons-material/Print'
+import type { IconButtonProps } from '@mui/material/IconButton'
+// materials
+import IconButton from '@mui/material/IconButton'
+import type { TooltipProps } from '@mui/material/Tooltip'
+import Tooltip from '@mui/material/Tooltip'
+// types
+import type { ReactNode } from 'react'
+// vendors
+import { memo, useRef } from 'react'
+import { type UseReactToPrintOptions, useReactToPrint } from 'react-to-print'
+import PrintLayout from '@/components/print-layout'
 
 const PrintHandler = memo(function PrintHandler({
     content,
@@ -29,9 +29,9 @@ const PrintHandler = memo(function PrintHandler({
         | { content?: never; children: ReactNode }
     )) {
     const tooltipProps: Omit<TooltipProps, 'children'> = {
-        title: 'Cetak',
-        placement: 'top',
         arrow: true,
+        placement: 'top',
+        title: 'Cetak',
         ...(slotProps?.tooltip ?? {}),
     }
 
@@ -43,9 +43,9 @@ const PrintHandler = memo(function PrintHandler({
 
     const toPrintContentRef = useRef(null)
     const reactToPrintFn = useReactToPrint({
-        pageStyle: '@media print { body { margin: auto; } }',
         // pageStyle: '@page { size: auto; margin: auto; }',
         contentRef: toPrintContentRef,
+        pageStyle: '@media print { body { margin: auto; } }',
         ...props,
     })
 
@@ -53,8 +53,8 @@ const PrintHandler = memo(function PrintHandler({
         <Tooltip {...tooltipProps}>
             <span>
                 <IconButton
-                    size="small"
                     onClick={() => reactToPrintFn()}
+                    size="small"
                     {...printButtonProps}
                 />
                 <span

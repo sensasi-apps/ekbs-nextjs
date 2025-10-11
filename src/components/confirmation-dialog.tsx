@@ -1,12 +1,13 @@
 // vendors
-import { memo } from 'react'
+
 // materials
 import Box from '@mui/material/Box'
 import Button, { type ButtonProps } from '@mui/material/Button'
 import Dialog, { type DialogProps } from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import DialogActions from '@mui/material/DialogActions'
+import { memo } from 'react'
 
 const ConfirmationDialog = memo(function ConfirmationDialog({
     color = 'warning',
@@ -20,7 +21,7 @@ const ConfirmationDialog = memo(function ConfirmationDialog({
     ...props
 }: ConfirmationDialogWithButtonProps) {
     return (
-        <Dialog maxWidth="xs" fullWidth disableRestoreFocus {...props}>
+        <Dialog disableRestoreFocus fullWidth maxWidth="xs" {...props}>
             <DialogTitle
                 bgcolor={`${color}.main`}
                 color={`${color}.contrastText`}>

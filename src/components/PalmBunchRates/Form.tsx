@@ -1,32 +1,33 @@
 // types
-import type { Ymd } from '@/types/date-string'
-import type { Mutate } from '../Datatable/@types'
-import type PalmBunchRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-rate'
-import type PalmBunchRateValidDateORM from '@/modules/palm-bunch/types/orms/palm-bunch-rate-valid-date'
-// vendors
-import { useEffect, useState } from 'react'
-import dayjs, { type Dayjs } from 'dayjs'
-import { NumericFormat } from 'react-number-format'
+
 // materials
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/GridLegacy'
+import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import InputAdornment from '@mui/material/InputAdornment'
+import dayjs, { type Dayjs } from 'dayjs'
+// vendors
+import { useEffect, useState } from 'react'
+import { NumericFormat } from 'react-number-format'
 // components
 import DatePicker from '@/components/DatePicker'
-import RpInputAdornment from '../InputAdornment/Rp'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs
 import axios from '@/lib/axios'
-import debounce from '@/utils/debounce'
-import useFormData from '@/providers/useFormData'
-import FormActions from '../Global/Form/Actions'
 import { dbPromise } from '@/lib/idb'
+import type PalmBunchRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-rate'
+import type PalmBunchRateValidDateORM from '@/modules/palm-bunch/types/orms/palm-bunch-rate-valid-date'
+import useFormData from '@/providers/useFormData'
+import type { Ymd } from '@/types/date-string'
+import debounce from '@/utils/debounce'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import errorCatcher from '@/utils/handle-422'
 import weekOfMonths from '@/utils/week-of-month'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import type { Mutate } from '../Datatable/@types'
+import FormActions from '../Global/Form/Actions'
+import RpInputAdornment from '../InputAdornment/Rp'
 
 const nameIdFormatter = (validFrom: Ymd) =>
     `${dayjs(validFrom).format('MMMM ')}#${weekOfMonths(validFrom)}`
@@ -160,62 +161,62 @@ export default function PalmBunchRatesForm({
         )
 
     return (
-        <form onSubmit={handleSubmit} autoComplete="off">
+        <form autoComplete="off" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-                <Grid item xs={6} sm={6}>
+                <Grid item sm={6} xs={6}>
                     <DatePicker
-                        shouldDisableDate={date => date?.day() !== 2}
                         disabled={loading}
-                        value={validFrom}
+                        onChange={handleDateChange}
+                        shouldDisableDate={date => date?.day() !== 2}
                         slotProps={{
                             textField: {
-                                name: 'valid_from',
                                 label: 'Tanggal Berlaku',
+                                name: 'valid_from',
                                 ...errorsToHelperTextObj(
                                     validationErrors.valid_from,
                                 ),
                             },
                         }}
-                        onChange={handleDateChange}
+                        value={validFrom}
                     />
                 </Grid>
 
-                <Grid item xs={6} sm={6}>
+                <Grid item sm={6} xs={6}>
                     <DatePicker
-                        readOnly
                         disabled={loading}
+                        readOnly
+                        slotProps={{
+                            textField: {
+                                error: Boolean(validationErrors.valid_from),
+                                fullWidth: true,
+                                helperText: validationErrors.valid_from,
+                                label: 'Hingga',
+                                margin: 'dense',
+                                name: 'valid_until',
+                                required: true,
+                                size: 'small',
+                            },
+                        }}
                         value={
                             validFrom ? validFrom.clone().add(6, 'days') : null
                         }
-                        slotProps={{
-                            textField: {
-                                required: true,
-                                fullWidth: true,
-                                name: 'valid_until',
-                                label: 'Hingga',
-                                margin: 'dense',
-                                size: 'small',
-                                error: Boolean(validationErrors.valid_from),
-                                helperText: validationErrors.valid_from,
-                            },
-                        }}
                     />
                 </Grid>
             </Grid>
 
-            <Fade in={Boolean(validFrom)} exit={false} unmountOnExit>
+            <Fade exit={false} in={Boolean(validFrom)} unmountOnExit>
                 <div>
                     <Typography
-                        variant="h5"
                         component="div"
+                        mt={4}
                         textAlign="center"
-                        mt={4}>
+                        variant="h5">
                         {validFrom?.format('MMMM ')} #
                         {validFrom && weekOfMonths(validFrom)}{' '}
                         <Typography
-                            variant="caption"
                             color="GrayText"
-                            component="span">
+                            component="span"
+                            variant="caption">
                             ({validFrom?.year()})
                         </Typography>
                     </Typography>
@@ -223,30 +224,27 @@ export default function PalmBunchRatesForm({
                     {ratesState &&
                         ratesState.map(rate => (
                             <NumericFormat
-                                key={rate.type}
-                                margin="dense"
-                                label="Harga"
+                                allowNegative={false}
+                                customInput={TextField}
+                                decimalScale={0}
+                                decimalSeparator=","
+                                disabled={loading}
+                                fullWidth
                                 InputProps={{
-                                    startAdornment: <RpInputAdornment />,
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             /kg
                                         </InputAdornment>
                                     ),
+                                    startAdornment: <RpInputAdornment />,
                                 }}
                                 inputProps={{
-                                    minLength: 3,
                                     maxLength: 5,
+                                    minLength: 3,
                                 }}
-                                required
-                                fullWidth
-                                thousandSeparator="."
-                                decimalSeparator=","
-                                allowNegative={false}
-                                decimalScale={0}
-                                customInput={TextField}
-                                disabled={loading}
-                                value={rate.rp_per_kg}
+                                key={rate.type}
+                                label="Harga"
+                                margin="dense"
                                 name={`rates[${rate.type}]`}
                                 onValueChange={values =>
                                     handleRateChange(
@@ -254,6 +252,9 @@ export default function PalmBunchRatesForm({
                                         values.floatValue,
                                     )
                                 }
+                                required
+                                thousandSeparator="."
+                                value={rate.rp_per_kg}
                                 {...errorsToHelperTextObj(
                                     validationErrors[
                                         `rp_per_kgs[${rate.type}]`

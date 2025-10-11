@@ -1,41 +1,42 @@
 // types
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+
 // materials
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // utils
 import { type DatatableProps, getRowData } from '@/components/Datatable'
-import toDmy from '@/utils/to-dmy'
-import getLoanStatusColor from '@/utils/get-loan-status-color'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import formatNumber from '@/utils/format-number'
+import getLoanStatusColor from '@/utils/get-loan-status-color'
+import toDmy from '@/utils/to-dmy'
 
 const DATATABLE_COLUMNS: DatatableProps<UserLoanORM>['columns'] = [
     {
-        name: 'uuid',
         label: 'uuid',
+        name: 'uuid',
         options: {
-            sort: false,
             display: 'excluded',
-        },
-    },
-    {
-        name: 'short_uuid',
-        label: 'Kode',
-        options: {
             sort: false,
-            searchable: false,
         },
     },
     {
-        name: 'proposed_at',
+        label: 'Kode',
+        name: 'short_uuid',
+        options: {
+            searchable: false,
+            sort: false,
+        },
+    },
+    {
         label: 'Diajukan TGL',
+        name: 'proposed_at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'user.name',
         label: 'Nama',
+        name: 'user.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const user = getRowData<UserLoanORM>(dataIndex)?.user
@@ -49,22 +50,22 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoanORM>['columns'] = [
         },
     },
     {
-        name: 'proposed_rp',
         label: 'Jumlah Pengajuan (Rp)',
+        name: 'proposed_rp',
         options: {
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'nowrap',
-                    textAlign: 'right',
-                },
-            }),
             customBodyRender: (value: UserLoanORM['proposed_rp']) =>
                 formatNumber(value),
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                    whiteSpace: 'nowrap',
+                },
+            }),
         },
     },
     {
-        name: 'type',
         label: 'Jenis',
+        name: 'type',
         options: {
             customBodyRender: (value: UserLoanORM['type']) => (
                 <Chip label={value} size="small" />
@@ -73,24 +74,24 @@ const DATATABLE_COLUMNS: DatatableProps<UserLoanORM>['columns'] = [
     },
 
     {
-        name: 'purpose',
         label: 'Keperluan',
+        name: 'purpose',
     },
     {
-        name: 'status',
         label: 'Status',
+        name: 'status',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender: (value: UserLoanORM['status']) => (
                 <Typography
-                    variant="body2"
                     color={getLoanStatusColor(value, '.main')}
                     component="span"
-                    textTransform="capitalize">
+                    textTransform="capitalize"
+                    variant="body2">
                     {value}
                 </Typography>
             ),
+            searchable: false,
+            sort: false,
         },
     },
 ]

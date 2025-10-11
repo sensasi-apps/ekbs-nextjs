@@ -1,6 +1,5 @@
-import type UserLoanResponseORM from '@/modules/installment/types/orms/user-loan-response'
-
 import Typography from '@mui/material/Typography'
+import type UserLoanResponseORM from '@/modules/installment/types/orms/user-loan-response'
 
 export default function UserLoanSummaryBoxReviewers({
     responses,

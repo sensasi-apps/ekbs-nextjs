@@ -1,8 +1,8 @@
 // types
-import { Field, type FieldArrayRenderProps, type FieldProps } from 'formik'
-// vendors
-import { useRef } from 'react'
-import useSWR from 'swr'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
@@ -12,17 +12,18 @@ import Skeleton from '@mui/material/Skeleton'
 import MuiTextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-// utils
-import Endpoint from '../enums/endpoint'
-import numberToCurrency from '@/utils/number-to-currency'
+import { Field, type FieldArrayRenderProps, type FieldProps } from 'formik'
+// vendors
+import { useRef } from 'react'
+import useSWR from 'swr'
 // formik
 import NumericField from '@/components/formik-fields/numeric-field'
+import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 // features
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
-import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
+import numberToCurrency from '@/utils/number-to-currency'
+// utils
+import Endpoint from '../enums/endpoint'
 
 export default function DetailsField({
     push,
@@ -38,8 +39,8 @@ export default function DetailsField({
 
     return (
         <>
-            <Box display="flex" gap={2} alignItems="center" mb={2}>
-                <Typography fontWeight="bold" component="div">
+            <Box alignItems="center" display="flex" gap={2} mb={2}>
+                <Typography component="div" fontWeight="bold">
                     Suku Cadang
                 </Typography>
 
@@ -48,20 +49,20 @@ export default function DetailsField({
 
             {details.map((row, index) => (
                 <Grid
-                    key={index}
-                    container
-                    columnSpacing={1}
-                    display="flex"
                     alignItems="center"
+                    columnSpacing={1}
+                    container
+                    display="flex"
+                    key={index}
                     mb={1}>
                     <NumberCell
                         index={index}
-                        remove={remove}
                         isDisabled={isDisabled}
+                        remove={remove}
                         showDelete={index === details.length - 1}
                     />
 
-                    <QtyInput isDisabled={isDisabled} index={index} />
+                    <QtyInput index={index} isDisabled={isDisabled} />
                     <SparePartInput index={index} isDisabled={isDisabled} />
                     <PriceInput index={index} isDisabled={isDisabled} />
 
@@ -82,32 +83,32 @@ function AddItemButton({
     const nRow = useRef(1)
 
     return (
-        <Box display="flex" alignItems="center" mt={1}>
+        <Box alignItems="center" display="flex" mt={1}>
             <MuiTextField
+                defaultValue={1}
                 disabled={isDisabled}
                 fullWidth={false}
-                size="small"
-                type="number"
-                defaultValue={1}
                 label="Tambah baris"
-                slotProps={{ input: { inputProps: { min: 1, max: 99 } } }}
+                onChange={e => (nRow.current = Number(e.target.value))}
+                size="small"
+                slotProps={{ input: { inputProps: { max: 99, min: 1 } } }}
                 sx={{
                     maxWidth: '4em',
                 }}
-                onChange={e => (nRow.current = Number(e.target.value))}
+                type="number"
             />
 
-            <Tooltip placement="top" arrow title="Tambah">
+            <Tooltip arrow placement="top" title="Tambah">
                 <span>
                     <IconButton
-                        disabled={isDisabled}
                         color="success"
-                        size="small"
+                        disabled={isDisabled}
                         onClick={() => {
                             for (let i = 0; i < nRow.current; i++) {
                                 push({})
                             }
-                        }}>
+                        }}
+                        size="small">
                         <AddCircleIcon />
                     </IconButton>
                 </span>
@@ -134,8 +135,8 @@ function SparePartInput({
     return (
         <Grid
             size={{
-                xs: 12,
                 sm: 4.5,
+                xs: 12,
             }}>
             <Field name={`details.${index}.spare_part_id`}>
                 {({ form: { setFieldValue }, field }: FieldProps) => {
@@ -146,28 +147,28 @@ function SparePartInput({
 
                     return (
                         <Autocomplete
-                            isOptionEqualToValue={(option, value) =>
-                                option.id === value.id
-                            }
-                            id={field.name}
-                            value={value}
-                            options={spareParts}
                             disabled={isDisabled}
                             getOptionLabel={sparePart =>
                                 `${sparePart.id} — ${sparePart.name}`
                             }
+                            id={field.name}
+                            isOptionEqualToValue={(option, value) =>
+                                option.id === value.id
+                            }
                             onChange={(_, selected) => {
                                 setFieldValue(field.name, selected?.id)
                             }}
+                            options={spareParts}
                             renderInput={params => (
                                 <MuiTextField
                                     {...params}
-                                    required
                                     label="Suku Cadang"
-                                    size="small"
                                     margin="none"
+                                    required
+                                    size="small"
                                 />
                             )}
+                            value={value}
                         />
                     )
                 }}
@@ -188,17 +189,17 @@ function NumberCell({
     showDelete: boolean
 }) {
     return (
-        <Grid size={{ xs: 2, sm: 1 }} textAlign="right" pr={1}>
+        <Grid pr={1} size={{ sm: 1, xs: 2 }} textAlign="right">
             {showDelete && (
-                <Tooltip placement="top" arrow title="Hapus">
+                <Tooltip arrow placement="top" title="Hapus">
                     <span>
                         <IconButton
-                            disabled={isDisabled}
                             color="error"
-                            size="small"
+                            disabled={isDisabled}
                             onClick={() => {
                                 remove(index)
-                            }}>
+                            }}
+                            size="small">
                             <RemoveCircleIcon />
                         </IconButton>
                     </span>
@@ -219,13 +220,13 @@ function QtyInput({
     return (
         <Grid
             size={{
-                xs: 10,
                 sm: 1.5,
+                xs: 10,
             }}>
             <NumericField
-                name={`details.${index}.qty`}
                 disabled={isDisabled}
                 label="Jumlah"
+                name={`details.${index}.qty`}
                 numericFormatProps={{
                     margin: 'none',
                 }}
@@ -244,13 +245,13 @@ function PriceInput({
     return (
         <Grid
             size={{
-                xs: 12,
                 sm: 2,
+                xs: 12,
             }}>
             <NumericField
-                name={`details.${index}.rp_per_unit`}
                 disabled={isDisabled}
                 label="Harga satuan"
+                name={`details.${index}.rp_per_unit`}
                 numericFormatProps={{
                     margin: 'none',
                 }}
@@ -263,15 +264,15 @@ function SubTotal({ value }: { value: number }) {
     return (
         <Grid
             size={{
-                xs: 12,
                 sm: 2.5,
+                xs: 12,
             }}>
             <MuiTextField
                 disabled={true}
-                value={numberToCurrency(value)}
                 fullWidth
                 label="Subtotal"
                 margin="none"
+                value={numberToCurrency(value)}
                 variant="standard"
             />
         </Grid>

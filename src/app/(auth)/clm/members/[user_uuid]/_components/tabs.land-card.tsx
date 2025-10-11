@@ -1,25 +1,26 @@
 // materials
+
+// icons
+import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import EditNoteIcon from '@mui/icons-material/EditNote'
+import ForestIcon from '@mui/icons-material/Forest'
+import GroupsIcon from '@mui/icons-material/Groups'
+import HomeIcon from '@mui/icons-material/Home'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-// icons
-import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload'
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
-import ForestIcon from '@mui/icons-material/Forest'
-import GroupsIcon from '@mui/icons-material/Groups'
-import HomeIcon from '@mui/icons-material/Home'
-import EditNoteIcon from '@mui/icons-material/EditNote'
+import NextLink from 'next/link'
+import { useParams } from 'next/navigation'
 // components
 import ChipSmall from '@/components/ChipSmall'
+import FlexBox from '@/components/flex-box'
 // modules
 import type Land from '@/modules/clm/types/orms/land'
 // utils
 import shortUuid from '@/utils/short-uuid'
 import toDmy from '@/utils/to-dmy'
-import FlexBox from '@/components/flex-box'
-import NextLink from 'next/link'
-import { useParams } from 'next/navigation'
 
 export default function LandCard({ land }: { land: Land }) {
     const { user_uuid } = useParams()
@@ -47,24 +48,24 @@ export default function LandCard({ land }: { land: Land }) {
 
     return (
         <Card
-            variant={isAllFulfilled ? 'outlined' : 'elevation'}
             sx={{
                 borderColor: isAllFulfilled ? 'success.main' : undefined,
-            }}>
+            }}
+            variant={isAllFulfilled ? 'outlined' : 'elevation'}>
             <CardActionArea
-                LinkComponent={NextLink}
-                href={`${user_uuid}/lands/${land.uuid}`}>
+                href={`${user_uuid}/lands/${land.uuid}`}
+                LinkComponent={NextLink}>
                 <CardContent sx={{ p: 3 }}>
-                    <FlexBox mb={1} justifyContent="space-between">
+                    <FlexBox justifyContent="space-between" mb={1}>
                         <ChipSmall
-                            label={shortUuid(land.uuid)}
                             color="info"
+                            label={shortUuid(land.uuid)}
                             variant="outlined"
                         />
 
                         <ChipSmall
-                            label={`${nApprovedRequisiteLands}/${nRequisites}`}
                             color={isAllFulfilled ? 'success' : 'error'}
+                            label={`${nApprovedRequisiteLands}/${nRequisites}`}
                             variant="outlined"
                         />
                     </FlexBox>
@@ -73,9 +74,9 @@ export default function LandCard({ land }: { land: Land }) {
                         <ForestIcon />
 
                         <Typography
-                            variant="h4"
+                            component="div"
                             fontWeight="bold"
-                            component="div">
+                            variant="h4">
                             {land.n_area_hectares} Ha
                         </Typography>
                     </FlexBox>
@@ -108,12 +109,12 @@ function Info({ Icon, text }: { Icon: typeof HomeIcon; text?: string }) {
 
     return (
         <Typography
-            variant="body2"
+            alignItems="middle"
+            color="textDisabled"
             component="div"
             display="flex"
             gap={1}
-            alignItems="middle"
-            color="textDisabled">
+            variant="body2">
             <Icon fontSize="small" />
             {text}
         </Typography>

@@ -1,41 +1,41 @@
 'use client'
 
-// vendors
-import { Formik } from 'formik'
-import { useRef, useState, type MutableRefObject } from 'react'
-import axios from '@/lib/axios'
-import useSWR from 'swr'
+// icons
+import PaymentsIcon from '@mui/icons-material/Payments'
 // materials
 import Box from '@mui/material/Box'
 import Chip, { type ChipProps } from '@mui/material/Chip'
-import Grid from '@mui/material/Grid'
 import { green } from '@mui/material/colors'
+import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
-// icons
-import PaymentsIcon from '@mui/icons-material/Payments'
+// vendors
+import { Formik } from 'formik'
+import { type MutableRefObject, useRef, useState } from 'react'
+import useSWR from 'swr'
+import InOutLineChart, {
+    type InOutLineChartProps,
+} from '@/components/Chart/Line/InOut'
 // components
 import type {
     DatatableProps,
     GetRowDataType,
     MutateType,
 } from '@/components/Datatable'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
-import UnitTxForm from './Form'
-import BigNumber from '@/components/StatCard/BigNumber'
 import StatCard from '@/components/StatCard'
-import InOutLineChart, {
-    type InOutLineChartProps,
-} from '@/components/Chart/Line/InOut'
+import BigNumber from '@/components/StatCard/BigNumber'
+// enums
+import BusinessUnit from '@/enums/business-unit'
+import axios from '@/lib/axios'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // utils
 import formatNumber from '@/utils/format-number'
 import handle422 from '@/utils/handle-422'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
-// enums
-import BusinessUnit from '@/enums/business-unit'
+import UnitTxForm from './Form'
 
 type CustomTx = TransactionORM & {
     tag_names: string
@@ -78,16 +78,18 @@ export default function UnitTxs({
                         flexDirection="column"
                         gap={1.5}
                         size={{
-                            xs: 12,
                             sm: 4,
+                            xs: 12,
                         }}>
                         <BigNumber
-                            title="Saldo Unit"
+                            isLoading={isLoading}
                             primary={
                                 <Tooltip
-                                    title={numberToCurrency(data?.balance ?? 0)}
                                     arrow
-                                    placement="top">
+                                    placement="top"
+                                    title={numberToCurrency(
+                                        data?.balance ?? 0,
+                                    )}>
                                     <Box component="span">
                                         {numberToCurrency(data?.balance ?? 0, {
                                             notation: 'compact',
@@ -95,18 +97,18 @@ export default function UnitTxs({
                                     </Box>
                                 </Tooltip>
                             }
-                            isLoading={isLoading}
+                            title="Saldo Unit"
                         />
                     </Grid>
 
                     <Grid
                         size={{
-                            xs: 12,
                             sm: 8,
+                            xs: 12,
                         }}>
                         <StatCard
-                            title="Saldo Keluar-Masuk — Bulanan"
-                            isLoading={isLoading}>
+                            isLoading={isLoading}
+                            title="Saldo Keluar-Masuk — Bulanan">
                             <InOutLineChart data={data?.in_out_balance} />
                         </StatCard>
                     </Grid>
@@ -114,8 +116,6 @@ export default function UnitTxs({
             )}
 
             <Datatable
-                title="Riwayat Transaksi"
-                tableId="transaction-datatable"
                 apiUrl={`/transactions/${businessUnit}/datatable`}
                 columns={
                     businessUnit
@@ -124,16 +124,20 @@ export default function UnitTxs({
                           )
                         : DATATABLE_COLUMNS
                 }
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
                 getRowDataCallback={fn => (getRowDataRef.current = fn)}
                 mutateCallback={fn => (mutateRef.current = fn)}
+                tableId="transaction-datatable"
+                title="Riwayat Transaksi"
             />
-            <DialogWithTitle title="Tambah Transaksi" open={isOpenDialog}>
+            <DialogWithTitle open={isOpenDialog} title="Tambah Transaksi">
                 <Formik
-                    initialValues={{}}
+                    component={UnitTxForm}
                     initialStatus={{
                         businessUnit: businessUnit,
                     }}
+                    initialValues={{}}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
@@ -146,16 +150,14 @@ export default function UnitTxs({
                             })
                             .catch(error => handle422(error, setErrors))
                     }
-                    onReset={handleClose}
-                    component={UnitTxForm}
                 />
             </DialogWithTitle>
 
             {businessUnit !== BusinessUnit.BENGKEL && (
                 <Fab
-                    onClick={() => setIsOpenDialog(true)}
+                    aria-label="Tambah transaksi"
                     disabled={isOpenDialog}
-                    aria-label="Tambah transaksi">
+                    onClick={() => setIsOpenDialog(true)}>
                     <PaymentsIcon />
                 </Fab>
             )}
@@ -165,26 +167,26 @@ export default function UnitTxs({
 
 const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: 'excluded',
         },
     },
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
             searchable: false,
             sort: false,
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRender: toDmy,
+            setCellProps: getNoWrapCellProps,
         },
     },
     {
@@ -195,61 +197,59 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         },
     },
     {
-        name: 'cash_name',
         label: 'Kas',
+        name: 'cash_name',
         options: {
-            searchable: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowDataRefGlobal.current?.(dataIndex)
                 const chipColor = (data?.amount ?? 0) > 0 ? 'success' : 'error'
 
                 return data?.cash_name ? (
                     <Chip
+                        color={chipColor}
                         label={data?.cash_name}
                         size="small"
-                        color={chipColor}
                     />
                 ) : (
                     ''
                 )
             },
+            searchable: false,
         },
     },
     {
-        name: 'wallet_name',
         label: 'Wallet',
+        name: 'wallet_name',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowDataRefGlobal.current?.(dataIndex)
 
                 return data?.wallet_name ? (
                     <Chip
+                        color={data.wallet_chip_color}
                         label={data.wallet_name}
                         size="small"
-                        color={data.wallet_chip_color}
                     />
                 ) : (
                     ''
                 )
             },
+            searchable: false,
+            sort: false,
         },
     },
     {
         name: 'tags.name',
         options: {
-            sort: false,
             display: 'excluded',
             download: false,
+            sort: false,
         },
     },
     {
-        name: 'tag_names',
         label: 'Akun',
+        name: 'tag_names',
         options: {
-            sort: false,
-            searchable: false,
             customBodyRenderLite: dataIndex => {
                 return getRowDataRefGlobal
                     .current?.(dataIndex)
@@ -258,31 +258,33 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
                         <Chip key={tagName} label={tagName} size="small" />
                     ))
             },
+            searchable: false,
+            sort: false,
         },
     },
     {
-        name: 'amount',
         label: 'Nilai (Rp)',
+        name: 'amount',
         options: {
+            customBodyRender: (value: number) => (
+                <span
+                    style={{
+                        color: value <= 0 ? 'inherit' : green[500],
+                        whiteSpace: 'nowrap',
+                    }}>
+                    {formatNumber(value)}
+                </span>
+            ),
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
                 },
             }),
-            customBodyRender: (value: number) => (
-                <span
-                    style={{
-                        whiteSpace: 'nowrap',
-                        color: value <= 0 ? 'inherit' : green[500],
-                    }}>
-                    {formatNumber(value)}
-                </span>
-            ),
         },
     },
     {
-        name: 'desc',
         label: 'Keterangan',
+        name: 'desc',
         options: {
             setCellProps: () => ({
                 style: {
@@ -292,8 +294,8 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
         },
     },
     {
-        name: 'userActivityLogs.user.name',
         label: 'Oleh',
+        name: 'userActivityLogs.user.name',
         options: {
             customBodyRenderLite: dataIndex =>
                 getRowDataRefGlobal.current?.(dataIndex)

@@ -1,32 +1,32 @@
 'use client'
 
-// types
-import type InventoryItem from '@/types/orms/inventory-item'
+// materials
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid'
+// vendors
+import type { AxiosResponse } from 'axios'
+import { notFound, useParams } from 'next/navigation'
+import useSWR from 'swr'
+import AssignPicButtonAndDialogForm from '@/app/(auth)/inventories/items/[uuid]/_parts/assign-pic-button-and-dialog-form'
+import CheckupButtonAndDialogForm from '@/app/(auth)/inventories/items/[uuid]/_parts/checkup-button-and-dialog-form'
+// page components
+import type { InventoryItemFormValues } from '@/app/(auth)/inventories/items/[uuid]/_parts/form'
+import InventoryItemFormWithFormik from '@/app/(auth)/inventories/items/[uuid]/_parts/form/with-formik'
+// components
+import BackButton from '@/components/back-button'
 import type {
     DatatableProps,
     GetRowDataType,
     MutateType,
 } from '@/components/Datatable'
-// vendors
-import type { AxiosResponse } from 'axios'
-import { notFound, useParams } from 'next/navigation'
-import axios from '@/lib/axios'
-import useSWR from 'swr'
-// materials
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Grid from '@mui/material/Grid'
-// components
-import BackButton from '@/components/back-button'
 import Datatable from '@/components/Datatable'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
-// page components
-import type { InventoryItemFormValues } from '@/app/(auth)/inventories/items/[uuid]/_parts/form'
-import InventoryItemFormWithFormik from '@/app/(auth)/inventories/items/[uuid]/_parts/form/with-formik'
-import AssignPicButtonAndDialogForm from '@/app/(auth)/inventories/items/[uuid]/_parts/assign-pic-button-and-dialog-form'
-import CheckupButtonAndDialogForm from '@/app/(auth)/inventories/items/[uuid]/_parts/checkup-button-and-dialog-form'
+import axios from '@/lib/axios'
+// types
+import type InventoryItem from '@/types/orms/inventory-item'
 
 let picMutator: MutateType<InventoryItem['latest_pic']>
 let checkupMutator: MutateType<InventoryItem['latest_checkup']>
@@ -63,56 +63,56 @@ export default function InventoryItemDetail() {
 
             <Grid
                 container
-                spacing={2}
                 direction={{
-                    xs: 'column-reverse',
                     sm: 'row',
-                }}>
+                    xs: 'column-reverse',
+                }}
+                spacing={2}>
                 <Grid
                     size={{
-                        xs: 12,
                         sm: 8,
+                        xs: 12,
                     }}>
                     <CheckupButtonAndDialogForm
-                        uuid={inventoryItem.uuid}
-                        onSubmit={() => checkupMutator()}
                         latestPic={inventoryItem.latest_pic}
+                        onSubmit={() => checkupMutator()}
+                        uuid={inventoryItem.uuid}
                     />
 
                     <FlexColumnBox gap={3}>
                         <Datatable
-                            title="Pemeriksaan"
-                            tableId="inventory-item-checkup-table"
                             apiUrl={`inventory-items/${inventoryItem.uuid}/checkups/datatable`}
                             columns={CHECKUP_DATATABLE_COLUMNS}
                             defaultSortOrder={DEFAULT_SORT_ORDER}
-                            mutateCallback={fn => (checkupMutator = fn)}
                             getRowDataCallback={fn => (getCheckupRowData = fn)}
+                            mutateCallback={fn => (checkupMutator = fn)}
+                            tableId="inventory-item-checkup-table"
+                            title="Pemeriksaan"
                         />
 
                         <Datatable
-                            title="Penanggung Jawab"
-                            tableId="inventory-item-pic-table"
                             apiUrl={`inventory-items/${inventoryItem.uuid}/pics/datatable`}
                             columns={PIC_DATATABLE_COLUMNS}
                             defaultSortOrder={DEFAULT_SORT_ORDER}
-                            mutateCallback={mutate => (picMutator = mutate)}
                             getRowDataCallback={fn => (getPicRowData = fn)}
+                            mutateCallback={mutate => (picMutator = mutate)}
+                            tableId="inventory-item-pic-table"
+                            title="Penanggung Jawab"
                         />
                     </FlexColumnBox>
                 </Grid>
                 <Grid
                     size={{
-                        xs: 12,
                         sm: 4,
+                        xs: 12,
                     }}>
                     <AssignPicButtonAndDialogForm
-                        uuid={inventoryItem.uuid}
                         latestPic={inventoryItem.latest_pic}
                         onSubmit={() => {
                             picMutator()
                             mutate()
                         }}
+                        uuid={inventoryItem.uuid}
                     />
 
                     <Card
@@ -127,13 +127,13 @@ export default function InventoryItemDetail() {
                                         inventoryItem.rentable
                                             ?.default_rate_rp_per_unit ??
                                         undefined,
-                                    tags: inventoryItem.tags ?? [],
                                     default_rate_unit:
                                         inventoryItem.rentable
                                             ?.default_rate_unit ?? undefined,
+                                    tags: inventoryItem.tags ?? [],
                                 }}
-                                onSubmitted={mutate}
                                 onReset={() => null}
+                                onSubmitted={mutate}
                             />
                         </CardContent>
                     </Card>
@@ -144,20 +144,20 @@ export default function InventoryItemDetail() {
 }
 
 const DEFAULT_SORT_ORDER = {
-    name: 'at',
     direction: 'desc' as const,
+    name: 'at',
 }
 
 const PIC_DATATABLE_COLUMNS: DatatableProps<
     InventoryItem['latest_pic']
 >['columns'] = [
     {
-        name: 'at',
         label: 'Pada',
+        name: 'at',
     },
     {
-        name: 'picUser.name',
         label: 'Oleh',
+        name: 'picUser.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const { pic_user } = getPicRowData(dataIndex) ?? {}
@@ -175,16 +175,16 @@ const CHECKUP_DATATABLE_COLUMNS: DatatableProps<
     InventoryItem['latest_checkup']
 >['columns'] = [
     {
-        name: 'at',
         label: 'Pada',
+        name: 'at',
     },
     {
-        name: 'note',
         label: 'Pemeriksaan',
+        name: 'note',
     },
     {
-        name: 'byUser.name',
         label: 'Oleh',
+        name: 'byUser.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const { by_user } = getCheckupRowData(dataIndex) ?? {}

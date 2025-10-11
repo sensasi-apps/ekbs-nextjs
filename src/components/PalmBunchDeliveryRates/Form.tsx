@@ -1,32 +1,33 @@
 // types
-import type { ChangeEvent } from 'react'
-import type FormType from '@/components/Global/Form/type'
-import type PalmBunchDeliveryRateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate'
-import type PalmBunchDeliveryRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
-import type { Ymd } from '@/types/date-string'
-// vendors
-import { useEffect, useState } from 'react'
+
 // materials
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/GridLegacy'
-import TextField from '@mui/material/TextField'
+import InputAdornment from '@mui/material/InputAdornment'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import InputAdornment from '@mui/material/InputAdornment'
+import dayjs from 'dayjs'
+import type { ChangeEvent } from 'react'
+// vendors
+import { useEffect, useState } from 'react'
 // components
 import DatePicker from '@/components/DatePicker'
+import type FormType from '@/components/Global/Form/type'
 import NumericFormat from '@/components/Global/NumericFormat'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs
 import axios from '@/lib/axios'
+import type PalmBunchDeliveryRateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate'
+import type PalmBunchDeliveryRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
+import type { Ymd } from '@/types/date-string'
 import debounce from '@/utils/debounce'
 import weekOfMonths from '@/utils/week-of-month'
-import dayjs from 'dayjs'
 
 const oilMillCodes: readonly string[] = ['COM', 'POM', 'SOM']
 const categories: readonly string[] = ['Atas', 'Bawah', 'Tengah']
@@ -34,9 +35,9 @@ const emptyDeliveryRates: PalmBunchDeliveryRateType[] = oilMillCodes.reduce(
     (acc: PalmBunchDeliveryRateType[], millCode) => {
         categories.forEach(category => {
             acc.push({
-                to_oil_mill_code: millCode,
                 from_position: category,
                 rp_per_kg: 0,
+                to_oil_mill_code: millCode,
             })
         })
 
@@ -80,9 +81,9 @@ export default function PalmBunchDeliveryRatesForm({
         setSubmitting(true)
 
         const payload = {
+            delivery_rates: deliveryRates,
             valid_from: validFrom.format(),
             valid_until: validFrom.clone().add(6, 'days').format(),
-            delivery_rates: deliveryRates,
         } as PalmBunchDeliveryRateValidDateType
 
         return axios
@@ -145,68 +146,68 @@ export default function PalmBunchDeliveryRatesForm({
     }
 
     return (
-        <form onSubmit={handleSubmit} autoComplete="off">
+        <form autoComplete="off" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-                <Grid item xs={6} sm={6}>
+                <Grid item sm={6} xs={6}>
                     <DatePicker
-                        shouldDisableDate={date => date?.day() !== 2}
                         disabled={loading}
-                        value={validFrom}
-                        slotProps={{
-                            textField: {
-                                required: true,
-                                fullWidth: true,
-                                name: 'valid_from',
-                                label: 'Tanggal Berlaku',
-                                margin: 'dense',
-                                size: 'small',
-                                error: Boolean(validationErrors.valid_from),
-                                helperText: validationErrors.valid_from,
-                            },
-                        }}
                         onChange={value => {
                             setValidFrom(value)
                             clearByName('valid_until')
                         }}
+                        shouldDisableDate={date => date?.day() !== 2}
+                        slotProps={{
+                            textField: {
+                                error: Boolean(validationErrors.valid_from),
+                                fullWidth: true,
+                                helperText: validationErrors.valid_from,
+                                label: 'Tanggal Berlaku',
+                                margin: 'dense',
+                                name: 'valid_from',
+                                required: true,
+                                size: 'small',
+                            },
+                        }}
+                        value={validFrom}
                     />
                 </Grid>
 
-                <Grid item xs={6} sm={6}>
+                <Grid item sm={6} xs={6}>
                     <DatePicker
-                        readOnly
                         disabled={loading}
+                        readOnly
+                        slotProps={{
+                            textField: {
+                                error: Boolean(validationErrors.valid_from),
+                                fullWidth: true,
+                                helperText: validationErrors.valid_from,
+                                label: 'Hingga',
+                                margin: 'dense',
+                                name: 'valid_until',
+                                required: true,
+                                size: 'small',
+                            },
+                        }}
                         value={
                             validFrom ? validFrom.clone().add(6, 'days') : null
                         }
-                        slotProps={{
-                            textField: {
-                                required: true,
-                                fullWidth: true,
-                                name: 'valid_until',
-                                label: 'Hingga',
-                                margin: 'dense',
-                                size: 'small',
-                                error: Boolean(validationErrors.valid_from),
-                                helperText: validationErrors.valid_from,
-                            },
-                        }}
                     />
                 </Grid>
             </Grid>
 
-            <Fade in={Boolean(validFrom)} exit={false} unmountOnExit>
+            <Fade exit={false} in={Boolean(validFrom)} unmountOnExit>
                 <div>
                     <Typography
-                        variant="h5"
                         component="div"
+                        mt={4}
                         textAlign="center"
-                        mt={4}>
+                        variant="h5">
                         {validFrom?.format('MMMM ')} #
                         {validFrom && weekOfMonths(validFrom)}{' '}
                         <Typography
-                            variant="caption"
                             color="GrayText"
-                            component="span">
+                            component="span"
+                            variant="caption">
                             ({validFrom?.year()})
                         </Typography>
                     </Typography>
@@ -229,15 +230,35 @@ export default function PalmBunchDeliveryRatesForm({
                                         <TableCell key={millCode + category}>
                                             <TextField
                                                 disabled={loading}
+                                                error={Boolean(
+                                                    validationErrors[
+                                                        `rp_per_kgs[${millCode}][${category}]`
+                                                    ],
+                                                )}
                                                 fullWidth
-                                                required
-                                                margin="none"
-                                                size="small"
+                                                helperText={
+                                                    validationErrors[
+                                                        `rp_per_kgs[${millCode}][${category}]`
+                                                    ]
+                                                }
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            /kg
+                                                        </InputAdornment>
+                                                    ),
+                                                    inputComponent:
+                                                        NumericFormat,
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            Rp
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
                                                 inputProps={{
                                                     decimalScale: 0,
-                                                    minLength: 1,
                                                     maxLength: 5,
-                                                    valueIsNumericString: false,
+                                                    minLength: 1,
                                                     onValueChange: ({
                                                         floatValue,
                                                     }: {
@@ -248,36 +269,16 @@ export default function PalmBunchDeliveryRatesForm({
                                                             category,
                                                             floatValue,
                                                         ),
+                                                    valueIsNumericString: false,
                                                 }}
+                                                margin="none"
                                                 onChange={handleValuesChange}
+                                                required
+                                                size="small"
                                                 value={getRpValue(
                                                     millCode,
                                                     category,
                                                 )}
-                                                error={Boolean(
-                                                    validationErrors[
-                                                        `rp_per_kgs[${millCode}][${category}]`
-                                                    ],
-                                                )}
-                                                helperText={
-                                                    validationErrors[
-                                                        `rp_per_kgs[${millCode}][${category}]`
-                                                    ]
-                                                }
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            Rp
-                                                        </InputAdornment>
-                                                    ),
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            /kg
-                                                        </InputAdornment>
-                                                    ),
-                                                    inputComponent:
-                                                        NumericFormat,
-                                                }}
                                             />
                                         </TableCell>
                                     ))}

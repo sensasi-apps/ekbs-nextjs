@@ -1,11 +1,11 @@
 const staticOptions = {
     filter: false,
-    serverSide: true,
-    responsive: 'standard' as const,
-    selectableRows: 'none' as const,
-    print: false,
     jumpToPage: true,
+    print: false,
+    responsive: 'standard' as const,
     searchDelay: 500,
+    selectableRows: 'none' as const,
+    serverSide: true,
 }
 
 export default staticOptions

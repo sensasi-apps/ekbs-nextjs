@@ -1,30 +1,31 @@
 // types
-import type { FormikProps } from 'formik'
-import type CashType from '@/types/orms/cash'
-// vendors
-import axios from '@/lib/axios'
-import { FastField, Form, useFormik } from 'formik'
+
+// icons
+import DeleteIcon from '@mui/icons-material/Delete'
 // materials
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/GridLegacy'
 import Typography from '@mui/material/Typography'
-// icons
-import DeleteIcon from '@mui/icons-material/Delete'
+import type { FormikProps } from 'formik'
+import { FastField, Form, useFormik } from 'formik'
+import FormLoadingBar from '@/components/Dialog/LoadingBar'
 // components
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
-import FormLoadingBar from '@/components/Dialog/LoadingBar'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-// utils
-import { mutate } from './list'
-import errorCatcher from '@/utils/handle-422'
-import numberToCurrency from '@/utils/number-to-currency'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums
 import CashPermission from '@/enums/permissions/Cash'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// vendors
+import axios from '@/lib/axios'
+import type CashType from '@/types/orms/cash'
+import errorCatcher from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
+// utils
+import { mutate } from './list'
 
 export const INITIAL_VALUES: Partial<CashType> = {}
 
@@ -62,13 +63,13 @@ export default function CashForm({
         <>
             <FormLoadingBar in={isProcessing} />
             <Form autoComplete="off" id="cash-form">
-                <input type="hidden" name="uuid" value={values.uuid} />
+                <input name="uuid" type="hidden" value={values.uuid} />
 
                 {errors.uuid && (
                     <FormControl
                         style={{
-                            marginTop: 0,
                             marginBottom: '1em',
+                            marginTop: 0,
                         }}>
                         <FormHelperText error={true}>
                             *{errors.uuid}
@@ -83,22 +84,22 @@ export default function CashForm({
                     </Typography>
                 )}
 
-                <Grid container columnSpacing={2}>
-                    <Grid item xs={12} sm={6}>
+                <Grid columnSpacing={2} container>
+                    <Grid item sm={6} xs={12}>
                         <FastField
-                            name="code"
-                            label="Kode"
-                            disabled={isProcessing}
                             component={TextFieldFastableComponent}
+                            disabled={isProcessing}
+                            label="Kode"
+                            name="code"
                         />
                     </Grid>
 
-                    <Grid item xs={12} sm={6}>
+                    <Grid item sm={6} xs={12}>
                         <FastField
-                            name="name"
-                            label="Nama"
-                            disabled={isProcessing}
                             component={TextFieldFastableComponent}
+                            disabled={isProcessing}
+                            label="Nama"
+                            name="name"
                         />
                     </Grid>
                 </Grid>
@@ -115,11 +116,11 @@ export default function CashForm({
                         }}>
                         {isDeletable && (
                             <Button
-                                size="small"
-                                onClick={() => handleDelete()}
                                 color="error"
+                                disabled={isSubmitting}
                                 loading={isDeleting}
-                                disabled={isSubmitting}>
+                                onClick={() => handleDelete()}
+                                size="small">
                                 <DeleteIcon />
                             </Button>
                         )}
@@ -132,10 +133,10 @@ export default function CashForm({
                     />
 
                     <FormSubmitButton
-                        oldDirty={isOldDirty}
                         disabled={isProcessing || !dirty}
-                        loading={isSubmitting}
                         form="cash-form"
+                        loading={isSubmitting}
+                        oldDirty={isOldDirty}
                     />
                 </div>
             </Form>

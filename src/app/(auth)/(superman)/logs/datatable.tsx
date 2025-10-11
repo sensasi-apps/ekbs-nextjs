@@ -1,54 +1,54 @@
 'use client'
 
-// vendors
-import dayjs from 'dayjs'
 // materials
 import Typography from '@mui/material/Typography'
+// vendors
+import dayjs from 'dayjs'
 // components
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 
 export default function LogsDataTable() {
     return (
         <Datatable
-            tableId="logs-table"
             apiUrl="_/logs-datatable-data"
             columns={DATATABLE_COLUMNS}
             defaultSortOrder={{
-                name: 'at',
                 direction: 'desc',
+                name: 'at',
             }}
+            tableId="logs-table"
         />
     )
 }
 
 const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender: value =>
                 dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
         },
     },
     {
-        name: 'user.name',
         label: 'User',
+        name: 'user.name',
     },
     {
-        name: 'action',
         label: 'Aksi',
+        name: 'action',
     },
     {
-        name: 'model_value_changed',
         label: 'Detail',
+        name: 'model_value_changed',
         options: {
             customBodyRender: (value: object) =>
                 Object.entries(value).map(([key, value], i) => (
                     <Typography key={i} variant="body2">
                         <Typography
-                            variant="caption"
                             color="gray"
-                            component="span">
+                            component="span"
+                            variant="caption">
                             {key}:&nbsp;
                         </Typography>
                         {value as string}
@@ -57,7 +57,7 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         },
     },
     {
-        name: 'model_classname',
         label: 'Nama Model',
+        name: 'model_classname',
     },
 ]

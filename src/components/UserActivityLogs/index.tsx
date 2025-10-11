@@ -1,11 +1,12 @@
 // types
-import type ActivityLogType from '@/types/orms/activity-log'
-// vendors
-import { memo, useState } from 'react'
-// materials
-import Button from '@mui/material/Button'
+
 // icons
 import InfoIcon from '@mui/icons-material/Info'
+// materials
+import Button from '@mui/material/Button'
+// vendors
+import { memo, useState } from 'react'
+import type ActivityLogType from '@/types/orms/activity-log'
 // components
 import UserActivityLogsDialogTable from './DialogTable'
 
@@ -22,9 +23,9 @@ const UserActivityLogs = memo(function UserActivityLogs({
                 Riwayat Data
             </Button>
             <UserActivityLogsDialogTable
+                data={data}
                 open={open}
                 setIsOpen={setOpen}
-                data={data}
             />
         </>
     )

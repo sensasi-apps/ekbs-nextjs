@@ -1,6 +1,10 @@
 // vendors
-import type { JSX } from 'react'
-import { Field, useFormikContext, type FieldProps } from 'formik'
+
+// icons
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
+import MoneyIcon from '@mui/icons-material/Money'
+import SplitscreenIcon from '@mui/icons-material/Splitscreen'
+import WorkIcon from '@mui/icons-material/Work'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -12,24 +16,21 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
-// icons
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
-import MoneyIcon from '@mui/icons-material/Money'
-import SplitscreenIcon from '@mui/icons-material/Splitscreen'
-import WorkIcon from '@mui/icons-material/Work'
-// components
-import type CashType from '@/types/orms/cash'
+import { Field, type FieldProps, useFormikContext } from 'formik'
+import type { JSX } from 'react'
 import NumericField from '@/components/formik-fields/numeric-field'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-//
-import type BusinessUnitCash from '@/types/orms/business-unit-cash'
-// utils
-import numberToCurrency from '@/utils/number-to-currency'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
+//
+import type BusinessUnitCash from '@/types/orms/business-unit-cash'
+// components
+import type CashType from '@/types/orms/cash'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+// utils
+import numberToCurrency from '@/utils/number-to-currency'
 
 interface CashOption {
     value: 'cash' | 'business-unit' | 'installment'
@@ -39,19 +40,19 @@ interface CashOption {
 
 const CASH_SELECT_OPTIONS: CashOption[] = [
     {
+        icon: <MoneyIcon />,
         label: 'Tunai',
         value: 'cash',
-        icon: <MoneyIcon />,
     },
     {
+        icon: <WorkIcon />,
         label: 'Unit Bisnis',
         value: 'business-unit',
-        icon: <WorkIcon />,
     },
     {
+        icon: <SplitscreenIcon />,
         label: 'Angsuran',
         value: 'installment',
-        icon: <SplitscreenIcon />,
     },
 ]
 
@@ -76,7 +77,7 @@ export default function PaymentInput({
                 }: FieldProps<'cash' | 'business-unit' | 'installment'>) => {
                     return (
                         <>
-                            <Typography mb={1} mt={2} color="text.secondary">
+                            <Typography color="text.secondary" mb={1} mt={2}>
                                 {label}*
                             </Typography>
 
@@ -86,19 +87,12 @@ export default function PaymentInput({
                                         <Chip
                                             key={optionValue}
                                             {...rest}
-                                            sx={{
-                                                fontSize: 20,
-                                                fontWeight: 'bold',
-                                                py: 3,
-                                                px: 2,
-                                                borderRadius: 10,
-                                            }}
-                                            disabled={isDisabled}
                                             color={
                                                 selectedValue === optionValue
                                                     ? 'success'
                                                     : 'default'
                                             }
+                                            disabled={isDisabled}
                                             onClick={() => {
                                                 setFieldValue(
                                                     'to_cash_uuid',
@@ -127,6 +121,13 @@ export default function PaymentInput({
 
                                                 setFieldValue(name, optionValue)
                                             }}
+                                            sx={{
+                                                borderRadius: 10,
+                                                fontSize: 20,
+                                                fontWeight: 'bold',
+                                                px: 2,
+                                                py: 3,
+                                            }}
                                         />
                                     ),
                                 )}
@@ -146,7 +147,7 @@ export default function PaymentInput({
                 <>
                     <RpAdjustmentField isDisabled={isDisabled} />
                     <TotalRpText />
-                    <CashPicker name="cash_uuid" isDisabled={isDisabled} />
+                    <CashPicker isDisabled={isDisabled} name="cash_uuid" />
                 </>
             )}
 
@@ -154,15 +155,15 @@ export default function PaymentInput({
                 <>
                     <TotalRpText />
                     <BuCashPicker
-                        name="business_unit_cash_uuid"
                         isDisabled={isDisabled}
+                        name="business_unit_cash_uuid"
                     />
                 </>
             )}
 
             {values.payment_method === 'installment' && (
                 <>
-                    <Typography variant="h6" component="div" mt={2}>
+                    <Typography component="div" mt={2} variant="h6">
                         Rincian Potongan TBS
                     </Typography>
 
@@ -189,18 +190,18 @@ export default function PaymentInput({
                         /> */}
 
                         <NumericField
-                            name="installment_data.n_term"
-                            label="Jangka Waktu"
                             disabled={isDisabled}
+                            label="Jangka Waktu"
+                            name="installment_data.n_term"
                             numericFormatProps={{
-                                min: 1,
                                 decimalScale: 0,
                                 InputProps: {
                                     inputProps: {
-                                        minLength: 1,
                                         maxLength: 2,
+                                        minLength: 1,
                                     },
                                 },
+                                min: 1,
                                 ...errorsToHelperTextObj(
                                     errors.installment_data,
                                 ),
@@ -208,26 +209,28 @@ export default function PaymentInput({
                         />
 
                         <FormControl
-                            required
-                            margin="dense"
                             disabled={isDisabled}
+                            error={Boolean(errors.installment_data)}
                             fullWidth
-                            error={Boolean(errors.installment_data)}>
+                            margin="dense"
+                            required>
                             <InputLabel size="small">
                                 Satuan Waktu Angsuran
                             </InputLabel>
 
                             <Select
                                 label="Satuan Waktu Angsuran"
-                                size="small"
-                                required
                                 name="installment_data.term_unit"
-                                value={values.installment_data?.term_unit ?? ''}
                                 onChange={({ target: { value } }) =>
                                     setFieldValue(
                                         'installment_data.term_unit',
                                         value,
                                     )
+                                }
+                                required
+                                size="small"
+                                value={
+                                    values.installment_data?.term_unit ?? ''
                                 }>
                                 <MenuItem value="minggu">Minggu</MenuItem>
                                 <MenuItem value="bulan">Bulan</MenuItem>
@@ -266,18 +269,18 @@ function CashPicker({
                     <SelectFromApi
                         disabled={isDisabled}
                         endpoint="/data/cashes"
-                        label="Telah dibayar ke kas"
                         fullWidth
-                        required
-                        size="small"
+                        label="Telah dibayar ke kas"
                         margin="dense"
+                        onValueChange={(value: CashType) =>
+                            setFieldValue(name, value.uuid)
+                        }
+                        required
                         selectProps={{
                             name: name,
                             value: value ?? '',
                         }}
-                        onValueChange={(value: CashType) =>
-                            setFieldValue(name, value.uuid)
-                        }
+                        size="small"
                         {...errorsToHelperTextObj(error)}
                     />
                 )
@@ -306,18 +309,15 @@ function RpAdjustmentField({ isDisabled }: { isDisabled: boolean }) {
 
     return (
         <NumericField
-            name="adjustment_rp"
             disabled={isDisabled}
             label="Penyesuaian"
+            name="adjustment_rp"
             numericFormatProps={{
                 fullWidth: false,
-                value: values.adjustment_rp ?? 0,
                 InputProps: {
-                    startAdornment: <RpInputAdornment />,
                     endAdornment: (
                         <InputAdornment position="end">
                             <IconButton
-                                size="small"
                                 color="warning"
                                 disabled={isDisabled}
                                 onClick={() =>
@@ -326,19 +326,22 @@ function RpAdjustmentField({ isDisabled }: { isDisabled: boolean }) {
                                         Math.ceil(totalRp / 1000) * 1000 -
                                             totalRp,
                                     )
-                                }>
+                                }
+                                size="small">
                                 <AutoFixHighIcon />
                             </IconButton>
                         </InputAdornment>
                     ),
+                    startAdornment: <RpInputAdornment />,
                     sx: {
                         paddingRight: 0,
                     },
                 },
                 inputProps: {
-                    minLength: 1,
                     maxLength: 3,
+                    minLength: 1,
                 },
+                value: values.adjustment_rp ?? 0,
             }}
         />
     )
@@ -349,8 +352,8 @@ function TotalRpText() {
     const { totalRp } = calculateTotals(values)
 
     return (
-        <Box display="flex" gap={2} alignItems="center">
-            <Typography component="div" color="gray">
+        <Box alignItems="center" display="flex" gap={2}>
+            <Typography color="gray" component="div">
                 TOTAL KESELURUHAN
             </Typography>
 
@@ -358,8 +361,8 @@ function TotalRpText() {
                 component="div"
                 fontFamily="monospace"
                 sx={{
-                    fontWeight: 'bold',
                     fontSize: '2em',
+                    fontWeight: 'bold',
                 }}>
                 {numberToCurrency(totalRp)}
             </Typography>
@@ -383,24 +386,24 @@ function BuCashPicker({
             }: FieldProps) => {
                 return (
                     <SelectFromApi
-                        required
                         disabled={isDisabled}
                         endpoint="/data/business-unit-cashes"
                         label="Unit Bisnis"
-                        size="small"
                         margin="dense"
-                        selectProps={{
-                            value: value ?? '',
-                            name: name,
-                        }}
+                        onValueChange={(value: CashType) =>
+                            setFieldValue(name, value.uuid)
+                        }
                         renderOption={(buCash: BusinessUnitCash) => (
                             <MenuItem key={buCash.uuid} value={buCash.uuid}>
                                 {buCash.business_unit?.name}
                             </MenuItem>
                         )}
-                        onValueChange={(value: CashType) =>
-                            setFieldValue(name, value.uuid)
-                        }
+                        required
+                        selectProps={{
+                            name: name,
+                            value: value ?? '',
+                        }}
+                        size="small"
                         {...errorsToHelperTextObj(error)}
                     />
                 )

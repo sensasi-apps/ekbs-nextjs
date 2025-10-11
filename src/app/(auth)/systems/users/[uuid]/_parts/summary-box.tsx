@@ -1,6 +1,5 @@
 // vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import useSWR from 'swr'
+
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -8,10 +7,12 @@ import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import { useRouter, useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
+import LoadingCenter from '@/components/loading-center'
 // etc
 import { getRoleIconByIdName } from '@/components/User/RoleChips'
 import formatNumber from '@/utils/format-number'
-import LoadingCenter from '@/components/loading-center'
 
 interface ApiResponseItemType {
     role_name_id: string
@@ -31,16 +32,16 @@ export function UserSummaryBox() {
             gap={2}
             sx={{
                 alignItems: {
-                    xs: 'center',
                     md: 'stretch',
+                    xs: 'center',
                 },
-                overflowX: 'auto',
                 flexDirection: {
                     md: 'column',
                 },
+                overflowX: 'auto',
             }}>
             {data.map((item, i) => (
-                <SummaryCard key={i} data={item} />
+                <SummaryCard data={item} key={i} />
             ))}
         </Box>
     )
@@ -58,15 +59,15 @@ function SummaryCard({
 
     return (
         <Card
-            variant={role === role_name ? 'outlined' : 'elevation'}
             sx={{
-                minWidth: {
-                    xs: 300,
-                    md: undefined,
-                },
                 borderColor: role === role_name ? 'success.main' : undefined,
                 color: role === role_name ? 'success.main' : undefined,
-            }}>
+                minWidth: {
+                    md: undefined,
+                    xs: 300,
+                },
+            }}
+            variant={role === role_name ? 'outlined' : 'elevation'}>
             <CardActionArea
                 disabled={!qty}
                 onClick={() => replace(`?role=${role_name}`)}>
@@ -86,7 +87,7 @@ function SummaryCard({
                         sx={{
                             p: 3,
                         }}>
-                        <Box display="flex" gap={2} alignItems="center">
+                        <Box alignItems="center" display="flex" gap={2}>
                             {getRoleIconByIdName(
                                 role_name_id.toLowerCase(),
                                 { fontSize: 64 },
@@ -101,7 +102,7 @@ function SummaryCard({
                                     {role_name_id}
                                 </Typography>
 
-                                <Typography variant="h4" component="div">
+                                <Typography component="div" variant="h4">
                                     {formatNumber(qty)}
                                 </Typography>
                             </Box>

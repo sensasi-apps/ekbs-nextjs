@@ -1,40 +1,40 @@
 'use client'
 
-// types
-import type { AxiosError } from 'axios'
-import type { DatatableProps, Mutate } from '@/components/Datatable/@types'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-import type Debt from '@/types/orms/debt'
-// vendors
-import { Formik } from 'formik'
-import { useState } from 'react'
-import axios from '@/lib/axios'
+// icons
+import PaymentsIcon from '@mui/icons-material/Payments'
 // materials
 import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
-// icons
-import PaymentsIcon from '@mui/icons-material/Payments'
+// types
+import type { AxiosError } from 'axios'
+// vendors
+import { Formik } from 'formik'
+import { useState } from 'react'
+import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
 // components
 import Datatable, { type GetRowDataType } from '@/components/Datatable'
+import type { DatatableProps, Mutate } from '@/components/Datatable/@types'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
-import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
+import PageTitle from '@/components/page-title'
 import FinancesDebtForm, {
     calcTotalRp,
     type FormValuesType,
 } from '@/components/pages/finances/debts/Form'
-import PageTitle from '@/components/page-title'
 import SettlementForm from '@/components/pages/finances/debts/SettlementForm'
 import ScrollableXBox from '@/components/ScrollableXBox'
+// enums
+import Finance from '@/enums/permissions/Finance'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+import type Debt from '@/types/orms/debt'
 // utils
 import handle422 from '@/utils/handle-422'
 import numberToCurrency from '@/utils/number-to-currency'
 import shortUuid from '@/utils/short-uuid'
 import toDmy from '@/utils/to-dmy'
-// enums
-import Finance from '@/enums/permissions/Finance'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let getRowData: GetRowDataType<Debt>
 let mutate: Mutate<Debt>
@@ -58,9 +58,11 @@ export default function Debts() {
         <>
             <PageTitle title="Hutang" />
             <Datatable
-                title="Daftar"
-                tableId="debts-table"
                 apiUrl={FinanceApiUrlEnum.DEBT_DATATABLE_DATA}
+                columns={DATATABLE_COLUMNS}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
                 onRowClick={(_, { dataIndex }) => {
                     const data = getRowData(dataIndex)
 
@@ -70,22 +72,22 @@ export default function Debts() {
                     })
                     setDebtData(data)
                 }}
-                columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                tableId="debts-table"
+                title="Daftar"
             />
 
             <DialogWithTitle
-                title="Tambah Data Hutang"
-                open={Boolean(formValues)}>
+                open={Boolean(formValues)}
+                title="Tambah Data Hutang">
                 <Formik
+                    component={FinancesDebtForm}
+                    initialStatus={{ debtData, setDebtDetail }}
                     initialValues={
                         formValues ?? {
                             is_final: false,
                         }
                     }
-                    initialStatus={{ debtData, setDebtDetail }}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
@@ -105,19 +107,19 @@ export default function Debts() {
                                 ) => handle422(error, setErrors),
                             )
                     }
-                    onReset={handleClose}
-                    component={FinancesDebtForm}
                 />
             </DialogWithTitle>
 
             <DialogWithTitle
-                title="Pelunasan Hutang"
-                open={Boolean(debtDetail)}>
+                open={Boolean(debtDetail)}
+                title="Pelunasan Hutang">
                 <Formik
+                    component={SettlementForm}
+                    initialStatus={debtDetail}
                     initialValues={{
                         rp: debtDetail?.rp ?? 0,
                     }}
-                    initialStatus={debtDetail}
+                    onReset={() => setDebtDetail(undefined)}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .put(
@@ -138,14 +140,12 @@ export default function Debts() {
                                 ) => handle422(error, setErrors),
                             )
                     }
-                    onReset={() => setDebtDetail(undefined)}
-                    component={SettlementForm}
                 />
             </DialogWithTitle>
 
             <Fab
-                in={isAuthHasPermission(Finance.CREATE_DEBT)}
                 disabled={!!formValues}
+                in={isAuthHasPermission(Finance.CREATE_DEBT)}
                 onClick={() => {
                     setFormValues({
                         is_final: false,
@@ -160,41 +160,35 @@ export default function Debts() {
 
 const DATATABLE_COLUMNS: DatatableProps<Debt>['columns'] = [
     {
-        name: 'uuid',
         label: 'Kode',
+        name: 'uuid',
         options: {
             customBodyRender: shortUuid,
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'businessUnit.name',
         label: 'Unit Bisnis',
+        name: 'businessUnit.name',
         options: {
             customBodyRenderLite: dataIndex =>
                 getRowData(dataIndex)?.business_unit?.name,
         },
     },
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
     },
     {
-        name: 'base_rp',
         label: 'Progres',
+        name: 'base_rp',
         options: {
-            setCellProps: () => ({
-                sx: {
-                    width: '50%',
-                    minWidth: 300,
-                },
-            }),
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
 
@@ -202,7 +196,7 @@ const DATATABLE_COLUMNS: DatatableProps<Debt>['columns'] = [
 
                 if (!data.details)
                     return (
-                        <Typography variant="caption" fontStyle="italic">
+                        <Typography fontStyle="italic" variant="caption">
                             Data belum final
                         </Typography>
                     )
@@ -215,13 +209,13 @@ const DATATABLE_COLUMNS: DatatableProps<Debt>['columns'] = [
 
                 const bars = data.details.map(({ paid }, i) => (
                     <LinearProgress
+                        color={paid ? 'success' : 'inherit'}
                         key={i}
                         sx={{
                             borderRadius: 5,
                             width: '100%',
                         }}
                         value={paid ? 100 : 0}
-                        color={paid ? 'success' : 'inherit'}
                         variant="determinate"
                     />
                 ))
@@ -230,10 +224,10 @@ const DATATABLE_COLUMNS: DatatableProps<Debt>['columns'] = [
                     <>
                         <ScrollableXBox mt={1}>{bars}</ScrollableXBox>
                         <Typography
-                            mt={1}
-                            variant="caption"
                             align="right"
-                            component="div">
+                            component="div"
+                            mt={1}
+                            variant="caption">
                             {numberToCurrency(paidTotalRp, {
                                 notation: 'compact',
                             })}{' '}
@@ -245,6 +239,12 @@ const DATATABLE_COLUMNS: DatatableProps<Debt>['columns'] = [
                     </>
                 )
             },
+            setCellProps: () => ({
+                sx: {
+                    minWidth: 300,
+                    width: '50%',
+                },
+            }),
         },
     },
 ]

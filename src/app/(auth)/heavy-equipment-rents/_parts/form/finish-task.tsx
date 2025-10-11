@@ -1,19 +1,20 @@
 // types
-import type RentItemRent from '@/types/orms/rent-item-rent'
-import type { FastFieldProps, FormikProps } from 'formik'
-// vendors
-import dayjs from 'dayjs'
-import { FastField } from 'formik'
+
 // materials
 import Box from '@mui/material/Box'
 import InputAdornment from '@mui/material/InputAdornment'
+// vendors
+import dayjs from 'dayjs'
+import type { FastFieldProps, FormikProps } from 'formik'
+import { FastField } from 'formik'
+// page components
+import HerTaskDetail from '@/app/(auth)/heavy-equipment-rents/_parts/her-task-detail'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/formik-form'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
-// page components
-import HerTaskDetail from '@/app/(auth)/heavy-equipment-rents/_parts/her-task-detail'
+import type RentItemRent from '@/types/orms/rent-item-rent'
 // uitls
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
@@ -29,42 +30,41 @@ export default function HeavyEquipmentRentFinishTaskForm({
 
     return (
         <FormikForm
-            id="heavy-equipment-rent-form"
             autoComplete="off"
-            isNew={false}
             dirty={dirty}
+            id="heavy-equipment-rent-form"
+            isNew={false}
             processing={isPropcessing}
-            submitting={isSubmitting}
             slotProps={{
-                submitButton: {
-                    disabled: isDisabled,
-                },
                 cancelButton: {
                     children: 'Batal',
                 },
-            }}>
+                submitButton: {
+                    disabled: isDisabled,
+                },
+            }}
+            submitting={isSubmitting}>
             <TextField
+                disabled={true}
                 label="Kode"
                 value={short_uuid}
                 variant="filled"
-                disabled={true}
             />
 
             <Box my={2}>
                 <HerTaskDetail data={values as RentItemRent} />
             </Box>
 
-            <FastField name="finished_at" disabled={isDisabled}>
+            <FastField disabled={isDisabled} name="finished_at">
                 {({
                     field: { value, name },
                     meta: { error },
                     form: { setFieldValue },
                 }: FastFieldProps) => (
                     <DatePicker
-                        value={value ? dayjs(value) : null}
-                        maxDate={dayjs()}
                         disabled={isDisabled}
                         label="Tanggal Selesai"
+                        maxDate={dayjs()}
                         onChange={date =>
                             setFieldValue(
                                 name,
@@ -76,26 +76,21 @@ export default function HeavyEquipmentRentFinishTaskForm({
                                 ...errorsToHelperTextObj(error),
                             },
                         }}
+                        value={value ? dayjs(value) : null}
                     />
                 )}
             </FastField>
 
             {rate_unit === 'H.M' && (
                 <Box display="inline-flex" gap={1}>
-                    <FastField name="start_hm" disabled={isDisabled}>
+                    <FastField disabled={isDisabled} name="start_hm">
                         {({
                             field: { value, name },
                             meta: { error },
                             form: { setFieldValue },
                         }: FastFieldProps) => (
                             <NumericFormat
-                                label="H.M Awal"
-                                value={value}
-                                name={name}
                                 disabled={isDisabled}
-                                onValueChange={({ floatValue }) =>
-                                    setFieldValue(name, floatValue)
-                                }
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -103,25 +98,25 @@ export default function HeavyEquipmentRentFinishTaskForm({
                                         </InputAdornment>
                                     ),
                                 }}
+                                label="H.M Awal"
+                                name={name}
+                                onValueChange={({ floatValue }) =>
+                                    setFieldValue(name, floatValue)
+                                }
+                                value={value}
                                 {...errorsToHelperTextObj(error)}
                             />
                         )}
                     </FastField>
 
-                    <FastField name="end_hm" disabled={isDisabled}>
+                    <FastField disabled={isDisabled} name="end_hm">
                         {({
                             field: { value, name },
                             meta: { error },
                             form: { setFieldValue },
                         }: FastFieldProps) => (
                             <NumericFormat
-                                label="H.M Akhir"
-                                value={value}
-                                name={name}
                                 disabled={isDisabled}
-                                onValueChange={({ floatValue }) =>
-                                    setFieldValue(name, floatValue)
-                                }
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -129,6 +124,12 @@ export default function HeavyEquipmentRentFinishTaskForm({
                                         </InputAdornment>
                                     ),
                                 }}
+                                label="H.M Akhir"
+                                name={name}
+                                onValueChange={({ floatValue }) =>
+                                    setFieldValue(name, floatValue)
+                                }
+                                value={value}
                                 {...errorsToHelperTextObj(error)}
                             />
                         )}

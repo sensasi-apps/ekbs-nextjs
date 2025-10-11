@@ -1,8 +1,8 @@
-import type { FormValuesType } from '../PaymentForm'
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import { useSearchParams } from 'next/navigation'
 // vendors
 import { useState } from 'react'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
+import type { FormValuesType } from '../PaymentForm'
 
 export function useHooks() {
     const searchParams = useSearchParams()
@@ -13,10 +13,10 @@ export function useHooks() {
     }>()
 
     return {
-        formikProps,
-        type: searchParams?.get('type'),
-        state: searchParams?.get('state'),
-        setFormikProps,
         closeFormDialog: () => setFormikProps(undefined),
+        formikProps,
+        setFormikProps,
+        state: searchParams?.get('state'),
+        type: searchParams?.get('type'),
     }
 }

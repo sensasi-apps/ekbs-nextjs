@@ -1,45 +1,45 @@
 'use client'
 
-// types
-import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
-import type ProductPurchaseType from '@/modules/farm-inputs/types/orms/product-purchase'
-import type { Ymd } from '@/types/date-string'
+// icons
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+// materials
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { Formik, type FormikConfig } from 'formik'
+// vendors
+import { useState } from 'react'
 import type {
     DatatableProps,
     GetRowDataType,
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-// vendors
-import { useState } from 'react'
-import axios from '@/lib/axios'
-import { Formik, type FormikConfig } from 'formik'
-// materials
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
+import ApiUrlEnum from '@/components/pages/farm-inputs/ApiUrlEnum'
 import ProductPurchaseForm, {
     EMPTY_FORM_STATUS,
     type FormValuesType,
     productPurchaseToFormValues,
 } from '@/components/pages/farm-inputs/product-purchases/Form'
-// icons
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+// enums
+import FarmInput from '@/enums/permissions/FarmInput'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+// types
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
+import type ProductPurchaseType from '@/modules/farm-inputs/types/orms/product-purchase'
+import type { Ymd } from '@/types/date-string'
+import formatNumber from '@/utils/format-number'
 // utils
 import errorCatcher from '@/utils/handle-422'
-import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
 import replaceNullPropValuesWithUndefined from '@/utils/replace-null-prop-values-with-undefined'
 import toDmy from '@/utils/to-dmy'
-// enums
-import FarmInput from '@/enums/permissions/FarmInput'
-import ApiUrlEnum from '@/components/pages/farm-inputs/ApiUrlEnum'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 
 let getRowData: GetRowDataType<ProductPurchaseType>
 let mutate: MutateType<ProductPurchaseType>
@@ -65,8 +65,8 @@ export default function FarmInputsProducts() {
             setInitialFormikValues(productPurchaseToFormValues(productPurchase))
 
             setInitialFormikStatus({
-                uuid: productPurchase.uuid,
                 hasTransaction: Boolean(productPurchase.transaction),
+                uuid: productPurchase.uuid,
             })
             setIsDialogOpen(true)
         }
@@ -100,17 +100,17 @@ export default function FarmInputsProducts() {
 
     return (
         <>
-            <PageTitle title="Pembelian Produk" subtitle="(re-stok)" />
+            <PageTitle subtitle="(re-stok)" title="Pembelian Produk" />
 
             <Datatable
-                title="Riwayat"
-                tableId="product-purchases-table"
                 apiUrl={ApiUrlEnum.PRODUCT_PURCHASE_DATATABLE}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'order', direction: 'desc' }}
-                onRowClick={handleRowClick}
+                defaultSortOrder={{ direction: 'desc', name: 'order' }}
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
+                onRowClick={handleRowClick}
+                tableId="product-purchases-table"
+                title="Riwayat"
             />
 
             {isAuthHasPermission([
@@ -118,24 +118,24 @@ export default function FarmInputsProducts() {
                 FarmInput.UPDATE_PRODUCT_PURCHASE,
             ]) && (
                 <DialogWithTitle
+                    maxWidth="lg"
+                    open={isDialogOpen}
                     title={
                         (isNew ? 'Tambah ' : 'Perbaharui ') + 'Data Pembelian'
-                    }
-                    open={isDialogOpen}
-                    maxWidth="lg">
+                    }>
                     <Formik
-                        initialValues={initialFormikValues}
-                        initialStatus={initialFormikStatus}
-                        onSubmit={handleOnSubmit}
-                        onReset={handleClose}
                         component={ProductPurchaseForm}
+                        initialStatus={initialFormikStatus}
+                        initialValues={initialFormikValues}
+                        onReset={handleClose}
+                        onSubmit={handleOnSubmit}
                     />
                 </DialogWithTitle>
             )}
 
             <Fab
-                onClick={handleNew}
-                in={isAuthHasPermission(FarmInput.CREATE_PRODUCT_PURCHASE)}>
+                in={isAuthHasPermission(FarmInput.CREATE_PRODUCT_PURCHASE)}
+                onClick={handleNew}>
                 <ShoppingCartIcon />
             </Fab>
         </>
@@ -161,17 +161,17 @@ function pmdsCustomBodyRender(pids: ProductMovementDetailORM[]) {
                     index,
                 ) => (
                     <Typography
-                        key={index}
-                        variant="overline"
                         component="li"
-                        lineHeight="unset">
+                        key={index}
+                        lineHeight="unset"
+                        variant="overline">
                         <span
                             dangerouslySetInnerHTML={{
                                 __html: name,
                             }}
                         />{' '}
                         &mdash; {formatNumber(qty)} {unit} &times;{' ('}
-                        <Tooltip title="harga beli" placement="top" arrow>
+                        <Tooltip arrow placement="top" title="harga beli">
                             <u
                                 style={{
                                     textDecorationStyle: 'dotted',
@@ -180,7 +180,7 @@ function pmdsCustomBodyRender(pids: ProductMovementDetailORM[]) {
                             </u>
                         </Tooltip>{' '}
                         +{' '}
-                        <Tooltip title="biaya lain" placement="top" arrow>
+                        <Tooltip arrow placement="top" title="biaya lain">
                             <u
                                 style={{
                                     textDecorationStyle: 'dotted',
@@ -201,44 +201,44 @@ function pmdsCustomBodyRender(pids: ProductMovementDetailORM[]) {
 
 const DATATABLE_COLUMNS: DatatableProps<ProductPurchaseType>['columns'] = [
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
             display: false,
         },
     },
     {
-        name: 'productMovement.warehouse',
         label: 'Gudang',
+        name: 'productMovement.warehouse',
         options: {
             customBodyRenderLite: dataIndex =>
                 getRowData(dataIndex)?.product_movement?.warehouse,
         },
     },
     {
-        name: 'order',
         label: 'Dipesan Tanggal',
+        name: 'order',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'due',
         label: 'Jatuh Tempo Tanggal',
+        name: 'due',
         options: {
             customBodyRender: (value: Ymd) => (value ? toDmy(value) : ''),
         },
     },
     {
-        name: 'received',
         label: 'Diterima Tanggal',
+        name: 'received',
         options: {
             customBodyRender: (value: Ymd) => (value ? toDmy(value) : ''),
         },
     },
     {
-        name: 'paid',
         label: 'Dibayar Tanggal',
+        name: 'paid',
         options: {
             customBodyRender: (value: Ymd) => (
                 <div
@@ -252,11 +252,11 @@ const DATATABLE_COLUMNS: DatatableProps<ProductPurchaseType>['columns'] = [
     },
 
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
         options: {
-            sort: false,
             display: false,
+            sort: false,
         },
     },
     {
@@ -272,20 +272,18 @@ const DATATABLE_COLUMNS: DatatableProps<ProductPurchaseType>['columns'] = [
         },
     },
     {
-        name: 'product_movement_details',
         label: 'Barang',
+        name: 'product_movement_details',
         options: {
+            customBodyRender: pmdsCustomBodyRender,
             searchable: false,
             sort: false,
-            customBodyRender: pmdsCustomBodyRender,
         },
     },
     {
-        name: 'total_rp',
         label: 'Total',
+        name: 'total_rp',
         options: {
-            searchable: false,
-            sort: false,
             customBodyRender: value => (
                 <span
                     style={{
@@ -294,6 +292,8 @@ const DATATABLE_COLUMNS: DatatableProps<ProductPurchaseType>['columns'] = [
                     {numberToCurrency(Number(value))}
                 </span>
             ),
+            searchable: false,
+            sort: false,
         },
     },
 ]

@@ -1,27 +1,27 @@
 'use client'
 
-import type { ApiResponseType } from '../me/participation/page'
-// vendors
-import useSWR from 'swr'
+// icons-materials
+import FireTruck from '@mui/icons-material/FireTruck'
+import Forest from '@mui/icons-material/Forest'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import FireTruck from '@mui/icons-material/FireTruck'
-import Forest from '@mui/icons-material/Forest'
-// components
-import ScrollableXBox from '@/components/ScrollableXBox'
+// vendors
+import useSWR from 'swr'
 import BigNumberCard, {
     type BigNumberCardProps,
 } from '@/components/big-number-card'
 import AlertListCard from '@/components/pages/dashboard/AlertListCard'
+// components
+import ScrollableXBox from '@/components/ScrollableXBox'
 // enums
 import Role from '@/enums/role'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import type { ApiResponseType } from '../me/participation/page'
 
 /**
  * The `Page` component represents the dashboard page of the application.
@@ -46,38 +46,38 @@ export default function Page() {
 
     return (
         <>
-            <Typography variant="h5" component="div" mb={4}>
+            <Typography component="div" mb={4} variant="h5">
                 Selamat datang,{' '}
                 {user?.name ? (
-                    <Typography color="info.main" variant="h5" component="span">
+                    <Typography color="info.main" component="span" variant="h5">
                         {user?.name}
                     </Typography>
                 ) : (
                     <Skeleton
-                        variant="rounded"
                         component="span"
-                        width="7rem"
                         height="2rem"
+                        variant="rounded"
+                        width="7rem"
                     />
                 )}
             </Typography>
 
             <ScrollableXBox
-                gap={3}
-                flex="1 1 0"
                 alignItems="stretch"
+                flex="1 1 0"
+                gap={3}
+                mb={6}
                 sx={{
                     '& > *': {
                         flex: '0 0 auto',
                         minWidth: '15rem',
                     },
-                }}
-                mb={6}>
+                }}>
                 {isAuthHasRole(Role.FARMER) && palmBunches && (
                     <BigNumberCard
                         {...palmBunches.bigNumber1}
                         title={
-                            <Box display="flex" alignItems="center" gap={2}>
+                            <Box alignItems="center" display="flex" gap={2}>
                                 <Forest />
                                 <div>Penjualan TBS bulan ini</div>
                             </Box>
@@ -89,7 +89,7 @@ export default function Page() {
                     <BigNumberCard
                         {...palmBunchesDelivery.bigNumber1}
                         title={
-                            <Box display="flex" alignItems="center" gap={2}>
+                            <Box alignItems="center" display="flex" gap={2}>
                                 <FireTruck />
                                 <div>Pengangkutan TBS bulan ini</div>
                             </Box>
@@ -103,7 +103,7 @@ export default function Page() {
             </ScrollableXBox>
 
             <Grid container spacing={2}>
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ md: 4, xs: 12 }}>
                     <AlertListCard />
                 </Grid>
             </Grid>

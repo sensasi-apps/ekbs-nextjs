@@ -1,23 +1,24 @@
 // types
-import type ActivityLogType from '@/types/orms/activity-log'
-import type CashType from '@/types/orms/cash'
-import type ProductMovement from '@/modules/mart/types/orms/product-movement'
-import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
-import type ProductMovementSale from '@/modules/mart/types/orms/product-movement-sale'
-import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
-// vendors
-import Image from 'next/image'
+
 // materials
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-// components
-import DefaultItemDesc from './default-item-desc'
-// utils
-import formatNumber from '@/utils/format-number'
+// vendors
+import Image from 'next/image'
 // assets
 import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
+import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
+import type ProductMovementSale from '@/modules/mart/types/orms/product-movement-sale'
+import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
+import type ActivityLogType from '@/types/orms/activity-log'
+import type CashType from '@/types/orms/cash'
+// utils
+import formatNumber from '@/utils/format-number'
+// components
+import DefaultItemDesc from './default-item-desc'
 
 export default function Receipt({
     data: {
@@ -57,23 +58,23 @@ export default function Receipt({
     return (
         <Box
             sx={{
-                color: 'black !important',
-                textTransform: 'uppercase',
-                maxWidth: '80mm',
                 '& > *': {
                     fontSize: '0.7em',
                 },
+                color: 'black !important',
+                maxWidth: '80mm',
+                textTransform: 'uppercase',
             }}>
-            <Typography gutterBottom fontWeight="bold">
+            <Typography fontWeight="bold" gutterBottom>
                 Struk Penjualan Belayan Mart
             </Typography>
 
-            <Box display="flex" gap={2} alignItems="center">
+            <Box alignItems="center" display="flex" gap={2}>
                 <Image
-                    width={96} // 6 rem
+                    alt="logo" // 6 rem
                     height={96} // 6 rem
                     src={martLogo}
-                    alt="logo"
+                    width={96}
                 />
 
                 <Box>
@@ -97,9 +98,9 @@ export default function Receipt({
                 </Box>
             </Box>
 
-            <Grid container mt={2} alignItems="center" rowSpacing={1.5}>
+            <Grid alignItems="center" container mt={2} rowSpacing={1.5}>
                 {details.map((detail, index) => (
-                    <DetailItem key={index} data={detail} />
+                    <DetailItem data={detail} key={index} />
                 ))}
             </Grid>
 
@@ -111,9 +112,9 @@ export default function Receipt({
                         }}
                     />
 
-                    <Grid container alignItems="center">
+                    <Grid alignItems="center" container>
                         {costs.map((cost, index) => (
-                            <CostItem key={index} data={cost} />
+                            <CostItem data={cost} key={index} />
                         ))}
                     </Grid>
                 </>
@@ -121,102 +122,102 @@ export default function Receipt({
 
             <Divider
                 sx={{
-                    mb: 1,
                     bgcolor: 'black',
+                    mb: 1,
                 }}
             />
 
-            <Grid container alignItems="center">
+            <Grid alignItems="center" container>
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{
                         xs: 8,
                     }}
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    textOverflow="ellipsis">
+                    textOverflow="ellipsis"
+                    variant="overline">
                     Total
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{ xs: 1 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset">
+                    variant="overline">
                     Rp
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{
                         xs: 3,
                     }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset">
+                    variant="overline">
                     {formatNumber(totalDetails + totalCosts)}
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{
                         xs: 8,
                     }}
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    textOverflow="ellipsis">
+                    textOverflow="ellipsis"
+                    variant="overline">
                     Bayar
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{ xs: 1 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset">
+                    variant="overline">
                     Rp
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{
                         xs: 3,
                     }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset">
+                    variant="overline">
                     {formatNumber(totalPayment)}
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{
                         xs: 8,
                     }}
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset"
-                    textOverflow="ellipsis">
+                    textOverflow="ellipsis"
+                    variant="overline">
                     Kembalian
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{ xs: 1 }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset">
+                    variant="overline">
                     Rp
                 </Grid>
 
                 <Grid
+                    component={Typography}
+                    lineHeight="unset"
                     size={{
                         xs: 3,
                     }}
                     textAlign="end"
-                    component={Typography}
-                    variant="overline"
-                    lineHeight="unset">
+                    variant="overline">
                     {formatNumber(totalPayment - totalDetails + totalCosts)}
                 </Grid>
             </Grid>
@@ -232,33 +233,33 @@ function CostItem({
     return (
         <>
             <Grid
+                component={Typography}
+                lineHeight="unset"
                 size={{
                     xs: 8,
                 }}
-                component={Typography}
-                lineHeight="unset"
                 textOverflow="ellipsis"
                 variant="caption">
                 {name}
             </Grid>
 
             <Grid
-                size={{ xs: 1 }}
                 component={Typography}
                 lineHeight="unset"
+                size={{ xs: 1 }}
                 textOverflow="ellipsis"
                 variant="caption">
                 Rp
             </Grid>
 
             <Grid
+                component={Typography}
+                lineHeight="unset"
                 size={{
                     xs: 3,
                 }}
                 textAlign="end"
-                component={Typography}
-                variant="caption"
-                lineHeight="unset">
+                variant="caption">
                 {formatNumber(rp)}
             </Grid>
         </>
@@ -278,36 +279,36 @@ function DetailItem({
                 size={{
                     xs: 8,
                 }}>
-                <Typography variant="overline" lineHeight="unset">
+                <Typography lineHeight="unset" variant="overline">
                     {printedProduct?.name}
                 </Typography>
 
                 <Typography
-                    variant="caption"
                     component="div"
-                    lineHeight="unset">
+                    lineHeight="unset"
+                    variant="caption">
                     {formatNumber(Math.abs(qty))} {printedProduct?.unit} &times;
                     RP {formatNumber(rp_per_unit)}
                 </Typography>
             </Grid>
 
             <Grid
+                component={Typography}
+                lineHeight="unset"
                 size={{ xs: 1 }}
                 textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset">
+                variant="overline">
                 Rp
             </Grid>
 
             <Grid
+                component={Typography}
+                lineHeight="unset"
                 size={{
                     xs: 3,
                 }}
                 textAlign="end"
-                component={Typography}
-                variant="overline"
-                lineHeight="unset">
+                variant="overline">
                 {formatNumber(Math.abs(qty) * rp_per_unit)}
             </Grid>
         </>

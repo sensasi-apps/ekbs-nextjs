@@ -1,13 +1,14 @@
 // types
-import type { ReactNode } from 'react'
+
 //vendors
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import type { ReactNode } from 'react'
+import FlatFooter from '@/app/_parts/flat-footer'
 // components
 import BackButton from '@/components/back-button'
 // parts
 import DarkModeSwitch from './_parts/dark-mode-switch'
-import FlatFooter from '@/app/_parts/flat-footer'
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
@@ -17,9 +18,9 @@ export default function Layout({ children }: { children: ReactNode }) {
                 p: 4,
             }}>
             <Box
+                alignItems="center"
                 display="flex"
                 justifyContent="space-between"
-                alignItems="center"
                 mb={4}>
                 <BackButton />
 

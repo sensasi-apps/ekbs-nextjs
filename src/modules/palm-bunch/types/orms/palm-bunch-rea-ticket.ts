@@ -1,9 +1,9 @@
 import type { UUID } from 'crypto'
-import type PalmBunchRateORM from './palm-bunch-rate'
 import type PalmBunchesReaPaymentDetail from '@/modules/palm-bunch/types/orms/palm-bunch-rea-payment-detail'
 import type PalmBunchesDelivery from '@/modules/palm-bunch/types/orms/palm-bunches-delivery'
 import type PalmBunchesReaGrading from '@/modules/palm-bunch/types/orms/palm-bunches-rea-grading'
 import type User from '@/modules/user/types/orms/user'
+import type PalmBunchRateORM from './palm-bunch-rate'
 
 export default interface PalmBunchesReaTicketORM {
     id: number

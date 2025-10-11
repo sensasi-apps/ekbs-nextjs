@@ -1,12 +1,13 @@
 'use client'
 
-// vendors
-import { useRef } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 // materials
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+// vendors
+import { useRef } from 'react'
+import Endpoint from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/endpoint'
 // components
 import type {
     DatatableProps,
@@ -15,14 +16,13 @@ import type {
 } from '@/components/Datatable'
 import Datatable from '@/components/Datatable'
 import Fab from '@/components/Fab'
+import PageTitle from '@/components/page-title'
 import TextShortener from '@/components/text-shortener'
+// features
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 // utils
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
-// features
-import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
-import Endpoint from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/endpoint'
-import PageTitle from '@/components/page-title'
 
 const getRowDataRef: {
     current?: GetRowDataType<SparePartMovement>
@@ -43,7 +43,7 @@ export default function Page() {
             <Datatable<SparePartMovement>
                 apiUrl={Endpoint.DATATABLE}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
                 getRowDataCallback={fn => (getRowDataRef.current = fn)}
                 mutateCallback={mutate => (mutateRef.current = mutate)}
                 onRowClick={(_, { dataIndex }, event) => {
@@ -57,8 +57,8 @@ export default function Page() {
                         }
                     }
                 }}
-                title="Riwayat Pembelian"
                 tableId="spare-part-datatable"
+                title="Riwayat Pembelian"
             />
         </>
     )
@@ -66,8 +66,8 @@ export default function Page() {
 
 const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
     {
-        name: 'uuid',
         label: 'Kode',
+        name: 'uuid',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowDataRef.current?.(dataIndex)
@@ -80,13 +80,13 @@ const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
                             ''
                         ) : (
                             <Chip
-                                size="small"
-                                label="Draf"
-                                variant="outlined"
                                 color="warning"
+                                label="Draf"
+                                size="small"
                                 sx={{
                                     mr: 1,
                                 }}
+                                variant="outlined"
                             />
                         )}
 
@@ -97,15 +97,15 @@ const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender: value => toDmy(value),
         },
     },
     {
-        name: 'details.sparePart.name',
         label: 'Barang',
+        name: 'details.sparePart.name',
         options: {
             customBodyRender: (_, rowIndex) => {
                 const { details } = getRowDataRef.current?.(rowIndex) ?? {
@@ -122,19 +122,19 @@ const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
                             sparePart =>
                                 sparePart && (
                                     <Chip
+                                        key={sparePart.code}
                                         label={sparePart.name}
                                         size="small"
-                                        key={sparePart.code}
                                     />
                                 ),
                         )}
 
                         {details.length > 10 && (
                             <Typography
-                                variant="caption"
+                                color="textSecondary"
                                 component="div"
                                 mt={2}
-                                color="textSecondary">
+                                variant="caption">
                                 ...dan {details.length - 10} lainnya
                             </Typography>
                         )}
@@ -146,15 +146,15 @@ const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
     },
 
     {
-        name: 'sum_value_rp',
         label: 'Total Nilai (Rp)',
+        name: 'sum_value_rp',
         options: {
             customBodyRender: (_, rowIndex) => {
                 const { sum_value_rp, sum_cost_rp } = getRowDataRef.current?.(
                     rowIndex,
                 ) ?? {
-                    sum_value_rp: 0,
                     sum_cost_rp: 0,
+                    sum_value_rp: 0,
                 }
 
                 return formatNumber(sum_value_rp + sum_cost_rp)
@@ -165,8 +165,8 @@ const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
     },
 
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
         options: {
             sort: false,
         },

@@ -1,9 +1,5 @@
 // materials
-import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Tooltip from '@mui/material/Tooltip'
+
 // icons
 import MemberIcon from '@mui/icons-material/AccountCircle'
 import EmployeeIcon from '@mui/icons-material/AdminPanelSettings'
@@ -12,6 +8,11 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import PhoneIcon from '@mui/icons-material/Phone'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 // features
 import type Social from '@/modules/user/types/orms/social'
 import type PublicProfile from '../_types/public-profile'
@@ -22,11 +23,11 @@ export default function Profile({ data }: { data: PublicProfile }) {
     return (
         <Box
             sx={{
+                alignItems: 'center',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
             }}>
-            <Typography variant="h4" component="div">
+            <Typography component="div" variant="h4">
                 {name}
             </Typography>
 
@@ -34,24 +35,24 @@ export default function Profile({ data }: { data: PublicProfile }) {
                 SUBTITLE
             </Typography> */}
 
-            <Box sx={{ my: 3, width: 200, height: 200, borderRadius: 100 }}>
+            <Box sx={{ borderRadius: 100, height: 200, my: 3, width: 200 }}>
                 {data.profile_picture_blob ? (
                     <Box
                         sx={{
-                            borderRadius: 'inherit',
-                            width: '100%',
-                            height: '100%',
                             background: `url('data:image/png;base64, ${data.profile_picture_blob}')`,
-                            backgroundSize: 'cover',
                             backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'cover',
+                            borderRadius: 'inherit',
+                            height: '100%',
+                            width: '100%',
                         }}
                     />
                 ) : (
                     <MemberIcon
                         sx={{
-                            width: '100%',
                             height: '100%',
+                            width: '100%',
                         }}
                     />
                 )}
@@ -59,7 +60,7 @@ export default function Profile({ data }: { data: PublicProfile }) {
 
             <Badges data={data} />
 
-            <Box mt={6} display="flex" gap={1}>
+            <Box display="flex" gap={1} mt={6}>
                 {data.socials?.map(({ social, username }) => (
                     <Tooltip key={social.name} title={social.name}>
                         <IconButton
@@ -79,29 +80,29 @@ function Badges({ data: { member, employee } }: { data: PublicProfile }) {
     return (
         <Box display="flex" gap={1}>
             {member.joined_at && !member.unjoined_at && (
-                <Chip label="Anggota" color="warning" icon={<MemberIcon />} />
+                <Chip color="warning" icon={<MemberIcon />} label="Anggota" />
             )}
 
             {member.joined_at && member.unjoined_at && (
                 <Chip
-                    label="Mantan Anggota"
                     color="warning"
+                    label="Mantan Anggota"
                     variant="outlined"
                 />
             )}
 
             {employee.joined_at && !employee.unjoined_at && (
                 <Chip
-                    label={employee.position ?? 'Karyawan'}
                     color="success"
                     icon={<EmployeeIcon />}
+                    label={employee.position ?? 'Karyawan'}
                 />
             )}
 
             {employee.joined_at && employee.unjoined_at && (
                 <Chip
-                    label="Mantan Karyawan"
                     color="success"
+                    label="Mantan Karyawan"
                     variant="outlined"
                 />
             )}

@@ -1,16 +1,17 @@
 // vendors
-import type { UUID } from 'crypto'
-import { useState } from 'react'
-import axios from '@/lib/axios'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import type { UUID } from 'crypto'
+import { useState } from 'react'
+import UserAutocomplete from '@/components/user-autocomplete'
+import axios from '@/lib/axios'
+import type MinimalUser from '@/modules/user/types/minimal-user'
 //
 import type UserType from '@/modules/user/types/orms/user'
-import UserAutocomplete from '@/components/user-autocomplete'
 import handle422 from '@/utils/handle-422'
 import FinanceApiUrlEnum from '../../../../_enums/api-url'
-import type MinimalUser from '@/modules/user/types/minimal-user'
 
 export default function PayrollUsersForm({
     payrollUuid,
@@ -63,46 +64,46 @@ export default function PayrollUsersForm({
     return (
         <>
             <Button
-                size="small"
-                onClick={handleAddAllEmployees}
                 disabled={disabled}
-                loading={addEmployeeLoading}>
+                loading={addEmployeeLoading}
+                onClick={handleAddAllEmployees}
+                size="small">
                 Masukkan Semua Karyawan
             </Button>
 
             <Box mt={1}>
                 <UserAutocomplete
-                    multiple
-                    label="Daftar Pengguna"
                     disabled={disabled}
-                    value={users}
+                    label="Daftar Pengguna"
+                    multiple
                     onChange={(_, value) => setUsers(value)}
+                    value={users}
                 />
             </Box>
 
             {errors?.users?.map((error, index) => (
-                <Box key={index} color="error.main">
+                <Box color="error.main" key={index}>
                     {error}
                 </Box>
             ))}
 
-            <Box mt={2} display="flex" justifyContent="end" gap={1}>
+            <Box display="flex" gap={1} justifyContent="end" mt={2}>
                 <Button
-                    size="small"
                     color="info"
+                    disabled={disabled}
                     onClick={onClose}
-                    disabled={disabled}>
+                    size="small">
                     Batal
                 </Button>
 
                 <Button
-                    size="small"
-                    type="submit"
                     color="info"
-                    variant="contained"
                     disabled={disabled}
                     loading={submitLoading}
-                    onClick={handleSubmit}>
+                    onClick={handleSubmit}
+                    size="small"
+                    type="submit"
+                    variant="contained">
                     Tambahkan
                 </Button>
             </Box>

@@ -1,37 +1,37 @@
 'use client'
 
-// types
-import type User from '@/modules/user/types/orms/user'
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+import BackupTableIcon from '@mui/icons-material/BackupTable'
+// icons
+import RefreshIcon from '@mui/icons-material/Refresh'
 // materials
 import Stack from '@mui/material/Stack'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
 import TableFooter from '@mui/material/TableFooter'
+import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+import dayjs from 'dayjs'
+import Image from 'next/image'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
 import FlexColumnBox from '@/components/FlexColumnBox'
-import IconButton from '@/components/IconButton'
-import PageTitle from '@/components/page-title'
-import PrintHandler from '@/components/PrintHandler'
-import ScrollToTopFab from '@/components/ScrollToTopFab'
-import ScrollableXBox from '@/components/ScrollableXBox'
 import Skeletons from '@/components/Global/Skeletons'
-// icons
-import RefreshIcon from '@mui/icons-material/Refresh'
-import BackupTableIcon from '@mui/icons-material/BackupTable'
+import IconButton from '@/components/IconButton'
+import PrintHandler from '@/components/PrintHandler'
+import PageTitle from '@/components/page-title'
+import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollToTopFab from '@/components/ScrollToTopFab'
+// types
+import type User from '@/modules/user/types/orms/user'
+import formatNumber from '@/utils/format-number'
 // utils
 import toDmy from '@/utils/to-dmy'
-import formatNumber from '@/utils/format-number'
-import Image from 'next/image'
 
 type ApiResponseType = {
     user_id: User['id']
@@ -70,36 +70,36 @@ export default function FarmerWeights() {
                     <DatePicker
                         disabled={isLoading || isValidating}
                         label="Dari"
-                        value={from}
-                        slotProps={{
-                            textField: {
-                                fullWidth: false,
-                            },
-                        }}
                         onChange={date =>
                             replace(
                                 `?from=${date?.format('YYYY-MM-DD')}&to=${to.format('YYYY-MM-DD')}`,
                             )
                         }
-                    />
-                    <DatePicker
-                        disabled={isLoading || isValidating}
-                        label="Hingga"
-                        value={to}
                         slotProps={{
                             textField: {
                                 fullWidth: false,
                             },
                         }}
+                        value={from}
+                    />
+                    <DatePicker
+                        disabled={isLoading || isValidating}
+                        label="Hingga"
                         onChange={date =>
                             replace(`?to=${date?.format('YYYY-MM-DD')}`)
                         }
+                        slotProps={{
+                            textField: {
+                                fullWidth: false,
+                            },
+                        }}
+                        value={to}
                     />
                     <IconButton
-                        title="Refresh"
+                        disabled={isLoading || isValidating}
                         icon={RefreshIcon}
                         onClick={() => mutate()}
-                        disabled={isLoading || isValidating}
+                        title="Refresh"
                     />
                 </ScrollableXBox>
 
@@ -107,35 +107,35 @@ export default function FarmerWeights() {
                     <PrintHandler
                         slotProps={{
                             printButton: {
+                                color: 'success',
                                 disabled:
                                     isLoading ||
                                     isValidating ||
                                     (data?.length ?? 0) === 0,
-                                color: 'success',
                             },
                         }}>
                         <FlexColumnBox>
-                            <Stack direction="row" alignItems="center">
+                            <Stack alignItems="center" direction="row">
                                 <Image
-                                    src="/assets/pwa-icons/green-transparent.svg"
-                                    width={0}
-                                    height={0}
-                                    sizes="100vw"
-                                    style={{ width: '6em', height: '6em' }}
                                     alt="logo"
+                                    height={0}
                                     priority
+                                    sizes="100vw"
+                                    src="/assets/pwa-icons/green-transparent.svg"
+                                    style={{ height: '6em', width: '6em' }}
+                                    width={0}
                                 />
 
                                 <Stack direction="column">
-                                    <Typography variant="h6" component="h1">
+                                    <Typography component="h1" variant="h6">
                                         Laporan Bobot TBS
                                     </Typography>
 
-                                    <Typography variant="caption" component="p">
+                                    <Typography component="p" variant="caption">
                                         Periode: {toDmy(from)} - {toDmy(to)}
                                     </Typography>
 
-                                    <Typography variant="caption" component="p">
+                                    <Typography component="p" variant="caption">
                                         Tanggal Cetak: {toDmy(dayjs())}
                                     </Typography>
                                 </Stack>
@@ -146,20 +146,20 @@ export default function FarmerWeights() {
                     </PrintHandler>
 
                     <IconButton
-                        title="Unduh Excel"
+                        color="success"
                         disabled={
                             isLoading ||
                             isValidating ||
                             (data?.length ?? 0) === 0
                         }
-                        icon={BackupTableIcon}
-                        color="success"
+                        download
                         href={`${
                             process.env.NEXT_PUBLIC_BACKEND_URL
                         }/${API_URL}?from=${from.format(
                             'YYYY-MM-DD',
                         )}&to=${to.format('YYYY-MM-DD')}&excel=true`}
-                        download
+                        icon={BackupTableIcon}
+                        title="Unduh Excel"
                     />
                 </Stack>
 
@@ -192,7 +192,7 @@ function MainTable({ data }: { data: ApiResponseType | undefined }) {
                 <TableBody>
                     {data.length === 0 && (
                         <TableRow>
-                            <TableCell colSpan={5} align="center">
+                            <TableCell align="center" colSpan={5}>
                                 <i>
                                     Tidak ada data pada rentang tanggal yang
                                     dipilih

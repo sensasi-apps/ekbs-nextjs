@@ -1,16 +1,17 @@
 // vendors
-import { useState } from 'react'
-import { mutate } from 'swr'
-import axios from '@/lib/axios'
+
 // materials
 import Box from '@mui/material/Box'
 import Button, { type ButtonProps } from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import { useState } from 'react'
+import { mutate } from 'swr'
+import Autocomplete from '@/components/Inputs/Autocomplete'
+import NumericFormat from '@/components/NumericFormat'
 // components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
-import Autocomplete from '@/components/Inputs/Autocomplete'
 import useValidationErrors from '@/hooks/useValidationErrors'
-import NumericFormat from '@/components/NumericFormat'
+import axios from '@/lib/axios'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function AddressForm({
@@ -70,61 +71,61 @@ export default function AddressForm({
 
     return (
         <form
+            autoComplete="off"
             style={{
                 marginTop: '1rem',
             }}
-            autoComplete="off"
             {...props}
             onKeyDown={e => e.key != 'Enter'}>
             <TextField
-                fullWidth
-                required
-                variant="standard"
-                label="Label"
-                name="label"
-                margin="normal"
                 error={Boolean(errors.label)}
+                fullWidth
                 helperText={
                     errors.label || 'Alamat domisili, KTP, atau lainnya'
                 }
+                label="Label"
+                margin="normal"
+                name="label"
+                required
+                variant="standard"
             />
 
-            <input type="hidden" name="region_id" />
+            <input name="region_id" type="hidden" />
 
             <Autocomplete
+                endpoint={`/select2/administrative-regions`}
+                label="Wilayah Administratif"
                 margin="normal"
-                required
                 onChange={(_, value) => {
                     const inputEl = document.querySelector(
                         'input[name="region_id"]',
                     ) as HTMLInputElement
                     if (inputEl && value?.id) inputEl.value = value.id
                 }}
-                endpoint={`/select2/administrative-regions`}
-                label="Wilayah Administratif"
+                required
             />
 
             <TextField
-                fullWidth
-                multiline
-                margin="normal"
-                name="detail"
-                label="Alamat Lengkap"
                 error={Boolean(errors.detail)}
+                fullWidth
                 helperText={errors.detail}
+                label="Alamat Lengkap"
+                margin="normal"
+                multiline
+                name="detail"
             />
 
             <NumericFormat
-                margin="normal"
-                name="zip_code"
-                label="Kode Pos"
                 decimalScale={0}
+                label="Kode Pos"
+                margin="normal"
                 maxLength={5}
+                name="zip_code"
                 thousandSeparator={false}
                 {...errorsToHelperTextObj(errors.zip_code)}
             />
 
-            <Box textAlign="right" mt={1}>
+            <Box mt={1} textAlign="right">
                 <Button
                     color="info"
                     onClick={() => {
@@ -133,7 +134,7 @@ export default function AddressForm({
                     Batal
                 </Button>
 
-                <Button color="info" variant="contained" onClick={handleSubmit}>
+                <Button color="info" onClick={handleSubmit} variant="contained">
                     Simpan
                 </Button>
             </Box>

@@ -1,16 +1,16 @@
 'use client'
 
-import type { FieldProps } from 'formik'
-import { memo, useState } from 'react'
 // materials
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
+import type { FieldProps } from 'formik'
+import { memo, useState } from 'react'
+import DetailItem from '../../../../../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/detail-item'
 // sub-components
 import type { FormikStatusType, FormValuesType } from '../../../../../..'
-import DetailItem from '../../../../../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/detail-item'
 import { DetailItemFormDialog } from './components/detail-item-form-dialog'
 
 function DetailsFieldComponent({
@@ -55,14 +55,14 @@ function DetailsFieldComponent({
                             sx={{
                                 py: 1.2,
                             }}>
-                            <Grid container alignItems="center">
+                            <Grid alignItems="center" container>
                                 <DetailItem
-                                    key={i}
                                     data={detail}
                                     disabled={
                                         isSubmitting ||
                                         !!typedStatus?.isDisabled
                                     }
+                                    key={i}
                                     onDecreaseQtyItem={() => {
                                         const detailItem = value[i]
 

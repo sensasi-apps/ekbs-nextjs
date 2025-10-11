@@ -1,25 +1,26 @@
 // types
-import { CashableClassname } from '@/modules/transaction/types/orms/transaction'
-import type { UUID } from 'crypto'
-import type { FormikContextType } from 'formik'
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
-import type { Ymd } from '@/types/date-string'
-// vendors
-import { memo } from 'react'
+
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-// components
-import CrediturCard from '../creditor-card'
-import SelectFromApi from '@/components/Global/SelectFromApi'
-import FormikForm from '@/components/formik-form'
-// local components
-import TypographyWithLabel from '../SummaryBox/TypographyWithLabel'
-// utils
-import toDmy from '@/utils/to-dmy'
-import numberToCurrency from '@/utils/number-to-currency'
+import type { UUID } from 'crypto'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import type { FormikContextType } from 'formik'
+// vendors
+import { memo } from 'react'
+import FormikForm from '@/components/formik-form'
+import SelectFromApi from '@/components/Global/SelectFromApi'
 import LoadingCenter from '@/components/loading-center'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
+import { CashableClassname } from '@/modules/transaction/types/orms/transaction'
+import type { Ymd } from '@/types/date-string'
+import numberToCurrency from '@/utils/number-to-currency'
+// utils
+import toDmy from '@/utils/to-dmy'
+// components
+import CrediturCard from '../creditor-card'
+// local components
+import TypographyWithLabel from '../SummaryBox/TypographyWithLabel'
 
 extend(relativeTime)
 
@@ -44,28 +45,28 @@ export default function UserLoanInstallmentForm({
 
     return (
         <FormikForm
-            id="user-loan-installment-form"
             dirty={!isPaid}
-            submitting={isSubmitting}
-            processing={isProcessing}
+            id="user-loan-installment-form"
             isNew={false}
+            processing={isProcessing}
             slotProps={{
                 submitButton: {
                     disabled: isDisabled,
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             <CrediturCard data={user} />
 
             <Box display="flex" flexDirection="column" gap={1} my={3}>
                 <DueInfo
-                    shouldBePaidAt={installment.should_be_paid_at}
                     isPaid={isPaid}
+                    shouldBePaidAt={installment.should_be_paid_at}
                 />
 
                 <TypographyWithLabel
+                    component="div"
                     label="Tagihan:"
-                    variant="h4"
-                    component="div">
+                    variant="h4">
                     {numberToCurrency(installment.amount_rp)}
                 </TypographyWithLabel>
 
@@ -80,32 +81,32 @@ export default function UserLoanInstallmentForm({
                 </TypographyWithLabel>
             ) : (
                 <SelectFromApi
-                    required
-                    endpoint="/data/cashes"
-                    label="Telah dibayar ke Kas"
-                    size="small"
-                    margin="dense"
                     disabled={isDisabled}
-                    selectProps={{
-                        value: values.cashable_cash_uuid,
-                        name: 'cashable_cash_uuid',
-                    }}
+                    endpoint="/data/cashes"
                     error={Boolean(errors.cashable_cash_uuid)}
                     helperText={errors.cashable_cash_uuid as string}
+                    label="Telah dibayar ke Kas"
+                    margin="dense"
                     onChange={event =>
                         setFieldValue(
                             'cashable_cash_uuid',
                             'value' in event.target ? event.target.value : '',
                         )
                     }
+                    required
+                    selectProps={{
+                        name: 'cashable_cash_uuid',
+                        value: values.cashable_cash_uuid,
+                    }}
+                    size="small"
                 />
             )}
 
             {isPaid && (
                 <Box mt={2}>
                     <TypographyWithLabel
-                        label="Pada tanggal"
-                        color="success.main">
+                        color="success.main"
+                        label="Pada tanggal">
                         {installment?.transaction?.at
                             ? toDmy(installment?.transaction?.at)
                             : ''}
@@ -147,9 +148,9 @@ const DueInfo = memo(function DueInfo({
 
             {!isPaid && (
                 <Typography
-                    variant="caption"
+                    color={unpaidFromNowColor}
                     component="div"
-                    color={unpaidFromNowColor}>
+                    variant="caption">
                     {dayjs(shouldBePaidAt).fromNow()}
                 </Typography>
             )}

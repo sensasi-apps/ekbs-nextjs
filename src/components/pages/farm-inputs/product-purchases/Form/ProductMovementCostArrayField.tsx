@@ -1,6 +1,8 @@
 // types
-import type ProductMovementType from '@/modules/farm-inputs/types/orms/product-movement'
-import type { FieldArrayRenderProps, FormikErrors } from 'formik'
+
+// icons
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // vendors
 // ....
 // materials
@@ -8,13 +10,12 @@ import Grid from '@mui/material/GridLegacy'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-// icons
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import type { FieldArrayRenderProps, FormikErrors } from 'formik'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 // components
 import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextField from '@/components/TextField'
+import type ProductMovementType from '@/modules/farm-inputs/types/orms/product-movement'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
@@ -34,15 +35,15 @@ export default function ProductMovementCostArrayField({
 } & FieldArrayRenderProps) {
     return (
         <>
-            <Typography variant="h6" component="div" mt={2} mb={0.5}>
+            <Typography component="div" mb={0.5} mt={2} variant="h6">
                 Biaya Lain
-                <Tooltip placement="top" arrow title="Tambah">
+                <Tooltip arrow placement="top" title="Tambah">
                     <span>
                         <IconButton
-                            disabled={disabled}
                             color="success"
-                            size="small"
-                            onClick={() => push({})}>
+                            disabled={disabled}
+                            onClick={() => push({})}
+                            size="small">
                             <AddCircleIcon />
                         </IconButton>
                     </span>
@@ -51,52 +52,51 @@ export default function ProductMovementCostArrayField({
 
             {(!costs || costs.length === 0) && (
                 <Typography
-                    variant="body2"
-                    component="i"
                     color="text.secondary"
-                    sx={{ mb: 2 }}>
+                    component="i"
+                    sx={{ mb: 2 }}
+                    variant="body2">
                     Tidak ada
                 </Typography>
             )}
 
             {costs?.map((row, index) => (
                 <Grid
-                    key={index}
-                    container
-                    columnSpacing={1.5}
                     alignItems="center"
+                    columnSpacing={1.5}
+                    container
+                    key={index}
                     sx={{
                         mb: {
-                            xs: 1.5,
                             sm: 'initial',
+                            xs: 1.5,
                         },
                     }}>
                     <Grid
-                        item
-                        xs={2}
-                        sm={1}
                         alignSelf="center"
-                        textAlign="center">
-                        <Tooltip placement="top" arrow title="Hapus">
+                        item
+                        sm={1}
+                        textAlign="center"
+                        xs={2}>
+                        <Tooltip arrow placement="top" title="Hapus">
                             <span>
                                 <IconButton
-                                    disabled={disabled}
                                     color="error"
-                                    size="small"
-                                    onClick={() => remove(index)}>
+                                    disabled={disabled}
+                                    onClick={() => remove(index)}
+                                    size="small">
                                     <RemoveCircleIcon />
                                 </IconButton>
                             </span>
                         </Tooltip>
                     </Grid>
 
-                    <Grid item xs={10} sm={3}>
+                    <Grid item sm={3} xs={10}>
                         <TextField
-                            required
+                            defaultValue={row.name ?? ''}
                             disabled={disabled}
                             label="Nama"
                             name="name"
-                            defaultValue={row.name ?? ''}
                             onChange={({ target: { value } }) => {
                                 debounce(() =>
                                     replace(index, {
@@ -105,19 +105,19 @@ export default function ProductMovementCostArrayField({
                                     }),
                                 )
                             }}
+                            required
                             {...errorsToHelperTextObj(errors?.[index]?.name)}
                         />
                     </Grid>
 
-                    <Grid item xs={12} sm={3}>
+                    <Grid item sm={3} xs={12}>
                         <NumericFormat
-                            min="1"
                             disabled={disabled}
-                            label="Total"
                             InputProps={{
                                 startAdornment: <RpInputAdornment />,
                             }}
-                            value={isNaN(row.rp) ? '' : row.rp}
+                            label="Total"
+                            min="1"
                             onValueChange={({ floatValue }) =>
                                 debounce(() =>
                                     replace(index, {
@@ -126,6 +126,7 @@ export default function ProductMovementCostArrayField({
                                     }),
                                 )
                             }
+                            value={isNaN(row.rp) ? '' : row.rp}
                             {...errorsToHelperTextObj(errors?.[index]?.rp)}
                         />
                     </Grid>

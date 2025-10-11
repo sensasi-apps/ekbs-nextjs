@@ -1,24 +1,24 @@
 'use client'
 
-// types
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+import { Formik } from 'formik'
 // vendors
 import { useState } from 'react'
-import { Formik } from 'formik'
-import axios from '@/lib/axios'
-// components
-import { mutate } from '@/components/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
-import PageTitle from '@/components/page-title'
+import ReviewDatatable from '@/app/(auth)/loans/reviews/datatable'
 // page parts
 import LoanReviewForm, {
     type FormDataType,
 } from '@/app/(auth)/loans/reviews/form'
-import ReviewDatatable from '@/app/(auth)/loans/reviews/datatable'
-// utils
-import errorCatcher from '@/utils/handle-422'
+// components
+import { mutate } from '@/components/Datatable'
+import DialogWithTitle from '@/components/DialogWithTitle'
+import PageTitle from '@/components/page-title'
 // hooks
 import useDisablePage from '@/hooks/useDisablePage'
+import axios from '@/lib/axios'
+// types
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+// utils
+import errorCatcher from '@/utils/handle-422'
 
 export default function UserLoansReviews() {
     useDisablePage()
@@ -36,13 +36,15 @@ export default function UserLoansReviews() {
             <ReviewDatatable onSetReviewState={setState} />
 
             <DialogWithTitle
-                title="Persetujuan Pinjaman"
-                open={state.isDialogOpen}>
+                open={state.isDialogOpen}
+                title="Persetujuan Pinjaman">
                 <Formik
-                    initialValues={state.formData}
+                    component={LoanReviewForm}
                     initialStatus={{
                         userLoan: state.userLoan,
                     }}
+                    initialValues={state.formData}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
@@ -55,8 +57,6 @@ export default function UserLoansReviews() {
                             })
                             .catch(error => errorCatcher(error, setErrors))
                     }
-                    onReset={handleClose}
-                    component={LoanReviewForm}
                 />
             </DialogWithTitle>
         </>
@@ -76,7 +76,7 @@ type FormCloseStateType = {
 }
 
 const CLOSE_STATE: FormCloseStateType = {
-    isDialogOpen: false,
     formData: {} as never,
+    isDialogOpen: false,
     userLoan: {} as never,
 }

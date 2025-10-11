@@ -1,16 +1,15 @@
-import type NavItemGroup from '../types/nav-item-group'
 // icons
 import AllInbox from '@mui/icons-material/AllInbox'
-import TopicIcon from '@mui/icons-material/Topic'
 import CashIcon from '@mui/icons-material/AutoStories'
-import CartIcon from '@mui/icons-material/ShoppingCart'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import SavingsIcon from '@mui/icons-material/Savings'
+import CartIcon from '@mui/icons-material/ShoppingCart'
+import TopicIcon from '@mui/icons-material/Topic'
 // enums
 import Permission from '@/modules/repair-shop/enums/permission'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const repairShop: NavItemGroup = {
-    label: 'Belayan Spare Parts',
     items: [
         // {
         //     label: 'Statistik',
@@ -19,52 +18,53 @@ export const repairShop: NavItemGroup = {
         //     forPermission: PalmBunch.READ_STATISTIC,
         // },
         {
-            label: 'Suku Cadang',
+            forPermission: Permission.READ_SPARE_PART,
             href: '/repair-shop/spare-parts',
             icon: TopicIcon,
-            forPermission: Permission.READ_SPARE_PART,
+            label: 'Suku Cadang',
         },
 
         {
-            label: 'Layanan',
+            forPermission: Permission.READ_SERVICE,
             href: '/repair-shop/services',
             icon: TopicIcon,
-            forPermission: Permission.READ_SERVICE,
+            label: 'Layanan',
         },
 
         {
-            label: 'Piutang',
+            forPermission: Permission.READ_RECEIVABLE,
             href: '/repair-shop/receivables',
             icon: SavingsIcon,
-            forPermission: Permission.READ_RECEIVABLE,
+            label: 'Piutang',
         },
 
         {
-            label: 'Pembelian Stok',
+            forPermission: Permission.READ_PURCHASE,
             href: '/repair-shop/spare-part-purchases',
             icon: CartIcon,
-            forPermission: Permission.READ_PURCHASE,
+            label: 'Pembelian Stok',
         },
 
         {
-            label: 'Penjualan',
+            forPermission: Permission.READ_SALE,
             href: '/repair-shop/sales',
             icon: PointOfSaleIcon,
-            forPermission: Permission.READ_SALE,
+            label: 'Penjualan',
         },
 
         {
-            label: 'Kas',
+            forPermission: Permission.READ_CASH,
             href: '/repair-shop/cashes',
             icon: CashIcon,
-            forPermission: Permission.READ_CASH,
+            label: 'Kas',
         },
 
         {
-            label: 'Opname',
+            forPermission: Permission.READ_SPARE_PART_QTY_ADJUSTMENT,
             href: '/repair-shop/spare-part-qty-adjustments',
             icon: AllInbox,
-            forPermission: Permission.READ_SPARE_PART_QTY_ADJUSTMENT,
+            label: 'Opname',
         },
     ],
+    label: 'Belayan Spare Parts',
 }

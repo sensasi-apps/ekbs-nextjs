@@ -1,8 +1,3 @@
-import type FarmerGroupType from '@/types/orms/farmer-group'
-import type RentItemType from '@/types/orms/rent-item'
-import type { HeavyEquipmentRentFormValues } from '.'
-// vendors
-import { FastField, type FormikProps } from 'formik'
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -15,17 +10,22 @@ import InputAdornment from '@mui/material/InputAdornment'
 import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
+import dayjs from 'dayjs'
+// vendors
+import { FastField, type FormikProps } from 'formik'
 // components
 import DatePicker from '@/components/DatePicker'
-import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import SelectFromApi from '@/components/Global/SelectFromApi'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
+import NumericFormat from '@/components/NumericFormat'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserAutocomplete from '@/components/user-autocomplete'
+import type FarmerGroupType from '@/types/orms/farmer-group'
+import type RentItemType from '@/types/orms/rent-item'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import dayjs from 'dayjs'
+import type { HeavyEquipmentRentFormValues } from '.'
 
 export default function BaseTaskFields({
     values: {
@@ -56,30 +56,30 @@ export default function BaseTaskFields({
                 </FormLabel>
 
                 <RadioGroup
-                    row
                     aria-labelledby="rent-type"
                     name="rent-type"
-                    value={type ?? null}
                     onChange={({ target: { value } }) => {
                         setFieldValue('type', value)
                         setFieldValue('payment_method', null)
-                    }}>
+                    }}
+                    row
+                    value={type ?? null}>
                     <FormControlLabel
-                        value="personal"
                         control={<Radio required size="small" />}
                         label="Perorangan"
+                        value="personal"
                     />
 
                     <FormControlLabel
-                        value="farmer-group"
                         control={<Radio size="small" />}
                         label="Kelompok Tani"
+                        value="farmer-group"
                     />
 
                     <FormControlLabel
-                        value="public-service"
                         control={<Radio size="small" />}
                         label="Pelayanan Publik"
+                        value="public-service"
                     />
                 </RadioGroup>
 
@@ -91,45 +91,44 @@ export default function BaseTaskFields({
             <Fade in={type === 'farmer-group'} unmountOnExit>
                 <span>
                     <SelectFromApi
-                        fullWidth
                         disabled={isDisabled}
                         endpoint="/data/farmer-groups"
+                        fullWidth
                         label="Kelompok Tani"
-                        required
-                        size="small"
                         margin="dense"
-                        selectProps={{
-                            name: 'farmer_group_uuid',
-                            value: farmer_group_uuid ?? '',
-                            disabled: isDisabled,
-                        }}
                         onValueChange={(value: FarmerGroupType) =>
                             setFieldValue('farmer_group_uuid', value.uuid)
                         }
+                        required
+                        selectProps={{
+                            disabled: isDisabled,
+                            name: 'farmer_group_uuid',
+                            value: farmer_group_uuid ?? '',
+                        }}
+                        size="small"
                         {...errorsToHelperTextObj(errors.farmer_group_uuid)}
                     />
                 </span>
             </Fade>
 
             <UserAutocomplete
-                label={type === 'personal' ? 'Penyewa' : 'Penanggung Jawab'}
                 disabled={isDisabled}
                 fullWidth
+                label={type === 'personal' ? 'Penyewa' : 'Penanggung Jawab'}
                 onChange={(_, user) => {
                     setFieldValue('by_user', user)
                     setFieldValue('by_user_uuid', user?.uuid)
                 }}
-                value={by_user ?? null}
                 slotProps={{
                     textField: {
                         required: type === 'farmer-group',
                         ...errorsToHelperTextObj(errors.by_user_uuid),
                     },
                 }}
+                value={by_user ?? null}
             />
 
             <DatePicker
-                value={for_at ? dayjs(for_at) : null}
                 disabled={isDisabled}
                 label="Untuk Tanggal"
                 onChange={date =>
@@ -140,39 +139,16 @@ export default function BaseTaskFields({
                         ...errorsToHelperTextObj(errors.for_at),
                     },
                 }}
+                value={for_at ? dayjs(for_at) : null}
             />
 
             <SelectFromApi
-                fullWidth
-                required
                 dataKey="inventory_item_uuid"
                 disabled={isDisabled}
                 endpoint="/data/rentable-inventory-items"
+                fullWidth
                 label="Alat Berat"
-                size="small"
                 margin="dense"
-                selectProps={{
-                    name: 'inventory_item_uuid',
-                    value: inventory_item_uuid ?? '',
-                }}
-                renderOption={(rentItem: RentItemType) => (
-                    <MenuItem
-                        key={rentItem.inventory_item_uuid}
-                        value={rentItem.inventory_item_uuid}>
-                        {rentItem.inventory_item.code && (
-                            <Chip
-                                label={rentItem.inventory_item.code}
-                                size="small"
-                                variant="outlined"
-                                sx={{
-                                    mr: 1,
-                                }}
-                            />
-                        )}
-
-                        {rentItem.inventory_item.name}
-                    </MenuItem>
-                )}
                 onValueChange={(rentItem: RentItemType) => {
                     setFieldValue(
                         'inventory_item_uuid',
@@ -184,58 +160,76 @@ export default function BaseTaskFields({
                     )
                     setFieldValue('rate_unit', rentItem.default_rate_unit)
                 }}
+                renderOption={(rentItem: RentItemType) => (
+                    <MenuItem
+                        key={rentItem.inventory_item_uuid}
+                        value={rentItem.inventory_item_uuid}>
+                        {rentItem.inventory_item.code && (
+                            <Chip
+                                label={rentItem.inventory_item.code}
+                                size="small"
+                                sx={{
+                                    mr: 1,
+                                }}
+                                variant="outlined"
+                            />
+                        )}
+
+                        {rentItem.inventory_item.name}
+                    </MenuItem>
+                )}
+                required
+                selectProps={{
+                    name: 'inventory_item_uuid',
+                    value: inventory_item_uuid ?? '',
+                }}
+                size="small"
                 {...errorsToHelperTextObj(errors.inventory_item_uuid)}
             />
 
             <UserAutocomplete
-                label="Operator"
                 disabled={isDisabled}
                 fullWidth
+                label="Operator"
                 onChange={(_, user) => {
                     setFieldValue('operated_by_user', user)
                     setFieldValue('operated_by_user_uuid', user?.uuid)
                 }}
-                value={operated_by_user ?? null}
                 slotProps={{
                     textField: {
                         ...errorsToHelperTextObj(errors.operated_by_user),
                     },
                 }}
+                value={operated_by_user ?? null}
             />
 
             <Box display="inline-flex" gap={1}>
                 <NumericFormat
-                    label="Tarif"
-                    disabled={isDisabled}
                     decimalScale={0}
-                    value={rate_rp_per_unit}
+                    disabled={isDisabled}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                / {rate_unit}
+                            </InputAdornment>
+                        ),
+                        startAdornment: <RpInputAdornment />,
+                    }}
+                    label="Tarif"
                     name="rate_rp_per_unit"
                     onValueChange={({ floatValue }) =>
                         debounce(() =>
                             setFieldValue('rate_rp_per_unit', floatValue),
                         )
                     }
-                    InputProps={{
-                        startAdornment: <RpInputAdornment />,
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                / {rate_unit}
-                            </InputAdornment>
-                        ),
-                    }}
+                    value={rate_rp_per_unit}
                     {...errorsToHelperTextObj(
                         errors.rate_rp_per_unit || errors.rate_unit,
                     )}
                 />
 
                 <NumericFormat
-                    label="Pesan Untuk"
                     disabled={isDisabled}
-                    value={for_n_units}
-                    name="for_n_units"
-                    onValueChange={({ floatValue }) =>
-                        debounce(() => setFieldValue('for_n_units', floatValue))
-                    }
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
@@ -243,18 +237,24 @@ export default function BaseTaskFields({
                             </InputAdornment>
                         ),
                     }}
+                    label="Pesan Untuk"
+                    name="for_n_units"
+                    onValueChange={({ floatValue }) =>
+                        debounce(() => setFieldValue('for_n_units', floatValue))
+                    }
+                    value={for_n_units}
                     {...errorsToHelperTextObj(errors.for_n_units)}
                 />
             </Box>
 
             <FastField
+                component={TextFieldFastableComponent}
+                disabled={isDisabled}
+                label="Catatan Tambahan"
+                multiline
                 name="note"
                 required={false}
-                component={TextFieldFastableComponent}
-                multiline
-                disabled={isDisabled}
                 rows={2}
-                label="Catatan Tambahan"
                 {...errorsToHelperTextObj(errors.note)}
             />
         </>

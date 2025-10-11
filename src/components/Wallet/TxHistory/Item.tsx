@@ -1,9 +1,9 @@
 // types
 import type { BoxProps } from '@mui/material/Box'
-import type { TypographyProps } from '@mui/material/Typography'
 // materials
 import Box from '@mui/material/Box'
 import Chip, { type ChipProps } from '@mui/material/Chip'
+import type { TypographyProps } from '@mui/material/Typography'
 import Typography from '@mui/material/Typography'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
@@ -28,34 +28,34 @@ export default function TxHistoryItem({
 
     return (
         <>
-            <Box mb={-1.5} display="flex" gap={0.65}>
+            <Box display="flex" gap={0.65} mb={-1.5}>
                 {tags?.map(tag => (
                     <Chip
+                        color={isInbound ? 'success' : undefined}
                         key={tag}
                         label={tag}
-                        color={isInbound ? 'success' : undefined}
                         size="small"
                         {...chipProps}
                     />
                 ))}
             </Box>
             <Box
-                display="flex"
                 alignItems="center"
+                display="flex"
                 justifyContent="space-between"
                 {...props}>
                 <Typography
-                    variant="body2"
-                    maxWidth="66%"
                     color={isInbound ? 'success.main' : undefined}
+                    maxWidth="66%"
                     sx={{ whiteSpace: 'pre-line' }}
+                    variant="body2"
                     {...tProps}>
                     {desc}
                 </Typography>
 
                 <Chip
-                    label={numberToCurrency(amount)}
                     color={isInbound ? 'success' : undefined}
+                    label={numberToCurrency(amount)}
                     size="small"
                     variant="outlined"
                     {...chipProps}

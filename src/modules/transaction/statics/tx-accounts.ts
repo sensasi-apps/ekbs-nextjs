@@ -7,19 +7,6 @@ const txAccounts: {
     income: TransactionTag[]
     expense: TransactionTag[]
 } = {
-    income: [
-        //user loans
-        TransactionTag.PENDAPATAN_DENDA,
-        TransactionTag.PENDAPATAN_BUNGA_BANK,
-
-        // palm bunch
-        TransactionTag.PENDAPATAN_INSENTIF_RSPO,
-        TransactionTag.PENDAPATAN_ADMINISTRASI,
-        TransactionTag.PENDAPATAN_LAIN_LAIN,
-
-        // coffee
-        TransactionTag.PENDAPATAN_JASA_STAN_MAKANAN,
-    ],
     expense: [
         // general costs
         TransactionTag.BEBAN_ANGSURAN,
@@ -63,6 +50,19 @@ const txAccounts: {
 
         // repair shop
         TransactionTag.PENDAPATAN_JASA_PENCUCIAN,
+    ],
+    income: [
+        //user loans
+        TransactionTag.PENDAPATAN_DENDA,
+        TransactionTag.PENDAPATAN_BUNGA_BANK,
+
+        // palm bunch
+        TransactionTag.PENDAPATAN_INSENTIF_RSPO,
+        TransactionTag.PENDAPATAN_ADMINISTRASI,
+        TransactionTag.PENDAPATAN_LAIN_LAIN,
+
+        // coffee
+        TransactionTag.PENDAPATAN_JASA_STAN_MAKANAN,
     ],
 }
 

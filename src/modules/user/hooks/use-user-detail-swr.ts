@@ -1,7 +1,7 @@
 'use client'
 
-import useSWR from 'swr'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import useSWR from 'swr'
 // modules
 import type UserORM from '@/modules/user/types/orms/user'
 

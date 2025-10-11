@@ -2,8 +2,8 @@
 
 // vendors
 import * as Sentry from '@sentry/nextjs'
-import { useEffect } from 'react'
 import NextError from 'next/error'
+import { useEffect } from 'react'
 // utils
 import { getCurrentAuthInfo } from '@/utils/get-current-auth-info'
 

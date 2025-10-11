@@ -1,15 +1,5 @@
 'use client'
 
-// type
-import type { ReactNode } from 'react'
-// vendors
-import Head from 'next/head'
-import useSWR from 'swr'
-// materials
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Skeleton from '@mui/material/Skeleton'
-import Typography from '@mui/material/Typography'
 // icons-materials
 import AgricultureIcon from '@mui/icons-material/Agriculture'
 import BikeScooter from '@mui/icons-material/BikeScooter'
@@ -20,10 +10,20 @@ import ForestIcon from '@mui/icons-material/Forest'
 import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WorkIcon from '@mui/icons-material/Work'
+// materials
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
+// vendors
+import Head from 'next/head'
+// type
+import type { ReactNode } from 'react'
+import useSWR from 'swr'
 // components
 import LineChart from '@/components/Chart/Line'
-import BigNumber from '@/components/StatCard/BigNumber'
 import StatCard, { type StatCardProps } from '@/components/StatCard'
+import BigNumber from '@/components/StatCard/BigNumber'
 // utils
 import toDmy from '@/utils/to-dmy'
 
@@ -71,20 +71,20 @@ export default function Page() {
             </Head>
 
             <Box mb={3}>
-                <Typography variant="h4" component="h1">
+                <Typography component="h1" variant="h4">
                     Laporan Performa
                 </Typography>
-                <Typography variant="subtitle1" component="h2">
+                <Typography component="h2" variant="subtitle1">
                     Koperasi Belayan Sejahtera
                 </Typography>
 
                 <Typography
-                    variant="caption"
+                    alignItems="center"
+                    color="GrayText"
                     component="div"
                     display="flex"
                     gap={0.5}
-                    color="GrayText"
-                    alignItems="center">
+                    variant="caption">
                     Pengkinian terakhir tanggal:
                     {isLoading ? (
                         <Skeleton variant="rounded" width="8em" />
@@ -96,15 +96,15 @@ export default function Page() {
                 </Typography>
             </Box>
 
-            <Box display="flex" gap={4} flexDirection="column">
+            <Box display="flex" flexDirection="column" gap={4}>
                 <Box>
                     <Heading2 startIcon={<Diversity3Icon />}>Anggota</Heading2>
 
                     <Grid container spacing={2}>
                         <Grid
                             size={{
-                                xs: 12,
                                 sm: 4,
+                                xs: 12,
                             }}>
                             <CurrentParticipation
                                 currentMemberTotal={currentMemberTotal}
@@ -119,123 +119,123 @@ export default function Page() {
 
                         <Grid
                             size={{
-                                xs: 12,
                                 sm: 8,
+                                xs: 12,
                             }}>
                             <StatCard
-                                title="Partisipasi — Bulanan"
-                                isLoading={isLoading}>
+                                isLoading={isLoading}
+                                title="Partisipasi — Bulanan">
                                 <LineChart
-                                    suffix="org"
                                     data={monthlyMemberParticipations}
+                                    suffix="org"
                                 />
                             </StatCard>
                         </Grid>
                     </Grid>
                 </Box>
 
-                <Box display="flex" gap={3} flexDirection="column">
+                <Box display="flex" flexDirection="column" gap={3}>
                     <Heading2 startIcon={<WorkIcon />}>Unit Bisnis</Heading2>
 
                     <StatCardBox
                         bussinesUnitName="TBS"
-                        statName="Bobot — Bulanan"
                         icon={<ForestIcon />}
-                        isLoading={isLoading}>
+                        isLoading={isLoading}
+                        statName="Bobot — Bulanan">
                         <LineChart
-                            suffix="ton"
                             data={monthlyPalmBunchKgs?.map(item => ({
                                 ...item,
                                 value: item.value / 1000,
                             }))}
+                            suffix="ton"
                         />
                     </StatCardBox>
 
                     <StatCardBox
                         bussinesUnitName="SAPRODI"
-                        statName="Omzet — Bulanan"
                         icon={<WarehouseIcon />}
-                        isLoading={isLoading}>
+                        isLoading={isLoading}
+                        statName="Omzet — Bulanan">
                         <LineChart
-                            prefix="Rp"
                             data={monthlyFarmInputIncomeRps}
                             lines={[
                                 {
-                                    type: 'monotone',
                                     dataKey: 'total',
                                     name: 'Total',
                                     stroke: 'var(--mui-palette-success-main)',
+                                    type: 'monotone',
                                 },
                                 {
-                                    type: 'monotone',
                                     dataKey: 'cash',
                                     name: 'Tunai',
                                     stroke: 'var(--mui-palette-primary-main)',
+                                    type: 'monotone',
                                 },
                                 {
-                                    type: 'monotone',
                                     dataKey: 'installment1',
                                     name: 'Angsur 1x',
                                     stroke: 'var(--mui-palette-warning-main)',
+                                    type: 'monotone',
                                 },
                                 {
-                                    type: 'monotone',
                                     dataKey: 'installment2',
                                     name: 'Angsur 2x',
                                     stroke: 'var(--mui-palette-error-main)',
+                                    type: 'monotone',
                                 },
                             ]}
+                            prefix="Rp"
                         />
                     </StatCardBox>
 
                     <StatCardBox
                         bussinesUnitName="Penyewaan Alat Berat"
-                        statName="Omzet — Bulanan"
                         icon={<AgricultureIcon />}
-                        isLoading={isLoading}>
-                        <LineChart prefix="Rp" data={monthlyRentIncomeRps} />
+                        isLoading={isLoading}
+                        statName="Omzet — Bulanan">
+                        <LineChart data={monthlyRentIncomeRps} prefix="Rp" />
                     </StatCardBox>
 
                     <StatCardBox
                         bussinesUnitName="Simpan Pinjam"
-                        statName="Pencairan — Bulanan"
                         icon={<CurrencyExchangeIcon />}
-                        isLoading={isLoading}>
-                        <LineChart prefix="Rp" data={monthlyLoanDisburseRps} />
+                        isLoading={isLoading}
+                        statName="Pencairan — Bulanan">
+                        <LineChart data={monthlyLoanDisburseRps} prefix="Rp" />
                     </StatCardBox>
 
                     <StatCardBox
                         bussinesUnitName="Belayan Mart"
-                        statName="Omzet — Bulanan"
                         icon={<ShoppingCart />}
-                        isLoading={isLoading}>
-                        <LineChart prefix="Rp" data={monthlyMartIncomeRps} />
+                        isLoading={isLoading}
+                        statName="Omzet — Bulanan">
+                        <LineChart data={monthlyMartIncomeRps} prefix="Rp" />
                     </StatCardBox>
 
                     <StatCardBox
                         bussinesUnitName="Belayan Spare Part"
-                        statName="Omzet — Bulanan"
-                        icon={<BikeScooter />}
                         color="warning"
-                        isLoading={isLoading}>
+                        icon={<BikeScooter />}
+                        isLoading={isLoading}
+                        statName="Omzet — Bulanan">
                         <Typography
-                            variant="body1"
                             color="text.secondary"
-                            textAlign="center">
+                            textAlign="center"
+                            variant="body1">
                             Akan segera hadir
                         </Typography>
                     </StatCardBox>
 
                     <StatCardBox
                         bussinesUnitName="Kopi Depan Kantor"
-                        statName="Omzet — Bulanan"
                         color="warning"
                         icon={<Coffee />}
-                        isLoading={isLoading}>
+                        isLoading={isLoading}
+                        statName="Omzet — Bulanan">
                         <Typography
-                            variant="body1"
                             color="text.secondary"
-                            textAlign="center">
+                            textAlign="center"
+                            variant="body1">
                             Akan segera hadir
                         </Typography>
                     </StatCardBox>
@@ -254,12 +254,12 @@ function Heading2({
 }) {
     return (
         <Typography
-            variant="h6"
+            alignItems="center"
             component="h2"
             display="flex"
-            alignItems="center"
             gap={2}
-            gutterBottom>
+            gutterBottom
+            variant="h6">
             {startIcon}
             {children}
         </Typography>
@@ -275,9 +275,9 @@ function Heading3({
 }) {
     return (
         <Typography
+            alignItems="center"
             component="h3"
             display="flex"
-            alignItems="center"
             gap={2}
             mb={2}>
             {startIcon}
@@ -305,7 +305,7 @@ function StatCardBox({
         <Box>
             <Heading3 startIcon={icon}>{bussinesUnitName}</Heading3>
 
-            <StatCard title={statName} isLoading={isLoading} color={color}>
+            <StatCard color={color} isLoading={isLoading} title={statName}>
                 {children}
             </StatCard>
         </Box>
@@ -334,10 +334,10 @@ function CurrentParticipation({
 
     return (
         <BigNumber
-            title="Partisipasi — Bulan Ini"
             isLoading={isLoading}
             primary={percentage.toFixed(0) + ' %'}
             secondary={detail}
+            title="Partisipasi — Bulan Ini"
         />
     )
 }

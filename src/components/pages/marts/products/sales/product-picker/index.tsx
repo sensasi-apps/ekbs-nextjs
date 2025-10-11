@@ -1,29 +1,29 @@
 'use client'
 
-// types
-import type { FieldProps } from 'formik'
-import type Product from '@/modules/mart/types/orms/product'
-import type { FormikStatusType, FormValuesType } from '../formik-wrapper'
-import type { FormattedEntry } from '@/sw/functions/handle-message'
-import type { SubmittedData } from '../formik-wrapper/@types/submitted-data'
-// vendors
-import { memo, useEffect, useState } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
-import useSWR from 'swr'
+import Masonry from '@mui/lab/Masonry'
 // materials
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import Masonry from '@mui/lab/Masonry'
+// types
+import type { FieldProps } from 'formik'
+// vendors
+import { memo, useEffect, useState } from 'react'
+import BarcodeReader from 'react-barcode-reader'
+import useSWR from 'swr'
+import { useDebouncedCallback } from 'use-debounce'
+import ScrollableXBox from '@/components/ScrollableXBox'
+import type Product from '@/modules/mart/types/orms/product'
+import type { FormattedEntry } from '@/sw/functions/handle-message'
+import { postToSw } from '@/utils/post-to-sw'
+import ApiUrl from '../../../../../../app/mart-product-sales/_parts/enums/api-url'
+import type { FormikStatusType, FormValuesType } from '../formik-wrapper'
+import type { SubmittedData } from '../formik-wrapper/@types/submitted-data'
 // sub-components
 import CategoryChips from './components/category-chips'
 import ProductCard from './components/product-card'
-import SearchTextField from './components/search-text-field'
-import ApiUrl from '../../../../../../app/mart-product-sales/_parts/enums/api-url'
-import BarcodeReader from 'react-barcode-reader'
-import ScrollableXBox from '@/components/ScrollableXBox'
 import ResultNav from './components/result-nav'
-import { postToSw } from '@/utils/post-to-sw'
+import SearchTextField from './components/search-text-field'
 
 let detailsTemp: FormValuesType['details'] = []
 let entries: FormattedEntry<SubmittedData>[] = []
@@ -48,8 +48,8 @@ function ProductPicker({
         isLoading,
         mutate,
     } = useSWR<ApiResponseType>(ApiUrl.PRODUCTS, null, {
-        revalidateOnReconnect: true,
         refreshInterval: 15 * 60 * 1000, // 15 minutes
+        revalidateOnReconnect: true,
     })
 
     const [currentSearchPageNo, setCurrentSearchPageNo] = useState(1)
@@ -141,10 +141,10 @@ function ProductPicker({
     return (
         <Paper
             sx={{
-                p: 3,
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 3,
+                p: 3,
             }}>
             <BarcodeReader
                 onScan={data => {
@@ -176,8 +176,8 @@ function ProductPicker({
             />
 
             <SearchTextField
-                value={query ?? ''}
                 onValueChange={debounceSetQuery}
+                value={query ?? ''}
             />
 
             <CategoryChips
@@ -190,51 +190,51 @@ function ProductPicker({
 
             <ResultNav
                 currentSearchPageNo={currentSearchPageNo}
-                itemTotal={itemTotal}
-                productPerPage={PRODUCT_PER_PAGE}
                 fetchedAt={products?.fetched_at}
-                onPrev={() =>
-                    setCurrentSearchPageNo(prev =>
-                        prev - 1 === 0 ? maxPage : prev - 1,
-                    )
-                }
+                itemTotal={itemTotal}
                 onNext={() =>
                     setCurrentSearchPageNo(prev =>
                         prev + 1 > maxPage ? 1 : prev + 1,
                     )
                 }
+                onPrev={() =>
+                    setCurrentSearchPageNo(prev =>
+                        prev - 1 === 0 ? maxPage : prev - 1,
+                    )
+                }
+                productPerPage={PRODUCT_PER_PAGE}
             />
 
             <Box display="flex" justifyContent="center">
                 {isLoading ? (
                     <Typography
-                        variant="body2"
+                        align="center"
                         color="text.disabled"
-                        align="center">
+                        variant="body2">
                         Memuat produk...
                     </Typography>
                 ) : (
                     <>
                         <Masonry
-                            sx={{
-                                display: { xs: 'none', sm: 'flex' },
-                            }}
                             columns={4}
-                            spacing={2}>
+                            spacing={2}
+                            sx={{
+                                display: { sm: 'flex', xs: 'none' },
+                            }}>
                             {filteredProducts.map(product => (
                                 <ProductCard
-                                    key={product.id}
-                                    qty={getQty(product)}
+                                    data={product}
                                     defaultSellPrice={
                                         getWarehouse(product)
                                             ?.default_sell_price ?? 0
                                     }
-                                    searchText={query}
-                                    data={product}
+                                    key={product.id}
                                     onClick={() => {
                                         handleAddProduct(product)
                                         debounceSetFieldValue()
                                     }}
+                                    qty={getQty(product)}
+                                    searchText={query}
                                 />
                             ))}
                         </Masonry>
@@ -242,27 +242,27 @@ function ProductPicker({
                         <ScrollableXBox
                             display="flex"
                             sx={{
-                                display: { xs: 'flex', sm: 'none' },
                                 '& > .MuiPaper-root': {
-                                    width: 200,
                                     minWidth: 200,
                                     whiteSpace: 'wrap',
+                                    width: 200,
                                 },
+                                display: { sm: 'none', xs: 'flex' },
                             }}>
                             {filteredProducts.map(product => (
                                 <ProductCard
-                                    key={product.id}
-                                    qty={getQty(product)}
+                                    data={product}
                                     defaultSellPrice={
                                         getWarehouse(product)
                                             ?.default_sell_price ?? 0
                                     }
-                                    searchText={query}
-                                    data={product}
+                                    key={product.id}
                                     onClick={() => {
                                         handleAddProduct(product)
                                         debounceSetFieldValue()
                                     }}
+                                    qty={getQty(product)}
+                                    searchText={query}
                                 />
                             ))}
                         </ScrollableXBox>

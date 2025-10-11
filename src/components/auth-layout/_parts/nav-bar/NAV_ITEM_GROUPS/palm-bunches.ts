@@ -1,37 +1,37 @@
 // types
-import type NavItemGroup from '../types/nav-item-group'
+
 // icons-materials
 import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
 import AutoStories from '@mui/icons-material/AutoStories'
 import Balance from '@mui/icons-material/Balance'
+import FireTruck from '@mui/icons-material/FireTruck'
 import FormatAlignJustify from '@mui/icons-material/FormatAlignJustify'
 import Grass from '@mui/icons-material/Grass'
-import FireTruck from '@mui/icons-material/FireTruck'
 import PointOfSale from '@mui/icons-material/PointOfSale'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/role'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const palmBunches: NavItemGroup = {
-    label: 'Tandan Buah Segar',
     items: [
         {
-            label: 'Statistik',
+            forPermission: PalmBunch.READ_STATISTIC,
             href: '/palm-bunches/statistics',
             icon: AlignHorizontalLeft,
-            forPermission: PalmBunch.READ_STATISTIC,
+            label: 'Statistik',
         },
         {
-            label: 'Kas',
+            forPermission: PalmBunch.READ_STATISTIC,
             href: '/palm-bunches/cashes',
             icon: AutoStories,
-            forPermission: PalmBunch.READ_STATISTIC,
+            label: 'Kas',
         },
         {
-            label: 'Bobot TBS',
+            forPermission: PalmBunch.READ_STATISTIC,
             href: '/palm-bunches/reports/farmer-weights',
             icon: FormatAlignJustify,
-            forPermission: PalmBunch.READ_STATISTIC,
+            label: 'Bobot TBS',
         },
         // {
         //     href: '/palm-bunches/performances',
@@ -40,28 +40,28 @@ export const palmBunches: NavItemGroup = {
         //     forRole: [Role.FARMER, Role.COURIER],
         // },
         {
+            forRole: Role.PALM_BUNCH_MANAGER,
             href: '/palm-bunches/rates',
-            label: 'Harga TBS',
             icon: Grass,
-            forRole: Role.PALM_BUNCH_MANAGER,
+            label: 'Harga TBS',
         },
         {
+            forRole: Role.PALM_BUNCH_MANAGER,
             href: '/palm-bunches/delivery-rates',
-            label: 'Tarif Angkut',
             icon: FireTruck,
-            forRole: Role.PALM_BUNCH_MANAGER,
+            label: 'Tarif Angkut',
         },
         {
-            href: '/palm-bunches/rea-tickets',
-            label: 'Tiket REA',
-            icon: Balance,
             forPermission: PalmBunch.READ_TICKET,
+            href: '/palm-bunches/rea-tickets',
+            icon: Balance,
+            label: 'Tiket REA',
         },
         {
-            href: '/palm-bunches/rea-payments',
-            label: 'Pembayaran REA',
-            icon: PointOfSale,
             forRole: Role.PALM_BUNCH_MANAGER,
+            href: '/palm-bunches/rea-payments',
+            icon: PointOfSale,
+            label: 'Pembayaran REA',
         },
         // ################ PENDING
         // {
@@ -71,4 +71,5 @@ export const palmBunches: NavItemGroup = {
         //     forPermission: PalmBunch.READ_STATISTIC,
         // },
     ],
+    label: 'Tandan Buah Segar',
 }

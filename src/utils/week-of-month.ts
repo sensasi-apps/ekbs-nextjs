@@ -1,5 +1,5 @@
-import type { Ymd } from '@/types/date-string'
 import dayjs, { Dayjs } from 'dayjs'
+import type { Ymd } from '@/types/date-string'
 
 /**
  * Returns the week of the month for a given date.

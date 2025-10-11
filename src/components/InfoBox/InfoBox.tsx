@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react'
 import Box, { type BoxProps } from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
+import type { ReactNode } from 'react'
 
 export default function InfoBox({
     data,
@@ -19,7 +19,7 @@ export default function InfoBox({
             <tbody>
                 {data.map(({ label, value }, index) => (
                     <tr key={index}>
-                        <Typography variant="caption" component="td">
+                        <Typography component="td" variant="caption">
                             {label}
                         </Typography>
 
@@ -31,8 +31,8 @@ export default function InfoBox({
                         </td>
 
                         <Typography
-                            fontWeight="bold"
                             component="td"
+                            fontWeight="bold"
                             whiteSpace="nowrap">
                             {loading ? (
                                 <Skeleton width={randomWidth()} />

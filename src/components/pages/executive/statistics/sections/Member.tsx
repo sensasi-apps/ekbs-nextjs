@@ -1,17 +1,18 @@
 // vendors
-import useSWR from 'swr'
-// materials
-import Grid from '@mui/material/Grid'
+
 // icons
 import Diversity3Icon from '@mui/icons-material/Diversity3'
+// materials
+import Grid from '@mui/material/Grid'
+import useSWR from 'swr'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
-import Heading2 from '../Heading2'
+import MonthlyTotalMemberInOutChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberInOutChartCard'
+import MonthlyTotalMemberParticipationChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberParticipationChartCard'
 // pages
 import TotalActiveMemberBigNumber from '@/components/pages/executive/statistics/charts/TotalActiveMemberBigNumber'
-import MonthlyTotalMemberInOutChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberInOutChartCard'
 import TotalMemberParticipationBigNumber from '@/components/pages/executive/statistics/charts/TotalMemberParticipationBigNumber'
-import MonthlyTotalMemberParticipationChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberParticipationChartCard'
+import Heading2 from '../Heading2'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../SX_SCROLL_MARGIN_TOP'
 
@@ -38,11 +39,11 @@ export default function MemberSection() {
 
             <Grid container spacing={2}>
                 <Grid
-                    id="total-anggota"
-                    size={{ xs: 12, sm: 4 }}
                     display="flex"
                     flexDirection="column"
                     gap={2}
+                    id="total-anggota"
+                    size={{ sm: 4, xs: 12 }}
                     sx={SX_SCROLL_MARGIN_TOP}>
                     <TotalActiveMemberBigNumber
                         data={data?.member_total}
@@ -50,22 +51,22 @@ export default function MemberSection() {
                     />
 
                     <TotalMemberParticipationBigNumber
-                        memberTotal={data?.member_total}
                         currentParticipationTotal={
                             data?.monthly_member_participations[
                                 data?.monthly_member_participations.length - 1
                             ].value
                         }
                         isLoading={isLoading}
+                        memberTotal={data?.member_total}
                     />
                 </Grid>
 
                 <Grid
-                    id="total-partisipasi"
-                    size={{ xs: 12, sm: 8 }}
                     display="flex"
                     flexDirection="column"
                     gap={2}
+                    id="total-partisipasi"
+                    size={{ sm: 8, xs: 12 }}
                     sx={SX_SCROLL_MARGIN_TOP}>
                     <MonthlyTotalMemberInOutChartCard
                         data={data?.monthly_member_in_outs}

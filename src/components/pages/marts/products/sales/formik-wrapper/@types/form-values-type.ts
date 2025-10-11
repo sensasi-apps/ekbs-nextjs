@@ -1,7 +1,7 @@
+import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 import type ProductMovementCost from '@/modules/mart/types/orms/product-movement-cost'
 import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
 import type ProductMovementSale from '@/modules/mart/types/orms/product-movement-sale'
-import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 import type CashType from '@/types/orms/cash'
 
 export interface FormValuesType {

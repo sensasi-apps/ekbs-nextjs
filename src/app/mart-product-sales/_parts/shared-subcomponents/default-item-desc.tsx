@@ -1,8 +1,9 @@
 // vendors
-import { memo } from 'react'
+
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { memo } from 'react'
 
 function DefaultItemDesc({
     desc,
@@ -14,17 +15,17 @@ function DefaultItemDesc({
     return (
         <Box display="flex" gap={1}>
             <Typography
-                variant="caption"
                 component="div"
                 sx={{
                     ':after': {
                         content: '":"',
                     },
-                }}>
+                }}
+                variant="caption">
                 {desc}
             </Typography>
 
-            <Typography variant="caption" component="div" fontWeight="bold">
+            <Typography component="div" fontWeight="bold" variant="caption">
                 {value}
             </Typography>
         </Box>

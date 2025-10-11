@@ -1,19 +1,19 @@
 'use client'
 
-// types
-import type { UUID } from 'crypto'
-import type Payroll from '@/types/orms/payroll'
-// vendors
-import { Formik } from 'formik'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import axios from '@/lib/axios'
-// materials
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+// materials
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+// types
+import type { UUID } from 'crypto'
+// vendors
+import { Formik } from 'formik'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
+import FinancesPayrollsForm from '@/app/(auth)/finances/payrolls/employees/_parts/Form'
 // components
 import Datatable, {
     type DatatableProps,
@@ -21,9 +21,9 @@ import Datatable, {
 } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
-import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
-import FinancesPayrollsForm from '@/app/(auth)/finances/payrolls/employees/_parts/Form'
 import PageTitle from '@/components/page-title'
+import axios from '@/lib/axios'
+import type Payroll from '@/types/orms/payroll'
 // etc
 import handle422 from '@/utils/handle-422'
 import numberToCurrency from '@/utils/number-to-currency'
@@ -49,22 +49,24 @@ export default function FinancesPayrollsEmployees() {
             <PageTitle title="Penggajian Karyawan" />
 
             <Datatable
-                title="Riwayat"
-                tableId="product-purchases-table"
                 apiUrl={FinanceApiUrlEnum.PAYROLL_DATATABLE_DATA}
                 apiUrlParams={{
                     type: 'employee',
                 }}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
-                // onRowClick={handleRowClick}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
                 getRowDataCallback={fn => (getRowData = fn)}
+                tableId="product-purchases-table"
+                // onRowClick={handleRowClick}
+                title="Riwayat"
                 // mutateCallback={fn => (mutate = fn)}
             />
 
-            <DialogWithTitle title="Tambah Data Penggajian" open={isDialogOpen}>
+            <DialogWithTitle open={isDialogOpen} title="Tambah Data Penggajian">
                 <Formik
+                    component={FinancesPayrollsForm}
                     initialValues={{}}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post<UUID>(
@@ -78,8 +80,6 @@ export default function FinancesPayrollsEmployees() {
                             )
                             .catch(error => handle422(error, setErrors))
                     }
-                    onReset={handleClose}
-                    component={FinancesPayrollsForm}
                 />
             </DialogWithTitle>
 
@@ -100,15 +100,15 @@ function DetailButton({ uuid: payrollUuid }: { uuid: UUID }) {
 
 const DATATABLE_COLUMNS: DatatableProps<Payroll>['columns'] = [
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'uuid',
         label: 'Kode',
+        name: 'uuid',
         options: {
             customBodyRender: (_, rowIndex) => {
                 return getRowData(rowIndex)?.short_uuid ?? '-'
@@ -116,49 +116,44 @@ const DATATABLE_COLUMNS: DatatableProps<Payroll>['columns'] = [
         },
     },
     {
-        name: 'type',
         label: 'Jenis',
+        name: 'type',
         options: {
             customBodyRender: ucWords,
         },
     },
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
     },
     {
-        name: 'earning_rp_cache',
         label: 'Total Gaji Kotor',
+        name: 'earning_rp_cache',
         options: {
+            customBodyRender: (value: number) => numberToCurrency(value),
             setCellProps: () => ({
                 style: {
                     whiteSpace: 'nowrap',
                 },
             }),
-            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
     {
-        name: 'deduction_rp_cache',
         label: 'Total Potongan',
+        name: 'deduction_rp_cache',
         options: {
+            customBodyRender: (value: number) => numberToCurrency(value),
             setCellProps: () => ({
                 style: {
                     whiteSpace: 'nowrap',
                 },
             }),
-            customBodyRender: (value: number) => numberToCurrency(value),
         },
     },
     {
-        name: 'final_rp_cache',
         label: 'Total Gaji Bersih',
+        name: 'final_rp_cache',
         options: {
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: 'nowrap',
-                },
-            }),
             customBodyRender: (value: number) => (
                 <Box
                     color={value <= 0 ? 'error.main' : undefined}
@@ -166,11 +161,16 @@ const DATATABLE_COLUMNS: DatatableProps<Payroll>['columns'] = [
                     {numberToCurrency(value)}
                 </Box>
             ),
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: 'nowrap',
+                },
+            }),
         },
     },
     {
-        name: 'processedByUser.name',
         label: 'Diproses Oleh',
+        name: 'processedByUser.name',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
@@ -180,13 +180,13 @@ const DATATABLE_COLUMNS: DatatableProps<Payroll>['columns'] = [
         },
     },
     {
-        name: 'uuid',
         label: 'Rincian',
+        name: 'uuid',
         options: {
-            filter: false,
-            sort: false,
-            searchable: false,
             customBodyRender: (uuid: UUID) => <DetailButton uuid={uuid} />,
+            filter: false,
+            searchable: false,
+            sort: false,
         },
     },
 ]

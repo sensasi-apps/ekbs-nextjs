@@ -1,15 +1,19 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import dayjs from 'dayjs'
-// materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 // icons-materials
 import BackupTable from '@mui/icons-material/BackupTable'
 import InventoryIcon from '@mui/icons-material/Inventory'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
+// vendors
+import { useState } from 'react'
+// parts
+import type { CreateFormValues } from '@/app/(auth)/marts/products/opnames/_parts/form'
+import FormDialog from '@/app/(auth)/marts/products/opnames/_parts/form-dialog'
+import ChipSmall from '@/components/ChipSmall'
 // components
 import Datatable, {
     type DatatableProps,
@@ -17,18 +21,14 @@ import Datatable, {
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
-import ChipSmall from '@/components/ChipSmall'
-// parts
-import type { CreateFormValues } from '@/app/(auth)/marts/products/opnames/_parts/form'
-import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
-import FormDialog from '@/app/(auth)/marts/products/opnames/_parts/form-dialog'
-// utils
-import formatNumber from '@/utils/format-number'
+import Mart from '@/enums/permissions/Mart'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // enums
 import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
-import Mart from '@/enums/permissions/Mart'
+import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
+// utils
+import formatNumber from '@/utils/format-number'
 
 let getRowData: GetRowDataType<ProductMovementOpname>
 
@@ -46,14 +46,15 @@ export default function Opnames() {
         <>
             <PageTitle title="Opname" />
             <Box mb={2}>
-                <Button startIcon={<BackupTable />} href="opnames/reports">
+                <Button href="opnames/reports" startIcon={<BackupTable />}>
                     Laporan
                 </Button>
             </Box>
 
             <Datatable
                 apiUrl={OpnameApiUrl.DATATABLE}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                columns={columns}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
                 getRowDataCallback={fn => (getRowData = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
@@ -65,18 +66,17 @@ export default function Opnames() {
                 }}
                 tableId="opnames-table"
                 title="Daftar Opname Stok"
-                columns={columns}
             />
 
             <FormDialog
                 formValues={formValues}
-                onSubmitted={uuid => push(`/marts/products/opnames/${uuid}`)}
                 onClose={handleClose}
+                onSubmitted={uuid => push(`/marts/products/opnames/${uuid}`)}
             />
 
             <Fab
-                in={isAuthHasPermission(Mart.CREATE_OPNAME)}
                 disabled={!!formValues}
+                in={isAuthHasPermission(Mart.CREATE_OPNAME)}
                 onClick={() =>
                     setFormValues({
                         at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
@@ -91,38 +91,38 @@ export default function Opnames() {
 
 const columns: DatatableProps<ProductMovementOpname>['columns'] = [
     {
-        name: 'uuid',
         label: 'ID',
+        name: 'uuid',
         options: {
             display: 'excluded',
         },
     },
 
     {
-        name: 'at',
         label: 'Waktu Mulai',
+        name: 'at',
         options: {
             customBodyRender: value => dayjs(value).format('YYYY-MM-DD HH:mm'),
         },
     },
 
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
             searchable: false,
         },
     },
 
     {
-        name: 'details.product_state',
         label: 'Kategori',
+        name: 'details.product_state',
         options: {
             customBodyRenderLite(_, rowIndex) {
                 const data = getRowData(rowIndex)
 
                 return (
-                    <Box display="flex" gap={0.5} flexShrink={0}>
+                    <Box display="flex" flexShrink={0} gap={0.5}>
                         {data?.details
                             .map(detail => detail.product_state?.category_name)
                             .filter((value, index, array) => {
@@ -141,32 +141,27 @@ const columns: DatatableProps<ProductMovementOpname>['columns'] = [
     },
 
     {
-        name: 'n_items',
         label: 'Jumlah Produk',
+        name: 'n_items',
         options: {
+            customBodyRender: value => formatNumber(value),
             searchable: false,
-            sort: false,
             setCellProps: () => ({
                 sx: { textAlign: 'right' },
             }),
-            customBodyRender: value => formatNumber(value),
+            sort: false,
         },
     },
 
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
     },
 
     {
-        name: '',
         label: 'Ditemukan (Rp)',
+        name: '',
         options: {
-            searchable: false,
-            sort: false,
-            setCellProps: () => ({
-                sx: { textAlign: 'right' },
-            }),
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
 
@@ -180,18 +175,18 @@ const columns: DatatableProps<ProductMovementOpname>['columns'] = [
                     ) ?? 0,
                 )
             },
+            searchable: false,
+            setCellProps: () => ({
+                sx: { textAlign: 'right' },
+            }),
+            sort: false,
         },
     },
 
     {
-        name: '',
         label: 'Hilang (Rp)',
+        name: '',
         options: {
-            searchable: false,
-            sort: false,
-            setCellProps: () => ({
-                sx: { textAlign: 'right' },
-            }),
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
 
@@ -205,18 +200,18 @@ const columns: DatatableProps<ProductMovementOpname>['columns'] = [
                     ) ?? 0,
                 )
             },
+            searchable: false,
+            setCellProps: () => ({
+                sx: { textAlign: 'right' },
+            }),
+            sort: false,
         },
     },
 
     {
-        name: '',
         label: 'Selisih (Rp)',
+        name: '',
         options: {
-            searchable: false,
-            sort: false,
-            setCellProps: () => ({
-                sx: { textAlign: 'right' },
-            }),
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
 
@@ -230,12 +225,17 @@ const columns: DatatableProps<ProductMovementOpname>['columns'] = [
                     ) ?? 0,
                 )
             },
+            searchable: false,
+            setCellProps: () => ({
+                sx: { textAlign: 'right' },
+            }),
+            sort: false,
         },
     },
 
     {
-        name: 'finished_at',
         label: 'Waktu Selesai',
+        name: 'finished_at',
         options: {
             customBodyRender: value =>
                 value ? dayjs(value).format('YYYY-MM-DD HH:mm') : null,

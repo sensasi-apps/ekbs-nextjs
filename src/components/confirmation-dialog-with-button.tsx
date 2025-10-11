@@ -1,9 +1,9 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
 // materials
 import Button, { type ButtonProps } from '@mui/material/Button'
+// vendors
+import { useState } from 'react'
 // components
 import ConfirmationDialog from './confirmation-dialog'
 
@@ -27,16 +27,16 @@ export default function ConfirmationDialogWithButton({
     return (
         <>
             <Button
-                onClick={shouldConfirm ? handleOpen : handleConfirm}
                 color={props.color}
+                onClick={shouldConfirm ? handleOpen : handleConfirm}
                 {...buttonProps}
             />
 
             <ConfirmationDialog
-                open={open}
+                confirmButtonProps={confirmButtonProps}
                 onCancel={handleClose}
                 onConfirm={handleConfirm}
-                confirmButtonProps={confirmButtonProps}
+                open={open}
                 {...props}
             />
         </>

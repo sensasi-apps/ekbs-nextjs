@@ -1,9 +1,10 @@
 // types
-import type { ReactNode } from 'react'
+
 // materials
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import type { ReactNode } from 'react'
 // components
 import ErrorCenter from '@/components/Statuses/ErrorCenter'
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
@@ -26,7 +27,7 @@ export default function GuestWithFormSubLayout({
 }) {
     return (
         <>
-            <Box display="flex" gap={3} alignItems="center">
+            <Box alignItems="center" display="flex" gap={3}>
                 <Avatar
                     sx={{
                         bgcolor: () => {
@@ -44,8 +45,8 @@ export default function GuestWithFormSubLayout({
 
                     <Typography
                         component="div"
-                        variant="h5"
-                        lineHeight="normal">
+                        lineHeight="normal"
+                        variant="h5">
                         {title}
                     </Typography>
                 </Box>

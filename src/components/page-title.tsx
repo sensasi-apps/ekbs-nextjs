@@ -13,8 +13,8 @@ export default function PageTitle({
     return (
         <>
             <Typography
-                fontSize="2.5rem"
                 component="h1"
+                fontSize="2.5rem"
                 fontWeight="500"
                 lineHeight={1}
                 mb={6}>
@@ -23,12 +23,12 @@ export default function PageTitle({
 
             {subtitle && (
                 <Typography
-                    mt={-5.5}
-                    mb={6}
-                    variant="subtitle2"
+                    color="textDisabled"
                     component="div"
                     fontWeight="100"
-                    color="textDisabled">
+                    mb={6}
+                    mt={-5.5}
+                    variant="subtitle2">
                     {subtitle}
                 </Typography>
             )}

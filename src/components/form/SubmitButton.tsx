@@ -16,22 +16,22 @@ const FormSubmitButton = memo(function FormSubmitButton({
 }) {
     return (
         <ConfirmationDialogWithButton
-            title="Konfirmasi Perubahan"
-            shouldConfirm={oldDirty}
-            onConfirm={() => {}}
-            color="success"
             buttonProps={{
-                type: oldDirty ? 'button' : 'submit',
-                form: form,
-                variant: 'contained',
-                loading: loading,
-                disabled: disabled,
                 children: 'Simpan',
-            }}
-            confirmButtonProps={{
-                type: 'submit',
+                disabled: disabled,
                 form: form,
-            }}>
+                loading: loading,
+                type: oldDirty ? 'button' : 'submit',
+                variant: 'contained',
+            }}
+            color="success"
+            confirmButtonProps={{
+                form: form,
+                type: 'submit',
+            }}
+            onConfirm={() => {}}
+            shouldConfirm={oldDirty}
+            title="Konfirmasi Perubahan">
             {confirmationText ?? 'Apakah Anda yakin ingin menyimpan perubahan?'}
         </ConfirmationDialogWithButton>
     )

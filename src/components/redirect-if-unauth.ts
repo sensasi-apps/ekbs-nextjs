@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect } from 'react'
+import type { Route } from 'next'
 import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 // providers
 import useAuthInfo from '@/hooks/use-auth-info'
-import type { Route } from 'next'
 
 export default function RedirectIfUnauth() {
     const { push } = useRouter()

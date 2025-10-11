@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
-// materials
-import ListItemText from '@mui/material/ListItemText'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import MenuItem from '@mui/material/MenuItem'
-import Typography from '@mui/material/Typography'
 // icons
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
+import ListItemIcon from '@mui/material/ListItemIcon'
+// materials
+import ListItemText from '@mui/material/ListItemText'
+import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
+import { useEffect, useState } from 'react'
 
 export default function FullscreenMenuItem() {
     const [isFullscreen, setIsFullscreen] = useState(false)
@@ -46,7 +46,7 @@ export default function FullscreenMenuItem() {
             </ListItemIcon>
             <ListItemText>{isFullscreen && 'Tutup '}Layar Penuh</ListItemText>
 
-            <Typography variant="body2" color="text.secondary">
+            <Typography color="text.secondary" variant="body2">
                 F11
             </Typography>
         </MenuItem>

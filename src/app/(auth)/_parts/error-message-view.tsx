@@ -13,33 +13,33 @@ export default function ErrorMessageView({
     return (
         <Container maxWidth="md">
             <Box
-                display="flex"
-                flexDirection={{ xs: 'column', md: 'row' }}
                 alignItems="center"
+                display="flex"
+                flexDirection={{ md: 'row', xs: 'column' }}
+                gap={4}
                 justifyContent="center"
-                textAlign={{ xs: 'center', md: 'left' }}
                 pt={4}
-                gap={4}>
+                textAlign={{ md: 'left', xs: 'center' }}>
                 <Box
+                    alt={`${code} Illustration`}
                     component="img"
                     src={error.image}
-                    alt={`${code} Illustration`}
                     sx={{
-                        maxWidth: { xs: '80%', md: '50%' },
                         height: 'auto',
+                        maxWidth: { md: '50%', xs: '80%' },
                     }}
                 />
 
                 <Box>
-                    <Typography variant="h2" fontWeight="bold" gutterBottom>
+                    <Typography fontWeight="bold" gutterBottom variant="h2">
                         {error.title}
                     </Typography>
 
-                    <Typography variant="body1" color="text.secondary" mb={6}>
+                    <Typography color="text.secondary" mb={6} variant="body1">
                         {error.message}
                     </Typography>
 
-                    <Typography variant="caption" color="textDisabled">
+                    <Typography color="textDisabled" variant="caption">
                         Silakan hubungi admin jika Anda merasa ini adalah
                         kekeliruan.
                     </Typography>
@@ -51,14 +51,14 @@ export default function ErrorMessageView({
 
 const ERRORS = {
     403: {
-        title: 'Akses Ditolak',
-        message: 'Anda tidak memiliki izin untuk mengakses halaman ini.',
         image: '/assets/illustrations/undraw_secure-server_lz9x.svg',
+        message: 'Anda tidak memiliki izin untuk mengakses halaman ini.',
+        title: 'Akses Ditolak',
     },
 
     inactive: {
-        title: 'Akun Tidak Aktif',
-        message: 'Akun anda belum aktif atau telah dinonaktifkan.',
         image: '/assets/illustrations/undraw_security_0ubl.svg',
+        message: 'Akun anda belum aktif atau telah dinonaktifkan.',
+        title: 'Akun Tidak Aktif',
     },
 }

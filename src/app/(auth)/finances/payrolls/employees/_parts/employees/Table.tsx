@@ -1,10 +1,6 @@
-import type Payroll from '@/types/orms/payroll'
-import type PayrollUser from '@/types/orms/payroll-user'
-// vendors
-import { useState } from 'react'
-import { Formik } from 'formik'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+// icons
+import SettingsIcon from '@mui/icons-material/Settings'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 // materials
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
@@ -15,20 +11,24 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import PayrollSlip from './Table/PayrollSlip'
-// icons
-import SettingsIcon from '@mui/icons-material/Settings'
-import VisibilityIcon from '@mui/icons-material/Visibility'
+import dayjs from 'dayjs'
+import { Formik } from 'formik'
+// vendors
+import { useState } from 'react'
+// enums
+import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
 import IconButton from '@/components/IconButton'
-import PayrollEmployeeDetailsForm, { type FormikValues } from './DetailForm'
 import PrintHandler from '@/components/PrintHandler'
+import axios from '@/lib/axios'
+import type Payroll from '@/types/orms/payroll'
+import type PayrollUser from '@/types/orms/payroll-user'
+import handle422 from '@/utils/handle-422'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
-import handle422 from '@/utils/handle-422'
-// enums
-import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
+import PayrollEmployeeDetailsForm, { type FormikValues } from './DetailForm'
+import PayrollSlip from './Table/PayrollSlip'
 
 export default function PayrollsEmployeesTable({
     data,
@@ -159,12 +159,12 @@ export default function PayrollsEmployeesTable({
                                         </TableCell>
                                         <TableCell
                                             sx={{
-                                                whiteSpace: 'nowrap',
                                                 color:
                                                     payrollUser.final_rp_cache <
                                                     0
                                                         ? 'error.main'
                                                         : undefined,
+                                                whiteSpace: 'nowrap',
                                             }}>
                                             {numberToCurrency(
                                                 payrollUser.final_rp_cache,
@@ -173,20 +173,6 @@ export default function PayrollsEmployeesTable({
 
                                         <TableCell>
                                             <PrintHandler
-                                                slotProps={{
-                                                    printButton: {
-                                                        size: 'small',
-                                                        children:
-                                                            isFinished ? undefined : ( // default
-                                                                <VisibilityIcon />
-                                                            ),
-                                                    },
-                                                    tooltip: {
-                                                        title: isFinished
-                                                            ? 'Cetak Slip Gaji'
-                                                            : 'Pratinjau',
-                                                    },
-                                                }}
                                                 documentTitle={`${
                                                     !isFinished
                                                         ? 'Pratinjau '
@@ -198,6 +184,9 @@ export default function PayrollsEmployeesTable({
                                                     } — ${dayjs().format(
                                                         'YYYYMMDDHHmmss',
                                                     )}`}
+                                                onAfterPrint={() => {
+                                                    history.back()
+                                                }}
                                                 onBeforePrint={async () => {
                                                     history.pushState(
                                                         null,
@@ -206,23 +195,34 @@ export default function PayrollsEmployeesTable({
                                                             payrollUser.uuid,
                                                     )
                                                 }}
-                                                onAfterPrint={() => {
-                                                    history.back()
+                                                slotProps={{
+                                                    printButton: {
+                                                        children:
+                                                            isFinished ? undefined : ( // default
+                                                                <VisibilityIcon />
+                                                            ),
+                                                        size: 'small',
+                                                    },
+                                                    tooltip: {
+                                                        title: isFinished
+                                                            ? 'Cetak Slip Gaji'
+                                                            : 'Pratinjau',
+                                                    },
                                                 }}>
                                                 <PayrollSlip
-                                                    payrollData={data}
                                                     data={payrollUser}
                                                     isPreview={!isFinished}
+                                                    payrollData={data}
                                                 />
                                             </PrintHandler>
                                             {!isFinished && (
                                                 <IconButton
-                                                    size="small"
-                                                    title="Atur"
+                                                    icon={SettingsIcon}
                                                     onClick={() =>
                                                         handleOpen(payrollUser)
                                                     }
-                                                    icon={SettingsIcon}
+                                                    size="small"
+                                                    title="Atur"
                                                 />
                                             )}
                                         </TableCell>
@@ -252,12 +252,13 @@ export default function PayrollsEmployeesTable({
 
             {data && (
                 <DialogWithTitle
-                    title="Rincian"
+                    maxWidth="sm"
                     open={isDialogOpen}
-                    maxWidth="sm">
+                    title="Rincian">
                     <Formik
-                        initialValues={initialFormikValues}
                         initialStatus={initialFormikStatus}
+                        initialValues={initialFormikValues}
+                        onReset={handleClose}
                         onSubmit={(values, { setErrors }) =>
                             axios
                                 .post(
@@ -282,12 +283,10 @@ export default function PayrollsEmployeesTable({
                                     handleClose()
                                 })
                                 .catch(error => handle422(error, setErrors))
-                        }
-                        onReset={handleClose}>
+                        }>
                         {({ setErrors, ...props }) => (
                             <PayrollEmployeeDetailsForm
                                 {...props}
-                                setErrors={setErrors}
                                 handleDelete={() => {
                                     setDeleting(true)
 
@@ -313,6 +312,7 @@ export default function PayrollsEmployeesTable({
                                         })
                                 }}
                                 isDeleting={deleting}
+                                setErrors={setErrors}
                             />
                         )}
                     </Formik>

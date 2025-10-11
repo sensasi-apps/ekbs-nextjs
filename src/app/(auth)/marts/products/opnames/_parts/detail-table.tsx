@@ -1,7 +1,7 @@
 // vendors
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
+
+// icons-materials
+import RemoveCircle from '@mui/icons-material/RemoveCircle'
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -10,14 +10,15 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-// icons-materials
-import RemoveCircle from '@mui/icons-material/RemoveCircle'
-//
-import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
-import axios from '@/lib/axios'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 import IconButton from '@/components/IconButton'
 import NumericFormat from '@/components/NumericFormat'
+import axios from '@/lib/axios'
 import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
+//
+import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
 import formatNumber from '@/utils/format-number'
 
 export default function DetailTable({
@@ -68,10 +69,10 @@ export default function DetailTable({
                         <TableCell align="right">QTY Sistem</TableCell>
                         <TableCell align="right">QTY Fisik</TableCell>
                         <TableCell
+                            align="right"
                             sx={{
                                 displayPrint: finished ? undefined : 'none',
-                            }}
-                            align="right">
+                            }}>
                             Selisih (QTY)
                         </TableCell>
                         <TableCell
@@ -87,7 +88,7 @@ export default function DetailTable({
                 <TableBody>
                     {data.length === 0 && (
                         <TableRow>
-                            <TableCell colSpan={9} align="center">
+                            <TableCell align="center" colSpan={9}>
                                 Tidak ada data
                             </TableCell>
                         </TableRow>
@@ -105,20 +106,20 @@ export default function DetailTable({
                                 <TableCell>
                                     {!finished && (
                                         <IconButton
+                                            color="error"
                                             disabled={isLoading || disabled}
                                             icon={RemoveCircle}
-                                            title="Hapus dari opname"
-                                            color="error"
                                             onClick={() => handleRemove(id)}
-                                            tabIndex={-1}
-                                            sx={{
-                                                displayPrint: 'none',
-                                            }}
                                             slotProps={{
                                                 tooltip: {
                                                     placement: 'left',
                                                 },
                                             }}
+                                            sx={{
+                                                displayPrint: 'none',
+                                            }}
+                                            tabIndex={-1}
+                                            title="Hapus dari opname"
                                         />
                                     )}
 
@@ -152,29 +153,29 @@ export default function DetailTable({
                                         (warehouse_state?.qty ?? 0) + qty
                                     ) : (
                                         <NumericFormat
-                                            value={
-                                                (warehouse_state?.qty ?? 0) +
-                                                qty
-                                            }
-                                            margin="none"
-                                            sx={{
-                                                displayPrint: 'none',
-                                            }}
                                             disabled={isLoading || disabled}
+                                            inputProps={{
+                                                sx: {
+                                                    px: 1,
+                                                    py: 0,
+                                                    textAlign: 'right',
+                                                    width: '4em',
+                                                },
+                                            }}
+                                            margin="none"
                                             onValueChange={({ floatValue }) =>
                                                 onValueChangeDebounced(
                                                     id,
                                                     floatValue ?? 0,
                                                 )
                                             }
-                                            inputProps={{
-                                                sx: {
-                                                    width: '4em',
-                                                    py: 0,
-                                                    px: 1,
-                                                    textAlign: 'right',
-                                                },
+                                            sx={{
+                                                displayPrint: 'none',
                                             }}
+                                            value={
+                                                (warehouse_state?.qty ?? 0) +
+                                                qty
+                                            }
                                         />
                                     )}
                                 </TableCell>
@@ -210,7 +211,7 @@ export default function DetailTable({
                         displayPrint: finished ? undefined : 'none',
                     }}>
                     <TableRow>
-                        <TableCell colSpan={5} align="right">
+                        <TableCell align="right" colSpan={5}>
                             TOTAL
                         </TableCell>
 

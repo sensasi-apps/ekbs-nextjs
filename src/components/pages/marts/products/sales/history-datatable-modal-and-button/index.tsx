@@ -1,23 +1,23 @@
 'use client'
 
-// vendors
-import { useState } from 'react'
+// icons-materials
+import HistoryIcon from '@mui/icons-material/History'
 // materials
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
-// icons-materials
-import HistoryIcon from '@mui/icons-material/History'
+// vendors
+import { useState } from 'react'
 // components
 import IconButton from '@/components/IconButton'
-import Datatable from './components/datatable'
-import BalanceInSummary from './components/balance-in-summary'
-import SalesReport from './components/sales-report'
 // enums
 import Mart from '@/enums/permissions/Mart'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import BalanceInSummary from './components/balance-in-summary'
+import Datatable from './components/datatable'
+import SalesReport from './components/sales-report'
 
 export default function HistoryDatatableModalAndButton() {
     const [open, setOpen] = useState(false)
@@ -32,23 +32,23 @@ export default function HistoryDatatableModalAndButton() {
     return (
         <>
             <IconButton
-                title="Riwayat"
                 icon={HistoryIcon}
-                size="medium"
                 onClick={() => setOpen(true)}
+                size="medium"
+                title="Riwayat"
             />
 
             <Dialog
                 aria-modal="true"
-                maxWidth="md"
                 fullWidth
-                open={open}
-                onClose={() => setOpen(false)}>
+                maxWidth="md"
+                onClose={() => setOpen(false)}
+                open={open}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs
-                        value={value}
+                        aria-label="basic tabs example"
                         onChange={handleChange}
-                        aria-label="basic tabs example">
+                        value={value}>
                         <Tab label="Semua" {...a11yProps(0)} />
                         <Tab label="Saldo Masuk" {...a11yProps(1)} />
 
@@ -57,17 +57,17 @@ export default function HistoryDatatableModalAndButton() {
                         )}
                     </Tabs>
                 </Box>
-                <CustomTabPanel value={value} index={0}>
+                <CustomTabPanel index={0} value={value}>
                     <Datatable />
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
+                <CustomTabPanel index={1} value={value}>
                     <Box p={4}>
                         <BalanceInSummary />
                     </Box>
                 </CustomTabPanel>
 
                 {isAuthHasPermission(Mart.READ_SALE_REPORT) && (
-                    <CustomTabPanel value={value} index={2}>
+                    <CustomTabPanel index={2} value={value}>
                         <Box p={4}>
                             <SalesReport />
                         </Box>
@@ -89,10 +89,10 @@ function CustomTabPanel(props: TabPanelProps) {
 
     return (
         <div
-            role="tabpanel"
+            aria-labelledby={`tab-${index}`}
             hidden={value !== index}
             id={`tabpanel-${index}`}
-            aria-labelledby={`tab-${index}`}
+            role="tabpanel"
             {...other}>
             {value === index && <Box>{children}</Box>}
         </div>
@@ -101,7 +101,7 @@ function CustomTabPanel(props: TabPanelProps) {
 
 function a11yProps(index: number) {
     return {
-        id: `tab-${index}`,
         'aria-controls': `tabpanel-${index}`,
+        id: `tab-${index}`,
     }
 }

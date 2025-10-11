@@ -1,13 +1,5 @@
 // types
-import type { Ymd } from '@/types/date-string'
-import type CashType from '@/types/orms/cash'
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
-// vendors
-import { Field, useFormik, type FormikProps, type FieldProps } from 'formik'
-import { useEffect, useState, memo } from 'react'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
+
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -23,31 +15,40 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
+import dayjs from 'dayjs'
+// vendors
+import { Field, type FieldProps, type FormikProps, useFormik } from 'formik'
+import { memo, useEffect, useState } from 'react'
+import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
-import NumericFormat from '@/components/NumericFormat'
 import FormikForm from '@/components/formik-form'
-import LoadingAdornment from '@/components/LoadingAddorment'
 import SelectFromApi from '@/components/Global/SelectFromApi'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
+import LoadingAdornment from '@/components/LoadingAddorment'
+import NumericFormat from '@/components/NumericFormat'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserAutocomplete from '@/components/user-autocomplete'
+import Role from '@/enums/role'
+import useAuthInfo from '@/hooks/use-auth-info'
+// hooks
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import axios from '@/lib/axios'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+// modules
+import type MinimalUser from '@/modules/user/types/minimal-user'
+import type { Ymd } from '@/types/date-string'
+import type CashType from '@/types/orms/cash'
+// utils
+import debounce from '@/utils/debounce'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // utils
 import getLoanStatusColor from '@/utils/get-loan-status-color'
 import errorCatcher from '@/utils/handle-422'
 // local components
 import type { UserLoanFormDataType } from './Form/types'
 import UserLoanInstallmentDialog from './InstallmentDialog'
-// utils
-import debounce from '@/utils/debounce'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import Role from '@/enums/role'
-import useAuthInfo from '@/hooks/use-auth-info'
-// hooks
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
-// modules
-import type MinimalUser from '@/modules/user/types/minimal-user'
 
 export default function LoanForm({
     errors,
@@ -145,47 +146,47 @@ export default function LoanForm({
 
     return (
         <FormikForm
+            dirty={dirty}
             id="user-loan-form"
             isNew={isNew}
-            dirty={dirty}
-            submitting={isSubmitting}
             processing={isProcessing}
             slotProps={{
                 deleteButton: {
-                    onClick: () => handleDelete(),
-                    loading: isDeleting,
                     disabled: isDisabled || !isUserCanDelete,
+                    loading: isDeleting,
+                    onClick: () => handleDelete(),
                 },
                 submitButton: {
                     disabled: false,
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             <UserLoanInfoGrid data={userLoanFromDb} />
 
             <Field name="type">
                 {({ field: { value, onChange, name } }: FieldProps) => (
                     <FormControl
-                        error={Boolean(errors.type)}
                         disabled={isDisabled}
+                        error={Boolean(errors.type)}
                         fullWidth
-                        required
-                        margin="dense">
+                        margin="dense"
+                        required>
                         <FormLabel required>Jenis</FormLabel>
                         <RadioGroup
-                            row
-                            value={(value as string).toLocaleLowerCase()}
                             name={name}
-                            onChange={onChange}>
+                            onChange={onChange}
+                            row
+                            value={(value as string).toLocaleLowerCase()}>
                             <FormControlLabel
-                                value="dana tunai"
-                                required
                                 control={<Radio />}
                                 label="Dana Tunai"
+                                required
+                                value="dana tunai"
                             />
                             <FormControlLabel
-                                value="kredit barang"
                                 control={<Radio />}
                                 label="Kredit Barang"
+                                value="kredit barang"
                             />
                         </RadioGroup>
                         {Boolean(errors.type) && (
@@ -197,75 +198,75 @@ export default function LoanForm({
 
             {isManager && (
                 <UserAutocomplete
-                    label="Pemohon"
                     disabled={isDisabled}
                     fullWidth
+                    label="Pemohon"
                     onChange={(_, user) => {
                         setUserAutocompleteValue(user)
                         setFieldValue('user_uuid', user?.uuid)
                     }}
-                    value={userAutocompleteValue}
                     slotProps={{
                         textField: {
-                            required: true,
                             margin: 'dense',
+                            required: true,
                             ...errorsToHelperTextObj(errors.user_uuid),
                         },
                     }}
+                    value={userAutocompleteValue}
                 />
             )}
 
             <NumericFormat
-                label="Jumlah"
-                disabled={isDisabled}
                 decimalScale={0}
-                value={values.proposed_rp}
+                disabled={isDisabled}
+                InputProps={{
+                    startAdornment: <RpInputAdornment />,
+                }}
+                label="Jumlah"
                 name="proposed_rp"
                 onValueChange={({ floatValue }) =>
                     debounce(() => setFieldValue('proposed_rp', floatValue))
                 }
-                InputProps={{
-                    startAdornment: <RpInputAdornment />,
-                }}
+                value={values.proposed_rp}
                 {...errorsToHelperTextObj(errors.proposed_rp)}
             />
 
             <Box display="flex" gap={1}>
                 <NumericFormat
-                    label="Jangka Waktu"
-                    disabled={isDisabled}
                     decimalScale={0}
-                    value={values.n_term}
+                    disabled={isDisabled}
+                    inputProps={{
+                        maxLength: 2,
+                        minLength: 1,
+                    }}
+                    label="Jangka Waktu"
                     name="n_term"
                     onValueChange={({ floatValue }) =>
                         debounce(() => setFieldValue('n_term', floatValue))
                     }
-                    inputProps={{
-                        minLength: 1,
-                        maxLength: 2,
-                    }}
+                    value={values.n_term}
                     {...errorsToHelperTextObj(errors.n_term)}
                 />
 
                 <FormControl
-                    required
-                    margin="dense"
                     disabled={isDisabled || mode === 'applier'}
+                    error={Boolean(errors.term_unit)}
                     fullWidth
-                    error={Boolean(errors.term_unit)}>
+                    margin="dense"
+                    required>
                     <InputLabel size="small">Satuan Waktu Angsuran</InputLabel>
                     <Select
+                        endAdornment={
+                            <LoadingAdornment show={isTermUnitLoading} />
+                        }
                         label="Satuan Waktu Angsuran"
-                        size="small"
-                        required
                         name="term_unit"
-                        value={values.term_unit}
                         onChange={e =>
                             setFieldValue('term_unit', e.target.value)
                         }
-                        endAdornment={
-                            <LoadingAdornment show={isTermUnitLoading} />
-                        }>
+                        required
+                        size="small"
+                        value={values.term_unit}>
                         <MenuItem value="minggu">Minggu</MenuItem>
                         <MenuItem value="bulan">Bulan</MenuItem>
                     </Select>
@@ -276,24 +277,18 @@ export default function LoanForm({
             </Box>
 
             <Field
-                name="purpose"
-                label="Keperluan"
                 component={TextFieldFastableComponent}
-                multiline
                 disabled={isDisabled}
+                label="Keperluan"
+                multiline
+                name="purpose"
                 rows={2}
             />
 
             <Box display="flex" gap={1}>
                 <DatePicker
-                    slotProps={{
-                        textField: {
-                            name: 'proposed_at',
-                            ...errorsToHelperTextObj(errors.proposed_at),
-                        },
-                    }}
-                    label="Tanggal"
                     disabled={isDisabled || isApplierMode}
+                    label="Tanggal"
                     onChange={value =>
                         debounce(() =>
                             setFieldValue(
@@ -302,31 +297,37 @@ export default function LoanForm({
                             ),
                         )
                     }
+                    slotProps={{
+                        textField: {
+                            name: 'proposed_at',
+                            ...errorsToHelperTextObj(errors.proposed_at),
+                        },
+                    }}
                     value={
                         values.proposed_at ? dayjs(values.proposed_at) : null
                     }
                 />
 
                 <NumericFormat
-                    label={'Persentase Jasa per ' + values.term_unit}
-                    disabled={isDisabled || !isAuthHasRole(Role.EMPLOYEE)}
                     decimalScale={1}
-                    value={values.interest_percent}
+                    disabled={isDisabled || !isAuthHasRole(Role.EMPLOYEE)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                        ),
+                    }}
+                    inputProps={{
+                        maxLength: 4,
+                        minLength: 1,
+                    }}
+                    label={'Persentase Jasa per ' + values.term_unit}
                     name={'interest_percent'}
                     onValueChange={({ floatValue }) =>
                         debounce(() =>
                             setFieldValue('interest_percent', floatValue),
                         )
                     }
-                    inputProps={{
-                        minLength: 1,
-                        maxLength: 4,
-                    }}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
-                        ),
-                    }}
+                    value={values.interest_percent}
                     {...errorsToHelperTextObj(errors.interest_percent)}
                 />
             </Box>
@@ -340,15 +341,10 @@ export default function LoanForm({
 
             <Box mb={1}>
                 <SelectFromApi
-                    required
+                    disabled={disabledCashUuid}
                     endpoint="/data/cashes"
                     label="Telah dicairkan melalui Kas"
-                    size="small"
                     margin="none"
-                    disabled={disabledCashUuid}
-                    selectProps={{
-                        value: loanValues.cashable_uuid ?? '',
-                    }}
                     onValueChange={(cash: CashType) => {
                         setFieldValue('cashable_uuid', cash.uuid)
                     }}
@@ -358,16 +354,21 @@ export default function LoanForm({
                                 <Chip
                                     label={cash.code}
                                     size="small"
-                                    variant="outlined"
                                     sx={{
                                         mr: 1,
                                     }}
+                                    variant="outlined"
                                 />
                             )}
 
                             {cash.name}
                         </MenuItem>
                     )}
+                    required
+                    selectProps={{
+                        value: loanValues.cashable_uuid ?? '',
+                    }}
+                    size="small"
                     {...errorsToHelperTextObj(errors.cashable_uuid)}
                 />
             </Box>
@@ -378,15 +379,15 @@ export default function LoanForm({
 }
 
 export const INITIAL_VALUES: UserLoanFormDataType = {
-    user_uuid: '',
-    type: 'dana tunai',
-    proposed_rp: '',
-    proposed_at: dayjs().format('YYYY-MM-DD') as Ymd,
-    purpose: '',
-    n_term: '',
-    term_unit: 'bulan',
-    interest_percent: 1.5,
     cashable_uuid: '',
+    interest_percent: 1.5,
+    n_term: '',
+    proposed_at: dayjs().format('YYYY-MM-DD') as Ymd,
+    proposed_rp: '',
+    purpose: '',
+    term_unit: 'bulan',
+    type: 'dana tunai',
+    user_uuid: '',
 }
 
 const UserLoanInfoGrid = memo(function UserLoanInfoGrid({
@@ -413,7 +414,7 @@ const UserLoanInfoGrid = memo(function UserLoanInfoGrid({
                             margin: 0,
                         }}>
                         {userLoan?.responses?.map((response, i) => (
-                            <Typography key={i} component="li">
+                            <Typography component="li" key={i}>
                                 {'by_user' in response && response.by_user
                                     ? response.by_user.name
                                     : ''}
@@ -426,9 +427,9 @@ const UserLoanInfoGrid = memo(function UserLoanInfoGrid({
             <Grid item xs={6}>
                 <Typography variant="caption">Status:</Typography>
                 <Typography
+                    color={getLoanStatusColor(userLoan.status, '.main')}
                     fontWeight="bold"
-                    textTransform="capitalize"
-                    color={getLoanStatusColor(userLoan.status, '.main')}>
+                    textTransform="capitalize">
                     {userLoan.status}
                 </Typography>
             </Grid>

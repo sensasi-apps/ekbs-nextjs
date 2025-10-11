@@ -4,7 +4,7 @@ import PageClient from './page-client'
 export default function FarmInputsProducts() {
     return (
         <>
-            <PageTitle title="Produk" subtitle="SAPRODI" />
+            <PageTitle subtitle="SAPRODI" title="Produk" />
 
             <PageClient />
         </>

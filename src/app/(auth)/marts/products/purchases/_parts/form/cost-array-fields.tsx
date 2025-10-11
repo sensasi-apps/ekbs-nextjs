@@ -1,24 +1,25 @@
 // types
-import type ProductMovementCost from '@/modules/mart/types/orms/product-movement-cost'
-import type { FormValues } from '../form'
-// vendors
-import type { FieldArrayRenderProps } from 'formik'
+
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import AutoFixHigh from '@mui/icons-material/AutoFixHigh'
+// icons
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 // materials
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
+// vendors
+import type { FieldArrayRenderProps } from 'formik'
 // components
 import NumericField from '@/components/formik-fields/numeric-field'
 import TextField from '@/components/formik-fields/text-field'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
+import type ProductMovementCost from '@/modules/mart/types/orms/product-movement-cost'
 // utils
 import formatNumber from '@/utils/format-number'
-// icons
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import AutoFixHigh from '@mui/icons-material/AutoFixHigh'
+import type { FormValues } from '../form'
 
 export default function ProductMovementCostArrayFields({
     push,
@@ -33,18 +34,18 @@ export default function ProductMovementCostArrayFields({
 
     return (
         <Box mb={4}>
-            <Box display="flex" alignItems="center">
+            <Box alignItems="center" display="flex">
                 <Typography>Rincian Biaya</Typography>
                 <IconButton
-                    size="small"
                     color="success"
                     disabled={disabled}
-                    onClick={() => push({})}>
+                    onClick={() => push({})}
+                    size="small">
                     <AddCircleIcon />
                 </IconButton>
             </Box>
             {error && JSON.stringify(error) !== '{}' && (
-                <FormHelperText error component="ul">
+                <FormHelperText component="ul" error>
                     {Object.values(error)
                         .flatMap((v: string | object | Array<object>) =>
                             typeof v === 'string'
@@ -61,22 +62,22 @@ export default function ProductMovementCostArrayFields({
                         ))}
                 </FormHelperText>
             )}
-            <Grid container columnSpacing={1} alignItems="center">
+            <Grid alignItems="center" columnSpacing={1} container>
                 {value?.length > 0 && <HeaderGrid />}
 
                 {(value ?? []).map((_, index) => (
                     <Row
-                        name={name}
-                        key={index}
-                        index={index}
-                        remove={remove}
                         disabled={disabled}
+                        index={index}
+                        key={index}
+                        name={name}
+                        remove={remove}
                     />
                 ))}
 
                 {value?.length > 0 && (
                     <>
-                        <Grid textAlign="right" size={3} offset={1}>
+                        <Grid offset={1} size={3} textAlign="right">
                             <Typography variant="overline">Total</Typography>
                         </Grid>
 
@@ -92,7 +93,6 @@ export default function ProductMovementCostArrayFields({
                         <Grid size={5.5}>
                             <IconButton
                                 color="warning"
-                                size="small"
                                 disabled={disabled}
                                 onClick={() => {
                                     const { value } =
@@ -114,7 +114,8 @@ export default function ProductMovementCostArrayFields({
                                     }))
 
                                     setFieldValue('details', newDetails)
-                                }}>
+                                }}
+                                size="small">
                                 <AutoFixHigh />
                             </IconButton>
                         </Grid>
@@ -128,10 +129,10 @@ export default function ProductMovementCostArrayFields({
 function HeaderGrid() {
     return (
         <>
-            <Grid textAlign="center" size={3} offset={1}>
+            <Grid offset={1} size={3} textAlign="center">
                 <Typography variant="overline">Nama</Typography>
             </Grid>
-            <Grid textAlign="center" size={2.5}>
+            <Grid size={2.5} textAlign="center">
                 <Typography variant="overline">Nilai</Typography>
             </Grid>
             <Grid size={5.5} />
@@ -156,7 +157,7 @@ function Row({
                 <Typography variant="overline">{index + 1}</Typography>
             </Grid>
             <Grid size={3}>
-                <TextField name={`${name}.${index}.name`} disabled={disabled} />
+                <TextField disabled={disabled} name={`${name}.${index}.name`} />
             </Grid>
             <Grid size={2.5}>
                 <NumericField
@@ -171,11 +172,11 @@ function Row({
             </Grid>
             <Grid size={5.5}>
                 <IconButton
+                    color="error"
                     disabled={disabled}
-                    tabIndex={-1}
                     onClick={() => remove(index)}
                     size="small"
-                    color="error">
+                    tabIndex={-1}>
                     <RemoveCircleIcon />
                 </IconButton>
             </Grid>

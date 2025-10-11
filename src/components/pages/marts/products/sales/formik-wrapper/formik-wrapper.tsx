@@ -1,27 +1,31 @@
 'use client'
 
-// types
-import type { FormValuesType, FormikStatusType } from '.'
+import Grid from '@mui/material/Grid'
 import type { AxiosError } from 'axios'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+import dayjs from 'dayjs'
 // vendors
 import { Field, Formik } from 'formik'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
-import Grid from '@mui/material/Grid'
 // local components
 import ApiUrl from '@/app/mart-product-sales/_parts/enums/api-url'
-import ProductPicker from '../product-picker'
-import CreateSaleFormWrapper from './components/create-sale-form-wrapper'
+import axios from '@/lib/axios'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // etc
 import handle422 from '@/utils/handle-422'
+import ProductPicker from '../product-picker'
+// types
+import type { FormikStatusType, FormValuesType } from '.'
+import CreateSaleFormWrapper from './components/create-sale-form-wrapper'
 import { VALIDATION_SCHEMA } from './statics/validation-scheme'
 
 export function FormikWrapper() {
     return (
         <Formik<FormValuesType>
-            initialValues={JSON.parse(JSON.stringify(DEFAULT_FORM_VALUES))}
             initialStatus={{ ...DEFAULT_STATUS }}
+            initialValues={JSON.parse(JSON.stringify(DEFAULT_FORM_VALUES))}
+            onReset={(_, { setValues, setStatus }) => {
+                setValues(JSON.parse(JSON.stringify(DEFAULT_FORM_VALUES)))
+                setStatus({ ...DEFAULT_STATUS })
+            }}
             onSubmit={async (values, { setErrors, setStatus }) => {
                 const submittedData = {
                     ...values,
@@ -46,26 +50,22 @@ export function FormikWrapper() {
                         handle422(err, setErrors),
                     )
             }}
-            onReset={(_, { setValues, setStatus }) => {
-                setValues(JSON.parse(JSON.stringify(DEFAULT_FORM_VALUES)))
-                setStatus({ ...DEFAULT_STATUS })
-            }}
-            validationSchema={VALIDATION_SCHEMA}
             validateOnBlur={false}
-            validateOnChange={false}>
+            validateOnChange={false}
+            validationSchema={VALIDATION_SCHEMA}>
             <>
                 <Grid
                     size={{
-                        xs: 12,
                         md: 8,
+                        xs: 12,
                     }}>
-                    <Field name="details" component={ProductPicker} />
+                    <Field component={ProductPicker} name="details" />
                 </Grid>
 
                 <Grid
                     size={{
-                        xs: 12,
                         md: 4,
+                        xs: 12,
                     }}>
                     <CreateSaleFormWrapper />
                 </Grid>
@@ -75,8 +75,8 @@ export function FormikWrapper() {
 }
 
 const DEFAULT_FORM_VALUES: FormValuesType = {
-    details: [],
     costs: [],
+    details: [],
 }
 
 const DEFAULT_STATUS: FormikStatusType = {

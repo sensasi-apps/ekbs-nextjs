@@ -1,20 +1,21 @@
 // vendors
-import { useState } from 'react'
-import dayjs from 'dayjs'
+
+// icons-materials
+import Edit from '@mui/icons-material/Edit'
 // materials
 import IconButton from '@mui/material/IconButton'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
+import dayjs from 'dayjs'
+import { useState } from 'react'
 // components
 import UserDisplay from '@/components/user-display'
-// icons-materials
-import Edit from '@mui/icons-material/Edit'
-// utils
-import formatNumber from '@/utils/format-number'
 // modules
 import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-part-movement'
+// utils
+import formatNumber from '@/utils/format-number'
 import SparePartQtyAdjustmentFormDialog, {
     type CreateFormValues,
 } from '../spare-part-qty-adjustment-form-dialog'
@@ -47,11 +48,11 @@ export default function SummaryTable({
         <Table
             size="small"
             sx={{
-                width: 'unset',
                 '& td': {
-                    py: 0.3,
                     borderBottom: 'unset',
+                    py: 0.3,
                 },
+                width: 'unset',
             }}>
             <TableBody>
                 <TableRow>
@@ -140,22 +141,22 @@ function EditOpnameInfo({
     return (
         <>
             <IconButton
+                onClick={() => setFormValues({ at: data.at, note: data.note })}
                 size="small"
                 sx={{
                     ml: 1,
-                }}
-                onClick={() => setFormValues({ at: data.at, note: data.note })}>
+                }}>
                 <Edit />
             </IconButton>
 
             <SparePartQtyAdjustmentFormDialog
                 formValues={formValues}
-                selectedRow={data}
+                onClose={handleClose}
                 onSubmitted={() => {
                     setFormValues(undefined)
                     handleRefreshData?.()
                 }}
-                onClose={handleClose}
+                selectedRow={data}
             />
         </>
     )

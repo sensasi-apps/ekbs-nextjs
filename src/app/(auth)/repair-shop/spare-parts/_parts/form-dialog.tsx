@@ -1,6 +1,5 @@
 // vendors
-import { Formik, type FormikProps } from 'formik'
-import { useState } from 'react'
+
 // materials
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
@@ -8,11 +7,13 @@ import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import InputAdornment from '@mui/material/InputAdornment'
-// components
-import FormikForm from '@/components/formik-form'
+import { Formik, type FormikProps } from 'formik'
+import { useState } from 'react'
 import NumericField from '@/components/formik-fields/numeric-field'
 import Radio from '@/components/formik-fields/radio'
 import TextField from '@/components/formik-fields/text-field'
+// components
+import FormikForm from '@/components/formik-form'
 //
 import myAxios from '@/lib/axios'
 // utils
@@ -48,7 +49,7 @@ export default function SparePartFormDialog({
     const isNew = !formData?.id
 
     return (
-        <Dialog open={Boolean(formData)} maxWidth="xs">
+        <Dialog maxWidth="xs" open={Boolean(formData)}>
             <DialogTitle>
                 {isNew ? 'Tambah' : 'Ubah'} Data Suku Cadang
             </DialogTitle>
@@ -57,7 +58,9 @@ export default function SparePartFormDialog({
                     display: 'flex',
                 }}>
                 <Formik<FormData>
+                    component={SparePartFormikForm}
                     initialValues={formData ?? {}}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors, resetForm }) => {
                         const request = isNew ? myAxios.post : myAxios.put
 
@@ -69,8 +72,6 @@ export default function SparePartFormDialog({
                             .then(resetForm)
                             .catch(error => handle422(error, setErrors))
                     }}
-                    onReset={handleClose}
-                    component={SparePartFormikForm}
                 />
             </DialogContent>
         </Dialog>
@@ -98,25 +99,25 @@ function SparePartFormikForm({
 
     return (
         <FormikForm
-            id="product-purchase-form"
             autoComplete="off"
-            isNew={!values.id}
             dirty={dirty || Boolean(values.deleted_at)}
+            id="product-purchase-form"
+            isNew={!values.id}
             processing={isSubmitting}
-            submitting={isSubmitting}
             slotProps={{
-                submitButton: {
-                    disabled: isSubmitting,
-                },
                 deleteButton:
                     values.id && !values.deleted_at
                         ? {
-                              onClick: handleDelete,
-                              loading: isDeleting,
                               disabled: isSubmitting,
+                              loading: isDeleting,
+                              onClick: handleDelete,
                           }
                         : undefined,
-            }}>
+                submitButton: {
+                    disabled: isSubmitting,
+                },
+            }}
+            submitting={isSubmitting}>
             {values?.deleted_at && (
                 <Alert severity="warning">
                     Data telah dihapus pada <b>{toDmy(values.deleted_at)}.</b>{' '}
@@ -124,25 +125,25 @@ function SparePartFormikForm({
                 </Alert>
             )}
             <TextField
-                name="code"
-                label="Kode"
                 disabled={isSubmitting}
+                label="Kode"
+                name="code"
                 textFieldProps={{
-                    required: false,
                     helperText: values?.code
                         ? undefined
                         : 'Lewati isian untuk kode otomatis',
+                    required: false,
                 }}
             />
 
-            <TextField name="name" label="Name" disabled={isSubmitting} />
+            <TextField disabled={isSubmitting} label="Name" name="name" />
 
-            <TextField name="unit" label="Satuan" disabled={isSubmitting} />
+            <TextField disabled={isSubmitting} label="Satuan" name="unit" />
 
             <NumericField
-                name="low_number"
-                label="Jumlah Minimal"
                 disabled={isSubmitting}
+                label="Jumlah Minimal"
+                name="low_number"
                 numericFormatProps={{
                     required: false,
                     slotProps: {
@@ -159,9 +160,9 @@ function SparePartFormikForm({
 
             <Box display="flex" gap={1.5}>
                 <NumericField
-                    name="margin_percent"
-                    label="Marjin Default"
                     disabled={isSubmitting}
+                    label="Marjin Default"
+                    name="margin_percent"
                     numericFormatProps={{
                         slotProps: {
                             input: {
@@ -176,8 +177,8 @@ function SparePartFormikForm({
                 />
 
                 <NumericField
-                    name="installment_margin_percent"
                     label="Marjin Default Angsuran"
+                    name="installment_margin_percent"
                     numericFormatProps={{
                         slotProps: {
                             input: {
@@ -193,19 +194,19 @@ function SparePartFormikForm({
             </Box>
 
             <TextField
-                name="note"
-                label="Catatan"
-                textFieldProps={{
-                    required: false,
-                    multiline: true,
-                }}
                 disabled={isSubmitting}
+                label="Catatan"
+                name="note"
+                textFieldProps={{
+                    multiline: true,
+                    required: false,
+                }}
             />
 
             <Radio
                 disabled={isSubmitting}
-                name="vehicle_type"
                 label="Jenis"
+                name="vehicle_type"
                 options={[
                     {
                         label: 'Motor',

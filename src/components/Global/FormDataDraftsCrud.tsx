@@ -1,8 +1,10 @@
 // types
-import type { MouseEvent } from 'react'
-// vendors
-import { useEffect, useState } from 'react'
-import { enqueueSnackbar } from 'notistack'
+
+// icons
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditNoteIcon from '@mui/icons-material/EditNote'
+import SaveAsIcon from '@mui/icons-material/SaveAs'
 // materials
 import Badge from '@mui/material/Badge'
 import Box from '@mui/material/Box'
@@ -14,15 +16,14 @@ import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Tooltip from '@mui/material/Tooltip'
-// icons
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import SaveAsIcon from '@mui/icons-material/SaveAs'
-import EditNoteIcon from '@mui/icons-material/EditNote'
-import DeleteIcon from '@mui/icons-material/Delete'
-// hooks
-import useFormData from '@/providers/useFormData'
+import { enqueueSnackbar } from 'notistack'
+import type { MouseEvent } from 'react'
+// vendors
+import { useEffect, useState } from 'react'
 // utils
 import { dbPromise } from '@/lib/idb'
+// hooks
+import useFormData from '@/providers/useFormData'
 
 interface DraftType {
     id?: IDBValidKey
@@ -70,15 +71,15 @@ export default function FormDataDraftsCrud({
     const handleSaveAsDraft = () => {
         if (!currDataNameId)
             return enqueueSnackbar(`${dataKeyForNameId} tidak boleh kosong`, {
-                variant: 'error',
                 autoHideDuration: 10000,
+                variant: 'error',
             })
 
         return dbPromise.then(db => {
             const newDraft: DraftType = {
+                data: data,
                 modelName,
                 nameId: currDataNameId,
-                data: data,
             }
 
             if (draft?.id) newDraft.id = draft.id
@@ -104,8 +105,8 @@ export default function FormDataDraftsCrud({
                         return enqueueSnackbar(
                             `Operasi gagal, data ${currDataNameId} sudah ada pada draft`,
                             {
-                                variant: 'warning',
                                 autoHideDuration: 10000,
+                                variant: 'warning',
                             },
                         )
                     }
@@ -139,30 +140,30 @@ export default function FormDataDraftsCrud({
 
     return (
         <div>
-            <Box display="flex" alignItems="center">
-                <Tooltip title="Hapus draf" placement="top">
+            <Box alignItems="center" display="flex">
+                <Tooltip placement="top" title="Hapus draf">
                     <span>
                         <IconButton
                             color="error"
-                            size="small"
+                            disabled={!draft || loading}
                             onClick={handleDelete}
-                            disabled={!draft || loading}>
+                            size="small">
                             <DeleteIcon />
                         </IconButton>
                     </span>
                 </Tooltip>
 
                 <Badge
-                    badgeContent={drafts.length}
-                    color="warning"
                     anchorOrigin={{
                         horizontal: 'left',
                         vertical: 'top',
-                    }}>
+                    }}
+                    badgeContent={drafts.length}
+                    color="warning">
                     <Button
-                        onClick={drafts.length === 0 ? undefined : handleClick}
                         disabled={drafts.length === 0 || loading}
                         endIcon={<ArrowDropDownIcon />}
+                        onClick={drafts.length === 0 ? undefined : handleClick}
                         size="small">
                         {draft
                             ? draft.nameId
@@ -172,13 +173,13 @@ export default function FormDataDraftsCrud({
                     </Button>
                 </Badge>
 
-                <Tooltip title="Simpan sebagai draf" placement="top">
+                <Tooltip placement="top" title="Simpan sebagai draf">
                     <span>
                         <IconButton
-                            size="small"
-                            onClick={handleSaveAsDraft}
                             color="warning"
-                            disabled={!isDirty || loading}>
+                            disabled={!isDirty || loading}
+                            onClick={handleSaveAsDraft}
+                            size="small">
                             <SaveAsIcon />
                         </IconButton>
                     </span>
@@ -186,19 +187,19 @@ export default function FormDataDraftsCrud({
             </Box>
 
             <Menu
-                id="demo-positioned-menu"
-                aria-labelledby="demo-positioned-button"
                 anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
                 anchorOrigin={{
+                    horizontal: 'center',
                     vertical: 'bottom',
-                    horizontal: 'center',
                 }}
+                aria-labelledby="demo-positioned-button"
+                id="demo-positioned-menu"
+                onClose={handleClose}
+                open={Boolean(anchorEl)}
                 transformOrigin={{
-                    vertical: 'top',
                     horizontal: 'center',
-                }}
-                onClose={handleClose}>
+                    vertical: 'top',
+                }}>
                 <MenuItem
                     disabled={loading || (!isDirty && !draft)}
                     onClick={() => {
@@ -211,12 +212,12 @@ export default function FormDataDraftsCrud({
                 <Divider />
                 {drafts.map((draftOnIdb, i) => (
                     <MenuItem
-                        key={i}
-                        selected={draftOnIdb.nameId === draft?.nameId}
                         disabled={
                             loading || draftOnIdb.nameId === draft?.nameId
                         }
-                        onClick={() => handleSelect(draftOnIdb)}>
+                        key={i}
+                        onClick={() => handleSelect(draftOnIdb)}
+                        selected={draftOnIdb.nameId === draft?.nameId}>
                         <ListItemIcon>
                             <EditNoteIcon fontSize="small" />
                         </ListItemIcon>

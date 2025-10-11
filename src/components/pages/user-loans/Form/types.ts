@@ -1,5 +1,5 @@
-import type CashType from '@/types/orms/cash'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+import type CashType from '@/types/orms/cash'
 
 /**
  * Represents the data type for the user loan form.

@@ -1,20 +1,20 @@
 'use client'
 
-// types
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import type { FormikConfig } from 'formik'
-import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/types'
-// vendors
-import axios from '@/lib/axios'
 import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
 // components
 import { mutate } from '@/components/Datatable'
-import PageTitle from '@/components/page-title'
 import DialogWithTitle from '@/components/DialogWithTitle'
+import PageTitle from '@/components/page-title'
 // page components
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
+import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/types'
+// vendors
+import axios from '@/lib/axios'
+// types
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // utils
 import errorCatcher from '@/utils/handle-422'
 
@@ -30,15 +30,15 @@ export default function LoansPage() {
 
     const handleEdit = useCallback((values: UserLoanORM) => {
         setValues({
+            cashable_uuid: values.transaction?.cashable_uuid ?? '',
             interest_percent: values.interest_percent,
             n_term: values.n_term,
             proposed_at: values.proposed_at,
             proposed_rp: values.proposed_rp,
             purpose: values.purpose,
             term_unit: values.term_unit,
-            user_uuid: values.user_uuid,
             type: values.type,
-            cashable_uuid: values.transaction?.cashable_uuid ?? '',
+            user_uuid: values.user_uuid,
         })
         setUserLoanFromDb(values)
         setDialogOpen(true)
@@ -77,14 +77,14 @@ export default function LoansPage() {
 
             <DialogWithTitle open={dialogOpen} title={title}>
                 <Formik
-                    initialValues={values}
+                    component={LoanForm}
                     initialStatus={{
                         mode: 'applier',
                         userLoanFromDb: userLoanFromDb,
                     }}
-                    onSubmit={handleSubmit}
+                    initialValues={values}
                     onReset={closeDialog}
-                    component={LoanForm}
+                    onSubmit={handleSubmit}
                 />
             </DialogWithTitle>
         </>

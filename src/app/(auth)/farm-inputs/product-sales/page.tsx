@@ -1,5 +1,15 @@
 'use client'
 
+import BackupTableIcon from '@mui/icons-material/BackupTable'
+// icons
+import ReceiptIcon from '@mui/icons-material/Receipt'
+// materials
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+// vendors
+import { Formik } from 'formik'
+import { useState } from 'react'
 // types
 import type {
     DatatableProps,
@@ -7,44 +17,34 @@ import type {
     MutateType,
     OnRowClickType,
 } from '@/components/Datatable'
-import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-// vendors
-import { Formik } from 'formik'
-import { useState } from 'react'
-import axios from '@/lib/axios'
-// materials
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 // components
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import PrintHandler from '@/components/PrintHandler'
 import PageTitle from '@/components/page-title'
 import ProductSaleForm, {
-    EMPTY_FORM_STATUS,
     EMPTY_FORM_DATA,
+    EMPTY_FORM_STATUS,
 } from '@/components/pages/farm-input-product-sales/Form'
-// icons
-import ReceiptIcon from '@mui/icons-material/Receipt'
-import BackupTableIcon from '@mui/icons-material/BackupTable'
-// utils
-import errorCatcher from '@/utils/handle-422'
-import toDmy from '@/utils/to-dmy'
-import formatNumber from '@/utils/format-number'
-import numberToCurrency from '@/utils/number-to-currency'
-import PrintHandler from '@/components/PrintHandler'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
-// enums
-import { CashableClassname } from '@/modules/transaction/types/orms/transaction'
+import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
 import FarmInputPermission from '@/enums/permissions/FarmInput'
 import Role from '@/enums/role'
-import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
-import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
+import axios from '@/lib/axios'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+// enums
+import { CashableClassname } from '@/modules/transaction/types/orms/transaction'
+import formatNumber from '@/utils/format-number'
+// utils
+import errorCatcher from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
+import toDmy from '@/utils/to-dmy'
 
 let getRowData: GetRowDataType<ProductSaleORM>
 let mutate: MutateType<ProductSaleORM>
@@ -67,25 +67,25 @@ export default function FarmInputProductSales() {
             if (!productSale) return
 
             setInitialFormikValues({
+                adjustment_rp: productSale.adjustment_rp,
                 at: productSale.at,
                 buyer_user_uuid: productSale.buyer_user_uuid,
-                note: productSale.note,
-                warehouse: productSale.product_movement.warehouse,
-
-                payment_method: productSale.payment_method,
                 cashable_uuid: productSale.transaction?.cashable_uuid ?? '',
                 interest_percent: productSale.interest_percent,
                 n_term: productSale.n_term,
                 n_term_unit: productSale.n_term_unit,
-                adjustment_rp: productSale.adjustment_rp,
+                note: productSale.note,
+
+                payment_method: productSale.payment_method,
                 product_sale_details: productSale.product_movement_details.map(
                     detail => ({
-                        product_id: detail.product_id ?? null,
                         product: detail.product ?? null,
+                        product_id: detail.product_id ?? null,
                         qty: detail.qty,
                         rp_per_unit: detail.rp_per_unit,
                     }),
                 ),
+                warehouse: productSale.product_movement.warehouse,
             })
 
             setInitialFormikStatus(productSale)
@@ -113,34 +113,36 @@ export default function FarmInputProductSales() {
             <PageTitle title="Penjualan" />
 
             <Box
-                mb={2}
                 display={
                     isAuthHasRole(Role.FARM_INPUT_MANAGER) ? 'block' : 'none'
-                }>
+                }
+                mb={2}>
                 <Button
-                    href="product-sales/reports"
-                    startIcon={<BackupTableIcon />}
-                    size="small"
                     color="success"
+                    href="product-sales/reports"
+                    size="small"
+                    startIcon={<BackupTableIcon />}
                     variant="contained">
                     Laporan
                 </Button>
             </Box>
 
             <Datatable
-                title="Riwayat"
-                tableId="farm-input-product-sale-table"
                 apiUrl="/farm-inputs/product-sales/datatable"
-                onRowClick={handleRowClick}
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'at', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'at' }}
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
+                onRowClick={handleRowClick}
+                tableId="farm-input-product-sale-table"
+                title="Riwayat"
             />
 
             {isAuthHasPermission(FarmInputPermission.CREATE_PRODUCT_SALE) && (
                 <>
                     <DialogWithTitle
+                        maxWidth="sm"
+                        open={isDialogOpen}
                         title={
                             (isNew ? 'Tambah ' : '') +
                             'Data Penjualan' +
@@ -152,12 +154,12 @@ export default function FarmInputProductSales() {
                                       ? Warehouse.MUAI
                                       : Warehouse.PULAU_PINANG)
                                 : '')
-                        }
-                        open={isDialogOpen}
-                        maxWidth="sm">
+                        }>
                         <Formik
-                            initialValues={initialFormikValues}
+                            component={ProductSaleForm}
                             initialStatus={initialFormikStatus}
+                            initialValues={initialFormikValues}
+                            onReset={handleClose}
                             onSubmit={(values, { setErrors }) =>
                                 axios
                                     .post(
@@ -172,18 +174,16 @@ export default function FarmInputProductSales() {
                                         errorCatcher(error, setErrors),
                                     )
                             }
-                            onReset={handleClose}
-                            component={ProductSaleForm}
                         />
                     </DialogWithTitle>
                 </>
             )}
 
             <Fab
-                onClick={handleNew}
                 in={isAuthHasPermission(
                     FarmInputPermission.CREATE_PRODUCT_SALE,
-                )}>
+                )}
+                onClick={handleNew}>
                 <ReceiptIcon />
             </Fab>
         </>
@@ -210,16 +210,16 @@ function shapeValuesBeforeSubmit(values: typeof EMPTY_FORM_DATA) {
         at,
         buyer_user_uuid: buyer_user_uuid ?? undefined,
         note,
-        product_sale_details,
         payment_method,
+        product_sale_details,
         warehouse,
     }
 
     if (payment_method === 'cash') {
         return {
             ...requiredValues,
-            cashable_uuid,
             adjustment_rp,
+            cashable_uuid,
         }
     }
 
@@ -249,10 +249,10 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
         {pids?.map(
             ({ id, qty, rp_per_unit, product_state: { name, unit } }) => (
                 <Typography
-                    key={id}
-                    variant="overline"
                     component="li"
-                    lineHeight="unset">
+                    key={id}
+                    lineHeight="unset"
+                    variant="overline">
                     <span
                         dangerouslySetInnerHTML={{
                             __html: name,
@@ -269,82 +269,74 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
 
 const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
     {
-        name: 'uuid',
         label: 'UUID',
+        name: 'uuid',
         options: {
-            sort: false,
             display: 'excluded',
+            sort: false,
         },
     },
     {
-        name: 'at',
         label: 'TGL',
+        name: 'at',
         options: {
             customBodyRender: toDmy,
         },
     },
     {
-        name: 'short_uuid',
         label: 'Kode',
+        name: 'short_uuid',
         options: {
-            sort: false,
             searchable: false,
+            sort: false,
         },
     },
     {
-        name: 'buyerUser.name',
         label: 'Pengguna',
+        name: 'buyerUser.name',
         options: {
-            sort: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
                 if (!data || !data.buyer_user) return ''
 
                 return `#${data.buyer_user.id} ${data.buyer_user.name}`
             },
+            sort: false,
         },
     },
     {
-        name: 'payment_method_id',
         label: 'Metode Pembayaran',
+        name: 'payment_method_id',
         options: {
-            sort: false,
             searchable: false,
+            sort: false,
         },
     },
     {
-        name: 'note',
         label: 'Catatan',
+        name: 'note',
         options: {
-            sort: false,
             display: false,
+            sort: false,
         },
     },
     {
-        name: 'productMovement.details.product_state',
         label: 'Barang',
+        name: 'productMovement.details.product_state',
         options: {
-            sort: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
                 if (!data) return ''
 
                 return pmdsCustomBodyRender(data.product_movement_details)
             },
+            sort: false,
         },
     },
     {
-        name: 'total_base_rp',
         label: 'Penyesuaian/Jasa (Rp)',
+        name: 'total_base_rp',
         options: {
-            setCellProps: () => ({
-                style: {
-                    textAlign: 'right',
-                    whiteSpace: 'nowrap',
-                },
-            }),
-            sort: false,
-            searchable: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
                 if (!data) return ''
@@ -353,12 +345,7 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
                     ? formatNumber(data.total_rp - data.total_base_rp)
                     : ''
             },
-        },
-    },
-    {
-        name: 'total_rp',
-        label: 'Total (Rp)',
-        options: {
+            searchable: false,
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
@@ -366,16 +353,27 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
                 },
             }),
             sort: false,
-            searchable: false,
-            customBodyRender: value => formatNumber(value ?? 0),
         },
     },
     {
-        name: 'uuid',
-        label: 'Cetak',
+        label: 'Total (Rp)',
+        name: 'total_rp',
         options: {
-            sort: false,
+            customBodyRender: value => formatNumber(value ?? 0),
             searchable: false,
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                    whiteSpace: 'nowrap',
+                },
+            }),
+            sort: false,
+        },
+    },
+    {
+        label: 'Cetak',
+        name: 'uuid',
+        options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
                 if (!data || data.refund_from_product_sale) return ''
@@ -391,13 +389,14 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
                     </PrintHandler>
                 )
             },
+            searchable: false,
+            sort: false,
         },
     },
     {
-        name: 'refundProductSale.at',
         label: 'Refund',
+        name: 'refundProductSale.at',
         options: {
-            display: false,
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
 
@@ -426,6 +425,7 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
 
                 return <RefundForm data={data} mutate={mutate} />
             },
+            display: false,
         },
     },
 ]

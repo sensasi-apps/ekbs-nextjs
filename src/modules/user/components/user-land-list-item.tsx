@@ -1,9 +1,10 @@
 // vendors
-import dayjs from 'dayjs'
+
 import ListItemText from '@mui/material/ListItemText'
+import dayjs from 'dayjs'
+import type LandORM from '@/modules/clm/types/orms/land'
 // utils
 import formatNumber from '@/utils/format-number'
-import type LandORM from '@/modules/clm/types/orms/land'
 
 export default function UserLandListItem({ data: land }: { data: LandORM }) {
     const { n_area_hectares } = land
@@ -12,13 +13,13 @@ export default function UserLandListItem({ data: land }: { data: LandORM }) {
         <ListItemText
             primary={formatNumber(n_area_hectares) + ' Ha'}
             primaryTypographyProps={{
-                variant: 'h6',
                 fontWeight: 'bold',
+                variant: 'h6',
             }}
             secondary={toSecondaryText(land)}
             secondaryTypographyProps={{
-                variant: 'body2',
                 color: 'GrayText',
+                variant: 'body2',
             }}
         />
     )

@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import toDmy from '@/utils/to-dmy'
 import type { ReactNode } from 'react'
 import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
+import toDmy from '@/utils/to-dmy'
 
 function Row({
     title,
@@ -15,7 +15,7 @@ function Row({
 }) {
     return (
         <Box mb={1}>
-            <Typography variant="caption" color="text.secondary">
+            <Typography color="text.secondary" variant="caption">
                 {title}
             </Typography>
             {typeof children === 'string' && (
@@ -46,9 +46,9 @@ export default function MemberBox() {
         <Box>
             <Row title="Status">
                 <Typography
-                    variant="h5"
                     color={unjoined_at ? 'error.light' : 'success.light'}
-                    component="div">
+                    component="div"
+                    variant="h5">
                     {getStatus()}
                 </Typography>
             </Row>

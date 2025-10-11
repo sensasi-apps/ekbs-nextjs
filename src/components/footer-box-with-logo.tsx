@@ -5,10 +5,10 @@ import LogoImage from '@/components/LogoImage'
 export default function FooterBoxWithLogo() {
     return (
         <Box
-            display="flex"
-            justifyContent="center"
             alignItems="center"
+            display="flex"
             gap={3}
+            justifyContent="center"
             mt={10}>
             <LogoImage />
             <FooterBox m={0} />

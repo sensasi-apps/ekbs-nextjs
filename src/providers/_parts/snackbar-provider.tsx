@@ -1,24 +1,24 @@
 'use client'
 
-import {
-    SnackbarProvider as VendorSnackbarProvider,
-    closeSnackbar,
-} from 'notistack'
-import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
+import {
+    closeSnackbar,
+    SnackbarProvider as VendorSnackbarProvider,
+} from 'notistack'
 
 export default function SnackbarProvider() {
     return (
         <VendorSnackbarProvider
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-            }}
             action={key => (
-                <IconButton size="small" onClick={() => closeSnackbar(key)}>
+                <IconButton onClick={() => closeSnackbar(key)} size="small">
                     <CloseIcon />
                 </IconButton>
             )}
+            anchorOrigin={{
+                horizontal: 'left',
+                vertical: 'top',
+            }}
             maxSnack={7}
         />
     )

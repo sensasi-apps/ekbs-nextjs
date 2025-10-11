@@ -11,10 +11,10 @@ const TotalActiveMemberBigNumber = memo(function TotalActiveMemberBigNumber({
 }) {
     return (
         <BigNumber
-            title="Anggota Aktif"
             isLoading={isLoading}
             primary={data ? formatNumber(data) : ''}
             secondary="orang"
+            title="Anggota Aktif"
         />
     )
 })

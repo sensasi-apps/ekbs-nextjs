@@ -1,21 +1,21 @@
 {
-    "name": "Koperasi Belayan Sejahtera Elektronik",
-    "short_name": "EKBS",
-    "display": "standalone",
-    "start_url": "/",
     "background_color": "#121212",
+    "display": "standalone",
     "icons": [
         {
-            "src": "/assets/pwa-icons/white-green.png",
+            "purpose": "maskable",
             "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
+            "src": "/assets/pwa-icons/white-green.png",
+            "type": "image/png"
         },
         {
-            "src": "/assets/pwa-icons/green-transparent.png",
+            "purpose": "any",
             "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
+            "src": "/assets/pwa-icons/green-transparent.png",
+            "type": "image/png"
         }
-    ]
+    ],
+    "name": "Koperasi Belayan Sejahtera Elektronik",
+    "short_name": "EKBS",
+    "start_url": "/"
 }

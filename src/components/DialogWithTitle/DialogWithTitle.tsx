@@ -1,11 +1,12 @@
 // types
-import type { ReactNode } from 'react'
+
 import type { DialogProps } from '@mui/material/Dialog'
-// vendors
-import { memo } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import type { ReactNode } from 'react'
+// vendors
+import { memo } from 'react'
 
 /**
  * A dialog component with a title and content.
@@ -26,7 +27,7 @@ const DialogWithTitle = memo(function DialogWithTitle({
     children: ReactNode
 } & DialogProps) {
     return (
-        <Dialog fullWidth maxWidth="xs" disableRestoreFocus {...props}>
+        <Dialog disableRestoreFocus fullWidth maxWidth="xs" {...props}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>{children}</DialogContent>
         </Dialog>

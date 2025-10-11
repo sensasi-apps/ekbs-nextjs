@@ -1,8 +1,8 @@
 'use client'
 
-// vendors
-import { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
+// icons-materials
+import Close from '@mui/icons-material/Close'
+import Sync from '@mui/icons-material/Sync'
 // materials
 import Alert from '@mui/material/Alert'
 import Badge from '@mui/material/Badge'
@@ -19,18 +19,18 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import Close from '@mui/icons-material/Close'
-import Sync from '@mui/icons-material/Sync'
+import dayjs from 'dayjs'
+// vendors
+import { useEffect, useState } from 'react'
+import PrintHandler from '@/components/PrintHandler'
 //
 import { type FormattedEntry } from '@/sw/functions/handle-message'
+import blinkSxValue from '@/utils/blink-sx-value'
+import formatNumber from '@/utils/format-number'
+import numberToCurrency from '@/utils/number-to-currency'
 import { postToSw } from '@/utils/post-to-sw'
 import { type SubmittedData } from '../../../../components/pages/marts/products/sales/formik-wrapper/@types/submitted-data'
-import PrintHandler from '@/components/PrintHandler'
 import Receipt from '../shared-subcomponents/receipt'
-import numberToCurrency from '@/utils/number-to-currency'
-import formatNumber from '@/utils/format-number'
-import blinkSxValue from '@/utils/blink-sx-value'
 
 export function BgSyncPanelDialogAndButton() {
     const [open, setOpen] = useState(false)
@@ -80,10 +80,10 @@ export function BgSyncPanelDialogAndButton() {
 
     return (
         <>
-            <Tooltip title="Sinkronisasi Latar Belakang" arrow placement="top">
+            <Tooltip arrow placement="top" title="Sinkronisasi Latar Belakang">
                 <IconButton
-                    onClick={() => setOpen(true)}
                     color={entries?.length ? 'error' : undefined}
+                    onClick={() => setOpen(true)}
                     sx={entries?.length ? blinkSxValue : undefined}>
                     <Badge badgeContent={entries?.length} color="error">
                         <Sync
@@ -96,42 +96,42 @@ export function BgSyncPanelDialogAndButton() {
             </Tooltip>
 
             {(entries?.length ?? 0) > 0 && (
-                <Alert variant="filled" severity="error" sx={blinkSxValue}>
+                <Alert severity="error" sx={blinkSxValue} variant="filled">
                     {entries?.length} Nota belum disinkronkan
                 </Alert>
             )}
 
-            <Dialog open={open} maxWidth="md" fullWidth aria-modal="true">
+            <Dialog aria-modal="true" fullWidth maxWidth="md" open={open}>
                 {isLoading && <LinearProgress />}
 
                 <Box
                     display="flex"
-                    py={2}
+                    justifyContent="space-between"
                     px={3}
-                    justifyContent="space-between">
+                    py={2}>
                     <Box display="flex" gap={1}>
                         <Typography variant="h6">
                             Sinkronisasi Latar Belakang
                         </Typography>
 
-                        <Tooltip title="Sinkronkan ulang" arrow placement="top">
+                        <Tooltip arrow placement="top" title="Sinkronkan ulang">
                             <span>
                                 <IconButton
-                                    size="small"
                                     color="success"
                                     disabled={isLoading}
-                                    onClick={() => handleSync()}>
+                                    onClick={() => handleSync()}
+                                    size="small">
                                     <Sync />
                                 </IconButton>
                             </span>
                         </Tooltip>
                     </Box>
 
-                    <Tooltip title="Tutup" arrow placement="top">
+                    <Tooltip arrow placement="top" title="Tutup">
                         <IconButton
-                            size="small"
+                            color="error"
                             onClick={() => setOpen(false)}
-                            color="error">
+                            size="small">
                             <Close />
                         </IconButton>
                     </Tooltip>
@@ -164,7 +164,7 @@ export function BgSyncPanelDialogAndButton() {
                                 )}
 
                                 {entries?.map((entry, i) => (
-                                    <Row key={i} data={entry} />
+                                    <Row data={entry} key={i} />
                                 ))}
                             </TableBody>
                         </Table>
@@ -207,7 +207,7 @@ function Row({
                 {status}
 
                 {lastAttemptAt && (
-                    <Typography variant="caption" component="div">
+                    <Typography component="div" variant="caption">
                         {dayjs(lastAttemptAt).format('YYYY-MM-DD HH:mm:ss')}
                     </Typography>
                 )}
@@ -218,23 +218,23 @@ function Row({
                     <Receipt
                         data={{
                             at: formData.at,
-                            servedByUserName: formData.buyer_user?.name ?? '-',
-                            saleBuyerUser: formData.buyer_user,
-                            transactionCashName: formData.cashable_name,
-                            details: formData.details.map(detail => ({
-                                product: detail.product,
-                                product_id: detail.product_id,
-                                qty: detail.qty,
-                                rp_per_unit: detail.rp_per_unit,
-                                cost_rp_per_unit: 0,
-                                product_state: null,
-                                warehouse_state: null,
-                            })),
                             costs: formData.costs.map(cost => ({
                                 name: cost.name,
                                 rp: cost.rp ?? 0,
                             })),
+                            details: formData.details.map(detail => ({
+                                cost_rp_per_unit: 0,
+                                product: detail.product,
+                                product_id: detail.product_id,
+                                product_state: null,
+                                qty: detail.qty,
+                                rp_per_unit: detail.rp_per_unit,
+                                warehouse_state: null,
+                            })),
+                            saleBuyerUser: formData.buyer_user,
+                            servedByUserName: formData.buyer_user?.name ?? '-',
                             totalPayment: formData.total_payment,
+                            transactionCashName: formData.cashable_name,
                         }}
                     />
                 </PrintHandler>
@@ -251,8 +251,8 @@ function Values({ data: { buyer_user, details } }: { data: SubmittedData }) {
             <Typography component="div">
                 <ul
                     style={{
-                        marginTop: 0,
                         marginBottom: 0,
+                        marginTop: 0,
                         paddingLeft: '1em',
                     }}>
                     {details.map((detail, i) => (

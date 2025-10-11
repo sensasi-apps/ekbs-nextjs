@@ -28,8 +28,8 @@ export default function DialogLoadingBar({
         <Fade
             style={{
                 position,
-                width,
                 transform,
+                width,
                 ...restStyle,
             }}
             {...props}>

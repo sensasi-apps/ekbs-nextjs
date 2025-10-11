@@ -1,17 +1,18 @@
 // types
-import type { AxiosError } from 'axios'
-import type LaravelValidationException from '@/types/laravel-validation-exception-response'
-// vendors
-import { useState } from 'react'
-import { mutate } from 'swr'
-import axios from '@/lib/axios'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import type { AxiosError } from 'axios'
+// vendors
+import { useState } from 'react'
+import { mutate } from 'swr'
 // components
 import TextField from '@/components/TextField'
 import UserAutocomplete from '@/components/user-autocomplete'
+import axios from '@/lib/axios'
+import type LaravelValidationException from '@/types/laravel-validation-exception-response'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 export default function UserDriverForm({
     onClose,
@@ -82,8 +83,8 @@ export default function UserDriverForm({
 
             <TextField
                 disabled={isLoading}
-                name="license_number"
                 label="Nomor SIM"
+                name="license_number"
                 onChange={ev => {
                     setErrors({
                         ...errors,
@@ -98,22 +99,22 @@ export default function UserDriverForm({
                 {...errorsToHelperTextObj(errors?.license_number)}
             />
 
-            <Box textAlign="right" mt={1}>
+            <Box mt={1} textAlign="right">
                 <Button
-                    disabled={isLoading}
                     color="info"
-                    type="reset"
+                    disabled={isLoading}
                     onClick={() => {
                         if (onClose) onClose()
-                    }}>
+                    }}
+                    type="reset">
                     Batal
                 </Button>
 
                 <Button
-                    type="submit"
+                    color="info"
                     loading={isLoading}
-                    variant="contained"
-                    color="info">
+                    type="submit"
+                    variant="contained">
                     Simpan
                 </Button>
             </Box>

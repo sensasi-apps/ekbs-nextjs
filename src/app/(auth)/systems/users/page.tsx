@@ -1,19 +1,19 @@
 'use client'
 
-// vendors
-import { useRouter, useSearchParams } from 'next/navigation'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-// components
-import Fab from '@/components/Fab'
-import useFormData, { FormDataProvider } from '@/providers/FormData'
-import Datatable, { type DatatableProps } from '@/components/Datatable'
-import UserRoleChips from '@/components/User/RoleChips'
-// parts
-import { UserSummaryBox } from '@/app/(auth)/systems/users/[uuid]/_parts/summary-box'
-import UserFormDialog from '@/modules/user/components/user-form-dialog'
 // icons
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+// vendors
+import { useRouter, useSearchParams } from 'next/navigation'
+// parts
+import { UserSummaryBox } from '@/app/(auth)/systems/users/[uuid]/_parts/summary-box'
+import Datatable, { type DatatableProps } from '@/components/Datatable'
+// components
+import Fab from '@/components/Fab'
+import UserRoleChips from '@/components/User/RoleChips'
+import UserFormDialog from '@/modules/user/components/user-form-dialog'
+import useFormData, { FormDataProvider } from '@/providers/FormData'
 
 export default function Page() {
     const { push } = useRouter()
@@ -28,11 +28,11 @@ export default function Page() {
                 spacing={3}
                 sx={{
                     flexDirection: {
-                        xs: 'column-reverse',
                         md: 'row',
+                        xs: 'column-reverse',
                     },
                 }}>
-                <Grid size={{ xs: 12, md: 8 }}>
+                <Grid size={{ md: 8, xs: 12 }}>
                     <FormDataProvider>
                         <UserFormDialogWithFab />
                     </FormDataProvider>
@@ -44,7 +44,6 @@ export default function Page() {
                         }}
                         columns={DATATABLE_COLUMNS}
                         defaultSortOrder={DEFAULT_SORT_ORDER}
-                        viewColumns={false}
                         onRowClick={(data, _, { detail }) => {
                             if (detail === 2) {
                                 /**
@@ -57,10 +56,11 @@ export default function Page() {
                         }}
                         tableId="users-table"
                         title="Daftar Pengguna"
+                        viewColumns={false}
                     />
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ md: 4, xs: 12 }}>
                     <UserSummaryBox />
                 </Grid>
             </Grid>
@@ -76,12 +76,12 @@ function UserFormDialogWithFab() {
             <UserFormDialog />
 
             <Fab
-                title="Buat pengguna baru"
+                color="success"
                 in={!isDataNotUndefined}
                 onClick={() => {
                     handleCreate()
                 }}
-                color="success">
+                title="Buat pengguna baru">
                 <PersonAddIcon />
             </Fab>
         </>
@@ -89,14 +89,14 @@ function UserFormDialogWithFab() {
 }
 
 const DEFAULT_SORT_ORDER: DatatableProps['defaultSortOrder'] = {
-    name: 'name',
     direction: 'asc',
+    name: 'name',
 }
 
 const DATATABLE_COLUMNS: DatatableProps['columns'] = [
     {
-        name: 'id',
         label: 'ID',
+        name: 'id',
     },
     {
         name: 'uuid',
@@ -106,8 +106,8 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         },
     },
     {
-        name: 'name',
         label: 'Nama',
+        name: 'name',
     },
     {
         name: 'nickname',
@@ -117,21 +117,21 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         },
     },
     {
-        name: 'role_names_id',
         label: 'Peran',
+        name: 'role_names_id',
         options: {
+            customBodyRender: (roleNames: string[]) => (
+                <Box display="flex" flexWrap="wrap" gap={0.5}>
+                    <UserRoleChips data={roleNames} size="small" />
+                </Box>
+            ),
             searchable: false,
-            sort: false,
             setCellProps: () => ({
                 style: {
                     maxWidth: '150px',
                 },
             }),
-            customBodyRender: (roleNames: string[]) => (
-                <Box display="flex" gap={0.5} flexWrap="wrap">
-                    <UserRoleChips data={roleNames} size="small" />
-                </Box>
-            ),
+            sort: false,
         },
     },
 ]

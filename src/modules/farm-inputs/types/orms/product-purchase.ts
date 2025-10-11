@@ -1,8 +1,8 @@
 import type { UUID } from 'crypto'
-import type ProductMovementDetailORM from './product-movement-detail'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type { Ymd } from '@/types/date-string'
 import type ProductMovementORM from './product-movement'
+import type ProductMovementDetailORM from './product-movement-detail'
 
 export default interface ProductPurchaseORM {
     uuid: UUID

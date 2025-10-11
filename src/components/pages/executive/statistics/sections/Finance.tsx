@@ -1,19 +1,20 @@
 // vendors
-import { memo } from 'react'
-import useSWR from 'swr'
-// materials
-import Grid from '@mui/material/Grid'
+
 // icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
-// components
-import FlexColumnBox from '@/components/FlexColumnBox'
+// materials
+import Grid from '@mui/material/Grid'
+import { memo } from 'react'
+import useSWR from 'swr'
 // page components
 import AllCashChart from '@/app/(auth)/finances/cashes/_parts/cash/all-cash-chart'
-import Heading2 from '@/components/pages/executive/statistics/Heading2'
-import Heading3 from '@/components/pages/executive/statistics/Heading3'
 import InOutCashChart, {
     type InOutCashChartDataType,
 } from '@/app/(auth)/finances/cashes/_parts/cash/in-out-chart'
+// components
+import FlexColumnBox from '@/components/FlexColumnBox'
+import Heading2 from '@/components/pages/executive/statistics/Heading2'
+import Heading3 from '@/components/pages/executive/statistics/Heading3'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../SX_SCROLL_MARGIN_TOP'
 
@@ -52,46 +53,46 @@ const FinanceSection = memo(function FinanceSection() {
             <Grid container spacing={1.5}>
                 <Grid size={{ xs: 12 }}>
                     <InOutCashChart
-                        title="KOPERASI — Bulanan"
                         data={data?.all}
-                        isLoading={isLoading}
                         disableAutoFetch
+                        isLoading={isLoading}
+                        title="KOPERASI — Bulanan"
                     />
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ sm: 6, xs: 12 }}>
                     <InOutCashChart
-                        title="ALAT BERAT — Bulanan"
                         data={data?.alat_berat}
-                        isLoading={isLoading}
                         disableAutoFetch
+                        isLoading={isLoading}
+                        title="ALAT BERAT — Bulanan"
                     />
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ sm: 6, xs: 12 }}>
                     <InOutCashChart
-                        title="SAPRODI — Bulanan"
                         data={data?.saprodi}
-                        isLoading={isLoading}
                         disableAutoFetch
+                        isLoading={isLoading}
+                        title="SAPRODI — Bulanan"
                     />
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ sm: 6, xs: 12 }}>
                     <InOutCashChart
-                        title="SPP — Bulanan"
                         data={data?.spp}
-                        isLoading={isLoading}
                         disableAutoFetch
+                        isLoading={isLoading}
+                        title="SPP — Bulanan"
                     />
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ sm: 6, xs: 12 }}>
                     <InOutCashChart
-                        title="TBS — Bulanan"
                         data={data?.tbs}
-                        isLoading={isLoading}
                         disableAutoFetch
+                        isLoading={isLoading}
+                        title="TBS — Bulanan"
                     />
                 </Grid>
             </Grid>

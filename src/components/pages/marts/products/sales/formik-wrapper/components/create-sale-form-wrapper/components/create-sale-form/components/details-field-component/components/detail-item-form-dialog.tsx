@@ -1,5 +1,5 @@
 // vendors
-import { useFormikContext } from 'formik'
+
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -8,10 +8,11 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
+import { useFormikContext } from 'formik'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
+import NumericFormat from '@/components/NumericFormat'
 //
 import type { FormValuesType } from '../../../../../../..'
-import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 
 export function DetailItemFormDialog({
     data,
@@ -26,7 +27,7 @@ export function DetailItemFormDialog({
     } = useFormikContext<FormValuesType>()
 
     return (
-        <Dialog open={Boolean(data)} maxWidth="xs" fullWidth>
+        <Dialog fullWidth maxWidth="xs" open={Boolean(data)}>
             <DialogContent>
                 {data && (
                     <form
@@ -68,16 +69,12 @@ export function DetailItemFormDialog({
 
                             onClose()
                         }}>
-                        <Typography mb={2} fontWeight="bold">
+                        <Typography fontWeight="bold" mb={2}>
                             {data.product?.name}
                         </Typography>
 
                         <Box display="flex" gap={2}>
                             <NumericFormat
-                                variant="standard"
-                                name="qty"
-                                size="medium"
-                                label="QTY"
                                 defaultValue={data.qty}
                                 InputProps={{
                                     endAdornment: (
@@ -86,17 +83,21 @@ export function DetailItemFormDialog({
                                         </InputAdornment>
                                     ),
                                 }}
+                                label="QTY"
+                                name="qty"
+                                size="medium"
+                                variant="standard"
                             />
 
                             <NumericFormat
-                                variant="standard"
-                                size="medium"
-                                name="rp_per_unit"
-                                label="Harga"
                                 defaultValue={data.rp_per_unit}
                                 InputProps={{
                                     startAdornment: <RpInputAdornment />,
                                 }}
+                                label="Harga"
+                                name="rp_per_unit"
+                                size="medium"
+                                variant="standard"
                             />
                         </Box>
                     </form>
@@ -105,9 +106,9 @@ export function DetailItemFormDialog({
             <DialogActions>
                 <Button onClick={onClose}>Batal</Button>
                 <Button
+                    color="primary"
                     form="item-detail-form"
                     type="submit"
-                    color="primary"
                     variant="contained">
                     Simpan
                 </Button>

@@ -14,8 +14,8 @@ export default function Page() {
     return (
         <PurchaseFormDialog
             formData={{
-                details: [],
                 costs: [],
+                details: [],
             }}
             handleClose={() => {
                 back()

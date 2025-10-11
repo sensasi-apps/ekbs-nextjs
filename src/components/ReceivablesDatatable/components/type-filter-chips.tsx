@@ -1,8 +1,9 @@
 // vendors
-import { useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+
 // materials
 import Chip from '@mui/material/Chip'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 // components
 import ScrollableXBox from '@/components/ScrollableXBox'
 import BusinessUnit from '@/enums/business-unit'
@@ -21,46 +22,46 @@ export default function TypeFilterChips() {
     return (
         <ScrollableXBox>
             <Chip
-                label="Semua"
-                color={type ? undefined : 'success'}
-                href={`?type=&state=${state}`}
                 clickable={Boolean(type)}
+                color={type ? undefined : 'success'}
                 component={Link}
+                href={`?type=&state=${state}`}
+                label="Semua"
                 size="small"
             />
             <Chip
-                label="Penjualan Produk (SAPRODI)"
-                color={type === 'product-sale' ? 'success' : undefined}
-                href={`?type=product-sale&state=${state}`}
                 clickable={type !== 'product-sale'}
+                color={type === 'product-sale' ? 'success' : undefined}
                 component={Link}
+                href={`?type=product-sale&state=${state}`}
+                label="Penjualan Produk (SAPRODI)"
                 size="small"
             />
             <Chip
-                label="Pinjaman (SPP)"
-                color={type === 'user-loan' ? 'success' : undefined}
-                href={`?type=user-loan&state=${state}`}
-                component={Link}
                 clickable={type !== 'user-loan'}
+                color={type === 'user-loan' ? 'success' : undefined}
+                component={Link}
+                href={`?type=user-loan&state=${state}`}
+                label="Pinjaman (SPP)"
                 size="small"
             />
             <Chip
-                label="Sewa Alat Berat"
-                color={type === 'rent-item-rent' ? 'success' : undefined}
-                href={`?type=rent-item-rent&state=${state}`}
                 clickable={type !== 'rent-item-rent'}
+                color={type === 'rent-item-rent' ? 'success' : undefined}
                 component={Link}
+                href={`?type=rent-item-rent&state=${state}`}
+                label="Sewa Alat Berat"
                 size="small"
             />
 
             <Chip
-                label="Belayan Spare Parts"
+                clickable={type !== `${BusinessUnit.BENGKEL}`}
                 color={
                     type === `${BusinessUnit.BENGKEL}` ? 'success' : undefined
                 }
-                href={`?type=${BusinessUnit.BENGKEL}&state=${state}`}
-                clickable={type !== `${BusinessUnit.BENGKEL}`}
                 component={Link}
+                href={`?type=${BusinessUnit.BENGKEL}&state=${state}`}
+                label="Belayan Spare Parts"
                 size="small"
             />
         </ScrollableXBox>

@@ -10,20 +10,20 @@ export default function Page() {
 
     return (
         <SaleFormDialog
-            status={{
-                isDisabled: false,
-            }}
             formData={{
-                is_finished: true,
-                spare_parts: [],
-                services: [],
                 installment_data: {
                     n_term: 1,
                 },
+                is_finished: true,
+                services: [],
                 spare_part_margins: [],
+                spare_parts: [],
             }}
             handleClose={() => {
                 back()
+            }}
+            status={{
+                isDisabled: false,
             }}
         />
     )

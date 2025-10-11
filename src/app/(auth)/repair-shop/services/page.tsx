@@ -2,6 +2,7 @@
 
 // vendors
 import { useRef, useState } from 'react'
+import ServiceFormDialog from '@/app/(auth)/repair-shop/services/_parts/components/form-dialog'
 //
 import Datatable, {
     type DatatableProps,
@@ -9,12 +10,11 @@ import Datatable, {
     type MutateType,
 } from '@/components/Datatable'
 import Fab from '@/components/Fab'
-// utils
-import formatNumber from '@/utils/format-number'
+import PageTitle from '@/components/page-title'
 // features
 import type Service from '@/modules/repair-shop/types/orms/service'
-import ServiceFormDialog from '@/app/(auth)/repair-shop/services/_parts/components/form-dialog'
-import PageTitle from '@/components/page-title'
+// utils
+import formatNumber from '@/utils/format-number'
 
 export default function Page() {
     const mutateRef = useRef<MutateType<Service> | undefined>(undefined)
@@ -38,7 +38,7 @@ export default function Page() {
             <Datatable<Service>
                 apiUrl="repair-shop/services/datatable"
                 columns={DATATABLE_COLUMNS}
-                defaultSortOrder={{ name: 'id', direction: 'desc' }}
+                defaultSortOrder={{ direction: 'desc', name: 'id' }}
                 getRowDataCallback={fn => {
                     getRowDataRef.current = fn
                 }}
@@ -61,14 +61,14 @@ export default function Page() {
                     return {
                         sx: {
                             '& td': {
-                                textDecoration: 'line-through',
                                 color: 'gray',
+                                textDecoration: 'line-through',
                             },
                         },
                     }
                 }}
-                title="Daftar Layanan"
                 tableId="services-datatable"
+                title="Daftar Layanan"
             />
         </>
     )
@@ -76,16 +76,16 @@ export default function Page() {
 
 const DATATABLE_COLUMNS: DatatableProps<Service>['columns'] = [
     {
-        name: 'id',
         label: 'ID',
+        name: 'id',
     },
     {
-        name: 'name',
         label: 'Nama',
+        name: 'name',
     },
     {
-        name: 'default_price',
         label: 'Harga (Rp)',
+        name: 'default_price',
         options: {
             customBodyRender: value => formatNumber(value),
         },

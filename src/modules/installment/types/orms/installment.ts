@@ -1,11 +1,11 @@
 import type { UUID } from 'crypto'
-import type { Ymd } from '@/types/date-string'
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
-import type RentItemRent from '@/types/orms/rent-item-rent'
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import type InstallmentTnstallmentableClassname from '@/enums/installment-installemtable-classname'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type MinimalUser from '@/modules/user/types/minimal-user'
+import type { Ymd } from '@/types/date-string'
+import type RentItemRent from '@/types/orms/rent-item-rent'
 
 export default interface InstallmentORM {
     uuid: UUID

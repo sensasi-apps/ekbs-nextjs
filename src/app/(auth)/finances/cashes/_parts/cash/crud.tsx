@@ -1,18 +1,19 @@
 // types
-import type CashType from '@/types/orms/cash'
-// vendors
-import axios from '@/lib/axios'
-import { useCallback, useState } from 'react'
+
 import { Formik, type FormikConfig } from 'formik'
+import { useCallback, useState } from 'react'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
+import Cash from '@/enums/permissions/Cash'
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+// vendors
+import axios from '@/lib/axios'
+import type CashType from '@/types/orms/cash'
+// utils
+import errorCatcher from '@/utils/handle-422'
 // local components
 import CashForm, { INITIAL_VALUES } from './form'
 import CashList, { mutate } from './list'
-// utils
-import errorCatcher from '@/utils/handle-422'
-import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-import Cash from '@/enums/permissions/Cash'
 
 export default function CashCrud() {
     const isAuthHasPermission = useIsAuthHasPermission()
@@ -48,20 +49,20 @@ export default function CashCrud() {
 
     return (
         <>
-            <CashList onNew={handleNew} onEdit={handleEdit} />
+            <CashList onEdit={handleEdit} onNew={handleNew} />
 
             <DialogWithTitle
+                open={dialogOpen}
                 title={
                     values.uuid
                         ? `Ubah data Kas: ${values.code ?? values.name}`
                         : 'Tambah Kas baru'
-                }
-                open={dialogOpen}>
+                }>
                 <Formik
-                    initialValues={values}
-                    onSubmit={handleSubmit}
-                    onReset={closeDialog}
                     component={CashForm}
+                    initialValues={values}
+                    onReset={closeDialog}
+                    onSubmit={handleSubmit}
                 />
             </DialogWithTitle>
         </>

@@ -1,9 +1,10 @@
 // types
-import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
+
 // vendors
 import MuiTableBody from '@mui/material/TableBody'
-import MuiTableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
+import MuiTableRow from '@mui/material/TableRow'
+import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 // components
 import TableRow from './table-row'
 
@@ -28,7 +29,7 @@ export default function TableBody({ data }: { data: ProductSaleORM[] }) {
             )}
 
             {data.map((item, i) => (
-                <TableRow key={i} no={i + 1} data={item} />
+                <TableRow data={item} key={i} no={i + 1} />
             ))}
         </MuiTableBody>
     )

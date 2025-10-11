@@ -1,34 +1,34 @@
 // types
-import type NavItemGroup from '../types/nav-item-group'
+
+import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
 // icons-materials
 import AutoStories from '@mui/icons-material/AutoStories'
-import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
 import BackupTable from '@mui/icons-material/BackupTable'
 import CurrencyExchange from '@mui/icons-material/CurrencyExchange'
 import PointOfSale from '@mui/icons-material/PointOfSale'
 // enums
 import UserLoan from '@/enums/permissions/UserLoan'
+import type NavItemGroup from '../types/nav-item-group'
 
 export const loans: NavItemGroup = {
-    label: 'Simpan Pinjam',
     items: [
         {
-            label: 'Statistik',
+            forPermission: UserLoan.READ_STATISTIC,
             href: '/loans/statistics',
             icon: AlignHorizontalLeft,
-            forPermission: UserLoan.READ_STATISTIC,
+            label: 'Statistik',
         },
         {
-            label: 'Kas',
+            forPermission: UserLoan.READ_STATISTIC,
             href: '/loans/cashes',
             icon: AutoStories,
-            forPermission: UserLoan.READ_STATISTIC,
+            label: 'Kas',
         },
         {
-            href: '/loans/manages',
-            label: 'Kelola',
-            icon: BackupTable,
             forPermission: UserLoan.READ,
+            href: '/loans/manages',
+            icon: BackupTable,
+            label: 'Kelola',
         },
         // {
         //     href: '/user-loans/reviews',
@@ -43,16 +43,17 @@ export const loans: NavItemGroup = {
         //     forPermission: UserLoan.READ_NEED_DISBURSE,
         // },
         {
-            href: '/loans/installments',
-            label: 'Angsuran',
-            icon: PointOfSale,
             forPermission: UserLoan.READ_INSTALLMENT,
+            href: '/loans/installments',
+            icon: PointOfSale,
+            label: 'Angsuran',
         },
         {
-            href: '/loans',
-            label: 'Pinjaman Anda',
-            icon: CurrencyExchange,
             forPermission: UserLoan.READ_OWN,
+            href: '/loans',
+            icon: CurrencyExchange,
+            label: 'Pinjaman Anda',
         },
     ],
+    label: 'Simpan Pinjam',
 }

@@ -21,7 +21,7 @@ export default function NumericField({
     name,
     ...restProps
 }: NumericFieldProps) {
-    return <Field name={name} component={InnerComponent} {...restProps} />
+    return <Field component={InnerComponent} name={name} {...restProps} />
 }
 
 /**
@@ -47,15 +47,15 @@ function InnerComponent({
 
     return (
         <NumericFormat
+            disabled={disabled || isSubmitting}
             id={name}
-            value={value === undefined ? '' : value}
-            required
+            label={label}
             min="1"
             onValueChange={({ floatValue }) => {
                 setFieldValueDebounced(floatValue)
             }}
-            disabled={disabled || isSubmitting}
-            label={label}
+            required
+            value={value === undefined ? '' : value}
             {...numericFormatProps}
             {...errorsToHelperTextObj(error)}
         />

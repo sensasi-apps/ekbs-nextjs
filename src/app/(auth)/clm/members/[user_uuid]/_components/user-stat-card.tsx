@@ -1,8 +1,9 @@
 // materials
-import SvgIcon from '@mui/material/SvgIcon'
+
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
+import SvgIcon from '@mui/material/SvgIcon'
 import Typography from '@mui/material/Typography'
 
 type UserStatCardProps = {
@@ -21,19 +22,19 @@ export default function UserStatCard({
     iconColor,
 }: UserStatCardProps) {
     return (
-        <Card sx={{ width: '100%', height: '100%' }}>
+        <Card sx={{ height: '100%', width: '100%' }}>
             <CardContent
                 sx={{
-                    display: 'flex',
                     alignItems: 'center',
+                    display: 'flex',
                     gap: 2,
                     px: 4,
                     py: 3,
                 }}>
-                <Icon sx={{ fontSize: 40 }} color={iconColor} />
+                <Icon color={iconColor} sx={{ fontSize: 40 }} />
 
                 <Box>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography fontWeight="bold" variant="h5">
                         {value} {unit}
                     </Typography>
                     <Typography variant="body2">{text}</Typography>

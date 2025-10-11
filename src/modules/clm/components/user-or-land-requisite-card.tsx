@@ -1,20 +1,20 @@
 'use client'
 
-// vendors
-import Link from 'next/link'
 // materials
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
+// vendors
+import Link from 'next/link'
 
 // components
 import ChipSmall from '@/components/ChipSmall'
 //
 import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
-import getRequisiteStatus from '@/modules/clm/utils/get-requisite-status'
 import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'
+import getRequisiteStatus from '@/modules/clm/utils/get-requisite-status'
 
 export default function UserOrLandRequisiteCard({
     data: userOrLandRequisite,
@@ -32,55 +32,55 @@ export default function UserOrLandRequisiteCard({
     return (
         <Card
             sx={{
-                width: '100%',
                 height: '100%',
                 mb: 2,
                 opacity: status === 'optional' ? 0.5 : 1,
+                width: '100%',
             }}>
             <CardActionArea
                 href={`${uuid}/requisite/${userOrLandRequisite.requisite_id}`}
                 LinkComponent={Link}>
                 <CardContent
                     sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
                         alignItems: 'center',
+                        display: 'flex',
                         gap: 2,
+                        justifyContent: 'space-between',
                         p: `${status === 'optional' ? 6 : 24}px 32px !important`,
                     }}>
-                    <Box display="flex" alignItems="center" gap={1}>
+                    <Box alignItems="center" display="flex" gap={1}>
                         {icon}
 
                         <Box>
                             <Typography
-                                variant="h6"
+                                component="div"
                                 fontWeight="bold"
-                                component="div">
+                                variant="h6">
                                 {userOrLandRequisite.requisite?.name}
                                 {userOrLandRequisite.requisite?.is_optional && (
                                     <Typography
-                                        variant="caption"
-                                        component="div">
+                                        component="div"
+                                        variant="caption">
                                         (opsional)
                                     </Typography>
                                 )}
                             </Typography>
 
                             <Box maxWidth={350}>
-                                <Typography variant="caption" component="div">
+                                <Typography component="div" variant="caption">
                                     {userOrLandRequisite.requisite?.description}
                                 </Typography>
 
-                                <Typography variant="body2" component="div">
+                                <Typography component="div" variant="body2">
                                     {userOrLandRequisite.note}
                                 </Typography>
 
                                 {(userOrLandRequisite.files?.length ?? 0) >
                                     0 && (
                                     <Typography
-                                        variant="caption"
+                                        color="textSecondary"
                                         component="div"
-                                        color="textSecondary">
+                                        variant="caption">
                                         {userOrLandRequisite.files?.length}{' '}
                                         berkas
                                     </Typography>
@@ -88,8 +88,8 @@ export default function UserOrLandRequisiteCard({
 
                                 {userOrLandRequisite.approved_at && (
                                     <Typography
-                                        variant="caption"
-                                        component="div">
+                                        component="div"
+                                        variant="caption">
                                         Disetujui oleh{' '}
                                         {
                                             userOrLandRequisite.approved_by_user
@@ -103,7 +103,7 @@ export default function UserOrLandRequisiteCard({
                     </Box>
 
                     {chipLabel && (
-                        <ChipSmall label={chipLabel} color={chipColor} />
+                        <ChipSmall color={chipColor} label={chipLabel} />
                     )}
                 </CardContent>
             </CardActionArea>

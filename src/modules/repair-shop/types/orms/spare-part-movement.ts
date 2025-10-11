@@ -1,7 +1,7 @@
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type SparePartORM from '@/modules/repair-shop/types/orms/spare-part'
-import type HasUuidPk from '@/types/has-uuid-pk'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type UserORM from '@/modules/user/types/orms/user'
+import type HasUuidPk from '@/types/has-uuid-pk'
 
 export default interface SparePartMovementORM extends HasUuidPk {
     at: string

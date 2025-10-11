@@ -1,25 +1,25 @@
 'use client'
 
-// vendors
-import { useState, type ReactNode } from 'react'
+// icons-materials
+import Close from '@mui/icons-material/Close'
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
 // materials
 import Box from '@mui/material/Box'
+import MuiCard, { type CardProps } from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Collapse from '@mui/material/Collapse'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
-import MuiCard, { type CardProps } from '@mui/material/Card'
 import LinearProgress, {
     type LinearProgressProps,
 } from '@mui/material/LinearProgress'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import Close from '@mui/icons-material/Close'
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
+// vendors
+import { type ReactNode, useState } from 'react'
 // components
 import FlexColumnBox from '@/components/FlexColumnBox'
 
@@ -42,17 +42,17 @@ export default function StatCard({
         <>
             <MuiCard {...rest}>
                 <LinearProgress
-                    variant="determinate"
-                    value={100}
                     color={color}
+                    value={100}
+                    variant="determinate"
                 />
 
                 <Box
-                    px={2.5}
-                    py={2}
+                    alignItems="center"
                     display="flex"
                     justifyContent="space-between"
-                    alignItems="center">
+                    px={2.5}
+                    py={2}>
                     <Typography
                         component="div"
                         textTransform="capitalize"
@@ -62,9 +62,9 @@ export default function StatCard({
 
                     {collapsible && (
                         <IconButton
-                            size="small"
                             disabled={!collapsible}
-                            onClick={() => setIsCollapse(prev => !prev)}>
+                            onClick={() => setIsCollapse(prev => !prev)}
+                            size="small">
                             {isCollapse ? (
                                 <KeyboardArrowDown />
                             ) : (
@@ -80,9 +80,9 @@ export default function StatCard({
                         onClick={() => setIsFullscreen(true)}>
                         <CardContent
                             sx={{
+                                overflowX: 'auto',
                                 pt: 0,
                                 px: 2.5,
-                                overflowX: 'auto',
                             }}>
                             {isLoading ? <Skeletons /> : children}
                         </CardContent>
@@ -92,27 +92,27 @@ export default function StatCard({
 
             <Dialog
                 fullScreen
-                open={isFullscreen}
-                onClose={() => setIsFullscreen(false)}>
+                onClose={() => setIsFullscreen(false)}
+                open={isFullscreen}>
                 <LinearProgress
-                    variant="determinate"
-                    value={100}
                     color={color}
+                    value={100}
+                    variant="determinate"
                 />
 
                 <Box
-                    px={2.5}
-                    py={1.5}
+                    alignItems="center"
                     display="flex"
                     justifyContent="space-between"
-                    alignItems="center">
+                    px={2.5}
+                    py={1.5}>
                     <Typography textTransform="capitalize" variant="body1">
                         {title}
                     </Typography>
 
                     <IconButton
-                        size="small"
-                        onClick={() => setIsFullscreen(false)}>
+                        onClick={() => setIsFullscreen(false)}
+                        size="small">
                         <Close />
                     </IconButton>
                 </Box>

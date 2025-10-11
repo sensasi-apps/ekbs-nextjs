@@ -4,8 +4,8 @@
 import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField'
 // vendors
 import { Field, type FieldProps } from 'formik'
-import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 // components
 import DefaultTextField from '@/components/TextField'
 
@@ -45,14 +45,14 @@ function InnerComponent({
 
     return (
         <DefaultTextField
-            id={name}
             disabled={disabled || isSubmitting}
+            id={name}
             label={label}
-            value={innerValue}
             onChange={({ target: { value } }) => {
                 setInnerValue(value)
                 debounceSetFieldValue(value)
             }}
+            value={innerValue}
             {...textFieldProps}
             error={Boolean(error)}
             helperText={error ?? textFieldProps?.helperText}

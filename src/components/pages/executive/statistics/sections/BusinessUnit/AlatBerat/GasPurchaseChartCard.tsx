@@ -1,11 +1,12 @@
 // types
-import type { ApiResponseType } from '../AlatBerat'
+
 // components
 import LineChart from '@/components/Chart/Line/Line'
 import StatCard from '@/components/StatCard'
 // utils
 import formatNumber from '@/utils/format-number'
 import getMuiColors from '@/utils/get-mui-colors'
+import type { ApiResponseType } from '../AlatBerat'
 
 export default function GasPurchaseChartCard({
     data,
@@ -28,13 +29,13 @@ export default function GasPurchaseChartCard({
     const colors = getMuiColors(inventoryNames.length, 400)
 
     return (
-        <StatCard title="Total Pembelian BBM — Bulanan" isLoading={isLoading}>
+        <StatCard isLoading={isLoading} title="Total Pembelian BBM — Bulanan">
             <LineChart
                 data={data}
                 lines={inventoryNames.map((name, i) => ({
-                    type: 'monotone',
                     dataKey: name,
                     stroke: colors[i],
+                    type: 'monotone',
                 }))}
                 slotsProps={{
                     tooltip: {

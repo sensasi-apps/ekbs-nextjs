@@ -1,16 +1,17 @@
 // vendors
-import { Formik, type FormikProps } from 'formik'
-import { useState } from 'react'
+
 // materials
 import Alert from '@mui/material/Alert'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import InputAdornment from '@mui/material/InputAdornment'
-// components
-import FormikForm from '@/components/formik-form'
+import { Formik, type FormikProps } from 'formik'
+import { useState } from 'react'
 import NumericField from '@/components/formik-fields/numeric-field'
 import TextField from '@/components/formik-fields/text-field'
+// components
+import FormikForm from '@/components/formik-form'
 // utils
 import myAxios from '@/lib/axios'
 import handle422 from '@/utils/handle-422'
@@ -30,11 +31,13 @@ export default function ServiceFormDialog({
     const isNew = !formData?.id
 
     return (
-        <Dialog open={Boolean(formData)} maxWidth="xs">
+        <Dialog maxWidth="xs" open={Boolean(formData)}>
             <DialogTitle>{isNew ? 'Tambah' : 'Ubah'} Data Layanan</DialogTitle>
             <DialogContent>
                 <Formik<FormData>
+                    component={ServiceFormikForm}
                     initialValues={formData ?? {}}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors, resetForm }) => {
                         const request = isNew ? myAxios.post : myAxios.put
 
@@ -46,8 +49,6 @@ export default function ServiceFormDialog({
                             .then(resetForm)
                             .catch(error => handle422(error, setErrors))
                     }}
-                    onReset={handleClose}
-                    component={ServiceFormikForm}
                 />
             </DialogContent>
         </Dialog>
@@ -75,25 +76,25 @@ function ServiceFormikForm({
 
     return (
         <FormikForm
-            id="service-form"
             autoComplete="off"
-            isNew={!values.id}
             dirty={dirty || Boolean(values.deleted_at)}
+            id="service-form"
+            isNew={!values.id}
             processing={isSubmitting}
-            submitting={isSubmitting}
             slotProps={{
-                submitButton: {
-                    disabled: isSubmitting,
-                },
                 deleteButton:
                     values.id && !values.deleted_at
                         ? {
-                              onClick: handleDelete,
-                              loading: isDeleting,
                               disabled: isSubmitting,
+                              loading: isDeleting,
+                              onClick: handleDelete,
                           }
                         : undefined,
-            }}>
+                submitButton: {
+                    disabled: isSubmitting,
+                },
+            }}
+            submitting={isSubmitting}>
             {values?.deleted_at && (
                 <Alert severity="warning">
                     Data telah dihapus pada <b>{toDmy(values.deleted_at)}.</b>{' '}
@@ -101,12 +102,12 @@ function ServiceFormikForm({
                 </Alert>
             )}
 
-            <TextField name="name" label="Nama" disabled={isSubmitting} />
+            <TextField disabled={isSubmitting} label="Nama" name="name" />
 
             <NumericField
-                name="default_price"
-                label="Harga default"
                 disabled={isSubmitting}
+                label="Harga default"
+                name="default_price"
                 numericFormatProps={{
                     slotProps: {
                         input: {

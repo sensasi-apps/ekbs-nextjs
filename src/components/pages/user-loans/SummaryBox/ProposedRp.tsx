@@ -7,7 +7,7 @@ export default function UserLoanSummaryBoxProposedRp({
     proposedRp: number
 }) {
     return (
-        <TypographyWithLabel label="Pinjaman:" variant="h4" component="div">
+        <TypographyWithLabel component="div" label="Pinjaman:" variant="h4">
             {numberToCurrency(proposedRp)}
         </TypographyWithLabel>
     )

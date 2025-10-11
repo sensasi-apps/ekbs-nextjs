@@ -1,11 +1,11 @@
+import TableCell from '@mui/material/TableCell'
+import MuiTableRow from '@mui/material/TableRow'
+import { type ReactNode } from 'react'
 import ChipSmall from '@/components/ChipSmall'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import globalFormatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 import ucWords from '@/utils/uc-words'
-import TableCell from '@mui/material/TableCell'
-import MuiTableRow from '@mui/material/TableRow'
-import { type ReactNode } from 'react'
 
 const LEFT_BORDER_STYLE = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
@@ -122,10 +122,10 @@ export default function TableRow({
                 {formatNumber(marginRp)}
 
                 <ChipSmall
-                    sx={{ ml: 2 }}
                     color={marginPercentage >= 7 ? 'success' : 'warning'}
-                    variant="outlined"
                     label={formatNumber(marginPercentage) + '%'}
+                    sx={{ ml: 2 }}
+                    variant="outlined"
                 />
             </TableCell>
         </MuiTableRow>

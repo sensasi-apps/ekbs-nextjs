@@ -1,16 +1,17 @@
 // vendors
-import { memo } from 'react'
-import { Form, type FormikFormProps } from 'formik'
+
+import Box from '@mui/material/Box'
 // materials
 import { type ButtonProps } from '@mui/material/Button'
-import Box from '@mui/material/Box'
+import { Form, type FormikFormProps } from 'formik'
+import { memo } from 'react'
 // components
 import DialogLoadingBar from '@/components/Dialog/LoadingBar'
-import FormResetButton from '@/components/form/ResetButton'
-import FormSubmitButton from '@/components/form/SubmitButton'
 import FormDeleteButton, {
     type FormDeleteButtonProps,
 } from '@/components/form/FormDeleteButton'
+import FormResetButton from '@/components/form/ResetButton'
+import FormSubmitButton from '@/components/form/SubmitButton'
 
 /**
  * A memoized component that renders a Formik form with additional buttons and features.
@@ -59,10 +60,10 @@ const FormikForm = memo(function FormikForm({
     return (
         <>
             <DialogLoadingBar in={processing} {...loadingBarProps} />
-            <Form id={formId} autoComplete={autoComplete} {...props}>
+            <Form autoComplete={autoComplete} id={formId} {...props}>
                 {children}
 
-                <Box display="flex" mt="1em" justifyContent="space-between">
+                <Box display="flex" justifyContent="space-between" mt="1em">
                     <Box>
                         {deleteButtonProps?.onClick && (
                             <FormDeleteButton {...deleteButtonProps} />
@@ -80,13 +81,13 @@ const FormikForm = memo(function FormikForm({
                         />
 
                         <FormSubmitButton
-                            loading={submitting}
-                            form={formId}
-                            disabled={!dirty || submitButtonProps.disabled}
-                            oldDirty={dirty && !isNew}
                             confirmationText={
                                 submitButtonProps.confirmationText
                             }
+                            disabled={!dirty || submitButtonProps.disabled}
+                            form={formId}
+                            loading={submitting}
+                            oldDirty={dirty && !isNew}
                         />
                     </Box>
                 </Box>

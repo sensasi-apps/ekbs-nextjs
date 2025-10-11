@@ -1,13 +1,14 @@
 // types
-import type Product from '@/modules/mart/types/orms/product'
-// vendors
-import { FastField, type FieldArrayRenderProps } from 'formik'
+
 // materials
 import Grid from '@mui/material/Grid'
+// vendors
+import { FastField, type FieldArrayRenderProps } from 'formik'
+import RpInputAdornment from '@/components/InputAdornment/Rp'
 // components
 import NumericFormat from '@/components/NumericFormat'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import type Product from '@/modules/mart/types/orms/product'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
@@ -19,13 +20,13 @@ export default function ProductWarehouseArrayFields({
 }: FieldArrayRenderProps & { disabled: boolean }) {
     return (values?.warehouses ?? []).map(
         (warehouse: Product['warehouses'][0], index: number) => (
-            <Grid key={index} container columnSpacing={1}>
+            <Grid columnSpacing={1} container key={index}>
                 <Grid size={{ xs: 2 }}>
                     <FastField
-                        name={`warehouses.${index}.warehouse`}
-                        label="Gudang"
                         component={TextFieldFastableComponent}
                         disabled={true}
+                        label="Gudang"
+                        name={`warehouses.${index}.warehouse`}
                         required={false}
                         variant="standard"
                     />
@@ -34,10 +35,7 @@ export default function ProductWarehouseArrayFields({
                 <Grid size={{ xs: 2 }}>
                     <NumericFormat
                         disabled={true}
-                        required={false}
                         label="QTY"
-                        variant="standard"
-                        value={warehouse.qty}
                         name="qty"
                         onValueChange={({ floatValue }) =>
                             debounce(() =>
@@ -47,19 +45,19 @@ export default function ProductWarehouseArrayFields({
                                 }),
                             )
                         }
+                        required={false}
+                        value={warehouse.qty}
+                        variant="standard"
                     />
                 </Grid>
 
                 <Grid size={{ xs: 4 }}>
                     <NumericFormat
                         disabled={true}
-                        required={false}
-                        label="Biaya Dasar"
-                        variant="standard"
                         InputProps={{
                             startAdornment: <RpInputAdornment />,
                         }}
-                        value={warehouse.cost_rp_per_unit}
+                        label="Biaya Dasar"
                         onValueChange={({ floatValue }) =>
                             debounce(() =>
                                 replace(index, {
@@ -68,19 +66,19 @@ export default function ProductWarehouseArrayFields({
                                 }),
                             )
                         }
+                        required={false}
+                        value={warehouse.cost_rp_per_unit}
+                        variant="standard"
                     />
                 </Grid>
 
                 <Grid size={{ xs: 4 }}>
                     <NumericFormat
-                        required={false}
                         disabled={disabled}
-                        label="Harga Jual Default"
-                        variant="standard"
                         InputProps={{
                             startAdornment: <RpInputAdornment />,
                         }}
-                        value={warehouse.default_sell_price}
+                        label="Harga Jual Default"
                         onValueChange={({ floatValue }) =>
                             debounce(() =>
                                 replace(index, {
@@ -89,6 +87,9 @@ export default function ProductWarehouseArrayFields({
                                 }),
                             )
                         }
+                        required={false}
+                        value={warehouse.default_sell_price}
+                        variant="standard"
                         {...errorsToHelperTextObj(errors?.default_sell_price)}
                     />
                 </Grid>

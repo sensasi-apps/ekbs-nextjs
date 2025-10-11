@@ -1,29 +1,29 @@
 'use client'
 
+// icons-materials
+import LockIcon from '@mui/icons-material/Lock'
+// materials
+import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Fade from '@mui/material/Fade'
+import LinearProgress from '@mui/material/LinearProgress'
+import Typography from '@mui/material/Typography'
 // vendors
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
-// materials
-import Alert from '@mui/material/Alert'
-import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import Fade from '@mui/material/Fade'
-import LinearProgress from '@mui/material/LinearProgress'
-import Typography from '@mui/material/Typography'
-// icons-materials
-import LockIcon from '@mui/icons-material/Lock'
-// libs
-import axios from '@/lib/axios'
-//
-import BackButton from '@/components/back-button'
-import PrintHandler from '@/components/PrintHandler'
-// parts
-import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
-import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 import AddProductFormDialog from '@/app/(auth)/marts/products/opnames/_parts/add-products-form-dialog'
 import DetailTable from '@/app/(auth)/marts/products/opnames/_parts/detail-table'
 import SummaryTable from '@/app/(auth)/marts/products/opnames/_parts/summary-table'
+//
+import BackButton from '@/components/back-button'
+import PrintHandler from '@/components/PrintHandler'
+// libs
+import axios from '@/lib/axios'
+import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
+// parts
+import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
 
 export default function OpnameDetail() {
     const { refresh } = useRouter()
@@ -70,10 +70,10 @@ export default function OpnameDetail() {
             <Fade in={!data?.finished_at} unmountOnExit>
                 <Alert
                     severity="warning"
-                    variant="outlined"
                     sx={{
                         mb: 2,
-                    }}>
+                    }}
+                    variant="outlined">
                     Pastikan untuk tidak melakukan transaksi pada produk yang
                     sedang di-opname hingga proses opname selesai.
                 </Alert>
@@ -82,17 +82,14 @@ export default function OpnameDetail() {
             <BackButton />
 
             <Box display="flex" gap={2} mt={2}>
-                <Typography variant="h6" component="p">
+                <Typography component="p" variant="h6">
                     Rangkuman
                 </Typography>
 
                 {!data?.finished_at && (
                     <Button
-                        startIcon={<LockIcon />}
-                        variant="outlined"
-                        disabled={mainIsLoading || isQtyChanged}
                         color="warning"
-                        size="small"
+                        disabled={mainIsLoading || isQtyChanged}
                         onClick={() => {
                             setIsSubmitting(true)
 
@@ -104,7 +101,10 @@ export default function OpnameDetail() {
                                     ),
                                 )
                                 .then(() => refresh())
-                        }}>
+                        }}
+                        size="small"
+                        startIcon={<LockIcon />}
+                        variant="outlined">
                         Simpan Permanen
                     </Button>
                 )}
@@ -112,8 +112,8 @@ export default function OpnameDetail() {
 
             {data && <SummaryTable data={data} />}
 
-            <Box display="flex" alignItems="center" mt={3} mb={1}>
-                <Typography variant="h6" component="p">
+            <Box alignItems="center" display="flex" mb={1} mt={3}>
+                <Typography component="p" variant="h6">
                     Rincian
                 </Typography>
 
@@ -131,18 +131,18 @@ export default function OpnameDetail() {
                                 disabled: mainIsLoading,
                             },
                         }}>
-                        <Typography gutterBottom fontWeight="bold">
+                        <Typography fontWeight="bold" gutterBottom>
                             Opname Stok Belayan Mart{' '}
                             {data?.finished_at ? '' : '— DRAF'}
                         </Typography>
 
-                        <Typography variant="body2" fontWeight="bold">
+                        <Typography fontWeight="bold" variant="body2">
                             Rangkuman
                         </Typography>
 
                         {data && <SummaryTable data={data} />}
 
-                        <Typography variant="body2" mt={2} fontWeight="bold">
+                        <Typography fontWeight="bold" mt={2} variant="body2">
                             Rincian
                         </Typography>
                         <DetailTable
@@ -154,11 +154,6 @@ export default function OpnameDetail() {
 
                 {!data?.finished_at && (
                     <Button
-                        variant="contained"
-                        sx={{
-                            ml: 4,
-                        }}
-                        size="small"
                         disabled={mainIsLoading || !isQtyChanged}
                         onClick={() => {
                             setIsSubmitting(true)
@@ -168,7 +163,12 @@ export default function OpnameDetail() {
                                     pmd_id_and_qtys: detailQtys,
                                 })
                                 .then(() => refresh())
-                        }}>
+                        }}
+                        size="small"
+                        sx={{
+                            ml: 4,
+                        }}
+                        variant="contained">
                         Simpan Perubahan
                     </Button>
                 )}
@@ -179,9 +179,9 @@ export default function OpnameDetail() {
             </Fade>
 
             <DetailTable
+                data={data?.details ?? []}
                 disabled={isSubmitting}
                 finished={Boolean(data?.finished_at)}
-                data={data?.details ?? []}
                 onValueChange={(id, value) =>
                     setDetailQtys(prev => {
                         const index = prev.findIndex(detail => detail.id === id)

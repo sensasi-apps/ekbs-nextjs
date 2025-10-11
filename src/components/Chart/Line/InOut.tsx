@@ -8,22 +8,22 @@ const InOutLineChart = memo(function InOutLineChart({
 }: InOutLineChartProps) {
     return (
         <LineChart
-            prefix="Rp"
             data={data}
             lines={[
                 {
-                    type: 'monotone',
                     dataKey: 'inbound',
                     name: inboundAlias,
                     stroke: 'var(--mui-palette-success-main)',
+                    type: 'monotone',
                 },
                 {
-                    type: 'monotone',
                     dataKey: 'outbound',
                     name: outboundAlias,
                     stroke: 'var(--mui-palette-error-main)',
+                    type: 'monotone',
                 },
             ]}
+            prefix="Rp"
         />
     )
 })

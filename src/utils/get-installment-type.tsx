@@ -1,5 +1,5 @@
-import type InstallmentORM from '@/modules/installment/types/orms/installment'
 import Typography from '@mui/material/Typography'
+import type InstallmentORM from '@/modules/installment/types/orms/installment'
 
 export default function getInstallmentType({
     installmentable_classname,
@@ -28,7 +28,7 @@ export default function getInstallmentType({
     return (
         <>
             {theReturn}
-            <Typography variant="caption" fontSize="0.7rem" component="div">
+            <Typography component="div" fontSize="0.7rem" variant="caption">
                 {installmentable_uuid?.slice(-6).toUpperCase()}
             </Typography>
         </>

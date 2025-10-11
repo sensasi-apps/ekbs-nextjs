@@ -1,5 +1,5 @@
 // vendors
-import { type FormikProps, Formik, useFormikContext } from 'formik'
+
 // materials
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
@@ -7,23 +7,24 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import { Formik, type FormikProps, useFormikContext } from 'formik'
+import SparePartsArrayField from '@/app/(auth)/repair-shop/sales/_parts/components/spare-parts-array-field'
 // formik
 import BooleanField from '@/components/formik-fields/boolean-field'
 import DateField from '@/components/formik-fields/date-field'
-import FormikForm from '@/components/formik-form-v2'
 import TextField from '@/components/formik-fields/text-field'
 import UserSelect from '@/components/formik-fields/user-select'
-// features
-import PaymentInputs from './payment-inputs'
-import SparePartsArrayField from '@/app/(auth)/repair-shop/sales/_parts/components/spare-parts-array-field'
-import ServicesArrayField from './services-array-field'
+import FormikForm from '@/components/formik-form-v2'
 // utils
 import myAxios from '@/lib/axios'
+import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
+import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
 import handle422 from '@/utils/handle-422'
 
 import numberToCurrency from '@/utils/number-to-currency'
-import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
-import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
+// features
+import PaymentInputs from './payment-inputs'
+import ServicesArrayField from './services-array-field'
 
 export default function SaleFormDialog({
     status,
@@ -39,12 +40,12 @@ export default function SaleFormDialog({
     const isNew = !formData?.uuid
 
     return (
-        <Dialog open fullScreen disablePortal maxWidth="md">
+        <Dialog disablePortal fullScreen maxWidth="md" open>
             <DialogTitle
                 sx={{
                     px: {
-                        sm: undefined,
                         md: 12,
+                        sm: undefined,
                     },
                 }}>
                 {isNew ? 'Tambah' : 'Rincian'} Data Penjualan
@@ -53,14 +54,15 @@ export default function SaleFormDialog({
             <DialogContent
                 sx={{
                     px: {
-                        sm: undefined,
                         md: 12,
+                        sm: undefined,
                     },
                 }}>
                 <Formik<SaleFormValues>
-                    validateOnChange={false}
+                    component={SaleFormikForm}
                     initialStatus={status}
                     initialValues={formData}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors, resetForm }) => {
                         values.is_finished = true
 
@@ -75,8 +77,7 @@ export default function SaleFormDialog({
                             .then(resetForm)
                             .catch(error => handle422(error, setErrors))
                     }}
-                    onReset={handleClose}
-                    component={SaleFormikForm}
+                    validateOnChange={false}
                 />
             </DialogContent>
         </Dialog>
@@ -107,12 +108,12 @@ interface InnerGrid {
 
 function LeftGrid({ isDisabled, values }: InnerGrid) {
     return (
-        <Grid size={{ xs: 12, sm: 8 }}>
-            <DateField name="at" label="Tanggal" disabled={isDisabled} />
+        <Grid size={{ sm: 8, xs: 12 }}>
+            <DateField disabled={isDisabled} label="Tanggal" name="at" />
 
             <UserSelect
-                name="worker_user_uuid"
                 label="Pekerja"
+                name="worker_user_uuid"
                 slotProps={{
                     textField: {
                         required: false,
@@ -122,8 +123,8 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
 
             {values.payment_method !== 'business-unit' && (
                 <UserSelect
-                    name="customer_uuid"
                     label="Pelanggan"
+                    name="customer_uuid"
                     slotProps={{
                         textField: {
                             required: values.payment_method === 'installment',
@@ -133,12 +134,12 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
             )}
 
             <TextField
-                name="note"
-                label="Catatan"
                 disabled={isDisabled}
+                label="Catatan"
+                name="note"
                 textFieldProps={{
-                    required: false,
                     multiline: true,
+                    required: false,
                     rows: 2,
                 }}
             />
@@ -149,15 +150,15 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
 
             <Box my={4}>
                 <SparePartsArrayField
-                    name="spare_parts"
                     isDisabled={isDisabled}
+                    name="spare_parts"
                 />
             </Box>
 
             <BooleanField
-                name="is_finished"
-                label="Selesaikan Transaksi"
                 disabled={true}
+                label="Selesaikan Transaksi"
+                name="is_finished"
                 switch
             />
 
@@ -172,13 +173,13 @@ function RightGrid() {
         calculateTotals(values)
 
     return (
-        <Grid size={{ xs: 12, sm: 4 }}>
+        <Grid size={{ sm: 4, xs: 12 }}>
             <Box
                 sx={{
                     position: 'sticky',
                     top: {
-                        xs: undefined,
                         sm: 0,
+                        xs: undefined,
                     },
                 }}>
                 <Box
@@ -189,7 +190,7 @@ function RightGrid() {
                     }}>
                     <Typography gutterBottom>Rangkuman</Typography>
 
-                    <Typography variant="body2" color="textDisabled">
+                    <Typography color="textDisabled" variant="body2">
                         Layanan
                     </Typography>
 
@@ -197,7 +198,7 @@ function RightGrid() {
                         {numberToCurrency(totalServiceRp ?? 0)}
                     </Typography>
 
-                    <Typography variant="body2" color="textDisabled">
+                    <Typography color="textDisabled" variant="body2">
                         Suku Cadang
                     </Typography>
 
@@ -210,8 +211,8 @@ function RightGrid() {
                         values.adjustment_rp !== 0 && (
                             <>
                                 <Typography
-                                    variant="body2"
-                                    color="textDisabled">
+                                    color="textDisabled"
+                                    variant="body2">
                                     Penyesuaian
                                 </Typography>
 
@@ -225,7 +226,7 @@ function RightGrid() {
 
                     {values.payment_method === 'installment' && (
                         <>
-                            <Typography variant="body2" color="textDisabled">
+                            <Typography color="textDisabled" variant="body2">
                                 Jasa
                             </Typography>
 
@@ -235,7 +236,7 @@ function RightGrid() {
                         </>
                     )}
 
-                    <Typography variant="body2" color="textDisabled">
+                    <Typography color="textDisabled" variant="body2">
                         Total Keseluruhan
                     </Typography>
 
@@ -244,7 +245,7 @@ function RightGrid() {
 
                 {Object.values(errors).length > 0 && (
                     <Box mt={4} sx={{ color: 'error.main', width: '100%' }}>
-                        <Typography variant="caption" fontWeight="bold">
+                        <Typography fontWeight="bold" variant="caption">
                             Terjadi kesalahan:
                         </Typography>
 

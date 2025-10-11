@@ -1,32 +1,33 @@
 // vendors
-import dayjs, { type Dayjs } from 'dayjs'
-import { useEffect, memo, useState } from 'react'
-import { NumericFormat, type NumberFormatValues } from 'react-number-format'
+
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/GridLegacy'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
-// components
-import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
+import dayjs, { type Dayjs } from 'dayjs'
+import { memo, useEffect, useState } from 'react'
+import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import DatePicker from '@/components/DatePicker'
-import UserAutocomplete from '@/components/user-autocomplete'
-import TextField from '@/components/TextField'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
-// providers
-import useFormData from '@/providers/useFormData'
-import SpbNoInput from './MainInputs/SpbNoInput'
-import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
-// libs
-import { wholeNumber } from '@/utils/regexs'
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import TextField from '@/components/TextField'
+import UserAutocomplete from '@/components/user-autocomplete'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
+// components
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // modules
 import type MinimalUser from '@/modules/user/types/minimal-user'
+// providers
+import useFormData from '@/providers/useFormData'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+// libs
+import { wholeNumber } from '@/utils/regexs'
+import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
+import SpbNoInput from './MainInputs/SpbNoInput'
 
 interface MainInputProps {
     clearByName: (name: string) => void
@@ -147,61 +148,62 @@ function PalmBunchesReaDeliveryMainInputs({
 
     return (
         <>
-            <Typography variant="h6" component="h2" gutterBottom>
+            <Typography component="h2" gutterBottom variant="h6">
                 Data Pengangkutan
             </Typography>
 
             {data.id && (
                 <TextField
                     disabled
+                    label="ID"
                     margin={undefined}
                     required={false}
-                    variant="filled"
                     sx={{
                         mb: 2,
                     }}
-                    label="ID"
                     value={data.id}
+                    variant="filled"
                     {...errorsToHelperTextObj(validationErrors.id)}
                 />
             )}
 
             <DatePicker
-                maxDate={dayjs().add(1, 'day')}
-                minDate={dayjs().subtract(3, 'month')}
-                showDaysOutsideCurrentMonth
                 disabled={disabled}
                 label="Tanggal"
-                slotProps={{
-                    textField: {
-                        name: 'at',
-                        label: 'TGL',
-                        error: Boolean(validationErrors.at),
-                        helperText: validationErrors.at,
-                    },
-                }}
-                value={at ?? null}
+                maxDate={dayjs().add(1, 'day')}
+                minDate={dayjs().subtract(3, 'month')}
+                onAccept={handleBlur}
                 onChange={value => {
                     setAt(value)
                     handleChange('at', value?.format('YYYY-MM-DD'))
                 }}
-                onAccept={handleBlur}
+                showDaysOutsideCurrentMonth
+                slotProps={{
+                    textField: {
+                        error: Boolean(validationErrors.at),
+                        helperText: validationErrors.at,
+                        label: 'TGL',
+                        name: 'at',
+                    },
+                }}
+                value={at ?? null}
             />
 
             <SpbNoInput
-                disabled={disabled}
                 clearByName={clearByName}
+                disabled={disabled}
                 validationErrors={validationErrors}
             />
 
             <TextField
-                inputProps={{
-                    minLength: 10,
-                    maxLength: 10,
-                }}
                 disabled={disabled}
+                inputProps={{
+                    maxLength: 10,
+                    minLength: 10,
+                }}
                 label="No. Tiket"
                 name="ticket_no"
+                onBlur={handleBlur}
                 onChange={event => {
                     const { name, value } = event.target
 
@@ -210,19 +212,19 @@ function PalmBunchesReaDeliveryMainInputs({
                     setTicketNo(value)
                     handleChange(name, value)
                 }}
-                onBlur={handleBlur}
                 value={ticketNo ?? ''}
                 {...errorsToHelperTextObj(validationErrors.ticket_no)}
             />
 
             <TextField
                 disabled={disabled}
+                inputProps={{
+                    maxLength: 12,
+                    minLength: 12,
+                }}
                 label="No. Gradis"
                 name="gradis_no"
-                inputProps={{
-                    minLength: 12,
-                    maxLength: 12,
-                }}
+                onBlur={handleBlur}
                 onChange={event => {
                     const { name, value } = event.target
 
@@ -231,19 +233,19 @@ function PalmBunchesReaDeliveryMainInputs({
                     setGradisNo(value)
                     handleChange(name, value)
                 }}
-                onBlur={handleBlur}
                 value={gradisNo ?? ''}
                 {...errorsToHelperTextObj(validationErrors.gradis_no)}
             />
 
             <TextField
                 disabled={disabled}
+                inputProps={{
+                    maxLength: 12,
+                    minLength: 12,
+                }}
                 label="No. VeBeWe"
                 name="vebewe_no"
-                inputProps={{
-                    minLength: 12,
-                    maxLength: 12,
-                }}
+                onBlur={handleBlur}
                 onChange={event => {
                     const { name, value } = event.target
 
@@ -252,19 +254,17 @@ function PalmBunchesReaDeliveryMainInputs({
                     setVebeweNo(value)
                     handleChange(name, value)
                 }}
-                onBlur={handleBlur}
                 value={vebeweNo ?? ''}
                 {...errorsToHelperTextObj(validationErrors.vebewe_no)}
             />
 
-            <Grid container columnSpacing={2}>
-                <Grid item xs={12} sm={6}>
+            <Grid columnSpacing={2} container>
+                <Grid item sm={6} xs={12}>
                     <Autocomplete
-                        fullWidth
-                        disablePortal
-                        options={['COM', 'SOM', 'POM']}
                         disabled={disabled}
-                        value={toOilMillCode ?? null}
+                        disablePortal
+                        fullWidth
+                        onBlur={handleBlur}
                         onChange={(_, value) => {
                             setToOilMillCode(value ?? undefined)
                             handleDeliveryChange(
@@ -272,27 +272,27 @@ function PalmBunchesReaDeliveryMainInputs({
                                 value ?? undefined,
                             )
                         }}
-                        onBlur={handleBlur}
+                        options={['COM', 'SOM', 'POM']}
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                name="to_oil_mill_code"
                                 label="Pabrik Tujuan"
+                                name="to_oil_mill_code"
                                 {...errorsToHelperTextObj(
                                     validationErrors.to_oil_mill_code,
                                 )}
                             />
                         )}
+                        value={toOilMillCode ?? null}
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item sm={6} xs={12}>
                     <Autocomplete
-                        fullWidth
-                        disablePortal
-                        options={['Atas', 'Tengah', 'Bawah', 'Lainnya']}
                         disabled={disabled}
-                        value={fromPosition ?? null}
+                        disablePortal
+                        fullWidth
+                        onBlur={handleBlur}
                         onChange={(_, value) => {
                             setFromPosition(value ?? undefined)
                             handleDeliveryChange(
@@ -300,38 +300,41 @@ function PalmBunchesReaDeliveryMainInputs({
                                 value ?? undefined,
                             )
                         }}
-                        onBlur={handleBlur}
+                        options={['Atas', 'Tengah', 'Bawah', 'Lainnya']}
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                name="from_position"
                                 label="Dari Posisi"
+                                name="from_position"
                                 {...errorsToHelperTextObj(
                                     validationErrors.from_position,
                                 )}
                             />
                         )}
+                        value={fromPosition ?? null}
                     />
                 </Grid>
             </Grid>
 
             {fromPosition === 'Lainnya' && (
                 <NumericFormat
+                    allowNegative={false}
                     customInput={TextField}
                     decimalScale={0}
-                    allowNegative={false}
                     disabled={disabled}
-                    label="Tarif angkut permintaan"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">/kg</InputAdornment>
+                        ),
+                        startAdornment: <RpInputAdornment />,
+                    }}
                     inputProps={{
                         maxLength: 3,
                         minLength: 1,
                     }}
-                    InputProps={{
-                        startAdornment: <RpInputAdornment />,
-                        endAdornment: (
-                            <InputAdornment position="end">/kg</InputAdornment>
-                        ),
-                    }}
+                    label="Tarif angkut permintaan"
+                    name="determined_rate_rp_per_kg"
+                    onBlur={handleBlur}
                     onValueChange={values => {
                         setDeterminedRateRpPerKg(values.floatValue)
                         handleDeliveryChange(
@@ -339,8 +342,6 @@ function PalmBunchesReaDeliveryMainInputs({
                             values.floatValue,
                         )
                     }}
-                    onBlur={handleBlur}
-                    name="determined_rate_rp_per_kg"
                     value={determinedRateRpPerKg ?? ''}
                     {...errorsToHelperTextObj(
                         validationErrors.determined_rate_rp_per_kg,
@@ -348,51 +349,50 @@ function PalmBunchesReaDeliveryMainInputs({
                 />
             )}
 
-            <input type="hidden" name="n_bunches" value={nBunches ?? ''} />
+            <input name="n_bunches" type="hidden" value={nBunches ?? ''} />
 
             <NumericFormat
-                customInput={TextField}
-                thousandSeparator="."
-                decimalSeparator=","
-                decimalScale={0}
                 allowNegative={false}
+                customInput={TextField}
+                decimalScale={0}
+                decimalSeparator=","
                 disabled={disabled}
-                label="Total Janjang"
-                inputProps={{
-                    minLength: 1,
-                    maxLength: 5,
-                }}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">Janjang</InputAdornment>
                     ),
                 }}
+                inputProps={{
+                    maxLength: 5,
+                    minLength: 1,
+                }}
+                label="Total Janjang"
+                onBlur={handleBlur}
                 onValueChange={(values: NumberFormatValues) => {
                     setNBunches(values.floatValue)
                     handleDeliveryChange('n_bunches', values.floatValue)
                 }}
-                onBlur={handleBlur}
+                thousandSeparator="."
                 value={nBunches ?? ''}
                 {...errorsToHelperTextObj(validationErrors.n_bunches)}
             />
 
             <input
-                type="hidden"
                 name="courier_user_uuid"
+                type="hidden"
                 value={courierUser?.uuid || ''}
             />
 
             {isAuthHasPermission(PalmBunch.SEARCH_USER) ? (
                 <UserAutocomplete
-                    label="Pengangkut"
                     disabled={disabled}
                     fullWidth
+                    label="Pengangkut"
+                    onBlur={handleBlur}
                     onChange={(_, user) => {
                         setCourierUser(user ?? undefined)
                         handleDeliveryChange('courier_user', user ?? undefined)
                     }}
-                    onBlur={handleBlur}
-                    value={courierUser ?? null}
                     slotProps={{
                         textField: {
                             margin: 'dense',
@@ -401,10 +401,11 @@ function PalmBunchesReaDeliveryMainInputs({
                             validationErrors.courier_user_uuid,
                         ),
                     }}
+                    value={courierUser ?? null}
                 />
             ) : (
                 <Box my={1}>
-                    <Typography variant="caption" component="div">
+                    <Typography component="div" variant="caption">
                         Pengangkut:
                     </Typography>
                     #{data.delivery?.courier_user?.id} —{' '}
@@ -414,12 +415,13 @@ function PalmBunchesReaDeliveryMainInputs({
 
             <TextField
                 disabled={disabled}
+                inputProps={{
+                    maxLength: 11,
+                    minLength: 3,
+                }}
                 label="NO. Kendaraan"
                 name="vehicle_no"
-                inputProps={{
-                    minLength: 3,
-                    maxLength: 11,
-                }}
+                onBlur={handleBlur}
                 onChange={event => {
                     const { name, value } = event.target
 
@@ -428,15 +430,14 @@ function PalmBunchesReaDeliveryMainInputs({
                     )
                     handleDeliveryChange(name, value)
                 }}
-                onBlur={handleBlur}
                 value={vehicleNo ?? ''}
                 {...errorsToHelperTextObj(validationErrors.vehicle_no)}
             />
 
             <AsFarmLandIdInput
+                clearByName={clearByName}
                 disabled={disabled}
                 validationErrors={validationErrors}
-                clearByName={clearByName}
             />
         </>
     )

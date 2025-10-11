@@ -1,41 +1,41 @@
 'use client'
 
-// types
-import type ProductType from '@/modules/farm-inputs/types/orms/product'
-// vendors
-import { Formik } from 'formik'
-import { useState } from 'react'
+// icons
+import InventoryIcon from '@mui/icons-material/Inventory'
 // materials
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
-// icons
-import InventoryIcon from '@mui/icons-material/Inventory'
+// vendors
+import { Formik } from 'formik'
+import { useState } from 'react'
 // components
 import Datatable, {
     type DatatableProps,
-    getNoWrapCellProps,
     type GetRowDataType,
+    getNoWrapCellProps,
     type MutateType,
 } from '@/components/Datatable'
+import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
+import FlexBox from '@/components/flex-box'
+import ApiUrlEnum from '@/components/Product/ApiUrlEnum'
 import ProductForm from '@/components/Product/Form'
 // page components
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
-// utils
-import numberToCurrency from '@/utils/number-to-currency'
-import formatNumber from '@/utils/format-number'
-import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
-import DialogWithTitle from '@/components/DialogWithTitle'
-import axios from '@/lib/axios'
-import ApiUrlEnum from '@/components/Product/ApiUrlEnum'
-import handle422 from '@/utils/handle-422'
-// enums
-import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
+import FarmInputPermission from '@/enums/permissions/FarmInput'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-import FarmInputPermission from '@/enums/permissions/FarmInput'
-import FlexBox from '@/components/flex-box'
-import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
+import axios from '@/lib/axios'
+import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
+// enums
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+// types
+import type ProductType from '@/modules/farm-inputs/types/orms/product'
+import formatNumber from '@/utils/format-number'
+import handle422 from '@/utils/handle-422'
+// utils
+import numberToCurrency from '@/utils/number-to-currency'
 
 let mutate: MutateType<ProductType>
 let getRowData: GetRowDataType<ProductType>
@@ -56,7 +56,7 @@ export default function PageClient() {
 
     return (
         <>
-            <FlexBox mb={2} justifyContent="end">
+            <FlexBox justifyContent="end" mb={2}>
                 <WithDeletedItemsCheckbox
                     checked={withDeletedItems}
                     onChange={setWithDeletedItems}
@@ -69,7 +69,9 @@ export default function PageClient() {
                     withDeletedItems: withDeletedItems ? '1' : '0',
                 }}
                 columns={columns}
-                defaultSortOrder={{ name: 'name', direction: 'asc' }}
+                defaultSortOrder={{ direction: 'asc', name: 'name' }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData(dataIndex)
@@ -78,13 +80,6 @@ export default function PageClient() {
                         setInitialFormikValues(data)
                         setIsFormOpen(true)
                     }
-                }}
-                tableId="products-table"
-                title="Daftar Produk"
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
-                swrOptions={{
-                    revalidateOnMount: true,
                 }}
                 setRowProps={(_, dataIndex) =>
                     getRowData(dataIndex)?.deleted_at
@@ -98,14 +93,21 @@ export default function PageClient() {
                           }
                         : {}
                 }
+                swrOptions={{
+                    revalidateOnMount: true,
+                }}
+                tableId="products-table"
+                title="Daftar Produk"
             />
 
             <DialogWithTitle
                 maxWidth="sm"
-                title={(isNew ? 'Tambah' : 'Perbaharui') + ' Data Produk'}
-                open={isFormOpen}>
+                open={isFormOpen}
+                title={(isNew ? 'Tambah' : 'Perbaharui') + ' Data Produk'}>
                 <Formik
+                    component={ProductForm}
                     initialValues={initialFormikValues}
+                    onReset={handleClose}
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
@@ -121,8 +123,6 @@ export default function PageClient() {
                             })
                             .catch(error => handle422(error, setErrors))
                     }
-                    onReset={handleClose}
-                    component={ProductForm}
                 />
             </DialogWithTitle>
 
@@ -137,10 +137,10 @@ export default function PageClient() {
                     setInitialFormikValues({
                         unit: 'pcs',
                         warehouses: Object.values(Warehouse).map(warehouse => ({
-                            warehouse,
                             base_cost_rp_per_unit: 0,
-                            qty: 0,
                             default_sell_price: 0,
+                            qty: 0,
+                            warehouse,
                         })),
                     })
                     setIsFormOpen(true)
@@ -154,15 +154,15 @@ export default function PageClient() {
 
 const columns: DatatableProps<ProductType>['columns'] = [
     {
-        name: 'id',
         label: 'ID',
+        name: 'id',
         options: {
             display: 'excluded',
         },
     },
     {
-        name: 'code',
         label: 'Kode',
+        name: 'code',
         options: {
             customBodyRenderLite: dataIndex => {
                 const data = getRowData(dataIndex)
@@ -172,9 +172,9 @@ const columns: DatatableProps<ProductType>['columns'] = [
 
                 return (
                     <Typography
-                        variant="overline"
                         fontFamily="monospace"
-                        lineHeight="inherit">
+                        lineHeight="inherit"
+                        variant="overline">
                         {code ?? id}
                     </Typography>
                 )
@@ -182,12 +182,12 @@ const columns: DatatableProps<ProductType>['columns'] = [
         },
     },
     {
-        name: 'name',
         label: 'Nama',
+        name: 'name',
     },
     {
-        name: 'category_name',
         label: 'Kategori',
+        name: 'category_name',
         options: {
             customBodyRender: text =>
                 text ? (
@@ -198,17 +198,16 @@ const columns: DatatableProps<ProductType>['columns'] = [
         },
     },
     {
-        name: 'description',
         label: 'Deskripsi',
+        name: 'description',
         options: {
             display: false,
         },
     },
     {
-        name: 'warehouses.warehouse',
         label: 'Gudang',
+        name: 'warehouses.warehouse',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
                 if (!warehouses) return
@@ -225,13 +224,13 @@ const columns: DatatableProps<ProductType>['columns'] = [
                     </ul>
                 )
             },
+            setCellProps: getNoWrapCellProps,
         },
     },
     {
-        name: 'warehouses.qty',
         label: 'QTY',
+        name: 'warehouses.qty',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRenderLite(dataIndex) {
                 const data = getRowData(dataIndex)
 
@@ -260,17 +259,17 @@ const columns: DatatableProps<ProductType>['columns'] = [
                     </ul>
                 )
             },
+            setCellProps: getNoWrapCellProps,
         },
     },
     {
-        name: 'unit',
         label: 'Satuan',
+        name: 'unit',
     },
     {
-        name: 'warehouses.base_cost_rp_per_unit',
         label: 'Biaya Dasar',
+        name: 'warehouses.base_cost_rp_per_unit',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
                 if (!warehouses) return
@@ -289,13 +288,13 @@ const columns: DatatableProps<ProductType>['columns'] = [
                     </ul>
                 )
             },
+            setCellProps: getNoWrapCellProps,
         },
     },
     {
-        name: 'warehouses.default_sell_price',
         label: 'Harga Jual Default',
+        name: 'warehouses.default_sell_price',
         options: {
-            setCellProps: getNoWrapCellProps,
             customBodyRenderLite(dataIndex) {
                 const warehouses = getRowData(dataIndex)?.warehouses
                 if (!warehouses) return
@@ -314,6 +313,7 @@ const columns: DatatableProps<ProductType>['columns'] = [
                     </ul>
                 )
             },
+            setCellProps: getNoWrapCellProps,
         },
     },
 ]

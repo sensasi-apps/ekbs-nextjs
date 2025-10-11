@@ -1,16 +1,16 @@
-import { Field, type FieldProps } from 'formik'
-// materials
-import { styled } from '@mui/material/styles'
-import Fab, { type FabProps } from '@mui/material/Fab'
-import FormHelperText from '@mui/material/FormHelperText'
-import Typography from '@mui/material/Typography'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
-import ListItemIcon from '@mui/material/ListItemIcon'
 // icons
 import AddIcon from '@mui/icons-material/Add'
 import PauseIcon from '@mui/icons-material/Pause'
+import Fab, { type FabProps } from '@mui/material/Fab'
+import FormHelperText from '@mui/material/FormHelperText'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+// materials
+import { styled } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import { Field, type FieldProps } from 'formik'
 
 interface FileFieldProps {
     name: string
@@ -29,13 +29,13 @@ export default function FileField(props: FileFieldProps) {
 }
 
 const VisuallyHiddenInput = styled('input')({
+    bottom: 0,
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
     height: 1,
+    left: 0,
     overflow: 'hidden',
     position: 'absolute',
-    bottom: 0,
-    left: 0,
     whiteSpace: 'nowrap',
     width: 1,
 })
@@ -52,19 +52,19 @@ function InnerComponent({
         <>
             <div>
                 <Fab
-                    variant="extended"
                     color="primary"
                     component="label"
                     role={undefined}
+                    variant="extended"
                     {...slotProps?.button}>
                     <VisuallyHiddenInput
-                        type="file"
                         id={name}
+                        multiple={multiple ?? false}
                         name={name}
                         onChange={({ currentTarget: { files } }) => {
                             setFieldValue(name, Array.from(files ?? []))
                         }}
-                        multiple={multiple ?? false}
+                        type="file"
                     />
                     <AddIcon sx={{ mr: 1 }} />
                     Tambah Berkas
@@ -75,7 +75,7 @@ function InnerComponent({
 
             {value.length > 0 && (
                 <>
-                    <Typography variant="caption" component="div">
+                    <Typography component="div" variant="caption">
                         Akan diunggah:
                     </Typography>
 
@@ -86,7 +86,7 @@ function InnerComponent({
                             px: 2,
                         }}>
                         {value.map(file => (
-                            <ListItem key={file.name} disablePadding>
+                            <ListItem disablePadding key={file.name}>
                                 <ListItemIcon>
                                     <PauseIcon />
                                 </ListItemIcon>

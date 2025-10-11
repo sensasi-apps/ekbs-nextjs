@@ -1,20 +1,21 @@
 // types
+
+import Box from '@mui/material/Box'
 import type { UUID } from 'crypto'
-import type { FormikContextType, FastFieldProps } from 'formik'
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+import type { FastFieldProps, FormikContextType } from 'formik'
+import { FastField } from 'formik'
 // vendors
 import { memo } from 'react'
-import { FastField } from 'formik'
-import Box from '@mui/material/Box'
+import FormikForm from '@/components/formik-form'
+import SelectFromApi from '@/components/Global/SelectFromApi'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // components
 import CrediturCard from '../creditor-card'
-import SelectFromApi from '@/components/Global/SelectFromApi'
-import FormikForm from '@/components/formik-form'
+import UserLoanSummaryBoxProposedAt from '../SummaryBox/ProposedAt'
 // local components
 import UserLoanSummaryBoxProposedRp from '../SummaryBox/ProposedRp'
-import UserLoanSummaryBoxProposedAt from '../SummaryBox/ProposedAt'
-import TypographyWithLabel from '../SummaryBox/TypographyWithLabel'
 import UserLoanSummaryBoxReviewers from '../SummaryBox/Reviewers'
+import TypographyWithLabel from '../SummaryBox/TypographyWithLabel'
 
 export default function UserLoanDisburseForm({
     isSubmitting,
@@ -29,16 +30,16 @@ export default function UserLoanDisburseForm({
 
     return (
         <FormikForm
-            id="user-loan-disburse-form"
             dirty={true}
-            submitting={isSubmitting}
-            processing={isProcessing}
+            id="user-loan-disburse-form"
             isNew={false}
+            processing={isProcessing}
             slotProps={{
                 submitButton: {
                     disabled: isDisabled,
                 },
-            }}>
+            }}
+            submitting={isSubmitting}>
             <CrediturCard data={userLoan.user} />
 
             <SummaryBox data={userLoan} />
@@ -49,18 +50,18 @@ export default function UserLoanDisburseForm({
                     meta: { error },
                 }: FastFieldProps) => (
                     <SelectFromApi
-                        required
-                        endpoint="/data/cashes"
-                        label="Telah dicairkan dari Kas"
-                        size="small"
                         disabled={isDisabled}
-                        selectProps={{
-                            value: value ?? '',
-                            name: name,
-                        }}
+                        endpoint="/data/cashes"
                         error={Boolean(error)}
                         helperText={error}
+                        label="Telah dicairkan dari Kas"
                         onChange={onChange}
+                        required
+                        selectProps={{
+                            name: name,
+                            value: value ?? '',
+                        }}
+                        size="small"
                     />
                 )}
             </FastField>

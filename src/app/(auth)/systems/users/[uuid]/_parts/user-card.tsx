@@ -1,5 +1,8 @@
 // vendors
-import Link from 'next/link'
+
+// icons-materials
+import Edit from '@mui/icons-material/Edit'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -8,21 +11,19 @@ import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-// icons-materials
-import Edit from '@mui/icons-material/Edit'
-import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import Link from 'next/link'
+import FlexBox from '@/components/flex-box'
 // global components
 import LoadingCenter from '@/components/loading-center'
-import FlexBox from '@/components/flex-box'
-// local components
-import SetPasswordButtonAndDialogForm from '@/modules/user/components/password-form-dialog-with-button'
 import IsActiveDisplay from '@/components/User/IsActiveDisplay'
 import UserRoleChips from '@/components/User/RoleChips'
+// local components
+import SetPasswordButtonAndDialogForm from '@/modules/user/components/password-form-dialog-with-button'
+import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 // providers
 import useFormData from '@/providers/FormData'
 //
 import RolesAndPermissionButtonAndDialogForm from './roles-and-permission-button-and-dialog-form'
-import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 
 export default function UserCard() {
     const { handleEdit } = useFormData()
@@ -39,20 +40,20 @@ export default function UserCard() {
             <CardContent>
                 <Box display="flex" justifyContent="space-between">
                     <FlexBox>
-                        <Typography variant="h5" component="div">
+                        <Typography component="div" variant="h5">
                             {name}
                         </Typography>
 
                         <Chip
-                            size="small"
-                            label={`#${id}`}
                             color="info"
+                            label={`#${id}`}
+                            size="small"
                             variant="outlined"
                         />
                     </FlexBox>
                 </Box>
 
-                <Typography variant="caption" color="GrayText">
+                <Typography color="GrayText" variant="caption">
                     {isLoading ? (
                         <Skeleton />
                     ) : (
@@ -61,12 +62,12 @@ export default function UserCard() {
                 </Typography>
 
                 <Box my={2}>
-                    <Typography variant="body2" color="GrayText">
+                    <Typography color="GrayText" variant="body2">
                         Peran:
                         <Box component="span" ml={1}>
                             <RolesAndPermissionButtonAndDialogForm
-                                isLoading={!userWithDetails}
                                 data={userWithDetails}
+                                isLoading={!userWithDetails}
                             />
                         </Box>
                     </Typography>
@@ -74,8 +75,8 @@ export default function UserCard() {
                     <Box
                         sx={{
                             '& > *': {
-                                mr: 0.3,
                                 mb: 0.3,
+                                mr: 0.3,
                             },
                         }}>
                         <UserRoleChips
@@ -90,6 +91,8 @@ export default function UserCard() {
                 <Box mt={2}>
                     {/* @ts-expect-error IDK BRO `/public/profile/` is not detected as Route */}
                     <Chip
+                        component={Link}
+                        href={`/public/profile/${uuid as string}`}
                         label={
                             <>
                                 Profil Publik{' '}
@@ -100,29 +103,27 @@ export default function UserCard() {
                                 />
                             </>
                         }
-                        component={Link}
-                        href={`/public/profile/${uuid as string}`}
-                        target="_blank"
+                        size="small"
                         sx={{
                             color: 'text.disabled',
                         }}
+                        target="_blank"
                         variant="outlined"
-                        size="small"
                     />
                 </Box>
 
                 <Box
-                    mt={4}
+                    alignItems="center"
                     display="flex"
                     justifyContent="space-between"
-                    alignItems="center">
+                    mt={4}>
                     <Button
-                        disabled={isLoading}
-                        size="small"
                         color="info"
-                        variant="outlined"
+                        disabled={isLoading}
+                        onClick={handleEditClick}
+                        size="small"
                         startIcon={<Edit />}
-                        onClick={handleEditClick}>
+                        variant="outlined">
                         Perbaharui data akun
                     </Button>
 

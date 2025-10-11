@@ -1,8 +1,9 @@
 // vendors
-import type { Metadata } from 'next'
-import PageTitle from '@/components/page-title'
+
 // materials
 import Typography from '@mui/material/Typography'
+import type { Metadata } from 'next'
+import PageTitle from '@/components/page-title'
 // modules
 import ClearCacheModalAndButton from '@/modules/settings/components/clear-cache-modal-and-button'
 import SettingsGroup from '@/modules/settings/components/settings-group'
@@ -17,7 +18,7 @@ export default function Page() {
             <PageTitle title="Pengaturan" />
 
             <SettingsGroup title="Data Aplikasi">
-                <Typography variant="body2" color="text.secondary" mb={2}>
+                <Typography color="text.secondary" mb={2} variant="body2">
                     Hapus data sementara dan cache aplikasi untuk membebaskan
                     ruang penyimpanan dan mengatasi masalah.
                 </Typography>

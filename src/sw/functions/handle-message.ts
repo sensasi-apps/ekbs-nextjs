@@ -19,11 +19,11 @@ export async function handleMessage(event: ExtendableMessageEvent) {
         const formattedEntries = await Promise.all<FormattedEntry>(
             entries.map(async entry => ({
                 body: await entry.request.json(),
-                timestamp: entry.timestamp,
-                status: entry.metadata?.status as string,
                 lastAttemptAt: (entry.metadata?.lastAttemptAt ?? null) as
                     | string
                     | null,
+                status: entry.metadata?.status as string,
+                timestamp: entry.timestamp,
             })),
         )
 

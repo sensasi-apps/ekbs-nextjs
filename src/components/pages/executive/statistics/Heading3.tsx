@@ -11,11 +11,11 @@ export default function Heading3({
 } & TypographyProps) {
     return (
         <Typography
-            variant="body1"
+            alignItems="center"
             component="h3"
             display="flex"
-            alignItems="center"
             gap={2}
+            variant="body1"
             {...rest}>
             {startIcon}
             {children}

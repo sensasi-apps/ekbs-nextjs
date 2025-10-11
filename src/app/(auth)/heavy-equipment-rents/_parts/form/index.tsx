@@ -1,12 +1,5 @@
 // types
-import type { UUID } from 'crypto'
-import type RentItemRent from '@/types/orms/rent-item-rent'
-import type UserType from '@/modules/user/types/orms/user'
-// vendors
-import { FastField, useFormik, type FormikProps } from 'formik'
-import { memo } from 'react'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+
 // materials
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
@@ -15,29 +8,37 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
+import type { UUID } from 'crypto'
+import dayjs from 'dayjs'
+// vendors
+import { FastField, type FormikProps, useFormik } from 'formik'
+import { memo } from 'react'
 // components
 import DatePicker from '@/components/DatePicker'
 import FormikForm from '@/components/formik-form'
 import ImageButtonAndModal from '@/components/ImageButtonAndModal'
 import NumericFormat from '@/components/NumericFormat'
+import PrintHandler from '@/components/PrintHandler'
 import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import PrintHandler from '@/components/PrintHandler'
 import UserActivityLogs from '@/components/UserActivityLogs'
-// utils
-import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import numberToCurrency from '@/utils/number-to-currency'
 // enums
 import HeavyEquipmentRent from '@/enums/permissions/heavy-equipment-rent'
-import handle422 from '@/utils/handle-422'
-// parts
-import ApiUrlEnum from '../api-url-enum'
-import PrintPage from './print-page'
-import HerPaymentFields from './payment-fields'
-import HerTaskDetail from '../her-task-detail'
-import BaseTaskFields from './base-task-fields'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import axios from '@/lib/axios'
+import type UserType from '@/modules/user/types/orms/user'
+import type RentItemRent from '@/types/orms/rent-item-rent'
+// utils
+import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
+import handle422 from '@/utils/handle-422'
+import numberToCurrency from '@/utils/number-to-currency'
+// parts
+import ApiUrlEnum from '../api-url-enum'
+import HerTaskDetail from '../her-task-detail'
+import BaseTaskFields from './base-task-fields'
+import HerPaymentFields from './payment-fields'
+import PrintPage from './print-page'
 
 const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
     dirty,
@@ -103,34 +104,34 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
 
     return (
         <FormikForm
-            id="heavy-equipment-rent-form"
             autoComplete="off"
-            isNew={isNew}
             dirty={dirty}
+            id="heavy-equipment-rent-form"
+            isNew={isNew}
             processing={isPropcessing}
-            submitting={isSubmitting}
             slotProps={{
+                deleteButton: isRentCanBeDeleted
+                    ? {
+                          disabled: isDisabled,
+                          loading: isDeleting,
+                          onClick: () => handleDelete(),
+                      }
+                    : undefined,
                 submitButton: {
                     disabled: isDisabled,
                 },
-                deleteButton: isRentCanBeDeleted
-                    ? {
-                          onClick: () => handleDelete(),
-                          loading: isDeleting,
-                          disabled: isDisabled,
-                      }
-                    : undefined,
-            }}>
+            }}
+            submitting={isSubmitting}>
             {short_uuid && (
                 <>
                     <UserActivityLogs data={user_activity_logs ?? []} />
 
-                    <Box display="flex" gap={1} alignItems="center">
+                    <Box alignItems="center" display="flex" gap={1}>
                         <TextField
+                            disabled
                             label="Kode"
                             value={short_uuid}
                             variant="filled"
-                            disabled
                             {...errorsToHelperTextObj(errors.uuid)}
                         />
 
@@ -148,22 +149,22 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     </Box>
 
                     <FastField
+                        component={TextFieldFastableComponent}
+                        disabled={isDisabled}
+                        label="Catatan Tambahan"
+                        multiline
                         name="note"
                         required={false}
-                        component={TextFieldFastableComponent}
-                        multiline
-                        disabled={isDisabled}
                         rows={2}
-                        label="Catatan Tambahan"
                         {...errorsToHelperTextObj(errors.note)}
                     />
                 </>
             ) : (
                 <BaseTaskFields
-                    values={values}
+                    errors={errors}
                     isDisabled={isDisabled}
                     setFieldValue={setFieldValue}
-                    errors={errors}
+                    values={values}
                 />
             )}
 
@@ -171,27 +172,25 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                 <>
                     {type !== 'public-service' && (
                         <HerPaymentFields
+                            errors={errors}
                             isDisabled={isDisabled}
+                            setFieldValue={setFieldValue}
                             totalRp={totalRp}
                             values={values}
-                            errors={errors}
-                            setFieldValue={setFieldValue}
                         />
                     )}
 
                     <DatePicker
-                        value={dayjs(finished_at)}
                         disabled={true}
                         label="Dikerjakan operator pada"
                         sx={{ mt: 3 }}
+                        value={dayjs(finished_at)}
                     />
 
                     {rate_unit === 'H.M' && (
                         <Box display="inline-flex" gap={1}>
                             <NumericFormat
-                                label="H.M Awal"
                                 disabled={true}
-                                value={heavy_equipment_rent?.start_hm ?? ''}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -199,12 +198,12 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                         </InputAdornment>
                                     ),
                                 }}
+                                label="H.M Awal"
+                                value={heavy_equipment_rent?.start_hm ?? ''}
                             />
 
                             <NumericFormat
-                                label="H.M Akhir"
                                 disabled={true}
-                                value={heavy_equipment_rent?.end_hm}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -212,6 +211,8 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                         </InputAdornment>
                                     ),
                                 }}
+                                label="H.M Akhir"
+                                value={heavy_equipment_rent?.end_hm}
                             />
                         </Box>
                     )}
@@ -221,8 +222,8 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                             marginTop: '1rem',
                         }}>
                         <Typography
-                            component="div"
                             color="gray"
+                            component="div"
                             fontWeight="bold">
                             TOTAL KESELURUHAN
                         </Typography>
@@ -237,8 +238,8 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                                 Foto H.M Akhir:
                             </Typography>
                             <ImageButtonAndModal
-                                file={heavy_equipment_rent.file}
                                 alt="Foto H.M Akhir"
+                                file={heavy_equipment_rent.file}
                             />
                         </Box>
                     )}
@@ -246,23 +247,23 @@ const HeavyEquipmentRentForm = memo(function HeavyEquipmentRentForm({
                     <FormControl
                         disabled={isDisabled}
                         style={{
-                            marginTop: '1rem',
                             marginBottom: '1rem',
+                            marginTop: '1rem',
                         }}>
                         <FormControlLabel
-                            label="Sudah divalidasi dan diverifikasi"
                             control={
                                 <Checkbox
                                     checked={is_validated_by_admin}
+                                    name="is_validated_by_admin"
                                     onChange={({ currentTarget }) =>
                                         setFieldValue(
                                             'is_validated_by_admin',
                                             currentTarget.checked,
                                         )
                                     }
-                                    name="is_validated_by_admin"
                                 />
                             }
+                            label="Sudah divalidasi dan diverifikasi"
                         />
 
                         {Boolean(validated_by_admin_at) && (

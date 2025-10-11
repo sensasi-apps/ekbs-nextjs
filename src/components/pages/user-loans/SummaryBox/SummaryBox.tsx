@@ -1,17 +1,18 @@
 // types
-import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
-import type { ReactNode } from 'react'
+
 import type { BoxProps } from '@mui/material/Box'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import type { ReactNode } from 'react'
+import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
+import formatNumber from '@/utils/format-number'
 // components
 import numberToCurrency from '@/utils/number-to-currency'
-import TypographyWithLabel from './TypographyWithLabel'
-import formatNumber from '@/utils/format-number'
 import UserLoanSummaryBoxProposedAt from './ProposedAt'
 import UserLoanSummaryBoxProposedRp from './ProposedRp'
 import UserLoanSummaryBoxReviewers from './Reviewers'
+import TypographyWithLabel from './TypographyWithLabel'
 
 export default function UserLoanSummaryBox({
     data: loan,
@@ -52,7 +53,7 @@ export default function UserLoanSummaryBox({
 
             <TypographyWithLabel label="Biaya Jasa:">
                 {numberToCurrency(totalTenorRp)}
-                <Typography component="span" color="GrayText">
+                <Typography color="GrayText" component="span">
                     {' '}
                     ({formatNumber(interest_percent)}%)/{term_unit}
                 </Typography>
@@ -60,7 +61,7 @@ export default function UserLoanSummaryBox({
 
             <TypographyWithLabel label="Angsuran:">
                 {numberToCurrency(installmentAmount)}
-                <Typography component="span" color="GrayText">
+                <Typography color="GrayText" component="span">
                     /{term_unit}
                 </Typography>
             </TypographyWithLabel>

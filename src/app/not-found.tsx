@@ -1,12 +1,13 @@
 // vendors
-import NextLink from 'next/link'
+
+// icons
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
-// icons
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import NextLink from 'next/link'
 import FooterBoxWithLogo from '@/components/footer-box-with-logo'
 
 export default function NotFound() {
@@ -17,37 +18,37 @@ export default function NotFound() {
                 p: 16,
             }}>
             <Box
-                display="flex"
-                flexDirection={{ xs: 'column', md: 'row' }}
                 alignItems="center"
+                display="flex"
+                flexDirection={{ md: 'row', xs: 'column' }}
+                gap={4}
                 justifyContent="center"
-                textAlign={{ xs: 'center', md: 'left' }}
-                gap={4}>
+                textAlign={{ md: 'left', xs: 'center' }}>
                 <Box
+                    alt="404 Illustration"
                     component="img"
                     src="/assets/illustrations/undraw_file-search_cbur.svg"
-                    alt="404 Illustration"
                     sx={{
-                        maxWidth: '50%',
                         height: 'auto',
+                        maxWidth: '50%',
                     }}
                 />
 
                 <Box>
-                    <Typography variant="h2" fontWeight="bold" gutterBottom>
+                    <Typography fontWeight="bold" gutterBottom variant="h2">
                         Halaman tidak ditemukan
                     </Typography>
 
-                    <Typography variant="body1" color="text.secondary" mb={6}>
+                    <Typography color="text.secondary" mb={6} variant="body1">
                         Sayang sekali, halaman yang anda tuju tidak ditemukan.
                     </Typography>
 
                     <Button
-                        variant="outlined"
-                        size="small"
                         href="/"
+                        LinkComponent={NextLink}
+                        size="small"
                         startIcon={<ArrowBackIcon />}
-                        LinkComponent={NextLink}>
+                        variant="outlined">
                         Kembali ke beranda
                     </Button>
                 </Box>

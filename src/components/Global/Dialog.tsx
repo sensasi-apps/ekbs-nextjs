@@ -1,15 +1,16 @@
 // types
+
+// icons
+import CloseIcon from '@mui/icons-material/Close'
 import type { DialogProps } from '@mui/material/Dialog'
-import type { ReactNode } from 'react'
-import type { DialogTitleProps } from '@mui/material/DialogTitle'
 // materials
 import MuiDialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
+import type { DialogTitleProps } from '@mui/material/DialogTitle'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
-// icons
-import CloseIcon from '@mui/icons-material/Close'
+import type { ReactNode } from 'react'
 
 export default function Dialog({
     children,
@@ -30,13 +31,13 @@ export default function Dialog({
     actions?: ReactNode
 } & DialogProps) {
     return (
-        <MuiDialog fullWidth maxWidth="xs" disableRestoreFocus {...props}>
+        <MuiDialog disableRestoreFocus fullWidth maxWidth="xs" {...props}>
             <DialogTitle
-                display="flex"
-                justifyContent="space-between"
                 alignItems="center"
                 component="div"
+                display="flex"
                 flexWrap="wrap"
+                justifyContent="space-between"
                 {...dialogTitleProps}>
                 {title}
 
@@ -45,9 +46,9 @@ export default function Dialog({
                 {closeButtonProps?.onClick && (
                     <div>
                         <IconButton
-                            size="small"
                             disabled={closeButtonProps.disabled}
-                            onClick={closeButtonProps.onClick}>
+                            onClick={closeButtonProps.onClick}
+                            size="small">
                             <CloseIcon />
                         </IconButton>
                     </div>

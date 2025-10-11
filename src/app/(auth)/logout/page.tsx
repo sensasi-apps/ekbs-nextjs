@@ -2,11 +2,11 @@
 
 // vendors
 import { useEffect } from 'react'
-import myAxios from '@/lib/axios'
 // components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 // hooks
 import useAuthInfoState from '@/hooks/use-auth-info-state'
+import myAxios from '@/lib/axios'
 
 export default function Page() {
     useLogout()

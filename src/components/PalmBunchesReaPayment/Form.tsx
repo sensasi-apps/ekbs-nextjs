@@ -1,44 +1,45 @@
 // types
-import type TransactionORM from '@/modules/transaction/types/orms/transaction'
-import type FormType from '@/components/Global/Form/type'
-import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
-import type PalmBunchesReaPaymentDataType from '@/modules/palm-bunch/types/orms/palm-bunches-rea-payment'
-// vendors
-import React, { type ChangeEvent, useState } from 'react'
-import axios from '@/lib/axios'
-import dayjs from 'dayjs'
+
+// icons
+import AddIcon from '@mui/icons-material/Add'
+import BackupTableIcon from '@mui/icons-material/BackupTable'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
-import Grid from '@mui/material/GridLegacy'
 import Fade from '@mui/material/Fade'
-import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import FormGroup from '@mui/material/FormGroup'
 import FormHelperText from '@mui/material/FormHelperText'
+import Grid from '@mui/material/GridLegacy'
 import InputAdornment from '@mui/material/InputAdornment'
 import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
+import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import TableBody from '@mui/material/TableBody'
-import TableFooter from '@mui/material/TableFooter'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-// icons
-import AddIcon from '@mui/icons-material/Add'
-import BackupTableIcon from '@mui/icons-material/BackupTable'
+import dayjs from 'dayjs'
+import fileDownload from 'js-file-download'
+// vendors
+import React, { type ChangeEvent, useState } from 'react'
+import DatePicker from '@/components/DatePicker'
+import type FormType from '@/components/Global/Form/type'
 // components
 import NumericFormat from '@/components/Global/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import Text from '@/components/Global/Text'
-import DatePicker from '@/components/DatePicker'
-import toDmy from '@/utils/to-dmy'
+import axios from '@/lib/axios'
+import type PalmBunchesReaPaymentDataType from '@/modules/palm-bunch/types/orms/palm-bunches-rea-payment'
+import type TransactionORM from '@/modules/transaction/types/orms/transaction'
+import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
 // utils
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
-import fileDownload from 'js-file-download'
+import toDmy from '@/utils/to-dmy'
 
 export default function PalmBuncesReaPaymentForm({
     data: dataProp = {} as PalmBunchesReaPaymentDataType,
@@ -165,13 +166,14 @@ export default function PalmBuncesReaPaymentForm({
 
     return (
         <form
-            id="palm-bunches-rea-payment-form"
             autoComplete="off"
+            id="palm-bunches-rea-payment-form"
             onSubmit={handleSubmit}>
-            <Grid container spacing={2} mb={2} alignItems="center">
-                <Grid item xs={12} sm={8}>
+            <Grid alignItems="center" container mb={2} spacing={2}>
+                <Grid item sm={8} xs={12}>
                     <Typography variant="caption">
                         <Button
+                            disabled={loading || !excel_file}
                             onClick={() =>
                                 axios
                                     .get<Blob>(
@@ -185,7 +187,6 @@ export default function PalmBuncesReaPaymentForm({
                                         ),
                                     )
                             }
-                            disabled={loading || !excel_file}
                             startIcon={<BackupTableIcon />}>
                             {file?.name || excel_file?.alias || (
                                 <i>silakan unggah file excel</i>
@@ -200,27 +201,27 @@ export default function PalmBuncesReaPaymentForm({
                     )}
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item sm={4} xs={12}>
                     <Button
+                        color={file || excel_file ? 'warning' : 'success'}
+                        component="label"
+                        disabled={loading || hasTransactions}
                         fullWidth
                         loading={loading}
-                        disabled={loading || hasTransactions}
                         loadingPosition="start"
-                        variant="contained"
-                        color={file || excel_file ? 'warning' : 'success'}
                         size="small"
-                        component="label"
-                        startIcon={<BackupTableIcon />}>
+                        startIcon={<BackupTableIcon />}
+                        variant="contained">
                         {file || excel_file ? 'Ganti' : 'Pilih'} File
                         <input
                             accept=".xlsx"
-                            type="file"
-                            name="excel_file"
                             hidden
+                            name="excel_file"
                             onChange={e => {
                                 clearValidationError1(e)
                                 handleFileChange(e)
                             }}
+                            type="file"
                         />
                     </Button>
                 </Grid>
@@ -288,19 +289,16 @@ export default function PalmBuncesReaPaymentForm({
                                     <TableRow key={index}>
                                         <TableCell>
                                             <TextField
-                                                fullWidth
-                                                required
-                                                variant="standard"
-                                                size="small"
+                                                defaultValue={
+                                                    transaction.desc || ''
+                                                }
                                                 disabled={
                                                     hasTransactions ||
                                                     loading ||
                                                     !(file || excel_file)
                                                 }
+                                                fullWidth
                                                 name={`transactions[${index}][desc]`}
-                                                defaultValue={
-                                                    transaction.desc || ''
-                                                }
                                                 onChange={(
                                                     event: React.ChangeEvent<HTMLInputElement>,
                                                 ) => {
@@ -314,33 +312,36 @@ export default function PalmBuncesReaPaymentForm({
                                                         ...transactions,
                                                     ])
                                                 }}
+                                                required
+                                                size="small"
+                                                variant="standard"
                                             />
                                         </TableCell>
 
-                                        <TableCell width="40%" padding="none">
+                                        <TableCell padding="none" width="40%">
                                             <TextField
-                                                fullWidth
+                                                defaultValue={
+                                                    transaction.amount || ''
+                                                }
                                                 disabled={
                                                     hasTransactions ||
                                                     loading ||
                                                     !(file || excel_file)
                                                 }
-                                                required
-                                                size="small"
-                                                name={`transactions[${index}][amount]`}
+                                                fullWidth
                                                 InputProps={{
+                                                    inputComponent:
+                                                        NumericFormat,
                                                     startAdornment: (
                                                         <InputAdornment position="start">
                                                             Rp
                                                         </InputAdornment>
                                                     ),
-                                                    inputComponent:
-                                                        NumericFormat,
                                                 }}
                                                 inputProps={{
                                                     decimalScale: 4,
-                                                    minLength: 1,
                                                     maxLength: 19,
+                                                    minLength: 1,
                                                     onValueChange: ({
                                                         floatValue,
                                                     }: {
@@ -358,11 +359,11 @@ export default function PalmBuncesReaPaymentForm({
                                                         textAlign: 'right',
                                                     },
                                                 }}
+                                                name={`transactions[${index}][amount]`}
                                                 onChange={clearValidationError1}
+                                                required
+                                                size="small"
                                                 value={transaction.amount || ''}
-                                                defaultValue={
-                                                    transaction.amount || ''
-                                                }
                                                 // error={Boolean(validationErrors[transaction.desc])}
                                                 // helperText={validationErrors[transaction.desc]}
                                             />
@@ -405,53 +406,51 @@ export default function PalmBuncesReaPaymentForm({
                         </Table>
                     </TableContainer>
 
-                    <Box mt={2} display="flex" justifyContent="space-between">
+                    <Box display="flex" justifyContent="space-between" mt={2}>
                         <FormGroup onChange={() => setIsPaid(prev => !prev)}>
                             <FormControlLabel
-                                disabled={Boolean(loading || hasTransactions)}
                                 control={
                                     <Checkbox
                                         defaultChecked={hasTransactions}
                                     />
                                 }
+                                disabled={Boolean(loading || hasTransactions)}
                                 label="Sudah Dibayar"
                             />
                         </FormGroup>
 
                         <Button
-                            variant="outlined"
                             color="success"
-                            size="small"
                             disabled={loading || hasTransactions}
                             onClick={() => {
                                 setTransactions(prev => [
                                     ...prev,
                                     {
-                                        desc: '',
                                         amount: 0,
+                                        desc: '',
                                     } as TransactionORM,
                                 ])
                             }}
-                            startIcon={<AddIcon />}>
+                            size="small"
+                            startIcon={<AddIcon />}
+                            variant="outlined">
                             Biaya Lain
                         </Button>
                     </Box>
 
                     <Fade in={isPaid} unmountOnExit>
                         <Grid container mt={1} spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item sm={6} xs={12}>
                                 <SelectFromApi
-                                    endpoint="/data/cashes"
-                                    label="Ke kas"
-                                    size="small"
-                                    required
                                     defaultValue={
                                         dataProp.transactions?.[0]
                                             ?.cashable_uuid || ''
                                     }
-                                    selectProps={{
-                                        name: 'cash_uuid',
-                                    }}
+                                    disabled={loading || hasTransactions}
+                                    endpoint="/data/cashes"
+                                    error={Boolean(validationErrors.cash_uuid)}
+                                    helperText={validationErrors.cash_uuid}
+                                    label="Ke kas"
                                     margin="dense"
                                     onChange={({ target }) => {
                                         if (
@@ -464,24 +463,26 @@ export default function PalmBuncesReaPaymentForm({
                                             })
                                         }
                                     }}
-                                    error={Boolean(validationErrors.cash_uuid)}
-                                    helperText={validationErrors.cash_uuid}
-                                    disabled={loading || hasTransactions}
+                                    required
+                                    selectProps={{
+                                        name: 'cash_uuid',
+                                    }}
+                                    size="small"
                                 />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid item sm={6} xs={12}>
                                 <DatePicker
-                                    slotProps={{
-                                        textField: {
-                                            name: 'paid_at',
-                                            label: 'Tanggal Bayar',
-                                        },
-                                    }}
-                                    disabled={loading || hasTransactions}
                                     defaultValue={dayjs(
                                         dataProp.transactions?.[0]?.at,
                                     )}
+                                    disabled={loading || hasTransactions}
+                                    slotProps={{
+                                        textField: {
+                                            label: 'Tanggal Bayar',
+                                            name: 'paid_at',
+                                        },
+                                    }}
                                 />
                             </Grid>
                         </Grid>
