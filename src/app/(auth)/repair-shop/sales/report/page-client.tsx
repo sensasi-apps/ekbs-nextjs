@@ -38,44 +38,28 @@ export default function PageClient() {
         return <LoadingCenter />
     }
 
-    const headers =
-        type === 'per-sale'
-            ? ['KODE', 'SUBTOTAL']
-            : [
-                  type === 'per-payment-method'
-                      ? 'METODE PEMBAYARAN'
-                      : 'SUKU CADANG',
-                  'JUMLAH',
-                  'SUBTOTAL',
-              ]
+    const headers = getHeader(type)
 
-    const rows = data.map(row => {
+    const rows = data.map((row, i) => {
         if (type === 'per-sale' && 'code' in row)
-            return [row.code, row.total_rp]
+            return [i + 1, row.code, row.total_rp]
 
         if (type === 'per-payment-method' && 'payment_method' in row)
-            return [row.payment_method, row.count, row.total_rp]
+            return [i + 1, row.payment_method, row.count, row.total_rp]
 
         if (type === 'per-spare-part' && 'spare_part_name' in row)
-            return [row.spare_part_name, row.count, row.total_rp]
+            return [
+                i + 1,
+                row.spare_part_id,
+                row.spare_part_name,
+                row.count,
+                row.total_rp,
+            ]
 
         return []
     })
 
-    const grandTotal = data.reduce((acc, cur) => acc + cur.total_rp, 0)
-
-    const footers = [
-        type === 'per-sale'
-            ? ['TOTAL', grandTotal]
-            : [
-                  'TOTAL',
-                  data.reduce(
-                      (acc, cur) => acc + ('count' in cur ? cur.count : 0),
-                      0,
-                  ),
-                  grandTotal,
-              ],
-    ]
+    const footers = buildFooters(data, type)
 
     return (
         <>
@@ -107,7 +91,48 @@ type ApiResponse = ({
       }
     | {
           // per-spare-part
+          spare_part_id: number
           spare_part_name: string
           count: number
       }
 ))[]
+
+function getHeader(type: 'per-sale' | 'per-payment-method' | 'per-spare-part') {
+    if (type === 'per-sale') return ['#', 'KODE PENJUALAN', 'SUBTOTAL (Rp)']
+
+    if (type === 'per-payment-method')
+        return ['#', 'METODE PEMBAYARAN', 'JUMLAH', 'SUBTOTAL (Rp)']
+
+    if (type === 'per-spare-part')
+        return [
+            '#',
+            'ID SUKU CADANG',
+            'NAMA SUKU CADANG',
+            'JUMLAH',
+            'SUBTOTAL (Rp)',
+        ]
+
+    throw new Error('Invalid type')
+}
+
+function buildFooters(
+    data: ApiResponse,
+    type: 'per-sale' | 'per-payment-method' | 'per-spare-part',
+): (number | null | string)[][] {
+    const grandTotal = data.reduce((acc, cur) => acc + cur.total_rp, 0)
+
+    if (type === 'per-sale') {
+        return [[null, 'TOTAL', grandTotal]]
+    }
+
+    const totalQty = data.reduce(
+        (acc, cur) => acc + ('count' in cur ? cur.count : 0),
+        0,
+    )
+
+    if (type === 'per-payment-method') {
+        return [[null, 'TOTAL', totalQty, grandTotal]]
+    }
+
+    return [[null, null, 'TOTAL', totalQty, grandTotal]]
+}
