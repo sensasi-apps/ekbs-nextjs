@@ -83,6 +83,29 @@ export default function useHooks<T>(
                 name: changedColumn,
             })
         },
+        onColumnVisibilityChange: (changedColumn: string, action: string) => {
+            if (action === 'add') {
+                setColumns(prev => {
+                    const col = prev.find(col => col.name === changedColumn)
+
+                    if (col && col.options) {
+                        col.options.display = true
+                    }
+
+                    return prev
+                })
+            } else {
+                setColumns(prev => {
+                    const col = prev.find(col => col.name === changedColumn)
+
+                    if (col && col.options) {
+                        col.options.display = false
+                    }
+
+                    return prev
+                })
+            }
+        },
         onDownload: (_, __, ___, data) => {
             if (!lastDataTableState.current) {
                 return false
@@ -143,29 +166,6 @@ export default function useHooks<T>(
         },
         onTableInit: (_, tableState) => {
             lastDataTableState.current = tableState
-        },
-        onViewColumnsChange: (changedColumn: string, action: string) => {
-            if (action === 'add') {
-                setColumns(prev => {
-                    const col = prev.find(col => col.name === changedColumn)
-
-                    if (col && col.options) {
-                        col.options.display = true
-                    }
-
-                    return prev
-                })
-            } else {
-                setColumns(prev => {
-                    const col = prev.find(col => col.name === changedColumn)
-
-                    if (col && col.options) {
-                        col.options.display = false
-                    }
-
-                    return prev
-                })
-            }
         },
         rowsPerPage,
         searchProps: {
