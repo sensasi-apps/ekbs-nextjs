@@ -36,15 +36,21 @@ export function AoaTable({
      */
     footers?: ReactNode[][]
 }) {
+    const renderHeaders = headers.map((header, i) => {
+        const isNumber = typeof dataRows[0]?.[i] === 'number'
+
+        return (
+            <TableCell align={isNumber ? 'right' : 'left'} key={header}>
+                {header}
+            </TableCell>
+        )
+    })
+
     return (
         <TableContainer>
             <Table size="small">
                 <TableHead>
-                    <TableRow>
-                        {headers.map(header => (
-                            <TableCell key={header}>{header}</TableCell>
-                        ))}
-                    </TableRow>
+                    <TableRow>{renderHeaders}</TableRow>
                 </TableHead>
 
                 <TableBody
