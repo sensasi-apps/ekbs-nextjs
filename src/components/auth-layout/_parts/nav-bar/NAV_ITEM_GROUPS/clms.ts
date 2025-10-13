@@ -1,20 +1,20 @@
 // icons-materials
 import Build from '@mui/icons-material/Build'
 import Group from '@mui/icons-material/Group'
-import Role from '@/enums/role'
-
+// modules
+import Permission from '@/modules/clm/enums/permission'
 import type NavItemGroup from '../types/nav-item-group'
 
-export const clms: NavItemGroup = {
+const clms: NavItemGroup = {
     items: [
         {
-            forRole: [Role.CLM_MANAGER], // TODO: change this when feature is ready
+            forPermission: Permission.READ_MASTER,
             href: '/clm/requisites',
             icon: Build,
             label: 'Syarat',
         },
         {
-            forRole: [Role.CLM_ADMIN], // TODO: change this when feature is ready
+            forPermission: Permission.READ_MEMBER,
             href: '/clm/members',
             icon: Group,
             label: 'Anggota',
@@ -22,3 +22,5 @@ export const clms: NavItemGroup = {
     ],
     label: 'Sertifikasi dan Pengelolaan Kebun',
 }
+
+export default clms
