@@ -9,7 +9,7 @@ import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 import Role from '@/enums/role'
 import type NavItemGroup from '../types/nav-item-group'
 // nav items
-import { clms } from './clm'
+import clms from './clms'
 import { executives } from './executives'
 import { farmInputsNavItemGroup } from './farm-Inputs'
 import { financesNavItemGroup } from './finances'

@@ -9,14 +9,16 @@ interface NavItem {
     icon: ElementType
 
     /**
-     * `undefined` value for `forRole` means all roles.
+     * `undefined` value for this props means  allow for all roles.
      *
      * set it to `[]` if you want to hide the item / only for superman.
+     *
+     * @deprecated use `forPermission` instead.
      */
     forRole?: Role | Role[]
 
     /**
-     * `undefined` value for `forPermission` means all permissions.
+     * `undefined` value for this props means allow for all permissions.
      *
      * set it to `[]` if you want to hide the item / only for superman.
      */

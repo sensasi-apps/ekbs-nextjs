@@ -8,6 +8,7 @@ import type PalmBunch from '@/enums/permissions/PalmBunch'
 import type Transaction from '@/enums/permissions/Transaction'
 import type UserLoan from '@/enums/permissions/UserLoan'
 import type Wallet from '@/enums/permissions/Wallet'
+import type Clm from '@/modules/clm/enums/permission'
 // modules
 import type RepairShop from '@/modules/repair-shop/enums/permission'
 
@@ -23,6 +24,7 @@ export type Permission =
     | Transaction
     | UserLoan
     | Wallet
+    | Clm
     // HOTFIX, SHOULD MAKE IT IS OWN ENUM
     | 'create inventory item'
     | 'update inventory item'
