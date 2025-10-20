@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid'
 // vendors
 import { useState } from 'react'
 import useSWR from 'swr'
-import { type ApiResponseType } from '@/app/(auth)/me/participation/page'
+import type ApiResponseType from '@/app/(auth)/me/participation/api-response-type'
 // components
 import BigNumberCard from '@/components/big-number-card'
 import Datatable, {

@@ -21,7 +21,7 @@ import Role from '@/enums/role'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
-import type { ApiResponseType } from '../me/participation/page'
+import type ApiResponseType from '../me/participation/api-response-type'
 
 /**
  * The `Page` component represents the dashboard page of the application.
