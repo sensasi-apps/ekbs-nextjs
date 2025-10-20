@@ -18,7 +18,7 @@ export default function Section({
 }: {
     title: string
     iconTitle: ReactNode
-    detailHref: string
+    detailHref?: string
     data?: SectionData
 }) {
     const { bigNumber1, bigNumber2, lineChart } = data ?? {}

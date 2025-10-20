@@ -6,11 +6,11 @@ import CurrencyExchange from '@mui/icons-material/CurrencyExchange'
 import Forest from '@mui/icons-material/Forest'
 import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import Warehouse from '@mui/icons-material/Warehouse'
+import Alert from '@mui/material/Alert'
 import useSWR from 'swr'
 import Role from '@/enums/role'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 import type ParticipationApiResponseType from './api-response-type'
-import ComingSoonSection from './coming-soon-section'
 import Section from './section'
 
 /**
@@ -20,10 +20,27 @@ import Section from './section'
 export default function PageClient() {
     const isUserHasRole = useIsAuthHasRole()
 
-    const { data: { farmInputs, palmBunchesDelivery, palmBunches } = {} } =
-        useSWR<ParticipationApiResponseType>(
-            isUserHasRole(Role.MEMBER) ? 'me/participations' : null,
+    const {
+        data: {
+            farmInputs,
+            palmBunchesDelivery,
+            palmBunches,
+            repairShop,
+            mart,
+            heavyEquipmentRent,
+            userLoan,
+        } = {},
+    } = useSWR<ParticipationApiResponseType>(
+        isUserHasRole(Role.MEMBER) ? 'me/participations' : null,
+    )
+
+    if (!isUserHasRole(Role.MEMBER)) {
+        return (
+            <Alert severity="error">
+                Halaman ini hanya dapat diakses oleh anggota.
+            </Alert>
         )
+    }
 
     return (
         <>
@@ -52,19 +69,26 @@ export default function PageClient() {
                 title="SAPRODI"
             />
 
-            <ComingSoonSection iconTitle={<Agriculture />} title="Alat Berat" />
+            <Section
+                data={heavyEquipmentRent}
+                iconTitle={<Agriculture />}
+                title="Alat Berat"
+            />
 
-            <ComingSoonSection
+            <Section
+                data={userLoan}
                 iconTitle={<CurrencyExchange />}
                 title="Simpan Pinjam"
             />
 
-            <ComingSoonSection
+            <Section
+                data={mart}
                 iconTitle={<ShoppingCart />}
                 title="Belayan Mart"
             />
 
-            <ComingSoonSection
+            <Section
+                data={repairShop}
                 iconTitle={<BikeScooter />}
                 title="Belayan Spare Parts"
             />
