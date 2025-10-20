@@ -14,7 +14,7 @@ export default function ComingSoonSection({
         <Box mb={3}>
             <SectionHeader iconTitle={iconTitle} title={title} />
 
-            <Typography color="grey" mt={1} variant="body2">
+            <Typography color="grey" variant="body2">
                 Akan hadir
             </Typography>
         </Box>

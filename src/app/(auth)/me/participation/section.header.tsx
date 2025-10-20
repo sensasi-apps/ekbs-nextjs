@@ -21,14 +21,11 @@ export default function SectionHeader({
             alignItems="center"
             display="flex"
             justifyContent="space-between"
-            py={1.5}
+            py={3}
             sx={{
                 bgcolor: 'background.default',
                 position: 'sticky',
-                top: {
-                    sm: '4em',
-                    xs: '3.5em',
-                },
+                top: 0,
                 zIndex: 1,
             }}>
             <Box alignItems="center" display="flex" gap={1}>

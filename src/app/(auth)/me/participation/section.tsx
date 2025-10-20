@@ -30,7 +30,7 @@ export default function Section({
                 iconTitle={iconTitle}
                 title={title}
             />
-            <Grid container mb={1} spacing={2}>
+            <Grid container mb={2} spacing={2}>
                 <Grid
                     size={{
                         md: 6,
