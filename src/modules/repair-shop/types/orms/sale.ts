@@ -3,12 +3,13 @@ import type SaleService from '@/modules/repair-shop/types/orms/sale-service'
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type User from '@/modules/user/types/orms/user'
+import type HasUuidPk from '@/types/has-uuid-pk'
 import type SaleSparePartInstallmentMargin from './sale_spare_part_installment_margin'
 
-export type Sale = {
-    /** [💾] */
-    readonly uuid: string
-
+/**
+ * [Sale Eloquent Model](https://github.com/sensasi-apps/ekbs-laravel/blob/main/Modules/RepairShop/app/Models/Sale.php)
+ */
+export type Sale = HasUuidPk & {
     /** [💾] */
     at: string
 
@@ -42,23 +43,29 @@ export type Sale = {
     /** [💾] */
     worker_user_uuid: string
 
-    /** [🤌🏻] */
-    readonly short_uuid: string
+    /** [💾] */
+    spare_part_movement_uuid?: SparePartMovement['uuid']
+
+    /** [💾] */
+    spare_part_movement_return_uuid?: SparePartMovement['uuid']
 
     /** [🔗] */
-    sale_services?: SaleService[]
+    readonly sale_services?: SaleService[]
 
     /** [🔗] */
-    spare_part_movement?: SparePartMovement
+    readonly spare_part_movement?: SparePartMovement
 
     /** [🔗] */
-    spare_part_margins?: SaleSparePartInstallmentMargin[]
+    readonly spare_part_movement_return?: SparePartMovement
 
     /** [🔗] */
-    created_by_user?: User
+    readonly spare_part_margins?: SaleSparePartInstallmentMargin[]
 
     /** [🔗] */
-    customer?: User
+    readonly created_by_user?: User
+
+    /** [🔗] */
+    readonly customer?: User
 } & SalePayment
 
 type SalePayment =
