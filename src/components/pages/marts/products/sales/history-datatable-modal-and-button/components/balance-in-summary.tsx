@@ -11,7 +11,7 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-import dayjs, { type Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { type ReactNode, useState } from 'react'
 import useSWR from 'swr'
 // components

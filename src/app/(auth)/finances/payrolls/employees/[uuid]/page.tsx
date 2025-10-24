@@ -169,7 +169,8 @@ function MainContent({
                     },
                     {
                         label: 'Jumlah Penerima',
-                        value: `${data?.users?.length.toString() ?? '0'} Orang`,
+                        value:
+                            (data?.users?.length.toString() ?? '0') + ' Orang',
                     },
                     {
                         label: 'Total Gaji Kotor',

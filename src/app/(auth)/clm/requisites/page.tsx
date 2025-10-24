@@ -17,7 +17,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
 // vendors
 import { Formik, type FormikProps } from 'formik'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import useSWR from 'swr'
 // components
 import { AoaTable } from '@/components/aoa-table'
@@ -292,13 +292,13 @@ function RequisiteForm({
 
 function dataToRow(data: Requisite) {
     return [
-        data.is_optional ? '' : <Check color="success" key={data.id} />,
-        <Fragment key={data.id}>
+        data.is_optional ? '' : <Check color="success" />,
+        <>
             {data.name}
             <Typography component="div" variant="caption">
                 {data.description}
             </Typography>
-        </Fragment>,
+        </>,
         data.certifications?.map(({ name }) => name).join(', '),
     ]
 }

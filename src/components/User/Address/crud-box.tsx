@@ -64,8 +64,8 @@ const AddressListItem = ({
                 <Typography gutterBottom>{address.detail}</Typography>
                 <Typography component="p" variant="caption">
                     {province.name}, {regency.name}
-                    {district ? `, ${district.name}` : ''}
-                    {village ? `, ${village.name}` : ''}
+                    {district ? ', ' + district.name : ''}
+                    {village ? ', ' + village.name : ''}
                 </Typography>
                 <Typography component="p" variant="caption">
                     {address.zip_code}

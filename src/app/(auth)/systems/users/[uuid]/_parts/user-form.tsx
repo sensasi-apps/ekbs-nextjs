@@ -1,6 +1,5 @@
 // types
 
-import type { UUID } from 'node:crypto'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -9,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import Switch from '@mui/material/Switch'
+import type { UUID } from 'crypto'
 import { useRouter } from 'next/navigation'
 // vendors
 import { type ChangeEvent, type MouseEventHandler, useState } from 'react'
@@ -72,7 +72,7 @@ const UserForm = () => {
                 }
 
                 return axios
-                    .post<UUID>(`/users${uuid ? `/${uuid}` : ''}`, formData)
+                    .post<UUID>('/users' + (uuid ? `/${uuid}` : ''), formData)
                     .then(res => {
                         if (uuid) {
                             mutate(`users/${uuid}`)

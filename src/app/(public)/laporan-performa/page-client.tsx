@@ -317,7 +317,7 @@ function CurrentParticipation({
     return (
         <BigNumber
             isLoading={isLoading}
-            primary={`${percentage.toFixed(0)} %`}
+            primary={percentage.toFixed(0) + ' %'}
             secondary={detail}
             title="Partisipasi — Bulan Ini"
         />

@@ -23,7 +23,7 @@ import Autocomplete from '@/components/Inputs/Autocomplete'
 import ImageInput from '@/components/image-input'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
-import type MaritalStatusEnum from '@/enums/marital-status'
+import MaritalStatusEnum from '@/enums/marital-status'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 import axios from '@/lib/axios'

@@ -320,7 +320,7 @@ export default function LoanForm({
                         maxLength: 4,
                         minLength: 1,
                     }}
-                    label={`Persentase Jasa per ${values.term_unit}`}
+                    label={'Persentase Jasa per ' + values.term_unit}
                     name={'interest_percent'}
                     onValueChange={({ floatValue }) =>
                         debounce(() =>

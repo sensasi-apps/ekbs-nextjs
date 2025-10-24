@@ -21,15 +21,15 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import dayjs from 'dayjs'
 // vendors
-import { useEffect, useEffectEvent, useState } from 'react'
+import { useEffect, useState } from 'react'
 import PrintHandler from '@/components/PrintHandler'
 //
-import type { FormattedEntry } from '@/sw/functions/handle-message'
+import { type FormattedEntry } from '@/sw/functions/handle-message'
 import blinkSxValue from '@/utils/blink-sx-value'
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
 import { postToSw } from '@/utils/post-to-sw'
-import type { SubmittedData } from '../../../../components/pages/marts/products/sales/formik-wrapper/@types/submitted-data'
+import { type SubmittedData } from '../../../../components/pages/marts/products/sales/formik-wrapper/@types/submitted-data'
 import Receipt from '../shared-subcomponents/receipt'
 
 export function BgSyncPanelDialogAndButton() {
@@ -37,7 +37,7 @@ export function BgSyncPanelDialogAndButton() {
     const [isLoading, setIsLoading] = useState(true)
     const [entries, setEntries] = useState<FormattedEntry<SubmittedData>[]>()
 
-    const handleGetSales = useEffectEvent(() => {
+    function handleGetSales() {
         setIsLoading(true)
 
         postToSw('GET_SALES')
@@ -45,7 +45,7 @@ export function BgSyncPanelDialogAndButton() {
                 setEntries(data)
             })
             .finally(() => setIsLoading(false))
-    })
+    }
 
     function handleSync() {
         setIsLoading(true)

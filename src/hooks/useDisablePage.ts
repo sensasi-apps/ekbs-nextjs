@@ -8,7 +8,7 @@ const SNACKBAR_OPTIONS: OptionsObject = {
 }
 
 export default function useDisablePage() {
-    const { back } = useRouter()
+    const { replace, back } = useRouter()
 
     useEffect(() => {
         enqueueSnackbar(
@@ -19,5 +19,5 @@ export default function useDisablePage() {
         setTimeout(() => {
             back()
         }, 5000)
-    }, [back])
+    }, [replace, back])
 }

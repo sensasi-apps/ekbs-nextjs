@@ -127,7 +127,7 @@ function ServiceField({
         <Field name={name}>
             {({ field }: FieldProps) => {
                 const value =
-                    services.find(sparePart => sparePart.id === field.value) ??
+                    services.find(sparePart => sparePart.id == field.value) ??
                     null
 
                 return (
@@ -176,9 +176,7 @@ function AddItemButton({
                 disabled={isDisabled}
                 fullWidth={false}
                 label="Tambah baris"
-                onChange={e => {
-                    nRow.current = Number(e.target.value)
-                }}
+                onChange={e => (nRow.current = Number(e.target.value))}
                 size="small"
                 slotProps={{ input: { inputProps: { max: 99, min: 1 } } }}
                 sx={{

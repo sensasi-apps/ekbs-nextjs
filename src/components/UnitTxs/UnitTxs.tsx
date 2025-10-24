@@ -125,12 +125,8 @@ export default function UnitTxs({
                         : DATATABLE_COLUMNS
                 }
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                getRowDataCallback={fn => {
-                    getRowDataRef.current = fn
-                }}
-                mutateCallback={fn => {
-                    mutateRef.current = fn
-                }}
+                getRowDataCallback={fn => (getRowDataRef.current = fn)}
+                mutateCallback={fn => (mutateRef.current = fn)}
                 tableId="transaction-datatable"
                 title="Riwayat Transaksi"
             />
@@ -257,7 +253,7 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
             customBodyRenderLite: dataIndex => {
                 return getRowDataRefGlobal
                     .current?.(dataIndex)
-                    ?.tag_names?.split(', ')
+                    ?.['tag_names']?.split(', ')
                     .map(tagName => (
                         <Chip key={tagName} label={tagName} size="small" />
                     ))

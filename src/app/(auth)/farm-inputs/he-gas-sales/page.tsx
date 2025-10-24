@@ -120,7 +120,7 @@ export default function FarmInputHeGasSales() {
 
             <DialogWithTitle
                 open={isDialogOpen}
-                title={`${isNew ? 'Tambah' : 'Perbaharui'} Data Penjualan`}>
+                title={(isNew ? 'Tambah' : 'Perbaharui') + ' Data Penjualan'}>
                 <Formik
                     component={FarmInputHeGasSaleForm}
                     initialValues={initialFormikValues}

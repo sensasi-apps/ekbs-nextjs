@@ -22,47 +22,49 @@ export default function Page() {
     const selectedRole = searchParams?.get('role') ?? ''
 
     return (
-        <Grid
-            container
-            spacing={3}
-            sx={{
-                flexDirection: {
-                    md: 'row',
-                    xs: 'column-reverse',
-                },
-            }}>
-            <Grid size={{ md: 8, xs: 12 }}>
-                <FormDataProvider>
-                    <UserFormDialogWithFab />
-                </FormDataProvider>
+        <>
+            <Grid
+                container
+                spacing={3}
+                sx={{
+                    flexDirection: {
+                        md: 'row',
+                        xs: 'column-reverse',
+                    },
+                }}>
+                <Grid size={{ md: 8, xs: 12 }}>
+                    <FormDataProvider>
+                        <UserFormDialogWithFab />
+                    </FormDataProvider>
 
-                <Datatable
-                    apiUrl="users/get-datatable-data"
-                    apiUrlParams={{
-                        role: selectedRole,
-                    }}
-                    columns={DATATABLE_COLUMNS}
-                    defaultSortOrder={DEFAULT_SORT_ORDER}
-                    onRowClick={(data, _, { detail }) => {
-                        if (detail === 2) {
-                            /**
-                             * data[1] is the UUID. declared on {@link DATATABLE_COLUMNS}
-                             */
-                            const uuid = data[1]
+                    <Datatable
+                        apiUrl="users/get-datatable-data"
+                        apiUrlParams={{
+                            role: selectedRole,
+                        }}
+                        columns={DATATABLE_COLUMNS}
+                        defaultSortOrder={DEFAULT_SORT_ORDER}
+                        onRowClick={(data, _, { detail }) => {
+                            if (detail === 2) {
+                                /**
+                                 * data[1] is the UUID. declared on {@link DATATABLE_COLUMNS}
+                                 */
+                                const uuid = data[1]
 
-                            push(`/systems/users/${uuid}?role=selectedRole`)
-                        }
-                    }}
-                    tableId="users-table"
-                    title="Daftar Pengguna"
-                    viewColumns={false}
-                />
+                                push(`/systems/users/${uuid}?role=selectedRole`)
+                            }
+                        }}
+                        tableId="users-table"
+                        title="Daftar Pengguna"
+                        viewColumns={false}
+                    />
+                </Grid>
+
+                <Grid size={{ md: 4, xs: 12 }}>
+                    <UserSummaryBox />
+                </Grid>
             </Grid>
-
-            <Grid size={{ md: 4, xs: 12 }}>
-                <UserSummaryBox />
-            </Grid>
-        </Grid>
+        </>
     )
 }
 

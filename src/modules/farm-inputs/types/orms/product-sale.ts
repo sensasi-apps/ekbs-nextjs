@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto'
+import type { UUID } from 'crypto'
 import type ProductMovementORM from '@/modules/farm-inputs/types/orms/product-movement'
 import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/product-movement-detail'
 import type InstallmentORM from '@/modules/installment/types/orms/installment'

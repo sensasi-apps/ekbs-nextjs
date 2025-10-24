@@ -31,7 +31,7 @@ export default function FileListPrimaryItemText({
         if (editedText === text) return
 
         toggleEdit()
-        myAxios.post(`/file/${fileNameUuid}/rename`, {
+        myAxios.post('/file/' + fileNameUuid + '/rename', {
             name: editedText,
         })
     }

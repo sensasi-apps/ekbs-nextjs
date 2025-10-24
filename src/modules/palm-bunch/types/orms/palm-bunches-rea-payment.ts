@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto'
+import type { UUID } from 'crypto'
 import type PalmBunchesReaPaymentDetail from '@/modules/palm-bunch/types/orms/palm-bunch-rea-payment-detail'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type { Ymd } from '@/types/date-string'

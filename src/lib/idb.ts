@@ -20,9 +20,9 @@ if (typeof window !== 'undefined') {
 
                 const storeObj = db.createObjectStore(name, optionalParameters)
 
-                indexes?.forEach(({ name, keyPath, options }) => {
-                    storeObj.createIndex(name, keyPath, options)
-                })
+                indexes?.forEach(({ name, keyPath, options }) =>
+                    storeObj.createIndex(name, keyPath, options),
+                )
             })
         },
     })

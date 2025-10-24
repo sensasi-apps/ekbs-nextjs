@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto'
+import type { UUID } from 'crypto'
 import type BusinessUnitORM from './business-unit'
 
 export default interface BusinessUnitCashORM {

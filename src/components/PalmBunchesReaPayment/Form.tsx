@@ -57,7 +57,7 @@ export default function PalmBuncesReaPaymentForm({
         (data.transactions?.length > 0
             ? data.transactions.filter((_, i) => i > 0)
             : data.transaction_drafts?.map(tx => {
-                  tx.amount = parseInt(`${tx.amount}`, 10)
+                  tx.amount = parseInt(tx.amount + '')
 
                   return tx
               })) || [],
@@ -106,7 +106,7 @@ export default function PalmBuncesReaPaymentForm({
 
         return axios
             .post(
-                `/palm-bunches/rea-payments${uuid ? `/${uuid}` : ''}`,
+                `/palm-bunches/rea-payments${uuid ? '/' + uuid : ''}`,
                 formData,
             )
             .then(() => onSubmitted())
@@ -134,7 +134,7 @@ export default function PalmBuncesReaPaymentForm({
         axios
             .post<PalmBunchesReaPaymentDataType>(
                 `/palm-bunches/rea-payments/excel-parser${
-                    uuid ? `/${uuid}` : ''
+                    uuid ? '/' + uuid : ''
                 }`,
                 formData,
             )

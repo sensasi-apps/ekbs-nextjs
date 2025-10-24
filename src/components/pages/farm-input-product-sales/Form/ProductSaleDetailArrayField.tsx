@@ -22,13 +22,13 @@ import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'
 import axios from '@/lib/axios'
 import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
-import type Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import Warehouse from '@/modules/farm-inputs/enums/warehouse'
 import type Product from '@/modules/farm-inputs/types/orms/product'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
-import type { EMPTY_FORM_DATA } from '../Form'
+import { EMPTY_FORM_DATA } from '../Form'
 
 const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
     warehouse,

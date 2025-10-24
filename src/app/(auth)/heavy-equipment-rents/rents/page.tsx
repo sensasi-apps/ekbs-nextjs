@@ -89,13 +89,9 @@ export default function HeavyEquipmentRent() {
 
             <HeavyEquipmentRentsDatatable
                 as="admin"
-                getRowDataCallback={fn => {
-                    getRowData = fn
-                }}
+                getRowDataCallback={fn => (getRowData = fn)}
                 handleRowClick={handleRowClick}
-                mutateCallback={fn => {
-                    mutate = fn
-                }}
+                mutateCallback={fn => (mutate = fn)}
             />
 
             <DialogWithTitle
@@ -133,7 +129,7 @@ export default function HeavyEquipmentRent() {
                             .post(
                                 ApiUrlEnum.CREATE_OR_UPDATE.replace(
                                     '$1',
-                                    values.uuid ? `/${values.uuid}` : '',
+                                    values.uuid ? '/' + values.uuid : '',
                                 ),
                                 formData,
                             )

@@ -75,9 +75,7 @@ function ProductPicker({
             typeof window.navigator !== 'undefined'
         ) {
             function updateEntries() {
-                postToSw('GET_SALES').then(data => {
-                    entries = data
-                })
+                postToSw('GET_SALES').then(data => (entries = data))
             }
 
             addEventListener('mart-sale-queued', updateEntries)

@@ -17,9 +17,10 @@ const TotalMemberParticipationBigNumber = memo(
                 isLoading={isLoading}
                 primary={
                     !isLoading && memberTotal && currentParticipationTotal
-                        ? `${(
-                              (currentParticipationTotal / memberTotal) * 100
-                          ).toFixed(0)} %`
+                        ? (
+                              (currentParticipationTotal / memberTotal) *
+                              100
+                          ).toFixed(0) + ' %'
                         : '0 %'
                 }
                 secondary={
@@ -27,7 +28,7 @@ const TotalMemberParticipationBigNumber = memo(
                         ? `${formatNumber(
                               currentParticipationTotal ?? 0,
                           )}/${formatNumber(memberTotal)} org`
-                        : `0/${formatNumber(memberTotal ?? 0)} org`
+                        : '0/' + formatNumber(memberTotal ?? 0) + ' org'
                 }
                 title="Partisipasi — Bulan Ini"
             />

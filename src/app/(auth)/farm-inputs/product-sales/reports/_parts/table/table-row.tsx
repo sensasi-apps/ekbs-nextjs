@@ -1,6 +1,6 @@
 import TableCell from '@mui/material/TableCell'
 import MuiTableRow from '@mui/material/TableRow'
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import ChipSmall from '@/components/ChipSmall'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import globalFormatNumber from '@/utils/format-number'
@@ -56,8 +56,8 @@ export default function TableRow({
             <TableCell>
                 <Ul>
                     {product_movement_details.map(
-                        ({ product_state: { id, name } }) => (
-                            <li key={id}>{name}</li>
+                        ({ product_state: { name } }, i) => (
+                            <li key={i}>{name}</li>
                         ),
                     )}
                 </Ul>
@@ -74,8 +74,8 @@ export default function TableRow({
             <TableCell>
                 <Ul>
                     {product_movement_details.map(
-                        ({ product_state: { id, unit } }) => (
-                            <li key={id}>{unit}</li>
+                        ({ product_state: { unit } }, i) => (
+                            <li key={i}>{unit}</li>
                         ),
                     )}
                 </Ul>
@@ -84,11 +84,15 @@ export default function TableRow({
             <TableCell align="right">
                 <Ul>
                     {product_movement_details.map(
-                        ({
-                            id,
-                            product_warehouse_state: { base_cost_rp_per_unit },
-                        }) => (
-                            <li key={id}>
+                        (
+                            {
+                                product_warehouse_state: {
+                                    base_cost_rp_per_unit,
+                                },
+                            },
+                            i,
+                        ) => (
+                            <li key={i}>
                                 {formatNumber(base_cost_rp_per_unit)}
                             </li>
                         ),
@@ -119,7 +123,7 @@ export default function TableRow({
 
                 <ChipSmall
                     color={marginPercentage >= 7 ? 'success' : 'warning'}
-                    label={`${formatNumber(marginPercentage)}%`}
+                    label={formatNumber(marginPercentage) + '%'}
                     sx={{ ml: 2 }}
                     variant="outlined"
                 />

@@ -70,7 +70,7 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
         <TableContainer>
             <Table size="small">
                 <TableBody>
-                    {tbsRpTotal !== 0 && (
+                    {tbsRpTotal != 0 && (
                         <>
                             <HeadingRow>
                                 TBS — {formatNumber(tbsKgTotal)} kg
@@ -86,7 +86,7 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
                         </>
                     )}
 
-                    {transportRpTotal !== 0 && (
+                    {transportRpTotal != 0 && (
                         <>
                             <HeadingRow>
                                 Transport — {formatNumber(transportKgTotal)} kg
@@ -102,7 +102,7 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
                         </>
                     )}
 
-                    {etcRpTotal !== 0 && (
+                    {etcRpTotal != 0 && (
                         <>
                             <HeadingRow>Potongan dan Lain-lain</HeadingRow>
 
@@ -116,7 +116,7 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
                         </>
                     )}
 
-                    {gajianRpTotal !== 0 && (
+                    {gajianRpTotal != 0 && (
                         <>
                             <HeadingRow>Gajian TBS</HeadingRow>
 
@@ -159,7 +159,7 @@ function ItemRow({ name, data }: TxsGroup) {
             ].includes(tx.tags[0]?.name.id),
         )
         .map(tx => {
-            if (!tx.transactionable) return undefined
+            if (!tx.transactionable) return
 
             if (
                 'delivery' in tx.transactionable &&
@@ -196,8 +196,6 @@ function ItemRow({ name, data }: TxsGroup) {
                         tx.transactionable?.rate?.rp_per_kg,
                 }
             }
-
-            return undefined
         })
         .reduce<
             {
@@ -220,42 +218,44 @@ function ItemRow({ name, data }: TxsGroup) {
         }, [])
 
     return (
-        <TableRow
-            sx={{
-                '& td': {
-                    color: rpTotal > 0 ? 'success.main' : 'inherit',
-                    py: 0.35,
-                },
-            }}>
-            <TableCell>
-                {name}
+        <>
+            <TableRow
+                sx={{
+                    '& td': {
+                        color: rpTotal > 0 ? 'success.main' : 'inherit',
+                        py: 0.35,
+                    },
+                }}>
+                <TableCell>
+                    {name}
 
-                {details && (
-                    <ul
-                        style={{
-                            margin: 0,
+                    {details && (
+                        <ul
+                            style={{
+                                margin: 0,
+                            }}>
+                            {details.map(({ kg, rp_per_kg }, i) => (
+                                <li key={i}>
+                                    {formatNumber(kg)} kg &times; Rp{' '}
+                                    {formatNumber(rp_per_kg)}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </TableCell>
+                <TableCell>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 1.5,
+                            justifyContent: 'space-between',
                         }}>
-                        {details.map(({ kg, rp_per_kg }, i) => (
-                            <li key={i}>
-                                {formatNumber(kg)} kg &times; Rp{' '}
-                                {formatNumber(rp_per_kg)}
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </TableCell>
-            <TableCell>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: 1.5,
-                        justifyContent: 'space-between',
-                    }}>
-                    <Box>Rp</Box>
-                    <Box>{formatNumber(rpTotal)}</Box>
-                </Box>
-            </TableCell>
-        </TableRow>
+                        <Box>Rp</Box>
+                        <Box>{formatNumber(rpTotal)}</Box>
+                    </Box>
+                </TableCell>
+            </TableRow>
+        </>
     )
 }
 

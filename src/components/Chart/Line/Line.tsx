@@ -98,9 +98,9 @@ export default function LineChart({
                         backgroundColor: 'var(--mui-palette-background-paper)',
                     }}
                     formatter={(value: number) =>
-                        (prefix ? `${prefix} ` : '') +
+                        (prefix ? prefix + ' ' : '') +
                         formatNumber(value).toString() +
-                        (suffix ? ` ${suffix}` : '')
+                        (suffix ? ' ' + suffix : '')
                     }
                     {...(slotsProps?.tooltip ?? {})}
                 />

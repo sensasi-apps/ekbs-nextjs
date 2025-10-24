@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto'
+import type { UUID } from 'crypto'
 import type UserType from '@/modules/user/types/orms/user'
 
 export default interface PayrollUserORM {

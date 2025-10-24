@@ -80,8 +80,6 @@ export default function UserLoanInstallmentDialogTable({
                 </TableRow>
 
                 {installments?.map(installment => {
-                    remaining_rp = remaining_rp - base_rp
-
                     return (
                         <InstallmentTableRow
                             base_rp={base_rp}
@@ -89,7 +87,9 @@ export default function UserLoanInstallmentDialogTable({
                             interest_rp={interest_rp}
                             isDisbursed={isDisbursed}
                             key={installment.n_th}
-                            remaining_rp={remaining_rp}
+                            remaining_rp={
+                                (remaining_rp = remaining_rp - base_rp)
+                            }
                         />
                     )
                 })}

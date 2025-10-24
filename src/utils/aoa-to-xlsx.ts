@@ -7,8 +7,8 @@ export default function aoaToXlsx(
     rows: AoaRows,
     header?: string[],
 ) {
-    const generatedAt = ` — ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`
-    const finalFileName = `${fileName} ${generatedAt}.xlsx`
+    const generatedAt = ' — ' + dayjs().format('YYYY-MM-DD HH:mm:ss')
+    const finalFileName = fileName + ' ' + generatedAt + '.xlsx'
 
     const workbook = utils.book_new()
     const worksheet = header

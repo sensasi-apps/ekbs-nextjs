@@ -14,10 +14,10 @@
         "ignoreUnknown": false,
         "includes": [
             "**",
-            "!node_modules",
-            "!.next",
-            "!out",
-            "!build",
+            "!node_modules/**",
+            "!.next/**",
+            "!out/**",
+            "!build/**",
             "!next-env.d.ts",
             "!public/sw.js"
         ]
@@ -55,10 +55,6 @@
         "globals": []
     },
     "linter": {
-        "domains": {
-            "next": "recommended",
-            "react": "recommended"
-        },
         "enabled": true,
         "rules": {
             "complexity": {
@@ -76,10 +72,7 @@
                 "noUnreachableSuper": "off",
                 "noUnusedVariables": "error"
             },
-            "recommended": true,
-            "security": {
-                "noDangerouslySetInnerHtml": "warn"
-            },
+            "recommended": false,
             "style": {
                 "noCommonJs": "error",
                 "noNamespace": "error",
@@ -98,7 +91,6 @@
                 "useConst": "error"
             },
             "suspicious": {
-                "noArrayIndexKey": "warn",
                 "noClassAssign": "off",
                 "noConsole": "warn",
                 "noDuplicateClassMembers": "off",

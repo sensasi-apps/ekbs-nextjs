@@ -84,12 +84,8 @@ export default function InventoryItemDetail() {
                             apiUrl={`inventory-items/${inventoryItem.uuid}/checkups/datatable`}
                             columns={CHECKUP_DATATABLE_COLUMNS}
                             defaultSortOrder={DEFAULT_SORT_ORDER}
-                            getRowDataCallback={fn => {
-                                getCheckupRowData = fn
-                            }}
-                            mutateCallback={fn => {
-                                checkupMutator = fn
-                            }}
+                            getRowDataCallback={fn => (getCheckupRowData = fn)}
+                            mutateCallback={fn => (checkupMutator = fn)}
                             tableId="inventory-item-checkup-table"
                             title="Pemeriksaan"
                         />
@@ -98,12 +94,8 @@ export default function InventoryItemDetail() {
                             apiUrl={`inventory-items/${inventoryItem.uuid}/pics/datatable`}
                             columns={PIC_DATATABLE_COLUMNS}
                             defaultSortOrder={DEFAULT_SORT_ORDER}
-                            getRowDataCallback={fn => {
-                                getPicRowData = fn
-                            }}
-                            mutateCallback={mutate => {
-                                picMutator = mutate
-                            }}
+                            getRowDataCallback={fn => (getPicRowData = fn)}
+                            mutateCallback={mutate => (picMutator = mutate)}
                             tableId="inventory-item-pic-table"
                             title="Penanggung Jawab"
                         />

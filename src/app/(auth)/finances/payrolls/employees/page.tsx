@@ -1,13 +1,13 @@
 'use client'
 
-// types
-import type { UUID } from 'node:crypto'
 // icons
 import PaymentsIcon from '@mui/icons-material/Payments'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 // materials
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
+// types
+import type { UUID } from 'crypto'
 // vendors
 import { Formik } from 'formik'
 import { useRouter } from 'next/navigation'
@@ -55,9 +55,7 @@ export default function FinancesPayrollsEmployees() {
                 }}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                getRowDataCallback={fn => {
-                    getRowData = fn
-                }}
+                getRowDataCallback={fn => (getRowData = fn)}
                 tableId="product-purchases-table"
                 // onRowClick={handleRowClick}
                 title="Riwayat"

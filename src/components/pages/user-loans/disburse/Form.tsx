@@ -1,7 +1,7 @@
 // types
 
-import type { UUID } from 'node:crypto'
 import Box from '@mui/material/Box'
+import type { UUID } from 'crypto'
 import type { FastFieldProps, FormikContextType } from 'formik'
 import { FastField } from 'formik'
 // vendors

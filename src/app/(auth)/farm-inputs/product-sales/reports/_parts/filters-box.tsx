@@ -4,7 +4,7 @@
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import Box from '@mui/material/Box'
-import dayjs, { type Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 // components

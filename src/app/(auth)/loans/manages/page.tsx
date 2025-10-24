@@ -11,7 +11,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 // components
-import type { MutateType } from '@/components/Datatable'
+import { type MutateType } from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
 import FlexColumnBox from '@/components/FlexColumnBox'
@@ -76,7 +76,7 @@ export default function UserLoans() {
         const method = isNew ? 'post' : 'put'
         const urlPrefix = isNew ? '' : `/${userLoanFromDb.uuid}`
 
-        return axios[method](`user-loans${urlPrefix}`, values)
+        return axios[method]('user-loans' + urlPrefix, values)
             .then(() => {
                 mutateUserLoans()
                 closeDialog()
@@ -99,9 +99,7 @@ export default function UserLoans() {
                 <LoansDatatable
                     apiUrlParams={{ type: query.type as string | undefined }}
                     mode="manager"
-                    mutateCallback={fn => {
-                        mutateUserLoans = fn
-                    }}
+                    mutateCallback={fn => (mutateUserLoans = fn)}
                     onEdit={handleEdit}
                 />
             </FlexColumnBox>

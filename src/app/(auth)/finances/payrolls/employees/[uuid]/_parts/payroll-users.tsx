@@ -1,9 +1,9 @@
 // vendors
 
-import type { UUID } from 'node:crypto'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import type { UUID } from 'crypto'
 import { useState } from 'react'
 import UserAutocomplete from '@/components/user-autocomplete'
 import axios from '@/lib/axios'

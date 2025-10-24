@@ -8,7 +8,7 @@ import useSWR from 'swr'
 import ChipSmall from '@/components/ChipSmall'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // components
-import type { FormikStatusType } from '../../../../..'
+import { type FormikStatusType } from '../../../../..'
 
 function CashableUuidFieldComponent({
     field: { name: fieldName, value },

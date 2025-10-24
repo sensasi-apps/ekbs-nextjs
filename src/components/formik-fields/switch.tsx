@@ -37,7 +37,7 @@ export default function Switch({
                         checked={value}
                         control={<MuiSwitch />}
                         disabled={disabled || isSubmitting}
-                        id={`${name}-switch`}
+                        id={name + '-switch'}
                         label={switchLabel}
                         name={name}
                         onChange={onChange}

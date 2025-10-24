@@ -1,8 +1,8 @@
 // types
 
-import type { UUID } from 'node:crypto'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import type { UUID } from 'crypto'
 import dayjs, { extend } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import type { FormikContextType } from 'formik'

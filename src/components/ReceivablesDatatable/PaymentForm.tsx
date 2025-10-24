@@ -1,6 +1,5 @@
 // types
 
-import type { UUID } from 'node:crypto'
 // icons
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 // materials
@@ -15,6 +14,7 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import type { UUID } from 'crypto'
 // vendors
 import dayjs from 'dayjs'
 import type { FormikErrors, FormikProps } from 'formik'
@@ -167,56 +167,57 @@ function PaymentSection({
     setFieldValue: FormikProps<FormValuesType>['setFieldValue']
 }) {
     return (
-        <FormControl
-            disabled={disabled}
-            error={Boolean(errors.payment_method)}
-            margin="none"
-            required
-            size="small"
-            style={{
-                alignItems: 'center',
-                display: 'flex',
-            }}>
-            <FormLabel id="payment_method">Metode Pembayaran</FormLabel>
+        <>
+            <FormControl
+                disabled={disabled}
+                error={Boolean(errors.payment_method)}
+                margin="none"
+                required
+                size="small"
+                style={{
+                    alignItems: 'center',
+                    display: 'flex',
+                }}>
+                <FormLabel id="payment_method">Metode Pembayaran</FormLabel>
 
-            <RadioGroup
-                aria-labelledby="payment_method"
-                name="payment_method"
-                onChange={({ target: { value } }) =>
-                    setFieldValue('payment_method', value)
-                }
-                row
-                value={payment_method ?? null}>
-                <FormControlLabel
-                    control={<Radio required size="small" />}
-                    label="Tunai"
-                    value="cash"
-                />
-
-                <FormControlLabel
-                    control={
-                        <Radio
-                            disabled={
-                                true
-                                // !userAutocompleteValue?.uuid ||
-                                // !wallet ||
-                                // !isBalanceEnough ||
-                                // isDisabled
-                            }
-                            size="small"
-                        />
+                <RadioGroup
+                    aria-labelledby="payment_method"
+                    name="payment_method"
+                    onChange={({ target: { value } }) =>
+                        setFieldValue('payment_method', value)
                     }
-                    label={
-                        <>
-                            <span>Wallet</span>
+                    row
+                    value={payment_method ?? null}>
+                    <FormControlLabel
+                        control={<Radio required size="small" />}
+                        label="Tunai"
+                        value="cash"
+                    />
 
-                            {/* {isWalletLoading && (
+                    <FormControlLabel
+                        control={
+                            <Radio
+                                disabled={
+                                    true
+                                    // !userAutocompleteValue?.uuid ||
+                                    // !wallet ||
+                                    // !isBalanceEnough ||
+                                    // isDisabled
+                                }
+                                size="small"
+                            />
+                        }
+                        label={
+                            <>
+                                <span>Wallet</span>
+
+                                {/* {isWalletLoading && (
                                     <div style={{ marginTop: '.7rem' }}>
                                         <LoadingAddorment show={true} />
                                     </div>
                                 )} */}
 
-                            {/* {userAutocompleteValue?.uuid && !is_paid && (
+                                {/* {userAutocompleteValue?.uuid && !is_paid && (
                                     <Typography
                                         variant="caption"
                                         component="div"
@@ -230,16 +231,17 @@ function PaymentSection({
                                             : ''}
                                     </Typography>
                                 )} */}
-                        </>
-                    }
-                    value="wallet"
-                />
-            </RadioGroup>
+                            </>
+                        }
+                        value="wallet"
+                    />
+                </RadioGroup>
 
-            {errors.payment_method && (
-                <FormHelperText>{errors.payment_method}</FormHelperText>
-            )}
-        </FormControl>
+                {errors.payment_method && (
+                    <FormHelperText>{errors.payment_method}</FormHelperText>
+                )}
+            </FormControl>
+        </>
     )
 }
 

@@ -72,9 +72,9 @@ export function AoaTable({
                     )}
 
                     {dataRows.map((row, i) => (
-                        <TableRow key={`row-${i}`}>
+                        <TableRow key={'row-' + i}>
                             {row.map((cell, j) => (
-                                <CustomTableCell key={`cell-${j}`}>
+                                <CustomTableCell key={'cell-' + j}>
                                     {cell}
                                 </CustomTableCell>
                             ))}
@@ -85,9 +85,9 @@ export function AoaTable({
                 {footers && footers.length > 0 && (
                     <TableFooter>
                         {footers.map((row, i) => (
-                            <TableRow key={`row-${i}`}>
+                            <TableRow key={'row-' + i}>
                                 {row.map((cell, j) => (
-                                    <CustomTableCell key={`cell-${j}`}>
+                                    <CustomTableCell key={'cell-' + j}>
                                         {cell}
                                     </CustomTableCell>
                                 ))}

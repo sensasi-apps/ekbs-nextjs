@@ -1,7 +1,6 @@
 // materials
-
-import type { UUID } from 'node:crypto'
 import Chip from '@mui/material/Chip'
+import type { UUID } from 'crypto'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'

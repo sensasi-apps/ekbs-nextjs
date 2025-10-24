@@ -90,12 +90,8 @@ export default function PageClient() {
                 columns={columns}
                 defaultSortOrder={{ direction: 'asc', name: 'name' }}
                 download={isDownloading ? 'disabled' : true}
-                getRowDataCallback={fn => {
-                    getRowData = fn
-                }}
-                mutateCallback={fn => {
-                    mutate = fn
-                }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
                 onDownload={() => {
                     if (isDownloading) return false
 
