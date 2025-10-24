@@ -1,13 +1,13 @@
 'use client'
 
-// types
-import type { UUID } from 'node:crypto'
 // icons
 import BackupTableIcon from '@mui/icons-material/BackupTable'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+// types
+import type { UUID } from 'crypto'
 // vendors
 import { useState } from 'react'
 // components
@@ -94,7 +94,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                                     if (
                                         !uuid ||
                                         !n_details_not_found_on_system ||
-                                        n_details_not_found_on_system === 0
+                                        n_details_not_found_on_system == 0
                                     )
                                         return ''
 
@@ -250,12 +250,8 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
                         },
                     ]}
                     defaultSortOrder={{ direction: 'desc', name: 'from_at' }}
-                    getRowDataCallback={fn => {
-                        getRowData = fn
-                    }}
-                    mutateCallback={fn => {
-                        mutate = fn
-                    }}
+                    getRowDataCallback={fn => (getRowData = fn)}
+                    mutateCallback={fn => (mutate = fn)}
                     onRowClick={
                         !notFoundDetailsOnPaymentUuid &&
                         !unsyncedDetailsOnPaymentUuid &&

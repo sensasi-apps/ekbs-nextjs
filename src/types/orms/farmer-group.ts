@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto'
+import { type UUID } from 'crypto'
 import type CashType from './cash'
 
 export default interface FarmerGroupORM {

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 interface SettingsGroupProps {
     title: string

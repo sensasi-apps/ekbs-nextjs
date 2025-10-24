@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto'
+import type { UUID } from 'crypto'
 import type Land from '@/modules/clm/types/orms/land'
 // features
 import type Employee from '@/modules/user/types/orms/employee'

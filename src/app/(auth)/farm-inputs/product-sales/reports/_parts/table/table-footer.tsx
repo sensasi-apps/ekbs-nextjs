@@ -67,17 +67,17 @@ export default function TableFooter({ data }: { data: ProductSaleORM[] }) {
 
                     <ChipSmall
                         color={
-                            Number.isNaN(marginTotalPercentage)
+                            isNaN(marginTotalPercentage)
                                 ? undefined
                                 : marginTotalPercentage >= 7
                                   ? 'success'
                                   : 'warning'
                         }
-                        label={`${
-                            Number.isNaN(marginTotalPercentage)
+                        label={
+                            (isNaN(marginTotalPercentage)
                                 ? 0
-                                : formatNumber(marginTotalPercentage)
-                        }%`}
+                                : formatNumber(marginTotalPercentage)) + '%'
+                        }
                         sx={{ ml: 2 }}
                         variant="outlined"
                     />

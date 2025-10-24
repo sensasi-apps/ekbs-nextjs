@@ -1,10 +1,10 @@
 // vendors
 
-import type { UUID } from 'node:crypto'
 // materials
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import type { UUID } from 'crypto'
 import { Formik } from 'formik'
 import axios from '@/lib/axios'
 import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'

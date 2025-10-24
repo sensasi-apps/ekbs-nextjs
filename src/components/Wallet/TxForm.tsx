@@ -1,6 +1,5 @@
 // types
 
-import type { UUID } from 'node:crypto'
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Chip from '@mui/material/Chip'
@@ -10,6 +9,7 @@ import FormLabel from '@mui/material/FormLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
+import type { UUID } from 'crypto'
 import dayjs from 'dayjs'
 import type { FormikProps } from 'formik'
 import { FastField } from 'formik'
@@ -93,7 +93,7 @@ export default function WalletTxForm({
                 error={Boolean(errors?.from_cash_uuid)}
                 helperText={
                     errors.from_cash_uuid ??
-                    `Saldo: ${numberToCurrency(fromCash?.balance ?? 0)}`
+                    'Saldo: ' + numberToCurrency(fromCash?.balance ?? 0)
                 }
                 label="Melalui Kas"
                 margin="dense"

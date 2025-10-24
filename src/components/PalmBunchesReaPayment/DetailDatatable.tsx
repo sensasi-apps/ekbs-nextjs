@@ -1,12 +1,12 @@
 // types
 
-import type { UUID } from 'node:crypto'
 // vendors
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
+import type { UUID } from 'crypto'
 // components
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 // enums

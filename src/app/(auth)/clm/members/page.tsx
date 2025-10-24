@@ -62,12 +62,8 @@ export default function Members() {
                 }}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'created_at' }}
-                getRowDataCallback={fn => {
-                    getRowDataRef.current = fn
-                }}
-                mutateCallback={fn => {
-                    mutateRef.current = fn
-                }}
+                getRowDataCallback={fn => (getRowDataRef.current = fn)}
+                mutateCallback={fn => (mutateRef.current = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         // console.log(data)

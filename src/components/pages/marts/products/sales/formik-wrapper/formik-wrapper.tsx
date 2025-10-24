@@ -53,21 +53,23 @@ export function FormikWrapper() {
             validateOnBlur={false}
             validateOnChange={false}
             validationSchema={VALIDATION_SCHEMA}>
-            <Grid
-                size={{
-                    md: 8,
-                    xs: 12,
-                }}>
-                <Field component={ProductPicker} name="details" />
-            </Grid>
+            <>
+                <Grid
+                    size={{
+                        md: 8,
+                        xs: 12,
+                    }}>
+                    <Field component={ProductPicker} name="details" />
+                </Grid>
 
-            <Grid
-                size={{
-                    md: 4,
-                    xs: 12,
-                }}>
-                <CreateSaleFormWrapper />
-            </Grid>
+                <Grid
+                    size={{
+                        md: 4,
+                        xs: 12,
+                    }}>
+                    <CreateSaleFormWrapper />
+                </Grid>
+            </>
         </Formik>
     )
 }

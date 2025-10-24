@@ -31,7 +31,7 @@ export default function The401Protection() {
     if (!isShow) return null
 
     function clearAuthOnLs() {
-        findLsKeyByValue(JSON.stringify(authInfo)).forEach(key => {
+        findLsKeyByValue(JSON.stringify(authInfo)).map(key => {
             localStorage.removeItem(key)
         })
 

@@ -51,20 +51,18 @@ export default function Page() {
             </Box>
 
             <Datatable<DataType>
-                apiUrl={`/public/produk-saprodi/datatable/${warehouse}`}
+                apiUrl={'/public/produk-saprodi/datatable/' + warehouse}
                 columns={columns}
                 defaultSortOrder={{
                     direction: 'asc',
                     name: 'category_name',
                 }}
-                getRowDataCallback={fn => {
-                    getRowData = fn
-                }}
+                getRowDataCallback={fn => (getRowData = fn)}
                 swrOptions={{
                     revalidateOnMount: true,
                 }}
                 tableId="products-table"
-                title={`Daftar Produk — Gudang ${warehouse.toUpperCase()}`}
+                title={'Daftar Produk — Gudang ' + warehouse.toUpperCase()}
             />
             <Box mt={1}>
                 <Typography variant="caption">Keterangan:</Typography>

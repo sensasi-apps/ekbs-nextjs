@@ -67,12 +67,8 @@ export default function InventoryItems() {
                 apiUrl="/inventory-items/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'owned_at' }}
-                getRowDataCallback={fn => {
-                    getRowData = fn
-                }}
-                mutateCallback={fn => {
-                    mutate = fn
-                }}
+                getRowDataCallback={fn => (getRowData = fn)}
+                mutateCallback={fn => (mutate = fn)}
                 onRowClick={handleRowClick}
                 tableId="inventory-item-table"
                 title="Daftar"

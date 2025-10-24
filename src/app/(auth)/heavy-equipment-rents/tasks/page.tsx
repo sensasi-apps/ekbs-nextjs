@@ -68,13 +68,9 @@ export default function HeavyEquipmentRentsTasks() {
 
             <HeavyEquipmentRentsDatatable
                 as="operator"
-                getRowDataCallback={fn => {
-                    getRowData = fn
-                }}
+                getRowDataCallback={fn => (getRowData = fn)}
                 handleRowClick={handleRowClick}
-                mutateCallback={fn => {
-                    mutate = fn
-                }}
+                mutateCallback={fn => (mutate = fn)}
             />
 
             <DialogWithTitle

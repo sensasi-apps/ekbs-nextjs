@@ -1,6 +1,5 @@
 'use client'
 
-import type { UUID } from 'node:crypto'
 // icons-materials
 import BackupTable from '@mui/icons-material/BackupTable'
 import ReceiptIcon from '@mui/icons-material/Receipt'
@@ -10,6 +9,7 @@ import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
+import type { UUID } from 'crypto'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 // vendors
@@ -321,8 +321,8 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
                                         ? 'bold'
                                         : undefined,
                             })}>
-                            #{`${palmBunch.owner_user?.id} — `}
-                            {`${palmBunch.owner_user?.name} `}(
+                            #{palmBunch.owner_user?.id + ' — '}
+                            {palmBunch.owner_user?.name + ' '}(
                             {formatNumber(palmBunch.n_kg ?? 0)} kg)
                         </Box>
                     )}

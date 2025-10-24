@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto'
+import type { UUID } from 'crypto'
 import type { Ymd } from '@/types/date-string'
 import type InterestUnit from '../../modules/installment/enums/debt-interest-unit'
 import type TermUnit from '../../modules/installment/enums/debt-term-unit'

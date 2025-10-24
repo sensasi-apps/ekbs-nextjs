@@ -83,7 +83,9 @@ export default function PrintPage({
 
                 <DefaultItemDesc
                     desc="Pesan Untuk"
-                    value={`${data.for_n_units ?? ''} ${data.rate_unit ?? ''}`}
+                    value={
+                        (data.for_n_units ?? '') + ' ' + (data.rate_unit ?? '')
+                    }
                 />
 
                 <DefaultItemDesc
@@ -176,10 +178,10 @@ function getPaymentMethodName(
     if (!tx) return '-'
 
     if ('farmer_group_cash' in tx && tx.farmer_group_cash)
-        return `Wallet ${tx.farmer_group_cash.farmer_group.name}`
+        return 'Wallet ' + tx.farmer_group_cash.farmer_group.name
 
     if ('business_unit_cash' in tx && tx.business_unit_cash)
-        return `Wallet ${tx.business_unit_cash.business_unit?.name}`
+        return 'Wallet ' + tx.business_unit_cash.business_unit?.name
 
     return data.transaction ? 'Tunai' : 'Angsuran'
 }

@@ -1,10 +1,10 @@
 // types
 
-import type { UUID } from 'node:crypto'
 import Badge from '@mui/material/Badge'
 import type { DatePickerProps } from '@mui/x-date-pickers'
 // materials
 import { PickersDay } from '@mui/x-date-pickers'
+import type { UUID } from 'crypto'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 // vendors

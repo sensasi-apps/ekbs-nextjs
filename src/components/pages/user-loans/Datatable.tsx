@@ -53,9 +53,7 @@ export default function LoanDatatable({
             columns={DATATABLE_COLUMNS}
             defaultSortOrder={DEFAULT_SORT_ORDER}
             download
-            getRowDataCallback={fn => {
-                getRowData = fn
-            }}
+            getRowDataCallback={fn => (getRowData = fn)}
             mutateCallback={mutateCallback}
             onRowClick={handleRowClick}
             tableId="loans-table"

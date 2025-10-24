@@ -13,8 +13,8 @@ export default function FarmerGroupUuidSelect() {
     return (
         <SelectFromApi
             endpoint="/data/farmer-groups"
-            error={Boolean(errors.farmer_group_uuid)}
-            helperText={errors.farmer_group_uuid}
+            error={Boolean(errors['farmer_group_uuid'])}
+            helperText={errors['farmer_group_uuid']}
             label="Kelompok Tani"
             margin="dense"
             onChange={onChange}

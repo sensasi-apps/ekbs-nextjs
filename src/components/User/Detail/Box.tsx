@@ -94,7 +94,7 @@ export default function UserDetailBox({
 
                         <i></i>
 
-                        {birth_at ? `, ${toDmy(birth_at)}` : '-'}
+                        {birth_at ? ', ' + toDmy(birth_at) : '-'}
                     </div>
                 ) : (
                     <Typography color="GrayText" fontStyle="italic">

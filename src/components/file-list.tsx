@@ -32,56 +32,64 @@ export default function FileList({
         return <Alert severity="warning">Belum ada berkas</Alert>
 
     return (
-        <List dense>
-            {files.map(file => (
-                <ListItem
-                    key={file.uuid}
-                    secondaryAction={
-                        <Box display="flex" gap={1}>
-                            <Tooltip title="Lihat">
-                                <IconButton
-                                    aria-label="lihat"
-                                    edge="end"
-                                    href={
-                                        '/files/' +
-                                        file.uuid +
-                                        '.' +
-                                        file.extension
-                                    }
-                                    target="_blank">
-                                    <SearchIcon />
-                                </IconButton>
-                            </Tooltip>
+        <>
+            <List dense>
+                {files.map(file => (
+                    <ListItem
+                        key={file.uuid}
+                        secondaryAction={
+                            <Box display="flex" gap={1}>
+                                <Tooltip title="Lihat">
+                                    <IconButton
+                                        aria-label="lihat"
+                                        edge="end"
+                                        href={
+                                            '/files/' +
+                                            file.uuid +
+                                            '.' +
+                                            file.extension
+                                        }
+                                        target="_blank">
+                                        <SearchIcon />
+                                    </IconButton>
+                                </Tooltip>
 
-                            {showDeleteButton && (
-                                <FileListDeleteButton
-                                    uuidFileName={`${file.uuid}.${file.extension}`}
-                                />
-                            )}
-                        </Box>
-                    }>
-                    <ListItemIcon>{getIcon(file.mime)}</ListItemIcon>
+                                {showDeleteButton && (
+                                    <FileListDeleteButton
+                                        uuidFileName={
+                                            file.uuid + '.' + file.extension
+                                        }
+                                    />
+                                )}
+                            </Box>
+                        }>
+                        <ListItemIcon>{getIcon(file.mime)}</ListItemIcon>
 
-                    <ListItemText
-                        primary={
-                            showEditNameButton ? (
-                                <FileListPrimaryItemText
-                                    fileNameUuid={`${file.uuid}.${file.extension}`}
-                                    text={file.alias}
-                                />
-                            ) : (
-                                file.alias
-                            )
-                        }
-                        secondary={
-                            <Typography color="textSecondary" variant="caption">
-                                {file.mime}
-                            </Typography>
-                        }
-                    />
-                </ListItem>
-            ))}
-        </List>
+                        <ListItemText
+                            primary={
+                                showEditNameButton ? (
+                                    <FileListPrimaryItemText
+                                        fileNameUuid={
+                                            file.uuid + '.' + file.extension
+                                        }
+                                        text={file.alias}
+                                    />
+                                ) : (
+                                    file.alias
+                                )
+                            }
+                            secondary={
+                                <Typography
+                                    color="textSecondary"
+                                    variant="caption">
+                                    {file.mime}
+                                </Typography>
+                            }
+                        />
+                    </ListItem>
+                ))}
+            </List>
+        </>
     )
 }
 

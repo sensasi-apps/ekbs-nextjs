@@ -3,7 +3,7 @@
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import type SvgIcon from '@mui/material/SvgIcon'
+import SvgIcon from '@mui/material/SvgIcon'
 import Typography from '@mui/material/Typography'
 
 type UserStatCardProps = {

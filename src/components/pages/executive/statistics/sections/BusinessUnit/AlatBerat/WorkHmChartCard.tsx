@@ -15,7 +15,8 @@ export default function WorkHmChartCard({
 }) {
     const inventoryNames =
         data
-            ?.flatMap(item => Object.keys(item))
+            ?.map(item => Object.keys(item))
+            .flat()
             .filter(
                 (v, i, self) =>
                     !['label', 'label_value'].includes(v) &&

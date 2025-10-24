@@ -243,31 +243,33 @@ function MonthPicker() {
     )
 
     return (
-        <DatePicker
-            format="MMMM YYYY"
-            label="Jatuh Tempo"
-            maxDate={dayjs().startOf('month')}
-            minDate={dayjs('2023-10-01')}
-            onAccept={date => {
-                if (!date) return
+        <>
+            <DatePicker
+                format="MMMM YYYY"
+                label="Jatuh Tempo"
+                maxDate={dayjs().startOf('month')}
+                minDate={dayjs('2023-10-01')}
+                onAccept={date => {
+                    if (!date) return
 
-                const year = date.format('YYYY')
-                const month = date.format('MM')
+                    const year = date.format('YYYY')
+                    const month = date.format('MM')
 
-                replace(`?year=${year}&month=${month}`)
-            }}
-            openTo="month"
-            slotProps={{
-                textField: {
-                    fullWidth: false,
-                },
-            }}
-            sx={{
-                maxWidth: 300,
-            }}
-            value={value}
-            views={['year', 'month']}
-        />
+                    replace(`?year=${year}&month=${month}`)
+                }}
+                openTo="month"
+                slotProps={{
+                    textField: {
+                        fullWidth: false,
+                    },
+                }}
+                sx={{
+                    maxWidth: 300,
+                }}
+                value={value}
+                views={['year', 'month']}
+            />
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-import dayjs, { type Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import type { Ymd } from '@/types/date-string'
 
 /**
@@ -7,7 +7,7 @@ import type { Ymd } from '@/types/date-string'
  * @returns The week of the month for the given date.
  */
 export default function weekOfMonth(date: Ymd | Dayjs) {
-    let dateDayJs: Dayjs | Ymd
+    let dateDayJs
 
     if (typeof date === 'string') dateDayJs = dayjs(date, 'YYYY-MM-DD')
     else dateDayJs = date

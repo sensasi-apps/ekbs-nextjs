@@ -44,9 +44,8 @@ export default function SWRProvider({
  * Fetches data from the given endpoint using axios.
  */
 async function fetcher(endpointPassed: [string, object] | string) {
-    const [endpoint, params] = Array.isArray(endpointPassed)
-        ? endpointPassed
-        : [endpointPassed, {}]
+    const [endpoint, params] =
+        endpointPassed instanceof Array ? endpointPassed : [endpointPassed, {}]
 
     return axios
         .get(endpoint, {

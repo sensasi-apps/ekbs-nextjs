@@ -1,7 +1,7 @@
 // types
 
 // vendors
-import type { FormikProps } from 'formik'
+import { type FormikProps } from 'formik'
 // formik
 import DateField from '@/components/formik-fields/date-field'
 import TextField from '@/components/formik-fields/text-field'

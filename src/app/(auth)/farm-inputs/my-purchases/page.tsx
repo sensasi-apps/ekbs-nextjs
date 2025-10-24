@@ -94,9 +94,7 @@ export default function Page() {
                         apiUrl="/farm-inputs/my-purchases/datatable-data"
                         columns={DATATABLE_COLUMNS}
                         defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                        getRowDataCallback={fn => {
-                            getRowData = fn
-                        }}
+                        getRowDataCallback={fn => (getRowData = fn)}
                         onRowClick={(_, { dataIndex }, event) => {
                             if (event.detail === 2) {
                                 const data = getRowData(dataIndex)
@@ -178,7 +176,7 @@ const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
                     ({ id, qty, product_state }) => (
                         <Chip
                             key={id}
-                            label={`${product_state.name} (${qty * -1})`}
+                            label={product_state.name + ' (' + qty * -1 + ')'}
                             size="small"
                         />
                     ),

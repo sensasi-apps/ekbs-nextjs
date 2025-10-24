@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import type { FieldArrayRenderProps } from 'formik'
+import { type FieldArrayRenderProps } from 'formik'
 // vendors
 import { useRef } from 'react'
 import NumericField from '@/components/formik-fields/numeric-field'

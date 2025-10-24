@@ -1,4 +1,4 @@
-import type { SubmittedData } from './submitted-data'
+import { type SubmittedData } from './submitted-data'
 
 export interface FormikStatusType {
     isDisabled: boolean

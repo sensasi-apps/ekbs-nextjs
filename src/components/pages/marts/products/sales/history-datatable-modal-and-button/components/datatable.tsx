@@ -19,9 +19,7 @@ export default function Datatable() {
             apiUrl="marts/products/sales/datatable"
             columns={DATATABLE_COLUMNS}
             defaultSortOrder={DEFAULT_SORT_ORDER}
-            getRowDataCallback={fn => {
-                getRowData = fn
-            }}
+            getRowDataCallback={fn => (getRowData = fn)}
             tableId="mart-sales-table"
             title="Riwayat Penjualan"
         />

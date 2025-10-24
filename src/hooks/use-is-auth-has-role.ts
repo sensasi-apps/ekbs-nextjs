@@ -23,7 +23,7 @@ export function isUserHasRole(
         return true
     }
 
-    if (Array.isArray(roleName)) {
+    if (roleName instanceof Array) {
         return (
             roleName.findIndex(r => userParam.role_names?.includes(r)) !== -1 ||
             roleName.findIndex(r => userParam.role_names_id?.includes(r)) !== -1

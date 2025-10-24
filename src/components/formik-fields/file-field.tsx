@@ -54,6 +54,7 @@ function InnerComponent({
                 <Fab
                     color="primary"
                     component="label"
+                    role={undefined}
                     variant="extended"
                     {...slotProps?.button}>
                     <VisuallyHiddenInput

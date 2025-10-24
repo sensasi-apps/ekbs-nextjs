@@ -20,7 +20,7 @@ export function isUserHasPermission(
         return true
     }
 
-    if (Array.isArray(permissionName)) {
+    if (permissionName instanceof Array) {
         return (
             permissionName.findIndex(p =>
                 userParam.permission_names?.includes(p),

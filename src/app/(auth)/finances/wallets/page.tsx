@@ -49,9 +49,7 @@ export default function WalletsPage() {
                 apiUrl="/wallets/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'balance' }}
-                getRowDataCallback={fn => {
-                    getRowData.current = fn
-                }}
+                getRowDataCallback={fn => (getRowData.current = fn)}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData.current?.(dataIndex)

@@ -11,7 +11,7 @@ import Dialog from '@mui/material/Dialog'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import dayjs, { type Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -571,7 +571,8 @@ function PrintTemplate({
     loading: boolean
     txs: ApiResponseType | undefined
 }) {
-    const title = `${activeTab === 'rangkuman' ? 'Rangkuman' : 'Mutasi'} EKBS Wallet`
+    const title =
+        (activeTab === 'rangkuman' ? 'Rangkuman' : 'Mutasi') + ' EKBS Wallet'
 
     const dateRangeText = `${toDmy(fromDate)} s/d ${toDmy(toDate)}`
 

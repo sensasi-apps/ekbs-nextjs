@@ -89,9 +89,7 @@ function AddItemButton({
                 disabled={isDisabled}
                 fullWidth={false}
                 label="Tambah baris"
-                onChange={e => {
-                    nRow.current = Number(e.target.value)
-                }}
+                onChange={e => (nRow.current = Number(e.target.value))}
                 size="small"
                 slotProps={{ input: { inputProps: { max: 99, min: 1 } } }}
                 sx={{
@@ -144,7 +142,7 @@ function SparePartInput({
                 {({ form: { setFieldValue }, field }: FieldProps) => {
                     const value =
                         spareParts.find(
-                            sparePart => sparePart.id === field.value,
+                            sparePart => sparePart.id == field.value,
                         ) ?? null
 
                     return (

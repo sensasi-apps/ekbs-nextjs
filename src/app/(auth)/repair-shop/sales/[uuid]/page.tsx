@@ -17,7 +17,7 @@ export default function Page() {
         SaleFormValues & {
             finished_at: string
         }
-    >(param?.uuid ? `repair-shop/sales/${param.uuid as string}` : null)
+    >(param?.uuid ? 'repair-shop/sales/' + (param.uuid as string) : null)
 
     if (!data) return <LoadingCenter />
 

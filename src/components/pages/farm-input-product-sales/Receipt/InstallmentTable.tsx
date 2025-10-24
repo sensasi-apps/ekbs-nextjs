@@ -75,15 +75,15 @@ export default function ReceiptInstalmentTable({
                 </TableRow>
 
                 {installments.map(installment => {
-                    remaining_rp = remaining_rp - base_rp
-
                     return (
                         <InstallmentTableRow
                             base_rp={base_rp}
                             data={installment}
                             interest_rp={interestRp}
                             key={installment.n_th}
-                            remaining_rp={remaining_rp}
+                            remaining_rp={
+                                (remaining_rp = remaining_rp - base_rp)
+                            }
                         />
                     )
                 })}

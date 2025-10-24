@@ -26,7 +26,7 @@ const InventoryItemFormWithFormik = ({
         onSubmit={(values, { setErrors }) =>
             axios
                 .post(
-                    `inventory-items${values.uuid ? `/${values.uuid}` : ''}`,
+                    `inventory-items${values.uuid ? '/' + values.uuid : ''}`,
                     formDataFormatter(values),
                 )
                 .then(onSubmitted)
