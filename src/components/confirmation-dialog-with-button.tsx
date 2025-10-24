@@ -52,6 +52,10 @@ interface ConfirmationDialogWithButtonProps
      * If `false`, `onConfirm` will be called immediately and skipping dialog
      */
     shouldConfirm: boolean
+
+    /**
+     * Return a {@link Promise} to handle auto close
+     */
     onConfirm: () => void | Promise<unknown>
     buttonProps?: Omit<ButtonProps, 'children'> & {
         children: ButtonProps['children']
