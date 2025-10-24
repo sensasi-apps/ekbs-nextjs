@@ -24,7 +24,7 @@
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "strict": true,
-        "target": "ES2017",
+        "target": "ES2018",
         "types": ["@serwist/next/typings"],
         "verbatimModuleSyntax": true
     },

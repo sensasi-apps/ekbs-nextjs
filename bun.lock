@@ -28,7 +28,7 @@
         "jotai": "^2.15.0",
         "js-file-download": "^0.4.12",
         "js-sha3": "^0.9.3",
-        "mui-datatable-delight": "2.0.0-alpha.0",
+        "mui-datatable-delight": "2.0.0-experimental.18",
         "next": "^15.5.6",
         "notistack": "^3.0.2",
         "qs": "^6.14.0",
@@ -1654,7 +1654,7 @@
 
     "ms": ["ms@2.1.3", "", {}, "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="],
 
-    "mui-datatable-delight": ["mui-datatable-delight@2.0.0-alpha.0", "", { "dependencies": { "@emotion/react": "^11.14.0", "@emotion/styled": "^11.14.1", "@mui/icons-material": "^7.3.4", "@mui/material": "^7.3.4", "react": "^19.2.0", "react-dom": "^19.2.0", "react-fast-compare": "^3.2.2", "react-to-print": "^3.1.1" } }, "sha512-Q1+H3L4om0eZnHPoYvhb7qBn+n0V7DKhc+b6UKRXA8GtVG6Fhxlf1XY/3z6JgrgbETfAxjwRFdnpQ4bEZ5okjQ=="],
+    "mui-datatable-delight": ["mui-datatable-delight@2.0.0-experimental.18", "", { "dependencies": { "@emotion/react": "^11.14.0", "@emotion/styled": "^11.14.1", "@mui/icons-material": "^7.3.4", "@mui/material": "^7.3.4", "react": "^19.2.0", "react-dom": "^19.2.0", "react-fast-compare": "^3.2.2", "react-to-print": "^3.2.0" } }, "sha512-eQL/DTWROkkasPSMl/MlhOAQWY4t9uyHl7xHGtj2cI4Pbd6hfxXZDpW5a5yFjF3oRNOG7ZRWFlqv6CrG727S/A=="],
 
     "multipipe": ["multipipe@1.0.2", "", { "dependencies": { "duplexer2": "^0.1.2", "object-assign": "^4.1.0" } }, "sha512-6uiC9OvY71vzSGX8lZvSqscE7ft9nPupJ8fMjrCNRAUy2LREUW42UL+V/NTrogr6rFgRydUrCX4ZitfpSNkSCQ=="],
 
@@ -2507,8 +2507,6 @@
     "micromatch/picomatch": ["picomatch@2.3.1", "", {}, "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA=="],
 
     "mui-datatable-delight/react-fast-compare": ["react-fast-compare@3.2.2", "", {}, "sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ=="],
-
-    "mui-datatable-delight/react-to-print": ["react-to-print@3.1.1", "", { "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ~19" } }, "sha512-N0MUMhpl8nkGri13BjP7zusj3B/j+1eMOTt8N8PYuhBYGzA4PqTXqcihJ9cZw996dvhV6mBdwafIQCg3Ap5bKg=="],
 
     "nearley/commander": ["commander@2.20.3", "", {}, "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="],
 
