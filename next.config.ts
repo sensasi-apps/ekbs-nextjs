@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
          * @see https://nextjs.org/docs/app/api-reference/config/next-config-js/optimizePackageImports
          */
         optimizePackageImports: ['@mui/x-date-pickers', 'recharts', 'formik'],
+
+        reactCompiler: true,
     },
 
     pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
@@ -25,8 +27,7 @@ const nextConfig: NextConfig = {
     async rewrites() {
         return [
             {
-                destination:
-                    process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
+                destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth/:path*`,
                 source: '/oauth/:path*',
             },
             {
