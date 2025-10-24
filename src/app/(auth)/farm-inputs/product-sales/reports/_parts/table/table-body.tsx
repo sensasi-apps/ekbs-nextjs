@@ -29,7 +29,7 @@ export default function TableBody({ data }: { data: ProductSaleORM[] }) {
             )}
 
             {data.map((item, i) => (
-                <TableRow data={item} key={i} no={i + 1} />
+                <TableRow data={item} key={item.uuid} no={i + 1} />
             ))}
         </MuiTableBody>
     )

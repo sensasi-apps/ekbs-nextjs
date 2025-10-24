@@ -66,7 +66,9 @@ export default function TransactionCrud() {
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
                 download
-                getRowDataCallback={fn => (getRowDataRef.current = fn)}
+                getRowDataCallback={fn => {
+                    getRowDataRef.current = fn
+                }}
                 onRowClick={handleRowClick}
                 tableId="transaction-datatable"
                 title="Riwayat Transaksi"
@@ -82,7 +84,7 @@ export default function TransactionCrud() {
                     onSubmit={(values, { setErrors }) =>
                         axios
                             .post(
-                                `transactions${status?.uuid ? '/' + status.uuid : ''}`,
+                                `transactions${status?.uuid ? `/${status.uuid}` : ''}`,
                                 values,
                             )
                             .then(() => {
@@ -184,7 +186,7 @@ const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
             customBodyRenderLite: dataIndex => {
                 return getRowDataRefGlobal
                     .current?.(dataIndex)
-                    ?.['tag_names']?.split(', ')
+                    ?.tag_names?.split(', ')
                     .map(tagName => (
                         <Chip key={tagName} label={tagName} size="small" />
                     ))

@@ -1,5 +1,6 @@
 // types
 
+import type { UUID } from 'node:crypto'
 // materials
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -11,7 +12,6 @@ import Grid from '@mui/material/Grid'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
-import type { UUID } from 'crypto'
 import dayjs from 'dayjs'
 // vendors
 import {

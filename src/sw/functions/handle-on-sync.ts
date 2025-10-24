@@ -19,8 +19,8 @@ export async function handleOnSync(queue: BackgroundSyncQueue) {
         const entry = await queue.shiftRequest()
 
         if (entry) {
-            let errorMsg
-            let response
+            let errorMsg: null | string = null
+            let response: null | Response = null
 
             try {
                 response = await fetch(entry.request.clone())

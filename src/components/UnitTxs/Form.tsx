@@ -34,13 +34,13 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import NumericFormat from '@/components/NumericFormat'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
-import BusinessUnit from '@/enums/business-unit'
+import type BusinessUnit from '@/enums/business-unit'
 // import UserActivityLogsDialogTable from '@/components/UserActivityLogs/DialogTable'
 // providers
 // import useAuth from '@/providers/Auth'
 // utils
 // import errorCatcher from '@/utils/errorCatcher'
-import TransactionTag from '@/modules/transaction/enums/transaction-tag'
+import type TransactionTag from '@/modules/transaction/enums/transaction-tag'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import getUnitTxTags from '@/utils/get-unit-tx-tags'
 

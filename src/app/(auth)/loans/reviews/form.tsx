@@ -1,11 +1,11 @@
 // types
 
+import type { UUID } from 'node:crypto'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import type { UUID } from 'crypto'
 import type { FastFieldProps, FormikContextType } from 'formik'
 // vendors
 import { FastField, Form } from 'formik'

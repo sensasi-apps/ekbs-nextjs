@@ -73,7 +73,7 @@ export default function SetPasswordButtonAndDialogForm({
     }
 
     const validateInputs = (name: string, value: string) => {
-        let error = undefined
+        let error: string | undefined
 
         if (value.length !== 0 && value.length < 8) {
             error = 'Kata sandi minimal 8 karakter'

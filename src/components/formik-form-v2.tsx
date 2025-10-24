@@ -9,18 +9,16 @@ import FlexBox from '@/components/flex-box'
 
 export default function FormikForm({ children }: { children: ReactNode }) {
     return (
-        <>
-            <Form autoComplete="off">
-                {children}
+        <Form autoComplete="off">
+            {children}
 
-                <LoadingIndicator />
+            <LoadingIndicator />
 
-                <FlexBox justifyContent="end" mt={1}>
-                    <ResetButton />
-                    <SubmitButton />
-                </FlexBox>
-            </Form>
-        </>
+            <FlexBox justifyContent="end" mt={1}>
+                <ResetButton />
+                <SubmitButton />
+            </FlexBox>
+        </Form>
     )
 }
 

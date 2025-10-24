@@ -55,7 +55,7 @@ export default function ImageButtonAndModal({
                 )
                 .catch(({ status }: AxiosError) => {
                     if (status === 422) {
-                        enqueueSnackbar('Gagal memuat gambar: ' + file.alias, {
+                        enqueueSnackbar(`Gagal memuat gambar: ${file.alias}`, {
                             variant: 'error',
                         })
                     }

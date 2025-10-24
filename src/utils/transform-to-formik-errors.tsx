@@ -12,7 +12,9 @@ export function transformToFormikErrors<FormValues>(
 
         pathParts.forEach((part, index) => {
             const isLastPart = index === pathParts.length - 1
-            const nextPartIsArrayIndex = !isNaN(Number(pathParts[index + 1]))
+            const nextPartIsArrayIndex = !Number.isNaN(
+                Number(pathParts[index + 1]),
+            )
 
             if (isLastPart) {
                 // @ts-expect-error - I'm not sure how to fix this

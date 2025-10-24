@@ -15,7 +15,7 @@ import { memo, useState } from 'react'
 import type ProductMovementOpname from '@/modules/mart/types/orms/product-movement-opname'
 // utils
 import formatNumber from '@/utils/format-number'
-import { type CreateFormValues } from './form'
+import type { CreateFormValues } from './form'
 import FormDialog from './form-dialog'
 
 function SummaryTable({ data }: { data: ProductMovementOpname }) {

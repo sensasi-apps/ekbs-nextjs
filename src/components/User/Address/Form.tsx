@@ -76,7 +76,7 @@ export default function AddressForm({
                 marginTop: '1rem',
             }}
             {...props}
-            onKeyDown={e => e.key != 'Enter'}>
+            onKeyDown={e => e.key !== 'Enter'}>
             <TextField
                 error={Boolean(errors.label)}
                 fullWidth

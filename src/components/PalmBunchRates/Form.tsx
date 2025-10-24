@@ -90,7 +90,7 @@ export default function PalmBunchRatesForm({
         setSubmitting(true)
 
         return axios
-            .post(`/palm-bunches/rates${id ? '/' + id : ''}`, temp)
+            .post(`/palm-bunches/rates${id ? `/${id}` : ''}`, temp)
             .then(() => {
                 handleClose()
 
@@ -221,47 +221,41 @@ export default function PalmBunchRatesForm({
                         </Typography>
                     </Typography>
 
-                    {ratesState &&
-                        ratesState.map(rate => (
-                            <NumericFormat
-                                allowNegative={false}
-                                customInput={TextField}
-                                decimalScale={0}
-                                decimalSeparator=","
-                                disabled={loading}
-                                fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            /kg
-                                        </InputAdornment>
-                                    ),
-                                    startAdornment: <RpInputAdornment />,
-                                }}
-                                inputProps={{
-                                    maxLength: 5,
-                                    minLength: 3,
-                                }}
-                                key={rate.type}
-                                label="Harga"
-                                margin="dense"
-                                name={`rates[${rate.type}]`}
-                                onValueChange={values =>
-                                    handleRateChange(
-                                        rate.type,
-                                        values.floatValue,
-                                    )
-                                }
-                                required
-                                thousandSeparator="."
-                                value={rate.rp_per_kg}
-                                {...errorsToHelperTextObj(
-                                    validationErrors[
-                                        `rp_per_kgs[${rate.type}]`
-                                    ],
-                                )}
-                            />
-                        ))}
+                    {ratesState?.map(rate => (
+                        <NumericFormat
+                            allowNegative={false}
+                            customInput={TextField}
+                            decimalScale={0}
+                            decimalSeparator=","
+                            disabled={loading}
+                            fullWidth
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        /kg
+                                    </InputAdornment>
+                                ),
+                                startAdornment: <RpInputAdornment />,
+                            }}
+                            inputProps={{
+                                maxLength: 5,
+                                minLength: 3,
+                            }}
+                            key={rate.type}
+                            label="Harga"
+                            margin="dense"
+                            name={`rates[${rate.type}]`}
+                            onValueChange={values =>
+                                handleRateChange(rate.type, values.floatValue)
+                            }
+                            required
+                            thousandSeparator="."
+                            value={rate.rp_per_kg}
+                            {...errorsToHelperTextObj(
+                                validationErrors[`rp_per_kgs[${rate.type}]`],
+                            )}
+                        />
+                    ))}
 
                     <FormActions
                         disabled={loading}

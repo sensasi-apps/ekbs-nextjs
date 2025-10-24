@@ -2,7 +2,7 @@
 
 import Box from '@mui/material/Box'
 // materials
-import { type ButtonProps } from '@mui/material/Button'
+import type { ButtonProps } from '@mui/material/Button'
 import { Form, type FormikFormProps } from 'formik'
 import { memo } from 'react'
 // components

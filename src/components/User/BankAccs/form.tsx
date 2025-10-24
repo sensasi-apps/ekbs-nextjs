@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { type FormEvent, useState } from 'react'
 import { mutate } from 'swr'
-import { type UUIDTypes } from 'uuid'
+import type { UUIDTypes } from 'uuid'
 //
 import axios from '@/lib/axios'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'

@@ -1,11 +1,11 @@
 // vendors
 
+import type { UUID } from 'node:crypto'
 // import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import type { UUID } from 'crypto'
 import type { ReactNode } from 'react'
 import ChipSmall from '@/components/ChipSmall'
 // assets

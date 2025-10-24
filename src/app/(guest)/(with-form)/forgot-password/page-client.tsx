@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
 import TextField from '@mui/material/TextField'
 // types
-import { AxiosError } from 'axios'
+import type { AxiosError } from 'axios'
 // vendors
 import { type FormEvent, useState } from 'react'
 import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'

@@ -19,7 +19,7 @@ import type ProductMovementType from '@/modules/farm-inputs/types/orms/product-m
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import { type FormValuesType } from '../Form'
+import type { FormValuesType } from '../Form'
 
 export default function ProductMovementCostArrayField({
     replace,
@@ -126,7 +126,7 @@ export default function ProductMovementCostArrayField({
                                     }),
                                 )
                             }
-                            value={isNaN(row.rp) ? '' : row.rp}
+                            value={Number.isNaN(row.rp) ? '' : row.rp}
                             {...errorsToHelperTextObj(errors?.[index]?.rp)}
                         />
                     </Grid>

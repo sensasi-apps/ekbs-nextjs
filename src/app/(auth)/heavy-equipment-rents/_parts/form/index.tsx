@@ -1,5 +1,6 @@
 // types
 
+import type { UUID } from 'node:crypto'
 // materials
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
@@ -8,7 +9,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
-import type { UUID } from 'crypto'
 import dayjs from 'dayjs'
 // vendors
 import { FastField, type FormikProps, useFormik } from 'formik'

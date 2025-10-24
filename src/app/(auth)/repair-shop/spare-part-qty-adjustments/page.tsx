@@ -54,7 +54,9 @@ export default function Page() {
                 apiUrl="/repair-shop/spare-parts/qty-adjustments/datatable-data"
                 columns={columns}
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                getRowDataCallback={fn => (getRowData = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData(dataIndex)

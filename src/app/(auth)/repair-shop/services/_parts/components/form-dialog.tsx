@@ -43,7 +43,7 @@ export default function ServiceFormDialog({
 
                         return request(
                             `repair-shop/services` +
-                                (formData?.id ? '/' + formData?.id : ''),
+                                (formData?.id ? `/${formData?.id}` : ''),
                             values,
                         )
                             .then(resetForm)

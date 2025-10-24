@@ -88,7 +88,9 @@ const Ul = ({
 
 function renderLis(liItems: (ListItem | string)[]) {
     return liItems.map(item => {
-        let id, label, lis
+        let id: string | undefined
+        let label: string | undefined
+        let lis: (string | ListItem)[] | undefined
 
         if (typeof item === 'string') {
             label = item

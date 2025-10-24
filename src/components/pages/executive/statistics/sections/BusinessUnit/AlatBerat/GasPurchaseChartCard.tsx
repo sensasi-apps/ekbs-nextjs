@@ -17,8 +17,7 @@ export default function GasPurchaseChartCard({
 }) {
     const inventoryNames =
         data
-            ?.map(item => Object.keys(item))
-            .flat()
+            ?.flatMap(item => Object.keys(item))
             .filter(
                 (v, i, self) =>
                     !['label', 'label_value'].includes(v) &&

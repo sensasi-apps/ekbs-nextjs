@@ -74,8 +74,12 @@ export default function ReceivablesDatatable({
                     name: 'should_be_paid_at',
                 }}
                 download={true}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
+                mutateCallback={fn => {
+                    mutate = fn
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData(dataIndex)

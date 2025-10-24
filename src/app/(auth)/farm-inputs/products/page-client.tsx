@@ -70,8 +70,12 @@ export default function PageClient() {
                 }}
                 columns={columns}
                 defaultSortOrder={{ direction: 'asc', name: 'name' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
+                mutateCallback={fn => {
+                    mutate = fn
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData(dataIndex)
@@ -103,7 +107,7 @@ export default function PageClient() {
             <DialogWithTitle
                 maxWidth="sm"
                 open={isFormOpen}
-                title={(isNew ? 'Tambah' : 'Perbaharui') + ' Data Produk'}>
+                title={`${isNew ? 'Tambah' : 'Perbaharui'} Data Produk`}>
                 <Formik
                     component={ProductForm}
                     initialValues={initialFormikValues}
@@ -113,7 +117,7 @@ export default function PageClient() {
                             .post(
                                 ApiUrlEnum.UPDATE_OR_CREATE_PRODUCT.replace(
                                     '$1',
-                                    values.id ? '/' + values.id : '',
+                                    values.id ? `/${values.id}` : '',
                                 ),
                                 values,
                             )

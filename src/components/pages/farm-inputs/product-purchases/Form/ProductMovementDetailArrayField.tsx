@@ -27,7 +27,7 @@ import type ProductMovementDetailORM from '@/modules/farm-inputs/types/orms/prod
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
-import { type FormValuesType } from '../Form'
+import type { FormValuesType } from '../Form'
 
 const calculatePrice = (qty?: number, subtotal?: number) => {
     if (!qty || !subtotal) return undefined

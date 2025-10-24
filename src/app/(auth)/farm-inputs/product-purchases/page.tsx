@@ -106,8 +106,12 @@ export default function FarmInputsProducts() {
                 apiUrl={ApiUrlEnum.PRODUCT_PURCHASE_DATATABLE}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'order' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
+                mutateCallback={fn => {
+                    mutate = fn
+                }}
                 onRowClick={handleRowClick}
                 tableId="product-purchases-table"
                 title="Riwayat"
@@ -120,9 +124,7 @@ export default function FarmInputsProducts() {
                 <DialogWithTitle
                     maxWidth="lg"
                     open={isDialogOpen}
-                    title={
-                        (isNew ? 'Tambah ' : 'Perbaharui ') + 'Data Pembelian'
-                    }>
+                    title={`${isNew ? 'Tambah ' : 'Perbaharui '}Data Pembelian`}>
                     <Formik
                         component={ProductPurchaseForm}
                         initialStatus={initialFormikStatus}
@@ -151,18 +153,16 @@ function pmdsCustomBodyRender(pids: ProductMovementDetailORM[]) {
                 whiteSpace: 'nowrap',
             }}>
             {pids?.map(
-                (
-                    {
-                        qty,
-                        rp_per_unit,
-                        rp_cost_per_unit,
-                        product_state: { name, unit },
-                    },
-                    index,
-                ) => (
+                ({
+                    id,
+                    qty,
+                    rp_per_unit,
+                    rp_cost_per_unit,
+                    product_state: { name, unit },
+                }) => (
                     <Typography
                         component="li"
-                        key={index}
+                        key={id}
                         lineHeight="unset"
                         variant="overline">
                         <span

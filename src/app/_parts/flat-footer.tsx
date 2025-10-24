@@ -1,11 +1,11 @@
 // vendors
 
+import type { UrlObject } from 'node:url'
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import dayjs from 'dayjs'
 import type { ReactNode } from 'react'
-import type { UrlObject } from 'url'
 // etc
 import packageJson from '@/../package.json'
 // components

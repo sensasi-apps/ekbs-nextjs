@@ -1,5 +1,6 @@
 // types
 
+import type { UUID } from 'node:crypto'
 // icons
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 // materials
@@ -20,7 +21,6 @@ import Select from '@mui/material/Select'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
-import type { UUID } from 'crypto'
 import dayjs from 'dayjs'
 // vendors
 import { FastField, type FormikProps } from 'formik'

@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow'
 import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
 // components
-import { type ApiResponseType } from '../Tbs'
+import type { ApiResponseType } from '../Tbs'
 
 const CELL_SX_BORDER_LEFT = {
     borderLeft: '1px solid var(--mui-palette-TableCell-border)',
@@ -76,9 +76,7 @@ export default function FarmerGroupStatTable({
 
                                 return (
                                     <WeightRpCols
-                                        data1={
-                                            formatNumber(sum_kg ?? 0) + ' kg'
-                                        }
+                                        data1={`${formatNumber(sum_kg ?? 0)} kg`}
                                         data2={numberToCurrency(sum_rp ?? 0)}
                                         key={i}
                                     />
@@ -97,15 +95,12 @@ export default function FarmerGroupStatTable({
                             )
                             return (
                                 <WeightRpCols
-                                    data1={
-                                        formatNumber(
-                                            items.reduce(
-                                                (acc, { sum_kg }) =>
-                                                    acc + sum_kg,
-                                                0,
-                                            ) ?? 0,
-                                        ) + ' kg'
-                                    }
+                                    data1={`${formatNumber(
+                                        items.reduce(
+                                            (acc, { sum_kg }) => acc + sum_kg,
+                                            0,
+                                        ) ?? 0,
+                                    )} kg`}
                                     data2={numberToCurrency(
                                         items.reduce(
                                             (acc, { sum_rp }) => acc + sum_rp,

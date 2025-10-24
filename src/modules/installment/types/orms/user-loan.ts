@@ -1,5 +1,5 @@
 // vendor types
-import type { UUID } from 'crypto'
+import type { UUID } from 'node:crypto'
 import type UserLoanStatusEnum from '@/modules/installment/enums/user-loan-status'
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // modules

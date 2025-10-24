@@ -44,7 +44,7 @@ export default function CheckboxFields({
                                 <FormControlLabel
                                     control={<MuiCheckbox size="small" />}
                                     disabled={disabled}
-                                    id={name + '-checkbox'}
+                                    id={`${name}-checkbox`}
                                     label={label}
                                     {...field}
                                 />

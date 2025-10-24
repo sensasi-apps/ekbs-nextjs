@@ -215,7 +215,7 @@ function ProductPicker({
                     loading={isLoading}
                     onChange={(_, product) => {
                         setFieldValue(name, product)
-                        setFieldValue(name + '_id', product?.id)
+                        setFieldValue(`${name}_id`, product?.id)
                     }}
                     options={products?.data ?? []}
                     renderInput={params => (
