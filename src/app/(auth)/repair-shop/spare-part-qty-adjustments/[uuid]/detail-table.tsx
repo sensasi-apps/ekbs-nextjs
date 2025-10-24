@@ -1,5 +1,6 @@
 // vendors
 
+import type { UUID } from 'node:crypto'
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -8,7 +9,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import type { UUID } from 'crypto'
 import { memo } from 'react'
 import { validate } from 'uuid'
 import NumericField from '@/components/formik-fields/numeric-field'

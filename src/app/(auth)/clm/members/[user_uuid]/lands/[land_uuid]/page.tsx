@@ -1,5 +1,7 @@
 'use client'
 
+// vendors
+import type { UUID } from 'node:crypto'
 // icons
 import EditIcon from '@mui/icons-material/Edit'
 import EditNoteIcon from '@mui/icons-material/EditNote'
@@ -7,8 +9,6 @@ import EditNoteIcon from '@mui/icons-material/EditNote'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-// vendors
-import type { UUID } from 'crypto'
 import { useParams } from 'next/navigation'
 import useSWR from 'swr'
 // components

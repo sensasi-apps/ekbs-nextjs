@@ -44,8 +44,12 @@ export default function Page() {
                 apiUrl={Endpoint.DATATABLE}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                getRowDataCallback={fn => (getRowDataRef.current = fn)}
-                mutateCallback={mutate => (mutateRef.current = mutate)}
+                getRowDataCallback={fn => {
+                    getRowDataRef.current = fn
+                }}
+                mutateCallback={mutate => {
+                    mutateRef.current = mutate
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowDataRef.current?.(dataIndex)

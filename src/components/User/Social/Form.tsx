@@ -1,10 +1,10 @@
 // types
 
+import type { UUID } from 'node:crypto'
 // materials
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/GridLegacy'
-import type { UUID } from 'crypto'
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { PatternFormat } from 'react-number-format'

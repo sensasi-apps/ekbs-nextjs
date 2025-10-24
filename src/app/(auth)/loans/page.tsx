@@ -55,7 +55,7 @@ export default function LoansPage() {
         const method = isNew ? 'post' : 'put'
         const urlPrefix = isNew ? '' : `/${userLoanFromDb.uuid}`
 
-        return axios[method]('loans' + urlPrefix, values)
+        return axios[method](`loans${urlPrefix}`, values)
             .then(() => {
                 mutate()
                 closeDialog()

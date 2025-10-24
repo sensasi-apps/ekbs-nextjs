@@ -1,5 +1,6 @@
 // types
 
+import type { UUID } from 'node:crypto'
 // materials
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -11,7 +12,6 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
-import type { UUID } from 'crypto'
 import dayjs from 'dayjs'
 // vendors
 import { Field, type FieldProps, type FormikProps } from 'formik'

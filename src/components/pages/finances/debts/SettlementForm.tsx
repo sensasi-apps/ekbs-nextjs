@@ -1,5 +1,5 @@
 // types
-import type { UUID } from 'crypto'
+import type { UUID } from 'node:crypto'
 // vendors
 import { Field, type FieldProps, type FormikProps } from 'formik'
 import DateField from '@/components/formik-fields/date-field'

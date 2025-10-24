@@ -113,8 +113,8 @@ function SubTable({ header, data, footer }: SubTableProps) {
             <TableRow sx={header === 'Koreksi' ? blinkSxValue : undefined}>
                 <TableCell sx={HEADER_SX}>{footer}</TableCell>
 
-                {sums.map((sum, i) => (
-                    <RpItemCell data={sum} key={i} sx={HEADER_SX} />
+                {sums.map(sum => (
+                    <RpItemCell data={sum} key={sum} sx={HEADER_SX} />
                 ))}
             </TableRow>
         </>
@@ -215,8 +215,8 @@ function CustomTableFooter({
                     data: nets,
                     name: 'Laba Bersih Sebelum Pajak',
                 },
-            ].map((item, i) => (
-                <CustomRow key={i} {...item} />
+            ].map(item => (
+                <CustomRow key={item.name} {...item} />
             ))}
         </TableFooter>
     )

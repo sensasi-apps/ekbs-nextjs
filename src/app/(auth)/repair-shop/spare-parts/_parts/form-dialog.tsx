@@ -66,7 +66,7 @@ export default function SparePartFormDialog({
 
                         return request(
                             `repair-shop/spare-parts` +
-                                (formData?.id ? '/' + formData.id : ''),
+                                (formData?.id ? `/${formData.id}` : ''),
                             values,
                         )
                             .then(resetForm)

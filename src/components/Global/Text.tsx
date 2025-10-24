@@ -2,7 +2,7 @@ import type { BoxProps } from '@mui/material/Box'
 import Box from '@mui/material/Box'
 import FormHelperText from '@mui/material/FormHelperText'
 import Typography from '@mui/material/Typography'
-import React from 'react'
+import type React from 'react'
 
 interface TextProps extends BoxProps {
     label?: string

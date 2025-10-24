@@ -5,7 +5,7 @@ import NextLink from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Datatable, { type DatatableProps } from '@/components/Datatable'
-import { type GetRowData } from '@/components/Datatable/@types'
+import type { GetRowData } from '@/components/Datatable/@types'
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
 import type User from '@/modules/user/types/orms/user'
@@ -21,7 +21,9 @@ export default function Page() {
                 apiUrl="ticketing-system/tickets-datatable"
                 columns={COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'id' }}
-                getRowDataCallback={fn => (getRowData = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
                 tableId="tickets-datatable"
                 title="Daftar Tiket"
             />

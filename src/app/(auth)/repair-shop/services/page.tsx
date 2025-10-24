@@ -42,7 +42,9 @@ export default function Page() {
                 getRowDataCallback={fn => {
                     getRowDataRef.current = fn
                 }}
-                mutateCallback={mutate => (mutateRef.current = mutate)}
+                mutateCallback={mutate => {
+                    mutateRef.current = mutate
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowDataRef.current?.(dataIndex)

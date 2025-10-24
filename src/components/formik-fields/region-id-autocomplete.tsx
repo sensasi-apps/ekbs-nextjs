@@ -34,8 +34,8 @@ export default function RegionIdAutocomplete() {
                 value={innerValue}
             />
 
-            {errors['region_id'] && (
-                <FormHelperText error>{errors['region_id']}</FormHelperText>
+            {errors.region_id && (
+                <FormHelperText error>{errors.region_id}</FormHelperText>
             )}
         </>
     )

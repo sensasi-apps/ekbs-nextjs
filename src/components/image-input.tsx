@@ -119,7 +119,7 @@ function MainInput({
                                 accept="image/*"
                                 capture="user"
                                 hidden
-                                name={name + '_capture'}
+                                name={`${name}_capture`}
                                 onChange={onChange}
                                 type="file"
                             />

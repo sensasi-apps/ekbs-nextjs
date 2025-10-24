@@ -11,7 +11,7 @@ export default function UserLandListItem({ data: land }: { data: LandORM }) {
 
     return (
         <ListItemText
-            primary={formatNumber(n_area_hectares) + ' Ha'}
+            primary={`${formatNumber(n_area_hectares)} Ha`}
             primaryTypographyProps={{
                 fontWeight: 'bold',
                 variant: 'h6',

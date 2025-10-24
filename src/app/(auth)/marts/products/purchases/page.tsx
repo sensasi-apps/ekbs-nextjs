@@ -5,7 +5,7 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 // vendors
 import { useState } from 'react'
 import ApiUrl from '@/app/(auth)/marts/products/purchases/_parts/api-url'
-import { type FormValues } from '@/app/(auth)/marts/products/purchases/_parts/form'
+import type { FormValues } from '@/app/(auth)/marts/products/purchases/_parts/form'
 import FormDialog from '@/app/(auth)/marts/products/purchases/_parts/form-dialog'
 // components
 import ChipSmall from '@/components/ChipSmall'
@@ -50,8 +50,12 @@ export default function ProductPurchases() {
                 apiUrl={ApiUrl.GET_DATATABLE_DATA}
                 columns={columns}
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
+                mutateCallback={fn => {
+                    mutate = fn
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData(dataIndex)

@@ -1,4 +1,4 @@
-import type { UUID } from 'crypto'
+import type { UUID } from 'node:crypto'
 import type InstallmentTnstallmentableClassname from '@/enums/installment-installemtable-classname'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'

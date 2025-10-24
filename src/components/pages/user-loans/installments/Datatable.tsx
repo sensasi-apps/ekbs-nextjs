@@ -1,6 +1,6 @@
 // vendors
 
-import Box from '@mui/material/Box'
+import Box, { type BoxProps } from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 import { memo, type RefObject, useRef, useState } from 'react'
@@ -123,7 +123,7 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
                 const isPaid = Boolean(installment.transaction)
                 const diff = valueDate.diff()
 
-                let color
+                let color: BoxProps['color'] | undefined
 
                 if (isPaid) {
                     // do nothing, keep color undefined

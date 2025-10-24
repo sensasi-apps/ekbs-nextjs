@@ -74,7 +74,9 @@ export default function PageClient() {
                     _getRowDataRef.current = fn
                     getRowDataRef = _getRowDataRef
                 }}
-                mutateCallback={mutate => (mutateRef.current = mutate)}
+                mutateCallback={mutate => {
+                    mutateRef.current = mutate
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowDataRef.current?.(dataIndex)
@@ -199,7 +201,7 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
                 return (
                     <>
                         <Chip
-                            label={data.warehouses[0].margin_percent + '%'}
+                            label={`${data.warehouses[0].margin_percent}%`}
                             size="small"
                             sx={{
                                 mr: 1,

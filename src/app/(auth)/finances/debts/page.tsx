@@ -61,8 +61,12 @@ export default function Debts() {
                 apiUrl={FinanceApiUrlEnum.DEBT_DATATABLE_DATA}
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
+                mutateCallback={fn => {
+                    mutate = fn
+                }}
                 onRowClick={(_, { dataIndex }) => {
                     const data = getRowData(dataIndex)
 

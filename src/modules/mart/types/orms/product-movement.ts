@@ -1,4 +1,4 @@
-import type { UUID } from 'crypto'
+import type { UUID } from 'node:crypto'
 // mart
 import type Type from '@/modules/mart/enums/product-movement-type'
 import type Warehouse from '@/modules/mart/enums/product-warehouse-warehouse'

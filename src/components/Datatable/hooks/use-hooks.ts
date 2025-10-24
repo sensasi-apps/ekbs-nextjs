@@ -88,7 +88,7 @@ export default function useHooks<T>(
                 setColumns(prev => {
                     const col = prev.find(col => col.name === changedColumn)
 
-                    if (col && col.options) {
+                    if (col?.options) {
                         col.options.display = true
                     }
 
@@ -98,7 +98,7 @@ export default function useHooks<T>(
                 setColumns(prev => {
                     const col = prev.find(col => col.name === changedColumn)
 
-                    if (col && col.options) {
+                    if (col?.options) {
                         col.options.display = false
                     }
 

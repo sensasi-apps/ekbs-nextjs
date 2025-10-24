@@ -26,7 +26,7 @@ export default function getRequisiteStatus({
 } {
     const isOptional = requisite?.is_optional ?? false
     const isApproved = Boolean(approved_at)
-    const hasFiles = files?.length ?? 0 > 0
+    const hasFiles = files?.length ?? false
 
     if (isApproved) {
         return {

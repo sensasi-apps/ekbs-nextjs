@@ -207,7 +207,7 @@ function PalmBunchesReaDeliveryMainInputs({
                 onChange={event => {
                     const { name, value } = event.target
 
-                    if (value != '' && !wholeNumber.test(value)) return
+                    if (value !== '' && !wholeNumber.test(value)) return
 
                     setTicketNo(value)
                     handleChange(name, value)
@@ -228,7 +228,7 @@ function PalmBunchesReaDeliveryMainInputs({
                 onChange={event => {
                     const { name, value } = event.target
 
-                    if (value != '' && !wholeNumber.test(value)) return
+                    if (value !== '' && !wholeNumber.test(value)) return
 
                     setGradisNo(value)
                     handleChange(name, value)
@@ -249,7 +249,7 @@ function PalmBunchesReaDeliveryMainInputs({
                 onChange={event => {
                     const { name, value } = event.target
 
-                    if (value != '' && !wholeNumber.test(value)) return
+                    if (value !== '' && !wholeNumber.test(value)) return
 
                     setVebeweNo(value)
                     handleChange(name, value)

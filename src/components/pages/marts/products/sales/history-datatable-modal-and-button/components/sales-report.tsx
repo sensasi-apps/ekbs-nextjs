@@ -172,47 +172,41 @@ function FiltersBox({
     downloadButton: ReactNode
 }) {
     return (
-        <>
-            <Box alignItems="center" display="flex" gap={1} mb={4}>
-                <DatePicker
-                    disabled={disabled}
-                    format="DD-MM-YYYY"
-                    label="Dari"
-                    maxDate={dayjs().endOf('month')}
-                    minDate={FROM_DATE}
-                    onChange={date =>
-                        handleDateChange('fromAt', date ?? undefined)
-                    }
-                    slotProps={{
-                        textField: {
-                            id: 'fromAt',
-                        },
-                    }}
-                    value={fromAt ?? null}
-                />
+        <Box alignItems="center" display="flex" gap={1} mb={4}>
+            <DatePicker
+                disabled={disabled}
+                format="DD-MM-YYYY"
+                label="Dari"
+                maxDate={dayjs().endOf('month')}
+                minDate={FROM_DATE}
+                onChange={date => handleDateChange('fromAt', date ?? undefined)}
+                slotProps={{
+                    textField: {
+                        id: 'fromAt',
+                    },
+                }}
+                value={fromAt ?? null}
+            />
 
-                <DatePicker
-                    disabled={disabled}
-                    format="DD-MM-YYYY"
-                    label="Hingga"
-                    maxDate={dayjs().endOf('month')}
-                    minDate={FROM_DATE}
-                    onChange={date =>
-                        handleDateChange('toAt', date ?? undefined)
-                    }
-                    slotProps={{
-                        textField: {
-                            id: 'toAt',
-                        },
-                    }}
-                    value={toAt ?? null}
-                />
+            <DatePicker
+                disabled={disabled}
+                format="DD-MM-YYYY"
+                label="Hingga"
+                maxDate={dayjs().endOf('month')}
+                minDate={FROM_DATE}
+                onChange={date => handleDateChange('toAt', date ?? undefined)}
+                slotProps={{
+                    textField: {
+                        id: 'toAt',
+                    },
+                }}
+                value={toAt ?? null}
+            />
 
-                {refreshButton}
+            {refreshButton}
 
-                {downloadButton}
-            </Box>
-        </>
+            {downloadButton}
+        </Box>
     )
 }
 
@@ -366,7 +360,9 @@ function TheFooter({ rows }: { rows: ProductMovementWithSale[] }) {
                 </TableCell>
                 <TableCell align="right">
                     {formatNumber(
-                        isNaN(marginPercentageAvg) ? 0 : marginPercentageAvg,
+                        Number.isNaN(marginPercentageAvg)
+                            ? 0
+                            : marginPercentageAvg,
                         {
                             maximumFractionDigits: 0,
                         },

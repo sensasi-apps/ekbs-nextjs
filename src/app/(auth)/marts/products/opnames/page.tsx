@@ -55,7 +55,9 @@ export default function Opnames() {
                 apiUrl={OpnameApiUrl.DATATABLE}
                 columns={columns}
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                getRowDataCallback={fn => (getRowData = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
                         const data = getRowData(dataIndex)

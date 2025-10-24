@@ -25,8 +25,7 @@ const nextConfig: NextConfig = {
     async rewrites() {
         return [
             {
-                destination:
-                    process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
+                destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth/:path*`,
                 source: '/oauth/:path*',
             },
             {

@@ -8,7 +8,7 @@ import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs, { type Dayjs } from 'dayjs'
 import { memo, useState } from 'react'
 import useSWR from 'swr'
 // components

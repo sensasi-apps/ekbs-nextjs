@@ -1,5 +1,5 @@
-import type { UUID } from 'crypto'
-import Warehouse from '@/modules/farm-inputs/enums/warehouse'
+import type { UUID } from 'node:crypto'
+import type Warehouse from '@/modules/farm-inputs/enums/warehouse'
 import type ActivityLog from '@/types/orms/activity-log'
 import type ProductMovementDetail from './product-movement-detail'
 

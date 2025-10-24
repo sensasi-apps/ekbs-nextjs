@@ -7,7 +7,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { type ChangeEvent, type FormEvent, useState } from 'react'
 import { mutate } from 'swr'
-import { type UUIDTypes } from 'uuid'
+import type { UUIDTypes } from 'uuid'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import axios from '@/lib/axios'

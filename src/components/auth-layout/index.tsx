@@ -2,7 +2,7 @@
 
 // materials
 import Box from '@mui/material/Box'
-import { type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 // components
 import ContentGuard from '@/components/content-guard'
 import RedirectIfUnauth from '@/components/redirect-if-unauth'

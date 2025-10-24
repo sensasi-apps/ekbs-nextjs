@@ -48,5 +48,5 @@ export default function InfoBox({
 }
 
 function randomWidth(max = 8, min = 3) {
-    return Math.random() * (max - min) + min + 'em'
+    return `${Math.random() * (max - min) + min}em`
 }

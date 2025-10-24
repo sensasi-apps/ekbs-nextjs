@@ -1,7 +1,7 @@
 // vendors
 
+import type { UUID } from 'node:crypto'
 import { green } from '@mui/material/colors'
-import type { UUID } from 'crypto'
 import type { ColumnDefinitionObject } from 'mui-datatable-delight'
 // components
 import Datatable from '@/components/Datatable'

@@ -20,7 +20,7 @@ export default function Page() {
     const [error, setError] = useState<string>()
 
     const { data: user } = useSWR<PublicProfile>(
-        '/public/profile/' + user_uuid,
+        `/public/profile/${user_uuid}`,
         null,
         {
             onError: (err: AxiosError) => {

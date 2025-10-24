@@ -131,52 +131,52 @@ export default function FarmInputProductSales() {
                 apiUrl="/farm-inputs/product-sales/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'at' }}
-                getRowDataCallback={fn => (getRowData = fn)}
-                mutateCallback={fn => (mutate = fn)}
+                getRowDataCallback={fn => {
+                    getRowData = fn
+                }}
+                mutateCallback={fn => {
+                    mutate = fn
+                }}
                 onRowClick={handleRowClick}
                 tableId="farm-input-product-sale-table"
                 title="Riwayat"
             />
 
             {isAuthHasPermission(FarmInputPermission.CREATE_PRODUCT_SALE) && (
-                <>
-                    <DialogWithTitle
-                        maxWidth="sm"
-                        open={isDialogOpen}
-                        title={
-                            (isNew ? 'Tambah ' : '') +
-                            'Data Penjualan' +
-                            (!isNeedToDetermineWarehouse
-                                ? ' Gudang ' +
-                                  (isAuthHasRole(
-                                      Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
-                                  )
-                                      ? Warehouse.MUAI
-                                      : Warehouse.PULAU_PINANG)
-                                : '')
-                        }>
-                        <Formik
-                            component={ProductSaleForm}
-                            initialStatus={initialFormikStatus}
-                            initialValues={initialFormikValues}
-                            onReset={handleClose}
-                            onSubmit={(values, { setErrors }) =>
-                                axios
-                                    .post(
-                                        `farm-inputs/product-sales`,
-                                        shapeValuesBeforeSubmit(values),
-                                    )
-                                    .then(() => {
-                                        mutate()
-                                        handleClose()
-                                    })
-                                    .catch(error =>
-                                        errorCatcher(error, setErrors),
-                                    )
-                            }
-                        />
-                    </DialogWithTitle>
-                </>
+                <DialogWithTitle
+                    maxWidth="sm"
+                    open={isDialogOpen}
+                    title={
+                        (isNew ? 'Tambah ' : '') +
+                        'Data Penjualan' +
+                        (!isNeedToDetermineWarehouse
+                            ? ' Gudang ' +
+                              (isAuthHasRole(
+                                  Role.FARM_INPUT_SALES_MUAI_WAREHOUSE,
+                              )
+                                  ? Warehouse.MUAI
+                                  : Warehouse.PULAU_PINANG)
+                            : '')
+                    }>
+                    <Formik
+                        component={ProductSaleForm}
+                        initialStatus={initialFormikStatus}
+                        initialValues={initialFormikValues}
+                        onReset={handleClose}
+                        onSubmit={(values, { setErrors }) =>
+                            axios
+                                .post(
+                                    `farm-inputs/product-sales`,
+                                    shapeValuesBeforeSubmit(values),
+                                )
+                                .then(() => {
+                                    mutate()
+                                    handleClose()
+                                })
+                                .catch(error => errorCatcher(error, setErrors))
+                        }
+                    />
+                </DialogWithTitle>
             )}
 
             <Fab

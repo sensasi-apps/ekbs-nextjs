@@ -1,5 +1,6 @@
 // vendors
 
+import type { UUID } from 'node:crypto'
 // icons
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -17,7 +18,6 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-import type { UUID } from 'crypto'
 import { useState } from 'react'
 import { PatternFormat } from 'react-number-format'
 import { mutate } from 'swr'

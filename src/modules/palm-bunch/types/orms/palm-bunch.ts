@@ -1,4 +1,4 @@
-import type { UUID } from 'crypto'
+import type { UUID } from 'node:crypto'
 import type MinimalUser from '@/modules/user/types/minimal-user'
 import type UserORM from '@/modules/user/types/orms/user'
 import type ActivityLogORM from '@/types/orms/activity-log'

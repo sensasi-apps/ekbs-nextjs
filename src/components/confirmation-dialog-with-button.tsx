@@ -56,7 +56,7 @@ interface ConfirmationDialogWithButtonProps
     /**
      * Return a {@link Promise} to handle auto close
      */
-    onConfirm: () => void | Promise<unknown>
+    onConfirm: (() => void) | (() => Promise<unknown>)
     buttonProps?: Omit<ButtonProps, 'children'> & {
         children: ButtonProps['children']
     }

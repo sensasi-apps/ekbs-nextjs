@@ -1,4 +1,4 @@
-import type { UUID } from 'crypto'
+import type { UUID } from 'node:crypto'
 import type User from '@/modules/user/types/orms/user'
 import type ActivityLogORM from '@/types/orms/activity-log'
 import type PalmBunchType from './palm-bunch'

@@ -87,7 +87,7 @@ export default function PalmBunchDeliveryRatesForm({
         } as PalmBunchDeliveryRateValidDateType
 
         return axios
-            .post(`/palm-bunches/delivery-rates${id ? '/' + id : ''}`, payload)
+            .post(`/palm-bunches/delivery-rates${id ? `/${id}` : ''}`, payload)
             .then(() => onSubmitted(payload))
             .catch(error => {
                 if (error?.response?.status !== 422) {

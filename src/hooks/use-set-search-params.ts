@@ -18,7 +18,7 @@ export default function useSetSearchParams(
 
             replace(`?${params.toString()}`)
         },
-        [searchParams],
+        [searchParams, replace],
     )
 
     return setSearchParams

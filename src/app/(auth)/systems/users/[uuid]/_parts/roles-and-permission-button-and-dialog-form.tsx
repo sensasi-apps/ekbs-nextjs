@@ -51,9 +51,9 @@ export default function RolesAndPermissionButtonAndDialogForm({
         const formData = new FormData(e.currentTarget)
         const roles: string[] = []
 
-        formData.forEach((value, key) =>
-            key === 'roles' ? roles.push(value as string) : null,
-        )
+        formData.forEach((value, key) => {
+            key === 'roles' ? roles.push(value as string) : null
+        })
 
         setIsLoading(true)
         axios
