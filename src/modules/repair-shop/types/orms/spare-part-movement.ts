@@ -3,10 +3,13 @@ import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import type UserORM from '@/modules/user/types/orms/user'
 import type HasUuidPk from '@/types/has-uuid-pk'
 
+/**
+ * [SparePartMovement Eloquent Model](https://github.com/sensasi-apps/ekbs-laravel/blob/main/Modules/RepairShop/app/Models/SparePartMovement.php)
+ */
 export default interface SparePartMovementORM extends HasUuidPk {
     at: string
     finalized_at: string | null
-    type: 'purchase' | 'sale' | 'return' | 'opname'
+    type: 'opname' | 'purchase' | 'purchase-return' | 'sale' | 'sale-return'
     warehouse: 'main'
     payment_method: 'cash' | 'credit'
     note: string | null
