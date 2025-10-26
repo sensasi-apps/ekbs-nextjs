@@ -15,7 +15,7 @@ import Datatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
-import PrintHandler from '@/components/PrintHandler'
+import PrintHandler from '@/components/print-handler'
 import TextShortener from '@/components/text-shortener'
 import axios from '@/lib/axios'
 // features

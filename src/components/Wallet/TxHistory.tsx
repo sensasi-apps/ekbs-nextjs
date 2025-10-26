@@ -32,7 +32,7 @@ import toDmy from '@/utils/to-dmy'
 // components
 import FlexColumnBox from '../FlexColumnBox'
 import InfoBox from '../InfoBox'
-import PrintHandler from '../PrintHandler'
+import PrintHandler from '../print-handler'
 import ScrollableXBox from '../ScrollableXBox'
 import TextField from '../TextField'
 import WalletTxButtonAndForm from './TxButtonAndForm'

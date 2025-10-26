@@ -22,7 +22,7 @@ import Typography from '@mui/material/Typography'
 import dayjs from 'dayjs'
 // vendors
 import { useEffect, useState } from 'react'
-import PrintHandler from '@/components/PrintHandler'
+import PrintHandler from '@/components/print-handler'
 //
 import { type FormattedEntry } from '@/sw/functions/handle-message'
 import blinkSxValue from '@/utils/blink-sx-value'

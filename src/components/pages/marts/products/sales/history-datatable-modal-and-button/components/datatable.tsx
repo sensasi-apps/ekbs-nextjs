@@ -5,7 +5,7 @@ import DefaultDatatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
-import PrintHandler from '@/components/PrintHandler'
+import PrintHandler from '@/components/print-handler'
 import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'

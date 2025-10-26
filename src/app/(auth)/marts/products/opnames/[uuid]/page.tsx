@@ -18,7 +18,7 @@ import DetailTable from '@/app/(auth)/marts/products/opnames/_parts/detail-table
 import SummaryTable from '@/app/(auth)/marts/products/opnames/_parts/summary-table'
 //
 import BackButton from '@/components/back-button'
-import PrintHandler from '@/components/PrintHandler'
+import PrintHandler from '@/components/print-handler'
 // libs
 import axios from '@/lib/axios'
 import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'

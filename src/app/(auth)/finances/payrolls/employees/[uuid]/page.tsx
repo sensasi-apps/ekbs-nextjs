@@ -26,7 +26,7 @@ import BackButton from '@/components/back-button'
 import IconButton from '@/components/IconButton'
 import InfoBox from '@/components/InfoBox'
 import LoadingCenter from '@/components/loading-center'
-import PrintHandler from '@/components/PrintHandler'
+import PrintHandler from '@/components/print-handler'
 import type Payroll from '@/types/orms/payroll'
 import numberToCurrency from '@/utils/number-to-currency'
 // utils

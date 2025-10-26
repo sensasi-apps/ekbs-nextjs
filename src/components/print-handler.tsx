@@ -8,13 +8,13 @@ import IconButton from '@mui/material/IconButton'
 import type { TooltipProps } from '@mui/material/Tooltip'
 import Tooltip from '@mui/material/Tooltip'
 // types
-import type { ReactNode } from 'react'
+import type { ReactNode, RefObject } from 'react'
 // vendors
-import { memo, useRef } from 'react'
+import { useRef } from 'react'
 import { type UseReactToPrintOptions, useReactToPrint } from 'react-to-print'
 import PrintLayout from '@/components/print-layout'
 
-const PrintHandler = memo(function PrintHandler({
+export default function PrintHandler({
     content,
     children,
     slotProps,
@@ -41,33 +41,66 @@ const PrintHandler = memo(function PrintHandler({
         children: slotProps?.printButton?.children ?? <PrintIcon />,
     }
 
-    const toPrintContentRef = useRef(null)
+    const toPrintContentRef = useRef<HTMLDivElement>(null)
     const reactToPrintFn = useReactToPrint({
-        // pageStyle: '@page { size: auto; margin: auto; }',
         contentRef: toPrintContentRef,
         pageStyle: '@media print { body { margin: auto; } }',
         ...props,
     })
 
+    const handlePrint = () => {
+        const isMobile = screen.width < 769
+
+        if (isMobile) {
+            handlePrintMobile(toPrintContentRef)
+        } else {
+            reactToPrintFn()
+        }
+    }
+
     return (
         <Tooltip {...tooltipProps}>
             <span>
                 <IconButton
-                    onClick={() => reactToPrintFn()}
+                    onClick={handlePrint}
                     size="small"
                     {...printButtonProps}
                 />
-                <span
+                <div
                     style={{
                         display: 'none',
                     }}>
-                    <span ref={toPrintContentRef}>
+                    <div ref={toPrintContentRef}>
                         <PrintLayout>{content ?? children}</PrintLayout>
-                    </span>
-                </span>
+                    </div>
+                </div>
             </span>
         </Tooltip>
     )
-})
+}
 
-export default PrintHandler
+function handlePrintMobile(contentRef: RefObject<HTMLElement | null>) {
+    const printWindow = window.open('', '_blank')
+
+    if (!printWindow || !contentRef.current) {
+        throw new Error('Failed to open print window')
+    }
+
+    printWindow.document.head.innerHTML =
+        contentRef.current.ownerDocument.head.innerHTML
+
+    document.body.classList.forEach(className => {
+        printWindow.document.body.classList.add(className)
+    })
+
+    printWindow.document.body.innerHTML = contentRef.current.innerHTML
+
+    printWindow.document.close()
+
+    printWindow.onload = () => {
+        printWindow.focus()
+        setTimeout(() => {
+            printWindow.print()
+        }, 300)
+    }
+}

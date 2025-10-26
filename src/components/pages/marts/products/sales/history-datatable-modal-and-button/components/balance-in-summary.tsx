@@ -17,7 +17,7 @@ import useSWR from 'swr'
 // components
 import DateTimePicker from '@/components/DateTimePicker'
 import IconButton from '@/components/IconButton'
-import PrintHandler from '@/components/PrintHandler'
+import PrintHandler from '@/components/print-handler'
 // utils
 import formatNumber from '@/utils/format-number'
 
