@@ -93,14 +93,13 @@ function handlePrintMobile(contentRef: RefObject<HTMLElement | null>) {
         printWindow.document.body.classList.add(className)
     })
 
-    printWindow.document.body.innerHTML = contentRef.current.innerHTML
+    printWindow.document.body.appendChild(contentRef.current.cloneNode(true))
 
     printWindow.document.close()
 
-    printWindow.onload = () => {
-        printWindow.focus()
-        setTimeout(() => {
-            printWindow.print()
-        }, 300)
-    }
+    printWindow.focus()
+
+    setTimeout(() => {
+        printWindow.print()
+    }, 500)
 }
