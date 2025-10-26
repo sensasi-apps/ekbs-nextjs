@@ -21,7 +21,6 @@ import type {
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/DialogWithTitle'
 import Fab from '@/components/Fab'
-import PrintHandler from '@/components/PrintHandler'
 import PageTitle from '@/components/page-title'
 import ProductSaleForm, {
     EMPTY_FORM_DATA,
@@ -29,6 +28,7 @@ import ProductSaleForm, {
 } from '@/components/pages/farm-input-product-sales/Form'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
 import RefundForm from '@/components/pages/farm-input-product-sales/RefundForm'
+import PrintHandler from '@/components/print-handler'
 import FarmInputPermission from '@/enums/permissions/FarmInput'
 import Role from '@/enums/role'
 // hooks

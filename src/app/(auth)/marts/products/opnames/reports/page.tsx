@@ -24,8 +24,8 @@ import useSWR from 'swr'
 import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
 import IconButton from '@/components/IconButton'
-import PrintHandler from '@/components/PrintHandler'
 import PageTitle from '@/components/page-title'
+import PrintHandler from '@/components/print-handler'
 // enums
 import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 // utils

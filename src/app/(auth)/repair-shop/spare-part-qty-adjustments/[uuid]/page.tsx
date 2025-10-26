@@ -20,7 +20,7 @@ import useSWR from 'swr'
 import BackButton from '@/components/back-button'
 import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 import FlexBox from '@/components/flex-box'
-import PrintHandler from '@/components/PrintHandler'
+import PrintHandler from '@/components/print-handler'
 // libs
 import axios from '@/lib/axios'
 // modules

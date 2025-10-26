@@ -13,12 +13,12 @@ import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Tooltip from '@mui/material/Tooltip'
 import { useFormikContext } from 'formik'
-import PrintHandler from '@/components/PrintHandler'
 // global components
 import type {
     FormikStatusType,
     FormValuesType,
 } from '@/components/pages/marts/products/sales/formik-wrapper'
+import PrintHandler from '@/components/print-handler'
 // hooks
 import useAuthInfo from '@/hooks/use-auth-info'
 import Receipt from '../../../../../../../../app/mart-product-sales/_parts/shared-subcomponents/receipt'
