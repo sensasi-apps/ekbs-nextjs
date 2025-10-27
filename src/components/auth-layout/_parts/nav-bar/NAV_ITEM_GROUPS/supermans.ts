@@ -5,6 +5,7 @@ import Biotech from '@mui/icons-material/Biotech'
 import Group from '@mui/icons-material/Group'
 import TicketIcon from '@mui/icons-material/LocalActivity'
 import Note from '@mui/icons-material/Note'
+import PrintIcon from '@mui/icons-material/Print'
 import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle'
 // enums
 import Role from '@/enums/role'
@@ -41,6 +42,12 @@ export const supermans: NavItemGroup = {
             href: '/ticketing-system',
             icon: TicketIcon,
             label: 'Sistem Tiket',
+        },
+        {
+            forRole: Role.SUPERMAN,
+            href: '/print-test',
+            icon: PrintIcon,
+            label: 'Test Cetak',
         },
     ],
     label: 'Superman',
