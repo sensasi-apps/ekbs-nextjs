@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton'
 import type { TooltipProps } from '@mui/material/Tooltip'
 import Tooltip from '@mui/material/Tooltip'
 // types
-import type { ReactNode, RefObject } from 'react'
+import type { ReactNode } from 'react'
 // vendors
 import { useRef } from 'react'
 import { type UseReactToPrintOptions, useReactToPrint } from 'react-to-print'
@@ -42,27 +42,29 @@ export default function PrintHandler({
     }
 
     const toPrintContentRef = useRef<HTMLDivElement>(null)
+
+    const isMobile = screen.width < 768
+
     const reactToPrintFn = useReactToPrint({
         contentRef: toPrintContentRef,
         pageStyle: '@media print { body { margin: auto; } }',
+        preserveAfterPrint: isMobile,
+        print: isMobile
+            ? printIframe =>
+                  new Promise(() => {
+                      printIframe.style.display = 'none'
+
+                      printIframe.contentWindow?.print()
+                  })
+            : undefined,
         ...props,
     })
-
-    const handlePrint = () => {
-        const isMobile = screen.width < 769
-
-        if (isMobile) {
-            handlePrintMobile(toPrintContentRef)
-        } else {
-            reactToPrintFn()
-        }
-    }
 
     return (
         <Tooltip {...tooltipProps}>
             <span>
                 <IconButton
-                    onClick={handlePrint}
+                    onClick={reactToPrintFn}
                     size="small"
                     {...printButtonProps}
                 />
@@ -77,29 +79,4 @@ export default function PrintHandler({
             </span>
         </Tooltip>
     )
-}
-
-function handlePrintMobile(contentRef: RefObject<HTMLElement | null>) {
-    const printWindow = window.open('', '_blank')
-
-    if (!printWindow || !contentRef.current) {
-        throw new Error('Failed to open print window')
-    }
-
-    printWindow.document.head.innerHTML =
-        contentRef.current.ownerDocument.head.innerHTML
-
-    document.body.classList.forEach(className => {
-        printWindow.document.body.classList.add(className)
-    })
-
-    printWindow.document.body.appendChild(contentRef.current.cloneNode(true))
-
-    printWindow.document.close()
-
-    printWindow.focus()
-
-    setTimeout(() => {
-        printWindow.print()
-    }, 500)
 }
