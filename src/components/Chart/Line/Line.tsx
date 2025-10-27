@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import type { TooltipProps } from 'recharts'
 // vendors
 import {
+    CartesianGrid,
     Line,
     type LineProps,
     LineChart as RechartsLineChart,
@@ -69,7 +70,7 @@ export default function LineChart({
     } = lineProps ?? {}
 
     return (
-        <ResponsiveContainer minHeight={250}>
+        <ResponsiveContainer minHeight={250} minWidth={500}>
             <RechartsLineChart
                 data={data}
                 margin={{
@@ -80,10 +81,16 @@ export default function LineChart({
                 style={{
                     margin: '0 auto',
                 }}>
+                <CartesianGrid
+                    strokeDasharray="4 4"
+                    style={{
+                        stroke: 'var(--mui-palette-divider)',
+                    }}
+                />
+
                 <XAxis dataKey="label" />
 
                 <YAxis
-                    domain={['dataMin', 'dataMax']}
                     tickFormatter={(value: number) =>
                         formatNumber(value, {
                             compactDisplay: 'short',
@@ -99,7 +106,10 @@ export default function LineChart({
                     }}
                     formatter={(value: number) =>
                         (prefix ? prefix + ' ' : '') +
-                        formatNumber(value).toString() +
+                        formatNumber(value, {
+                            compactDisplay: 'short',
+                            notation: 'compact',
+                        }).toString() +
                         (suffix ? ' ' + suffix : '')
                     }
                     {...(slotsProps?.tooltip ?? {})}
