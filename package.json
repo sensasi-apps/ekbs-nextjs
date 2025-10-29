@@ -4,7 +4,6 @@
         "url": "https://github.com/sensasi-apps"
     },
     "dependencies": {
-        "@ably/laravel-echo": "^1.0.6",
         "@emotion/cache": "^11.14.0",
         "@emotion/react": "^11.14.0",
         "@emotion/server": "^11.11.0",
@@ -22,7 +21,7 @@
         "@serwist/next": "^9.2.1",
         "@types/mdx": "^2.0.13",
         "@uidotdev/usehooks": "^2.4.1",
-        "ably": "^1.2.50",
+        "ably": "2.14.0",
         "axios": "^1.13.1",
         "dayjs": "^1.11.18",
         "formik": "^2.4.6",
