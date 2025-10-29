@@ -12,6 +12,7 @@ import SnackbarProvider from './_parts/snackbar-provider'
 // parts
 import SWRProvider from './_parts/swr-provider'
 import './_parts/setup-dayjs-locale'
+import { ProgressProvider } from './progress-provider'
 
 /**
  * AppProviders component is a wrapper that provides various context providers and global styles
@@ -54,7 +55,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
             <SnackbarProvider />
 
-            <SWRProvider>{children}</SWRProvider>
+            <ProgressProvider>
+                <SWRProvider>{children}</SWRProvider>
+            </ProgressProvider>
         </ThemeProvider>
     )
 }
