@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import txAccounts from '@/modules/transaction/statics/tx-accounts'
 
 /**
@@ -7,9 +6,6 @@ import txAccounts from '@/modules/transaction/statics/tx-accounts'
 enum TransactionTag {
     // general
     ARISAN = 'Arisan',
-
-    // BENGKEL = 'Bengkel', it should be unused now since repair-shop module is deployed
-
     EXCAVATOR = 'Excavator',
     GAJIAN_TBS = 'Gajian TBS',
     KOREKSI = 'Koreksi',
