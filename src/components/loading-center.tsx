@@ -13,8 +13,8 @@ export default function LoadingCenter(props: BoxProps) {
             justifyContent="center"
             width="100%"
             {...props}>
-            <CircularProgress />
-            <Typography color="primary" variant="body2">
+            <CircularProgress color="success" />
+            <Typography color="success" variant="body2">
                 Sedang memuat...
             </Typography>
         </Box>
