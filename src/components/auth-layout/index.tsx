@@ -7,12 +7,12 @@ import { type ReactNode } from 'react'
 import ContentGuard from '@/components/content-guard'
 import RedirectIfUnauth from '@/components/redirect-if-unauth'
 import The401Protection from '@/components/the-401-protection'
-import EchoJoin from '../echo-join'
 // parts
 import FooterBox from '../footer-box'
 import NavBar from './_parts/nav-bar'
 import WIDTH from './_parts/nav-bar/WIDTH'
 import TopBar from './_parts/top-bar'
+import PresenceOnlineUsers from './presence-online-users'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
     return (
@@ -22,9 +22,9 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             }}>
             <RedirectIfUnauth />
 
-            <EchoJoin channel="presence-online-users" />
-
             <The401Protection />
+
+            <PresenceOnlineUsers />
 
             <NavBar />
 
