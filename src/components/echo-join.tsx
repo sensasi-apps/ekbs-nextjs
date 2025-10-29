@@ -6,23 +6,19 @@ import { useEffect } from 'react'
 import myAxios from '@/lib/axios'
 
 const ECHO_OPTIONS = {
-    authEndpoint: `${process.env.NEXT_PUBLIC_API_URL}/broadcasting/auth`,
     broadcaster: 'ably',
-    requestTokenFn:
-        process.env.NODE_ENV === 'production'
-            ? undefined
-            : async (channelName: string, existingToken: string) => {
-                  const postData = {
-                      channel_name: channelName,
-                      token: existingToken,
-                  }
-                  const res = await myAxios.post<{ token: string }>(
-                      '/../broadcasting/auth',
-                      postData,
-                  )
+    requestTokenFn: async (channelName: string, existingToken: string) => {
+        const postData = {
+            channel_name: channelName,
+            token: existingToken,
+        }
+        const res = await myAxios.post<{ token: string }>(
+            '/../broadcasting/auth',
+            postData,
+        )
 
-                  return res.data
-              },
+        return res.data
+    },
     useTls: process.env.NODE_ENV === 'production',
 }
 
