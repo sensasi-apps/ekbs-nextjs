@@ -17,6 +17,9 @@ import type SparePartMovementORM from '@/modules/repair-shop/types/orms/spare-pa
 import formatNumber from '@/utils/format-number'
 import shortUuid from '@/utils/short-uuid'
 
+/**
+ * @todo OPTIMIZE THIS COMPONENT TO LOAD 1000 ROWS AT A TIME
+ */
 export default function DetailTable({
     data,
     finished,
