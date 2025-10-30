@@ -20,6 +20,9 @@ export default function SnackbarProvider() {
                 vertical: 'top',
             }}
             maxSnack={7}
+            style={{
+                maxWidth: 350,
+            }}
         />
     )
 }
