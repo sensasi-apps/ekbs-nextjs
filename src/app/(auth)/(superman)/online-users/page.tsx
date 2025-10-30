@@ -5,6 +5,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import TextField from '@mui/material/TextField'
 import { useState } from 'react'
 import useSWR from 'swr'
+import ChipSmall from '@/components/ChipSmall'
 import FlexBox from '@/components/flex-box'
 import IconButton from '@/components/IconButton'
 import PageTitle from '@/components/page-title'
@@ -19,6 +20,7 @@ export default function Page() {
             {
                 name: UserORM['name']
                 id: UserORM['id']
+                n_connection: number
             }[]
         >('_/online-users')
 
@@ -53,8 +55,15 @@ export default function Page() {
 
             <ul>
                 {usersFiltered.map(user => (
-                    <li key={user.id}>
+                    <li
+                        key={user.id}
+                        style={{
+                            alignItems: 'center',
+                            display: 'flex',
+                            gap: 8,
+                        }}>
                         <UserDisplay data={user} />
+                        <ChipSmall label={`${user.n_connection} sesi`} />
                     </li>
                 ))}
             </ul>
