@@ -7,7 +7,7 @@ import { Roboto } from 'next/font/google'
 import RedirectIfBrowserIsUnsupported from '@/components/redirect-if-browser-is-unsupported'
 //
 import { AppProviders } from '@/providers/app-providers'
-import PresenceOnlineUsers from './_parts/presence-online-users'
+import PresenceOnlineUsersNoSSR from './_parts/presence-online-users-no-ssr'
 
 const roboto = Roboto({
     display: 'swap',
@@ -24,7 +24,7 @@ export default function RootLayout({
     return (
         <html lang="id" suppressHydrationWarning>
             <RedirectIfBrowserIsUnsupported />
-            <PresenceOnlineUsers />
+            <PresenceOnlineUsersNoSSR />
 
             <body className={roboto.variable}>
                 <AppRouterCacheProvider>
