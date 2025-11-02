@@ -13,7 +13,7 @@ export default function PresenceOnlineUsers() {
         if (
             process.env.NODE_ENV !== 'production' ||
             !authInfo ||
-            !clientRef.current
+            clientRef.current !== null
         )
             return
 
