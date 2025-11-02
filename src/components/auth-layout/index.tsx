@@ -12,7 +12,6 @@ import FooterBox from '../footer-box'
 import NavBar from './_parts/nav-bar'
 import WIDTH from './_parts/nav-bar/WIDTH'
 import TopBar from './_parts/top-bar'
-import PresenceOnlineUsers from './presence-online-users'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
     return (
@@ -23,8 +22,6 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <RedirectIfUnauth />
 
             <The401Protection />
-
-            <PresenceOnlineUsers />
 
             <NavBar />
 
