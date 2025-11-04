@@ -140,6 +140,11 @@ const columns: DatatableProps<SparePartMovementORM>['columns'] = [
         label: 'Ditemukan (Rp)',
         name: 'found_rp',
         options: {
+            customBodyRender: value =>
+                formatNumber(value ?? 0, {
+                    compactDisplay: 'short',
+                    notation: 'compact',
+                }),
             searchable: false,
             setCellProps: () => ({
                 sx: { textAlign: 'right' },
@@ -152,6 +157,11 @@ const columns: DatatableProps<SparePartMovementORM>['columns'] = [
         label: 'Hilang (Rp)',
         name: 'lost_rp',
         options: {
+            customBodyRender: value =>
+                formatNumber(value ?? 0, {
+                    compactDisplay: 'short',
+                    notation: 'compact',
+                }),
             searchable: false,
             setCellProps: () => ({
                 sx: { textAlign: 'right' },
@@ -162,8 +172,13 @@ const columns: DatatableProps<SparePartMovementORM>['columns'] = [
 
     {
         label: 'Selisih (Rp)',
-        name: 'sum_value_rp',
+        name: 'diff_rp',
         options: {
+            customBodyRender: value =>
+                formatNumber(value ?? 0, {
+                    compactDisplay: 'short',
+                    notation: 'compact',
+                }),
             searchable: false,
             setCellProps: () => ({
                 sx: { textAlign: 'right' },

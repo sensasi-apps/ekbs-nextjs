@@ -41,6 +41,7 @@ export default function DetailTable({
                 <TableHead>
                     <TableRow>
                         <TableCell>#</TableCell>
+                        <TableCell>ID</TableCell>
                         <TableCell>Kode</TableCell>
                         <TableCell>Nama</TableCell>
                         <TableCell align="right">HPP Satuan</TableCell>
@@ -105,7 +106,7 @@ function Footer({ data }: { data: SparePartMovementORM['details'] }) {
     return (
         <TableFooter>
             <TableRow>
-                <TableCell align="right" colSpan={7}>
+                <TableCell align="right" colSpan={8}>
                     TOTAL
                 </TableCell>
 
@@ -141,6 +142,7 @@ const DetailRow = memo(function DetailRow({
                 },
             }}>
             <TableCell>{formatNumber(index + 1)}</TableCell>
+            <TableCell>{spare_part_state.id}</TableCell>
             <TableCell>{displayCode}</TableCell>
             <TableCell>{spare_part_state.name}</TableCell>
             <TableCell align="right">
