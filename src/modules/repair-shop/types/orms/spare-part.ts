@@ -2,11 +2,12 @@ import type VehicleType from '../../enums/vehicle-type'
 import type SparePartWarehouseORM from './spare-part-warehouse'
 
 export default interface SparePartORM {
-    id: number
-    code: string
-    name: string
-    unit: string
-    note: string
+    readonly id: number // [💾]
+    code: string // [💾]
+    name: string // [💾]
+    unit: string // [💾]
+    note: string // [💾]
+    category: string // [💾]
 
     vehicle_type: VehicleType.CAR | VehicleType.MOTORCYCLE
 

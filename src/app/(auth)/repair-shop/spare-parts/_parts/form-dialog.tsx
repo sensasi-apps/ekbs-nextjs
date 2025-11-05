@@ -125,7 +125,14 @@ function SparePartFormikForm({
                 </Alert>
             )}
             <TextField
-                disabled={isSubmitting}
+                label="Kategori"
+                name="category"
+                textFieldProps={{
+                    required: false,
+                }}
+            />
+
+            <TextField
                 label="Kode"
                 name="code"
                 textFieldProps={{
@@ -136,12 +143,11 @@ function SparePartFormikForm({
                 }}
             />
 
-            <TextField disabled={isSubmitting} label="Name" name="name" />
+            <TextField label="Name" name="name" />
 
-            <TextField disabled={isSubmitting} label="Satuan" name="unit" />
+            <TextField label="Satuan" name="unit" />
 
             <NumericField
-                disabled={isSubmitting}
                 label="Jumlah Minimal"
                 name="low_number"
                 numericFormatProps={{
@@ -160,7 +166,6 @@ function SparePartFormikForm({
 
             <Box display="flex" gap={1.5}>
                 <NumericField
-                    disabled={isSubmitting}
                     label="Marjin Default"
                     name="margin_percent"
                     numericFormatProps={{
@@ -194,7 +199,6 @@ function SparePartFormikForm({
             </Box>
 
             <TextField
-                disabled={isSubmitting}
                 label="Catatan"
                 name="note"
                 textFieldProps={{
@@ -204,7 +208,6 @@ function SparePartFormikForm({
             />
 
             <Radio
-                disabled={isSubmitting}
                 label="Jenis"
                 name="vehicle_type"
                 options={[
