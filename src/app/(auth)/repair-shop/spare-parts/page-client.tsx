@@ -132,6 +132,10 @@ const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
         name: 'name',
     },
     {
+        label: 'Kategori',
+        name: 'category',
+    },
+    {
         label: 'Jenis Kendaraan',
         name: 'vehicle_type',
         options: {
