@@ -60,8 +60,8 @@ export default function Table({
                             whiteSpace: 'nowrap',
                         },
                     }}>
-                    {subTables.map((subTable, i) => (
-                        <SubTable key={i} {...subTable} />
+                    {subTables.map(subTable => (
+                        <SubTable key={subTable.header} {...subTable} />
                     ))}
                 </TableBody>
 
@@ -102,9 +102,9 @@ function SubTable({ header, data, footer }: SubTableProps) {
                 </TableCell>
             </TableRow>
 
-            {data?.map((item, i) => (
+            {data?.map(item => (
                 <CustomRow
-                    key={i}
+                    key={item.name}
                     sxRow={header === 'Koreksi' ? blinkSxValue : undefined}
                     {...item}
                 />
@@ -113,8 +113,8 @@ function SubTable({ header, data, footer }: SubTableProps) {
             <TableRow sx={header === 'Koreksi' ? blinkSxValue : undefined}>
                 <TableCell sx={HEADER_SX}>{footer}</TableCell>
 
-                {sums.map((sum, i) => (
-                    <RpItemCell data={sum} key={i} sx={HEADER_SX} />
+                {sums.map(sum => (
+                    <RpItemCell data={sum} key={sum} sx={HEADER_SX} />
                 ))}
             </TableRow>
         </>
@@ -159,8 +159,8 @@ function CustomRow({
                 )}
             </TableCell>
 
-            {data?.map((subItem, i) => (
-                <RpItemCell data={subItem} key={i} sx={SX_CELL_DATA} />
+            {data?.map(subItem => (
+                <RpItemCell data={subItem} key={subItem} sx={SX_CELL_DATA} />
             ))}
         </TableRow>
     )
@@ -215,8 +215,8 @@ function CustomTableFooter({
                     data: nets,
                     name: 'Laba Bersih Sebelum Pajak',
                 },
-            ].map((item, i) => (
-                <CustomRow key={i} {...item} />
+            ].map(item => (
+                <CustomRow key={item.name} {...item} />
             ))}
         </TableFooter>
     )

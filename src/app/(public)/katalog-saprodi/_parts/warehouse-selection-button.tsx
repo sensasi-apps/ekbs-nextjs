@@ -25,8 +25,8 @@ export default function WarehouseSelectionButton() {
                 exclusive
                 onChange={(_, value) => replace(`?warehouse=${value}`)}
                 value={warehouse}>
-                {Object.values(Warehouse).map((warehouse, i) => (
-                    <ToggleButton key={i} value={warehouse}>
+                {Object.values(Warehouse).map(warehouse => (
+                    <ToggleButton key={warehouse} value={warehouse}>
                         {warehouse}
                     </ToggleButton>
                 ))}

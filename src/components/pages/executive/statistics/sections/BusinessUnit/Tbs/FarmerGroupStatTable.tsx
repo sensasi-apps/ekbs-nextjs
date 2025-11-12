@@ -36,30 +36,30 @@ export default function FarmerGroupStatTable({
                         </TableCell>
                     </TableRow>
                     <TableRow>
-                        {months.map((monthName, i) => (
+                        {months.map(monthName => (
                             <TableCell
                                 align="center"
                                 colSpan={2}
-                                key={i}
+                                key={monthName}
                                 sx={CELL_SX_BORDER_LEFT}>
                                 {monthName}
                             </TableCell>
                         ))}
                     </TableRow>
                     <TableRow>
-                        {months.map((_, i) => (
+                        {months.map(month => (
                             <WeightRpCols
                                 align="center"
                                 data1="Bobot"
                                 data2="Nilai"
-                                key={i}
+                                key={month}
                             />
                         ))}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {data.map((items, i) => (
-                        <TableRow key={i}>
+                        <TableRow key={items[0].label_value}>
                             <TableCell>{i + 1}</TableCell>
                             <TableCell
                                 sx={{
@@ -68,7 +68,7 @@ export default function FarmerGroupStatTable({
                                 {items[0].farmer_group_name ?? '-'}
                             </TableCell>
 
-                            {months.map((month, i) => {
+                            {months.map(month => {
                                 const { sum_kg, sum_rp } =
                                     items.find(
                                         ({ label }) => label === month,
@@ -80,7 +80,7 @@ export default function FarmerGroupStatTable({
                                             formatNumber(sum_kg ?? 0) + ' kg'
                                         }
                                         data2={numberToCurrency(sum_rp ?? 0)}
-                                        key={i}
+                                        key={month}
                                     />
                                 )
                             })}
@@ -91,7 +91,7 @@ export default function FarmerGroupStatTable({
                     <TableRow>
                         <TableCell colSpan={2}>TOTAL</TableCell>
 
-                        {months.map((month, i) => {
+                        {months.map(month => {
                             const items = data.flatMap(items =>
                                 items.filter(({ label }) => label === month),
                             )
@@ -112,7 +112,7 @@ export default function FarmerGroupStatTable({
                                             0,
                                         ) ?? 0,
                                     )}
-                                    key={i}
+                                    key={month}
                                 />
                             )
                         })}

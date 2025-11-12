@@ -116,7 +116,7 @@ export default function LineChart({
                 />
 
                 {lines ? (
-                    lines.map((props, index) => <Line key={index} {...props} />)
+                    lines.map(props => <Line key={props.key} {...props} />)
                 ) : (
                     <Line
                         dataKey={dataKey}

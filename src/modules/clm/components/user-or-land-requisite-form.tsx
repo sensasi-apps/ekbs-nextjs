@@ -107,8 +107,8 @@ function ErrorDisplay({
 
     return (
         <Box mt={2}>
-            {errorStrings.map((error, i) => (
-                <Alert key={i} severity="error">
+            {errorStrings.map(error => (
+                <Alert key={error} severity="error">
                     {error}
                 </Alert>
             ))}

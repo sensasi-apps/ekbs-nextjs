@@ -73,10 +73,10 @@ const ProductMovementTable = memo(function ProductMovementTable({
                         ))}
                     </TableRow>
                     <TableRow>
-                        {monthLabels.map((_, i) => (
+                        {monthLabels.map(({ label_value }, i) => (
                             <MasukKeluarCell
                                 in="Masuk"
-                                key={i}
+                                key={label_value}
                                 leftBorder={i === 0}
                                 out="Keluar"
                             />
@@ -102,7 +102,7 @@ const ProductMovementTable = memo(function ProductMovementTable({
                     )}
 
                     {data?.map((row, i) => (
-                        <TableRow key={i}>
+                        <TableRow key={row.id}>
                             <TableCell>{i + 1}</TableCell>
                             <TableCell>{row.category_name}</TableCell>
                             <TableCell>{row.code}</TableCell>

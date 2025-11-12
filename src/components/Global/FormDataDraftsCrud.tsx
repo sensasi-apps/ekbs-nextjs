@@ -210,12 +210,12 @@ export default function FormDataDraftsCrud({
                     <ListItemText>Buat Data Baru</ListItemText>
                 </MenuItem>
                 <Divider />
-                {drafts.map((draftOnIdb, i) => (
+                {drafts.map(draftOnIdb => (
                     <MenuItem
                         disabled={
                             loading || draftOnIdb.nameId === draft?.nameId
                         }
-                        key={i}
+                        key={draftOnIdb.nameId}
                         onClick={() => handleSelect(draftOnIdb)}
                         selected={draftOnIdb.nameId === draft?.nameId}>
                         <ListItemIcon>

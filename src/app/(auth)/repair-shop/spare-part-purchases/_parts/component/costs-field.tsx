@@ -38,13 +38,13 @@ export default function CostsField({
                 <AddItemButton isDisabled={isDisabled} push={push} />
             </Box>
 
-            {costs.map((_, index) => (
+            {costs.map(({ id }, index) => (
                 <Grid
                     alignItems="center"
                     columnSpacing={1}
                     container
                     display="flex"
-                    key={index}
+                    key={id}
                     mb={1}>
                     <NumberCell
                         index={index}

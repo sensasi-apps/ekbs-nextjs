@@ -53,7 +53,7 @@ export default function DetailsField({
                     columnSpacing={1}
                     container
                     display="flex"
-                    key={index}
+                    key={row.id}
                     mb={1}>
                     <NumberCell
                         index={index}

@@ -40,12 +40,12 @@ function DetailsFieldComponent({
 
             {value.length === 0 && (
                 <FormHelperText error>
-                    Silahkan memilih produk yang terdapat pada bilah di samping
+                    Silakan memilih produk yang terdapat pada bilah di samping
                 </FormHelperText>
             )}
 
             {value.map((detail, i) => (
-                <Card key={i}>
+                <Card key={detail.product_id}>
                     <CardActionArea
                         disabled={isSubmitting || !!typedStatus?.isDisabled}
                         onClick={() => {
@@ -62,7 +62,6 @@ function DetailsFieldComponent({
                                         isSubmitting ||
                                         !!typedStatus?.isDisabled
                                     }
-                                    key={i}
                                     onDecreaseQtyItem={() => {
                                         const detailItem = value[i]
 
@@ -115,5 +114,5 @@ function renderError(
 
     return error
         .flatMap(err => Array.from(Object.values(err)))
-        .map((err, i) => <div key={i}>{err}</div>)
+        .map(err => <div key={err}>{err}</div>)
 }

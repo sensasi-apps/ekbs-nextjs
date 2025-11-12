@@ -177,13 +177,13 @@ const ProductPurchaseForm = memo(function ProductPurchaseForm({
                                 }
                                 size="small"
                                 value={warehouse}>
-                                {Object.values(Warehouse).map(
-                                    (warehouse, i) => (
-                                        <ToggleButton key={i} value={warehouse}>
-                                            {warehouse}
-                                        </ToggleButton>
-                                    ),
-                                )}
+                                {Object.values(Warehouse).map(warehouse => (
+                                    <ToggleButton
+                                        key={warehouse}
+                                        value={warehouse}>
+                                        {warehouse}
+                                    </ToggleButton>
+                                ))}
                             </ToggleButtonGroup>
 
                             <FormHelperText error>

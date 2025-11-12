@@ -164,8 +164,8 @@ const ProductSaleForm = memo(function ProductSaleForm({
                         }
                         size="small"
                         value={warehouse}>
-                        {Object.values(Warehouse).map((warehouse, i) => (
-                            <ToggleButton key={i} value={warehouse}>
+                        {Object.values(Warehouse).map(warehouse => (
+                            <ToggleButton key={warehouse} value={warehouse}>
                                 {warehouse}
                             </ToggleButton>
                         ))}

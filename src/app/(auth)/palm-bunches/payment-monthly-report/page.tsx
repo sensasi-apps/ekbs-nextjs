@@ -165,9 +165,9 @@ function MainTable({ data }: { data: ApiResponseType }) {
         <TableContainer>
             <Table size="small">
                 <TableBody>
-                    {data.map((item, i) => (
+                    {data.map(item => (
                         <TableRow
-                            key={i}
+                            key={item.name}
                             sx={item.bold ? BOLD_ROW_SX : undefined}>
                             <TableCell>{item.name.toUpperCase()}</TableCell>
 

@@ -413,8 +413,8 @@ const UserLoanInfoGrid = memo(function UserLoanInfoGrid({
                         style={{
                             margin: 0,
                         }}>
-                        {userLoan?.responses?.map((response, i) => (
-                            <Typography component="li" key={i}>
+                        {userLoan?.responses?.map(response => (
+                            <Typography component="li" key={response.uuid}>
                                 {'by_user' in response && response.by_user
                                     ? response.by_user.name
                                     : ''}

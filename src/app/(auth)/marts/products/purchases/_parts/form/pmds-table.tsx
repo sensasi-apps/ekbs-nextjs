@@ -29,8 +29,8 @@ export function PmdsTable({ data }: { data: ProductMovementDetail[] }) {
                 </TableHead>
 
                 <TableBody>
-                    {data.map((pmd, index) => (
-                        <TableRow key={index}>
+                    {data.map(pmd => (
+                        <TableRow key={pmd.id}>
                             <TableCell>{pmd.product_state?.name}</TableCell>
                             <TableCell align="right">
                                 {formatNumber(pmd.rp_per_unit)}

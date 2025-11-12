@@ -83,7 +83,7 @@ export default function ImageButtonAndModal({
                         sx={{
                             p: 0,
                         }}>
-                        <img // eslint-disable-line
+                        <img
                             alt={alt}
                             src={fileCreatedUrl}
                             style={{
@@ -103,7 +103,7 @@ export default function ImageButtonAndModal({
                 <CloseIconButton onClick={handleClose} />
 
                 {fileCreatedUrl && (
-                    <img // eslint-disable-line
+                    <img
                         alt={alt}
                         src={fileCreatedUrl}
                         style={{ height: 'auto', width: '100%' }}

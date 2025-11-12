@@ -240,7 +240,7 @@ export default function ProcessPayrollForm({
                         </TableHead>
                         <TableBody>
                             {costShares?.map((costShare, i) => (
-                                <TableRow key={i}>
+                                <TableRow key={costShare.uuid}>
                                     <TableCell>
                                         {costShare.business_unit?.name}
                                     </TableCell>
@@ -327,8 +327,8 @@ export default function ProcessPayrollForm({
 
                 {errors && (
                     <FormHelperText component="div" error>
-                        {Object.values(errors).map((error, i) => (
-                            <Box key={i}>{error}</Box>
+                        {Object.values(errors).map(error => (
+                            <Box key={error.join('')}>{error}</Box>
                         ))}
                     </FormHelperText>
                 )}

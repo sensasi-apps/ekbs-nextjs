@@ -82,8 +82,8 @@ export default function EmployeeForm({
                     }
                     required
                     value={business_unit_id ?? ''}>
-                    {BUSINESS_UNIT_OPTIONS.map(({ value, label }, i) => (
-                        <MenuItem key={i} value={value}>
+                    {BUSINESS_UNIT_OPTIONS.map(({ value, label }) => (
+                        <MenuItem key={value} value={value}>
                             {label}
                         </MenuItem>
                     ))}

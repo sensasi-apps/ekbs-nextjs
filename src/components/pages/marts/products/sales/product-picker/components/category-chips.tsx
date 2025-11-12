@@ -37,10 +37,10 @@ function CategoryChips({
                 variant={value === undefined ? 'filled' : 'outlined'}
             />
 
-            {categories.map((category, i) => (
+            {categories.map(category => (
                 <ChipSmall
                     color={value === category ? 'success' : undefined}
-                    key={i}
+                    key={category}
                     label={category ?? 'Tanpa Kategori'}
                     onClick={() => {
                         setValue(category)

@@ -19,8 +19,8 @@ export function Cards() {
         <>
             {isValidating && <TopLoadingBar />}
 
-            {data.map((item, index) => (
-                <BigNumberCard key={index} {...item} />
+            {data.map(item => (
+                <BigNumberCard key={item.title?.toString()} {...item} />
             ))}
         </>
     )

@@ -37,12 +37,12 @@ function CostFieldComponent({
                         data={cost}
                         disabled={isSubmitting || !!typedStatus?.isDisabled}
                         error={error?.[i] as { name?: string; rp?: string }}
-                        errors={errors}
-                        index={i}
                         /**
                          * @todo remove errors prop
                          */
-                        key={i}
+                        errors={errors}
+                        index={i}
+                        key={`${cost.name}-${cost.rp}`}
                         onDataChange={data => debounceHandleDataChange(i, data)}
                         onRemove={() =>
                             setFieldValue(name, [

@@ -99,8 +99,8 @@ export default function Receipt({
             </Box>
 
             <Grid alignItems="center" container mt={2} rowSpacing={1.5}>
-                {details.map((detail, index) => (
-                    <DetailItem data={detail} key={index} />
+                {details.map(detail => (
+                    <DetailItem data={detail} key={detail.product_id} />
                 ))}
             </Grid>
 
@@ -113,8 +113,11 @@ export default function Receipt({
                     />
 
                     <Grid alignItems="center" container>
-                        {costs.map((cost, index) => (
-                            <CostItem data={cost} key={index} />
+                        {costs.map(cost => (
+                            <CostItem
+                                data={cost}
+                                key={`${cost.name}-${cost.rp}`}
+                            />
                         ))}
                     </Grid>
                 </>

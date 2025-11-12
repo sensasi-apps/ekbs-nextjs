@@ -78,8 +78,8 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
 
                             {tbsData
                                 .filter(d => d.data.length > 0)
-                                .map((data, i) => (
-                                    <ItemRow key={i} {...data} />
+                                .map(data => (
+                                    <ItemRow key={data.name} {...data} />
                                 ))}
 
                             <TotalRow total={tbsRpTotal} />
@@ -94,8 +94,8 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
 
                             {transportData
                                 .filter(d => d.data.length > 0)
-                                .map((data, i) => (
-                                    <ItemRow key={i} {...data} />
+                                .map(data => (
+                                    <ItemRow key={data.name} {...data} />
                                 ))}
 
                             <TotalRow total={transportRpTotal} />
@@ -108,8 +108,8 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
 
                             {etcData
                                 .filter(d => d.data.length > 0)
-                                .map((data, i) => (
-                                    <ItemRow key={i} {...data} />
+                                .map(data => (
+                                    <ItemRow key={data.name} {...data} />
                                 ))}
 
                             <TotalRow total={etcRpTotal} />
@@ -122,8 +122,8 @@ export default function SummaryByTag({ data }: { data: ApiResponseType }) {
 
                             {gajians
                                 .filter(d => d.data.length > 0)
-                                .map((data, i) => (
-                                    <ItemRow key={i} {...data} />
+                                .map(data => (
+                                    <ItemRow key={data.name} {...data} />
                                 ))}
 
                             <TotalRow total={gajianRpTotal} />
@@ -234,8 +234,8 @@ function ItemRow({ name, data }: TxsGroup) {
                             style={{
                                 margin: 0,
                             }}>
-                            {details.map(({ kg, rp_per_kg }, i) => (
-                                <li key={i}>
+                            {details.map(({ kg, rp_per_kg }) => (
+                                <li key={`${kg}-${rp_per_kg}`}>
                                     {formatNumber(kg)} kg &times; Rp{' '}
                                     {formatNumber(rp_per_kg)}
                                 </li>

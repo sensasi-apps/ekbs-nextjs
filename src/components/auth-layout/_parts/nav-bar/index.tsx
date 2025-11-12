@@ -23,7 +23,10 @@ export default function NavBar() {
                 mb: 16,
             }}>
             {NAV_ITEM_GROUPS.map((items, index) => (
-                <NavBarItemGroup data={items} key={index} />
+                <NavBarItemGroup
+                    data={items}
+                    key={items.label ?? `nav-group-${index}`}
+                />
             ))}
         </List>
     )

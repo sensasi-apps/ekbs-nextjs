@@ -108,7 +108,7 @@ export default function PayrollsEmployeesTable({
                                         : -1,
                                 )
                                 .map((payrollUser, index) => (
-                                    <TableRow key={index}>
+                                    <TableRow key={payrollUser.uuid}>
                                         <TableCell>{index + 1}</TableCell>
                                         <TableCell>
                                             {payrollUser.user_state.id}

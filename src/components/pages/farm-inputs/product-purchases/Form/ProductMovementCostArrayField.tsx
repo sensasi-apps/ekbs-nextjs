@@ -65,7 +65,7 @@ export default function ProductMovementCostArrayField({
                     alignItems="center"
                     columnSpacing={1.5}
                     container
-                    key={index}
+                    key={row.name}
                     sx={{
                         mb: {
                             sm: 'initial',

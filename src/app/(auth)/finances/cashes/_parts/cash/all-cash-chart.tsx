@@ -116,13 +116,13 @@ export default function AllCashChart({
 
                         <Grid size={{ xs: (totalWallet / maxPositive) * 12 }}>
                             <Box display="flex" gap={0.5}>
-                                {walletData?.map(({ value, label }, index) =>
+                                {walletData?.map(({ value, label }) =>
                                     value < 0 ? null : (
                                         <ItemBar
                                             color={
                                                 value < 0 ? 'error' : 'success'
                                             }
-                                            key={index}
+                                            key={`${label}-${value}`}
                                             sx={{
                                                 width: `${
                                                     (Math.abs(value) /
@@ -229,42 +229,39 @@ export default function AllCashChart({
                             {totalNegativeWallet < 0 && (
                                 <>
                                     <Box display="flex" gap={0.5}>
-                                        {walletData?.map(
-                                            ({ value, label }, index) =>
-                                                value < 0 ? (
-                                                    <ItemBar
-                                                        color={
-                                                            value < 0
-                                                                ? 'error'
-                                                                : 'success'
-                                                        }
-                                                        key={index}
-                                                        sx={{
-                                                            width: `${
-                                                                (Math.abs(
-                                                                    value,
-                                                                ) /
-                                                                    Math.abs(
-                                                                        totalNegativeWallet,
-                                                                    )) *
-                                                                100
-                                                            }%`,
-                                                        }}
-                                                        title={`${label}: ${numberToCurrency(
+                                        {walletData?.map(({ value, label }) =>
+                                            value < 0 ? (
+                                                <ItemBar
+                                                    color={
+                                                        value < 0
+                                                            ? 'error'
+                                                            : 'success'
+                                                    }
+                                                    key={`${label}-${value}`}
+                                                    sx={{
+                                                        width: `${
+                                                            (Math.abs(value) /
+                                                                Math.abs(
+                                                                    totalNegativeWallet,
+                                                                )) *
+                                                            100
+                                                        }%`,
+                                                    }}
+                                                    title={`${label}: ${numberToCurrency(
+                                                        value,
+                                                    )}`}>
+                                                    <Box>{label}</Box>
+                                                    <Box>
+                                                        {numberToCurrency(
                                                             value,
-                                                        )}`}>
-                                                        <Box>{label}</Box>
-                                                        <Box>
-                                                            {numberToCurrency(
-                                                                value,
-                                                                {
-                                                                    notation:
-                                                                        'compact',
-                                                                },
-                                                            )}
-                                                        </Box>
-                                                    </ItemBar>
-                                                ) : null,
+                                                            {
+                                                                notation:
+                                                                    'compact',
+                                                            },
+                                                        )}
+                                                    </Box>
+                                                </ItemBar>
+                                            ) : null,
                                         )}
                                     </Box>
 

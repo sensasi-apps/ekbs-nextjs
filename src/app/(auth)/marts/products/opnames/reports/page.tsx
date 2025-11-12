@@ -208,7 +208,7 @@ function ReportTable({ data }: { data: OpnameReportItem[] }) {
                             },
                             index,
                         ) => (
-                            <TableRow key={index}>
+                            <TableRow key={category_name}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{category_name}</TableCell>
                                 <TableCell align="right">

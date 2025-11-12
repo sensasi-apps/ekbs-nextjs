@@ -39,8 +39,8 @@ export default function NavBarItemGroup({
                 {label}
             </Typography>
 
-            {filteredItems.map((item, i) => (
-                <NavBarListItem data={item} key={i} />
+            {filteredItems.map(item => (
+                <NavBarListItem data={item} key={item.href} />
             ))}
         </>
     )

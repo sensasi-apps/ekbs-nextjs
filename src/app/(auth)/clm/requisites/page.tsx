@@ -292,7 +292,7 @@ function RequisiteForm({
 
 function dataToRow(data: Requisite) {
     return [
-        data.is_optional ? '' : <Check color="success" />,
+        data.is_optional ? '' : <Check color="success" key={data.id} />,
         <>
             {data.name}
             <Typography component="div" variant="caption">

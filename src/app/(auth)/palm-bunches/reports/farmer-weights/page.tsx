@@ -201,7 +201,7 @@ function MainTable({ data }: { data: ApiResponseType | undefined }) {
                         </TableRow>
                     )}
                     {data?.map(({ user_id, user_name, n_kg, n_tickets }, i) => (
-                        <TableRow key={i}>
+                        <TableRow key={user_id}>
                             <TableCell>{i + 1}</TableCell>
                             <TableCell>{user_id}</TableCell>
                             <TableCell>{user_name}</TableCell>

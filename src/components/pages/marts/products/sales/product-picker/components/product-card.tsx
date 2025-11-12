@@ -181,7 +181,7 @@ function getHighlightedText(text: string, highlight: string) {
 
     return (
         <>
-            {parts.map((part, i) => (
+            {parts.map(part => (
                 <Box
                     color={
                         part.toLowerCase() === highlight.toLowerCase()
@@ -189,7 +189,7 @@ function getHighlightedText(text: string, highlight: string) {
                             : undefined
                     }
                     component="span"
-                    key={i}>
+                    key={part}>
                     {part}
                 </Box>
             ))}

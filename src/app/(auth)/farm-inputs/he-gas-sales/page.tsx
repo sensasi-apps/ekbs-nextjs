@@ -175,13 +175,8 @@ const pmdsCustomBodyRender = (pids: ProductMovementDetailORM[]) => (
                     key={id}
                     lineHeight="unset"
                     variant="overline">
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: name,
-                        }}
-                    />{' '}
-                    &mdash; {formatNumber(qty * -1)} {unit} &times;{' '}
-                    {numberToCurrency(rp_per_unit)} ={' '}
+                    <span>{name}</span> &mdash; {formatNumber(qty * -1)} {unit}{' '}
+                    &times; {numberToCurrency(rp_per_unit)} ={' '}
                     {numberToCurrency(
                         qty * -1 * (rp_cost_per_unit + rp_per_unit),
                     )}

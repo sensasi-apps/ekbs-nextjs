@@ -286,7 +286,7 @@ export default function PalmBuncesReaPaymentForm({
                                 </TableRow>
 
                                 {transactions?.map((transaction, index) => (
-                                    <TableRow key={index}>
+                                    <TableRow key={transaction.uuid}>
                                         <TableCell>
                                             <TextField
                                                 defaultValue={

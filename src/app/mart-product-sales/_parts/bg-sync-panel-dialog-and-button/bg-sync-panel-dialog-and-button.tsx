@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import dayjs from 'dayjs'
 // vendors
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import PrintHandler from '@/components/print-handler'
 //
 import { type FormattedEntry } from '@/sw/functions/handle-message'
@@ -37,7 +37,7 @@ export function BgSyncPanelDialogAndButton() {
     const [isLoading, setIsLoading] = useState(true)
     const [entries, setEntries] = useState<FormattedEntry<SubmittedData>[]>()
 
-    function handleGetSales() {
+    const handleGetSales = useCallback(() => {
         setIsLoading(true)
 
         postToSw('GET_SALES')
@@ -45,7 +45,7 @@ export function BgSyncPanelDialogAndButton() {
                 setEntries(data)
             })
             .finally(() => setIsLoading(false))
-    }
+    }, [])
 
     function handleSync() {
         setIsLoading(true)
@@ -66,7 +66,7 @@ export function BgSyncPanelDialogAndButton() {
         }
 
         return () => removeEventListener('mart-sale-queued', handleGetSales)
-    }, [])
+    }, [handleGetSales])
 
     useEffect(() => {
         if (
@@ -76,7 +76,7 @@ export function BgSyncPanelDialogAndButton() {
         ) {
             handleGetSales()
         }
-    }, [open])
+    }, [open, handleGetSales])
 
     return (
         <>
@@ -163,8 +163,8 @@ export function BgSyncPanelDialogAndButton() {
                                     </TableRow>
                                 )}
 
-                                {entries?.map((entry, i) => (
-                                    <Row data={entry} key={i} />
+                                {entries?.map(entry => (
+                                    <Row data={entry} key={entry.timestamp} />
                                 ))}
                             </TableBody>
                         </Table>
@@ -255,8 +255,8 @@ function Values({ data: { buyer_user, details } }: { data: SubmittedData }) {
                         marginTop: 0,
                         paddingLeft: '1em',
                     }}>
-                    {details.map((detail, i) => (
-                        <li key={i}>
+                    {details.map(detail => (
+                        <li key={detail.product_id}>
                             <Typography
                                 sx={{
                                     lineHeight: '0.7em',

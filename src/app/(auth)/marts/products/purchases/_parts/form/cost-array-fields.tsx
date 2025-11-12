@@ -55,8 +55,8 @@ export default function ProductMovementCostArrayFields({
                                   ),
                         )
                         .filter(Boolean)
-                        .map((v, i) => (
-                            <Box component="li" key={i}>
+                        .map(v => (
+                            <Box component="li" key={v as string}>
                                 {v as string}
                             </Box>
                         ))}
@@ -65,11 +65,11 @@ export default function ProductMovementCostArrayFields({
             <Grid alignItems="center" columnSpacing={1} container>
                 {value?.length > 0 && <HeaderGrid />}
 
-                {(value ?? []).map((_, index) => (
+                {(value ?? []).map(({ name }, index) => (
                     <Row
                         disabled={disabled}
                         index={index}
-                        key={index}
+                        key={name}
                         name={name}
                         remove={remove}
                     />

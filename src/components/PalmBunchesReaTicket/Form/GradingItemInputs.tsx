@@ -61,7 +61,7 @@ const GradingItemInputs: FC<{
 
             {!isLoading &&
                 gradings.map((grading, index) => (
-                    <div key={index}>
+                    <div key={grading.id}>
                         <input
                             name={`gradings[${index}][id]`}
                             type="hidden"
