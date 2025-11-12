@@ -154,8 +154,8 @@ export default function Form({
                                               ),
                                 )
                                 .filter(Boolean)
-                                .map((v, i) => (
-                                    <Box component="li" key={i}>
+                                .map(v => (
+                                    <Box component="li" key={v as string}>
                                         {v as string}
                                     </Box>
                                 ))}

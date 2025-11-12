@@ -28,8 +28,8 @@ export default function FlatFooter() {
                     </Link>{' '}
                     &copy; {versionDateDayjs.format('YYYY')}
                 </>,
-            ].map((item, i) => (
-                <Typo key={i}>{item}</Typo>
+            ].map(item => (
+                <Typo key={item?.toString()}>{item}</Typo>
             ))}
         </Box>
     )

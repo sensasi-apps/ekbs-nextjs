@@ -124,7 +124,7 @@ export default function ProductMovementDetailArrayField({
                     alignItems="center"
                     columnSpacing={1.5}
                     container
-                    key={index}
+                    key={row.id}
                     sx={{
                         mb: {
                             sm: 'initial',

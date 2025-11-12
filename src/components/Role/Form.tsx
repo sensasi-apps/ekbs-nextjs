@@ -30,7 +30,12 @@ export default function RoleForm({
 }: FormType<Role>) {
     const { validationErrors, setValidationErrors } = useValidationErrors()
 
-    const { data: permissions = [], isLoading } = useSWR('/data/permissions')
+    const { data: permissions = [], isLoading } =
+        useSWR<
+            {
+                name: string
+            }[]
+        >('/data/permissions')
 
     const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
         ev.preventDefault()
@@ -101,27 +106,25 @@ export default function RoleForm({
                     </FormLabel>
                     <FormGroup>
                         <Masonry>
-                            {permissions?.map(
-                                ({ name }: { name: string }, i: number) => (
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                defaultChecked={
-                                                    rolePermissions?.findIndex(
-                                                        permission =>
-                                                            permission.name ===
-                                                            name,
-                                                    ) !== -1
-                                                }
-                                                name={`permissionNames[${i}]`}
-                                                value={name}
-                                            />
-                                        }
-                                        key={i}
-                                        label={name}
-                                    />
-                                ),
-                            )}
+                            {permissions.map(({ name }, i) => (
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            defaultChecked={
+                                                rolePermissions?.findIndex(
+                                                    permission =>
+                                                        permission.name ===
+                                                        name,
+                                                ) !== -1
+                                            }
+                                            name={`permissionNames[${i}]`}
+                                            value={name}
+                                        />
+                                    }
+                                    key={name}
+                                    label={name}
+                                />
+                            ))}
                         </Masonry>
                     </FormGroup>
                     <FormHelperText>

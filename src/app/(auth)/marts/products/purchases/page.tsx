@@ -169,9 +169,9 @@ const columns: DatatableProps<ProductMovement>['columns'] = [
 
                 const productPreviews = data.details
                     .slice(0, 10)
-                    .map(({ product_state, product }, i) => (
+                    .map(({ id, product_state, product }) => (
                         <ChipSmall
-                            key={i}
+                            key={id}
                             label={(product_state ?? product)?.name}
                             sx={{
                                 m: 0.3,

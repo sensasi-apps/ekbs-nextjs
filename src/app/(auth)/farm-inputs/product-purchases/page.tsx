@@ -151,26 +151,20 @@ function pmdsCustomBodyRender(pids: ProductMovementDetailORM[]) {
                 whiteSpace: 'nowrap',
             }}>
             {pids?.map(
-                (
-                    {
-                        qty,
-                        rp_per_unit,
-                        rp_cost_per_unit,
-                        product_state: { name, unit },
-                    },
-                    index,
-                ) => (
+                ({
+                    id,
+                    qty,
+                    rp_per_unit,
+                    rp_cost_per_unit,
+                    product_state: { name, unit },
+                }) => (
                     <Typography
                         component="li"
-                        key={index}
+                        key={id}
                         lineHeight="unset"
                         variant="overline">
-                        <span
-                            dangerouslySetInnerHTML={{
-                                __html: name,
-                            }}
-                        />{' '}
-                        &mdash; {formatNumber(qty)} {unit} &times;{' ('}
+                        <span>{name}</span> &mdash; {formatNumber(qty)} {unit}{' '}
+                        &times;{' ('}
                         <Tooltip arrow placement="top" title="harga beli">
                             <u
                                 style={{

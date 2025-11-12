@@ -195,7 +195,7 @@ function MainTable({ data: txs }: { data: TransactionORM[] }) {
                                     : null
 
                             return (
-                                <TableRow key={i}>
+                                <TableRow key={tx.uuid}>
                                     <TableCell>{i + 1}</TableCell>
                                     <TableCell>{user?.id}</TableCell>
                                     <TableCell>{user?.name}</TableCell>

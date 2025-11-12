@@ -175,8 +175,14 @@ const UserSocialsCrudBox = ({
                 )}
             </Box>
 
-            {isLoading &&
-                [null, null, null].map((_, i) => <Skeletons key={i} />)}
+            {isLoading && (
+                <>
+                    <Skeletons />
+                    <Skeletons />
+                    <Skeletons />
+                </>
+            )}
+
             {!isLoading && <ContactList data={socials} />}
 
             <SocialForm

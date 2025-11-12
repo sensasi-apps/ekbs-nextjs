@@ -192,7 +192,7 @@ function InstallmentTable({ data }: { data: ApiResponseType }) {
                         const user = getUserFromInstallmentable(installment)
 
                         return (
-                            <TableRow key={i}>
+                            <TableRow key={installment.uuid}>
                                 <TableCell>{formatNumber(i + 1)}</TableCell>
                                 <TableCell>
                                     {toDmy(installment.should_be_paid_at)}

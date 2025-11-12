@@ -87,7 +87,7 @@ function PalmBunchesReaDeliveryFarmerInputs({
 
             <Box display="flex" flexDirection="column" gap={2.5}>
                 {palmBunches.map((palmBunch, index) => (
-                    <Box display="flex" gap={1} key={index}>
+                    <Box display="flex" gap={1} key={palmBunch.uuid}>
                         <Tooltip
                             arrow
                             placement="top"

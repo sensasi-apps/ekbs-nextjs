@@ -246,15 +246,15 @@ function MainTable({ data: rows }: { data: ProductMovementWithSale[] }) {
                 }}>
                 <TableHead>
                     <TableRow>
-                        {TABLE_HEADRES.map((header, i) => (
-                            <TableCell key={i}>{header}</TableCell>
+                        {TABLE_HEADRES.map(header => (
+                            <TableCell key={header}>{header}</TableCell>
                         ))}
                     </TableRow>
                 </TableHead>
 
                 <TableBody>
                     {rows.map((data, i) => (
-                        <ItemTableRow data={data} index={i} key={i} />
+                        <ItemTableRow data={data} index={i} key={data.uuid} />
                     ))}
                 </TableBody>
 
@@ -406,8 +406,10 @@ function ItemTableRow({
                         margin: 0,
                         padding: 0,
                     }}>
-                    {details.map(({ product_state, product }, i) => (
-                        <li key={i}>{product_state?.name ?? product?.name}</li>
+                    {details.map(({ product_state, product }) => (
+                        <li key={product_state?.id}>
+                            {product_state?.name ?? product?.name}
+                        </li>
                     ))}
                 </ul>
             </TableCell>
@@ -419,8 +421,8 @@ function ItemTableRow({
                         margin: 0,
                         padding: 0,
                     }}>
-                    {details.map(({ qty }, i) => (
-                        <li key={i}>{formatNumber(-qty)}</li>
+                    {details.map(({ qty, product_id }) => (
+                        <li key={product_id}>{formatNumber(-qty)}</li>
                     ))}
                 </ul>
             </TableCell>
@@ -432,8 +434,8 @@ function ItemTableRow({
                         margin: 0,
                         padding: 0,
                     }}>
-                    {details.map(({ warehouse_state }, i) => (
-                        <li key={i}>
+                    {details.map(({ warehouse_state, product_id }) => (
+                        <li key={product_id}>
                             {formatNumber(
                                 warehouse_state?.cost_rp_per_unit ?? 0,
                             )}
@@ -449,9 +451,9 @@ function ItemTableRow({
                         margin: 0,
                         padding: 0,
                     }}>
-                    {details.map(({ qty, warehouse_state }, i) => (
+                    {details.map(({ qty, warehouse_state, product_id }) => (
                         <li
-                            key={i}
+                            key={product_id}
                             style={{
                                 listStyle: 'none',
                                 margin: 0,
@@ -472,11 +474,13 @@ function ItemTableRow({
                         margin: 0,
                         padding: 0,
                     }}>
-                    {details.map(({ cost_rp_per_unit, rp_per_unit }, i) => (
-                        <li key={i}>
-                            {formatNumber(cost_rp_per_unit + rp_per_unit)}
-                        </li>
-                    ))}
+                    {details.map(
+                        ({ cost_rp_per_unit, rp_per_unit, product_id }) => (
+                            <li key={product_id}>
+                                {formatNumber(cost_rp_per_unit + rp_per_unit)}
+                            </li>
+                        ),
+                    )}
                 </ul>
             </TableCell>
 
@@ -488,8 +492,13 @@ function ItemTableRow({
                         padding: 0,
                     }}>
                     {details.map(
-                        ({ qty, cost_rp_per_unit, rp_per_unit }, i) => (
-                            <li key={i}>
+                        ({
+                            qty,
+                            cost_rp_per_unit,
+                            rp_per_unit,
+                            product_id,
+                        }) => (
+                            <li key={product_id}>
                                 {formatNumber(
                                     -qty * (cost_rp_per_unit + rp_per_unit),
                                 )}
@@ -507,15 +516,13 @@ function ItemTableRow({
                         padding: 0,
                     }}>
                     {details.map(
-                        (
-                            {
-                                qty,
-                                cost_rp_per_unit,
-                                rp_per_unit,
-                                warehouse_state,
-                            },
-                            i,
-                        ) => {
+                        ({
+                            qty,
+                            cost_rp_per_unit,
+                            rp_per_unit,
+                            warehouse_state,
+                            product_id,
+                        }) => {
                             const totalCost =
                                 -qty * (warehouse_state?.cost_rp_per_unit ?? 0)
 
@@ -524,7 +531,11 @@ function ItemTableRow({
 
                             const marginRp = totalSale - totalCost
 
-                            return <li key={i}>{formatNumber(marginRp)}</li>
+                            return (
+                                <li key={product_id}>
+                                    {formatNumber(marginRp)}
+                                </li>
+                            )
                         },
                     )}
                 </ul>
@@ -537,8 +548,8 @@ function ItemTableRow({
                         margin: 0,
                         padding: 0,
                     }}>
-                    {details.map((item, i) => (
-                        <li key={i}>
+                    {details.map(item => (
+                        <li key={item.product_id}>
                             {formatNumber(getMarginPercentage(item), {
                                 maximumFractionDigits: 0,
                             })}

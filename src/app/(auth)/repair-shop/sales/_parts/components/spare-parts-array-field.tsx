@@ -56,7 +56,7 @@ export default function SparePartsArrayField({
                                     alignItems="center"
                                     container
                                     display="flex"
-                                    key={index}
+                                    key={row.spare_part_state?.id}
                                     spacing={1}
                                     width="100%">
                                     <Grid

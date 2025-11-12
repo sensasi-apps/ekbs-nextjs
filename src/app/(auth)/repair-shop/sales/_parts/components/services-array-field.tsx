@@ -55,12 +55,12 @@ export default function ServicesArrayField({
                             />
                         </Box>
 
-                        {services.map((_, i) => (
+                        {services.map(({ service_id }, i) => (
                             <Box
                                 alignItems="center"
                                 display="flex"
                                 gap={2}
-                                key={i}>
+                                key={service_id}>
                                 <RemoveButton
                                     isDisabled={isDisabled}
                                     onClick={() => remove(i)}

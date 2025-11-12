@@ -115,8 +115,13 @@ export default function UserAddressesCrudBox({
                 </IconButton>
             </Box>
 
-            {isLoading &&
-                [null, null, null].map((_, i) => <Skeletons key={i} />)}
+            {isLoading && (
+                <>
+                    <Skeletons />
+                    <Skeletons />
+                    <Skeletons />
+                </>
+            )}
 
             {!isLoading && userAddresses.length === 0 && (
                 <Typography color="GrayText" variant="body2">

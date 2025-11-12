@@ -20,7 +20,7 @@ export default function ProductWarehouseArrayFields({
 }: FieldArrayRenderProps & { disabled: boolean }) {
     return (values?.warehouses ?? []).map(
         (warehouse: Product['warehouses'][0], index: number) => (
-            <Grid columnSpacing={1} container key={index}>
+            <Grid columnSpacing={1} container key={warehouse.warehouse}>
                 <Grid size={{ xs: 2 }}>
                     <FastField
                         component={TextFieldFastableComponent}

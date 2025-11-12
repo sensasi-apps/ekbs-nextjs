@@ -207,10 +207,10 @@ const DATATABLE_COLUMNS: DatatableProps<Debt>['columns'] = [
                 )
                 const totalRp = calcTotalRp(data)
 
-                const bars = data.details.map(({ paid }, i) => (
+                const bars = data.details.map(({ paid, uuid }) => (
                     <LinearProgress
                         color={paid ? 'success' : 'inherit'}
-                        key={i}
+                        key={uuid}
                         sx={{
                             borderRadius: 5,
                             width: '100%',

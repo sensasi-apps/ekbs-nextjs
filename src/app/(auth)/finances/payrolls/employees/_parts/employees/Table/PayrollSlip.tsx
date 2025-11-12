@@ -126,8 +126,8 @@ const PayrollSlip = memo(function PayrollSlip({
                             (deductions?.length ?? 0)
                                 ? earnings
                                 : deductions) ?? []
-                        ).map((_, i) => (
-                            <TableRow key={i}>
+                        ).map(({ uuid }, i) => (
+                            <TableRow key={uuid}>
                                 <TableCell width="30%">
                                     {earnings?.[i]?.name}
                                 </TableCell>

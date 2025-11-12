@@ -81,8 +81,8 @@ export default function PayrollUsersForm({
                 />
             </Box>
 
-            {errors?.users?.map((error, index) => (
-                <Box color="error.main" key={index}>
+            {errors?.users?.map(error => (
+                <Box color="error.main" key={error}>
                     {error}
                 </Box>
             ))}

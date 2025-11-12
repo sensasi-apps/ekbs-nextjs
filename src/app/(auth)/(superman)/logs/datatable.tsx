@@ -43,8 +43,8 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         name: 'model_value_changed',
         options: {
             customBodyRender: (value: object) =>
-                Object.entries(value).map(([key, value], i) => (
-                    <Typography key={i} variant="body2">
+                Object.entries(value).map(([key, value]) => (
+                    <Typography key={key} variant="body2">
                         <Typography
                             color="gray"
                             component="span"

@@ -5,11 +5,11 @@ import Fab from '../Fab'
 export default function ScrollToTopFab() {
     const [show, setShow] = useState(false)
 
-    const handleScroll = () => {
-        setShow(window.scrollY > 100)
-    }
-
     useEffect(() => {
+        const handleScroll = () => {
+            setShow(window.scrollY > 100)
+        }
+
         addEventListener('scroll', handleScroll)
 
         return () => {

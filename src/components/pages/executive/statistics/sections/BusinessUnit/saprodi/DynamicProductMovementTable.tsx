@@ -84,6 +84,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                     {data?.map(
                         (
                             {
+                                id,
                                 category_name,
                                 code,
                                 name,
@@ -110,7 +111,7 @@ const DynamicProductMovementTable = memo(function DynamicProductMovementTable({
                             },
                             i,
                         ) => (
-                            <TableRow key={i}>
+                            <TableRow key={id}>
                                 <TableCell>{i + 1}</TableCell>
                                 <TableCell>{category_name}</TableCell>
                                 <TableCell>{code}</TableCell>

@@ -50,7 +50,7 @@ export default function DebtDetailsTable({
                         },
                     }}>
                     {rows.map(({ uuid, due, paid, rp }, i) => (
-                        <TableRow key={i}>
+                        <TableRow key={uuid}>
                             <TableCell component="th" scope="row">
                                 {i + 1}
                             </TableCell>

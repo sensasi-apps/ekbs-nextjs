@@ -218,8 +218,8 @@ const columns: DatatableProps<ProductType>['columns'] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ warehouse }, i) => (
-                            <li key={i}>{warehouse}</li>
+                        {warehouses.map(({ warehouse }) => (
+                            <li key={warehouse}>{warehouse}</li>
                         ))}
                     </ul>
                 )
@@ -244,7 +244,7 @@ const columns: DatatableProps<ProductType>['columns'] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ qty }, i) => {
+                        {warehouses.map(({ qty, warehouse }) => {
                             const content =
                                 low_number !== null && qty <= low_number ? (
                                     <FarmInputsProductsLowQty>
@@ -254,7 +254,7 @@ const columns: DatatableProps<ProductType>['columns'] = [
                                     formatNumber(qty)
                                 )
 
-                            return <li key={i}>{content}</li>
+                            return <li key={warehouse}>{content}</li>
                         })}
                     </ul>
                 )
@@ -280,11 +280,13 @@ const columns: DatatableProps<ProductType>['columns'] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ base_cost_rp_per_unit }, i) => (
-                            <li key={i}>
-                                {numberToCurrency(base_cost_rp_per_unit)}
-                            </li>
-                        ))}
+                        {warehouses.map(
+                            ({ base_cost_rp_per_unit, warehouse }) => (
+                                <li key={warehouse}>
+                                    {numberToCurrency(base_cost_rp_per_unit)}
+                                </li>
+                            ),
+                        )}
                     </ul>
                 )
             },
@@ -305,8 +307,8 @@ const columns: DatatableProps<ProductType>['columns'] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ default_sell_price }, i) => (
-                            <li key={i}>
+                        {warehouses.map(({ default_sell_price, warehouse }) => (
+                            <li key={warehouse}>
                                 {numberToCurrency(default_sell_price)}
                             </li>
                         ))}

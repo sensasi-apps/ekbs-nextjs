@@ -273,8 +273,8 @@ const columns: DatatableProps<Product>['columns'] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ warehouse }, i) => (
-                            <li key={i}>{warehouse}</li>
+                        {warehouses.map(({ warehouse }) => (
+                            <li key={warehouse}>{warehouse}</li>
                         ))}
                     </ul>
                 )
@@ -298,7 +298,7 @@ const columns: DatatableProps<Product>['columns'] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ qty }, i) => {
+                        {warehouses.map(({ warehouse, qty }) => {
                             const content =
                                 low_number !== null && qty <= low_number ? (
                                     <FarmInputsProductsLowQty>
@@ -308,7 +308,7 @@ const columns: DatatableProps<Product>['columns'] = [
                                     formatNumber(qty)
                                 )
 
-                            return <li key={i}>{content}</li>
+                            return <li key={warehouse}>{content}</li>
                         })}
                     </ul>
                 )
@@ -333,8 +333,8 @@ const columns: DatatableProps<Product>['columns'] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ cost_rp_per_unit }, i) => (
-                            <li key={i}>
+                        {warehouses.map(({ warehouse, cost_rp_per_unit }) => (
+                            <li key={warehouse}>
                                 {numberToCurrency(cost_rp_per_unit)}
                             </li>
                         ))}
@@ -358,27 +358,31 @@ const columns: DatatableProps<Product>['columns'] = [
                             margin: 0,
                             padding: 0,
                         }}>
-                        {warehouses.map(({ default_sell_price, margin }, i) => (
-                            <li key={i}>
-                                {numberToCurrency(default_sell_price)}
+                        {warehouses.map(
+                            ({ warehouse, default_sell_price, margin }) => (
+                                <li key={warehouse}>
+                                    {numberToCurrency(default_sell_price)}
 
-                                {margin && (
-                                    <ChipSmall
-                                        color={
-                                            margin - 1 < 0 ? 'error' : 'success'
-                                        }
-                                        label={
-                                            Math.round((margin - 1) * 100) +
-                                            ' %'
-                                        }
-                                        sx={{
-                                            ml: 2,
-                                        }}
-                                        variant="outlined"
-                                    />
-                                )}
-                            </li>
-                        ))}
+                                    {margin && (
+                                        <ChipSmall
+                                            color={
+                                                margin - 1 < 0
+                                                    ? 'error'
+                                                    : 'success'
+                                            }
+                                            label={
+                                                Math.round((margin - 1) * 100) +
+                                                ' %'
+                                            }
+                                            sx={{
+                                                ml: 2,
+                                            }}
+                                            variant="outlined"
+                                        />
+                                    )}
+                                </li>
+                            ),
+                        )}
                     </ul>
                 )
             },

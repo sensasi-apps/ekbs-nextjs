@@ -51,8 +51,8 @@ export default function PayrollDeleteForm({
 
             {errors && (
                 <FormHelperText component="div" error>
-                    {Object.values(errors).map((error, index) => (
-                        <div key={index}>{error}</div>
+                    {Object.values(errors).map(error => (
+                        <div key={error.join('')}>{error}</div>
                     ))}
                 </FormHelperText>
             )}

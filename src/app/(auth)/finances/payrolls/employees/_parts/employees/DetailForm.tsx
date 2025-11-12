@@ -90,8 +90,8 @@ export default function PayrollEmployeeDetailsForm({
 
             {errors && (
                 <FormHelperText component="div" error>
-                    {Object.values(errors).map((error, i) => (
-                        <Box key={i}>{error}</Box>
+                    {Object.values(errors).map(error => (
+                        <Box key={error}>{error}</Box>
                     ))}
                 </FormHelperText>
             )}
@@ -106,7 +106,7 @@ export default function PayrollEmployeeDetailsForm({
                                     alignItems="center"
                                     display="flex"
                                     gap={1}
-                                    key={index}>
+                                    key={detail.uuid}>
                                     <FlexColumnBox gap={undefined}>
                                         <IconButton
                                             color="info"

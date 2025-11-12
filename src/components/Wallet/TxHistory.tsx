@@ -418,14 +418,14 @@ function TxsList({
             )}
 
             {txs?.data && txs.data.length > 0 ? (
-                txsGroups.map((txsGroup, i) => {
+                txsGroups.map(txsGroup => {
                     const dailyTotal = txsGroup.txs.reduce(
                         (acc, tx) => acc + tx.amount,
                         0,
                     )
 
                     return (
-                        <FlexColumnBox gap={2} key={i}>
+                        <FlexColumnBox gap={2} key={txsGroup.date}>
                             <Box
                                 sx={{
                                     backgroundColor:
@@ -473,11 +473,11 @@ function TxsList({
                                 </Box>
                             </Box>
 
-                            {txsGroup.txs.map((tx, i) => (
+                            {txsGroup.txs.map(tx => (
                                 <TxHistoryItem
                                     amount={tx.amount}
                                     desc={tx.desc}
-                                    key={i}
+                                    key={tx.uuid}
                                     tags={tx.tags.map(tag => tag.name.id)}
                                 />
                             ))}

@@ -29,8 +29,8 @@ export default function ListInsideMuiDatatableCell<T>({
             paddingLeft="1em"
             whiteSpace="nowrap"
             {...list}>
-            {listItems.map((item, index) => (
-                <Box component="li" key={index} {...listItem}>
+            {listItems.map(item => (
+                <Box component="li" key={item as string} {...listItem}>
                     {renderItem(item)}
                 </Box>
             ))}

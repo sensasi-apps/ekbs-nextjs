@@ -40,8 +40,8 @@ export function UserSummaryBox() {
                 },
                 overflowX: 'auto',
             }}>
-            {data.map((item, i) => (
-                <SummaryCard data={item} key={i} />
+            {data.map(item => (
+                <SummaryCard data={item} key={item.role_name_id} />
             ))}
         </Box>
     )
@@ -76,8 +76,8 @@ function SummaryCard({
                     placement="left"
                     title={
                         <>
-                            {user_names.map((name, i) => (
-                                <div key={i}>{name}</div>
+                            {user_names.map(name => (
+                                <div key={name}>{name}</div>
                             ))}
 
                             {user_names.length < qty && <div>....</div>}

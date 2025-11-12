@@ -33,7 +33,7 @@ export default function ProductWarehouseArrayFields({
                 : warehouseErrors?.[index]
 
         return (
-            <Grid columnSpacing={1} container key={index}>
+            <Grid columnSpacing={1} container key={warehouse.warehouse}>
                 <Grid size={2}>
                     <FastField
                         component={TextFieldFastableComponent}

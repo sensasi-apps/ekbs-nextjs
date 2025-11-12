@@ -63,8 +63,11 @@ export default function MemberDetailPage() {
                         )}
                     </Typography>
 
-                    {user?.socials?.map((social, i) => (
-                        <Typography component="div" key={i} variant="body2">
+                    {user?.socials?.map(social => (
+                        <Typography
+                            component="div"
+                            key={social.uuid}
+                            variant="body2">
                             {social.social.name}: {social.username}
                         </Typography>
                     ))}
@@ -78,8 +81,8 @@ export default function MemberDetailPage() {
             </Box>
 
             <Grid container mb={4} spacing={2}>
-                {getStatCardProps(data).map((props, index) => (
-                    <Grid key={index} size={{ sm: 'auto', xs: 12 }}>
+                {getStatCardProps(data).map(props => (
+                    <Grid key={props.text} size={{ sm: 'auto', xs: 12 }}>
                         <UserStatCard {...props} />
                     </Grid>
                 ))}

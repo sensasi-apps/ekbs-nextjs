@@ -56,8 +56,8 @@ export default function TableRow({
             <TableCell>
                 <Ul>
                     {product_movement_details.map(
-                        ({ product_state: { name } }, i) => (
-                            <li key={i}>{name}</li>
+                        ({ product_state: { id, name } }) => (
+                            <li key={id}>{name}</li>
                         ),
                     )}
                 </Ul>
@@ -65,8 +65,8 @@ export default function TableRow({
 
             <TableCell align="right">
                 <Ul>
-                    {product_movement_details.map(({ qty }, i) => (
-                        <li key={i}>{formatNumber(Math.abs(qty))}</li>
+                    {product_movement_details.map(({ id, qty }) => (
+                        <li key={id}>{formatNumber(Math.abs(qty))}</li>
                     ))}
                 </Ul>
             </TableCell>
@@ -74,8 +74,8 @@ export default function TableRow({
             <TableCell>
                 <Ul>
                     {product_movement_details.map(
-                        ({ product_state: { unit } }, i) => (
-                            <li key={i}>{unit}</li>
+                        ({ product_state: { id, unit } }) => (
+                            <li key={id}>{unit}</li>
                         ),
                     )}
                 </Ul>
@@ -84,15 +84,11 @@ export default function TableRow({
             <TableCell align="right">
                 <Ul>
                     {product_movement_details.map(
-                        (
-                            {
-                                product_warehouse_state: {
-                                    base_cost_rp_per_unit,
-                                },
-                            },
-                            i,
-                        ) => (
-                            <li key={i}>
+                        ({
+                            id,
+                            product_warehouse_state: { base_cost_rp_per_unit },
+                        }) => (
+                            <li key={id}>
                                 {formatNumber(base_cost_rp_per_unit)}
                             </li>
                         ),
@@ -104,8 +100,8 @@ export default function TableRow({
 
             <TableCell sx={LEFT_BORDER_STYLE}>
                 <Ul>
-                    {product_movement_details.map(({ rp_per_unit }, i) => (
-                        <li key={i}>{formatNumber(rp_per_unit)}</li>
+                    {product_movement_details.map(({ id, rp_per_unit }) => (
+                        <li key={id}>{formatNumber(rp_per_unit)}</li>
                     ))}
                 </Ul>
             </TableCell>

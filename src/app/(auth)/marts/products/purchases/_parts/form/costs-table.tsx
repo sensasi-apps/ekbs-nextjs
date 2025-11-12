@@ -30,8 +30,8 @@ export function CostsTable({ data }: { data: ProductMovementCost[] }) {
                 </TableHead>
 
                 <TableBody>
-                    {data.map(({ name, rp }, index) => (
-                        <TableRow key={index}>
+                    {data.map(({ name, rp }) => (
+                        <TableRow key={name}>
                             <TableCell>{name}</TableCell>
                             <TableCell align="right">
                                 {formatNumber(rp)}

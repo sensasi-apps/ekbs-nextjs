@@ -60,8 +60,8 @@ export default function ProductMovementDetailArrayFields({
                                   ),
                         )
                         .filter(Boolean)
-                        .map((v, i) => (
-                            <Box component="li" key={i}>
+                        .map(v => (
+                            <Box component="li" key={v as string}>
                                 {v as string}
                             </Box>
                         ))}
@@ -77,7 +77,7 @@ export default function ProductMovementDetailArrayFields({
                         alignItems="center"
                         columnSpacing={1}
                         container
-                        key={index}
+                        key={detail.product_id}
                         mb={1}>
                         <Grid
                             component={Typography}

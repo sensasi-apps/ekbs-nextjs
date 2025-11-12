@@ -70,7 +70,11 @@ const ProductSaleDetailArrayField = memo(function ProductSaleDetailArrayField({
                     </Typography>
 
                     {product_sale_details?.map((row, index) => (
-                        <Box display="flex" gap={1} key={index} mb={1.5}>
+                        <Box
+                            display="flex"
+                            gap={1}
+                            key={row.product_id}
+                            mb={1.5}>
                             <Tooltip arrow placement="top" title="Hapus">
                                 <span>
                                     <IconButton

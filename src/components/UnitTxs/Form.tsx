@@ -317,15 +317,13 @@ export default function UnitTxForm({
                                             ? value
                                             : ''
                                     }>
-                                    {categories.map(
-                                        (category: string, index: number) => (
-                                            <MenuItem
-                                                key={index}
-                                                value={category}>
-                                                {category}
-                                            </MenuItem>
-                                        ),
-                                    )}
+                                    {categories.map(category => (
+                                        <MenuItem
+                                            key={category}
+                                            value={category}>
+                                            {category}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
 
                                 {error && (

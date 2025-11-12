@@ -28,7 +28,6 @@
         "bracketSpacing": true,
         "enabled": true,
         "expand": "auto",
-        "formatWithErrors": false,
         "indentStyle": "space",
         "indentWidth": 4,
         "lineEnding": "lf",
@@ -43,39 +42,22 @@
     "javascript": {
         "formatter": {
             "arrowParentheses": "asNeeded",
-            "attributePosition": "auto",
-            "bracketSameLine": true,
-            "bracketSpacing": true,
             "jsxQuoteStyle": "double",
             "quoteProperties": "asNeeded",
             "quoteStyle": "single",
-            "semicolons": "asNeeded",
-            "trailingCommas": "all"
+            "semicolons": "asNeeded"
         },
         "globals": []
     },
     "linter": {
+        "domains": {
+            "next": "recommended",
+            "react": "recommended"
+        },
         "enabled": true,
         "rules": {
-            "complexity": {
-                "noArguments": "error",
-                "noUselessTypeConstraint": "error"
-            },
-            "correctness": {
-                "noConstAssign": "off",
-                "noGlobalObjectCalls": "off",
-                "noInvalidBuiltinInstantiation": "off",
-                "noInvalidConstructorSuper": "off",
-                "noSetterReturn": "off",
-                "noUndeclaredVariables": "off",
-                "noUnreachable": "off",
-                "noUnreachableSuper": "off",
-                "noUnusedVariables": "error"
-            },
             "recommended": false,
             "style": {
-                "noCommonJs": "error",
-                "noNamespace": "error",
                 "noRestrictedImports": {
                     "level": "error",
                     "options": {
@@ -84,30 +66,11 @@
                             "@mui/material": "No Barrel Import. Use `import [Component] from '@mui/material/[Component]'` instead."
                         }
                     }
-                },
-                "useArrayLiterals": "error",
-                "useAsConstAssertion": "error",
-                "useBlockStatements": "off",
-                "useConst": "error"
+                }
             },
             "suspicious": {
-                "noClassAssign": "off",
                 "noConsole": "warn",
-                "noDuplicateClassMembers": "off",
-                "noDuplicateObjectKeys": "off",
-                "noDuplicateParameters": "off",
-                "noExplicitAny": "error",
-                "noExtraNonNullAssertion": "error",
-                "noFunctionAssign": "off",
-                "noImportAssign": "off",
-                "noMisleadingInstantiator": "error",
-                "noRedeclare": "off",
-                "noUnsafeDeclarationMerging": "error",
-                "noUnsafeNegation": "off",
-                "noVar": "error",
-                "noWith": "off",
-                "useGetterReturn": "off",
-                "useNamespaceKeyword": "error"
+                "noExplicitAny": "error"
             }
         }
     },

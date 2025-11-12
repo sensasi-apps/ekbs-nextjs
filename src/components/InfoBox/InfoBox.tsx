@@ -17,8 +17,8 @@ export default function InfoBox({
     return (
         <Box component="table" {...props}>
             <tbody>
-                {data.map(({ label, value }, index) => (
-                    <tr key={index}>
+                {data.map(({ label, value }) => (
+                    <tr key={label}>
                         <Typography component="td" variant="caption">
                             {label}
                         </Typography>
