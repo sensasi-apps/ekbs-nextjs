@@ -15,6 +15,7 @@ import useSWR from 'swr'
 import BackButton from '@/components/back-button'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
+import DownloadRequisiteLandFilesButton from '@/modules/clm/components/download-requisite-land-files-button'
 import RequisiteLandCard from '@/modules/clm/components/user-or-land-requisite-card'
 // modules
 import type LandORM from '@/modules/clm/types/orms/land'
@@ -95,6 +96,13 @@ export default function Page() {
                 variant="outlined">
                 Perbarui data
             </Button>
+
+            <Box mb={2} mt={2}>
+                <DownloadRequisiteLandFilesButton
+                    landUuid={land_uuid as string}
+                    userUuid={user_uuid as string}
+                />
+            </Box>
 
             <Typography fontWeight="bold" mb={1} mt={6}>
                 Persyaratan:
