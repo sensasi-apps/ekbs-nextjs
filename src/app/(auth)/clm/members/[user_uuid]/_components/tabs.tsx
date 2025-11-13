@@ -14,6 +14,7 @@ import NextLink from 'next/link'
 import { type SyntheticEvent, useState } from 'react'
 // components
 import Fab from '@/components/Fab'
+import DownloadRequisiteUserFilesButton from '@/modules/clm/components/download-requisite-user-files-button'
 import UserOrLandRequisiteCard from '@/modules/clm/components/user-or-land-requisite-card'
 import LandCard from './tabs.land-card'
 // modules
@@ -37,6 +38,12 @@ export default function Tabs({ data }: { data: ClmMemberDetailResponse }) {
                 </Box>
 
                 <TabPanel sx={{ px: 0 }} value="1">
+                    <Box mb={2}>
+                        <DownloadRequisiteUserFilesButton
+                            userUuid={data.user.uuid}
+                        />
+                    </Box>
+
                     {data.requisite_users_with_default.map(requisiteUser => (
                         <UserOrLandRequisiteCard
                             data={requisiteUser}
