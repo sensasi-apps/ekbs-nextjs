@@ -1,6 +1,6 @@
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { useEffect, useState } from 'react'
-import Fab from '../fab'
+import Fab from '@/components/fab'
 
 export default function ScrollToTopFab() {
     const [show, setShow] = useState(false)

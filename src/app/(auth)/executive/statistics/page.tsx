@@ -11,7 +11,7 @@ import BusinessUnitSection from '@/components/pages/executive/statistics/section
 import FinanceSection from '@/components/pages/executive/statistics/sections/Finance'
 import MemberSection from '@/components/pages/executive/statistics/sections/Member'
 import ReceivableSection from '@/components/pages/executive/statistics/sections/Receivable'
-import ScrollToTopFab from '@/components/ScrollToTopFab'
+import ScrollToTopFab from '@/components/scroll-to-top-fab'
 
 export default function Statistics() {
     return (
