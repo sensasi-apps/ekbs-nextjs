@@ -18,7 +18,7 @@ import NextLink from 'next/link'
 // vendors
 import { type MouseEventHandler, useCallback, useState } from 'react'
 // components
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 import FlexBox from '@/components/flex-box'
 import FooterBox from '@/components/footer-box'
 // providers

@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import Zoom from '@mui/material/Zoom'
 import { useFormikContext } from 'formik'
 import { memo } from 'react'
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 // components
 import type Product from '@/modules/mart/types/orms/product'
 import formatNumber from '@/utils/format-number'

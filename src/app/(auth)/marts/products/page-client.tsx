@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import { Formik } from 'formik'
 // vendors
 import { useState } from 'react'
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,

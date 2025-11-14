@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import { useRef, useState } from 'react'
 import Receipt from '@/app/(auth)/repair-shop/sales/_parts/components/receipt'
-import { ChipSmall } from '@/components/ChipSmall/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 // components
 import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 import Datatable, {

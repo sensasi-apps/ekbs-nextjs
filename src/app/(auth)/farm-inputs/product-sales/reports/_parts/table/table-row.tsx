@@ -1,7 +1,7 @@
 import TableCell from '@mui/material/TableCell'
 import MuiTableRow from '@mui/material/TableRow'
 import { type ReactNode } from 'react'
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import globalFormatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'

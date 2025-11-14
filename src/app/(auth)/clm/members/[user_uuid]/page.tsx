@@ -16,7 +16,7 @@ import useClmMemberDetailSwr, {
 } from '@/app/(auth)/clm/members/[user_uuid]/_components/use-member-detail-swr'
 // components
 import BackButton from '@/components/back-button'
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 import LoadingCenter from '@/components/loading-center'
 import CertificationUpdateForm from './_components/certification-update-form'
 // features

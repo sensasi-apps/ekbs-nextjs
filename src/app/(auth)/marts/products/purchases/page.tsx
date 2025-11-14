@@ -8,7 +8,7 @@ import ApiUrl from '@/app/(auth)/marts/products/purchases/_parts/api-url'
 import { type FormValues } from '@/app/(auth)/marts/products/purchases/_parts/form'
 import FormDialog from '@/app/(auth)/marts/products/purchases/_parts/form-dialog'
 // components
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,

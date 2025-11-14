@@ -13,7 +13,7 @@ import { useState } from 'react'
 // parts
 import type { CreateFormValues } from '@/app/(auth)/marts/products/opnames/_parts/form'
 import FormDialog from '@/app/(auth)/marts/products/opnames/_parts/form-dialog'
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 // components
 import Datatable, {
     type DatatableProps,
