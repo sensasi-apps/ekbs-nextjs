@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton'
 import { type Dispatch, memo, type SetStateAction } from 'react'
 import type ActivityLogType from '@/types/orms/activity-log'
 // components
-import UserActivityLogsTable from './Table'
+import UserActivityLogsTable from './table'
 
 const UserActivityLogsDialogTable = memo(function UserActivityLogsDialogTable({
     open,

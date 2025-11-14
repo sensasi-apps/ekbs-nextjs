@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 import { memo, useState } from 'react'
 import type ActivityLogType from '@/types/orms/activity-log'
 // components
-import UserActivityLogsDialogTable from './DialogTable'
+import UserActivityLogsDialogTable from './dialog-table'
 
 const UserActivityLogs = memo(function UserActivityLogs({
     data,
