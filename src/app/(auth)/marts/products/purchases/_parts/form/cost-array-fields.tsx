@@ -65,11 +65,11 @@ export default function ProductMovementCostArrayFields({
             <Grid alignItems="center" columnSpacing={1} container>
                 {value?.length > 0 && <HeaderGrid />}
 
-                {(value ?? []).map(({ name }, index) => (
+                {(value ?? []).map(({ name: costName }, index) => (
                     <Row
                         disabled={disabled}
                         index={index}
-                        key={name}
+                        key={costName ?? index}
                         name={name}
                         remove={remove}
                     />
