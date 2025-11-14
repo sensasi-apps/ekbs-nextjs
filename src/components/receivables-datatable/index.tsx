@@ -26,8 +26,8 @@ import Dialog from '../Global/Dialog'
 import StateFilterChips from './components/state-filter-chips'
 import TypeFilterChips from './components/type-filter-chips'
 // locals
-import { useHooks } from './hooks/useHooks'
-import ReceivablePaymentForm from './PaymentForm'
+import { useHooks } from './hooks/use-hooks'
+import ReceivablePaymentForm from './payment-form'
 import type ApiResponseItem from './types/api-response-item'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'

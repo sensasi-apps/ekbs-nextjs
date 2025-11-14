@@ -1,6 +1,6 @@
 // components
 import PageTitle from '@/components/page-title'
-import ReceivablesDatatable from '@/components/ReceivablesDatatable'
+import ReceivablesDatatable from '@/components/receivables-datatable'
 import BusinessUnit from '@/enums/business-unit'
 
 export const metadata = {
