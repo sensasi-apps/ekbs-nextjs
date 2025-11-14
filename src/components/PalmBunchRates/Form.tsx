@@ -27,7 +27,7 @@ import errorCatcher from '@/utils/handle-422'
 import weekOfMonths from '@/utils/week-of-month'
 import type { Mutate } from '../Datatable/@types'
 import FormActions from '../Global/Form/Actions'
-import RpInputAdornment from '../InputAdornment/Rp'
+import RpInputAdornment from '../input-adornments/rp'
 
 const nameIdFormatter = (validFrom: Ymd) =>
     `${dayjs(validFrom).format('MMMM ')}#${weekOfMonths(validFrom)}`

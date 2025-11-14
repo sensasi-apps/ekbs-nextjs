@@ -26,7 +26,7 @@ import type CashType from '@/types/orms/cash'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
-import RpInputAdornment from '../InputAdornment/Rp'
+import RpInputAdornment from '../input-adornments/rp'
 import TextFieldFastableComponent from '../TextField/FastableComponent'
 
 export default function WalletTxForm({

@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 import { useFormikContext } from 'formik'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RpInputAdornment from '@/components/input-adornments/rp'
 import NumericFormat from '@/components/NumericFormat'
 //
 import type { FormValuesType } from '../../../../../../..'

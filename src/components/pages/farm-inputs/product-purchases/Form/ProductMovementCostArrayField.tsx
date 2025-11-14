@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import type { FieldArrayRenderProps, FormikErrors } from 'formik'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RpInputAdornment from '@/components/input-adornments/rp'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'

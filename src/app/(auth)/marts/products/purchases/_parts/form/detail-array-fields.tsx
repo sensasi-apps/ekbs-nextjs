@@ -18,7 +18,7 @@ import useSWR from 'swr'
 import ApiUrl from '@/app/mart-product-sales/_parts/enums/api-url'
 // components
 import NumericField from '@/components/formik-fields/numeric-field'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RpInputAdornment from '@/components/input-adornments/rp'
 import type Product from '@/modules/mart/types/orms/product'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // utils

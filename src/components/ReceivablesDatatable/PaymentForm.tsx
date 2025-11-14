@@ -30,7 +30,7 @@ import getInstallmentType from '@/utils/get-installment-type'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
 import SelectFromApi from '../Global/SelectFromApi'
-import RpInputAdornment from '../InputAdornment/Rp'
+import RpInputAdornment from '../input-adornments/rp'
 import NumericFormat from '../NumericFormat'
 import type ApiResponseItem from './types/api-response-item'
 

@@ -16,7 +16,7 @@ import { FastField, type FormikProps } from 'formik'
 // components
 import DatePicker from '@/components/date-picker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RpInputAdornment from '@/components/input-adornments/rp'
 import NumericFormat from '@/components/NumericFormat'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import UserAutocomplete from '@/components/user-autocomplete'
