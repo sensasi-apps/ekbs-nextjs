@@ -17,8 +17,8 @@ import InOutLineChart, {
 } from '@/components/Chart/Line/InOut'
 import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
-import ScrollableXBox from '@/components/ScrollableXBox'
 import StatCard from '@/components/StatCard'
+import ScrollableXBox from '@/components/scrollable-x-box'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 import DynamicProductMovementTable, {

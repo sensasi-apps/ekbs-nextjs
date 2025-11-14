@@ -6,7 +6,7 @@ import type { FieldProps } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
 import ChipSmall from '@/components/chip-small'
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 // components
 import { type FormikStatusType } from '../../../../..'
 

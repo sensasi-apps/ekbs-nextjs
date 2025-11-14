@@ -5,7 +5,7 @@ import Chip from '@mui/material/Chip'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 // components
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 import BusinessUnit from '@/enums/business-unit'
 
 export default function TypeFilterChips() {

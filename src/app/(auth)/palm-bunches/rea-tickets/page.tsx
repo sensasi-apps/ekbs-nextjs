@@ -30,7 +30,7 @@ import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import MainForm from '@/components/PalmBunchesReaTicket/Form'
 import PageTitle from '@/components/page-title'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 // enums
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/role'

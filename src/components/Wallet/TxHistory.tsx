@@ -1,5 +1,3 @@
-// types
-
 // icons
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
@@ -11,12 +9,12 @@ import Dialog from '@mui/material/Dialog'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
+// vendors
 import dayjs, { Dayjs } from 'dayjs'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
 import useSWR from 'swr'
-// vendors
 import { useDebounce } from 'use-debounce'
 // pages type
 import type { DataType } from '@/app/(auth)/finances/wallets/page'
@@ -24,6 +22,7 @@ import type { DataType } from '@/app/(auth)/finances/wallets/page'
 import FlexColumnBox from '@/components/flex-column-box'
 import Skeletons from '@/components/Global/Skeletons'
 import InfoBox from '@/components/info-box'
+import ScrollableXBox from '@/components/scrollable-x-box'
 // enums
 import Wallet from '@/enums/permissions/Wallet'
 // hooks
@@ -33,7 +32,6 @@ import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
 import PrintHandler from '../print-handler'
-import ScrollableXBox from '../ScrollableXBox'
 import TextField from '../TextField'
 import WalletTxButtonAndForm from './TxButtonAndForm'
 // components/TxHistory

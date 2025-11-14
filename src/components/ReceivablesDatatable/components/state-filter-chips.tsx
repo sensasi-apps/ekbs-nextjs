@@ -6,7 +6,7 @@ import Link from 'next/link'
 // vendors
 import { useSearchParams } from 'next/navigation'
 // components
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 
 export default function StateFilterChips() {
     const searchParams = useSearchParams()
