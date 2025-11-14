@@ -3,7 +3,7 @@
 // vendors
 import Typography from '@mui/material/Typography'
 // components
-import SimpleDialog from '@/components/SimpleDialog'
+import SimpleDialog from '@/components/simple-dialog'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
