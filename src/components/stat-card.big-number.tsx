@@ -1,8 +1,8 @@
 import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
-import StatCard, { type StatCardProps } from './StatCard'
+import StatCard, { type StatCardProps } from './stat-card'
 
-export default function BigNumber({
+export default function StatCardBigNumber({
     primary,
     secondary,
     ...props

@@ -8,9 +8,9 @@ import Box from '@mui/material/Box'
 import type { CardProps } from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
-import formatNumber from '@/utils/format-number'
 //
-import StatCard from './StatCard'
+import StatCard from '@/components/stat-card'
+import formatNumber from '@/utils/format-number'
 
 export default function BigNumberCard({
     title,

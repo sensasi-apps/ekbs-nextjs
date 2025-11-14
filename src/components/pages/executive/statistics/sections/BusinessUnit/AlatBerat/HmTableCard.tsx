@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 // components
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 // utils
 import formatNumber from '@/utils/format-number'
 import type { ApiResponseType } from '../AlatBerat'

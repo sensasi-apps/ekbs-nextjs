@@ -1,5 +1,5 @@
 import LineChart from '@/components/Chart/Line'
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 import type SectionData from '@/types/section-data'
 
 export default function LineChartCard({

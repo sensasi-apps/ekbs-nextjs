@@ -8,7 +8,7 @@ import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 // components
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 

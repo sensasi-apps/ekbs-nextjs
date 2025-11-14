@@ -3,9 +3,9 @@
 // vendors
 import useSWR from 'swr'
 import LineChart from '@/components/Chart/Line'
-import type { StatCardProps } from '@/components/StatCard'
+import type { StatCardProps } from '@/components/stat-card'
 // components
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 
 export default function InOutCashChart({
     title = 'Saldo Masuk-Keluar — Bulanan',

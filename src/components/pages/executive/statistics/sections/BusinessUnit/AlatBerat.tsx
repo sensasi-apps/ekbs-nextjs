@@ -8,7 +8,7 @@ import useSWR from 'swr'
 import LineChart from '@/components/Chart/Line/Line'
 // icons
 // components
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 import GasPurchaseChartCard from './AlatBerat/GasPurchaseChartCard'

@@ -1,6 +1,6 @@
 // components
 import LineChart from '@/components/Chart/Line/Line'
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 // utils
 import formatNumber from '@/utils/format-number'
 import getMuiColors from '@/utils/get-mui-colors'

@@ -20,8 +20,8 @@ import type { ReactNode } from 'react'
 import useSWR from 'swr'
 // components
 import LineChart from '@/components/Chart/Line'
-import StatCard, { type StatCardProps } from '@/components/StatCard'
-import BigNumber from '@/components/StatCard/BigNumber'
+import StatCard, { type StatCardProps } from '@/components/stat-card'
+import BigNumber from '@/components/stat-card.big-number'
 // utils
 import toDmy from '@/utils/to-dmy'
 

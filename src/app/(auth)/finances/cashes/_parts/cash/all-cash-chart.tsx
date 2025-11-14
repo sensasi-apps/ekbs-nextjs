@@ -9,9 +9,9 @@ import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import useSWR from 'swr'
+import type { StatCardProps } from '@/components/stat-card'
 // components
-import StatCard from '@/components/StatCard'
-import type { StatCardProps } from '@/components/StatCard/StatCard'
+import StatCard from '@/components/stat-card'
 import type CashType from '@/types/orms/cash'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'

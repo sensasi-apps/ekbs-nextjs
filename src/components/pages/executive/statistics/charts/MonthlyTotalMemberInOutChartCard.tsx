@@ -2,7 +2,7 @@
 import { memo } from 'react'
 // components
 import LineChart from '@/components/Chart/Line'
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 
 const MonthlyTotalMemberInOutChartCard = memo(
     function MonthlyTotalMemberInOutChartCard({
