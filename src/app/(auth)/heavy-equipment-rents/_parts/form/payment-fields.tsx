@@ -20,7 +20,7 @@ import type { FormikProps } from 'formik'
 import useSWR from 'swr'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // components
-import LoadingAddorment from '@/components/LoadingAddorment'
+import LoadingAddorment from '@/components/input-adornments/loading'
 import NumericFormat from '@/components/NumericFormat'
 import type CashType from '@/types/orms/cash'
 import type WalletType from '@/types/orms/wallet'
