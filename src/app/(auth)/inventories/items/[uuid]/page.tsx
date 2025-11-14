@@ -21,7 +21,7 @@ import type {
     MutateType,
 } from '@/components/Datatable'
 import Datatable from '@/components/Datatable'
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
 import axios from '@/lib/axios'

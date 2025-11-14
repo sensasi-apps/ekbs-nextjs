@@ -6,7 +6,7 @@ import Diversity3Icon from '@mui/icons-material/Diversity3'
 import Grid from '@mui/material/Grid'
 import useSWR from 'swr'
 // components
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 import MonthlyTotalMemberInOutChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberInOutChartCard'
 import MonthlyTotalMemberParticipationChartCard from '@/components/pages/executive/statistics/charts/MonthlyTotalMemberParticipationChartCard'
 // pages

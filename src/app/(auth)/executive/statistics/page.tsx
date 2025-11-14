@@ -3,7 +3,7 @@
 // materials
 import Box from '@mui/material/Box'
 // components
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 import PageTitle from '@/components/page-title'
 // pages components
 import TableOfContents from '@/components/pages/executive/statistics/charts/TableOfContents'

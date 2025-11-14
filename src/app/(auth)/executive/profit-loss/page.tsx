@@ -13,7 +13,7 @@ import Table, {
     type ItemRow,
 } from '@/app/(auth)/executive/profit-loss/_components/table'
 // components
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
 // enums

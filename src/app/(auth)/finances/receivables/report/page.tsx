@@ -21,7 +21,7 @@ import useSWR from 'swr'
 // components
 import BackButton from '@/components/back-button'
 import DatePicker from '@/components/date-picker'
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 import InfoBox from '@/components/InfoBox'
 import IconButton from '@/components/icon-button'
 import LoadingCenter from '@/components/loading-center'

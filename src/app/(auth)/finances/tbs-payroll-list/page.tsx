@@ -19,7 +19,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
 // components
 import DatePicker from '@/components/date-picker'
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import InfoBox from '@/components/InfoBox'
 import IconButton from '@/components/icon-button'
