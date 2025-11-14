@@ -23,11 +23,11 @@ import Datatable, {
     getRowData,
     mutate,
 } from '@/components/Datatable'
+import UlInsideMuiDatatableCell from '@/components/datatable.ul-inside-cell'
 import Fab from '@/components/fab'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
-import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import PageTitle from '@/components/page-title'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 import ScrollableXBox from '@/components/scrollable-x-box'
@@ -39,7 +39,6 @@ import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
 import type Land from '@/modules/clm/types/orms/land'
-import type PalmBunchType from '@/modules/palm-bunch/types/orms/palm-bunch'
 import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // providers
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
@@ -300,34 +299,37 @@ const DATATABLE_COLUMNS: DatatableProps['columns'] = [
         label: 'Pemilik TBS',
         name: 'delivery.palmBunches.ownerUser.name',
         options: {
-            customBodyRenderLite: dataIndex => (
-                <ListInsideMuiDatatableCell
-                    listItems={
-                        getRowData<PalmBunchesReaTicket>(dataIndex)?.delivery
-                            ?.palm_bunches ?? []
-                    }
-                    renderItem={(palmBunch: PalmBunchType) => (
-                        <Box
-                            component="span"
-                            sx={() => ({
-                                color:
-                                    palmBunch.owner_user?.uuid ===
-                                    currentUserUuid
-                                        ? 'success.main'
-                                        : undefined,
-                                fontWeight:
-                                    palmBunch.owner_user?.uuid ===
-                                    currentUserUuid
-                                        ? 'bold'
-                                        : undefined,
-                            })}>
-                            #{palmBunch.owner_user?.id + ' — '}
-                            {palmBunch.owner_user?.name + ' '}(
-                            {formatNumber(palmBunch.n_kg ?? 0)} kg)
-                        </Box>
-                    )}
-                />
-            ),
+            customBodyRenderLite: dataIndex => {
+                const palmBunches =
+                    getRowData<PalmBunchesReaTicket>(dataIndex)?.delivery
+                        ?.palm_bunches ?? []
+
+                return (
+                    <UlInsideMuiDatatableCell>
+                        {palmBunches.map(palmBunch => (
+                            <Box
+                                component="li"
+                                key={palmBunch.uuid}
+                                sx={() => ({
+                                    color:
+                                        palmBunch.owner_user?.uuid ===
+                                        currentUserUuid
+                                            ? 'success.main'
+                                            : undefined,
+                                    fontWeight:
+                                        palmBunch.owner_user?.uuid ===
+                                        currentUserUuid
+                                            ? 'bold'
+                                            : undefined,
+                                })}>
+                                #{palmBunch.owner_user?.id + ' — '}
+                                {palmBunch.owner_user?.name + ' '}(
+                                {formatNumber(palmBunch.n_kg ?? 0)} kg)
+                            </Box>
+                        ))}
+                    </UlInsideMuiDatatableCell>
+                )
+            },
             setCellProps: () => {
                 return {
                     sx: {

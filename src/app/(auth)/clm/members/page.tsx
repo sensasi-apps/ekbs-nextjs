@@ -17,10 +17,10 @@ import Datatable, {
     type GetRowDataType,
     type MutateType,
 } from '@/components/Datatable'
+import UlInsideMuiDatatableCell from '@/components/datatable.ul-inside-cell'
 import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
 import UserSelect from '@/components/formik-fields/user-select'
-import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
 import PageTitle from '@/components/page-title'
 import TextShortener from '@/components/text-shortener'
 import myAxios from '@/lib/axios'
@@ -157,19 +157,16 @@ const DATATABLE_COLUMNS: DatatableProps<MemberORM>['columns'] = [
         label: 'Lahan',
         name: 'user.lands',
         options: {
-            customBodyRender: (value: Land[]) => {
-                return (
-                    <ListInsideMuiDatatableCell
-                        listItems={value ?? []}
-                        renderItem={land => (
-                            <>
-                                <TextShortener text={land.uuid} /> (
-                                {land.n_area_hectares} Ha)
-                            </>
-                        )}
-                    />
-                )
-            },
+            customBodyRender: (lands: Land[]) => (
+                <UlInsideMuiDatatableCell>
+                    {lands.map(land => (
+                        <Box component="li" key={land.uuid}>
+                            <TextShortener text={land.uuid} /> (
+                            {land.n_area_hectares} Ha)
+                        </Box>
+                    ))}
+                </UlInsideMuiDatatableCell>
+            ),
             searchable: false,
             sort: false,
         },
