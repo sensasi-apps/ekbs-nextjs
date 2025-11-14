@@ -1,5 +1,4 @@
 import Box, { type BoxProps } from '@mui/material/Box'
-import { memo } from 'react'
 
 /**
  * Box with default scrollable x params
@@ -10,10 +9,7 @@ import { memo } from 'react'
  * @param overflowX auto
  * @param alignItems center
  */
-const ScrollableXBox = memo(function ScrollableXBox({
-    sx,
-    ...props
-}: BoxProps) {
+export default function ScrollableXBox({ sx, ...props }: BoxProps) {
     const appliedSx: BoxProps['sx'] = {
         overflowX: 'auto',
         ...sx,
@@ -29,6 +25,4 @@ const ScrollableXBox = memo(function ScrollableXBox({
             {...props}
         />
     )
-})
-
-export default ScrollableXBox
+}

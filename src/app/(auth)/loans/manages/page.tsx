@@ -20,7 +20,7 @@ import PageTitle from '@/components/page-title'
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
 import LoanForm, { INITIAL_VALUES } from '@/components/pages/user-loans/Form'
 import type { UserLoanFormDataType } from '@/components/pages/user-loans/Form/types'
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 import UserLoan from '@/enums/permissions/UserLoan'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

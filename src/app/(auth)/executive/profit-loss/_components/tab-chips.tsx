@@ -10,7 +10,7 @@ import { useCallback } from 'react'
 // components
 import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 // enums
 import BusinessUnit from '@/enums/business-unit'
 

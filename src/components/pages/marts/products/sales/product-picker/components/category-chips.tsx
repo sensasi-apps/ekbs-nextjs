@@ -3,7 +3,7 @@
 // vendors
 import { memo, useState } from 'react'
 import ChipSmall from '@/components/chip-small'
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 import type Product from '@/modules/mart/types/orms/product'
 
 function CategoryChips({

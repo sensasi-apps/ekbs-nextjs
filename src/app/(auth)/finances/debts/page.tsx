@@ -22,7 +22,7 @@ import FinancesDebtForm, {
     type FormValuesType,
 } from '@/components/pages/finances/debts/Form'
 import SettlementForm from '@/components/pages/finances/debts/SettlementForm'
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 // enums
 import Finance from '@/enums/permissions/Finance'
 // hooks

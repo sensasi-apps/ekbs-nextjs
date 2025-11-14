@@ -21,7 +21,7 @@ import type { JSX } from 'react'
 import NumericField from '@/components/formik-fields/numeric-field'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import RpInputAdornment from '@/components/input-adornments/rp'
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
 //

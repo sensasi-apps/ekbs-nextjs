@@ -22,7 +22,7 @@ import Skeletons from '@/components/Global/Skeletons'
 import IconButton from '@/components/icon-button'
 import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/print-handler'
-import ScrollableXBox from '@/components/ScrollableXBox'
+import ScrollableXBox from '@/components/scrollable-x-box'
 import useDisablePage from '@/hooks/useDisablePage'
 // utils
 import formatNumber from '@/utils/format-number'
