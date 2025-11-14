@@ -12,7 +12,7 @@ import InOutCashChart, {
     type InOutCashChartDataType,
 } from '@/app/(auth)/finances/cashes/_parts/cash/in-out-chart'
 // components
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
 import Heading3 from '@/components/pages/executive/statistics/Heading3'
 // constants

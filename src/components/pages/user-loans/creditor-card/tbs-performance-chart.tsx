@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
 import LineChart from '@/components/Chart/Line/Line'
 // components
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import StatCard from '@/components/StatCard'
 import type UserType from '@/modules/user/types/orms/user'

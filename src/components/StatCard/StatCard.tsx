@@ -21,7 +21,7 @@ import Typography from '@mui/material/Typography'
 // vendors
 import { type ReactNode, useState } from 'react'
 // components
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 
 /**
  * A component that displays a card with a title, optional collapsible content, and a loading state.

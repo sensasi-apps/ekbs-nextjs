@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton'
 import type { FastFieldProps, FieldProps, FormikProps } from 'formik'
 // vendors
 import { FastField, Field, FieldArray } from 'formik'
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 // components
 import FormikForm from '@/components/formik-form'
 import InfoBox from '@/components/InfoBox'

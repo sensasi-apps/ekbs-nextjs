@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid'
 // vendors
 import { memo } from 'react'
 import useSWR from 'swr'
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 // page components
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
 import ScrollableXBox from '@/components/ScrollableXBox'

@@ -6,7 +6,7 @@ import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WorkIcon from '@mui/icons-material/Work'
 import { memo } from 'react'
 // components
-import FlexColumnBox from '@/components/FlexColumnBox'
+import FlexColumnBox from '@/components/flex-column-box'
 // page components
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
 import Heading3 from '@/components/pages/executive/statistics/Heading3'

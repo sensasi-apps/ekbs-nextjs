@@ -20,6 +20,8 @@ import useSWR from 'swr'
 import { useDebounce } from 'use-debounce'
 // pages type
 import type { DataType } from '@/app/(auth)/finances/wallets/page'
+// components
+import FlexColumnBox from '@/components/flex-column-box'
 import Skeletons from '@/components/Global/Skeletons'
 // enums
 import Wallet from '@/enums/permissions/Wallet'
@@ -29,8 +31,6 @@ import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
-// components
-import FlexColumnBox from '../FlexColumnBox'
 import InfoBox from '../InfoBox'
 import PrintHandler from '../print-handler'
 import ScrollableXBox from '../ScrollableXBox'
