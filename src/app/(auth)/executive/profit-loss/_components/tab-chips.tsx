@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // enums

@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 import type { FormikProps } from 'formik'
 // vendors
 import { useDebouncedCallback } from 'use-debounce'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 // components
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import BusinessUnit from '@/enums/business-unit'

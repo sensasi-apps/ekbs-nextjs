@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 import { useState } from 'react'
 import { mutate } from 'swr'
 //components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import TextField from '@/components/TextField'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'

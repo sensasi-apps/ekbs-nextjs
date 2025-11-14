@@ -7,7 +7,7 @@ import { Field, type FieldProps } from 'formik'
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 // components
-import DatePicker, { type DatePickerProps } from '@/components/DatePicker'
+import DatePicker, { type DatePickerProps } from '@/components/date-picker'
 // types
 import type { Ymd } from '@/types/date-string'
 // utils

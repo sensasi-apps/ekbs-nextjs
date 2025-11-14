@@ -22,7 +22,7 @@ import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 // components
 import BackButton from '@/components/back-button'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
 import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/print-handler'

@@ -16,7 +16,7 @@ import type { ChangeEvent } from 'react'
 // vendors
 import { useEffect, useState } from 'react'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import type FormType from '@/components/Global/Form/type'
 import NumericFormat from '@/components/Global/NumericFormat'
 // hooks

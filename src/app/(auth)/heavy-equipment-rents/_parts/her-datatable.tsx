@@ -15,7 +15,7 @@ import Datatable, {
     type GetRowDataType,
     type OnRowClickType,
 } from '@/components/Datatable'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 // types
 import type RentItemRent from '@/types/orms/rent-item-rent'
 // utils

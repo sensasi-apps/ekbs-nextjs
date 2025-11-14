@@ -15,6 +15,7 @@ import type { FormikProps } from 'formik'
 import { FastField } from 'formik'
 // vendors
 import { useState } from 'react'
+import DatePicker from '@/components/date-picker'
 // components
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
@@ -25,7 +26,6 @@ import type CashType from '@/types/orms/cash'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
-import DatePicker from '../DatePicker'
 import RpInputAdornment from '../InputAdornment/Rp'
 import TextFieldFastableComponent from '../TextField/FastableComponent'
 

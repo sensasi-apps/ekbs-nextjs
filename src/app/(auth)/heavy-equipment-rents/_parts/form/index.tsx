@@ -14,7 +14,7 @@ import dayjs from 'dayjs'
 import { FastField, type FormikProps, useFormik } from 'formik'
 import { memo } from 'react'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
 import ImageButtonAndModal from '@/components/ImageButtonAndModal'
 import NumericFormat from '@/components/NumericFormat'

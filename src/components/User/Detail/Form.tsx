@@ -16,7 +16,7 @@ import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { PatternFormat } from 'react-number-format'
 import { mutate } from 'swr'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'

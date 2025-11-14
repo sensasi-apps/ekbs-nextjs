@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import dayjs from 'dayjs'
 import { FastField, type FastFieldProps, type FormikProps } from 'formik'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 // components
 import FormikForm from '@/components/formik-form'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'

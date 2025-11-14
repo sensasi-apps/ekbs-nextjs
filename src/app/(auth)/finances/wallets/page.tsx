@@ -15,7 +15,7 @@ import { useRef, useState } from 'react'
 import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
 // components
 import Datatable from '@/components/Datatable'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import Dialog from '@/components/Global/Dialog'
 import PageTitle from '@/components/page-title'
 import TxHistory from '@/components/Wallet/TxHistory'

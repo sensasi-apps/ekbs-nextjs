@@ -26,7 +26,7 @@ import dayjs from 'dayjs'
 import fileDownload from 'js-file-download'
 // vendors
 import React, { type ChangeEvent, useState } from 'react'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import type FormType from '@/components/Global/Form/type'
 // components
 import NumericFormat from '@/components/Global/NumericFormat'

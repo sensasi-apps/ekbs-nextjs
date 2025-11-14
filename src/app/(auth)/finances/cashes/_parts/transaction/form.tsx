@@ -26,9 +26,9 @@ import {
 } from 'formik'
 // vendors
 import { useState } from 'react'
-// components
-import DatePicker from '@/components/DatePicker'
 import FormLoadingBar from '@/components/Dialog/LoadingBar'
+// components
+import DatePicker from '@/components/date-picker'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
 import SelectFromApi from '@/components/Global/SelectFromApi'
