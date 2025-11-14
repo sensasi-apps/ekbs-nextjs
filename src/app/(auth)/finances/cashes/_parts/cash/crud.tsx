@@ -1,7 +1,7 @@
 // types
 
 import { Formik, type FormikConfig } from 'formik'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 // components
 import DialogWithTitle from '@/components/dialog-with-title'
 import Cash from '@/enums/permissions/Cash'
@@ -20,30 +20,29 @@ export default function CashCrud() {
     const [values, setValues] = useState<Partial<CashType>>(INITIAL_VALUES)
     const [dialogOpen, setDialogOpen] = useState(false)
 
-    const handleNew = useCallback(() => {
+    const handleNew = () => {
         setValues(INITIAL_VALUES)
         setDialogOpen(true)
-    }, [])
+    }
 
-    const handleEdit = useCallback((values: CashType) => {
+    const handleEdit = (values: CashType) => {
         setValues(values)
         setDialogOpen(true)
-    }, [])
+    }
 
-    const closeDialog = useCallback(() => setDialogOpen(false), [])
+    const closeDialog = () => setDialogOpen(false)
 
-    const handleSubmit: FormikConfig<Partial<CashType>>['onSubmit'] =
-        useCallback(
-            (values, { setErrors }) =>
-                axios
-                    .post('cashes', values)
-                    .then(() => {
-                        mutate()
-                        setDialogOpen(false)
-                    })
-                    .catch(error => errorCatcher(error, setErrors)),
-            [],
-        )
+    const handleSubmit: FormikConfig<Partial<CashType>>['onSubmit'] = (
+        values,
+        { setErrors },
+    ) =>
+        axios
+            .post('cashes', values)
+            .then(() => {
+                mutate()
+                setDialogOpen(false)
+            })
+            .catch(error => errorCatcher(error, setErrors))
 
     if (isAuthHasPermission(Cash.READ) === false) return null
 
