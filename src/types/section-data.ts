@@ -1,4 +1,4 @@
-import type { BigNumberCardProps } from '@/components/big-number-card'
+import type { BigNumberCardProps } from '@/components/stat-card.big-number-card'
 
 export default interface SectionData {
     bigNumber1: BigNumberCardProps

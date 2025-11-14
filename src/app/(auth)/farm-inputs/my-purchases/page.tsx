@@ -11,8 +11,6 @@ import Grid from '@mui/material/Grid'
 import { useState } from 'react'
 import useSWR from 'swr'
 import type ApiResponseType from '@/app/(auth)/me/participation/api-response-type'
-// components
-import BigNumberCard from '@/components/big-number-card'
 import Datatable, {
     type DatatableProps,
     type GetRowDataType,
@@ -21,6 +19,8 @@ import FlexBox from '@/components/flex-box'
 import LineChartCard from '@/components/line-chart-card'
 import PageTitle from '@/components/page-title'
 import ProductSaleReceipt from '@/components/pages/farm-input-product-sales/Receipt'
+// components
+import BigNumberCard from '@/components/stat-card.big-number-card'
 //
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import formatNumber from '@/utils/format-number'
