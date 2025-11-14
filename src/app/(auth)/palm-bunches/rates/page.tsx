@@ -17,10 +17,10 @@ export default function PalmBunchesRates() {
 import SellIcon from '@mui/icons-material/Sell'
 // vendors
 import Fab from '@mui/material/Fab'
+import PalmBunchRatesForm from '@/app/(auth)/palm-bunches/rates/palm-bunch-rates-form'
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
-import PalmBunchRatesForm from '@/components/PalmBunchRates/Form'
 import PageTitle from '@/components/page-title'
 // types
 import type PalmBunchRateType from '@/modules/palm-bunch/types/orms/palm-bunch-rate'
