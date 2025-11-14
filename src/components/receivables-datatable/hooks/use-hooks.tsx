@@ -2,7 +2,7 @@ import { useSearchParams } from 'next/navigation'
 // vendors
 import { useState } from 'react'
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
-import type { FormValuesType } from '../PaymentForm'
+import type { FormValuesType } from '../payment-form'
 
 export function useHooks() {
     const searchParams = useSearchParams()
