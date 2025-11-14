@@ -6,7 +6,7 @@ import { memo } from 'react'
 import useSWR from 'swr'
 import InOutLineChart, {
     type InOutLineChartProps,
-} from '@/components/Chart/Line/InOut'
+} from '@/components/charts/lines/in-out'
 // components
 import StatCard from '@/components/stat-card'
 // constants

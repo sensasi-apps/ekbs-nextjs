@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip'
 import useSWR from 'swr'
 import InOutLineChart, {
     type InOutLineChartProps,
-} from '@/components/Chart/Line/InOut'
+} from '@/components/charts/lines/in-out'
 import PageTitle from '@/components/page-title'
 // page components
 import SaprodiSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Saprodi'

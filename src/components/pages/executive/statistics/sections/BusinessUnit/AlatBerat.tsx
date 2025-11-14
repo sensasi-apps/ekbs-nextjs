@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid'
 import { memo } from 'react'
 import useSWR from 'swr'
 // page components
-import LineChart from '@/components/Chart/Line/Line'
+import LineChart from '@/components/charts/lines/basic'
 // icons
 // components
 import StatCard from '@/components/stat-card'

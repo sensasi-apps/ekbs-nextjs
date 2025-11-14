@@ -4,11 +4,11 @@
 import Grid from '@mui/material/Grid'
 import { memo } from 'react'
 import useSWR from 'swr'
+// components
+import LineChart from '@/components/charts/lines/basic'
 import InOutLineChart, {
     type InOutLineChartProps,
-} from '@/components/Chart/Line/InOut'
-// components
-import LineChart from '@/components/Chart/Line/Line'
+} from '@/components/charts/lines/in-out'
 import StatCard from '@/components/stat-card'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'

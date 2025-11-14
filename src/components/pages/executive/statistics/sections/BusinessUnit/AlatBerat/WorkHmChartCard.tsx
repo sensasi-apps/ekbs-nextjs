@@ -1,5 +1,5 @@
 // components
-import LineChart from '@/components/Chart/Line/Line'
+import LineChart from '@/components/charts/lines/basic'
 import StatCard from '@/components/stat-card'
 // utils
 import formatNumber from '@/utils/format-number'
