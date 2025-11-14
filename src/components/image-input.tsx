@@ -10,8 +10,8 @@ import FormHelperText from '@mui/material/FormHelperText'
 import Typography from '@mui/material/Typography'
 // vendors
 import { type ChangeEvent, useEffect, useState } from 'react'
+import ImageButtonAndModal from '@/components/image-button-and-modal'
 import type FileFromDb from '@/types/orms/file'
-import ImageButtonAndModal from './ImageButtonAndModal'
 
 export default function ImageInput({
     sx,

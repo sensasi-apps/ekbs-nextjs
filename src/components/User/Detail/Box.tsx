@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 // vendors
 import { PatternFormat } from 'react-number-format'
 // components
-import ImageButtonAndModal from '@/components/ImageButtonAndModal'
+import ImageButtonAndModal from '@/components/image-button-and-modal'
 import type UserDetailORM from '@/modules/user/types/orms/user-detail'
 import type File from '@/types/orms/file'
 // utils

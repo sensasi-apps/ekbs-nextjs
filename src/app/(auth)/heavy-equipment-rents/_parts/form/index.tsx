@@ -16,7 +16,7 @@ import { memo } from 'react'
 // components
 import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
-import ImageButtonAndModal from '@/components/ImageButtonAndModal'
+import ImageButtonAndModal from '@/components/image-button-and-modal'
 import NumericFormat from '@/components/NumericFormat'
 import PrintHandler from '@/components/print-handler'
 import TextField from '@/components/TextField'
