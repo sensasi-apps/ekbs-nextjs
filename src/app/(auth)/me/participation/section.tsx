@@ -3,9 +3,9 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 //
 import type { ReactNode } from 'react'
-// components
-import BigNumberCard from '@/components/big-number-card'
 import LineChartCard from '@/components/line-chart-card'
+// components
+import BigNumberCard from '@/components/stat-card.big-number-card'
 // types
 import type SectionData from '@/types/section-data'
 import SectionHeader from './section.header'

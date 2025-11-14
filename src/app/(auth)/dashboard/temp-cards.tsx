@@ -7,7 +7,7 @@ import Forest from '@mui/icons-material/Forest'
 import Box from '@mui/material/Box'
 // vendors
 import useSWR from 'swr'
-import BigNumberCard from '@/components/big-number-card'
+import BigNumberCard from '@/components/stat-card.big-number-card'
 // enums
 import Role from '@/enums/role'
 // hooks

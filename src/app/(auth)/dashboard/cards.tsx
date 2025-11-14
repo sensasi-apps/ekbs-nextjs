@@ -3,7 +3,7 @@
 import useSWR from 'swr'
 import BigNumberCard, {
     type BigNumberCardProps,
-} from '@/components/big-number-card'
+} from '@/components/stat-card.big-number-card'
 import TopLoadingBar from '@/components/top-loading-bar'
 import RoleEnum from '@/enums/role'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'

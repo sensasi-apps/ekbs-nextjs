@@ -12,7 +12,7 @@ import type { ReactNode } from 'react'
 import StatCard from '@/components/stat-card'
 import formatNumber from '@/utils/format-number'
 
-export default function BigNumberCard({
+export default function StatCardBigNumberCard({
     title,
     number1,
     number2,
