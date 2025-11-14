@@ -14,7 +14,7 @@ import useSWR from 'swr'
 // components
 import InOutLineChart, {
     type InOutLineChartProps,
-} from '@/components/Chart/Line/InOut'
+} from '@/components/charts/lines/in-out'
 import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
 import ScrollableXBox from '@/components/scrollable-x-box'

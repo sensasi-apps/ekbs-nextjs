@@ -1,4 +1,4 @@
-import LineChart from '@/components/Chart/Line'
+import LineChart from '@/components/charts/lines/basic'
 import StatCard from '@/components/stat-card'
 import type SectionData from '@/types/section-data'
 

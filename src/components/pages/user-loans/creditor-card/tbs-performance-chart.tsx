@@ -4,7 +4,7 @@ import type { UUID } from 'crypto'
 // vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
-import LineChart from '@/components/Chart/Line/Line'
+import LineChart from '@/components/charts/lines/basic'
 // components
 import FlexColumnBox from '@/components/flex-column-box'
 import ScrollableXBox from '@/components/scrollable-x-box'

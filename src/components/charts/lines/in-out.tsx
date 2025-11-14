@@ -1,7 +1,6 @@
-import { memo } from 'react'
-import LineChart from './Line'
+import LineChart from './basic'
 
-const InOutLineChart = memo(function InOutLineChart({
+export default function InOutLineChart({
     data,
     inboundAlias = 'Masuk',
     outboundAlias = 'Keluar',
@@ -26,9 +25,7 @@ const InOutLineChart = memo(function InOutLineChart({
             prefix="Rp"
         />
     )
-})
-
-export default InOutLineChart
+}
 
 export type InOutLineChartProps = {
     data:

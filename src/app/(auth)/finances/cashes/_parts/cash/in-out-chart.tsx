@@ -2,7 +2,7 @@
 
 // vendors
 import useSWR from 'swr'
-import LineChart from '@/components/Chart/Line'
+import LineChart from '@/components/charts/lines/basic'
 import type { StatCardProps } from '@/components/stat-card'
 // components
 import StatCard from '@/components/stat-card'

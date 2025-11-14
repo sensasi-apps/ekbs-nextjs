@@ -19,7 +19,7 @@ import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
 import useSWR from 'swr'
 // components
-import LineChart from '@/components/Chart/Line'
+import LineChart from '@/components/charts/lines/basic'
 import StatCard, { type StatCardProps } from '@/components/stat-card'
 import BigNumber from '@/components/stat-card.big-number'
 // utils

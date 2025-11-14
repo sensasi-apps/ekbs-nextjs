@@ -14,7 +14,7 @@ import { type MutableRefObject, useRef, useState } from 'react'
 import useSWR from 'swr'
 import InOutLineChart, {
     type InOutLineChartProps,
-} from '@/components/Chart/Line/InOut'
+} from '@/components/charts/lines/in-out'
 // components
 import type {
     DatatableProps,
