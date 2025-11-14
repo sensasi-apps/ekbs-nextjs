@@ -15,7 +15,7 @@ import type { FormEvent } from 'react'
 import { useState } from 'react'
 import type FormType from '@/components/Global/Form/type'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
-import UserActivityLogsDialogTable from '@/components/UserActivityLogs/DialogTable'
+import UserActivityLogsDialogTable from '@/components/user-activity-logs/dialog-table'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // enums
 import Role from '@/enums/role'

@@ -36,7 +36,7 @@ import RpInputAdornment from '@/components/input-adornments/rp'
 import NumericFormat from '@/components/numeric-format'
 import TextField from '@/components/text-field'
 import TextFieldFastableComponent from '@/components/text-field.fastable-component'
-import UserActivityLogs from '@/components/UserActivityLogs'
+import UserActivityLogs from '@/components/user-activity-logs'
 // enums
 import TransactionPermission from '@/enums/permissions/Transaction'
 // hooks

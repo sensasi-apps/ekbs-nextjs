@@ -21,7 +21,7 @@ import NumericFormat from '@/components/numeric-format'
 import PrintHandler from '@/components/print-handler'
 import TextField from '@/components/text-field'
 import TextFieldFastableComponent from '@/components/text-field.fastable-component'
-import UserActivityLogs from '@/components/UserActivityLogs'
+import UserActivityLogs from '@/components/user-activity-logs'
 // enums
 import HeavyEquipmentRent from '@/enums/permissions/heavy-equipment-rent'
 // hooks
