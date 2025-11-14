@@ -1,21 +1,14 @@
-// types
-
-// vendors
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 import type { UUID } from 'crypto'
-// components
 import Datatable, { type DatatableProps } from '@/components/Datatable'
-// enums
-import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'
 import formatNumber from '@/utils/format-number'
-// utils
 import toDmy from '@/utils/to-dmy'
 
-export default function PalmBuncesReaPaymentDetailDatatableModal({
+export default function PalmBunchesReaPaymentDetailDatatableModal({
     uuid,
     open,
     title,
@@ -36,10 +29,7 @@ export default function PalmBuncesReaPaymentDetailDatatableModal({
                 }}>
                 {uuid && (
                     <Datatable
-                        apiUrl={ApiUrlEnum.REA_PAYMENT_DETAIL_DATATABLE.replace(
-                            '$1',
-                            uuid,
-                        )}
+                        apiUrl={`palm-bunches/rea-payments/${uuid}/detail-datatable`}
                         apiUrlParams={{
                             type: type,
                         }}
