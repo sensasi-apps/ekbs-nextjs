@@ -11,7 +11,7 @@ import {
 } from 'formik'
 import FormikForm from '@/components/formik-form'
 // components
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import type Product from '@/modules/farm-inputs/types/orms/product'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // utils

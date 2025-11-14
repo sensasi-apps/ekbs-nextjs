@@ -11,7 +11,7 @@ import { memo, useState } from 'react'
 // components
 import IconButton from '@/components/icon-button'
 import RpInputAdornment from '@/components/input-adornments/rp'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import TextField from '@/components/TextField'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 // utils

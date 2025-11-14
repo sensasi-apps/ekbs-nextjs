@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import IconButton from '@/components/icon-button'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import axios from '@/lib/axios'
 import OpnameApiUrl from '@/modules/mart/enums/opname-api-url'
 //

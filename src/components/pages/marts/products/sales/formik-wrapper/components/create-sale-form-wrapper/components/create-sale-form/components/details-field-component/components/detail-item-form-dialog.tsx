@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 import { useFormikContext } from 'formik'
 import RpInputAdornment from '@/components/input-adornments/rp'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 //
 import type { FormValuesType } from '../../../../../../..'
 

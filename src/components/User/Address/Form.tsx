@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField'
 import { useState } from 'react'
 import { mutate } from 'swr'
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 // components
 import LoadingCenter from '@/components/Statuses/LoadingCenter'
 import useValidationErrors from '@/hooks/useValidationErrors'

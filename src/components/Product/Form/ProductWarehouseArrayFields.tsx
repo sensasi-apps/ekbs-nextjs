@@ -9,7 +9,7 @@ import {
 } from 'formik'
 import RpInputAdornment from '@/components/input-adornments/rp'
 // components
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import type Product from '@/modules/farm-inputs/types/orms/product'
 // utils
