@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import NextLink from 'next/link'
 // vendors
-import { type MouseEventHandler, useCallback, useState } from 'react'
+import { type MouseEventHandler, useState } from 'react'
 // components
 import ChipSmall from '@/components/chip-small'
 import FlexBox from '@/components/flex-box'
@@ -46,12 +46,11 @@ export default function AccountButton({
     const user = useAuthInfo()
     const [anchorEl, setAnchorEl] = useState<Element>()
 
-    const handleOpenMenu = useCallback<MouseEventHandler>(
-        event => setAnchorEl(event.currentTarget as Element),
-        [],
-    )
+    const handleOpenMenu: MouseEventHandler = event => {
+        setAnchorEl(event.currentTarget as Element)
+    }
 
-    const handleCloseMenu = useCallback(() => setAnchorEl(undefined), [])
+    const handleCloseMenu = () => setAnchorEl(undefined)
 
     if (!user) return null
 

@@ -2,7 +2,7 @@
 
 import type { FormikConfig } from 'formik'
 import { Formik } from 'formik'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 // components
 import { mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/dialog-with-title'
@@ -28,7 +28,7 @@ export default function LoansPage() {
         null,
     )
 
-    const handleEdit = useCallback((values: UserLoanORM) => {
+    const handleEdit = (values: UserLoanORM) => {
         setValues({
             cashable_uuid: values.transaction?.cashable_uuid ?? '',
             interest_percent: values.interest_percent,
@@ -42,9 +42,9 @@ export default function LoansPage() {
         })
         setUserLoanFromDb(values)
         setDialogOpen(true)
-    }, [])
+    }
 
-    const closeDialog = useCallback(() => setDialogOpen(false), [])
+    const closeDialog = () => setDialogOpen(false)
 
     const handleSubmit: FormikConfig<UserLoanFormDataType>['onSubmit'] = (
         values,

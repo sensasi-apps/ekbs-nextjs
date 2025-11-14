@@ -6,7 +6,6 @@ import Refresh from '@mui/icons-material/Refresh'
 import Chip from '@mui/material/Chip'
 import dayjs from 'dayjs'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
 // components
 import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
@@ -28,15 +27,12 @@ export function TabChips({
     const { replace } = useRouter()
     const searchParams = useSearchParams()
 
-    const createQueryString = useCallback(
-        (name: string, value: string) => {
-            const params = new URLSearchParams(searchParams?.toString())
-            params.set(name, value)
+    const createQueryString = (name: string, value: string) => {
+        const params = new URLSearchParams(searchParams?.toString())
+        params.set(name, value)
 
-            return params.toString()
-        },
-        [searchParams],
-    )
+        return params.toString()
+    }
 
     function handleActiveTabChange(value: string) {
         replace(`?${createQueryString('activeTab', value)}`)
