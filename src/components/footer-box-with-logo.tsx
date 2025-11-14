@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import FooterBox from '@/components/footer-box'
-import LogoImage from '@/components/LogoImage'
+import LogoImage from '@/components/logo-image'
 
 export default function FooterBoxWithLogo() {
     return (
