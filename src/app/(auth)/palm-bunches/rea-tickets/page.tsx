@@ -9,12 +9,14 @@ import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
+// vendors
 import type { UUID } from 'crypto'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-// vendors
 import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
+// local components
+import MainForm from '@/app/(auth)/palm-bunches/rea-tickets/_form'
 // components
 import Datatable, {
     type DatatableProps,
@@ -26,8 +28,6 @@ import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'
 import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'
-// local components
-import MainForm from '@/components/PalmBunchesReaTicket/Form'
 import PageTitle from '@/components/page-title'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
 import ScrollableXBox from '@/components/scrollable-x-box'

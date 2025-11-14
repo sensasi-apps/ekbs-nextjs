@@ -1,14 +1,14 @@
-// vendors
-
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/GridLegacy'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
+// vendors
 import dayjs, { type Dayjs } from 'dayjs'
 import { memo, useEffect, useState } from 'react'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
+// components
 import DatePicker from '@/components/date-picker'
 import RpInputAdornment from '@/components/input-adornments/rp'
 import TextField from '@/components/TextField'
@@ -16,18 +16,20 @@ import UserAutocomplete from '@/components/user-autocomplete'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
-// components
-import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // modules
+import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 import type MinimalUser from '@/modules/user/types/minimal-user'
 // providers
 import useFormData from '@/providers/useFormData'
+// types
 import type LaravelValidationExceptionResponse from '@/types/laravel-validation-exception-response'
+// utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // libs
 import { wholeNumber } from '@/utils/regexs'
-import AsFarmLandIdInput from './MainInputs/AsFarmLandIdInput'
-import SpbNoInput from './MainInputs/SpbNoInput'
+// local components
+import AsFarmLandIdInput from './main-inputs/as-farm-land-id-input'
+import SpbNoInput from './main-inputs/spb-no-input'
 
 interface MainInputProps {
     clearByName: (name: string) => void
