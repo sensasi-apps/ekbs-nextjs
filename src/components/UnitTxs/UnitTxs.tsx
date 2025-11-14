@@ -24,8 +24,8 @@ import type {
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
-import StatCard from '@/components/StatCard'
-import BigNumber from '@/components/StatCard/BigNumber'
+import StatCard from '@/components/stat-card'
+import BigNumber from '@/components/stat-card.big-number'
 // enums
 import BusinessUnit from '@/enums/business-unit'
 import axios from '@/lib/axios'

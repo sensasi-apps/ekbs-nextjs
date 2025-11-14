@@ -12,9 +12,9 @@ import InOutLineChart, {
 import PageTitle from '@/components/page-title'
 // page components
 import SppSubsection from '@/components/pages/executive/statistics/sections/BusinessUnit/Spp'
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 // components
-import BigNumber from '@/components/StatCard/BigNumber'
+import BigNumber from '@/components/stat-card.big-number'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 

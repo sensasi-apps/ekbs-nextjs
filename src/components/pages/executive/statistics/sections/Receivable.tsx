@@ -10,9 +10,9 @@ import useSWR from 'swr'
 import FlexColumnBox from '@/components/flex-column-box'
 // page components
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
-// components
-import BigNumber from '@/components/StatCard/BigNumber'
 import ScrollableXBox from '@/components/scrollable-x-box'
+// components
+import BigNumber from '@/components/stat-card.big-number'
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'

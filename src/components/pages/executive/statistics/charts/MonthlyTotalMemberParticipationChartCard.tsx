@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import LineChart from '@/components/Chart/Line'
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/stat-card'
 
 const MonthlyTotalMemberParticipationChartCard = memo(
     function MonthlyTotalMemberParticipationChartCard({
