@@ -2,7 +2,6 @@ import type { NextConfig } from 'next'
 
 import withBundleAnalyzer from './next.config/bundle-analyzer'
 import withMDX from './next.config/mdx'
-import withRspack from './next.config/rspack'
 import withSentry from './next.config/sentry'
 import withSerwist from './next.config/serwist'
 
@@ -14,6 +13,8 @@ const nextConfig: NextConfig = {
          * @see https://nextjs.org/docs/app/api-reference/config/next-config-js/optimizePackageImports
          */
         optimizePackageImports: ['@mui/x-date-pickers', 'recharts', 'formik'],
+
+        reactCompiler: true,
     },
 
     pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
@@ -41,6 +42,4 @@ const nextConfig: NextConfig = {
     typedRoutes: true,
 }
 
-export default withBundleAnalyzer(
-    withSentry(withSerwist(withMDX(withRspack(nextConfig)))),
-)
+export default withBundleAnalyzer(withSentry(withSerwist(withMDX(nextConfig))))
