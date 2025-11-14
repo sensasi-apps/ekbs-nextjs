@@ -1,6 +1,6 @@
 import MuiIconButton, { type IconButtonProps } from '@mui/material/IconButton'
 import type { ElementType } from 'react'
-import Tooltip, { type TooltipProps } from './Tooltip'
+import Tooltip, { type TooltipProps } from '@/components/tooltip'
 
 export default function IconButton({
     title,
