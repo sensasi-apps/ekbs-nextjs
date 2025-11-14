@@ -1,10 +1,10 @@
 'use client'
 
+import RoleForm from '@/app/(auth)/(superman)/roles/role-form'
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import PageTitle from '@/components/page-title'
-import RoleForm from '@/components/Role/Form'
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
 import type Role from '@/types/orms/role'
 
