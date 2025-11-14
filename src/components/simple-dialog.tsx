@@ -1,16 +1,11 @@
-// types
-
 // icons
 import CloseIcon from '@mui/icons-material/Close'
 // materials
 import Button, { type ButtonProps } from '@mui/material/Button'
-import type { DialogProps } from '@mui/material/Dialog'
-import Dialog from '@mui/material/Dialog'
+import Dialog, { type DialogProps } from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
-import type { DialogTitleProps } from '@mui/material/DialogTitle'
-import DialogTitle from '@mui/material/DialogTitle'
-import type { IconButtonProps } from '@mui/material/IconButton'
-import IconButton from '@mui/material/IconButton'
+import DialogTitle, { type DialogTitleProps } from '@mui/material/DialogTitle'
+import IconButton, { type IconButtonProps } from '@mui/material/IconButton'
 // vendors
 import { useState } from 'react'
 
