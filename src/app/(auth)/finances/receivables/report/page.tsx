@@ -27,7 +27,7 @@ import InfoBox from '@/components/info-box'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/print-handler'
-import ScrollToTopFab from '@/components/ScrollToTopFab'
+import ScrollToTopFab from '@/components/scroll-to-top-fab'
 import ScrollableXBox from '@/components/scrollable-x-box'
 // types
 import type InstallmentORM from '@/modules/installment/types/orms/installment'

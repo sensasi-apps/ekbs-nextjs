@@ -25,7 +25,7 @@ import Skeletons from '@/components/Global/Skeletons'
 import IconButton from '@/components/icon-button'
 import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/print-handler'
-import ScrollToTopFab from '@/components/ScrollToTopFab'
+import ScrollToTopFab from '@/components/scroll-to-top-fab'
 import ScrollableXBox from '@/components/scrollable-x-box'
 // types
 import type User from '@/modules/user/types/orms/user'

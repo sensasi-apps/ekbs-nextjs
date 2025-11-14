@@ -25,7 +25,7 @@ import IconButton from '@/components/icon-button'
 import InfoBox from '@/components/info-box'
 import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/print-handler'
-import ScrollToTopFab from '@/components/ScrollToTopFab'
+import ScrollToTopFab from '@/components/scroll-to-top-fab'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // types
 import type { Ymd } from '@/types/date-string'
