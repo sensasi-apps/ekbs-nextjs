@@ -15,7 +15,7 @@ import type {
     OnRowClickType,
 } from '@/components/Datatable'
 // components
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import PageTitle from '@/components/page-title'
 import axios from '@/lib/axios'
 // types

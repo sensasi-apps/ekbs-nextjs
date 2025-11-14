@@ -7,7 +7,7 @@ import { Formik } from 'formik'
 import { useState } from 'react'
 // components
 import { mutate } from '@/components/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import PageTitle from '@/components/page-title'
 // enums
 import ApiUrlEnum from '@/components/pages/user-loans/ApiUrlEnum'

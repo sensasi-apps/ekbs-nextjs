@@ -10,7 +10,7 @@ import LoanReviewForm, {
 } from '@/app/(auth)/loans/reviews/form'
 // components
 import { mutate } from '@/components/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import PageTitle from '@/components/page-title'
 // hooks
 import useDisablePage from '@/hooks/useDisablePage'

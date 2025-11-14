@@ -12,7 +12,7 @@ import type { OnRowClickType } from '@/components/Datatable'
 // components
 import Datatable, { getNoWrapCellProps, mutate } from '@/components/Datatable'
 import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/Fab'
 import axios from '@/lib/axios'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'

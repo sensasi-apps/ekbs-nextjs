@@ -8,7 +8,7 @@ import { FastField, Formik } from 'formik'
 // vendors
 import { memo, useState } from 'react'
 // components
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import FormikForm from '@/components/formik-form'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 import useAuthInfo from '@/hooks/use-auth-info'

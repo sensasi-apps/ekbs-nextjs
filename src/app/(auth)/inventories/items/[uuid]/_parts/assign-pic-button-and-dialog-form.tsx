@@ -8,7 +8,7 @@ import { Formik } from 'formik'
 // vendors
 import { memo, useState } from 'react'
 // components
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import FormikForm from '@/components/formik-form'
 import TypographyWithLabel from '@/components/pages/user-loans/SummaryBox/TypographyWithLabel'
 import UserAutocomplete from '@/components/user-autocomplete'

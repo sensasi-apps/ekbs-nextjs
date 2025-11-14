@@ -5,7 +5,7 @@ import { Formik } from 'formik'
 import { useCallback, useState } from 'react'
 // components
 import { mutate } from '@/components/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import PageTitle from '@/components/page-title'
 // page components
 import LoansDatatable from '@/components/pages/user-loans/Datatable'
