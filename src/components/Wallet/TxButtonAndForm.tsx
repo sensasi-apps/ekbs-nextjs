@@ -9,7 +9,7 @@ import Tooltip from '@mui/material/Tooltip'
 import { Formik } from 'formik'
 import { useState } from 'react'
 // components
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import axios from '@/lib/axios'
 import type WalletType from '@/types/orms/wallet'
 // utils

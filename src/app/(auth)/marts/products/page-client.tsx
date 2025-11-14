@@ -17,7 +17,7 @@ import Datatable, {
     getNoWrapCellProps,
     type MutateType,
 } from '@/components/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/Fab'
 import FlexBox from '@/components/flex-box'
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'

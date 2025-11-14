@@ -12,7 +12,7 @@ import { useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 // components
 import { type MutateType } from '@/components/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/Fab'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import PageTitle from '@/components/page-title'

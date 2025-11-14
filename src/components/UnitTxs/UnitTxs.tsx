@@ -22,7 +22,7 @@ import type {
     MutateType,
 } from '@/components/Datatable'
 import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/Fab'
 import StatCard from '@/components/StatCard'
 import BigNumber from '@/components/StatCard/BigNumber'

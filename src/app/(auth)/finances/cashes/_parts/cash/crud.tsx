@@ -3,7 +3,7 @@
 import { Formik, type FormikConfig } from 'formik'
 import { useCallback, useState } from 'react'
 // components
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import Cash from '@/enums/permissions/Cash'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // vendors

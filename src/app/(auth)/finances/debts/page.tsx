@@ -14,7 +14,7 @@ import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
 // components
 import Datatable, { type GetRowDataType } from '@/components/Datatable'
 import type { DatatableProps, Mutate } from '@/components/Datatable/@types'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
 import FinancesDebtForm, {

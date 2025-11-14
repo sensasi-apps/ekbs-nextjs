@@ -19,7 +19,7 @@ import Datatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
-import DialogWithTitle from '@/components/DialogWithTitle'
+import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/Fab'
 import PageTitle from '@/components/page-title'
 import axios from '@/lib/axios'
