@@ -34,7 +34,8 @@ export default function ProductMovementDetailArrayFields({
 }: FieldArrayRenderProps & {
     disabled: boolean
 }) {
-    const { value, error } = getFieldMeta<FormValues['details']>(name)
+    const { value: details, error } =
+        getFieldMeta<Partial<FormValues['details']>>(name)
 
     return (
         <Box mb={4}>
@@ -67,17 +68,18 @@ export default function ProductMovementDetailArrayFields({
                         ))}
                 </FormHelperText>
             )}
-            {value?.map((detail, index: number) => {
+            {details?.map((detail, index: number) => {
                 const subtotal =
-                    detail.qty *
-                    (detail.rp_per_unit + (detail.cost_rp_per_unit ?? 0))
+                    (detail?.qty ?? 0) *
+                    ((detail?.rp_per_unit ?? 0) +
+                        (detail?.cost_rp_per_unit ?? 0))
 
                 return (
                     <Grid
                         alignItems="center"
                         columnSpacing={1}
                         container
-                        key={detail.product_id}
+                        key={detail?.product_id ?? index}
                         mb={1}>
                         <Grid
                             component={Typography}
@@ -102,7 +104,7 @@ export default function ProductMovementDetailArrayFields({
                                         InputProps: {
                                             endAdornment: (
                                                 <InputAdornment position="end">
-                                                    /{detail.product?.unit}
+                                                    /{detail?.product?.unit}
                                                 </InputAdornment>
                                             ),
                                             startAdornment: (
@@ -122,14 +124,14 @@ export default function ProductMovementDetailArrayFields({
                                         InputProps: {
                                             endAdornment: (
                                                 <InputAdornment position="end">
-                                                    /{detail.product?.unit}
+                                                    /{detail?.product?.unit}
                                                 </InputAdornment>
                                             ),
                                             startAdornment: (
                                                 <RpInputAdornment />
                                             ),
                                         },
-                                        value: detail.cost_rp_per_unit,
+                                        value: detail?.cost_rp_per_unit ?? '',
                                     }}
                                 />
                             </Grid>
@@ -143,7 +145,7 @@ export default function ProductMovementDetailArrayFields({
                                         InputProps: {
                                             endAdornment: (
                                                 <InputAdornment position="end">
-                                                    {detail.product?.unit}
+                                                    {detail?.product?.unit}
                                                 </InputAdornment>
                                             ),
                                         },
@@ -177,7 +179,8 @@ export default function ProductMovementDetailArrayFields({
                     </Grid>
                 )
             })}
-            {value && <FooterGrids value={value} />}
+
+            <FooterGrids details={details} />
         </Box>
     )
 }
@@ -254,17 +257,17 @@ function ProductPicker({
     )
 }
 
-function FooterGrids({ value }: { value: FormValues['details'] }) {
+function FooterGrids({ details }: { details: Partial<FormValues['details']> }) {
     const totalCost =
-        value?.reduce(
-            (acc, { cost_rp_per_unit }) => acc + (cost_rp_per_unit ?? 0),
+        details?.reduce(
+            (acc, detail) => acc + (detail?.cost_rp_per_unit ?? 0),
             0,
         ) ?? 0
 
     const purchaseRpTotal =
-        (value?.reduce(
-            (acc, { rp_per_unit, qty }) =>
-                acc + (rp_per_unit ?? 0) * (qty ?? 0),
+        (details?.reduce(
+            (acc, detail) =>
+                acc + (detail?.rp_per_unit ?? 0) * (detail?.qty ?? 0),
             0,
         ) ?? 0) + totalCost
 
