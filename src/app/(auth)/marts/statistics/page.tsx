@@ -26,7 +26,7 @@ import useSWR from 'swr'
 import { useDebouncedCallback } from 'use-debounce'
 // components
 import DatePicker from '@/components/DatePicker'
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 import NumericFormat from '@/components/NumericFormat'
 import PageTitle from '@/components/page-title'
 // enums

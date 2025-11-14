@@ -6,7 +6,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { memo } from 'react'
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 import formatNumber from '@/utils/format-number'
 //
 import type { FormValuesType } from '../../../../components/pages/marts/products/sales/formik-wrapper'

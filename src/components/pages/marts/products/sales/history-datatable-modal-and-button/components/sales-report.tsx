@@ -20,7 +20,7 @@ import { type ReactNode, useState } from 'react'
 import useSWR from 'swr'
 // components
 import DatePicker from '@/components/DatePicker'
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 // utils
 import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
 import aoaToXlsx from '@/utils/aoa-to-xlsx'

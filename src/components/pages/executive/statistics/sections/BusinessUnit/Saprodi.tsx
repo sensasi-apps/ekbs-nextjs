@@ -16,7 +16,7 @@ import InOutLineChart, {
     type InOutLineChartProps,
 } from '@/components/Chart/Line/InOut'
 import DatePicker from '@/components/DatePicker'
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import StatCard from '@/components/StatCard'
 // constants
