@@ -1,5 +1,3 @@
-// types
-
 import Masonry from '@mui/lab/Masonry'
 // materials
 import Checkbox from '@mui/material/Checkbox'
