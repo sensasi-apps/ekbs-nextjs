@@ -11,7 +11,7 @@ import TextField from '@/components/formik-fields/text-field'
 // components
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import TextFieldDefault from '@/components/TextField'
+import TextFieldDefault from '@/components/text-field'
 import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 import type ProductMovementDetail from '@/modules/mart/types/orms/product-movement-detail'
 import type ProductMovementPurchase from '@/modules/mart/types/orms/product-movement-purchase'

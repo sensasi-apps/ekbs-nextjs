@@ -15,7 +15,7 @@ import { type ChangeEvent, type MouseEventHandler, useState } from 'react'
 import { mutate } from 'swr'
 // components
 import NumericFormat from '@/components/numeric-format'
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 import axios from '@/lib/axios'
 import type User from '@/modules/user/types/orms/user'
 // etcs

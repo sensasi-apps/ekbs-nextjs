@@ -23,6 +23,7 @@ import FlexColumnBox from '@/components/flex-column-box'
 import Skeletons from '@/components/Global/Skeletons'
 import InfoBox from '@/components/info-box'
 import ScrollableXBox from '@/components/scrollable-x-box'
+import TextField from '@/components/text-field'
 // enums
 import Wallet from '@/enums/permissions/Wallet'
 // hooks
@@ -32,7 +33,6 @@ import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
 import PrintHandler from '../print-handler'
-import TextField from '../TextField'
 import WalletTxButtonAndForm from './TxButtonAndForm'
 // components/TxHistory
 import DatePickers, {

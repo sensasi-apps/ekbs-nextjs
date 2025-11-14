@@ -3,7 +3,7 @@ import {
     NumericFormat as VendorNumericFormat,
     type NumericFormatProps as VendorNumericFormatProps,
 } from 'react-number-format'
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 
 export type NumericFormatProps = VendorNumericFormatProps<TextFieldProps>
 

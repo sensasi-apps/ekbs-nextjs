@@ -5,7 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 // vendors
 import { useEffect, useState } from 'react'
 // components
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // providers
 import useFormData from '@/providers/useFormData'

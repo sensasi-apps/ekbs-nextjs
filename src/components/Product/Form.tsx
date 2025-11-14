@@ -16,7 +16,7 @@ import type Product from '@/modules/farm-inputs/types/orms/product'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 // utils
 import toDmy from '@/utils/to-dmy'
-import TextFieldFastableComponent from '../TextField/FastableComponent'
+import TextFieldFastableComponent from '../text-field.fastable-component'
 import ProductWarehouseArrayFields from './Form/ProductWarehouseArrayFields'
 
 export default function ProductForm({

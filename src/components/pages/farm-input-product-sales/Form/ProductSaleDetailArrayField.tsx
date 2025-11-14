@@ -19,7 +19,7 @@ import useSWR from 'swr'
 import RpInputAdornment from '@/components/input-adornments/rp'
 // components
 import NumericFormat from '@/components/numeric-format'
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 import axios from '@/lib/axios'
 import DatatableEndpointEnum from '@/modules/farm-inputs/enums/datatable-endpoint'
 import Warehouse from '@/modules/farm-inputs/enums/warehouse'

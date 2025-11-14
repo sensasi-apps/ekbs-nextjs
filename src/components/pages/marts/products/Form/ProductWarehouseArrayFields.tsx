@@ -7,7 +7,7 @@ import { FastField, type FieldArrayRenderProps } from 'formik'
 import RpInputAdornment from '@/components/input-adornments/rp'
 // components
 import NumericFormat from '@/components/numeric-format'
-import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import TextFieldFastableComponent from '@/components/text-field.fastable-component'
 import type Product from '@/modules/mart/types/orms/product'
 // utils
 import debounce from '@/utils/debounce'

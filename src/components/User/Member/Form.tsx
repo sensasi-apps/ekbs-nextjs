@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { mutate } from 'swr'
 //components
 import DatePicker from '@/components/date-picker'
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 import axios from '@/lib/axios'
