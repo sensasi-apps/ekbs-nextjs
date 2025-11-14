@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 // components
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 import PageClient from './page-client'
 

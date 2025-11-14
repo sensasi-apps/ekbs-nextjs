@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { UserSummaryBox } from '@/app/(auth)/systems/users/[uuid]/_parts/summary-box'
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 // components
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import UserRoleChips from '@/components/User/RoleChips'
 import UserFormDialog from '@/modules/user/components/user-form-dialog'
 import useFormData, { FormDataProvider } from '@/providers/FormData'

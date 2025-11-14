@@ -15,7 +15,7 @@ import Datatable, {
     getNoWrapCellProps,
     type MutateType,
 } from '@/components/Datatable'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import Mart from '@/enums/permissions/Mart'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

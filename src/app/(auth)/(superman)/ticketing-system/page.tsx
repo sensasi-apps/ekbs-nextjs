@@ -6,7 +6,7 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 import { type GetRowData } from '@/components/Datatable/@types'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 import type User from '@/modules/user/types/orms/user'
 

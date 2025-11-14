@@ -18,7 +18,7 @@ import Datatable, {
     type MutateType,
 } from '@/components/Datatable'
 import DialogWithTitle from '@/components/dialog-with-title'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 // components

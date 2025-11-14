@@ -19,7 +19,7 @@ import Datatable, {
     type DatatableProps,
     type GetRowDataType,
 } from '@/components/Datatable'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 import Mart from '@/enums/permissions/Mart'
 // hooks

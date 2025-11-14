@@ -21,7 +21,7 @@ import Datatable, {
     getRowData,
     mutate,
 } from '@/components/Datatable'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import FormDataDraftsCrud from '@/components/Global/FormDataDraftsCrud'

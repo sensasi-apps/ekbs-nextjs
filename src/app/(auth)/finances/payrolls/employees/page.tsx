@@ -20,7 +20,7 @@ import Datatable, {
     type GetRowDataType,
 } from '@/components/Datatable'
 import DialogWithTitle from '@/components/dialog-with-title'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 import axios from '@/lib/axios'
 import type Payroll from '@/types/orms/payroll'
