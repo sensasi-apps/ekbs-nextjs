@@ -5,7 +5,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import type { FieldProps } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // components
 import { type FormikStatusType } from '../../../../..'

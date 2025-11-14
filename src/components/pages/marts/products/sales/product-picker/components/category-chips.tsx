@@ -2,7 +2,7 @@
 
 // vendors
 import { memo, useState } from 'react'
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 import ScrollableXBox from '@/components/ScrollableXBox'
 import type Product from '@/modules/mart/types/orms/product'
 

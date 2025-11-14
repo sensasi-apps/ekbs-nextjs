@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import NextLink from 'next/link'
 import { useParams } from 'next/navigation'
 // components
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 import FlexBox from '@/components/flex-box'
 // modules
 import type Land from '@/modules/clm/types/orms/land'

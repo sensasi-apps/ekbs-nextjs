@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 
 // components
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 //
 import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
 import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'

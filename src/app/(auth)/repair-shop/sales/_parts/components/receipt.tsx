@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import type { UUID } from 'crypto'
 import type { ReactNode } from 'react'
-import ChipSmall from '@/components/ChipSmall'
+import ChipSmall from '@/components/chip-small'
 // assets
 // import martLogo from '@/../public/assets/images/belayan-mart-logo.jpg'
 import type { Sale } from '@/modules/repair-shop/types/orms/sale'
