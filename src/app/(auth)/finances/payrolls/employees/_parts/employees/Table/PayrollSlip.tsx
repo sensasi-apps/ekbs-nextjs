@@ -16,7 +16,7 @@ import Image from 'next/image'
 import { memo } from 'react'
 // components
 import FlexColumnBox from '@/components/flex-column-box'
-import InfoBox from '@/components/InfoBox'
+import InfoBox from '@/components/info-box'
 import type Payroll from '@/types/orms/payroll'
 import type PayrollUser from '@/types/orms/payroll-user'
 // utils

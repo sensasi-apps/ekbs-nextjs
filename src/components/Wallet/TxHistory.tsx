@@ -23,6 +23,7 @@ import type { DataType } from '@/app/(auth)/finances/wallets/page'
 // components
 import FlexColumnBox from '@/components/flex-column-box'
 import Skeletons from '@/components/Global/Skeletons'
+import InfoBox from '@/components/info-box'
 // enums
 import Wallet from '@/enums/permissions/Wallet'
 // hooks
@@ -31,7 +32,6 @@ import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // utils
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
-import InfoBox from '../InfoBox'
 import PrintHandler from '../print-handler'
 import ScrollableXBox from '../ScrollableXBox'
 import TextField from '../TextField'
