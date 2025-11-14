@@ -14,7 +14,7 @@ import dayjs from 'dayjs'
 // vendors
 import { FastField, type FormikProps } from 'formik'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import RpInputAdornment from '@/components/InputAdornment/Rp'
 import NumericFormat from '@/components/NumericFormat'

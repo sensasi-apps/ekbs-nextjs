@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 import { type Dispatch, type SetStateAction, useMemo, useState } from 'react'
 import useSWR from 'swr'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import type { Ymd } from '@/types/date-string'
 
 type YearlyTxDates = { [key: number]: Ymd[] }

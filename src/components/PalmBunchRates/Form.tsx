@@ -11,7 +11,7 @@ import dayjs, { type Dayjs } from 'dayjs'
 import { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs

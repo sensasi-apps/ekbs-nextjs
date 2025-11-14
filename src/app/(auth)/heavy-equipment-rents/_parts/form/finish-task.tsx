@@ -10,7 +10,7 @@ import { FastField } from 'formik'
 // page components
 import HerTaskDetail from '@/app/(auth)/heavy-equipment-rents/_parts/her-task-detail'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'

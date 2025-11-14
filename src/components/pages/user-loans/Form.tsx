@@ -21,7 +21,7 @@ import { Field, type FieldProps, type FormikProps, useFormik } from 'formik'
 import { memo, useEffect, useState } from 'react'
 import useSWR from 'swr'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import RpInputAdornment from '@/components/InputAdornment/Rp'

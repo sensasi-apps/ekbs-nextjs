@@ -18,7 +18,7 @@ import type { UUID } from 'crypto'
 // vendors
 import dayjs from 'dayjs'
 import type { FormikErrors, FormikProps } from 'formik'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 // components
 import FormikForm from '@/components/formik-form'
 import IconButton from '@/components/icon-button'

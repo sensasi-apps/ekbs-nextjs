@@ -16,7 +16,7 @@ import dayjs from 'dayjs'
 import { useRouter, useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import FlexColumnBox from '@/components/FlexColumnBox'
 import Skeletons from '@/components/Global/Skeletons'
 import IconButton from '@/components/icon-button'

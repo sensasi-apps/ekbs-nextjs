@@ -15,7 +15,7 @@ import dayjs from 'dayjs'
 import type { FormikProps } from 'formik'
 import useSWR from 'swr'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'

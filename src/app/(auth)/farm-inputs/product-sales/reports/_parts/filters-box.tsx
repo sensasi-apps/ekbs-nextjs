@@ -8,7 +8,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 import aoaToXlsx from '@/utils/aoa-to-xlsx'

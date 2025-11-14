@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation'
 // vendors
 import { useState } from 'react'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import FlexBox from '@/components/flex-box'
 import useSetSearch from '@/hooks/use-set-search-params'
 

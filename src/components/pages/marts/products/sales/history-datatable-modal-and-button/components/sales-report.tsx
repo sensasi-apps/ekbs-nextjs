@@ -19,7 +19,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { type ReactNode, useState } from 'react'
 import useSWR from 'swr'
 // components
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
 // utils
 import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'

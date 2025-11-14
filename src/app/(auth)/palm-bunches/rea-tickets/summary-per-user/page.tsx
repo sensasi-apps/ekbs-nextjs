@@ -16,7 +16,7 @@ import useSWR from 'swr'
 // global components
 import { AoaTable } from '@/components/aoa-table'
 import BackButton from '@/components/back-button'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
 import PageTitle from '@/components/page-title'
 import type { Ymd } from '@/types/date-string'
