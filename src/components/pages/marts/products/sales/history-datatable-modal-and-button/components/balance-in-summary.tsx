@@ -15,7 +15,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import { type ReactNode, useState } from 'react'
 import useSWR from 'swr'
 // components
-import DateTimePicker from '@/components/DateTimePicker'
+import DateTimePicker from '@/components/date-time-picker'
 import IconButton from '@/components/icon-button'
 import PrintHandler from '@/components/print-handler'
 // utils
