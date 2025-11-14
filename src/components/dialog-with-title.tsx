@@ -5,8 +5,6 @@ import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import type { ReactNode } from 'react'
-// vendors
-import { memo } from 'react'
 
 /**
  * A dialog component with a title and content.
@@ -18,7 +16,7 @@ import { memo } from 'react'
  * @param {ReactNode} children - The content of the dialog.
  * @param {DialogProps} props - Additional props for the Dialog component.
  */
-const DialogWithTitle = memo(function DialogWithTitle({
+function DialogWithTitle({
     title,
     children,
     ...props
@@ -32,6 +30,6 @@ const DialogWithTitle = memo(function DialogWithTitle({
             <DialogContent>{children}</DialogContent>
         </Dialog>
     )
-})
+}
 
 export default DialogWithTitle

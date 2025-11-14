@@ -1,7 +1,6 @@
-import { memo } from 'react'
 import ConfirmationDialogWithButton from '../confirmation-dialog-with-button'
 
-const FormSubmitButton = memo(function FormSubmitButton({
+function FormSubmitButton({
     oldDirty,
     loading,
     disabled,
@@ -35,5 +34,6 @@ const FormSubmitButton = memo(function FormSubmitButton({
             {confirmationText ?? 'Apakah Anda yakin ingin menyimpan perubahan?'}
         </ConfirmationDialogWithButton>
     )
-})
+}
+
 export default FormSubmitButton

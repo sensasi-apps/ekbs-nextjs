@@ -1,13 +1,12 @@
 // vendors
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { memo } from 'react'
 import type RentItemRent from '@/types/orms/rent-item-rent'
 import numberToCurrency from '@/utils/number-to-currency'
 // utils
 import toDmy from '@/utils/to-dmy'
 
-const HerTaskDetail = memo(function HerTaskDetail({
+function HerTaskDetail({
     data: {
         type,
         for_at,
@@ -59,7 +58,7 @@ const HerTaskDetail = memo(function HerTaskDetail({
             <Row label="Catatan" value={note ?? ''} />
         </>
     )
-})
+}
 
 export default HerTaskDetail
 

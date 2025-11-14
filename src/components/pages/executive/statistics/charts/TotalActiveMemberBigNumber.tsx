@@ -1,8 +1,7 @@
-import { memo } from 'react'
 import BigNumber from '@/components/stat-card.big-number'
 import formatNumber from '@/utils/format-number'
 
-const TotalActiveMemberBigNumber = memo(function TotalActiveMemberBigNumber({
+function TotalActiveMemberBigNumber({
     data,
     isLoading,
 }: {
@@ -17,6 +16,6 @@ const TotalActiveMemberBigNumber = memo(function TotalActiveMemberBigNumber({
             title="Anggota Aktif"
         />
     )
-})
+}
 
 export default TotalActiveMemberBigNumber

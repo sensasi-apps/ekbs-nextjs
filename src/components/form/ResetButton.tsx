@@ -2,11 +2,10 @@
 
 // materials
 import type { ButtonProps } from '@mui/material/Button'
-import { memo } from 'react'
 // components
 import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 
-const FormResetButton = memo(function FormResetButton({
+function FormResetButton({
     dirty,
     disabled,
     form,
@@ -46,6 +45,6 @@ const FormResetButton = memo(function FormResetButton({
             Perubahan yang belum disimpan akan hilang.
         </ConfirmationDialogWithButton>
     )
-})
+}
 
 export default FormResetButton

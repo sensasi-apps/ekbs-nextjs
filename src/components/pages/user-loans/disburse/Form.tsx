@@ -4,8 +4,6 @@ import Box from '@mui/material/Box'
 import type { UUID } from 'crypto'
 import type { FastFieldProps, FormikContextType } from 'formik'
 import { FastField } from 'formik'
-// vendors
-import { memo } from 'react'
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
@@ -73,7 +71,7 @@ export type FormValuesType = Partial<{
     cashable_uuid: UUID
 }>
 
-const SummaryBox = memo(function SummaryBox({
+function SummaryBox({
     data: { proposed_rp, proposed_at, type, responses },
 }: {
     data: UserLoanORM
@@ -89,4 +87,4 @@ const SummaryBox = memo(function SummaryBox({
             <UserLoanSummaryBoxReviewers responses={responses ?? []} />
         </Box>
     )
-})
+}

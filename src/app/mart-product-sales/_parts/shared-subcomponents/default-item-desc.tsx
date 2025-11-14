@@ -3,7 +3,6 @@
 // materials
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { memo } from 'react'
 
 function DefaultItemDesc({
     desc,
@@ -32,4 +31,4 @@ function DefaultItemDesc({
     )
 }
 
-export default memo(DefaultItemDesc)
+export default DefaultItemDesc
