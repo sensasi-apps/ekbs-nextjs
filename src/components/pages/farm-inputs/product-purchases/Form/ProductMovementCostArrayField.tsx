@@ -14,7 +14,7 @@ import type { FieldArrayRenderProps, FormikErrors } from 'formik'
 import RpInputAdornment from '@/components/input-adornments/rp'
 // components
 import NumericFormat from '@/components/numeric-format'
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 import type ProductMovementType from '@/modules/farm-inputs/types/orms/product-movement'
 // utils
 import debounce from '@/utils/debounce'

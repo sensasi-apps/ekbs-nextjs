@@ -10,7 +10,7 @@ import { FastField, type FastFieldProps, type FormikProps } from 'formik'
 import DatePicker from '@/components/date-picker'
 // components
 import FormikForm from '@/components/formik-form'
-import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import TextFieldFastableComponent from '@/components/text-field.fastable-component'
 import type Payroll from '@/types/orms/payroll'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'

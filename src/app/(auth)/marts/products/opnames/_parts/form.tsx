@@ -7,7 +7,7 @@ import DateField from '@/components/formik-fields/date-field'
 import TextField from '@/components/formik-fields/text-field'
 import FormikForm from '@/components/formik-form'
 // components
-import TextFieldDefault from '@/components/TextField'
+import TextFieldDefault from '@/components/text-field'
 import type ProductMovement from '@/modules/mart/types/orms/product-movement'
 
 export default function Form({

@@ -33,7 +33,7 @@ import FormSubmitButton from '@/components/form/SubmitButton'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import RpInputAdornment from '@/components/input-adornments/rp'
 import NumericFormat from '@/components/numeric-format'
-import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import TextFieldFastableComponent from '@/components/text-field.fastable-component'
 import BusinessUnit from '@/enums/business-unit'
 // import UserActivityLogsDialogTable from '@/components/UserActivityLogs/DialogTable'
 // providers

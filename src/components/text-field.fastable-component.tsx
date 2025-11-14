@@ -5,7 +5,7 @@ import type { FieldProps } from 'formik'
 // vendors
 import { useCallback, useState } from 'react'
 // components
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 // utils
 import debounce from '@/utils/debounce'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'

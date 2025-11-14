@@ -7,7 +7,7 @@ import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import type { Dayjs } from 'dayjs'
 // components
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 
 type DatePickerProps = MuiDatePickerProps<Dayjs>
 

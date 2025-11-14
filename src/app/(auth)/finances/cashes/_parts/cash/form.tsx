@@ -14,7 +14,7 @@ import FormLoadingBar from '@/components/Dialog/LoadingBar'
 // components
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
-import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import TextFieldFastableComponent from '@/components/text-field.fastable-component'
 // enums
 import CashPermission from '@/enums/permissions/Cash'
 // hooks

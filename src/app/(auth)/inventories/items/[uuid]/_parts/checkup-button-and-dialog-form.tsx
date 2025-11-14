@@ -10,7 +10,7 @@ import { memo, useState } from 'react'
 // components
 import DialogWithTitle from '@/components/dialog-with-title'
 import FormikForm from '@/components/formik-form'
-import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import TextFieldFastableComponent from '@/components/text-field.fastable-component'
 import useAuthInfo from '@/hooks/use-auth-info'
 // hooks
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'

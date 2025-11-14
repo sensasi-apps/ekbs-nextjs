@@ -25,7 +25,7 @@ import { memo } from 'react'
 import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
+import TextFieldFastableComponent from '@/components/text-field.fastable-component'
 // enums
 import Role from '@/enums/role'
 // hooks

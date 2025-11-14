@@ -1,7 +1,4 @@
-// types
-import type { TextFieldProps } from '@mui/material/TextField'
-// vendors
-import MuiTextField from '@mui/material/TextField'
+import MuiTextField, { type TextFieldProps } from '@mui/material/TextField'
 
 /**
  * A custom text field component that wraps Material UI's TextField component.

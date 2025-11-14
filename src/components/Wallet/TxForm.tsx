@@ -20,14 +20,14 @@ import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import NumericFormat from '@/components/numeric-format'
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 import TransactionTag from '@/modules/transaction/enums/transaction-tag'
 import type CashType from '@/types/orms/cash'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import numberToCurrency from '@/utils/number-to-currency'
 import RpInputAdornment from '../input-adornments/rp'
-import TextFieldFastableComponent from '../TextField/FastableComponent'
+import TextFieldFastableComponent from '../text-field.fastable-component'
 
 export default function WalletTxForm({
     dirty,

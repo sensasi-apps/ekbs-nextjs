@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import useSWRMutation from 'swr/mutation'
 // components
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 import axios from '@/lib/axios'
 
 // biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove

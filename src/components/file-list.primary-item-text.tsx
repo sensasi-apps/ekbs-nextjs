@@ -6,10 +6,10 @@ import EditIcon from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import { useState } from 'react'
+//
+import TextField from '@/components/text-field'
 import myAxios from '@/lib/axios'
 import FlexBox from './flex-box'
-//
-import TextField from './TextField'
 
 export default function FileListPrimaryItemText({
     fileNameUuid,

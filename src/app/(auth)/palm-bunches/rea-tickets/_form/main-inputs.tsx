@@ -11,7 +11,7 @@ import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 // components
 import DatePicker from '@/components/date-picker'
 import RpInputAdornment from '@/components/input-adornments/rp'
-import TextField from '@/components/TextField'
+import TextField from '@/components/text-field'
 import UserAutocomplete from '@/components/user-autocomplete'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // hooks

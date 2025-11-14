@@ -7,7 +7,7 @@ import { Field, type FieldProps } from 'formik'
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 // components
-import DefaultTextField from '@/components/TextField'
+import DefaultTextField from '@/components/text-field'
 
 interface TextFieldProps {
     value?: string
