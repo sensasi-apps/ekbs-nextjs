@@ -10,7 +10,7 @@ import Tabs from '@mui/material/Tabs'
 // vendors
 import { useState } from 'react'
 // components
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 // enums
 import Mart from '@/enums/permissions/Mart'
 // hooks

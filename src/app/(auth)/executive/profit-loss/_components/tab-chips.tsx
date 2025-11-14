@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 // components
 import DatePicker from '@/components/DatePicker'
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 import ScrollableXBox from '@/components/ScrollableXBox'
 // enums
 import BusinessUnit from '@/enums/business-unit'

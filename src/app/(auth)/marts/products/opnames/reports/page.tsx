@@ -23,7 +23,7 @@ import useSWR from 'swr'
 // components
 import BackButton from '@/components/back-button'
 import DatePicker from '@/components/DatePicker'
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 import PageTitle from '@/components/page-title'
 import PrintHandler from '@/components/print-handler'
 // enums

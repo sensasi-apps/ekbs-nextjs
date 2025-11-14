@@ -16,7 +16,7 @@ import { type ReactNode, useState } from 'react'
 import useSWR from 'swr'
 // components
 import DateTimePicker from '@/components/DateTimePicker'
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 import PrintHandler from '@/components/print-handler'
 // utils
 import formatNumber from '@/utils/format-number'

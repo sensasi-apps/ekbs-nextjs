@@ -19,7 +19,7 @@ import { useState } from 'react'
 import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
 // components
 import DialogWithTitle from '@/components/DialogWithTitle'
-import IconButton from '@/components/IconButton'
+import IconButton from '@/components/icon-button'
 import PrintHandler from '@/components/print-handler'
 import axios from '@/lib/axios'
 import type Payroll from '@/types/orms/payroll'
