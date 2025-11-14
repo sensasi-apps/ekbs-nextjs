@@ -2,11 +2,11 @@
 
 // materials
 import Typography from '@mui/material/Typography'
-import { memo, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 // components
 import Link from '@/components/link'
 
-const TableOfContents = memo(function TableOfContents() {
+function TableOfContents() {
     const lis: (ListItem | string)[] = [
         {
             label: 'Anggota',
@@ -56,7 +56,7 @@ const TableOfContents = memo(function TableOfContents() {
     ]
 
     return <Ul disablePadding>{renderLis(lis)}</Ul>
-})
+}
 
 export default TableOfContents
 

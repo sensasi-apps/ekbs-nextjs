@@ -7,9 +7,8 @@ import Dialog, { type DialogProps } from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import { memo } from 'react'
 
-const ConfirmationDialog = memo(function ConfirmationDialog({
+function ConfirmationDialog({
     color = 'warning',
     loading,
     title,
@@ -52,7 +51,7 @@ const ConfirmationDialog = memo(function ConfirmationDialog({
             </DialogActions>
         </Dialog>
     )
-})
+}
 
 export default ConfirmationDialog
 

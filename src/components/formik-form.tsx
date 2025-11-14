@@ -4,7 +4,6 @@ import Box from '@mui/material/Box'
 // materials
 import { type ButtonProps } from '@mui/material/Button'
 import { Form, type FormikFormProps } from 'formik'
-import { memo } from 'react'
 // components
 import DialogLoadingBar from '@/components/Dialog/LoadingBar'
 import FormDeleteButton, {
@@ -23,9 +22,9 @@ import FormSubmitButton from '@/components/form/SubmitButton'
  * @param processing - A boolean indicating whether the form is currently processing.
  * @param slotProps - An object containing the props for the submit and delete buttons.
  * @param children - The child components to be rendered within the form.
- * @returns A memoized component that renders a Formik form with additional buttons and features.
+ * @returns A component that renders a Formik form with additional buttons and features.
  */
-const FormikForm = memo(function FormikForm({
+function FormikForm({
     id: formId,
     autoComplete = 'off',
     isNew,
@@ -94,6 +93,6 @@ const FormikForm = memo(function FormikForm({
             </Form>
         </>
     )
-})
+}
 
 export default FormikForm

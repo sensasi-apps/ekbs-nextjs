@@ -8,12 +8,12 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 // vendors
-import { type Dispatch, memo, type SetStateAction } from 'react'
+import { type Dispatch, type SetStateAction } from 'react'
 import type ActivityLogType from '@/types/orms/activity-log'
 // components
 import UserActivityLogsTable from './table'
 
-const UserActivityLogsDialogTable = memo(function UserActivityLogsDialogTable({
+function UserActivityLogsDialogTable({
     open,
     data,
     setIsOpen,
@@ -42,6 +42,6 @@ const UserActivityLogsDialogTable = memo(function UserActivityLogsDialogTable({
             </DialogContent>
         </Dialog>
     )
-})
+}
 
 export default UserActivityLogsDialogTable

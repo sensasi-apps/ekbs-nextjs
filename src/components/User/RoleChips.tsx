@@ -12,14 +12,8 @@ import Box from '@mui/material/Box'
 import Chip, { type ChipProps } from '@mui/material/Chip'
 import Skeleton from '@mui/material/Skeleton'
 import type { SvgIconOwnProps } from '@mui/material/SvgIcon'
-// vendors
-import { memo } from 'react'
 
-const UserRoleChips = memo(function UserRoleChips({
-    data,
-    size,
-    variant,
-}: UserRoleChipsProps) {
+function UserRoleChips({ data, size, variant }: UserRoleChipsProps) {
     if (!data) return <Skeletons />
 
     const roleNames = sortData(data)
@@ -34,7 +28,7 @@ const UserRoleChips = memo(function UserRoleChips({
             variant={variant}
         />
     ))
-})
+}
 
 export default UserRoleChips
 

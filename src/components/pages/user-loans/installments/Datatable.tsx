@@ -3,7 +3,8 @@
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
-import { memo, type RefObject, useRef, useState } from 'react'
+// vendors
+import { type RefObject, useRef, useState } from 'react'
 // components
 import Datatable, {
     type DatatableProps,
@@ -177,7 +178,7 @@ const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
     },
 ]
 
-const DatatableInfoBox = memo(function DatatableInfoBox() {
+function DatatableInfoBox() {
     return (
         <Box mt={1}>
             <Typography variant="caption">Informasi:</Typography>
@@ -205,4 +206,4 @@ const DatatableInfoBox = memo(function DatatableInfoBox() {
             </Box>
         </Box>
     )
-})
+}
