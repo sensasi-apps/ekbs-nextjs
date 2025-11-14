@@ -21,7 +21,7 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 // components
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import ImageInput from '@/components/image-input'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import TextField from '@/components/TextField'
 import MaritalStatusEnum from '@/enums/marital-status'
 // hooks

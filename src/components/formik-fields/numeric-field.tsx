@@ -6,7 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 // components
 import NumericFormat, {
     type NumericFormatProps,
-} from '@/components/NumericFormat'
+} from '@/components/numeric-format'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 

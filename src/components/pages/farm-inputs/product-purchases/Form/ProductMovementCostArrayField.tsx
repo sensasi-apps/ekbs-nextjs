@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 import type { FieldArrayRenderProps, FormikErrors } from 'formik'
 import RpInputAdornment from '@/components/input-adornments/rp'
 // components
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import TextField from '@/components/TextField'
 import type ProductMovementType from '@/modules/farm-inputs/types/orms/product-movement'
 // utils

@@ -27,7 +27,7 @@ import { useDebouncedCallback } from 'use-debounce'
 // components
 import DatePicker from '@/components/date-picker'
 import IconButton from '@/components/icon-button'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import PageTitle from '@/components/page-title'
 // enums
 import Statistic from '@/modules/mart/enums/statistic-api-url'

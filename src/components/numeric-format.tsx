@@ -1,12 +1,8 @@
-// types
 import type { TextFieldProps } from '@mui/material/TextField'
-// vendors
-import { memo } from 'react'
 import {
     NumericFormat as VendorNumericFormat,
     type NumericFormatProps as VendorNumericFormatProps,
 } from 'react-number-format'
-// components
 import TextField from '@/components/TextField'
 
 export type NumericFormatProps = VendorNumericFormatProps<TextFieldProps>
@@ -20,7 +16,7 @@ export type NumericFormatProps = VendorNumericFormatProps<TextFieldProps>
  * @param inputProps - The input props to pass to the custom input component. Default is { minLength: 1, maxLength: 19 }.
  * @returns A formatted numeric input component.
  */
-const NumericFormat = memo(function NumericFormat({
+export default function NumericFormat({
     allowNegative = false,
     thousandSeparator = '.',
     decimalSeparator = ',',
@@ -41,6 +37,4 @@ const NumericFormat = memo(function NumericFormat({
             {...props}
         />
     )
-})
-
-export default NumericFormat
+}

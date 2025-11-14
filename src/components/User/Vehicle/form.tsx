@@ -9,7 +9,7 @@ import { type ChangeEvent, type FormEvent, useState } from 'react'
 import { mutate } from 'swr'
 import { type UUIDTypes } from 'uuid'
 // components
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import axios from '@/lib/axios'
 import type LaravelValidationException from '@/types/laravel-validation-exception-response'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'

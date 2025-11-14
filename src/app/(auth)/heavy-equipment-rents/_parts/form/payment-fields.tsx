@@ -21,7 +21,7 @@ import useSWR from 'swr'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // components
 import LoadingAddorment from '@/components/input-adornments/loading'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import type CashType from '@/types/orms/cash'
 import type WalletType from '@/types/orms/wallet'
 // utils

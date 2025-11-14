@@ -19,7 +19,7 @@ import DatePicker from '@/components/date-picker'
 // components
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import TextField from '@/components/TextField'
 import TransactionTag from '@/modules/transaction/enums/transaction-tag'
 import type CashType from '@/types/orms/cash'

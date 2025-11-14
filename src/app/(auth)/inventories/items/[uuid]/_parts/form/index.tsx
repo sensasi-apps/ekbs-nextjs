@@ -18,7 +18,7 @@ import { memo, useState } from 'react'
 import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
 import RpInputAdornment from '@/components/input-adornments/rp'
-import NumericFormat from '@/components/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 import TextField from '@/components/TextField'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
 // hooks

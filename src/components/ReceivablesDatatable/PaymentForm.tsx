@@ -1,8 +1,4 @@
-// types
-
-// icons
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
-// materials
 import Chip from '@mui/material/Chip'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -15,23 +11,20 @@ import RadioGroup from '@mui/material/RadioGroup'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { UUID } from 'crypto'
-// vendors
 import dayjs from 'dayjs'
 import type { FormikErrors, FormikProps } from 'formik'
 import DatePicker from '@/components/date-picker'
-// components
 import FormikForm from '@/components/formik-form'
 import IconButton from '@/components/icon-button'
 import InfoBox from '@/components/info-box'
+import NumericFormat from '@/components/numeric-format'
 import type CashType from '@/types/orms/cash'
-// utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 import getInstallmentType from '@/utils/get-installment-type'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
 import SelectFromApi from '../Global/SelectFromApi'
 import RpInputAdornment from '../input-adornments/rp'
-import NumericFormat from '../NumericFormat'
 import type ApiResponseItem from './types/api-response-item'
 
 export type FormValuesType = {
