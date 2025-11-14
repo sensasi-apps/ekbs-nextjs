@@ -15,7 +15,7 @@ import { useRef } from 'react'
 // component
 import FlexBox from '@/components/flex-box'
 import NumericField from '@/components/formik-fields/numeric-field'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RpInputAdornment from '@/components/input-adornments/rp'
 import RemoveButton from '@/components/remove-button'
 import SparePartFormikField from '@/modules/repair-shop/components/spare-part-formik-field'
 // modules

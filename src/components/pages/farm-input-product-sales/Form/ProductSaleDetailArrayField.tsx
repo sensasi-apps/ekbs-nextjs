@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography'
 import { FieldArray } from 'formik'
 import { memo } from 'react'
 import useSWR from 'swr'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RpInputAdornment from '@/components/input-adornments/rp'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import TextField from '@/components/TextField'

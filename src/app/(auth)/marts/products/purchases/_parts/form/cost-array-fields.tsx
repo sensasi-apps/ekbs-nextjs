@@ -15,7 +15,7 @@ import type { FieldArrayRenderProps } from 'formik'
 // components
 import NumericField from '@/components/formik-fields/numeric-field'
 import TextField from '@/components/formik-fields/text-field'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RpInputAdornment from '@/components/input-adornments/rp'
 import type ProductMovementCost from '@/modules/mart/types/orms/product-movement-cost'
 // utils
 import formatNumber from '@/utils/format-number'

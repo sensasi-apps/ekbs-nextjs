@@ -7,7 +7,7 @@ import {
     type FieldArrayRenderProps,
     type FormikErrors,
 } from 'formik'
-import RpInputAdornment from '@/components/InputAdornment/Rp'
+import RpInputAdornment from '@/components/input-adornments/rp'
 // components
 import NumericFormat from '@/components/NumericFormat'
 import TextFieldFastableComponent from '@/components/TextField/FastableComponent'
