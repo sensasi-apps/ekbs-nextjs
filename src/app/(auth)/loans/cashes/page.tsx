@@ -1,6 +1,6 @@
 // components
 import PageTitle from '@/components/page-title'
-import UnitTxs from '@/components/UnitTxs'
+import UnitTxs from '@/components/unit-txs'
 // enums
 import BusinessUnit from '@/enums/business-unit'
 
