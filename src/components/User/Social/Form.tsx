@@ -11,7 +11,7 @@ import { PatternFormat } from 'react-number-format'
 import { mutate } from 'swr'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // components
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import LoadingCenter from '@/components/statuses/loading-center'
 import TextField from '@/components/TextField'
 // vendors
 import axios from '@/lib/axios'

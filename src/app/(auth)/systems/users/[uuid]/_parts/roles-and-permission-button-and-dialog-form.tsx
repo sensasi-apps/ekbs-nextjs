@@ -23,9 +23,9 @@ import type { FormEvent } from 'react'
 import { useState } from 'react'
 import useSWR, { mutate } from 'swr'
 // components
-import CompleteCenter from '@/components/Statuses/CompleteCenter'
-import ErrorCenter from '@/components/Statuses/ErrorCenter'
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import CompleteCenter from '@/components/statuses/complete-center'
+import ErrorCenter from '@/components/statuses/error-center'
+import LoadingCenter from '@/components/statuses/loading-center'
 // utils
 import { getRoleIconByIdName } from '@/components/User/RoleChips'
 import axios from '@/lib/axios'

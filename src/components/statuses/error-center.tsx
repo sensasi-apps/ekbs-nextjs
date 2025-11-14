@@ -3,15 +3,18 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import Box, { type BoxProps } from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import type { FC } from 'react'
 
-const ErrorCenter: FC<
-    {
-        message?: string
-        isShow?: boolean
-        onClose?: () => void
-    } & BoxProps
-> = ({ message, isShow = true, onClose, children, ...props }) => {
+export default function ErrorCenter({
+    message,
+    isShow = true,
+    onClose,
+    children,
+    ...props
+}: {
+    message?: string
+    isShow?: boolean
+    onClose?: () => void
+} & BoxProps) {
     return (
         <Box
             display={isShow ? 'block' : 'none'}
@@ -36,5 +39,3 @@ const ErrorCenter: FC<
         </Box>
     )
 }
-
-export default ErrorCenter

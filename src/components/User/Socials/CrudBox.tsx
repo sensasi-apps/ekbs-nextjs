@@ -21,7 +21,7 @@ import type { UUID } from 'crypto'
 import { useState } from 'react'
 import { PatternFormat } from 'react-number-format'
 import { mutate } from 'swr'
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import LoadingCenter from '@/components/statuses/loading-center'
 import axios from '@/lib/axios'
 // components
 import type UserSocial from '@/modules/user/types/orms/user-social'

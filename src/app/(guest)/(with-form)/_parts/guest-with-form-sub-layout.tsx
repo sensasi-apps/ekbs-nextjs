@@ -6,8 +6,8 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
 // components
-import ErrorCenter from '@/components/Statuses/ErrorCenter'
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import ErrorCenter from '@/components/statuses/error-center'
+import LoadingCenter from '@/components/statuses/loading-center'
 // parts
 
 export default function GuestWithFormSubLayout({
