@@ -14,7 +14,7 @@ import Datatable, {
     getNoWrapCellProps,
     type MutateType,
 } from '@/components/Datatable'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
 import TextShortener from '@/components/text-shortener'
 import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'

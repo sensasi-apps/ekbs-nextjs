@@ -13,8 +13,8 @@ import { useCallback, useState } from 'react'
 // components
 import { type MutateType } from '@/components/Datatable'
 import DialogWithTitle from '@/components/dialog-with-title'
-import Fab from '@/components/Fab'
 import FlexColumnBox from '@/components/FlexColumnBox'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 // page components
 import LoansDatatable from '@/components/pages/user-loans/Datatable'

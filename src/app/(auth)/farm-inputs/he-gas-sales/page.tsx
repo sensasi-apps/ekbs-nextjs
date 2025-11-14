@@ -12,7 +12,7 @@ import type { DatatableProps, OnRowClickType } from '@/components/Datatable'
 // components
 import Datatable, { getRowData, mutate } from '@/components/Datatable'
 import DialogWithTitle from '@/components/dialog-with-title'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 // page components
 import FarmInputHeGasSaleForm, {

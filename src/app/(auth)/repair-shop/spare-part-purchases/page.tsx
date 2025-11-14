@@ -15,7 +15,7 @@ import type {
     MutateType,
 } from '@/components/Datatable'
 import Datatable from '@/components/Datatable'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 import TextShortener from '@/components/text-shortener'
 // features

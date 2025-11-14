@@ -19,7 +19,7 @@ import type {
 } from '@/components/Datatable'
 // components
 import DialogWithTitle from '@/components/dialog-with-title'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 import HerPermission from '@/enums/permissions/heavy-equipment-rent'
 // hooks

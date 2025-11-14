@@ -9,7 +9,7 @@ import Datatable, {
     type GetRowDataType,
     type MutateType,
 } from '@/components/Datatable'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 // features
 import type Service from '@/modules/repair-shop/types/orms/service'

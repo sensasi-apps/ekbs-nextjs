@@ -17,7 +17,7 @@ import Datatable, {
     type GetRowDataType,
     type MutateType,
 } from '@/components/Datatable'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
 import UserSelect from '@/components/formik-fields/user-select'
 import ListInsideMuiDatatableCell from '@/components/ListInsideMuiDatatableCell'

@@ -16,7 +16,7 @@ import Datatable, {
     type GetRowDataType,
     type MutateType,
 } from '@/components/Datatable'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import ApiUrlEnum from '@/components/PalmBunchesReaPayment/ApiUrlEnum'

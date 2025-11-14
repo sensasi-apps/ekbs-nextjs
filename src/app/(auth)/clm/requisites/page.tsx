@@ -21,7 +21,7 @@ import { useState } from 'react'
 import useSWR from 'swr'
 // components
 import { AoaTable } from '@/components/aoa-table'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import Radio from '@/components/formik-fields/radio'
 import Switch from '@/components/formik-fields/switch'
 import TextField from '@/components/formik-fields/text-field'

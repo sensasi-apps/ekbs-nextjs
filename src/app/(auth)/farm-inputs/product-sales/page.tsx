@@ -20,7 +20,7 @@ import type {
 // components
 import Datatable from '@/components/Datatable'
 import DialogWithTitle from '@/components/dialog-with-title'
-import Fab from '@/components/Fab'
+import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 import ProductSaleForm, {
     EMPTY_FORM_DATA,
