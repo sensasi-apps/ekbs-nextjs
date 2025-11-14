@@ -12,7 +12,7 @@ import { useIsOnline } from 'react-use-is-online'
 import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
 import RedirectIfAuth from '@/components/redirect-if-auth'
 // components
-import CompleteCenter from '@/components/Statuses/CompleteCenter'
+import CompleteCenter from '@/components/statuses/complete-center'
 import LoginForm from './_parts/form'
 // parts
 import useHooks from './_parts/use-hooks'

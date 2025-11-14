@@ -3,7 +3,7 @@
 // vendors
 import { useEffect } from 'react'
 // components
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import LoadingCenter from '@/components/statuses/loading-center'
 // hooks
 import useAuthInfoState from '@/hooks/use-auth-info-state'
 import myAxios from '@/lib/axios'

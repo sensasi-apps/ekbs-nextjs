@@ -13,7 +13,7 @@ import { type FormEvent, useState } from 'react'
 import GuestWithFormSubLayout from '@/app/(guest)/(with-form)/_parts/guest-with-form-sub-layout'
 // components
 import BackButton from '@/components/back-button'
-import CompleteCenter from '@/components/Statuses/CompleteCenter'
+import CompleteCenter from '@/components/statuses/complete-center'
 import axios from '@/lib/axios'
 
 export default function ForgotPasswordPageClient() {

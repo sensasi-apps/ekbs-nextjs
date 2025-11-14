@@ -9,7 +9,7 @@ import { mutate } from 'swr'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import NumericFormat from '@/components/numeric-format'
 // components
-import LoadingCenter from '@/components/Statuses/LoadingCenter'
+import LoadingCenter from '@/components/statuses/loading-center'
 import useValidationErrors from '@/hooks/useValidationErrors'
 import axios from '@/lib/axios'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
