@@ -1,5 +1,3 @@
-// types
-
 // icons
 import AddIcon from '@mui/icons-material/Add'
 import BackupTableIcon from '@mui/icons-material/BackupTable'
@@ -41,7 +39,7 @@ import formatNumber from '@/utils/format-number'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
 
-export default function PalmBuncesReaPaymentForm({
+export default function PalmBunchesReaPaymentForm({
     data: dataProp = {} as PalmBunchesReaPaymentDataType,
     actionsSlot,
     loading,
