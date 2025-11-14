@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
 import formatNumber from '@/utils/format-number'
 //
-import StatCard from '../StatCard'
+import StatCard from './StatCard'
 
 export default function BigNumberCard({
     title,
