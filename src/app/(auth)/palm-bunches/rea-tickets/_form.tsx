@@ -15,6 +15,7 @@ import type { FormEvent } from 'react'
 import { useState } from 'react'
 import type FormType from '@/components/Global/Form/type'
 import PalmBunchApiUrlEnum from '@/components/pages/palm-bunch/ApiUrlEnum'
+import UserActivityLogsDialogTable from '@/components/UserActivityLogs/DialogTable'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 // enums
 import Role from '@/enums/role'
@@ -25,12 +26,11 @@ import useValidationErrors from '@/hooks/useValidationErrors'
 import axios from '@/lib/axios'
 import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 import type ActivityLogType from '@/types/orms/activity-log'
-import UserActivityLogsDialogTable from '../UserActivityLogs/DialogTable'
-import PalmBunchesReaDeliveryFarmerInputs from './Form/FarmerInputs'
+import PalmBunchesReaDeliveryFarmerInputs from './_form/farmer-inputs'
 // local components
-import GradingItemInputs from './Form/GradingItemInputs'
-import PalmBunchesReaDeliveryMainInputs from './Form/MainInputs'
-import ReaTiketPaymentDetailView from './Form/ReaTiketPaymentDetailView'
+import GradingItemInputs from './_form/grading-item-inputs'
+import PalmBunchesReaDeliveryMainInputs from './_form/main-inputs'
+import ReaTiketPaymentDetailView from './_form/rea-tiket-payment-detail-view'
 
 export default function PalmBunchesReaTicketForm({
     data,
