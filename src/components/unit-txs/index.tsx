@@ -35,7 +35,7 @@ import formatNumber from '@/utils/format-number'
 import handle422 from '@/utils/handle-422'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
-import UnitTxForm from './Form'
+import UnitTxForm from './unit-tx-form'
 
 type CustomTx = TransactionORM & {
     tag_names: string
