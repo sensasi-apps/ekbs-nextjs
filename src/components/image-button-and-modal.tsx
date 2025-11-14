@@ -6,10 +6,12 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
-import type { AxiosError } from 'axios'
 // vendors
+import type { AxiosError } from 'axios'
+import Image from 'next/image'
 import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
+// libs
 import axios from '@/lib/axios'
 // types
 import type FileFromDb from '@/types/orms/file'
@@ -83,8 +85,9 @@ export default function ImageButtonAndModal({
                         sx={{
                             p: 0,
                         }}>
-                        <img
+                        <Image
                             alt={alt}
+                            height={250}
                             src={fileCreatedUrl}
                             style={{
                                 borderRadius: '4px',
@@ -92,6 +95,7 @@ export default function ImageButtonAndModal({
                                 maxHeight: '200px',
                                 width: '100%',
                             }}
+                            width={250}
                         />
                     </Button>
                 ) : (
@@ -103,10 +107,12 @@ export default function ImageButtonAndModal({
                 <CloseIconButton onClick={handleClose} />
 
                 {fileCreatedUrl && (
-                    <img
+                    <Image
                         alt={alt}
+                        height={350}
                         src={fileCreatedUrl}
                         style={{ height: 'auto', width: '100%' }}
+                        width={350}
                     />
                 )}
             </Dialog>
