@@ -2,9 +2,9 @@
 
 // components
 import DefaultDatatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import PrintHandler from '@/components/print-handler'
 import type ProductMovementWithSale from '@/modules/mart/types/orms/product-movement-with-sale'
 // utils
@@ -31,7 +31,7 @@ const DEFAULT_SORT_ORDER = {
     name: 'at',
 }
 
-const DATATABLE_COLUMNS: DatatableProps<ProductMovementWithSale>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<ProductMovementWithSale>['columns'] = [
     {
         label: 'NO Struk',
         name: 'sale.no',

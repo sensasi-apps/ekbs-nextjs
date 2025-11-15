@@ -29,7 +29,7 @@ import type Product from '@/modules/farm-inputs/types/orms/product'
 import type User from '@/modules/user/types/orms/user'
 import type { Ymd } from '@/types/date-string'
 import type InventoryItem from '@/types/orms/inventory-item'
-import type YajraDatatable from '@/types/yajra-datatable-response'
+import type YajraDatatable from '@/types/yajra-data-table-response'
 import debounce from '@/utils/debounce'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'

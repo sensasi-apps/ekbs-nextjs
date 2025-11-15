@@ -7,14 +7,14 @@ import { utils, writeFileXLSX } from 'xlsx'
 // etc
 import packageJson from '@/../package.json'
 import axios from '@/lib/axios'
-import type YajraDatatable from '@/types/yajra-datatable-response'
-import type { DatatableProps } from '../@types'
+import type YajraDatatable from '@/types/yajra-data-table-response'
+import type { DataTableProps } from '../types/data-table-props'
 // utils
-import formatToDatatableParams from '../utils/formatToDatatableParams'
+import formatToDatatableParams from '../utils/format-to-data-table-params'
 
 export default async function downloadXlsx<T>(
-    apiUrl: DatatableProps<T>['apiUrl'],
-    apiUrlParams: DatatableProps<T>['apiUrlParams'] | undefined,
+    apiUrl: DataTableProps<T>['apiUrl'],
+    apiUrlParams: DataTableProps<T>['apiUrlParams'] | undefined,
     tableState: DataTableState<T>,
     filename: string,
 ) {
@@ -47,7 +47,7 @@ export default async function downloadXlsx<T>(
                         i,
                         j,
                         tableState,
-                        () => {},
+                        () => undefined,
                     )
 
                     if (renderResult) {

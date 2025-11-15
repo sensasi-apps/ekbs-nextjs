@@ -10,11 +10,11 @@ import FormDialog from '@/app/(auth)/marts/products/purchases/_parts/form-dialog
 // components
 import ChipSmall from '@/components/chip-small'
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
     getNoWrapCellProps,
     type MutateType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import Fab from '@/components/fab'
 import Mart from '@/enums/permissions/Mart'
 // hooks
@@ -105,7 +105,7 @@ export default function ProductPurchases() {
     )
 }
 
-const columns: DatatableProps<ProductMovement>['columns'] = [
+const columns: DataTableProps<ProductMovement>['columns'] = [
     {
         label: 'TGL',
         name: 'at',

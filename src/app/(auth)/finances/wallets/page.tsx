@@ -12,9 +12,9 @@ import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 // vendors
 import { useRef, useState } from 'react'
-import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
+import type { DataTableProps, GetRowDataType } from '@/components/data-table'
 // components
-import Datatable from '@/components/Datatable'
+import Datatable from '@/components/data-table'
 import DatePicker from '@/components/date-picker'
 import Dialog from '@/components/Global/Dialog'
 import PageTitle from '@/components/page-title'
@@ -80,7 +80,7 @@ export default function WalletsPage() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<DataType>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<DataType>['columns'] = [
     {
         label: 'UUID',
         name: 'uuid',

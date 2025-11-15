@@ -13,13 +13,13 @@ import type { InventoryItemFormValues } from '@/app/(auth)/inventories/items/[uu
 // page components
 import InventoryItemFormWithFormik from '@/app/(auth)/inventories/items/[uuid]/_parts/form/with-formik'
 import type {
-    DatatableProps,
+    DataTableProps,
     GetRowDataType,
     MutateType,
     OnRowClickType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 // components
-import Datatable from '@/components/Datatable'
+import Datatable from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
@@ -98,7 +98,7 @@ export default function InventoryItems() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<InventoryItem>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<InventoryItem>['columns'] = [
     {
         label: 'UUID',
         name: 'uuid',

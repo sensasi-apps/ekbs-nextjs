@@ -18,10 +18,10 @@ import useSWR from 'swr'
 import MainForm from '@/app/(auth)/palm-bunches/rea-tickets/_form'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     getRowData,
     mutate,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import UlInsideMuiDatatableCell from '@/components/datatable.ul-inside-cell'
 import Fab from '@/components/fab'
 import Dialog from '@/components/Global/Dialog'
@@ -186,7 +186,7 @@ function Crud() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps['columns'] = [
     {
         label: 'ID',
         name: 'id',

@@ -12,10 +12,10 @@ import type { UUID } from 'crypto'
 import { useState } from 'react'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
     type MutateType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import Fab from '@/components/fab'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
@@ -342,7 +342,7 @@ function PalmBunchDeliveryRatesCrudWithUseFormData() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<PalmBunchesReaPaymentDataType>['columns'] =
+const DATATABLE_COLUMNS: DataTableProps<PalmBunchesReaPaymentDataType>['columns'] =
     [
         {
             label: 'uuid',

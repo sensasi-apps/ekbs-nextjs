@@ -5,10 +5,10 @@ import { useRef, useState } from 'react'
 import ServiceFormDialog from '@/app/(auth)/repair-shop/services/_parts/components/form-dialog'
 //
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
     type MutateType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 // features
@@ -74,7 +74,7 @@ export default function Page() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Service>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<Service>['columns'] = [
     {
         label: 'ID',
         name: 'id',

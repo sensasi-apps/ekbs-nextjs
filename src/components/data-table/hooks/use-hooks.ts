@@ -1,7 +1,10 @@
 // types
 
 import dayjs from 'dayjs'
-import type { DataTableProps, DataTableState } from 'mui-datatable-delight'
+import type {
+    DataTableState,
+    DataTableProps as VendorProps,
+} from 'mui-datatable-delight'
 import { enqueueSnackbar } from 'notistack'
 // vendors
 import {
@@ -13,28 +16,28 @@ import {
     useRef,
     useState,
 } from 'react'
-import type { DatatableProps } from '../@types'
 // functions
-import downloadXlsx from '../functions/downloadXlsx'
-import staticOptions from '../staticOptions'
-import formatToDatatableParams from '../utils/formatToDatatableParams'
+import downloadXlsx from '../functions/download-xlsx'
+import staticOptions from '../static-options'
+import type { DataTableProps } from '../types/data-table-props'
+import formatToDatatableParams from '../utils/format-to-data-table-params'
 // hooks
 import useSwr from './use-swr'
 
 export default function useHooks<T>(
-    tableId: DatatableProps<T>['tableId'],
-    columnDefs: DatatableProps<T>['columns'],
-    defaultSortOrder: DatatableProps<T>['defaultSortOrder'],
-    apiUrl: DatatableProps<T>['apiUrl'],
-    apiUrlParams: DatatableProps<T>['apiUrlParams'],
-    swrOptions: DatatableProps<T>['swrOptions'],
+    tableId: DataTableProps<T>['tableId'],
+    columnDefs: DataTableProps<T>['columns'],
+    defaultSortOrder: DataTableProps<T>['defaultSortOrder'],
+    apiUrl: DataTableProps<T>['apiUrl'],
+    apiUrlParams: DataTableProps<T>['apiUrlParams'],
+    swrOptions: DataTableProps<T>['swrOptions'],
 ) {
     const [isDownloading, setIsDownloading] = useState<boolean>(false)
     const [rowsPerPage, setRowsPerPage] = useState<number>(10)
     const [columns, setColumns] =
-        useState<DatatableProps<T>['columns']>(columnDefs)
+        useState<DataTableProps<T>['columns']>(columnDefs)
     const [sortOrder, setSortOrder] =
-        useState<DatatableProps<T>['defaultSortOrder']>(defaultSortOrder)
+        useState<DataTableProps<T>['defaultSortOrder']>(defaultSortOrder)
 
     const [datatableSentRequestParamsJson, setDatatableSentRequestParamJson] =
         useState<string>()
@@ -73,7 +76,7 @@ export default function useHooks<T>(
         datatableSentRequestParamsJson,
     )
 
-    const options: DataTableProps<T>['options'] = {
+    const options: VendorProps<T>['options'] = {
         ...staticOptions,
         count: recordsFiltered ?? recordsTotal ?? 0,
         onChangeRowsPerPage: setRowsPerPage,

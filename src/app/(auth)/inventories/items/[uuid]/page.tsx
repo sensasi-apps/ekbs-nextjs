@@ -16,11 +16,11 @@ import InventoryItemFormWithFormik from '@/app/(auth)/inventories/items/[uuid]/_
 // components
 import BackButton from '@/components/back-button'
 import type {
-    DatatableProps,
+    DataTableProps,
     GetRowDataType,
     MutateType,
-} from '@/components/Datatable'
-import Datatable from '@/components/Datatable'
+} from '@/components/data-table'
+import Datatable from '@/components/data-table'
 import FlexColumnBox from '@/components/flex-column-box'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
@@ -148,7 +148,7 @@ const DEFAULT_SORT_ORDER = {
     name: 'at',
 }
 
-const PIC_DATATABLE_COLUMNS: DatatableProps<
+const PIC_DATATABLE_COLUMNS: DataTableProps<
     InventoryItem['latest_pic']
 >['columns'] = [
     {
@@ -171,7 +171,7 @@ const PIC_DATATABLE_COLUMNS: DatatableProps<
     },
 ]
 
-const CHECKUP_DATATABLE_COLUMNS: DatatableProps<
+const CHECKUP_DATATABLE_COLUMNS: DataTableProps<
     InventoryItem['latest_checkup']
 >['columns'] = [
     {

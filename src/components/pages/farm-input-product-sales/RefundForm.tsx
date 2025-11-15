@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
 // vendors
 import { useState } from 'react'
-import type { MutateType } from '@/components/Datatable'
+import type { MutateType } from '@/components/data-table'
 import FarmInput from '@/enums/permissions/FarmInput'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import axios from '@/lib/axios'

@@ -12,8 +12,11 @@ import { Formik } from 'formik'
 import { useState } from 'react'
 import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
 // components
-import Datatable, { type GetRowDataType } from '@/components/Datatable'
-import type { DatatableProps, Mutate } from '@/components/Datatable/@types'
+import Datatable, {
+    type DataTableProps,
+    type GetRowDataType,
+    type MutateType,
+} from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
@@ -37,7 +40,7 @@ import shortUuid from '@/utils/short-uuid'
 import toDmy from '@/utils/to-dmy'
 
 let getRowData: GetRowDataType<Debt>
-let mutate: Mutate<Debt>
+let mutate: MutateType<Debt>
 
 export default function Debts() {
     const isAuthHasPermission = useIsAuthHasPermission()
@@ -158,7 +161,7 @@ export default function Debts() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Debt>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<Debt>['columns'] = [
     {
         label: 'Kode',
         name: 'uuid',

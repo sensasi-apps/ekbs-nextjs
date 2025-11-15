@@ -10,11 +10,11 @@ import { Formik } from 'formik'
 import { useState } from 'react'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
     getNoWrapCellProps,
     type MutateType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
@@ -152,7 +152,7 @@ export default function PageClient() {
     )
 }
 
-const columns: DatatableProps<ProductType>['columns'] = [
+const columns: DataTableProps<ProductType>['columns'] = [
     {
         label: 'ID',
         name: 'id',

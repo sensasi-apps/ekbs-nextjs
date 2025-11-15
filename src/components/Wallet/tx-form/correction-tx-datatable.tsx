@@ -4,7 +4,7 @@ import { green } from '@mui/material/colors'
 import type { UUID } from 'crypto'
 import type { ColumnDefinitionObject } from 'mui-datatable-delight'
 // components
-import Datatable from '@/components/Datatable'
+import Datatable from '@/components/data-table'
 import formatNumber from '@/utils/format-number'
 import shortUuid from '@/utils/short-uuid'
 // utils

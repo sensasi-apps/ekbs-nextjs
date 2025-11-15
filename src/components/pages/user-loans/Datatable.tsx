@@ -3,12 +3,12 @@
 // vendors
 import { useCallback } from 'react'
 import type {
-    DatatableProps,
+    DataTableProps,
     GetRowDataType,
     OnRowClickType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 // components
-import Datatable from '@/components/Datatable'
+import Datatable from '@/components/data-table'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import DATATABLE_COLUMNS from './DATATABLE_COLUMNS'
 
@@ -21,9 +21,9 @@ export default function LoanDatatable({
     mutateCallback,
 }: {
     mode: 'applier' | 'manager'
-    apiUrlParams?: DatatableProps<UserLoanORM>['apiUrlParams']
+    apiUrlParams?: DataTableProps<UserLoanORM>['apiUrlParams']
     onEdit: (values: UserLoanORM) => void
-    mutateCallback?: DatatableProps<UserLoanORM>['mutateCallback']
+    mutateCallback?: DataTableProps<UserLoanORM>['mutateCallback']
 }) {
     const handleRowClick: OnRowClickType = useCallback(
         (_, { rowIndex }, event) => {

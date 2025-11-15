@@ -9,13 +9,13 @@ import { Formik, type FormikConfig } from 'formik'
 // vendors
 import { useState } from 'react'
 import type {
-    DatatableProps,
+    DataTableProps,
     GetRowDataType,
     MutateType,
     OnRowClickType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 // components
-import Datatable from '@/components/Datatable'
+import Datatable from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
@@ -193,7 +193,7 @@ function pmdsCustomBodyRender(pids: ProductMovementDetailORM[]) {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<ProductPurchaseType>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<ProductPurchaseType>['columns'] = [
     {
         label: 'UUID',
         name: 'uuid',

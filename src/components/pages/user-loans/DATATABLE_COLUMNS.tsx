@@ -4,13 +4,13 @@
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // utils
-import { type DatatableProps, getRowData } from '@/components/Datatable'
+import { type DataTableProps, getRowData } from '@/components/data-table'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import formatNumber from '@/utils/format-number'
 import getLoanStatusColor from '@/utils/get-loan-status-color'
 import toDmy from '@/utils/to-dmy'
 
-const DATATABLE_COLUMNS: DatatableProps<UserLoanORM>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<UserLoanORM>['columns'] = [
     {
         label: 'uuid',
         name: 'uuid',

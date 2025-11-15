@@ -13,10 +13,10 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useRef, useState } from 'react'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
     type MutateType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import UlInsideMuiDatatableCell from '@/components/datatable.ul-inside-cell'
 import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
@@ -143,7 +143,7 @@ export default function Members() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<MemberORM>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<MemberORM>['columns'] = [
     {
         label: 'ID',
         name: 'user.id',

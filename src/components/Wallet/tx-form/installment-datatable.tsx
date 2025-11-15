@@ -1,7 +1,7 @@
 // vendors
 import type { ColumnDefinitionObject } from 'mui-datatable-delight'
 // components
-import Datatable from '@/components/Datatable'
+import Datatable from '@/components/data-table'
 // utils
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'

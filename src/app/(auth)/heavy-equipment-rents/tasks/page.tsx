@@ -13,7 +13,7 @@ import type {
     GetRowDataType,
     MutateType,
     OnRowClickType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 // components
 import DialogWithTitle from '@/components/dialog-with-title'
 import PageTitle from '@/components/page-title'

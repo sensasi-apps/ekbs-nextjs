@@ -9,12 +9,12 @@ import dayjs from 'dayjs'
 import { Formik } from 'formik'
 // types
 import type {
-    DatatableProps,
+    DataTableProps,
     GetRowDataType,
     MutateType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 // components
-import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
+import Datatable, { getNoWrapCellProps } from '@/components/data-table'
 import type BusinessUnit from '@/enums/business-unit'
 import axios from '@/lib/axios'
 import formatNumber from '@/utils/format-number'
@@ -135,7 +135,7 @@ export default function ReceivablesDatatable({
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<ApiResponseItem>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<ApiResponseItem>['columns'] = [
     {
         label: 'Kode',
         name: 'uuid',

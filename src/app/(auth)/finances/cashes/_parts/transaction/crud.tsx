@@ -8,10 +8,13 @@ import dayjs from 'dayjs'
 // vendors
 import { Formik } from 'formik'
 import { type MutableRefObject, useCallback, useRef, useState } from 'react'
-import type { OnRowClickType } from '@/components/Datatable'
+import type {
+    DataTableProps,
+    GetRowDataType,
+    OnRowClickType,
+} from '@/components/data-table'
 // components
-import Datatable, { getNoWrapCellProps, mutate } from '@/components/Datatable'
-import type { DatatableProps, GetRowData } from '@/components/Datatable/@types'
+import Datatable, { getNoWrapCellProps, mutate } from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import axios from '@/lib/axios'
@@ -35,12 +38,14 @@ type CustomTx = TransactionORM & {
     wallet_chip_color: ChipProps['color']
 }
 
-let getRowDataRefGlobal: MutableRefObject<GetRowData<CustomTx> | undefined>
+let getRowDataRefGlobal: MutableRefObject<GetRowDataType<CustomTx> | undefined>
 
 export default function TransactionCrud() {
     const [values, setValues] = useState<FormValuesType>()
     const [status, setStatus] = useState<TransactionORM>()
-    const getRowDataRef = useRef<GetRowData<CustomTx> | undefined>(undefined)
+    const getRowDataRef = useRef<GetRowDataType<CustomTx> | undefined>(
+        undefined,
+    )
     getRowDataRefGlobal = getRowDataRef
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
@@ -112,7 +117,7 @@ export default function TransactionCrud() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<CustomTx>['columns'] = [
     {
         label: 'UUID',
         name: 'uuid',

@@ -6,7 +6,7 @@ import Chip from '@mui/material/Chip'
 import { useState } from 'react'
 import type { FormOpenStateType } from '@/app/(auth)/loans/reviews/page'
 // components
-import Datatable, { getRowData } from '@/components/Datatable'
+import Datatable, { getRowData } from '@/components/data-table'
 import DATATABLE_COLUMNS from '@/components/pages/user-loans/DATATABLE_COLUMNS'
 import { DEFAULT_SORT_ORDER } from '@/components/pages/user-loans/Datatable'
 // hooks

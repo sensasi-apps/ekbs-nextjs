@@ -9,11 +9,11 @@ import { useRef } from 'react'
 import Endpoint from '@/app/(auth)/repair-shop/spare-part-purchases/_parts/enums/endpoint'
 // components
 import type {
-    DatatableProps,
+    DataTableProps,
     GetRowDataType,
     MutateType,
-} from '@/components/Datatable'
-import Datatable from '@/components/Datatable'
+} from '@/components/data-table'
+import Datatable from '@/components/data-table'
 import Fab from '@/components/fab'
 import Link from '@/components/next-link'
 import PageTitle from '@/components/page-title'
@@ -64,7 +64,7 @@ export default function Page() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<SparePartMovement>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<SparePartMovement>['columns'] = [
     {
         label: 'Kode',
         name: 'uuid',

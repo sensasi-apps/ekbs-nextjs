@@ -16,9 +16,9 @@ import FinanceApiUrlEnum from '@/app/(auth)/finances/_enums/api-url'
 import FinancesPayrollsForm from '@/app/(auth)/finances/payrolls/employees/_parts/Form'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
@@ -98,7 +98,7 @@ function DetailButton({ uuid: payrollUuid }: { uuid: UUID }) {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Payroll>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<Payroll>['columns'] = [
     {
         label: 'TGL',
         name: 'at',

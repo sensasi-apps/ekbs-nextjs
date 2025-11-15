@@ -7,9 +7,9 @@ import Typography from '@mui/material/Typography'
 import { type RefObject, useRef, useState } from 'react'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 
 enum UserLoanInstallmentDatatableApiUrlEnum {
     All = '/user-loans/installments/datatable',
@@ -96,7 +96,7 @@ const DEFAULT_SORT_ORDER = {
     name: 'should_be_paid_at',
 }
 
-const DATATABLE_COLUMNS: DatatableProps<InstallmentORM>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<InstallmentORM>['columns'] = [
     {
         label: 'UUID',
         name: 'uuid',

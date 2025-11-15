@@ -3,14 +3,16 @@
 import Add from '@mui/icons-material/Add'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import Datatable, { type DatatableProps } from '@/components/Datatable'
-import { type GetRowData } from '@/components/Datatable/@types'
+import Datatable, {
+    type DataTableProps,
+    type GetRowDataType,
+} from '@/components/data-table'
 import Fab from '@/components/fab'
 import NextLink from '@/components/next-link'
 import PageTitle from '@/components/page-title'
 import type User from '@/modules/user/types/orms/user'
 
-let getRowData: GetRowData<Ticket>
+let getRowData: GetRowDataType<Ticket>
 
 export default function Page() {
     return (
@@ -33,7 +35,7 @@ export default function Page() {
     )
 }
 
-const COLUMNS: DatatableProps<Ticket>['columns'] = [
+const COLUMNS: DataTableProps<Ticket>['columns'] = [
     {
         label: 'ID',
         name: 'id',

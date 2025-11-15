@@ -10,7 +10,7 @@ import { Formik } from 'formik'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 // components
-import { type MutateType } from '@/components/Datatable'
+import { type MutateType } from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import FlexColumnBox from '@/components/flex-column-box'

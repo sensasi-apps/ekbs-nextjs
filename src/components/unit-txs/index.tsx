@@ -17,11 +17,11 @@ import InOutLineChart, {
 } from '@/components/charts/lines/in-out'
 // components
 import type {
-    DatatableProps,
+    DataTableProps,
     GetRowDataType,
     MutateType,
-} from '@/components/Datatable'
-import Datatable, { getNoWrapCellProps } from '@/components/Datatable'
+} from '@/components/data-table'
+import Datatable, { getNoWrapCellProps } from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import StatCard from '@/components/stat-card'
@@ -165,7 +165,7 @@ export default function UnitTxs({
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<CustomTx>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<CustomTx>['columns'] = [
     {
         label: 'UUID',
         name: 'uuid',

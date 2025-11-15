@@ -3,11 +3,11 @@ import type {
     DataTableOptions,
 } from 'mui-datatable-delight'
 import type { SWRConfiguration } from 'swr'
-import type { OnRowClick } from './'
-import type { GetRowData } from './GetRowData'
-import type { Mutate } from './Mutate'
+import type { GetRowData } from './get-row-data'
+import type { Mutate } from './mutate'
+import type { OnRowClick } from './on-row-click'
 
-export type DatatableProps<T = unknown> = {
+export type DataTableProps<T = unknown> = {
     apiUrl: string
     apiUrlParams?: { [key: string]: string | number | undefined }
     columns: ColumnDefinitionObject<T>[]

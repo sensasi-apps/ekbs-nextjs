@@ -9,7 +9,7 @@ import dayjs, { type Dayjs } from 'dayjs'
 import { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
 // components
-import type { Mutate } from '@/components/Datatable/@types'
+import type { Mutate } from '@/components/data-table/types/mutate'
 import DatePicker from '@/components/date-picker'
 import FormActions from '@/components/Global/Form/Actions'
 import RpInputAdornment from '@/components/input-adornments/rp'
