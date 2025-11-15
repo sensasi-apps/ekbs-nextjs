@@ -14,12 +14,11 @@ import {
     Children,
     type ComponentType,
     cloneElement,
-    forwardRef,
     type HTMLAttributes,
     isValidElement,
     memo,
     type ReactElement,
-    type ReactNode,
+    type Ref,
     useState,
 } from 'react'
 // icons
@@ -146,41 +145,40 @@ function VirtualizedAutocomplete({
     )
 }
 
-type ListboxComponentProps = HTMLAttributes<HTMLElement> & {
-    children: ReactNode
-    role: string
-}
+function ListboxComponent({
+    children,
+    role,
+    ref,
+    ...other
+}: HTMLAttributes<HTMLDivElement> & {
+    ref: Ref<HTMLDivElement>
+}) {
+    const items = Children.toArray(children) as ReactElement[]
+    const itemCount = items.length
+    const itemSize = 40
+    const listHeight = itemSize * itemCount
 
-const ListboxComponent = forwardRef<HTMLDivElement, ListboxComponentProps>(
-    function ListboxComponent(props, ref) {
-        const { children, role, ...other } = props
-        const items = Children.toArray(children) as ReactElement[]
-        const itemCount = items.length
-        const itemSize = 40
-        const listHeight = itemSize * itemCount
-
-        return (
-            <div ref={ref}>
-                <div {...other}>
-                    <List
-                        height={Math.min(listHeight, 250)}
-                        overscanCount={5}
-                        role={role}
-                        rowCount={itemCount}
-                        rowHeight={itemSize}
-                        rowRenderer={(listRowProps: ListRowProps) => {
-                            if (isValidElement(items[listRowProps.index])) {
-                                return cloneElement(items[listRowProps.index], {
-                                    // @ts-expect-error  TODO: will fix see https://mui.com/material-ui/react-autocomplete/#virtualization
-                                    style: listRowProps.style,
-                                })
-                            }
-                            return null
-                        }}
-                        width={350}
-                    />
-                </div>
+    return (
+        <div ref={ref}>
+            <div {...other}>
+                <List
+                    height={Math.min(listHeight, 250)}
+                    overscanCount={5}
+                    role={role}
+                    rowCount={itemCount}
+                    rowHeight={itemSize}
+                    rowRenderer={(listRowProps: ListRowProps) => {
+                        if (isValidElement(items[listRowProps.index])) {
+                            return cloneElement(items[listRowProps.index], {
+                                // @ts-expect-error  TODO: will fix see https://mui.com/material-ui/react-autocomplete/#virtualization
+                                style: listRowProps.style,
+                            })
+                        }
+                        return null
+                    }}
+                    width={350}
+                />
             </div>
-        )
-    },
-)
+        </div>
+    )
+}
