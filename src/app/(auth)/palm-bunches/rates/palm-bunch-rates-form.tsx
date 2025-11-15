@@ -17,7 +17,7 @@ import RpInputAdornment from '@/components/input-adornments/rp'
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs
 import axios from '@/lib/axios'
-import { dbPromise } from '@/lib/idb'
+import dbPromise from '@/lib/db-promise'
 // modules
 import type PalmBunchRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-rate'
 import type PalmBunchRateValidDateORM from '@/modules/palm-bunch/types/orms/palm-bunch-rate-valid-date'
@@ -101,7 +101,7 @@ export default function PalmBunchRatesForm({
                         return
                     }
 
-                    dbPromise.then(db =>
+                    dbPromise?.then(db =>
                         db
                             .getKeyFromIndex('formDataDrafts', 'nameId', [
                                 'PalmBunchRateValidDate',

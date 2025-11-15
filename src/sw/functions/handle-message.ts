@@ -1,4 +1,4 @@
-import { martSales } from '../statics/bg-sync-queue-instances/mart-sales'
+import martSales from '@/sw/statics/bg-sync-queue-instances/mart-sales'
 import { handleOnSync } from './handle-on-sync'
 
 export async function handleMessage(event: ExtendableMessageEvent) {

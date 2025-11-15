@@ -7,6 +7,7 @@ EKBS is a Next.js 15 cooperative management system with Laravel backend. Key sta
 npm run dev        # Dev server on port 4000
 bun run lint:fix   # Biome format (4 spaces, 80 chars, LF)
 bun run build      # Prod build (Rspack in dev, Webpack in prod)
+bun run test       # Run tests with Vitest
 ```
 
 ## Architecture Essentials
