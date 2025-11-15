@@ -6,11 +6,10 @@ import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-// vendors
-import Link from 'next/link'
-
 // components
 import ChipSmall from '@/components/chip-small'
+// vendors
+import Link from '@/components/next-link'
 //
 import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
 import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'

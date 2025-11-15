@@ -9,11 +9,11 @@ import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import MuiTab from '@mui/material/Tab'
-import NextLink from 'next/link'
 // vendors
 import { type SyntheticEvent, useState } from 'react'
 // components
 import Fab from '@/components/fab'
+import NextLink from '@/components/next-link'
 import DownloadRequisiteUserFilesButton from '@/modules/clm/components/download-requisite-user-files-button'
 import UserOrLandRequisiteCard from '@/modules/clm/components/user-or-land-requisite-card'
 import LandCard from './tabs.land-card'

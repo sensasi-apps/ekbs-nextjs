@@ -11,10 +11,10 @@ import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
-import Link from 'next/link'
 import FlexBox from '@/components/flex-box'
 // global components
 import LoadingCenter from '@/components/loading-center'
+import Link from '@/components/next-link'
 import IsActiveDisplay from '@/components/User/IsActiveDisplay'
 import UserRoleChips from '@/components/User/RoleChips'
 // local components

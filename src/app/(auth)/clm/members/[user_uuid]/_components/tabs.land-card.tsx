@@ -11,11 +11,11 @@ import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-import NextLink from 'next/link'
 import { useParams } from 'next/navigation'
 // components
 import ChipSmall from '@/components/chip-small'
 import FlexBox from '@/components/flex-box'
+import NextLink from '@/components/next-link'
 // modules
 import type Land from '@/modules/clm/types/orms/land'
 // utils

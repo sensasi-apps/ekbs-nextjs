@@ -14,13 +14,13 @@ import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
-import NextLink from 'next/link'
 // vendors
 import { type MouseEventHandler, useState } from 'react'
 // components
 import ChipSmall from '@/components/chip-small'
 import FlexBox from '@/components/flex-box'
 import FooterBox from '@/components/footer-box'
+import NextLink from '@/components/next-link'
 // providers
 import useAuthInfo from '@/hooks/use-auth-info'
 // parts

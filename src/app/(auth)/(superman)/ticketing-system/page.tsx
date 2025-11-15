@@ -1,12 +1,12 @@
 'use client'
 
 import Add from '@mui/icons-material/Add'
-import NextLink from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Datatable, { type DatatableProps } from '@/components/Datatable'
 import { type GetRowData } from '@/components/Datatable/@types'
 import Fab from '@/components/fab'
+import NextLink from '@/components/next-link'
 import PageTitle from '@/components/page-title'
 import type User from '@/modules/user/types/orms/user'
 

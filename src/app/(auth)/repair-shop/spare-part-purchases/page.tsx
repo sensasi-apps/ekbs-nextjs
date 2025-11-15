@@ -3,7 +3,6 @@
 // materials
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 // vendors
 import { useRef } from 'react'
@@ -16,6 +15,7 @@ import type {
 } from '@/components/Datatable'
 import Datatable from '@/components/Datatable'
 import Fab from '@/components/fab'
+import Link from '@/components/next-link'
 import PageTitle from '@/components/page-title'
 import TextShortener from '@/components/text-shortener'
 // features
