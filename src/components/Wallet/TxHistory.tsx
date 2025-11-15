@@ -20,9 +20,9 @@ import { useDebounce } from 'use-debounce'
 import type { DataType } from '@/app/(auth)/finances/wallets/page'
 // components
 import FlexColumnBox from '@/components/flex-column-box'
-import Skeletons from '@/components/Global/Skeletons'
 import InfoBox from '@/components/info-box'
 import ScrollableXBox from '@/components/scrollable-x-box'
+import Skeletons from '@/components/skeletons'
 import TextField from '@/components/text-field'
 // enums
 import Wallet from '@/enums/permissions/Wallet'
