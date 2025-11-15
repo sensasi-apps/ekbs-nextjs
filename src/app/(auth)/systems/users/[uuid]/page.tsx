@@ -15,7 +15,7 @@ import BackButton from '@/components/back-button'
 import LoadingCenter from '@/components/loading-center'
 import UserAddressesCrudBox from '@/components/User/Address/crud-box'
 import UserBankAccsCrudBox from '@/components/User/BankAccs/crud-box'
-import { UserDetailCrud } from '@/components/User/Detail/Crud'
+import UserDetailCrud from '@/components/User/Detail/Crud'
 import UserEmployeeCrud from '@/components/User/Employee/Crud'
 import UserMemberCrudCard from '@/components/User/Member/crud-card'
 // page components

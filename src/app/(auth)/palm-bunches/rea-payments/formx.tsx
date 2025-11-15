@@ -26,10 +26,10 @@ import fileDownload from 'js-file-download'
 import React, { type ChangeEvent, useState } from 'react'
 import DatePicker from '@/components/date-picker'
 import type FormType from '@/components/Global/Form/type'
-// components
-import NumericFormat from '@/components/Global/NumericFormat'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import Text from '@/components/Global/Text'
+// components
+import NumericFormat from '@/components/numeric-format'
 import axios from '@/lib/axios'
 import type PalmBunchesReaPaymentDataType from '@/modules/palm-bunch/types/orms/palm-bunches-rea-payment'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
@@ -317,7 +317,7 @@ export default function PalmBunchesReaPaymentForm({
                                         </TableCell>
 
                                         <TableCell padding="none" width="40%">
-                                            <TextField
+                                            <NumericFormat
                                                 defaultValue={
                                                     transaction.amount || ''
                                                 }
@@ -327,40 +327,41 @@ export default function PalmBunchesReaPaymentForm({
                                                     !(file || excel_file)
                                                 }
                                                 fullWidth
-                                                InputProps={{
-                                                    inputComponent:
-                                                        NumericFormat,
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            Rp
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                                inputProps={{
-                                                    decimalScale: 4,
-                                                    maxLength: 19,
-                                                    minLength: 1,
-                                                    onValueChange: ({
-                                                        floatValue,
-                                                    }: {
-                                                        floatValue: number
-                                                    }) => {
-                                                        transactions[
-                                                            index
-                                                        ].amount = floatValue
-
-                                                        setTransactions([
-                                                            ...transactions,
-                                                        ])
-                                                    },
-                                                    style: {
-                                                        textAlign: 'right',
-                                                    },
-                                                }}
                                                 name={`transactions[${index}][amount]`}
                                                 onChange={clearValidationError1}
                                                 required
                                                 size="small"
+                                                slotProps={{
+                                                    htmlInput: {
+                                                        decimalScale: 4,
+                                                        maxLength: 19,
+                                                        minLength: 1,
+                                                        onValueChange: ({
+                                                            floatValue,
+                                                        }: {
+                                                            floatValue: number
+                                                        }) => {
+                                                            transactions[
+                                                                index
+                                                            ].amount =
+                                                                floatValue
+
+                                                            setTransactions([
+                                                                ...transactions,
+                                                            ])
+                                                        },
+                                                        style: {
+                                                            textAlign: 'right',
+                                                        },
+                                                    },
+                                                    input: {
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                Rp
+                                                            </InputAdornment>
+                                                        ),
+                                                    },
+                                                }}
                                                 value={transaction.amount || ''}
                                                 // error={Boolean(validationErrors[transaction.desc])}
                                                 // helperText={validationErrors[transaction.desc]}

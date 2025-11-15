@@ -1,5 +1,3 @@
-// types
-
 // materials
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/GridLegacy'
@@ -9,16 +7,15 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+// vendors
 import dayjs from 'dayjs'
 import type { ChangeEvent } from 'react'
-// vendors
 import { useEffect, useState } from 'react'
 // components
 import DatePicker from '@/components/date-picker'
 import type FormType from '@/components/Global/Form/type'
-import NumericFormat from '@/components/Global/NumericFormat'
+import NumericFormat from '@/components/numeric-format'
 // hooks
 import useValidationErrors from '@/hooks/useValidationErrors'
 // libs
@@ -228,7 +225,7 @@ export default function PalmBunchDeliveryRatesForm({
                                     <TableCell>{millCode}</TableCell>
                                     {categories.map(category => (
                                         <TableCell key={millCode + category}>
-                                            <TextField
+                                            <NumericFormat
                                                 disabled={loading}
                                                 error={Boolean(
                                                     validationErrors[
@@ -241,40 +238,40 @@ export default function PalmBunchDeliveryRatesForm({
                                                         `rp_per_kgs[${millCode}][${category}]`
                                                     ]
                                                 }
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            /kg
-                                                        </InputAdornment>
-                                                    ),
-                                                    inputComponent:
-                                                        NumericFormat,
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            Rp
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                                inputProps={{
-                                                    decimalScale: 0,
-                                                    maxLength: 5,
-                                                    minLength: 1,
-                                                    onValueChange: ({
-                                                        floatValue,
-                                                    }: {
-                                                        floatValue: number
-                                                    }) =>
-                                                        setRate(
-                                                            millCode,
-                                                            category,
-                                                            floatValue,
-                                                        ),
-                                                    valueIsNumericString: false,
-                                                }}
                                                 margin="none"
                                                 onChange={handleValuesChange}
                                                 required
                                                 size="small"
+                                                slotProps={{
+                                                    htmlInput: {
+                                                        decimalScale: 0,
+                                                        maxLength: 5,
+                                                        minLength: 1,
+                                                        onValueChange: ({
+                                                            floatValue,
+                                                        }: {
+                                                            floatValue: number
+                                                        }) =>
+                                                            setRate(
+                                                                millCode,
+                                                                category,
+                                                                floatValue,
+                                                            ),
+                                                        valueIsNumericString: false,
+                                                    },
+                                                    input: {
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                /kg
+                                                            </InputAdornment>
+                                                        ),
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                Rp
+                                                            </InputAdornment>
+                                                        ),
+                                                    },
+                                                }}
                                                 value={getRpValue(
                                                     millCode,
                                                     category,
