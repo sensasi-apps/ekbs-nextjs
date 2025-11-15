@@ -1,7 +1,5 @@
-import txAccounts from '@/modules/transaction/statics/tx-accounts'
-
 /**
- * DON'T FORGET TO SYNC WITH {@link txAccounts | `txAccounts`}
+ * DON'T FORGET TO SYNC WITH [`txAccounts`](../statics/tx-accounts.ts)
  */
 enum TransactionTag {
     // general

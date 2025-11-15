@@ -10,8 +10,6 @@ export default function useUserDetailSwr() {
     const { replace } = useRouter()
     const searchParams = useSearchParams()
 
-    if (!uuid) throw new Error('uuid (user uuid) is required')
-
     return useSWR<UserORM>(uuid ? `users/${uuid}` : null, null, {
         onError: () => {
             const role = searchParams?.get('role')

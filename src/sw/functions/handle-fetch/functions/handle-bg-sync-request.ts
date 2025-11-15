@@ -1,5 +1,5 @@
 import ApiUrl from '@/app/mart-product-sales/_parts/enums/api-url'
-import { martSales } from '@/sw/statics/bg-sync-queue-instances/mart-sales'
+import martSales from '@/sw/statics/bg-sync-queue-instances/mart-sales'
 
 /**
  * Enum representing various endpoints for Mart API.

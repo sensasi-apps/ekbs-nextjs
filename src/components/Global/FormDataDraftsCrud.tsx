@@ -21,7 +21,7 @@ import type { MouseEvent } from 'react'
 // vendors
 import { useEffect, useState } from 'react'
 // utils
-import { dbPromise } from '@/lib/idb'
+import dbPromise from '@/lib/db-promise'
 // hooks
 import useFormData from '@/providers/useFormData'
 
@@ -61,7 +61,7 @@ export default function FormDataDraftsCrud({
     }
 
     useEffect(() => {
-        dbPromise.then(db =>
+        dbPromise?.then(db =>
             db
                 .getAllFromIndex('formDataDrafts', 'modelName', modelName)
                 .then(setDrafts),
@@ -75,7 +75,7 @@ export default function FormDataDraftsCrud({
                 variant: 'error',
             })
 
-        return dbPromise.then(db => {
+        return dbPromise?.then(db => {
             const newDraft: DraftType = {
                 data: data,
                 modelName,
@@ -121,7 +121,7 @@ export default function FormDataDraftsCrud({
 
         const draftId = draft.id
 
-        return dbPromise.then(db =>
+        return dbPromise?.then(db =>
             db.delete('formDataDrafts', draftId).then(() => {
                 setDrafts(prev => {
                     setDraft(undefined)

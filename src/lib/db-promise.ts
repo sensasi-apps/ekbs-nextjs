@@ -1,7 +1,7 @@
 import { type IDBPDatabase, openDB } from 'idb'
 import DBConfig from '@/DBConfig'
 
-let dbPromise: Promise<IDBPDatabase>
+let dbPromise: Promise<IDBPDatabase> | undefined = undefined
 
 if (typeof window !== 'undefined') {
     if (!('indexedDB' in window) || window.indexedDB === undefined) {
@@ -28,4 +28,4 @@ if (typeof window !== 'undefined') {
     })
 }
 
-export { dbPromise }
+export default dbPromise
