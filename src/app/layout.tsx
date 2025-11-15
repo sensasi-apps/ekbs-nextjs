@@ -1,12 +1,14 @@
-// vendors
-
+// materials
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter'
+// vendors
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
+// components
 import RedirectIfBrowserIsUnsupported from '@/components/redirect-if-browser-is-unsupported'
-//
+// providers
 import { AppProviders } from '@/providers/app-providers'
+// parts
 import PresenceOnlineUsersNoSSR from './_parts/presence-online-users-no-ssr'
 
 const roboto = Roboto({
