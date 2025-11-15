@@ -7,9 +7,9 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import Link from 'next/link'
 // vendors
 import { useParams, usePathname } from 'next/navigation'
+import Link from '@/components/next-link'
 // types
 import type NavItemGroup from '../../../types/nav-item-group'
 

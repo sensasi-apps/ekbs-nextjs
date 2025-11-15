@@ -7,8 +7,8 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
-import NextLink from 'next/link'
 import FooterBoxWithLogo from '@/components/footer-box-with-logo'
+import NextLink from '@/components/next-link'
 
 export default function NotFound() {
     return (

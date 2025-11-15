@@ -3,9 +3,9 @@ import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify'
 // materials
 import Button from '@mui/material/Button'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 // components
 import Fab from '@/components/fab'
+import Link from '@/components/next-link'
 import PageTitle from '@/components/page-title'
 import PageClient from './page-client'
 

@@ -2,8 +2,8 @@
 
 // materials
 import Chip from '@mui/material/Chip'
-import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import Link from '@/components/next-link'
 // components
 import ScrollableXBox from '@/components/scrollable-x-box'
 import BusinessUnit from '@/enums/business-unit'

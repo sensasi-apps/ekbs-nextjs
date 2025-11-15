@@ -1,7 +1,7 @@
 'use client'
 
 import { createTheme } from '@mui/material/styles'
-import Link from 'next/link'
+import Link from '@/components/next-link'
 
 const THEME = createTheme({
     colorSchemes: {

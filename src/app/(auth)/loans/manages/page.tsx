@@ -7,7 +7,6 @@ import Chip from '@mui/material/Chip'
 import type { FormikConfig } from 'formik'
 // vendors
 import { Formik } from 'formik'
-import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 // components
@@ -15,6 +14,7 @@ import { type MutateType } from '@/components/Datatable'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import FlexColumnBox from '@/components/flex-column-box'
+import Link from '@/components/next-link'
 import PageTitle from '@/components/page-title'
 // page components
 import LoansDatatable from '@/components/pages/user-loans/Datatable'

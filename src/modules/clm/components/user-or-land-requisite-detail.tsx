@@ -4,12 +4,12 @@
 import Button from '@mui/material/Button'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
-import NextLink from 'next/link'
 import { useState } from 'react'
 // components
 import BackButton from '@/components/back-button'
 import FileList from '@/components/file-list'
 import FlexBox from '@/components/flex-box'
+import NextLink from '@/components/next-link'
 // modules
 import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
 import type RequisiteUserORM from '@/modules/clm/types/orms/requisite-user'

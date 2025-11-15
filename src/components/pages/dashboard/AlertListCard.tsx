@@ -1,5 +1,5 @@
 // vendors
-// import Link from 'next/link'
+// import Link from '@/components/next-link'
 //materials
 // import Button from '@mui/material/Button'
 // import Alert from '@mui/material/Alert'
