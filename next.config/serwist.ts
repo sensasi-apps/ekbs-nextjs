@@ -17,10 +17,8 @@ const withSerwist = withSerwistInit({
                 /^server\//,
                 /^(((app-)?build-manifest|react-loadable-manifest|dynamic-css-manifest)\.json)$/,
             ]
-            if (excludeList.some(r => r.test(asset.name))) {
-                return true
-            }
-            return false
+
+            return excludeList.some(r => r.test(asset.name))
         },
     ],
 
