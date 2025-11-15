@@ -12,7 +12,7 @@ import type { AxiosError } from 'axios'
 import { stringify } from 'qs'
 import useSWR from 'swr'
 import type FormType from '@/components/Global/Form/type'
-import Skeletons from '@/components/Global/Skeletons'
+import Skeletons from '@/components/skeletons'
 // components
 import useValidationErrors from '@/hooks/useValidationErrors'
 import axios from '@/lib/axios'

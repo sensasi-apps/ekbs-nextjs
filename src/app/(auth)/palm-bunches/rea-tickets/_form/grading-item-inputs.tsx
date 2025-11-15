@@ -5,7 +5,7 @@ import { type FC, memo } from 'react'
 import { NumericFormat } from 'react-number-format'
 import useSWR from 'swr'
 // components
-import Skeletons from '@/components/Global/Skeletons'
+import Skeletons from '@/components/skeletons'
 import type PalmBunchesReaTicketORM from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 import type PalmBunchesReaGradingItemORM from '@/modules/palm-bunch/types/orms/palm-bunches-rea-grading-item'
 // providers
