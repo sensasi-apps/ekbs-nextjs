@@ -16,9 +16,9 @@ import FormDialog from '@/app/(auth)/marts/products/opnames/_parts/form-dialog'
 import ChipSmall from '@/components/chip-small'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 import Mart from '@/enums/permissions/Mart'
@@ -89,7 +89,7 @@ export default function Opnames() {
     )
 }
 
-const columns: DatatableProps<ProductMovementOpname>['columns'] = [
+const columns: DataTableProps<ProductMovementOpname>['columns'] = [
     {
         label: 'ID',
         name: 'uuid',

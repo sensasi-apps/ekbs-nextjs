@@ -1,12 +1,12 @@
 import type { SWRConfiguration } from 'swr'
 import useSWRVendor from 'swr'
-import type YajraDatatable from '@/types/yajra-datatable-response'
-import type { DatatableProps } from '../@types'
+import type { DataTableProps } from '@/components/data-table/types/data-table-props'
+import type YajraDatatable from '@/types/yajra-data-table-response'
 
 export default function useSwr<T>(
-    apiUrl: DatatableProps['apiUrl'],
-    apiUrlParams: DatatableProps['apiUrlParams'] | undefined,
-    swrOptions: DatatableProps['swrOptions'] | undefined,
+    apiUrl: DataTableProps['apiUrl'],
+    apiUrlParams: DataTableProps['apiUrlParams'] | undefined,
+    swrOptions: DataTableProps['swrOptions'] | undefined,
     datatableSentRequestParamsJson?: string,
 ) {
     return useSWRVendor<YajraDatatable<T>>(
@@ -25,7 +25,7 @@ export default function useSwr<T>(
 }
 
 function constructSwrOpts(
-    swrOptions: DatatableProps['swrOptions'],
+    swrOptions: DataTableProps['swrOptions'],
 ): SWRConfiguration {
     const { keepPreviousData = true, ...restSwrOptions } = swrOptions ?? {}
     return {

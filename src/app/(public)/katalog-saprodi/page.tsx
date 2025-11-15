@@ -8,9 +8,9 @@ import Head from 'next/head'
 import { useSearchParams } from 'next/navigation'
 import WarehouseSelectionButton from '@/app/(public)/katalog-saprodi/_parts/warehouse-selection-button'
 // types
-import type { DatatableProps, GetRowDataType } from '@/components/Datatable'
+import type { DataTableProps, GetRowDataType } from '@/components/data-table'
 // components
-import Datatable from '@/components/Datatable'
+import Datatable from '@/components/data-table'
 import FarmInputsProductsLowQty from '@/components/pages/farm-inputs/products/LowQty'
 import type ProductType from '@/modules/farm-inputs/types/orms/product'
 import formatNumber from '@/utils/format-number'
@@ -94,7 +94,7 @@ export default function Page() {
     )
 }
 
-const columns: DatatableProps<DataType>['columns'] = [
+const columns: DataTableProps<DataType>['columns'] = [
     {
         label: 'Kategori',
         name: 'category_name',

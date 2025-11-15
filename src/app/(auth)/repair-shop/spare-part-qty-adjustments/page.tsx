@@ -8,9 +8,9 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import Fab from '@/components/fab'
 import PageTitle from '@/components/page-title'
 // hooks
@@ -93,7 +93,7 @@ export default function Page() {
     )
 }
 
-const columns: DatatableProps<SparePartMovementORM>['columns'] = [
+const columns: DataTableProps<SparePartMovementORM>['columns'] = [
     {
         label: 'ID',
         name: 'uuid',

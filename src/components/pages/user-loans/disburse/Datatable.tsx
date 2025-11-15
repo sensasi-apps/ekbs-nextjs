@@ -5,7 +5,7 @@ import Chip from '@mui/material/Chip'
 // vendors
 import { useState } from 'react'
 // components
-import Datatable, { getRowData } from '@/components/Datatable'
+import Datatable, { getRowData } from '@/components/data-table'
 import DATATABLE_COLUMNS from '@/components/pages/user-loans/DATATABLE_COLUMNS'
 import { DEFAULT_SORT_ORDER } from '@/components/pages/user-loans/Datatable'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'

@@ -19,7 +19,7 @@ import SellIcon from '@mui/icons-material/Sell'
 import Fab from '@mui/material/Fab'
 import PalmBunchRatesForm from '@/app/(auth)/palm-bunches/rates/palm-bunch-rates-form'
 // components
-import Datatable, { getRowData, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/data-table'
 import Dialog from '@/components/Global/Dialog'
 import PageTitle from '@/components/page-title'
 // types

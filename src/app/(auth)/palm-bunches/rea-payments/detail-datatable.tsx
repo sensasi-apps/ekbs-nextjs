@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 import type { UUID } from 'crypto'
-import Datatable, { type DatatableProps } from '@/components/Datatable'
+import Datatable, { type DataTableProps } from '@/components/data-table'
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 
@@ -55,7 +55,7 @@ export default function PalmBunchesReaPaymentDetailDatatableModal({
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps['columns'] = [
     {
         label: 'Weighting Date',
         name: 'weighting_at',

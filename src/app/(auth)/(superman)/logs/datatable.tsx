@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 // vendors
 import dayjs from 'dayjs'
 // components
-import Datatable, { type DatatableProps } from '@/components/Datatable'
+import Datatable, { type DataTableProps } from '@/components/data-table'
 
 export default function LogsDataTable() {
     return (
@@ -21,7 +21,7 @@ export default function LogsDataTable() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps['columns'] = [
     {
         label: 'TGL',
         name: 'at',

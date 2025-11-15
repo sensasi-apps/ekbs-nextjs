@@ -12,9 +12,9 @@ import { useState } from 'react'
 import useSWR from 'swr'
 import type ApiResponseType from '@/app/(auth)/me/participation/api-response-type'
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import FlexBox from '@/components/flex-box'
 import LineChartCard from '@/components/line-chart-card'
 import PageTitle from '@/components/page-title'
@@ -138,7 +138,7 @@ export default function Page() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<ProductSaleORM>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<ProductSaleORM>['columns'] = [
     {
         label: 'TGL',
         name: 'at',

@@ -12,26 +12,27 @@ import VendorDataTable, {
     type DataTableProps as VendorDataTableProps,
     type DataTableOptions as VendorDatatableOptions,
 } from 'mui-datatable-delight'
-// types
-import type { DatatableProps, Mutate } from './@types'
 // locals
 import useHooks from './hooks/use-hooks'
 // import { DownloadConfirmationDialog } from './components/DownloadConfirmationDialog'
 // utils
-import { CLICKABLE_INFO } from './statics'
+import CLICKABLE_INFO from './statics/CLICKABLE_INFO'
+// types
+import type { DataTableProps } from './types/data-table-props'
+import type { Mutate } from './types/mutate'
 
 let getRowData: <T = unknown>(index: number) => T | undefined
 let mutatorForExport: Mutate
 
 /**
- * Datatable component
+ * Data Table component
  *
  * @todo Add large data download confirmation dialog
- * @todo Don't make `getRowData` global, it will cause bugs when datatable instance is more than one
+ * @todo Don't make `getRowData` global, it will cause bugs when data table instance is more than one
  * @todo table state always restart when data changed
- * @todo remove `unknown` type from main `Datatable` component
+ * @todo remove `unknown` type from main `DataTable` component
  */
-export function Datatable<T>({
+export function DataTable<T>({
     apiUrl,
     apiUrlParams,
     columns: columnsFromProps,
@@ -44,7 +45,7 @@ export function Datatable<T>({
     swrOptions,
     download = false,
     ...props
-}: DatatableProps<T>) {
+}: DataTableProps<T>) {
     const {
         data,
         mutate,

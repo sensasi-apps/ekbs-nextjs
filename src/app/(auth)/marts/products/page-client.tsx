@@ -12,11 +12,11 @@ import { Formik } from 'formik'
 import { useState } from 'react'
 import ChipSmall from '@/components/chip-small'
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
     getNoWrapCellProps,
     type MutateType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
@@ -35,7 +35,7 @@ import axios from '@/lib/axios'
 import Warehouse from '@/modules/mart/enums/product-warehouse-warehouse'
 // types
 import type Product from '@/modules/mart/types/orms/product'
-import type YajraDatatable from '@/types/yajra-datatable-response'
+import type YajraDatatable from '@/types/yajra-data-table-response'
 // utils
 import aoaToXlsx from '@/utils/aoa-to-xlsx'
 import formatNumber from '@/utils/format-number'
@@ -211,7 +211,7 @@ function getAxiosRequest(
     }
 }
 
-const columns: DatatableProps<Product>['columns'] = [
+const columns: DataTableProps<Product>['columns'] = [
     {
         label: 'ID',
         name: 'id',

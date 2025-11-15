@@ -11,10 +11,10 @@ import { useState } from 'react'
 import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
 // components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
     type OnRowClickType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import DatePicker from '@/components/date-picker'
 // types
 import type RentItemRent from '@/types/orms/rent-item-rent'
@@ -33,8 +33,8 @@ export default function HeavyEquipmentRentsDatatable({
     as,
 }: {
     handleRowClick: OnRowClickType
-    mutateCallback: DatatableProps<RentItemRent>['mutateCallback']
-    getRowDataCallback: DatatableProps<RentItemRent>['getRowDataCallback']
+    mutateCallback: DataTableProps<RentItemRent>['mutateCallback']
+    getRowDataCallback: DataTableProps<RentItemRent>['getRowDataCallback']
     as: 'admin' | 'operator'
 }) {
     const { replace } = useRouter()
@@ -137,7 +137,7 @@ export default function HeavyEquipmentRentsDatatable({
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<RentItemRent>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<RentItemRent>['columns'] = [
     {
         label: 'Kode',
         name: 'uuid',

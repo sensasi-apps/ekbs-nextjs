@@ -9,7 +9,7 @@ import LoanReviewForm, {
     type FormDataType,
 } from '@/app/(auth)/loans/reviews/form'
 // components
-import { mutate } from '@/components/Datatable'
+import { mutate } from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import PageTitle from '@/components/page-title'
 // hooks

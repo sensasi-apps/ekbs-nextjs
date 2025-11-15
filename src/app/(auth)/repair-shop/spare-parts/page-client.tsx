@@ -9,11 +9,11 @@ import SparePartFormDialog, {
 } from '@/app/(auth)/repair-shop/spare-parts/_parts/form-dialog'
 // global components
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
     getNoWrapCellProps,
     type MutateType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
 import TextShortener from '@/components/text-shortener'
@@ -113,7 +113,7 @@ export default function PageClient() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<SparePart>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<SparePart>['columns'] = [
     {
         label: 'ID',
         name: 'id',

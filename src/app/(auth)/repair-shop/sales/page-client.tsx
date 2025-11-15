@@ -12,9 +12,9 @@ import ChipSmall from '@/components/chip-small'
 // components
 import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 import Datatable, {
-    type DatatableProps,
+    type DataTableProps,
     type GetRowDataType,
-} from '@/components/Datatable'
+} from '@/components/data-table'
 import PrintHandler from '@/components/print-handler'
 import TextShortener from '@/components/text-shortener'
 import axios from '@/lib/axios'
@@ -55,7 +55,7 @@ export default function PageClient() {
     )
 }
 
-const DATATABLE_COLUMNS: DatatableProps<Sale>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
     {
         label: 'Kode',
         name: 'uuid',

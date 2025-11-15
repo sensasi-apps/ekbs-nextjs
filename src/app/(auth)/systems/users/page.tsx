@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid'
 import { useRouter, useSearchParams } from 'next/navigation'
 // parts
 import { UserSummaryBox } from '@/app/(auth)/systems/users/[uuid]/_parts/summary-box'
-import Datatable, { type DatatableProps } from '@/components/Datatable'
+import Datatable, { type DataTableProps } from '@/components/data-table'
 // components
 import Fab from '@/components/fab'
 import UserRoleChips from '@/components/User/RoleChips'
@@ -88,12 +88,12 @@ function UserFormDialogWithFab() {
     )
 }
 
-const DEFAULT_SORT_ORDER: DatatableProps['defaultSortOrder'] = {
+const DEFAULT_SORT_ORDER: DataTableProps['defaultSortOrder'] = {
     direction: 'asc',
     name: 'name',
 }
 
-const DATATABLE_COLUMNS: DatatableProps['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps['columns'] = [
     {
         label: 'ID',
         name: 'id',

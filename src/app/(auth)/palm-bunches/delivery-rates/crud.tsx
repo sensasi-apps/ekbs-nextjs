@@ -2,7 +2,7 @@
 
 import SellIcon from '@mui/icons-material/Sell'
 import Fab from '@mui/material/Fab'
-import Datatable, { getRowData, mutate } from '@/components/Datatable'
+import Datatable, { getRowData, mutate } from '@/components/data-table'
 import Dialog from '@/components/Global/Dialog'
 import FormActions from '@/components/Global/Form/Actions'
 import type PalmBunchDeliveryRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate'

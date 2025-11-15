@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography'
 
-export const CLICKABLE_INFO = (
+const CLICKABLE_INFO = (
     <Typography
         color="gray"
         component="div"
@@ -11,3 +11,5 @@ export const CLICKABLE_INFO = (
         *Klik 2x pada baris untuk membuka formulir.
     </Typography>
 )
+
+export default CLICKABLE_INFO

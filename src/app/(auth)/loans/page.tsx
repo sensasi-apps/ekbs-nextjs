@@ -4,7 +4,7 @@ import type { FormikConfig } from 'formik'
 import { Formik } from 'formik'
 import { useState } from 'react'
 // components
-import { mutate } from '@/components/Datatable'
+import { mutate } from '@/components/data-table'
 import DialogWithTitle from '@/components/dialog-with-title'
 import PageTitle from '@/components/page-title'
 // page components
