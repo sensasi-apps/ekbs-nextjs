@@ -1,120 +1,132 @@
 'use client'
 
+// icons
 import SellIcon from '@mui/icons-material/Sell'
-import Fab from '@mui/material/Fab'
-import Datatable, { getRowData, mutate } from '@/components/data-table'
-import Dialog from '@/components/Global/Dialog'
-import FormActions from '@/components/Global/Form/Actions'
-import type PalmBunchDeliveryRateORM from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate'
-import type PalmBunchDeliveryRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
-import useFormData, { FormDataProvider } from '@/providers/useFormData'
+// materials
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+// vendors
+import { Formik } from 'formik'
+import { useRef, useState } from 'react'
+// components
+import Datatable, {
+    type GetRowDataType,
+    type MutateType,
+} from '@/components/data-table'
+import Fab from '@/components/fab'
+// libs
+import axios from '@/lib/axios'
+// modules
+import type PalmBunchDeliveryRateValidDateORM from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
+// utils
+import handle422 from '@/utils/handle-422'
 import numberToCurrency from '@/utils/number-to-currency'
 import toDmy from '@/utils/to-dmy'
+// local components
 import PalmBunchDeliveryRatesForm from './palm-bunch-delivery-rates-form'
 
-export default function Crud() {
-    return (
-        <FormDataProvider>
-            <Inner />
-        </FormDataProvider>
-    )
-}
+const oilMillCodes = ['COM', 'POM', 'SOM'] as const
+const categories = ['Atas', 'Bawah', 'Tengah'] as const
 
-function Inner() {
-    const {
-        data,
-        formOpen,
-        handleClose,
-        handleCreate,
-        handleEdit,
-        isNew,
-        isDirty,
-        loading,
-        setData,
-        setSubmitting,
-        submitting,
-    } = useFormData<PalmBunchDeliveryRateValidDateType>()
+const emptyDeliveryRates: PalmBunchDeliveryRateValidDateORM['delivery_rates'] =
+    oilMillCodes.reduce(
+        (
+            acc: PalmBunchDeliveryRateValidDateORM['delivery_rates'],
+            millCode,
+        ) => {
+            categories.forEach(category => {
+                acc.push({
+                    from_position: category,
+                    to_oil_mill_code: millCode,
+                } as PalmBunchDeliveryRateValidDateORM['delivery_rates'][number])
+            })
+
+            return acc
+        },
+        [],
+    )
+
+export default function Crud() {
+    const mutate = useRef<MutateType<PalmBunchDeliveryRateValidDateORM>>(null)
+    const getRowData =
+        useRef<GetRowDataType<PalmBunchDeliveryRateValidDateORM>>(null)
+
+    const [formData, setFormData] = useState<
+        PalmBunchDeliveryRateValidDateORM | undefined
+    >(undefined)
+
+    const isNew = !formData?.id
+    const formOpen = Boolean(formData)
+
+    const handleClose = () => setFormData(undefined)
+    const handleCreate = () => {
+        setFormData({
+            delivery_rates: emptyDeliveryRates,
+        } as PalmBunchDeliveryRateValidDateORM)
+    }
 
     return (
         <>
-            <Datatable
+            <Datatable<PalmBunchDeliveryRateValidDateORM>
                 apiUrl="/palm-bunches/delivery-rates/datatable"
                 columns={DATATABLE_COLUMNS}
                 defaultSortOrder={{ direction: 'desc', name: 'id' }}
+                getRowDataCallback={fn => {
+                    getRowData.current = fn
+                }}
+                mutateCallback={fn => {
+                    mutate.current = fn
+                }}
                 onRowClick={(_, { dataIndex }, event) => {
                     if (event.detail === 2) {
-                        const data =
-                            getRowData<PalmBunchDeliveryRateValidDateType>(
-                                dataIndex,
-                            )
+                        const data = getRowData.current?.(dataIndex)
 
                         if (data) {
-                            handleEdit(data)
+                            setFormData(data)
                         }
                     }
                 }}
                 tableId="PalmBunchDeliveryRateDatatable"
                 title="Daftar Tarif Angkut"
             />
-            <Dialog
-                closeButtonProps={{
-                    disabled: loading,
-                    onClick: () => {
-                        if (
-                            isDirty &&
-                            !window.confirm(
-                                'Perubahan belum tersimpan, yakin ingin menutup?',
-                            )
-                        ) {
-                            return
+
+            <Dialog maxWidth="md" open={formOpen}>
+                <DialogTitle>{isNew ? 'Tarif Baru' : 'Ubah Tarif'}</DialogTitle>
+                <DialogContent>
+                    <Formik<PalmBunchDeliveryRateValidDateORM>
+                        component={PalmBunchDeliveryRatesForm}
+                        enableReinitialize
+                        initialValues={
+                            formData ??
+                            ({
+                                delivery_rates: emptyDeliveryRates,
+                            } as PalmBunchDeliveryRateValidDateORM)
                         }
+                        onReset={handleClose}
+                        onSubmit={async (values, { setErrors }) => {
+                            const payload = {
+                                delivery_rates: values.delivery_rates,
+                                valid_from: values.valid_from,
+                                valid_until: values.valid_until,
+                            }
 
-                        return handleClose()
-                    },
-                }}
-                maxWidth="md"
-                open={formOpen}
-                title={isNew ? 'Tarif Baru' : 'Ubah Tarif'}>
-                <PalmBunchDeliveryRatesForm
-                    actionsSlot={
-                        <FormActions
-                            onCancel={() => {
-                                if (
-                                    isDirty &&
-                                    !window.confirm(
-                                        'Perubahan belum tersimpan, yakin ingin membatalkan?',
-                                    )
-                                ) {
-                                    return
-                                }
-
-                                return handleClose()
-                            }}
-                            submitting={submitting}
-                        />
-                    }
-                    data={data}
-                    loading={loading}
-                    onChange={setData}
-                    onSubmitted={async () => {
-                        await mutate()
-                        setSubmitting(false)
-                        handleClose()
-                    }}
-                    setSubmitting={setSubmitting}
-                />
+                            return axios
+                                .post(
+                                    `/palm-bunches/delivery-rates${values.id ? '/' + values.id : ''}`,
+                                    payload,
+                                )
+                                .then(async () => {
+                                    await mutate.current?.()
+                                    handleClose()
+                                })
+                                .catch(error => handle422(error, setErrors))
+                        }}
+                    />
+                </DialogContent>
             </Dialog>
-            <Fab
-                color="success"
-                disabled={formOpen}
-                onClick={handleCreate}
-                sx={{
-                    bottom: 16,
-                    position: 'fixed',
-                    right: 16,
-                }}>
-                <SellIcon />
-            </Fab>
+
+            <Fab Icon={SellIcon} in onClick={handleCreate} />
         </>
     )
 }
@@ -146,7 +158,9 @@ const DATATABLE_COLUMNS = [
         label: 'Harga',
         name: 'delivery_rates',
         options: {
-            customBodyRender: (rates: PalmBunchDeliveryRateORM[]) => (
+            customBodyRender: (
+                rates: PalmBunchDeliveryRateValidDateORM['delivery_rates'],
+            ) => (
                 <ul
                     style={{
                         margin: 0,

@@ -1,6 +1,5 @@
 // materials
 import Fade from '@mui/material/Fade'
-import Grid from '@mui/material/GridLegacy'
 import InputAdornment from '@mui/material/InputAdornment'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -10,283 +9,157 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 // vendors
 import dayjs from 'dayjs'
-import type { ChangeEvent } from 'react'
-import { useEffect, useState } from 'react'
+import { type FormikProps } from 'formik'
+import { Activity, useEffect, useEffectEvent } from 'react'
 // components
-import DatePicker from '@/components/date-picker'
-import type FormType from '@/components/Global/Form/type'
-import NumericFormat from '@/components/numeric-format'
-// hooks
-import useValidationErrors from '@/hooks/useValidationErrors'
-// libs
-import axios from '@/lib/axios'
-import type PalmBunchDeliveryRateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate'
+import FlexBox from '@/components/flex-box'
+import DateField from '@/components/formik-fields/date-field'
+import NumericField from '@/components/formik-fields/numeric-field'
+import FormikForm from '@/components/formik-form-v2'
+import RpInputAdornment from '@/components/input-adornments/rp'
+import TextField from '@/components/text-field'
 import type PalmBunchDeliveryRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
-import type { Ymd } from '@/types/date-string'
-import debounce from '@/utils/debounce'
 import weekOfMonths from '@/utils/week-of-month'
 
-const oilMillCodes: readonly string[] = ['COM', 'POM', 'SOM']
-const categories: readonly string[] = ['Atas', 'Bawah', 'Tengah']
-const emptyDeliveryRates: PalmBunchDeliveryRateType[] = oilMillCodes.reduce(
-    (acc: PalmBunchDeliveryRateType[], millCode) => {
-        categories.forEach(category => {
-            acc.push({
-                from_position: category,
-                rp_per_kg: 0,
-                to_oil_mill_code: millCode,
-            })
+const oilMillCodes = ['COM', 'POM', 'SOM'] as const
+const categories = ['Atas', 'Bawah', 'Tengah'] as const
+
+const indexMap = oilMillCodes.reduce(
+    (accMill, millCode, millIdx) => {
+        categories.forEach((category, categoryIdx) => {
+            accMill[`${millCode}-${category}`] =
+                millIdx * categories.length + categoryIdx
         })
 
-        return acc
+        return accMill
     },
-    [],
+    {} as { [key: string]: number },
 )
 
 export default function PalmBunchDeliveryRatesForm({
-    data,
-    loading,
-    actionsSlot,
-    onSubmitted,
-    setSubmitting,
-    onChange,
-}: FormType<PalmBunchDeliveryRateValidDateType>) {
-    const { id, valid_from, delivery_rates } = data
+    values,
+    isSubmitting,
+    setFieldValue,
+}: FormikProps<PalmBunchDeliveryRateValidDateType>) {
+    const { valid_from, valid_until } = values
 
-    const { validationErrors, setValidationErrors, clearByEvent, clearByName } =
-        useValidationErrors()
-    const [validFrom, setValidFrom] = useState(
-        valid_from ? dayjs(valid_from) : null,
-    )
-    const [deliveryRates, setDeliveryRates] = useState<
-        PalmBunchDeliveryRateType[]
-    >(structuredClone(delivery_rates || emptyDeliveryRates))
+    const validFrom = valid_from ? dayjs(valid_from) : null
+
+    const _setFieldValue = useEffectEvent(setFieldValue)
 
     useEffect(() => {
-        setValidFrom(valid_from ? dayjs(valid_from) : null)
-        setDeliveryRates(structuredClone(delivery_rates || emptyDeliveryRates))
-    }, [valid_from, delivery_rates])
+        if (validFrom) {
+            const validUntil = validFrom.add(6, 'day').endOf('day').toDate()
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-
-        if (loading || !validFrom) return
-
-        const formEl = e.currentTarget
-        if (!formEl.checkValidity()) return
-
-        setSubmitting(true)
-
-        const payload = {
-            delivery_rates: deliveryRates,
-            valid_from: validFrom.format(),
-            valid_until: validFrom.clone().add(6, 'days').format(),
-        } as PalmBunchDeliveryRateValidDateType
-
-        return axios
-            .post(`/palm-bunches/delivery-rates${id ? '/' + id : ''}`, payload)
-            .then(() => onSubmitted(payload))
-            .catch(error => {
-                if (error?.response?.status !== 422) {
-                    throw error
-                }
-
-                setValidationErrors(error.response.data.errors)
-                setSubmitting(false)
-            })
-    }
-
-    const getRpValue = (millCode: string, category: string) => {
-        const deliveryRate = deliveryRates.find(
-            rate =>
-                rate.to_oil_mill_code === millCode &&
-                rate.from_position === category,
-        )
-
-        return deliveryRate?.rp_per_kg || undefined
-    }
-
-    const setRate = (millCode: string, category: string, value: number) =>
-        setDeliveryRates(prev => {
-            const rateIndex = prev.findIndex(
-                rate =>
-                    rate.to_oil_mill_code === millCode &&
-                    rate.from_position === category,
-            )
-
-            if (rateIndex === -1) return prev
-
-            const newDeliveryRates = [...prev]
-
-            newDeliveryRates[rateIndex].rp_per_kg = value
-
-            return newDeliveryRates
-        })
-
-    const handleValuesChange = (event: ChangeEvent<HTMLInputElement>) => {
-        clearByEvent(event)
-        if (!onChange || !validFrom) return
-
-        debounce(
-            () =>
-                onChange({
-                    ...data,
-                    delivery_rates: deliveryRates,
-                    valid_from: validFrom.format('YYYY-MM-DD') as Ymd,
-                    valid_until: validFrom
-                        .clone()
-                        .add(6, 'days')
-                        .format('YYYY-MM-DD') as Ymd,
-                }),
-            200,
-        )
-    }
+            _setFieldValue('valid_until', validUntil)
+        }
+    }, [validFrom])
 
     return (
-        <form autoComplete="off" onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
-                <Grid item sm={6} xs={6}>
-                    <DatePicker
-                        disabled={loading}
-                        onChange={value => {
-                            setValidFrom(value)
-                            clearByName('valid_until')
-                        }}
-                        shouldDisableDate={date => date?.day() !== 2}
-                        slotProps={{
-                            textField: {
-                                error: Boolean(validationErrors.valid_from),
-                                fullWidth: true,
-                                helperText: validationErrors.valid_from,
-                                label: 'Tanggal Berlaku',
-                                margin: 'dense',
-                                name: 'valid_from',
-                                required: true,
-                                size: 'small',
-                            },
-                        }}
-                        value={validFrom}
-                    />
-                </Grid>
+        <FormikForm>
+            <FlexBox>
+                <DateField
+                    datePickerProps={{
+                        shouldDisableDate: date => date?.day() !== 2,
+                    }}
+                    disabled={isSubmitting}
+                    label="Tanggal Berlaku"
+                    name="valid_from"
+                />
 
-                <Grid item sm={6} xs={6}>
-                    <DatePicker
-                        disabled={loading}
-                        readOnly
-                        slotProps={{
-                            textField: {
-                                error: Boolean(validationErrors.valid_from),
-                                fullWidth: true,
-                                helperText: validationErrors.valid_from,
-                                label: 'Hingga',
-                                margin: 'dense',
-                                name: 'valid_until',
-                                required: true,
-                                size: 'small',
-                            },
-                        }}
-                        value={
-                            validFrom ? validFrom.clone().add(6, 'days') : null
-                        }
-                    />
-                </Grid>
-            </Grid>
+                <TextField
+                    disabled
+                    label="Hingga"
+                    name="valid_until"
+                    value={
+                        valid_until
+                            ? dayjs(valid_until).format('DD-MM-YYYY')
+                            : ''
+                    }
+                />
+            </FlexBox>
 
-            <Fade exit={false} in={Boolean(validFrom)} unmountOnExit>
-                <div>
-                    <Typography
-                        component="div"
-                        mt={4}
-                        textAlign="center"
-                        variant="h5">
-                        {validFrom?.format('MMMM ')} #
-                        {validFrom && weekOfMonths(validFrom)}{' '}
+            <Activity mode={Boolean(validFrom) ? 'visible' : 'hidden'}>
+                <Fade in={true}>
+                    <div>
                         <Typography
-                            color="GrayText"
-                            component="span"
-                            variant="caption">
-                            ({validFrom?.year()})
+                            component="div"
+                            mt={4}
+                            textAlign="center"
+                            variant="h5">
+                            {validFrom?.format('MMMM ')} #
+                            {validFrom && weekOfMonths(validFrom)}{' '}
+                            <Typography
+                                color="GrayText"
+                                component="span"
+                                variant="caption">
+                                ({validFrom?.year()})
+                            </Typography>
                         </Typography>
-                    </Typography>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Pabrik</TableCell>
-                                {categories.map(category => (
-                                    <TableCell key={category}>
-                                        {category}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {oilMillCodes.map(millCode => (
-                                <TableRow key={millCode}>
-                                    <TableCell>{millCode}</TableCell>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Pabrik</TableCell>
                                     {categories.map(category => (
-                                        <TableCell key={millCode + category}>
-                                            <NumericFormat
-                                                disabled={loading}
-                                                error={Boolean(
-                                                    validationErrors[
-                                                        `rp_per_kgs[${millCode}][${category}]`
-                                                    ],
-                                                )}
-                                                fullWidth
-                                                helperText={
-                                                    validationErrors[
-                                                        `rp_per_kgs[${millCode}][${category}]`
-                                                    ]
-                                                }
-                                                margin="none"
-                                                onChange={handleValuesChange}
-                                                required
-                                                size="small"
-                                                slotProps={{
-                                                    htmlInput: {
-                                                        decimalScale: 0,
-                                                        maxLength: 5,
-                                                        minLength: 1,
-                                                        onValueChange: ({
-                                                            floatValue,
-                                                        }: {
-                                                            floatValue: number
-                                                        }) =>
-                                                            setRate(
-                                                                millCode,
-                                                                category,
-                                                                floatValue,
-                                                            ),
-                                                        valueIsNumericString: false,
-                                                    },
-                                                    input: {
-                                                        endAdornment: (
-                                                            <InputAdornment position="end">
-                                                                /kg
-                                                            </InputAdornment>
-                                                        ),
-                                                        startAdornment: (
-                                                            <InputAdornment position="start">
-                                                                Rp
-                                                            </InputAdornment>
-                                                        ),
-                                                    },
-                                                }}
-                                                value={getRpValue(
-                                                    millCode,
-                                                    category,
-                                                )}
-                                            />
+                                        <TableCell key={category}>
+                                            {category}
                                         </TableCell>
                                     ))}
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
+                            <TableBody>
+                                {oilMillCodes.map(millCode => (
+                                    <TableRow key={millCode}>
+                                        <TableCell>{millCode}</TableCell>
 
-                    {actionsSlot}
-                </div>
-            </Fade>
-        </form>
+                                        {categories.map(category => (
+                                            <NumericFieldCell
+                                                category={category}
+                                                key={millCode + category}
+                                                millCode={millCode}
+                                            />
+                                        ))}
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </Fade>
+            </Activity>
+        </FormikForm>
+    )
+}
+
+function NumericFieldCell({
+    millCode,
+    category,
+}: {
+    millCode: string
+    category: string
+}) {
+    return (
+        <TableCell>
+            <NumericField
+                label=""
+                name={`delivery_rates.${indexMap[`${millCode}-${category}`]}.rp_per_kg`}
+                numericFormatProps={{
+                    margin: 'none',
+                    slotProps: {
+                        htmlInput: {
+                            maxLength: 5,
+                            minLength: 1,
+                        },
+                        input: {
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    /kg
+                                </InputAdornment>
+                            ),
+                            startAdornment: <RpInputAdornment />,
+                        },
+                    },
+                }}
+            />
+        </TableCell>
     )
 }
