@@ -31,14 +31,16 @@ export default function NumericField({
 function InnerComponent({
     // formik props
     field: { name },
-    form: { setFieldValue, getFieldMeta, isSubmitting },
+    form: { setFieldValue, getFieldMeta, isSubmitting, errors },
 
     // additional props
     disabled,
     label,
     numericFormatProps,
 }: Omit<FieldProps<number>, 'meta'> & Omit<NumericFieldProps, 'name'>) {
-    const { error, value } = getFieldMeta<number | undefined>(name)
+    const { error = errors[name], value } = getFieldMeta<number | undefined>(
+        name,
+    )
 
     const setFieldValueDebounced = useDebouncedCallback(
         (value?: number) => setFieldValue(name, value),
