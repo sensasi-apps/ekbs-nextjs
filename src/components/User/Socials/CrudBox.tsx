@@ -105,7 +105,7 @@ const ContactListItem = ({
     )
 }
 
-export function ContactList({
+function ContactList({
     data: socials = [],
     readMode = false,
 }: {
@@ -144,7 +144,7 @@ const Skeletons = () => (
     </Box>
 )
 
-const UserSocialsCrudBox = ({
+export default function UserSocialsCrudBox({
     userUuid,
     data: socials = [],
     readMode = false,
@@ -155,7 +155,7 @@ const UserSocialsCrudBox = ({
     data: UserSocial[]
     readMode?: boolean
     isLoading?: boolean
-} & BoxProps) => {
+} & BoxProps) {
     const [isFormOpen, setIsFormOpen] = useState(false)
 
     return (
@@ -193,5 +193,3 @@ const UserSocialsCrudBox = ({
         </Box>
     )
 }
-
-export default UserSocialsCrudBox
