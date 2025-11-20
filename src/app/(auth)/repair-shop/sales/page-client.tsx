@@ -135,8 +135,17 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         label: 'Kwitansi',
         name: '',
         options: {
-            customBodyRender: (_, rowIndex) =>
-                printButtonCustomBodyRender(rowIndex),
+            customBodyRender: (_, rowIndex) => {
+                const data = _getRowDataRef.current?.(rowIndex)
+
+                if (!data) return null
+
+                return (
+                    <PrintHandler>
+                        <Receipt data={data} />
+                    </PrintHandler>
+                )
+            },
             searchable: false,
             sort: false,
         },
@@ -145,8 +154,13 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         label: 'Retur',
         name: '',
         options: {
-            customBodyRender: (_, rowIndex) =>
-                returnButtonCustomBodyRender(rowIndex),
+            customBodyRender: (_, rowIndex) => {
+                const data = _getRowDataRef.current?.(rowIndex)
+
+                if (!data) return null
+
+                return <ReturnButtonCustomBodyRender data={data} />
+            },
             display: false,
             searchable: false,
             sort: false,
@@ -154,23 +168,9 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
     },
 ]
 
-function printButtonCustomBodyRender(rowIndex: number) {
-    const data = _getRowDataRef.current?.(rowIndex)
-
-    if (!data) return null
-
-    return (
-        <PrintHandler>
-            <Receipt data={data} />
-        </PrintHandler>
-    )
-}
-
-function returnButtonCustomBodyRender(rowIndex: number) {
+function ReturnButtonCustomBodyRender({ data }: { data: Sale }) {
     const [loading, setLoading] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
-
-    const data = _getRowDataRef.current?.(rowIndex)
 
     if (!data || !data.spare_part_movement_uuid) return null
 
