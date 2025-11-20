@@ -25,15 +25,15 @@ import type LaravelValidationExceptionResponse from '@/types/laravel-validation-
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 
-let _getRowDataRef: {
-    current?: GetRowDataType<Sale>
+let getRowDataRef: {
+    current: GetRowDataType<Sale> | null
 } = {
-    current: undefined,
+    current: null,
 }
 
 export default function PageClient() {
     const { push } = useRouter()
-    const getRowDataRef = useRef<GetRowDataType<Sale> | undefined>(undefined)
+    getRowDataRef = useRef<GetRowDataType<Sale>>(null)
 
     return (
         <Datatable<Sale>
@@ -42,7 +42,6 @@ export default function PageClient() {
             defaultSortOrder={{ direction: 'desc', name: 'uuid' }}
             getRowDataCallback={fn => {
                 getRowDataRef.current = fn
-                _getRowDataRef = getRowDataRef
             }}
             onRowClick={(_, { dataIndex }, event) => {
                 if (event.detail === 2) {
@@ -64,26 +63,22 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         label: 'Kode',
         name: 'uuid',
         options: {
-            customBodyRender(value: string) {
-                return <TextShortener text={value} />
-            },
+            customBodyRender: (value: string) => <TextShortener text={value} />,
         },
     },
     {
         label: 'TGL',
         name: 'at',
         options: {
-            customBodyRender(value: string) {
-                return toDmy(value)
-            },
+            customBodyRender: (value: string) => toDmy(value),
         },
     },
     {
         label: 'Pelanggan',
         name: 'customer.name',
         options: {
-            customBodyRenderLite(dataIndex) {
-                const data = _getRowDataRef.current?.(dataIndex)
+            customBodyRenderLite: dataIndex => {
+                const data = getRowDataRef.current?.(dataIndex)
 
                 if (!data?.customer) return
 
@@ -105,16 +100,14 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         label: 'Total (Rp)',
         name: 'final_rp',
         options: {
-            customBodyRender(value: number) {
-                return formatNumber(value)
-            },
+            customBodyRender: (value: number) => formatNumber(value),
         },
     },
     {
         label: 'Metode Pembayaran',
         name: 'payment_method',
         options: {
-            customBodyRender(value: Sale['payment_method']) {
+            customBodyRender: (value: Sale['payment_method']) => {
                 if (value === 'cash') return 'Tunai'
                 if (value === 'business-unit') return 'Unit Bisnis'
                 if (value === 'installment') return 'Angsuran'
@@ -136,7 +129,7 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         name: '',
         options: {
             customBodyRender: (_, rowIndex) => {
-                const data = _getRowDataRef.current?.(rowIndex)
+                const data = getRowDataRef.current?.(rowIndex)
 
                 if (!data) return null
 
@@ -155,7 +148,7 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         name: '',
         options: {
             customBodyRender: (_, rowIndex) => {
-                const data = _getRowDataRef.current?.(rowIndex)
+                const data = getRowDataRef.current?.(rowIndex)
 
                 if (!data) return null
 
