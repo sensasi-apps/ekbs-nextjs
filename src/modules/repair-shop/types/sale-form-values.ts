@@ -16,7 +16,7 @@ export default interface SaleFormValues {
     costumer_uuid?: string
 
     // installment
-    installment_data: {
+    installment_data?: {
         n_term: number
         term_unit?: 'minggu' | 'bulan'
     }
