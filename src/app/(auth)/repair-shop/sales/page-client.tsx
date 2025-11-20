@@ -25,13 +25,16 @@ import type LaravelValidationExceptionResponse from '@/types/laravel-validation-
 import formatNumber from '@/utils/format-number'
 import toDmy from '@/utils/to-dmy'
 
-let getRowDataRef: {
+let _getRowDataRef: {
     current?: GetRowDataType<Sale>
+} = {
+    current: undefined,
 }
 
 export default function PageClient() {
     const { push } = useRouter()
-    getRowDataRef = useRef<GetRowDataType<Sale> | undefined>(undefined)
+    const getRowDataRef = useRef<GetRowDataType<Sale> | undefined>(undefined)
+
     return (
         <Datatable<Sale>
             apiUrl="repair-shop/sales/datatable"
@@ -39,6 +42,7 @@ export default function PageClient() {
             defaultSortOrder={{ direction: 'desc', name: 'uuid' }}
             getRowDataCallback={fn => {
                 getRowDataRef.current = fn
+                _getRowDataRef = getRowDataRef
             }}
             onRowClick={(_, { dataIndex }, event) => {
                 if (event.detail === 2) {
@@ -79,7 +83,7 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         name: 'customer.name',
         options: {
             customBodyRenderLite(dataIndex) {
-                const data = getRowDataRef.current?.(dataIndex)
+                const data = _getRowDataRef.current?.(dataIndex)
 
                 if (!data?.customer) return
 
@@ -151,7 +155,7 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
 ]
 
 function printButtonCustomBodyRender(rowIndex: number) {
-    const data = getRowDataRef.current?.(rowIndex)
+    const data = _getRowDataRef.current?.(rowIndex)
 
     if (!data) return null
 
@@ -166,7 +170,7 @@ function returnButtonCustomBodyRender(rowIndex: number) {
     const [loading, setLoading] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
 
-    const data = getRowDataRef.current?.(rowIndex)
+    const data = _getRowDataRef.current?.(rowIndex)
 
     if (!data || !data.spare_part_movement_uuid) return null
 
