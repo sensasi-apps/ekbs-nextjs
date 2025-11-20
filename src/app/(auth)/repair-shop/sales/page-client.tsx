@@ -131,9 +131,8 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         label: 'Kwitansi',
         name: '',
         options: {
-            customBodyRender: (_, rowIndex) => (
-                <PrintButtonCustomBodyRender rowIndex={rowIndex} />
-            ),
+            customBodyRender: (_, rowIndex) =>
+                printButtonCustomBodyRender(rowIndex),
             searchable: false,
             sort: false,
         },
@@ -142,9 +141,8 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         label: 'Retur',
         name: '',
         options: {
-            customBodyRender: (_, rowIndex) => (
-                <ReturnButtonCustomBodyRender rowIndex={rowIndex} />
-            ),
+            customBodyRender: (_, rowIndex) =>
+                returnButtonCustomBodyRender(rowIndex),
             display: false,
             searchable: false,
             sort: false,
@@ -152,7 +150,7 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
     },
 ]
 
-function PrintButtonCustomBodyRender({ rowIndex }: { rowIndex: number }) {
+function printButtonCustomBodyRender(rowIndex: number) {
     const data = getRowDataRef.current?.(rowIndex)
 
     if (!data) return null
@@ -164,7 +162,7 @@ function PrintButtonCustomBodyRender({ rowIndex }: { rowIndex: number }) {
     )
 }
 
-function ReturnButtonCustomBodyRender({ rowIndex }: { rowIndex: number }) {
+function returnButtonCustomBodyRender(rowIndex: number) {
     const [loading, setLoading] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
 
