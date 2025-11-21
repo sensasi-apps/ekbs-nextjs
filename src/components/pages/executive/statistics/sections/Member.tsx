@@ -1,4 +1,4 @@
-// vendors
+'use client'
 
 // icons
 import Diversity3Icon from '@mui/icons-material/Diversity3'

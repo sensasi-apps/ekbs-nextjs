@@ -1,10 +1,10 @@
-// vendors
+'use client'
 
 // icons
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 // materials
 import Grid from '@mui/material/Grid'
-import { memo } from 'react'
+// vendors
 import useSWR from 'swr'
 // page components
 import AllCashChart from '@/app/(auth)/finances/cashes/_parts/cash/all-cash-chart'
@@ -18,7 +18,7 @@ import Heading3 from '@/components/pages/executive/statistics/Heading3'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../SX_SCROLL_MARGIN_TOP'
 
-const FinanceSection = memo(function FinanceSection() {
+export default function FinanceSection() {
     const { data, isLoading } = useSWR<{
         all: InOutCashChartDataType
         alat_berat: InOutCashChartDataType
@@ -98,6 +98,4 @@ const FinanceSection = memo(function FinanceSection() {
             </Grid>
         </FlexColumnBox>
     )
-})
-
-export default FinanceSection
+}

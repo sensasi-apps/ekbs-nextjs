@@ -1,4 +1,4 @@
-// vendors
+'use client'
 
 // icons
 import RefreshIcon from '@mui/icons-material/Refresh'

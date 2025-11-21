@@ -1,8 +1,8 @@
-// vendors
+'use client'
 
 // materials
 import Grid from '@mui/material/Grid'
-import { memo } from 'react'
+// vendors
 import useSWR from 'swr'
 // components
 import LineChart from '@/components/charts/lines/basic'
@@ -15,7 +15,7 @@ import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 // page components
 import FarmerGroupStatTable from './Tbs/FarmerGroupStatTable'
 
-const TbsSubsection = memo(function TbsSubsection() {
+export default function TbsSubsection() {
     const { data, isLoading } = useSWR<ApiResponseType>(
         'executive/business-unit-section-data/palm-bunch',
     )
@@ -60,9 +60,7 @@ const TbsSubsection = memo(function TbsSubsection() {
             </Grid>
         </Grid>
     )
-})
-
-export default TbsSubsection
+}
 
 export type ApiResponseType = {
     palm_bunch_weight_monthly_total: {

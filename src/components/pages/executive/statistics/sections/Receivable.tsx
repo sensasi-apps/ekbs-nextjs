@@ -1,12 +1,12 @@
-// types
+'use client'
 
 // icons
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 // materials
 import Grid from '@mui/material/Grid'
 // vendors
-import { memo } from 'react'
 import useSWR from 'swr'
+// components
 import FlexColumnBox from '@/components/flex-column-box'
 // page components
 import Heading2 from '@/components/pages/executive/statistics/Heading2'
@@ -27,7 +27,7 @@ type ApiResponseType = {
     pass_due_receivables: DataType[]
 }
 
-const ReceivableSection = memo(function ReceivableSection() {
+export default function ReceivableSection() {
     const { data, isLoading } = useSWR<ApiResponseType>(
         'executive/receivable-section-data',
     )
@@ -154,9 +154,7 @@ const ReceivableSection = memo(function ReceivableSection() {
             </Grid>
         </FlexColumnBox>
     )
-})
-
-export default ReceivableSection
+}
 
 function calc(data: ApiResponseType | undefined) {
     return {
@@ -201,13 +199,13 @@ function calc(data: ApiResponseType | undefined) {
             )?.amount_rp_sum ?? 0,
         total1:
             data?.all_unpaid_receivables.reduce(
-                (acc, curr) => acc + curr.amount_rp_sum,
+                (acc, curr) => acc + Number(curr.amount_rp_sum),
                 0,
             ) ?? 0,
 
         total2:
             data?.pass_due_receivables.reduce(
-                (acc, curr) => acc + curr.amount_rp_sum,
+                (acc, curr) => acc + Number(curr.amount_rp_sum),
                 0,
             ) ?? 0,
     }

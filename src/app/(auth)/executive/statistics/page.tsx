@@ -1,5 +1,3 @@
-'use client'
-
 // materials
 import Box from '@mui/material/Box'
 // components
