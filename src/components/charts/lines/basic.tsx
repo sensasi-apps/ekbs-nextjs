@@ -1,8 +1,5 @@
-// types
-
 // materials
 import Typography from '@mui/material/Typography'
-import type { TooltipProps } from 'recharts'
 // vendors
 import {
     CartesianGrid,
@@ -11,6 +8,7 @@ import {
     LineChart as RechartsLineChart,
     ResponsiveContainer,
     Tooltip,
+    type TooltipProps,
     XAxis,
     YAxis,
 } from 'recharts'
@@ -32,9 +30,9 @@ export default function LineChart({
     data: unknown[] | undefined
     prefix?: string
     suffix?: string
-    lines?: Omit<LineProps, 'ref'>[]
+    lines?: LineProps[]
     xAxisDataKey?: string
-    lineProps?: Omit<LineProps, 'ref'>
+    lineProps?: LineProps
     slotsProps?: {
         tooltip?: TooltipProps<number, string>
     }
@@ -116,7 +114,13 @@ export default function LineChart({
                 />
 
                 {lines ? (
-                    lines.map(props => <Line key={props.key} {...props} />)
+                    lines.map(props => (
+                        <Line
+                            key={props.dataKey as string}
+                            {...props}
+                            {...lineProps}
+                        />
+                    ))
                 ) : (
                     <Line
                         dataKey={dataKey}
