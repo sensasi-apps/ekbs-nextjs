@@ -1,3 +1,5 @@
+'use client'
+
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { useEffect, useState } from 'react'
 import Fab from '@/components/fab'
