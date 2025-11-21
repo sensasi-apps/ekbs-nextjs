@@ -29,8 +29,6 @@ for (let i = 0; i < 12; i++) {
     monthNames.push(dayjs().month(i).format('MMMM'))
 }
 
-const emptyData = monthNames.map(() => 0)
-
 export default function Table({
     subTables,
     footer,
@@ -82,11 +80,20 @@ const HEADER_SX = {
     fontWeight: 'bold',
 }
 
+const emptyData = monthNames.map(monthName => ({
+    key: monthName,
+    value: 0,
+}))
+
 function SubTable({ header, data, footer }: SubTableProps) {
-    const sums: number[] =
-        data?.[0]?.data?.map((_, i) =>
-            data.reduce((acc, item) => acc + (item.data?.[i] ?? 0), 0),
-        ) ?? emptyData
+    const sums: {
+        key: string
+        value: number
+    }[] =
+        data?.[0]?.data?.map((_, i) => ({
+            key: monthNames[i],
+            value: data.reduce((acc, item) => acc + (item.data?.[i] ?? 0), 0),
+        })) ?? emptyData
 
     return (
         <>
@@ -114,7 +121,7 @@ function SubTable({ header, data, footer }: SubTableProps) {
                 <TableCell sx={HEADER_SX}>{footer}</TableCell>
 
                 {sums.map(sum => (
-                    <RpItemCell data={sum} key={sum} sx={HEADER_SX} />
+                    <RpItemCell data={sum.value} key={sum.key} sx={HEADER_SX} />
                 ))}
             </TableRow>
         </>
@@ -133,6 +140,11 @@ function CustomRow({
         borderBottom: 'none',
         py: 0.1,
     }
+
+    const dataWithKey = data.map((value, i) => ({
+        key: `${name}-data-${i}`,
+        value,
+    }))
 
     return (
         <TableRow sx={sxRow}>
@@ -159,8 +171,8 @@ function CustomRow({
                 )}
             </TableCell>
 
-            {data?.map(subItem => (
-                <RpItemCell data={subItem} key={subItem} sx={SX_CELL_DATA} />
+            {dataWithKey.map(({ key, value }) => (
+                <RpItemCell data={value} key={key} sx={SX_CELL_DATA} />
             ))}
         </TableRow>
     )
