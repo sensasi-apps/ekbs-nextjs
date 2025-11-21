@@ -4,7 +4,6 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import ForestIcon from '@mui/icons-material/Forest'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WorkIcon from '@mui/icons-material/Work'
-import { memo } from 'react'
 // components
 import FlexColumnBox from '@/components/flex-column-box'
 // page components
@@ -17,7 +16,7 @@ import SaprodiSubsection from './BusinessUnit/Saprodi'
 import SppSubsection from './BusinessUnit/Spp'
 import TbsSubsection from './BusinessUnit/Tbs'
 
-const BusinessUnitSection = memo(function BusinessUnitSection() {
+export default function BusinessUnitSection() {
     return (
         <FlexColumnBox>
             <Heading2
@@ -64,6 +63,4 @@ const BusinessUnitSection = memo(function BusinessUnitSection() {
             <TbsSubsection />
         </FlexColumnBox>
     )
-})
-
-export default BusinessUnitSection
+}

@@ -1,12 +1,11 @@
-// vendors
+'use client'
 
 // materials
 import Grid from '@mui/material/Grid'
-import { memo } from 'react'
+// vendors
 import useSWR from 'swr'
 // page components
 import LineChart from '@/components/charts/lines/basic'
-// icons
 // components
 import StatCard from '@/components/stat-card'
 // constants
@@ -41,7 +40,7 @@ export type ApiResponseType = {
     }[]
 }
 
-const AlatBeratSubsection = memo(function AlatBeratSubsection() {
+export default function AlatBeratSubsection() {
     const { data, isLoading } = useSWR<ApiResponseType>(
         'executive/business-unit-section-data/alat-berat',
     )
@@ -86,9 +85,7 @@ const AlatBeratSubsection = memo(function AlatBeratSubsection() {
             </Grid>
         </Grid>
     )
-})
-
-export default AlatBeratSubsection
+}
 
 function OmzetChartCard({
     data,

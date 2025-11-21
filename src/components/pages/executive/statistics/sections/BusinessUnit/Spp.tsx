@@ -1,8 +1,8 @@
-// vendors
+'use client'
 
 // materials
 import Grid from '@mui/material/Grid'
-import { memo } from 'react'
+// vendors
 import useSWR from 'swr'
 import InOutLineChart, {
     type InOutLineChartProps,
@@ -12,7 +12,7 @@ import StatCard from '@/components/stat-card'
 // constants
 import SX_SCROLL_MARGIN_TOP from '../../SX_SCROLL_MARGIN_TOP'
 
-const SppSubsection = memo(function SppSubsection() {
+export default function SppSubsection() {
     const { data, isLoading } = useSWR<{
         disburse_collect_monthly_total: InOutLineChartProps['data']
         diff_monthly_total_based_on_proposed_at: InOutLineChartProps['data']
@@ -53,6 +53,4 @@ const SppSubsection = memo(function SppSubsection() {
             </Grid>
         </Grid>
     )
-})
-
-export default SppSubsection
+}

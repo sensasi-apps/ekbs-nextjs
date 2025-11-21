@@ -59,7 +59,8 @@ export default function FarmerGroupStatTable({
                 </TableHead>
                 <TableBody>
                     {data.map((items, i) => (
-                        <TableRow key={items[0].label_value}>
+                        <TableRow
+                            key={`${items[0].farmer_group_name}-${items[0].label_value}`}>
                             <TableCell>{i + 1}</TableCell>
                             <TableCell
                                 sx={{
