@@ -54,13 +54,14 @@ export default function QuestionListItem({
         <ListItem
             ref={setNodeRef}
             secondaryAction={
-                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                <Box display="flex" gap={1}>
                     <IconButton
                         edge="end"
                         onClick={() => onEdit(question)}
                         size="small">
                         <EditIcon />
                     </IconButton>
+
                     <IconButton
                         color="error"
                         edge="end"
@@ -90,25 +91,47 @@ export default function QuestionListItem({
                 }}>
                 <DragIndicatorIcon fontSize="small" />
             </Box>
+
             <Box
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 0.5,
                     pr: 10,
                 }}>
                 <Box>{question.content}</Box>
-                <Chip
-                    label={typeConfig.label}
-                    size="small"
-                    sx={{
-                        alignSelf: 'flex-start',
-                        bgcolor: typeConfig.color,
-                        color: 'white',
-                        fontSize: '0.7rem',
-                        height: 20,
-                    }}
-                />
+
+                <Box>
+                    <Chip
+                        label={typeConfig.label}
+                        size="small"
+                        sx={{
+                            alignSelf: 'flex-start',
+                            bgcolor: typeConfig.color,
+                            color: 'white',
+                            fontSize: '0.7rem',
+                            height: 20,
+                            mr: 1,
+                        }}
+                    />
+
+                    {(question.type === 'radio' ||
+                        question.type === 'multiselect') &&
+                        Array.isArray(question.options) &&
+                        question.options.length > 0 &&
+                        question.options.map(opt => (
+                            <Chip
+                                key={opt}
+                                label={opt}
+                                size="small"
+                                sx={{
+                                    bgcolor: '#eee',
+                                    color: '#333',
+                                    fontSize: '0.7rem',
+                                    height: 20,
+                                }}
+                            />
+                        ))}
+                </Box>
             </Box>
         </ListItem>
     )

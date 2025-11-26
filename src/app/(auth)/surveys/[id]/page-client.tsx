@@ -238,23 +238,6 @@ export default function PageClient() {
                     </Typography>
                 </Box>
 
-                <Paper sx={{ mb: 3, p: 3 }}>
-                    <Box
-                        sx={{
-                            alignItems: 'center',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}>
-                        <Typography variant="h6">Bagian Survei</Typography>
-                        <Button
-                            onClick={handleAddSection}
-                            startIcon={<AddIcon />}
-                            variant="contained">
-                            Tambah Bagian
-                        </Button>
-                    </Box>
-                </Paper>
-
                 {!survey.sections || survey.sections.length === 0 ? (
                     <Paper sx={{ p: 4, textAlign: 'center' }}>
                         <Typography color="text.secondary" variant="body1">
@@ -292,6 +275,20 @@ export default function PageClient() {
                         </SortableContext>
                     </DndContext>
                 )}
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'end',
+                        mt: 4,
+                    }}>
+                    <Button
+                        onClick={handleAddSection}
+                        startIcon={<AddIcon />}
+                        variant="outlined">
+                        Tambah Bagian
+                    </Button>
+                </Box>
             </Container>
 
             {questionDialogOpen && activeSectionId !== null && (
