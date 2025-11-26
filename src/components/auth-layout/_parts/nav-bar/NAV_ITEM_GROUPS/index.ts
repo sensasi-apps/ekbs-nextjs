@@ -6,6 +6,7 @@ import Dashboard from '@mui/icons-material/Dashboard'
 import SettingIcon from '@mui/icons-material/Settings'
 import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 // enums
+import SurveyPermission from '@/app/(auth)/surveys/_enums/permission'
 import Role from '@/enums/role'
 import type NavItemGroup from '../types/nav-item-group'
 // nav items
@@ -40,6 +41,12 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
                 href: '/me/participation',
                 icon: VolunteerActivism,
                 label: 'Partisipasiku',
+            },
+            {
+                forPermission: SurveyPermission.READ,
+                href: '/surveys',
+                icon: Assessment,
+                label: 'Survei',
             },
         ],
     },
