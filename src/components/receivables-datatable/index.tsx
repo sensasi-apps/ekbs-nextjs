@@ -32,7 +32,7 @@ import type ApiResponseItem from './types/api-response-item'
 
 const DATATABLE_ENDPOINT_URL = 'receivables/datatable-data'
 
-let getRowData: GetRowDataType<ApiResponseItem> = () => undefined
+let getRowData: GetRowDataType<ApiResponseItem>
 let mutate: MutateType<ApiResponseItem>
 
 export default function ReceivablesDatatable({

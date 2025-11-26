@@ -18,7 +18,7 @@ export type DataTableProps<T = unknown> = {
     tableId: string
     title?: string
     onRowClick?: OnRowClick
-    mutateCallback?: (fn: Mutate<T>) => unknown
-    getRowDataCallback?: (fn: GetRowData<T>) => unknown
+    mutateCallback?: (fn: Mutate<T>) => void
+    getRowDataCallback?: (fn: GetRowData<T>) => void
     swrOptions?: SWRConfiguration
 } & Omit<Partial<DataTableOptions<T>>, 'onRowClick'>
