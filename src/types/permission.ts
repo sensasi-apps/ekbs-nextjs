@@ -1,3 +1,4 @@
+import type SurveyPermission from '@/app/(auth)/surveys/_enums/permission'
 import type Cash from '@/enums/permissions/Cash'
 import type Executive from '@/enums/permissions/Executive'
 import type FarmInput from '@/enums/permissions/FarmInput'
@@ -21,6 +22,7 @@ export type Permission =
     | Mart
     | PalmBunch
     | RepairShop
+    | SurveyPermission
     | Transaction
     | UserLoan
     | Wallet

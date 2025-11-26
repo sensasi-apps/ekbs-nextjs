@@ -2,13 +2,14 @@
  * Enum for user roles
  */
 enum RoleEnum {
-    // general
+    // basic
     COURIER = 'courier',
     DRIVER = 'driver',
     EMPLOYEE = 'employee',
     EXECUTIVE = 'executive',
     FARMER = 'farmer',
     MEMBER = 'member',
+    SURVEYOR = 'surveyor',
 
     // farm input
     FARM_INPUT_MANAGER = 'farm inputs manager',
