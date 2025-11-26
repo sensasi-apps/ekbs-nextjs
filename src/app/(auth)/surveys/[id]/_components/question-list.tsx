@@ -73,7 +73,7 @@ export default function QuestionList({
             <SortableContext
                 items={sortedQuestions.map(q => q.id)}
                 strategy={verticalListSortingStrategy}>
-                <List dense>
+                <List>
                     {sortedQuestions.map(question => (
                         <QuestionListItem
                             key={question.id}

@@ -17,11 +17,15 @@ export default interface QuestionORM {
     /** [💾] */
     type: 'text' | 'number' | 'radio' | 'multiselect'
 
-    /** [💾] */
+    /**
+     * [💾] available options as the answer
+     */
     options: string[] | null
 
-    /** [💾] */
-    rules: unknown | null
+    /**
+     * [💾] laravel validation rules for the answer per question
+     */
+    rules: string[] | null
 
     /** [💾] */
     order: number
