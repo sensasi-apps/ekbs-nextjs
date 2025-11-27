@@ -18,6 +18,7 @@ import useSWR from 'swr'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
 import type EntryORM from '../../_orms/entry'
+import type QuestionORM from '../../_orms/question'
 import type SurveyORM from '../../_orms/survey'
 
 type Props = {
@@ -63,11 +64,10 @@ export default function SummaryPageClient({ surveyId }: Props) {
 
     return (
         <Box sx={{ p: 3 }}>
-            <PageTitle>Rangkuman Jawaban Survey</PageTitle>
-
-            <Typography sx={{ mb: 2 }} variant="h6">
-                {surveyData.title}
-            </Typography>
+            <PageTitle
+                subtitle={surveyData.name}
+                title="Rangkuman Jawaban Survey"
+            />
 
             {summaryStats && (
                 <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
@@ -88,7 +88,7 @@ export default function SummaryPageClient({ surveyId }: Props) {
                 <Card key={section.id} sx={{ mb: 3 }}>
                     <CardContent>
                         <Typography sx={{ mb: 2 }} variant="h6">
-                            {section.title}
+                            {section.name}
                         </Typography>
 
                         {section.questions?.map(question => {
@@ -131,7 +131,7 @@ export default function SummaryPageClient({ surveyId }: Props) {
 }
 
 type QuestionSummaryProps = {
-    question: SurveyORM['sections'][0]['questions'][0]
+    question: QuestionORM
     answers: EntryORM['answers']
 }
 
@@ -145,7 +145,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
 
     const typeLabel = questionTypeLabels[question.type]
 
-    if (answers.length === 0) {
+    if (answers?.length === 0) {
         return (
             <Typography color="text.secondary" variant="body2">
                 Belum ada jawaban ({typeLabel})
@@ -158,10 +158,10 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
             return (
                 <Box>
                     <Typography sx={{ mb: 1 }} variant="body2">
-                        {answers.length} jawaban ({typeLabel}):
+                        {answers?.length} jawaban ({typeLabel}):
                     </Typography>
                     <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>
-                        {answers.map((answer, idx) => (
+                        {answers?.map((answer, idx) => (
                             <Paper
                                 key={answer.id}
                                 sx={{ bgcolor: '#f5f5f5', mb: 1, p: 1 }}>
@@ -175,9 +175,9 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
             )
 
         case 'number':
-            const numbers = answers
-                .map(a => parseFloat(a.text))
-                .filter(n => !isNaN(n))
+            const numbers =
+                answers?.map(a => parseFloat(a.text)).filter(n => !isNaN(n)) ??
+                []
             const avg =
                 numbers.length > 0
                     ? (
@@ -188,7 +188,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
             return (
                 <Box>
                     <Typography sx={{ mb: 1 }} variant="body2">
-                        {answers.length} jawaban ({typeLabel}):
+                        {answers?.length} jawaban ({typeLabel}):
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
                         <Chip label={`Rata-rata: ${avg}`} size="small" />
@@ -210,7 +210,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {answers.map((answer, idx) => (
+                                {answers?.map((answer, idx) => (
                                     <TableRow key={answer.id}>
                                         <TableCell>{idx + 1}</TableCell>
                                         <TableCell>
@@ -227,7 +227,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
         case 'radio':
         case 'multiselect':
             const optionCounts: Record<string, number> = {}
-            answers.forEach(answer => {
+            answers?.forEach(answer => {
                 if (question.type === 'multiselect') {
                     // Untuk multiselect, jawaban bisa berupa array dipisah koma
                     const selectedOptions = answer.text
@@ -245,12 +245,12 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
             const totalSelections =
                 question.type === 'multiselect'
                     ? Object.values(optionCounts).reduce((a, b) => a + b, 0)
-                    : answers.length
+                    : (answers?.length ?? 0)
 
             return (
                 <Box>
                     <Typography sx={{ mb: 1 }} variant="body2">
-                        {answers.length} responden, {totalSelections} pilihan (
+                        {answers?.length} responden, {totalSelections} pilihan (
                         {typeLabel}):
                     </Typography>
                     <TableContainer component={Paper}>
