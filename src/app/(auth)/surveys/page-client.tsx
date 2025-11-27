@@ -48,7 +48,7 @@ export default function PageClient() {
                     setFormValues(null)
                 }}
                 onSubmitted={response => {
-                    push(`/surveys/${response.data.id}`)
+                    push(`/surveys/${response.data}`)
                 }}
                 title={formValues?.id ? 'Edit Survei' : 'Buat Survei'}
             />
