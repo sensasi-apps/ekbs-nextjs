@@ -25,7 +25,6 @@ Use context7 when I need code generation, setup or configuration steps, or libra
 ```bash
 npm run dev        # Dev server on port 4000
 bun run lint:fix   # Biome format (4 spaces, 80 chars, LF)
-bun run build      # Prod build (uses Webpack)
 bun run test       # Run tests with Vitest
 ```
 
@@ -196,7 +195,7 @@ import useAuthInfo from '@/hooks/use-auth-info'
 - Use dynamic metadata for pages with parameters (see Next.js docs for `generateMetadata`)
 - Ensure metadata is SEO-optimized and includes Indonesian language content where appropriate
 
-## Build & Dev Tools
+## Dev Tools
 
 ### Next.js Config
 
