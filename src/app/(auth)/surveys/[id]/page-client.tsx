@@ -233,9 +233,17 @@ export default function PageClient() {
                     <IconButton onClick={() => push('/surveys')} sx={{ mr: 2 }}>
                         <ArrowBackIcon />
                     </IconButton>
-                    <Typography component="h1" variant="h4">
+                    <Typography
+                        component="h1"
+                        sx={{ flexGrow: 1 }}
+                        variant="h4">
                         {survey.name}
                     </Typography>
+                    <Button
+                        onClick={() => push(`/surveys/${surveyId}/summary`)}
+                        variant="outlined">
+                        Lihat Rangkuman
+                    </Button>
                 </Box>
 
                 {!survey.sections || survey.sections.length === 0 ? (

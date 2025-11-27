@@ -1,4 +1,5 @@
 import type UserORM from '@/modules/user/types/orms/user'
+import type AnswerORM from './answer'
 import type SurveyORM from './survey'
 
 export default interface EntryORM {
@@ -22,4 +23,7 @@ export default interface EntryORM {
 
     /** [🔗] */
     participant?: UserORM | null
+
+    /** [🔗] */
+    answers?: AnswerORM[]
 }
