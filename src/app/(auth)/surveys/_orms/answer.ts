@@ -12,7 +12,7 @@ export default interface AnswerORM {
     entry_id: number | null
 
     /** [💾] */
-    text: string
+    value: string
 
     /** [💾] */
     created_at: string

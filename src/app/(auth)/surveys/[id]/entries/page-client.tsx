@@ -138,16 +138,16 @@ function EntryCard({ entry, entryNumber, questions }: EntryCardProps) {
         if (!answer) return '-'
 
         const question = questions.find(q => q.id === questionId)
-        if (!question) return answer.text
+        if (!question) return answer.value
 
         switch (question.type) {
             case 'multiselect':
-                return answer.text.split(',').join(', ')
+                return answer.value.split(',').join(', ')
             case 'radio':
             case 'text':
             case 'number':
             default:
-                return answer.text || '-'
+                return answer.value || '-'
         }
     }
 
