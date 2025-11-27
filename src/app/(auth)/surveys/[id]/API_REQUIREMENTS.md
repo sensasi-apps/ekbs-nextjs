@@ -46,6 +46,32 @@ GET /api/surveys/{id}
 }
 ```
 
+### 1.1. Update Survey Name
+
+```plain
+PUT /api/surveys/{id}/update
+```
+
+**Request Body:**
+
+```json
+{
+  "name": "Survey Kepuasan Pelanggan - Updated"
+}
+```
+
+**Expected Response:**
+
+```json
+{
+  "id": 1,
+  "name": "Survey Kepuasan Pelanggan - Updated",
+  "settings": null,
+  "created_at": "2025-11-26T10:00:00Z",
+  "updated_at": "2025-11-27T10:00:00Z"
+}
+```
+
 ### 2. Section Management
 
 #### Create Section

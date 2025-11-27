@@ -15,11 +15,13 @@ import {
 } from '@dnd-kit/sortable'
 import AddIcon from '@mui/icons-material/Add'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import EditIcon from '@mui/icons-material/Edit'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
+import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import type { AxiosError } from 'axios'
 import { useParams, useRouter } from 'next/navigation'
@@ -47,6 +49,8 @@ export default function PageClient() {
     const [activeSectionId, setActiveSectionId] = useState<number | null>(null)
     const [editingQuestion, setEditingQuestion] =
         useState<Partial<QuestionORM> | null>(null)
+    const [isEditingName, setIsEditingName] = useState(false)
+    const [editingName, setEditingName] = useState('')
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -222,6 +226,37 @@ export default function PageClient() {
         }
     }
 
+    const handleEditName = () => {
+        setIsEditingName(true)
+        setEditingName(survey?.name || '')
+    }
+
+    const handleCancelEditName = () => {
+        setIsEditingName(false)
+        setEditingName('')
+    }
+
+    const handleSaveName = async () => {
+        if (!editingName.trim() || editingName === survey?.name) {
+            handleCancelEditName()
+            return
+        }
+
+        try {
+            await axios.put(`/surveys/${surveyId}/update`, {
+                name: editingName.trim(),
+            })
+            mutate({
+                ...survey!,
+                name: editingName.trim(),
+            })
+            setIsEditingName(false)
+            setEditingName('')
+        } catch (error: unknown) {
+            handle422(error as AxiosError, () => {})
+        }
+    }
+
     if (!survey) {
         return <LoadingCenter />
     }
@@ -233,17 +268,79 @@ export default function PageClient() {
                     <IconButton onClick={() => push('/surveys')} sx={{ mr: 2 }}>
                         <ArrowBackIcon />
                     </IconButton>
-                    <Typography
-                        component="h1"
-                        sx={{ flexGrow: 1 }}
-                        variant="h4">
-                        {survey.name}
-                    </Typography>
-                    <Button
-                        onClick={() => push(`/surveys/${surveyId}/summary`)}
-                        variant="outlined">
-                        Lihat Rangkuman
-                    </Button>
+                    <Box sx={{ flexGrow: 1 }}>
+                        {isEditingName ? (
+                            <TextField
+                                fullWidth
+                                onChange={(
+                                    e: React.ChangeEvent<HTMLInputElement>,
+                                ) => setEditingName(e.target.value)}
+                                onKeyDown={(
+                                    e: React.KeyboardEvent<HTMLInputElement>,
+                                ) => {
+                                    if (e.key === 'Enter') handleSaveName()
+                                    if (e.key === 'Escape')
+                                        handleCancelEditName()
+                                }}
+                                size="small"
+                                sx={{
+                                    '& .MuiInputBase-root': {
+                                        fontSize: '2.125rem',
+                                        fontWeight: 400,
+                                        lineHeight: 1.235,
+                                    },
+                                }}
+                                value={editingName}
+                                variant="standard"
+                            />
+                        ) : (
+                            <Typography
+                                component="h1"
+                                onClick={handleEditName}
+                                sx={{
+                                    '&:hover': { bgcolor: 'action.hover' },
+                                    borderRadius: 1,
+                                    cursor: 'pointer',
+                                    mx: -1,
+                                    my: -0.5,
+                                    px: 1,
+                                    py: 0.5,
+                                }}
+                                variant="h4">
+                                {survey.name}
+                            </Typography>
+                        )}
+                    </Box>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        {isEditingName ? (
+                            <>
+                                <Button
+                                    onClick={handleSaveName}
+                                    size="small"
+                                    variant="contained">
+                                    Simpan
+                                </Button>
+                                <Button
+                                    onClick={handleCancelEditName}
+                                    size="small"
+                                    variant="outlined">
+                                    Batal
+                                </Button>
+                            </>
+                        ) : (
+                            <IconButton
+                                onClick={handleEditName}
+                                size="small"
+                                sx={{ mr: 1 }}>
+                                <EditIcon />
+                            </IconButton>
+                        )}
+                        <Button
+                            onClick={() => push(`/surveys/${surveyId}/summary`)}
+                            variant="outlined">
+                            Lihat Rangkuman
+                        </Button>
+                    </Box>
                 </Box>
 
                 {!survey.sections || survey.sections.length === 0 ? (
