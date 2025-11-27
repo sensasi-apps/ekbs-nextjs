@@ -166,7 +166,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
                                 key={answer.id}
                                 sx={{ bgcolor: '#f5f5f5', mb: 1, p: 1 }}>
                                 <Typography variant="body2">
-                                    {idx + 1}. {answer.text || '(Kosong)'}
+                                    {idx + 1}. {answer.value || '(Kosong)'}
                                 </Typography>
                             </Paper>
                         ))}
@@ -176,7 +176,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
 
         case 'number':
             const numbers =
-                answers?.map(a => parseFloat(a.text)).filter(n => !isNaN(n)) ??
+                answers?.map(a => parseFloat(a.value)).filter(n => !isNaN(n)) ??
                 []
             const avg =
                 numbers.length > 0
@@ -214,7 +214,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
                                     <TableRow key={answer.id}>
                                         <TableCell>{idx + 1}</TableCell>
                                         <TableCell>
-                                            {answer.text || '(Kosong)'}
+                                            {answer.value || '(Kosong)'}
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -230,15 +230,15 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
             answers?.forEach(answer => {
                 if (question.type === 'multiselect') {
                     // Untuk multiselect, jawaban bisa berupa array dipisah koma
-                    const selectedOptions = answer.text
+                    const selectedOptions = answer.value
                         .split(',')
                         .map(s => s.trim())
                     selectedOptions.forEach(opt => {
                         optionCounts[opt] = (optionCounts[opt] || 0) + 1
                     })
                 } else {
-                    optionCounts[answer.text] =
-                        (optionCounts[answer.text] || 0) + 1
+                    optionCounts[answer.value] =
+                        (optionCounts[answer.value] || 0) + 1
                 }
             })
 

@@ -16,6 +16,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import EditIcon from '@mui/icons-material/Edit'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -339,6 +340,13 @@ export default function PageClient() {
                             onClick={() => push(`/surveys/${surveyId}/entries`)}
                             variant="outlined">
                             Lihat Entri
+                        </Button>
+                        <Button
+                            endIcon={<OpenInNewIcon />}
+                            href={`/public/surveys/${surveyId}`}
+                            target="_blank"
+                            variant="outlined">
+                            Lihat Borang
                         </Button>
                         <Button
                             onClick={() => push(`/surveys/${surveyId}/summary`)}
