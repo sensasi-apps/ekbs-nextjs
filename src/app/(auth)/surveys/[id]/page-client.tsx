@@ -336,6 +336,11 @@ export default function PageClient() {
                             </IconButton>
                         )}
                         <Button
+                            onClick={() => push(`/surveys/${surveyId}/entries`)}
+                            variant="outlined">
+                            Lihat Entri
+                        </Button>
+                        <Button
                             onClick={() => push(`/surveys/${surveyId}/summary`)}
                             variant="outlined">
                             Lihat Rangkuman
