@@ -189,3 +189,86 @@ Body: {
 - Frontend menggunakan SWR untuk caching dan auto-revalidation
 - Question types yang didukung: `text`, `number`, `radio`, `multiselect`
 - `options` field hanya digunakan untuk type `radio` dan `multiselect`
+
+---
+
+## Summary Page - Rangkuman Jawaban
+
+### Get Survey Summary (with entries and answers)
+
+```plain
+GET /api/surveys/{id}/summary
+```
+
+**Expected Response:**
+
+```json
+{
+  "id": 1,
+  "name": "Survey Kepuasan Pelanggan",
+  "settings": null,
+  "created_at": "2025-11-26T10:00:00Z",
+  "updated_at": "2025-11-26T10:00:00Z",
+  "sections": [
+    {
+      "id": 1,
+      "survey_id": 1,
+      "name": "Informasi Umum",
+      "order": 0,
+      "created_at": "2025-11-26T10:00:00Z",
+      "updated_at": "2025-11-26T10:00:00Z",
+      "questions": [
+        {
+          "id": 1,
+          "survey_id": 1,
+          "section_id": 1,
+          "content": "Berapa umur Anda?",
+          "type": "number",
+          "options": null,
+          "rules": null,
+          "order": 0,
+          "created_at": "2025-11-26T10:00:00Z",
+          "updated_at": "2025-11-26T10:00:00Z"
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "id": 1,
+      "survey_id": 1,
+      "participant_id": 123,
+      "created_at": "2025-11-27T08:00:00Z",
+      "updated_at": "2025-11-27T08:00:00Z",
+      "participant": {
+        "id": 123,
+        "name": "John Doe",
+        "email": "john@example.com"
+      },
+      "answers": [
+        {
+          "id": "abc-123",
+          "question_id": 1,
+          "entry_id": 1,
+          "text": "25",
+          "created_at": "2025-11-27T08:00:00Z",
+          "updated_at": "2025-11-27T08:00:00Z",
+          "question": {
+            "id": 1,
+            "content": "Berapa umur Anda?",
+            "type": "number"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Notes:**
+
+- Response sama dengan GET `/api/surveys/{id}` tapi ditambahkan field `entries` dengan nested `answers`
+- `entries` berisi semua submission survey dengan jawaban masing-masing participant
+- `participant` field optional (bisa null untuk anonymous surveys)
+- Untuk question type `multiselect`, `text` field berisi comma-separated values (contoh: "Pilihan A,Pilihan C")
+- Frontend akan mengagregasi data untuk menampilkan statistik dan rangkuman
