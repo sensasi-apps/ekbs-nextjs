@@ -15,8 +15,8 @@ export default interface SurveyORM {
      * [💾]
      */
     settings: {
-        accept_guest_entries?: boolean
-        limit_per_participant?: number
+        'accept-guest-entries'?: boolean
+        'limit-per-participant'?: number
     } | null
 
     /**
