@@ -189,6 +189,13 @@ import useAuthInfo from '@/hooks/use-auth-info'
 - ORMs: `src/modules/{module}/types/orms/`
 - Enums: `src/enums/` (global) or `src/modules/{module}/enums/` (module-specific)
 
+### Server-Side Rendering & Metadata
+
+- **Always add metadata** to server-rendered pages using Next.js `metadata` export
+- Include at minimum: `title`, `description`, and relevant Open Graph tags
+- Use dynamic metadata for pages with parameters (see Next.js docs for `generateMetadata`)
+- Ensure metadata is SEO-optimized and includes Indonesian language content where appropriate
+
 ## Build & Dev Tools
 
 ### Next.js Config
