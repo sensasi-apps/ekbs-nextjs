@@ -15,14 +15,13 @@ import {
 } from '@dnd-kit/sortable'
 import AddIcon from '@mui/icons-material/Add'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import EditIcon from '@mui/icons-material/Edit'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import SettingsIcon from '@mui/icons-material/Settings'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import type { AxiosError } from 'axios'
 import { useParams, useRouter } from 'next/navigation'
@@ -36,6 +35,7 @@ import type SectionORM from '../_orms/section'
 import type SurveyORM from '../_orms/survey'
 import QuestionFormDialog from './_components/question-form-dialog'
 import SectionCard from './_components/section-card'
+import SurveySettingsDialog from './_components/survey-settings-dialog'
 
 export default function PageClient() {
     const params = useParams()
@@ -47,11 +47,10 @@ export default function PageClient() {
     )
 
     const [questionDialogOpen, setQuestionDialogOpen] = useState(false)
+    const [settingsDialogOpen, setSettingsDialogOpen] = useState(false)
     const [activeSectionId, setActiveSectionId] = useState<number | null>(null)
     const [editingQuestion, setEditingQuestion] =
         useState<Partial<QuestionORM> | null>(null)
-    const [isEditingName, setIsEditingName] = useState(false)
-    const [editingName, setEditingName] = useState('')
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -227,34 +226,19 @@ export default function PageClient() {
         }
     }
 
-    const handleEditName = () => {
-        setIsEditingName(true)
-        setEditingName(survey?.name || '')
-    }
-
-    const handleCancelEditName = () => {
-        setIsEditingName(false)
-        setEditingName('')
-    }
-
-    const handleSaveName = async () => {
-        if (!editingName.trim() || editingName === survey?.name) {
-            handleCancelEditName()
-            return
-        }
-
+    const handleUpdateSurvey = async (data: {
+        name: string
+        settings: SurveyORM['settings']
+    }) => {
         try {
-            await axios.put(`/surveys/${surveyId}/update`, {
-                name: editingName.trim(),
-            })
+            await axios.put(`/surveys/${surveyId}/update`, data)
             mutate({
                 ...survey!,
-                name: editingName.trim(),
+                ...data,
             })
-            setIsEditingName(false)
-            setEditingName('')
         } catch (error: unknown) {
             handle422(error as AxiosError, () => {})
+            throw error
         }
     }
 
@@ -270,90 +254,54 @@ export default function PageClient() {
                         <ArrowBackIcon />
                     </IconButton>
                     <Box sx={{ flexGrow: 1 }}>
-                        {isEditingName ? (
-                            <TextField
-                                fullWidth
-                                onChange={(
-                                    e: React.ChangeEvent<HTMLInputElement>,
-                                ) => setEditingName(e.target.value)}
-                                onKeyDown={(
-                                    e: React.KeyboardEvent<HTMLInputElement>,
-                                ) => {
-                                    if (e.key === 'Enter') handleSaveName()
-                                    if (e.key === 'Escape')
-                                        handleCancelEditName()
-                                }}
-                                size="small"
-                                sx={{
-                                    '& .MuiInputBase-root': {
-                                        fontSize: '2.125rem',
-                                        fontWeight: 400,
-                                        lineHeight: 1.235,
-                                    },
-                                }}
-                                value={editingName}
-                                variant="standard"
-                            />
-                        ) : (
-                            <Typography
-                                component="h1"
-                                onClick={handleEditName}
-                                sx={{
-                                    '&:hover': { bgcolor: 'action.hover' },
-                                    borderRadius: 1,
-                                    cursor: 'pointer',
-                                    mx: -1,
-                                    my: -0.5,
-                                    px: 1,
-                                    py: 0.5,
-                                }}
-                                variant="h4">
-                                {survey.name}
-                            </Typography>
-                        )}
+                        <Typography
+                            component="h1"
+                            sx={{
+                                borderRadius: 1,
+                                mx: -1,
+                                my: -0.5,
+                                px: 1,
+                                py: 0.5,
+                            }}
+                            variant="h4">
+                            {survey.name}
+                        </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                        {isEditingName ? (
-                            <>
-                                <Button
-                                    onClick={handleSaveName}
-                                    size="small"
-                                    variant="contained">
-                                    Simpan
-                                </Button>
-                                <Button
-                                    onClick={handleCancelEditName}
-                                    size="small"
-                                    variant="outlined">
-                                    Batal
-                                </Button>
-                            </>
-                        ) : (
-                            <IconButton
-                                onClick={handleEditName}
-                                size="small"
-                                sx={{ mr: 1 }}>
-                                <EditIcon />
-                            </IconButton>
-                        )}
-                        <Button
-                            onClick={() => push(`/surveys/${surveyId}/entries`)}
-                            variant="outlined">
-                            Lihat Entri
-                        </Button>
-                        <Button
-                            endIcon={<OpenInNewIcon />}
-                            href={`/public/surveys/${surveyId}`}
-                            target="_blank"
-                            variant="outlined">
-                            Lihat Borang
-                        </Button>
-                        <Button
-                            onClick={() => push(`/surveys/${surveyId}/summary`)}
-                            variant="outlined">
-                            Lihat Rangkuman
-                        </Button>
-                    </Box>
+                </Box>
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 1,
+                        justifyContent: 'flex-end',
+                        mb: 4,
+                    }}>
+                    <Button
+                        onClick={() => push(`/surveys/${surveyId}/entries`)}
+                        variant="outlined">
+                        Lihat Entri
+                    </Button>
+
+                    <Button
+                        onClick={() => push(`/surveys/${surveyId}/summary`)}
+                        variant="outlined">
+                        Lihat Rangkuman
+                    </Button>
+
+                    <Button
+                        onClick={() => setSettingsDialogOpen(true)}
+                        startIcon={<SettingsIcon />}
+                        variant="outlined">
+                        Pengaturan
+                    </Button>
+
+                    <Button
+                        endIcon={<OpenInNewIcon />}
+                        href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/surveys/${surveyId}/entry/form`}
+                        target="_blank"
+                        variant="outlined">
+                        Lihat Borang
+                    </Button>
                 </Box>
 
                 {!survey.sections || survey.sections.length === 0 ? (
@@ -420,6 +368,15 @@ export default function PageClient() {
                     onSubmit={handleSubmitQuestion}
                     open={questionDialogOpen}
                     sectionId={activeSectionId}
+                />
+            )}
+
+            {settingsDialogOpen && (
+                <SurveySettingsDialog
+                    onClose={() => setSettingsDialogOpen(false)}
+                    onUpdate={handleUpdateSurvey}
+                    open={settingsDialogOpen}
+                    survey={survey}
                 />
             )}
         </>
