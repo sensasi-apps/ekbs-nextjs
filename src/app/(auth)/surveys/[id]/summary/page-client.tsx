@@ -1,10 +1,12 @@
 'use client'
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -13,8 +15,10 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 import useSWR from 'swr'
+import FlexBox from '@/components/flex-box'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
 import type EntryORM from '../../_orms/entry'
@@ -30,6 +34,7 @@ type SurveyWithEntries = SurveyORM & {
 }
 
 export default function SummaryPageClient({ surveyId }: Props) {
+    const { back } = useRouter()
     const { data: surveyData, isLoading } = useSWR<SurveyWithEntries>(
         `surveys/${surveyId}/summary`,
         {
@@ -64,10 +69,18 @@ export default function SummaryPageClient({ surveyId }: Props) {
 
     return (
         <Box sx={{ p: 3 }}>
-            <PageTitle
-                subtitle={surveyData.name}
-                title="Rangkuman Jawaban Survey"
-            />
+            <FlexBox alignItems="flex-start">
+                <IconButton onClick={() => back()} sx={{ mr: 2 }}>
+                    <ArrowBackIcon />
+                </IconButton>
+
+                <div>
+                    <PageTitle
+                        subtitle={surveyData.name}
+                        title="Rangkuman Jawaban Survey"
+                    />
+                </div>
+            </FlexBox>
 
             {summaryStats && (
                 <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
@@ -160,17 +173,15 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
                     <Typography sx={{ mb: 1 }} variant="body2">
                         {answers?.length} jawaban ({typeLabel}):
                     </Typography>
-                    <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>
+
+                    <FlexBox>
                         {answers?.map((answer, idx) => (
-                            <Paper
+                            <Chip
                                 key={answer.id}
-                                sx={{ bgcolor: '#f5f5f5', mb: 1, p: 1 }}>
-                                <Typography variant="body2">
-                                    {idx + 1}. {answer.value || '(Kosong)'}
-                                </Typography>
-                            </Paper>
+                                label={`${idx + 1}. ${answer.value || '(Kosong)'}`}
+                            />
                         ))}
-                    </Box>
+                    </FlexBox>
                 </Box>
             )
 
