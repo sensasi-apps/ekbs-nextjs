@@ -9,8 +9,10 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import FormControlLabel from '@mui/material/FormControlLabel'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
+import Switch from '@mui/material/Switch'
 import TextField from '@mui/material/TextField'
 import { useState } from 'react'
 import type QuestionORM from '../../_orms/question'
@@ -63,6 +65,9 @@ export default function QuestionFormDialog({
     )
     const [options, setOptions] = useState<string[]>(initialData?.options || [])
     const [newOption, setNewOption] = useState('')
+    const [isRequired, setIsRequired] = useState(
+        initialData?.rules?.includes('required') ?? true,
+    )
     const [isLoading, setIsLoading] = useState(false)
 
     const requiresOptions = ['radio', 'multiselect'].includes(type)
@@ -80,10 +85,16 @@ export default function QuestionFormDialog({
 
         setIsLoading(true)
         try {
+            const rules = (initialData?.rules || []).filter(
+                r => r !== 'required',
+            )
+            if (isRequired) rules.push('required')
+
             await onSubmit({
                 ...initialData,
                 content: content.trim(),
                 options: requiresOptions ? options : null,
+                rules,
                 section_id: sectionId,
                 type,
             })
@@ -154,6 +165,17 @@ export default function QuestionFormDialog({
                         </MenuItem>
                     ))}
                 </TextField>
+
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={isRequired}
+                            disabled={isLoading}
+                            onChange={e => setIsRequired(e.target.checked)}
+                        />
+                    }
+                    label="Wajib Diisi"
+                />
 
                 {requiresOptions && (
                     <Box sx={{ mt: 2 }}>

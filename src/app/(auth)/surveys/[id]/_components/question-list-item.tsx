@@ -9,6 +9,9 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import IconButton from '@mui/material/IconButton'
 import ListItem from '@mui/material/ListItem'
+import Typography from '@mui/material/Typography'
+import { Activity } from 'react'
+import FlexBox from '@/components/flex-box'
 import type QuestionORM from '../../_orms/question'
 
 type Props = {
@@ -50,6 +53,8 @@ export default function QuestionListItem({
         transition,
     }
 
+    const isRequired = question.rules?.includes('required')
+
     return (
         <ListItem
             ref={setNodeRef}
@@ -87,18 +92,25 @@ export default function QuestionListItem({
                     alignItems: 'center',
                     cursor: 'grab',
                     display: 'flex',
-                    mr: 1,
+                    mr: 1.5,
                 }}>
                 <DragIndicatorIcon fontSize="small" />
             </Box>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    pr: 10,
-                }}>
-                <Box>{question.content}</Box>
+            <FlexBox
+                alignItems="flex-start"
+                flexDirection="column"
+                gap={0}
+                pr={10}>
+                <FlexBox gap={1}>
+                    {question.content}
+
+                    <Activity mode={!isRequired ? 'visible' : 'hidden'}>
+                        <Typography color="textDisabled" variant="body2">
+                            Tidak wajib
+                        </Typography>
+                    </Activity>
+                </FlexBox>
 
                 <Box>
                     <Chip
@@ -132,7 +144,7 @@ export default function QuestionListItem({
                             />
                         ))}
                 </Box>
-            </Box>
+            </FlexBox>
         </ListItem>
     )
 }
