@@ -227,6 +227,7 @@ export default function PageClient() {
     }
 
     const handleUpdateSurvey = async (data: {
+        description: string | null
         name: string
         settings: SurveyORM['settings']
     }) => {
@@ -254,17 +255,12 @@ export default function PageClient() {
                         <ArrowBackIcon />
                     </IconButton>
                     <Box sx={{ flexGrow: 1 }}>
-                        <Typography
-                            component="h1"
-                            sx={{
-                                borderRadius: 1,
-                                mx: -1,
-                                my: -0.5,
-                                px: 1,
-                                py: 0.5,
-                            }}
-                            variant="h4">
+                        <Typography component="h1" variant="h4">
                             {survey.name}
+                        </Typography>
+
+                        <Typography color="text.secondary" variant="h5">
+                            {survey.description}
                         </Typography>
                     </Box>
                 </Box>
