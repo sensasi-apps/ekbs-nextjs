@@ -14,6 +14,7 @@ interface SurveySettingsDialogProps {
     onClose: () => void
     survey: SurveyORM
     onUpdate: (data: {
+        description: string | null
         name: string
         settings: SurveyORM['settings']
     }) => Promise<void>
@@ -26,12 +27,14 @@ export default function SurveySettingsDialog({
     onUpdate,
 }: SurveySettingsDialogProps) {
     const [name, setName] = useState(survey.name)
+    const [description, setDescription] = useState(survey.description || '')
     const [closed, setClosed] = useState(survey.settings?.closed || false)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (open) {
             setName(survey.name)
+            setDescription(survey.description || '')
             setClosed(survey.settings?.closed || false)
         }
     }, [open, survey])
@@ -40,6 +43,7 @@ export default function SurveySettingsDialog({
         setLoading(true)
         try {
             await onUpdate({
+                description: description.trim() || null,
                 name,
                 settings: {
                     ...survey.settings,
@@ -64,6 +68,16 @@ export default function SurveySettingsDialog({
                     margin="normal"
                     onChange={e => setName(e.target.value)}
                     value={name}
+                    variant="outlined"
+                />
+                <TextField
+                    fullWidth
+                    label="Deskripsi"
+                    margin="normal"
+                    multiline
+                    onChange={e => setDescription(e.target.value)}
+                    rows={3}
+                    value={description}
                     variant="outlined"
                 />
                 <FormControlLabel

@@ -14,6 +14,11 @@ export default interface SurveyORM {
     /**
      * [💾]
      */
+    description: string | null
+
+    /**
+     * [💾]
+     */
     settings: {
         'accept-guest-entries'?: boolean
         'limit-per-participant'?: number | null
