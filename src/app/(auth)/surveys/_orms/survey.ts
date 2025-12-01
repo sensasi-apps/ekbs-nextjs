@@ -1,3 +1,4 @@
+import type EntryORM from './entry'
 import type SectionORM from './section'
 
 export default interface SurveyORM {
@@ -37,4 +38,7 @@ export default interface SurveyORM {
 
     /** [🔗] */
     sections?: SectionORM[]
+
+    /** [🔗] */
+    entries?: EntryORM[]
 }
