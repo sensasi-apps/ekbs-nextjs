@@ -1,6 +1,7 @@
 'use client'
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
@@ -16,8 +17,12 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import { useParams, useRouter } from 'next/navigation'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import useSWR from 'swr'
+import DialogFormik from '@/components/dialog-formik'
+import FlexBox from '@/components/flex-box'
+import FlexColumnBox from '@/components/flex-column-box'
+import UserSelect from '@/components/formik-fields/user-select'
 import LoadingCenter from '@/components/loading-center'
 import type EntryORM from '../../_orms/entry'
 import type SurveyORM from '../../_orms/survey'
@@ -31,12 +36,13 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
     const params = useParams()
     const surveyIdFromParams = params?.id as string
 
-    const { data: surveyData, isLoading } = useSWR<SurveyWithEntries>(
-        `surveys/${surveyId}/entries`,
-        {
-            revalidateOnFocus: false,
-        },
-    )
+    const {
+        data: surveyData,
+        isLoading,
+        mutate,
+    } = useSWR<SurveyWithEntries>(`surveys/${surveyId}/entries`, {
+        revalidateOnFocus: false,
+    })
 
     const flattenedQuestions = useMemo(() => {
         if (!surveyData?.sections) return []
@@ -87,8 +93,8 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
             </Box>
 
             {surveyData.entries && surveyData.entries.length > 0 ? (
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <Box sx={{ alignItems: 'center', display: 'flex', gap: 2 }}>
+                <FlexColumnBox>
+                    <FlexBox>
                         <Chip
                             color="primary"
                             label={`${surveyData.entries.length} Entri`}
@@ -99,17 +105,18 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
                             label={`${flattenedQuestions.length} Pertanyaan`}
                             variant="outlined"
                         />
-                    </Box>
+                    </FlexBox>
 
                     {surveyData.entries.map((entry, index) => (
                         <EntryCard
                             entry={entry}
                             entryNumber={index + 1}
                             key={entry.id}
+                            onUserAssigned={() => mutate()}
                             questions={flattenedQuestions}
                         />
                     ))}
-                </Box>
+                </FlexColumnBox>
             ) : (
                 <Paper sx={{ p: 4, textAlign: 'center' }}>
                     <Typography color="text.secondary" variant="body1">
@@ -121,7 +128,12 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
     )
 }
 
-type EntryCardProps = {
+function EntryCard({
+    entry,
+    entryNumber,
+    questions,
+    onUserAssigned,
+}: {
     entry: EntryORM
     entryNumber: number
     questions: Array<{
@@ -130,9 +142,8 @@ type EntryCardProps = {
         type: string
         sectionName: string
     }>
-}
-
-function EntryCard({ entry, entryNumber, questions }: EntryCardProps) {
+    onUserAssigned: () => void
+}) {
     const formatAnswer = (questionId: number) => {
         const answer = entry.answers?.find(a => a.question_id === questionId)
         if (!answer) return '-'
@@ -154,36 +165,48 @@ function EntryCard({ entry, entryNumber, questions }: EntryCardProps) {
     return (
         <Card>
             <CardContent>
-                <Box sx={{ alignItems: 'center', display: 'flex', mb: 2 }}>
-                    <Typography sx={{ flexGrow: 1 }} variant="h6">
-                        Entri #{entryNumber}
-                    </Typography>
+                <FlexBox justifyContent="space-between">
+                    <FlexBox gap={2}>
+                        <Typography fontWeight="bold" variant="h6">
+                            Entri #{entryNumber}
+                        </Typography>
+
+                        {entry.participant ? (
+                            <Chip
+                                color="primary"
+                                label={entry.participant.name}
+                                variant="outlined"
+                            />
+                        ) : (
+                            <AssignUserDialogForm
+                                entry_id={entry.id}
+                                onUserAssigned={onUserAssigned}
+                            />
+                        )}
+                    </FlexBox>
+
                     <Typography color="text.secondary" variant="body2">
                         {new Date(entry.created_at).toLocaleString('id-ID')}
                     </Typography>
-                </Box>
+                </FlexBox>
 
-                {entry.participant && (
-                    <Box sx={{ mb: 2 }}>
-                        <Typography color="text.secondary" variant="body2">
-                            Partisipan: {entry.participant.name}
-                        </Typography>
-                    </Box>
-                )}
-
-                <TableContainer component={Paper} variant="outlined">
+                <TableContainer
+                    component={Paper}
+                    sx={{
+                        mt: 3,
+                    }}
+                    variant="outlined">
                     <Table size="small">
                         <TableHead>
-                            <TableRow>
-                                <TableCell sx={{ fontWeight: 'bold' }}>
-                                    Pertanyaan
-                                </TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }}>
-                                    Bagian
-                                </TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }}>
-                                    Jawaban
-                                </TableCell>
+                            <TableRow
+                                sx={{
+                                    '* > th': {
+                                        fontWeight: 'bold',
+                                    },
+                                }}>
+                                <TableCell>Pertanyaan</TableCell>
+                                <TableCell>Bagian</TableCell>
+                                <TableCell>Jawaban</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -213,5 +236,52 @@ function EntryCard({ entry, entryNumber, questions }: EntryCardProps) {
                 </TableContainer>
             </CardContent>
         </Card>
+    )
+}
+
+function AssignUserDialogForm({
+    entry_id,
+    onUserAssigned,
+}: {
+    entry_id: EntryORM['id']
+    onUserAssigned: () => void
+}) {
+    const [formValues, setFormValues] = useState<{
+        user_uuid: string | null
+    } | null>(null)
+
+    return (
+        <>
+            <Chip
+                color="default"
+                icon={<PersonAddIcon />}
+                label="Atur Akun Pengguna"
+                onClick={() => {
+                    setFormValues({
+                        user_uuid: null,
+                    })
+                }}
+                variant="outlined"
+            />
+
+            <DialogFormik
+                axiosConfig={{
+                    method: 'PUT',
+                    url: `/surveys/entries/${entry_id}/assign-user`,
+                }}
+                formFields={() => (
+                    <UserSelect label="Pengguna" name="user_uuid" />
+                )}
+                initialValues={formValues}
+                onReset={() => {
+                    setFormValues(null)
+                }}
+                onSubmitted={() => {
+                    onUserAssigned()
+                    setFormValues(null)
+                }}
+                title="Atur Akun Pengguna"
+            />
+        </>
     )
 }
