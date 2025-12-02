@@ -46,19 +46,19 @@ export default function PalmBunchesReaPaymentForm({
     setSubmitting,
     onSubmitted,
 }: FormType<PalmBunchesReaPaymentDataType>) {
-    const hasTransactions = (dataProp?.transactions?.length || 0) > 0
+    const hasTransactions = (dataProp?.transactions?.length ?? 0) > 0
 
     const [data, setData] = useState<PalmBunchesReaPaymentDataType>(dataProp)
     const [file, setFile] = useState<File>()
     const [isPaid, setIsPaid] = useState(hasTransactions)
     const [transactions, setTransactions] = useState(
-        (data.transactions?.length > 0
-            ? data.transactions.filter((_, i) => i > 0)
+        ((data.transactions?.length ?? 0) > 0
+            ? data.transactions?.filter((_, i) => i > 0)
             : data.transaction_drafts?.map(tx => {
                   tx.amount = parseInt(tx.amount + '')
 
                   return tx
-              })) || [],
+              })) ?? [],
     )
     const [validationErrors, setValidationErrors] = useState<
         LaravelValidationExceptionResponse['errors']
@@ -139,7 +139,7 @@ export default function PalmBunchesReaPaymentForm({
             .then(({ data }) => {
                 setFile(ev.target.files?.[0])
                 setData(data)
-                setTransactions(data.transactions)
+                setTransactions(data.transactions ?? [])
             })
             .catch(error => {
                 if (error.response?.status === 422) {
