@@ -14,7 +14,7 @@ export default interface PalmBunchesReaPaymentDataORM {
     net_rp: number
     excel_file: FileType
     transaction_drafts: TransactionORM[]
-    transactions: TransactionORM[]
+    transactions?: TransactionORM[]
     details: PalmBunchesReaPaymentDetail[]
 
     n_tickets?: number
