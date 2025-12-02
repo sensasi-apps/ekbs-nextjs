@@ -27,7 +27,7 @@ import numberToCurrency from '@/utils/number-to-currency'
 // utils
 import toDmy from '@/utils/to-dmy'
 import PalmBunchesReaPaymentDetailDatatableModal from './detail-datatable'
-import PalmBunchesReaPaymentForm from './formx'
+import PalmBunchesReaPaymentForm from './form'
 
 let getRowData: GetRowDataType<PalmBunchesReaPaymentDataType>
 let mutate: MutateType<PalmBunchesReaPaymentDataType>

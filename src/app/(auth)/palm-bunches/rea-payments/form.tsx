@@ -318,6 +318,7 @@ export default function PalmBunchesReaPaymentForm({
 
                                         <TableCell padding="none" width="40%">
                                             <NumericFormat
+                                                allowNegative
                                                 defaultValue={
                                                     transaction.amount || ''
                                                 }
@@ -362,7 +363,7 @@ export default function PalmBunchesReaPaymentForm({
                                                         ),
                                                     },
                                                 }}
-                                                value={transaction.amount || ''}
+                                                value={transaction.amount ?? ''}
                                                 // error={Boolean(validationErrors[transaction.desc])}
                                                 // helperText={validationErrors[transaction.desc]}
                                             />
