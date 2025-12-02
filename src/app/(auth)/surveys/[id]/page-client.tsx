@@ -259,7 +259,10 @@ export default function PageClient() {
                             {survey.name}
                         </Typography>
 
-                        <Typography color="text.secondary" variant="h5">
+                        <Typography
+                            color="text.secondary"
+                            variant="h5"
+                            whiteSpace="pre-wrap">
                             {survey.description}
                         </Typography>
                     </Box>
