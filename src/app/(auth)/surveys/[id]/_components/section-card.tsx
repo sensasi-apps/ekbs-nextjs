@@ -112,18 +112,21 @@ export default function SectionCard({
                         <DragIndicatorIcon />
                     </Box>
                 }
+                sx={{
+                    borderBottom: '1px solid',
+                    borderBottomColor: 'var(--mui-palette-divider)',
+                }}
                 title={
                     isEditing ? (
                         <TextField
                             autoFocus
                             disabled={isLoading}
                             fullWidth
+                            multiline
                             onBlur={handleSaveName}
                             onChange={e => setName(e.target.value)}
                             onKeyDown={e => {
-                                if (e.key === 'Enter') {
-                                    handleSaveName()
-                                } else if (e.key === 'Escape') {
+                                if (e.key === 'Escape') {
                                     setName(section.name)
                                     setIsEditing(false)
                                 }
@@ -135,7 +138,8 @@ export default function SectionCard({
                     ) : (
                         <Box
                             onClick={() => setIsEditing(true)}
-                            sx={{ cursor: 'pointer' }}>
+                            sx={{ cursor: 'pointer' }}
+                            whiteSpace="pre-wrap">
                             {section.name}
                         </Box>
                     )
