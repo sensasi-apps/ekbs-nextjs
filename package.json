@@ -14,14 +14,14 @@
         "@emotion/styled": "^11.14.1",
         "@mdx-js/loader": "^3.1.1",
         "@mdx-js/react": "^3.1.1",
-        "@mui/icons-material": "^7.3.5",
+        "@mui/icons-material": "^7.3.6",
         "@mui/lab": "^7.0.0",
-        "@mui/material": "^7.3.5",
-        "@mui/material-nextjs": "^7.3.5",
+        "@mui/material": "^7.3.6",
+        "@mui/material-nextjs": "^7.3.6",
         "@mui/x-date-pickers": "^7.29.4",
         "@next/bundle-analyzer": "^16.0.6",
         "@next/mdx": "^16.0.6",
-        "@sentry/nextjs": "^10.27.0",
+        "@sentry/nextjs": "^10.28.0",
         "@serwist/next": "^9.2.3",
         "@types/mdx": "^2.0.13",
         "@uidotdev/usehooks": "^2.4.1",
@@ -70,7 +70,7 @@
         "serwist": "^9.2.3",
         "typescript": "^5.9.3",
         "vite-tsconfig-paths": "^5.1.4",
-        "vitest": "^4.0.14"
+        "vitest": "^4.0.15"
     },
     "name": "ekbs",
     "private": true,
@@ -86,6 +86,6 @@
         "test:watch": "vitest watch"
     },
     "trustedDependencies": ["@sentry/cli"],
-    "version": "0.12.7",
-    "versionDate": "2025-12-02"
+    "version": "0.12.8",
+    "versionDate": "2025-12-03"
 }
