@@ -102,7 +102,7 @@ export default function QuestionListItem({
                 flexDirection="column"
                 gap={0}
                 pr={10}>
-                <FlexBox gap={1}>
+                <FlexBox gap={1} whiteSpace="pre-wrap">
                     {question.content}
 
                     <Activity mode={!isRequired ? 'visible' : 'hidden'}>
