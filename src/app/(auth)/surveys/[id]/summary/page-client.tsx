@@ -4,8 +4,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
 import Chip from '@mui/material/Chip'
-import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -16,48 +16,31 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/navigation'
-import { useMemo } from 'react'
+import { Activity } from 'react'
 import useSWR from 'swr'
 import FlexBox from '@/components/flex-box'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
-import type EntryORM from '../../_orms/entry'
 import type QuestionORM from '../../_orms/question'
+import type SectionORM from '../../_orms/section'
 import type SurveyORM from '../../_orms/survey'
 
-type Props = {
-    surveyId: number
+type SurveySummaryApiResponse = Omit<SurveyORM, 'sections'> & {
+    sections: (Omit<SectionORM, 'questions'> & {
+        questions: QuestionORM[]
+    })[]
+    entries_count: number
+    questions_count: number
 }
 
-type SurveyWithEntries = SurveyORM & {
-    entries?: EntryORM[]
-}
-
-export default function SummaryPageClient({ surveyId }: Props) {
+export default function SummaryPageClient({ surveyId }: { surveyId: number }) {
     const { back } = useRouter()
-    const { data: surveyData, isLoading } = useSWR<SurveyWithEntries>(
+    const { data: surveyData, isLoading } = useSWR<SurveySummaryApiResponse>(
         `surveys/${surveyId}/summary`,
         {
             revalidateOnFocus: false,
         },
     )
-
-    const summaryStats = useMemo(() => {
-        if (!surveyData?.entries) return null
-
-        const totalEntries = surveyData.entries.length
-        const totalQuestions =
-            surveyData.sections?.reduce(
-                (acc, section) => acc + (section.questions?.length || 0),
-                0,
-            ) || 0
-
-        return { totalEntries, totalQuestions }
-    }, [surveyData])
-
-    if (isLoading) {
-        return <LoadingCenter />
-    }
 
     if (!surveyData) {
         return (
@@ -69,6 +52,10 @@ export default function SummaryPageClient({ surveyId }: Props) {
 
     return (
         <Box sx={{ p: 3 }}>
+            <Activity mode={isLoading ? 'visible' : 'hidden'}>
+                <LoadingCenter />
+            </Activity>
+
             <FlexBox alignItems="flex-start">
                 <IconButton onClick={() => back()} sx={{ mr: 2 }}>
                     <ArrowBackIcon />
@@ -82,55 +69,39 @@ export default function SummaryPageClient({ surveyId }: Props) {
                 </div>
             </FlexBox>
 
-            {summaryStats && (
-                <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-                    <Chip
-                        color="primary"
-                        label={`${summaryStats.totalEntries} Responden`}
-                        variant="outlined"
-                    />
-                    <Chip
-                        color="secondary"
-                        label={`${summaryStats.totalQuestions} Pertanyaan`}
-                        variant="outlined"
-                    />
-                </Box>
-            )}
+            <FlexBox mb={3}>
+                <Chip
+                    color="secondary"
+                    label={`${surveyData.questions_count} Pertanyaan`}
+                    variant="outlined"
+                />
+                <Chip
+                    color="primary"
+                    label={`${surveyData.entries_count} Responden`}
+                    variant="outlined"
+                />
+            </FlexBox>
 
             {surveyData.sections?.map(section => (
                 <Card key={section.id} sx={{ mb: 3 }}>
-                    <CardContent>
-                        <Typography sx={{ mb: 2 }} variant="h6">
-                            {section.name}
-                        </Typography>
+                    <CardHeader title={section.name} />
 
-                        {section.questions?.map(question => {
-                            const answers =
-                                surveyData.entries
-                                    ?.flatMap(entry => entry.answers || [])
-                                    .filter(
-                                        answer =>
-                                            answer.question_id === question.id,
-                                    ) || []
+                    {(section.questions?.length ?? 0) > 0 && (
+                        <CardContent
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 3,
+                            }}>
+                            {section.questions?.map(question => (
+                                <Box key={question.id}>
+                                    <Typography>{question.content}</Typography>
 
-                            return (
-                                <Box key={question.id} sx={{ mb: 3 }}>
-                                    <Typography
-                                        sx={{ mb: 1 }}
-                                        variant="subtitle1">
-                                        {question.content}
-                                    </Typography>
-
-                                    <QuestionSummary
-                                        answers={answers}
-                                        question={question}
-                                    />
-
-                                    <Divider sx={{ mt: 2 }} />
+                                    <QuestionSummary question={question} />
                                 </Box>
-                            )
-                        })}
-                    </CardContent>
+                            ))}
+                        </CardContent>
+                    )}
                 </Card>
             ))}
 
@@ -143,12 +114,13 @@ export default function SummaryPageClient({ surveyId }: Props) {
     )
 }
 
-type QuestionSummaryProps = {
-    question: QuestionORM
-    answers: EntryORM['answers']
-}
+const SummaryText = ({ children }: { children: React.ReactNode }) => (
+    <Typography color="textSecondary" gutterBottom variant="body2">
+        {children}
+    </Typography>
+)
 
-function QuestionSummary({ question, answers }: QuestionSummaryProps) {
+const QuestionSummary = ({ question }: { question: QuestionORM }) => {
     const questionTypeLabels = {
         multiselect: 'Pilihan Ganda',
         number: 'Angka',
@@ -157,6 +129,8 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
     }
 
     const typeLabel = questionTypeLabels[question.type]
+
+    const answers = question.answers ?? []
 
     if (answers?.length === 0) {
         return (
@@ -170,15 +144,16 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
         case 'text':
             return (
                 <Box>
-                    <Typography sx={{ mb: 1 }} variant="body2">
-                        {answers?.length} jawaban ({typeLabel}):
-                    </Typography>
+                    <SummaryText>
+                        {answers.length} jawaban ({typeLabel}):
+                    </SummaryText>
 
                     <FlexBox>
-                        {answers?.map((answer, idx) => (
+                        {answers?.map(answer => (
                             <Chip
                                 key={answer.id}
-                                label={`${idx + 1}. ${answer.value || '(Kosong)'}`}
+                                label={`${answer.value ?? '(Kosong)'}`}
+                                size="small"
                             />
                         ))}
                     </FlexBox>
@@ -198,10 +173,11 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
 
             return (
                 <Box>
-                    <Typography sx={{ mb: 1 }} variant="body2">
+                    <SummaryText>
                         {answers?.length} jawaban ({typeLabel}):
-                    </Typography>
-                    <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
+                    </SummaryText>
+
+                    <FlexBox gap={2} mb={1}>
                         <Chip label={`Rata-rata: ${avg}`} size="small" />
                         <Chip
                             label={`Min: ${Math.min(...numbers)}`}
@@ -211,12 +187,13 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
                             label={`Max: ${Math.max(...numbers)}`}
                             size="small"
                         />
-                    </Box>
+                    </FlexBox>
+
                     <TableContainer component={Paper} sx={{ maxHeight: 200 }}>
                         <Table size="small">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>No</TableCell>
+                                    <TableCell>#</TableCell>
                                     <TableCell>Jawaban</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -225,7 +202,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
                                     <TableRow key={answer.id}>
                                         <TableCell>{idx + 1}</TableCell>
                                         <TableCell>
-                                            {answer.value || '(Kosong)'}
+                                            {answer.value ?? '(Kosong)'}
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -238,6 +215,7 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
         case 'radio':
         case 'multiselect':
             const optionCounts: Record<string, number> = {}
+
             answers?.forEach(answer => {
                 if (question.type === 'multiselect') {
                     // Untuk multiselect, jawaban bisa berupa array dipisah koma
@@ -245,11 +223,11 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
                         .split(',')
                         .map(s => s.trim())
                     selectedOptions.forEach(opt => {
-                        optionCounts[opt] = (optionCounts[opt] || 0) + 1
+                        optionCounts[opt] = (optionCounts[opt] ?? 0) + 1
                     })
                 } else {
                     optionCounts[answer.value] =
-                        (optionCounts[answer.value] || 0) + 1
+                        (optionCounts[answer.value] ?? 0) + 1
                 }
             })
 
@@ -260,10 +238,11 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
 
             return (
                 <Box>
-                    <Typography sx={{ mb: 1 }} variant="body2">
+                    <SummaryText>
                         {answers?.length} responden, {totalSelections} pilihan (
                         {typeLabel}):
-                    </Typography>
+                    </SummaryText>
+
                     <TableContainer component={Paper}>
                         <Table size="small">
                             <TableHead>
@@ -283,8 +262,8 @@ function QuestionSummary({ question, answers }: QuestionSummaryProps) {
                                             ? (
                                                   (count / totalSelections) *
                                                   100
-                                              ).toFixed(1)
-                                            : '0.0'
+                                              ).toFixed(0)
+                                            : '0'
 
                                     return (
                                         <TableRow key={option}>

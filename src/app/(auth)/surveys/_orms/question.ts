@@ -1,3 +1,4 @@
+import type AnswerORM from './answer'
 import type SectionORM from './section'
 import type SurveyORM from './survey'
 
@@ -41,4 +42,7 @@ export default interface QuestionORM {
 
     /** [🔗] */
     survey?: SurveyORM
+
+    /** [🔗] */
+    answers?: AnswerORM[]
 }
