@@ -72,6 +72,26 @@ const DATATABLE_COLUMNS: DataTableProps<SurveyORM>['columns'] = [
         name: 'name',
     },
     {
+        label: 'Deskripsi',
+        name: 'description',
+    },
+    {
+        label: 'Pertanyaan',
+        name: 'questions_count',
+        options: {
+            searchable: false,
+            sort: false,
+        },
+    },
+    {
+        label: 'Responden',
+        name: 'entries_count',
+        options: {
+            searchable: false,
+            sort: false,
+        },
+    },
+    {
         label: 'Dibuat Pada',
         name: 'created_at',
         options: {
