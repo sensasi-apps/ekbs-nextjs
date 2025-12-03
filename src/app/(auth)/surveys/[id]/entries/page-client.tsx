@@ -8,6 +8,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import IconButton from '@mui/material/IconButton'
+import Pagination from '@mui/material/Pagination'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -17,18 +18,25 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import { useParams, useRouter } from 'next/navigation'
-import { useMemo, useState } from 'react'
+import { Activity, Fragment, useState } from 'react'
 import useSWR from 'swr'
 import DialogFormik from '@/components/dialog-formik'
 import FlexBox from '@/components/flex-box'
 import FlexColumnBox from '@/components/flex-column-box'
 import UserSelect from '@/components/formik-fields/user-select'
 import LoadingCenter from '@/components/loading-center'
+import PageTitle from '@/components/page-title'
 import type EntryORM from '../../_orms/entry'
+import type QuestionORM from '../../_orms/question'
+import type SectionORM from '../../_orms/section'
 import type SurveyORM from '../../_orms/survey'
 
-type SurveyWithEntries = SurveyORM & {
-    entries?: EntryORM[]
+type SurveyWithEntries = Omit<SurveyORM, 'entries' | 'sections'> & {
+    questions_count: number
+    paginated_entries: LaravelPaginatedResponse<EntryORM>
+    sections: (Omit<SectionORM, 'entries' | 'questions'> & {
+        questions: QuestionORM[]
+    })[]
 }
 
 export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
@@ -44,21 +52,6 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
         revalidateOnFocus: false,
     })
 
-    const flattenedQuestions = useMemo(() => {
-        if (!surveyData?.sections) return []
-
-        return surveyData.sections.flatMap(section =>
-            (section.questions || []).map(question => ({
-                ...question,
-                sectionName: section.name,
-            })),
-        )
-    }, [surveyData])
-
-    if (isLoading) {
-        return <LoadingCenter />
-    }
-
     if (!surveyData) {
         return (
             <Box sx={{ p: 3 }}>
@@ -71,17 +64,17 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
 
     return (
         <Box sx={{ p: 3 }}>
-            <Box sx={{ alignItems: 'center', display: 'flex', mb: 3 }}>
+            <FlexBox alignItems="start" gap={2} mb={3}>
                 <IconButton
                     onClick={() => push(`/surveys/${surveyIdFromParams}`)}
                     sx={{ mr: 2 }}>
                     <ArrowBackIcon />
                 </IconButton>
                 <Box sx={{ flexGrow: 1 }}>
-                    <Typography variant="h4">Entri Survey</Typography>
-                    <Typography sx={{ mt: 1 }} variant="h6">
-                        {surveyData.name}
-                    </Typography>
+                    <PageTitle
+                        subtitle={surveyData.name}
+                        title="Entri Survey"
+                    />
                 </Box>
                 <Button
                     onClick={() =>
@@ -90,40 +83,49 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
                     variant="outlined">
                     Lihat Rangkuman
                 </Button>
-            </Box>
+            </FlexBox>
 
-            {surveyData.entries && surveyData.entries.length > 0 ? (
-                <FlexColumnBox>
-                    <FlexBox>
-                        <Chip
-                            color="primary"
-                            label={`${surveyData.entries.length} Entri`}
-                            variant="outlined"
-                        />
-                        <Chip
-                            color="secondary"
-                            label={`${flattenedQuestions.length} Pertanyaan`}
-                            variant="outlined"
-                        />
-                    </FlexBox>
+            <Activity mode={isLoading ? 'visible' : 'hidden'}>
+                <LoadingCenter />
+            </Activity>
 
-                    {surveyData.entries.map((entry, index) => (
-                        <EntryCard
-                            entry={entry}
-                            entryNumber={index + 1}
-                            key={entry.id}
-                            onUserAssigned={() => mutate()}
-                            questions={flattenedQuestions}
-                        />
-                    ))}
-                </FlexColumnBox>
-            ) : (
-                <Paper sx={{ p: 4, textAlign: 'center' }}>
-                    <Typography color="text.secondary" variant="body1">
-                        Belum ada entri untuk survey ini.
-                    </Typography>
-                </Paper>
-            )}
+            <FlexColumnBox>
+                <FlexBox>
+                    <Chip
+                        color="primary"
+                        label={`${surveyData.paginated_entries.total} Entri`}
+                        variant="outlined"
+                    />
+                    <Chip
+                        color="secondary"
+                        label={`${surveyData.questions_count} Pertanyaan`}
+                        variant="outlined"
+                    />
+                </FlexBox>
+
+                <Pagination
+                    count={Math.ceil(
+                        surveyData.paginated_entries.total /
+                            surveyData.paginated_entries.per_page,
+                    )}
+                    onChange={(_, page) => {
+                        push(
+                            `/surveys/${surveyIdFromParams}/entries?page=${page}`,
+                        )
+                    }}
+                    page={surveyData.paginated_entries.current_page}
+                />
+
+                {surveyData.paginated_entries.data.map((entry, index) => (
+                    <EntryCard
+                        entry={entry}
+                        entryNumber={index + 1}
+                        key={entry.id}
+                        onUserAssigned={() => mutate()}
+                        sections={surveyData.sections}
+                    />
+                ))}
+            </FlexColumnBox>
         </Box>
     )
 }
@@ -131,24 +133,28 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
 function EntryCard({
     entry,
     entryNumber,
-    questions,
     onUserAssigned,
+    sections,
 }: {
     entry: EntryORM
     entryNumber: number
-    questions: Array<{
-        id: number
-        content: string
-        type: string
-        sectionName: string
-    }>
+    // questions: Array<{
+    //     id: number
+    //     content: string
+    //     type: string
+    //     sectionName: string
+    // }>
     onUserAssigned: () => void
+    sections: SurveyORM['sections']
 }) {
     const formatAnswer = (questionId: number) => {
         const answer = entry.answers?.find(a => a.question_id === questionId)
         if (!answer) return '-'
 
-        const question = questions.find(q => q.id === questionId)
+        const question = sections
+            ?.flatMap(section => section.questions ?? [])
+            .find(q => q.id === questionId)
+
         if (!question) return answer.value
 
         switch (question.type) {
@@ -190,50 +196,54 @@ function EntryCard({
                     </Typography>
                 </FlexBox>
 
-                <TableContainer
-                    component={Paper}
-                    sx={{
-                        mt: 3,
-                    }}
-                    variant="outlined">
-                    <Table size="small">
-                        <TableHead>
-                            <TableRow
+                {sections &&
+                    sections.length > 0 &&
+                    sections.map(section => (
+                        <Fragment key={section.id}>
+                            <Typography fontWeight="bold" mt={3}>
+                                {section.name}
+                            </Typography>
+
+                            <TableContainer
+                                component={Paper}
                                 sx={{
-                                    '* > th': {
-                                        fontWeight: 'bold',
-                                    },
-                                }}>
-                                <TableCell>Pertanyaan</TableCell>
-                                <TableCell>Bagian</TableCell>
-                                <TableCell>Jawaban</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {questions.map(question => (
-                                <TableRow key={question.id}>
-                                    <TableCell>
-                                        <Typography variant="body2">
-                                            {question.content}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Chip
-                                            label={question.sectionName}
-                                            size="small"
-                                            variant="outlined"
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant="body2">
-                                            {formatAnswer(question.id)}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                    mt: 1,
+                                }}
+                                variant="outlined">
+                                <Table size="small">
+                                    <TableHead>
+                                        <TableRow
+                                            sx={{
+                                                '* > th': {
+                                                    fontWeight: 'bold',
+                                                },
+                                            }}>
+                                            <TableCell>Pertanyaan</TableCell>
+                                            <TableCell>Jawaban</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {section.questions?.map(question => (
+                                            <TableRow key={question.id}>
+                                                <TableCell>
+                                                    <Typography variant="body2">
+                                                        {question.content}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="body2">
+                                                        {formatAnswer(
+                                                            question.id,
+                                                        )}
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Fragment>
+                    ))}
             </CardContent>
         </Card>
     )
@@ -284,4 +294,12 @@ function AssignUserDialogForm({
             />
         </>
     )
+}
+
+interface LaravelPaginatedResponse<T> {
+    data: T[]
+    current_page: number
+    last_page: number
+    per_page: number
+    total: number
 }
