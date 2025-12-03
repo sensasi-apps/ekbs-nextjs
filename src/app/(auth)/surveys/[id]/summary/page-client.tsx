@@ -43,6 +43,14 @@ export default function SummaryPageClient({ surveyId }: { surveyId: number }) {
     )
 
     if (!surveyData) {
+        if (isLoading) {
+            return (
+                <Box sx={{ p: 3 }}>
+                    <LoadingCenter />
+                </Box>
+            )
+        }
+
         return (
             <Box sx={{ p: 3 }}>
                 <Typography color="error">Gagal memuat data survey</Typography>
