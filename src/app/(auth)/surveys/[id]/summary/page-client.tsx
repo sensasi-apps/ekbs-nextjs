@@ -21,6 +21,7 @@ import useSWR from 'swr'
 import FlexBox from '@/components/flex-box'
 import LoadingCenter from '@/components/loading-center'
 import PageTitle from '@/components/page-title'
+import ScrollableXBox from '@/components/scrollable-x-box'
 import type QuestionORM from '../../_orms/question'
 import type SectionORM from '../../_orms/section'
 import type SurveyORM from '../../_orms/survey'
@@ -156,15 +157,16 @@ const QuestionSummary = ({ question }: { question: QuestionORM }) => {
                         {answers.length} jawaban ({typeLabel}):
                     </SummaryText>
 
-                    <FlexBox>
+                    <ScrollableXBox>
                         {answers?.map(answer => (
                             <Chip
                                 key={answer.id}
                                 label={`${answer.value ?? '(Kosong)'}`}
                                 size="small"
+                                variant="outlined"
                             />
                         ))}
-                    </FlexBox>
+                    </ScrollableXBox>
                 </Box>
             )
 
