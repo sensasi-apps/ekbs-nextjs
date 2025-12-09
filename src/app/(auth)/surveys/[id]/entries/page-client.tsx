@@ -124,10 +124,10 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
                     page={surveyData.paginated_entries.current_page}
                 />
 
-                {surveyData.paginated_entries.data.map((entry, index) => (
+                {surveyData.paginated_entries.data.map(entry => (
                     <EntryCard
                         entry={entry}
-                        entryNumber={index + 1}
+                        entryNumber={entry.id}
                         key={entry.id}
                         onUserAssigned={() => mutate()}
                         sections={surveyData.sections}
@@ -146,12 +146,6 @@ function EntryCard({
 }: {
     entry: EntryORM
     entryNumber: number
-    // questions: Array<{
-    //     id: number
-    //     content: string
-    //     type: string
-    //     sectionName: string
-    // }>
     onUserAssigned: () => void
     sections: SurveyORM['sections']
 }) {
