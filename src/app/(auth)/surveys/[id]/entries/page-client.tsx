@@ -17,7 +17,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { Activity, Fragment, useState } from 'react'
 import useSWR from 'swr'
 import DialogFormik from '@/components/dialog-formik'
@@ -43,14 +43,18 @@ export default function EntriesPageClient({ surveyId }: { surveyId: number }) {
     const { push } = useRouter()
     const params = useParams()
     const surveyIdFromParams = params?.id as string
-
+    const searchParams = useSearchParams()
+    const page = searchParams.get('page')
     const {
         data: surveyData,
         isLoading,
         mutate,
-    } = useSWR<SurveyWithEntries>(`surveys/${surveyId}/entries`, {
-        revalidateOnFocus: false,
-    })
+    } = useSWR<SurveyWithEntries>(
+        `surveys/${surveyId}/entries${page ? `?page=${page}` : ''}`,
+        {
+            revalidateOnFocus: false,
+        },
+    )
 
     if (!surveyData) {
         if (isLoading) {
