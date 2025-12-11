@@ -2,6 +2,7 @@
 
 // icons-materials
 import Assessment from '@mui/icons-material/Assessment'
+import BugReport from '@mui/icons-material/BugReport'
 import Dashboard from '@mui/icons-material/Dashboard'
 import SettingIcon from '@mui/icons-material/Settings'
 import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
@@ -47,6 +48,12 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
                 href: '/surveys',
                 icon: Assessment,
                 label: 'Survei',
+            },
+            {
+                // forPermission: SurveyPermission.READ,
+                href: '/issues',
+                icon: BugReport,
+                label: 'Laporan Isu',
             },
         ],
     },

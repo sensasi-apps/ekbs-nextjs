@@ -11,8 +11,7 @@ import MuiTextField, { type TextFieldProps } from '@mui/material/TextField'
 export default function TextField({
     required = true,
     fullWidth = true,
-    size = 'small',
-    margin = 'dense',
+    margin = 'normal',
     ...props
 }: TextFieldProps) {
     return (
@@ -20,7 +19,6 @@ export default function TextField({
             fullWidth={fullWidth}
             margin={margin}
             required={required}
-            size={size}
             {...props}
         />
     )
