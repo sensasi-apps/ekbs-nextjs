@@ -1,5 +1,3 @@
-import Add from '@mui/icons-material/Add'
-
 import Fab from '@/components/fab'
 import NextLink from '@/components/next-link'
 import PageTitle from '@/components/page-title'
@@ -12,9 +10,11 @@ export default function Page() {
 
             <PageClient />
 
-            <Fab component={NextLink} href="issues/create">
-                <Add />
-            </Fab>
+            <Fab
+                component={NextLink}
+                href="issues/create"
+                title="Laporkan Isu Baru"
+            />
         </>
     )
 }
