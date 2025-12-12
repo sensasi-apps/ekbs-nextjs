@@ -1,9 +1,6 @@
-// types
-
 // icons-materials
 import Biotech from '@mui/icons-material/Biotech'
 import Group from '@mui/icons-material/Group'
-import TicketIcon from '@mui/icons-material/LocalActivity'
 import Note from '@mui/icons-material/Note'
 import OnlinePrediction from '@mui/icons-material/OnlinePrediction'
 import PrintIcon from '@mui/icons-material/Print'
@@ -37,12 +34,6 @@ export const supermans: NavItemGroup = {
             href: '/test',
             icon: Biotech,
             label: 'Test',
-        },
-        {
-            forRole: Role.SUPERMAN,
-            href: '/ticketing-system',
-            icon: TicketIcon,
-            label: 'Sistem Tiket',
         },
         {
             forRole: Role.SUPERMAN,
