@@ -1,4 +1,6 @@
+import Container from '@mui/material/Container'
 import PageTitleWithBackButton from '@/components/page-title-with-back-button'
+import PageClient from './page-client'
 
 export default async function Page({
     params,
@@ -7,12 +9,13 @@ export default async function Page({
 }) {
     const issue_id = (await params).issue_id
     return (
-        <>
+        <Container>
             <PageTitleWithBackButton
                 backHref="/issues"
                 title={`Laporan Isu #${issue_id}`}
             />
-        </>
+            <PageClient />
+        </Container>
     )
 }
 

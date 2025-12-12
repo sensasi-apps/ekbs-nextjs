@@ -1,5 +1,6 @@
 'use client'
 
+import Chip from '@mui/material/Chip'
 import { useRouter } from 'next/navigation'
 import Datatable, {
     type DataTableProps,
@@ -51,6 +52,25 @@ const COLUMNS: DataTableProps<TicketORM>['columns'] = [
                 if (!data || !data.user) return
 
                 return <UserDisplay data={data.user} />
+            },
+        },
+    },
+    {
+        label: 'Status',
+        name: 'status',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const data = getRowData(dataIndex)
+
+                if (!data) return
+
+                return (
+                    <Chip
+                        color={data.status === 'open' ? 'success' : 'default'}
+                        label={data.status === 'open' ? 'Terbuka' : 'Ditutup'}
+                        variant="outlined"
+                    />
+                )
             },
         },
     },

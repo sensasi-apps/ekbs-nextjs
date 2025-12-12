@@ -1,4 +1,5 @@
 import type UserORM from '@/modules/user/types/orms/user'
+import type MessageORM from './message'
 
 export default interface TicketORM {
     /** [💾] */
@@ -39,4 +40,7 @@ export default interface TicketORM {
 
     /** [🔗] */
     user: UserORM | null
+
+    /** [🔗] */
+    messages?: MessageORM[]
 }
