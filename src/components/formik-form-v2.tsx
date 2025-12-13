@@ -1,11 +1,13 @@
+'use client'
+
 // materials
 import Button from '@mui/material/Button'
-import LinearProgress from '@mui/material/LinearProgress'
 import { Form, useFormikContext } from 'formik'
 // vendors
-import { Activity, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 // components
 import FlexBox from '@/components/flex-box'
+import TopLinearProgress from './top-linear-progress'
 
 export default function FormikForm({ children }: { children: ReactNode }) {
     return (
@@ -27,20 +29,7 @@ export default function FormikForm({ children }: { children: ReactNode }) {
 function LoadingIndicator() {
     const { isSubmitting } = useFormikContext()
 
-    return (
-        <Activity mode={isSubmitting ? 'visible' : 'hidden'}>
-            <LinearProgress
-                color="success"
-                sx={theme => ({
-                    left: 0,
-                    position: 'absolute',
-                    right: 0,
-                    top: 0,
-                    zIndex: theme.zIndex.appBar + 1,
-                })}
-            />
-        </Activity>
-    )
+    return <TopLinearProgress show={isSubmitting} />
 }
 
 function ResetButton() {
