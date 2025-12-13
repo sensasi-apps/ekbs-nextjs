@@ -56,6 +56,8 @@ enum RoleEnum {
     // repair shop
     REPAIR_SHOP_MANAGER = 'repair shop manager',
     REPAIR_SHOP_CASHIER = 'repair shop cashier',
+
+    ISSUE_MANAGER = 'issue manager',
 }
 
 export default RoleEnum
