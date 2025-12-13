@@ -12,7 +12,7 @@ export default function PageClient() {
 
     const initialValues: Partial<TicketORM> = {
         message: '',
-        priority: 'medium',
+        priority: 'normal',
         title: '',
     }
 
