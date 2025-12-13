@@ -8,6 +8,7 @@ import SettingIcon from '@mui/icons-material/Settings'
 import VolunteerActivism from '@mui/icons-material/VolunteerActivism'
 // enums
 import SurveyPermission from '@/app/(auth)/surveys/_enums/permission'
+import Issue from '@/enums/permissions/Issue'
 import Role from '@/enums/role'
 import type NavItemGroup from '../types/nav-item-group'
 // nav items
@@ -50,7 +51,7 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
                 label: 'Survei',
             },
             {
-                // forPermission: SurveyPermission.READ,
+                forPermission: Issue.CREATE,
                 href: '/issues',
                 icon: BugReport,
                 label: 'Laporan Isu',
