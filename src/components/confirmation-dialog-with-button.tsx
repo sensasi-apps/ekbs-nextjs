@@ -6,39 +6,52 @@ import Button, { type ButtonProps } from '@mui/material/Button'
 import { useState } from 'react'
 // components
 import ConfirmationDialog from './confirmation-dialog'
+import TopLinearProgress from './top-linear-progress'
 
 export default function ConfirmationDialogWithButton({
     shouldConfirm,
     onConfirm,
+    buttonText,
     buttonProps,
     confirmButtonProps,
+    color = 'warning',
+    children,
     ...props
 }: ConfirmationDialogWithButtonProps) {
     const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
     const handleConfirm = () => {
+        setLoading(true)
+
         onConfirm()
             ?.then(handleClose)
             .catch(() => undefined)
+            .finally(() => setLoading(false))
     }
 
     return (
         <>
             <Button
-                color={props.color}
+                color={color}
                 onClick={shouldConfirm ? handleOpen : handleConfirm}
-                {...buttonProps}
-            />
+                {...buttonProps}>
+                {buttonText}
+            </Button>
 
             <ConfirmationDialog
+                color={color}
                 confirmButtonProps={confirmButtonProps}
                 onCancel={handleClose}
                 onConfirm={handleConfirm}
                 open={open}
-                {...props}
-            />
+                {...props}>
+                <TopLinearProgress show={loading} />
+
+                {children}
+            </ConfirmationDialog>
         </>
     )
 }
@@ -57,8 +70,10 @@ interface ConfirmationDialogWithButtonProps
      * Return a {@link Promise} to handle auto close
      */
     onConfirm: () => void | Promise<unknown>
-    buttonProps?: Omit<ButtonProps, 'children'> & {
-        children: ButtonProps['children']
-    }
+
+    buttonProps?: Omit<ButtonProps, 'children'>
+
     confirmButtonProps?: ButtonProps
+
+    buttonText: ButtonProps['children']
 }

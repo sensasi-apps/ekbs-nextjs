@@ -110,11 +110,11 @@ function SavePermanentButton({ uuid }: { uuid: SparePartMovementORM['uuid'] }) {
     return (
         <ConfirmationDialogWithButton
             buttonProps={{
-                children: 'Simpan Permanen',
                 size: 'small',
                 startIcon: <LockIcon />,
                 variant: 'outlined',
             }}
+            buttonText="Simpan Permanen"
             color="warning"
             loading={isSubmitting}
             onConfirm={handleSubmit}
@@ -163,11 +163,11 @@ function DeleteButton({ uuid }: { uuid: SparePartMovementORM['uuid'] }) {
     return (
         <ConfirmationDialogWithButton
             buttonProps={{
-                children: 'Hapus',
                 size: 'small',
                 startIcon: <DeleteIcon />,
                 variant: 'outlined',
             }}
+            buttonText="Hapus"
             color="error"
             loading={isSubmitting}
             onConfirm={handleSubmit}

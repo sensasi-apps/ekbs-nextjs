@@ -186,10 +186,10 @@ function ReturnButtonCustomBodyRender({ data }: { data: Sale }) {
     return (
         <ConfirmationDialogWithButton
             buttonProps={{
-                children: 'Retur',
                 size: 'small',
                 variant: 'outlined',
             }}
+            buttonText="Retur"
             color="error"
             loading={loading}
             onConfirm={() => {

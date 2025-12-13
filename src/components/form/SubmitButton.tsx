@@ -16,13 +16,13 @@ function FormSubmitButton({
     return (
         <ConfirmationDialogWithButton
             buttonProps={{
-                children: 'Simpan',
                 disabled: disabled,
                 form: form,
                 loading: loading,
                 type: oldDirty ? 'button' : 'submit',
                 variant: 'contained',
             }}
+            buttonText="Simpan"
             color="success"
             confirmButtonProps={{
                 form: form,

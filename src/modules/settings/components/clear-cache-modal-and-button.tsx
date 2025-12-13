@@ -24,11 +24,11 @@ export default function ClearCacheModalAndButton() {
     return (
         <ConfirmationDialogWithButton
             buttonProps={{
-                children: 'Bersihkan Cache',
                 color: 'success',
                 startIcon: <CachedIcon />,
                 variant: 'outlined',
             }}
+            buttonText="Bersihkan Cache"
             onConfirm={handleClearCache}
             shouldConfirm
             title="Konfirmasi Bersihkan Cache">
