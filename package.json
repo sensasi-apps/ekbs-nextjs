@@ -25,7 +25,7 @@
         "@serwist/next": "^9.2.3",
         "@types/mdx": "^2.0.13",
         "@uidotdev/usehooks": "^2.4.1",
-        "ably": "2.14.0",
+        "ably": "2.15.0",
         "axios": "^1.13.2",
         "babel-plugin-react-compiler": "^1.0.0",
         "dayjs": "^1.11.19",
@@ -35,7 +35,7 @@
         "js-file-download": "^0.4.12",
         "js-sha3": "^0.9.3",
         "jsdom": "^27.3.0",
-        "mui-datatable-delight": "2.0.0-experimental.20",
+        "mui-datatable-delight": "2.0.0-experimental.21",
         "next": "^16.0.10",
         "notistack": "^3.0.2",
         "qs": "^6.14.0",
@@ -66,7 +66,7 @@
         "@types/react-dom": "^19.2.3",
         "@types/react-virtualized": "^9.22.3",
         "@vitejs/plugin-react": "^5.1.2",
-        "knip": "^5.73.3",
+        "knip": "^5.73.4",
         "serwist": "^9.2.3",
         "typescript": "^5.9.3",
         "vite-tsconfig-paths": "^5.1.4",
@@ -86,6 +86,6 @@
         "test:watch": "vitest watch"
     },
     "trustedDependencies": ["@sentry/cli"],
-    "version": "0.12.14",
+    "version": "0.12.15",
     "versionDate": "2025-12-13"
 }

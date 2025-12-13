@@ -20,13 +20,13 @@
         "@mui/material": "^7.3.6",
         "@mui/material-nextjs": "^7.3.6",
         "@mui/x-date-pickers": "^7.29.4",
-        "@next/bundle-analyzer": "^16.0.8",
-        "@next/mdx": "^16.0.8",
-        "@sentry/nextjs": "^10.29.0",
+        "@next/bundle-analyzer": "^16.0.10",
+        "@next/mdx": "^16.0.10",
+        "@sentry/nextjs": "^10.30.0",
         "@serwist/next": "^9.2.3",
         "@types/mdx": "^2.0.13",
         "@uidotdev/usehooks": "^2.4.1",
-        "ably": "2.14.0",
+        "ably": "2.15.0",
         "axios": "^1.13.2",
         "babel-plugin-react-compiler": "^1.0.0",
         "dayjs": "^1.11.19",
@@ -36,13 +36,13 @@
         "js-file-download": "^0.4.12",
         "js-sha3": "^0.9.3",
         "jsdom": "^27.3.0",
-        "mui-datatable-delight": "2.0.0-experimental.20",
-        "next": "^16.0.8",
+        "mui-datatable-delight": "2.0.0-experimental.21",
+        "next": "^16.0.10",
         "notistack": "^3.0.2",
         "qs": "^6.14.0",
-        "react": "^19.2.1",
+        "react": "^19.2.3",
         "react-barcode-reader": "^0.0.2",
-        "react-dom": "^19.2.1",
+        "react-dom": "^19.2.3",
         "react-markdown": "^10.1.0",
         "react-number-format": "^5.4.4",
         "react-to-print": "^3.2.0",
@@ -67,7 +67,7 @@
         "@types/react-dom": "^19.2.3",
         "@types/react-virtualized": "^9.22.3",
         "@vitejs/plugin-react": "^5.1.2",
-        "knip": "^5.72.0",
+        "knip": "^5.73.4",
         "serwist": "^9.2.3",
         "typescript": "^5.9.3",
         "vite-tsconfig-paths": "^5.1.4",
@@ -771,7 +771,7 @@
 
     "@xtuc/long": ["@xtuc/long@4.2.2", "", {}, "sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ=="],
 
-    "ably": ["ably@2.14.0", "", { "dependencies": { "@ably/msgpack-js": "^0.4.0", "dequal": "^2.0.3", "fastestsmallesttextencoderdecoder": "^1.0.22", "got": "^11.8.5", "ulid": "^2.3.0", "ws": "^8.17.1" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-GWNza+URnh/W5IuoJX7nXJpQCs2Dxby6t5A20vL3PBqGIJceA94/1xje4HOZbqFtMEPkRVsYHBIEuQRWL+CuvQ=="],
+    "ably": ["ably@2.15.0", "", { "dependencies": { "@ably/msgpack-js": "^0.4.0", "dequal": "^2.0.3", "fastestsmallesttextencoderdecoder": "^1.0.22", "got": "^11.8.5", "ulid": "^2.3.0", "ws": "^8.17.1" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-Tc+ZOrV9mIzZQ31ZXjxo/DAEq0iyrkKqiKbTus7xVKgTqWCj95ZXe9ABCOA4SPM8nIPK7qv5IeWJQQAwPoMjbQ=="],
 
     "acorn": ["acorn@8.15.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg=="],
 
@@ -1345,7 +1345,7 @@
 
     "keyv": ["keyv@4.5.4", "", { "dependencies": { "json-buffer": "3.0.1" } }, "sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw=="],
 
-    "knip": ["knip@5.73.3", "", { "dependencies": { "@nodelib/fs.walk": "^1.2.3", "fast-glob": "^3.3.3", "formatly": "^0.3.0", "jiti": "^2.6.0", "js-yaml": "^4.1.1", "minimist": "^1.2.8", "oxc-resolver": "^11.15.0", "picocolors": "^1.1.1", "picomatch": "^4.0.1", "smol-toml": "^1.5.2", "strip-json-comments": "5.0.3", "zod": "^4.1.11" }, "peerDependencies": { "@types/node": ">=18", "typescript": ">=5.0.4 <7" }, "bin": { "knip": "bin/knip.js", "knip-bun": "bin/knip-bun.js" } }, "sha512-676xuqNQidE9yZeUUX7lJeZ0d1N7QBTbmO1J0p+SyuXlbpdE4pd8Ql3WVMvrvaaaG2z/+3ExeFNm0Q9mVIjuKw=="],
+    "knip": ["knip@5.73.4", "", { "dependencies": { "@nodelib/fs.walk": "^1.2.3", "fast-glob": "^3.3.3", "formatly": "^0.3.0", "jiti": "^2.6.0", "js-yaml": "^4.1.1", "minimist": "^1.2.8", "oxc-resolver": "^11.15.0", "picocolors": "^1.1.1", "picomatch": "^4.0.1", "smol-toml": "^1.5.2", "strip-json-comments": "5.0.3", "zod": "^4.1.11" }, "peerDependencies": { "@types/node": ">=18", "typescript": ">=5.0.4 <7" }, "bin": { "knip": "bin/knip.js", "knip-bun": "bin/knip-bun.js" } }, "sha512-q0DDgqsRMa4z2IMEPEblns0igitG8Fu7exkvEgQx1QMLKEqSvcvKP9fMk+C1Ehy+Ux6oayl6zfAEGt6DvFtidw=="],
 
     "lines-and-columns": ["lines-and-columns@1.2.4", "", {}, "sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg=="],
 
@@ -1517,7 +1517,7 @@
 
     "ms": ["ms@2.1.3", "", {}, "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="],
 
-    "mui-datatable-delight": ["mui-datatable-delight@2.0.0-experimental.20", "", { "dependencies": { "@emotion/react": "^11.14.0", "@emotion/styled": "^11.14.1", "@mui/icons-material": "^7.3.6", "@mui/material": "^7.3.6", "react": "^19.2.1", "react-dom": "^19.2.1", "react-fast-compare": "^3.2.2", "react-to-print": "^3.2.0" } }, "sha512-nCYAywtDnqOVCGJHXF/MQlvsjIZkLmR/mVX64w/NQ3jNiJbuYcGUUmbsIVynWDdNjk3d/mfWIy652NBSeXPh9A=="],
+    "mui-datatable-delight": ["mui-datatable-delight@2.0.0-experimental.21", "", { "dependencies": { "@emotion/react": "^11.14.0", "@emotion/styled": "^11.14.1", "@mui/icons-material": "^7.3.6", "@mui/material": "^7.3.6", "react-fast-compare": "^3.2.2", "react-to-print": "^3.2.0" }, "peerDependencies": { "react": "^19.2.3", "react-dom": "^19.2.3" } }, "sha512-xeRlruZl7AlHd2nTNItx6J1mQerZEVxaVye90yGLnCKGdGkkjXQiSBPPXZWC+/YWftQnVzKGYcgDZidNCema3A=="],
 
     "multipipe": ["multipipe@1.0.2", "", { "dependencies": { "duplexer2": "^0.1.2", "object-assign": "^4.1.0" } }, "sha512-6uiC9OvY71vzSGX8lZvSqscE7ft9nPupJ8fMjrCNRAUy2LREUW42UL+V/NTrogr6rFgRydUrCX4ZitfpSNkSCQ=="],
 
@@ -2168,10 +2168,6 @@
     "mdast-util-find-and-replace/escape-string-regexp": ["escape-string-regexp@5.0.0", "", {}, "sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw=="],
 
     "micromatch/picomatch": ["picomatch@2.3.1", "", {}, "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA=="],
-
-    "mui-datatable-delight/react": ["react@19.2.1", "", {}, "sha512-DGrYcCWK7tvYMnWh79yrPHt+vdx9tY+1gPZa7nJQtO/p8bLTDaHp4dzwEhQB7pZ4Xe3ok4XKuEPrVuc+wlpkmw=="],
-
-    "mui-datatable-delight/react-dom": ["react-dom@19.2.1", "", { "dependencies": { "scheduler": "^0.27.0" }, "peerDependencies": { "react": "^19.2.1" } }, "sha512-ibrK8llX2a4eOskq1mXKu/TGZj9qzomO+sNfO98M6d9zIPOEhlBkMkBUBLd1vgS0gQsLDBzA+8jJBVXDnfHmJg=="],
 
     "mui-datatable-delight/react-fast-compare": ["react-fast-compare@3.2.2", "", {}, "sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ=="],
 
