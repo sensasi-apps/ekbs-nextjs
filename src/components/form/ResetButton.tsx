@@ -27,13 +27,13 @@ function FormResetButton({
     return (
         <ConfirmationDialogWithButton
             buttonProps={{
-                children: children,
                 color: color,
                 disabled: disabled,
                 form: form,
                 type: dirty ? 'button' : 'reset',
                 ...buttonProps,
             }}
+            buttonText={children}
             color="warning"
             confirmButtonProps={{
                 form: form,
