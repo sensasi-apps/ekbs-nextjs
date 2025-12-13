@@ -6,13 +6,13 @@ export default function TopLinearProgress({ show }: { show: boolean }) {
         <Activity mode={show ? 'visible' : 'hidden'}>
             <LinearProgress
                 color="success"
-                sx={theme => ({
+                sx={{
                     left: 0,
                     position: 'absolute',
                     right: 0,
                     top: 0,
-                    zIndex: theme.zIndex.appBar + 10,
-                })}
+                    zIndex: 1202, // theme.zIndex.drawer + 1
+                }}
             />
         </Activity>
     )
