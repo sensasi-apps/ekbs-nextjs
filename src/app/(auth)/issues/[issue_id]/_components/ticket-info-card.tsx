@@ -12,10 +12,11 @@ import type TicketORM from '../../_types/orms/ticket'
 const PRIORITY_CONFIG = {
     high: { color: 'error' as const, label: 'Tinggi' },
     low: { color: 'info' as const, label: 'Rendah' },
-    medium: { color: 'warning' as const, label: 'Sedang' },
+    normal: { color: 'warning' as const, label: 'Sedang' },
 }
 
 const STATUS_CONFIG = {
+    archived: { color: 'default' as const, label: 'Dihapus' },
     closed: { color: 'default' as const, label: 'Ditutup' },
     open: { color: 'success' as const, label: 'Terbuka' },
 }

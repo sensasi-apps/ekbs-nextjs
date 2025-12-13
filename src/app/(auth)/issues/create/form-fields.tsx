@@ -38,20 +38,20 @@ export default function FormFields() {
                             />
                             <Chip
                                 color={
-                                    value === 'medium' ? 'warning' : 'default'
+                                    value === 'normal' ? 'warning' : 'default'
                                 }
                                 disabled={isSubmitting}
                                 label="Sedang"
                                 onClick={() =>
-                                    setFieldValue('priority', 'medium')
+                                    setFieldValue('priority', 'normal')
                                 }
                                 sx={{
                                     cursor: 'pointer',
                                     fontWeight:
-                                        value === 'medium' ? 'bold' : 'normal',
+                                        value === 'normal' ? 'bold' : 'normal',
                                 }}
                                 variant={
-                                    value === 'medium' ? 'filled' : 'outlined'
+                                    value === 'normal' ? 'filled' : 'outlined'
                                 }
                             />
                             <Chip

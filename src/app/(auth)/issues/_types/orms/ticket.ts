@@ -18,10 +18,10 @@ export default interface TicketORM {
     message: string
 
     /** [💾] */
-    priority: 'low' | 'medium' | 'high'
+    priority: 'low' | 'normal' | 'high'
 
     /** [💾] */
-    status: 'open' | 'closed'
+    status: 'open' | 'closed' | 'archived'
 
     /** [💾] */
     is_resolved: boolean
