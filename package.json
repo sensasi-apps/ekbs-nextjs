@@ -35,13 +35,11 @@
         "js-file-download": "^0.4.12",
         "js-sha3": "^0.9.3",
         "jsdom": "^27.3.0",
-        "mui-datatable-delight": "2.0.0-experimental.21",
+        "mui-datatable-delight": "^2.0.0",
         "next": "^16.0.10",
         "notistack": "^3.0.2",
         "qs": "^6.14.0",
-        "react": "^19.2.3",
         "react-barcode-reader": "^0.0.2",
-        "react-dom": "^19.2.3",
         "react-markdown": "^10.1.0",
         "react-number-format": "^5.4.4",
         "react-to-print": "^3.2.0",
@@ -60,7 +58,7 @@
         "@biomejs/biome": "2.3.8",
         "@testing-library/dom": "^10.4.1",
         "@testing-library/react": "^16.3.0",
-        "@types/node": "^22.19.2",
+        "@types/node": "^22.19.3",
         "@types/qs": "^6.14.0",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
@@ -86,6 +84,6 @@
         "test:watch": "vitest watch"
     },
     "trustedDependencies": ["@sentry/cli"],
-    "version": "0.12.15",
-    "versionDate": "2025-12-13"
+    "version": "0.12.16",
+    "versionDate": "2025-12-14"
 }
