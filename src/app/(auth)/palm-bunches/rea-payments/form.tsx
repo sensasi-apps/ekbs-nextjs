@@ -227,6 +227,8 @@ export default function PalmBunchesReaPaymentForm({
 
             <Fade in={Boolean(file || excel_file)} unmountOnExit>
                 <Box>
+                    <Text label="uuid:">{uuid}</Text>
+
                     {from_at && to_at && (
                         <Text label="Rentang tanggal tiket:">
                             {toDmy(from_at)} - {toDmy(to_at)}
