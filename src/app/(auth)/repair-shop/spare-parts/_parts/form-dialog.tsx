@@ -151,6 +151,7 @@ function SparePartFormikForm({
                 label="Jumlah Minimal"
                 name="low_number"
                 numericFormatProps={{
+                    helperText: 'Untuk peringatan stok menipis',
                     required: false,
                     slotProps: {
                         input: {
@@ -189,7 +190,12 @@ function SparePartFormikForm({
                             input: {
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        %
+                                        % / termin
+                                    </InputAdornment>
+                                ),
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        +
                                     </InputAdornment>
                                 ),
                             },
