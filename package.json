@@ -19,13 +19,13 @@
         "@mui/material": "^7.3.6",
         "@mui/material-nextjs": "^7.3.6",
         "@mui/x-date-pickers": "^7.29.4",
-        "@next/bundle-analyzer": "^16.1.0",
-        "@next/mdx": "^16.1.0",
+        "@next/bundle-analyzer": "^16.1.1",
+        "@next/mdx": "^16.1.1",
         "@sentry/nextjs": "^10.32.1",
-        "@serwist/next": "^9.2.3",
+        "@serwist/next": "^9.3.0",
         "@types/mdx": "^2.0.13",
         "@uidotdev/usehooks": "^2.4.1",
-        "ably": "2.15.0",
+        "ably": "^2.16.0",
         "axios": "^1.13.2",
         "babel-plugin-react-compiler": "^1.0.0",
         "dayjs": "^1.11.19",
@@ -36,7 +36,7 @@
         "js-sha3": "^0.9.3",
         "jsdom": "^27.3.0",
         "mui-datatable-delight": "^2.0.0",
-        "next": "^16.1.0",
+        "next": "^16.1.1",
         "notistack": "^3.0.2",
         "qs": "^6.14.0",
         "react-barcode-reader": "^0.0.2",
@@ -64,10 +64,10 @@
         "@types/react-dom": "^19.2.3",
         "@types/react-virtualized": "^9.22.3",
         "@vitejs/plugin-react": "^5.1.2",
-        "knip": "^5.75.2",
-        "serwist": "^9.2.3",
+        "knip": "^5.76.3",
+        "serwist": "^9.3.0",
         "typescript": "^5.9.3",
-        "vite-tsconfig-paths": "^5.1.4",
+        "vite-tsconfig-paths": "^6.0.3",
         "vitest": "^4.0.16"
     },
     "name": "ekbs",
@@ -75,7 +75,7 @@
     "scripts": {
         "analyze:windows": "ANALYZE=true && next build",
         "build": "next build --webpack",
-        "dev": "next dev -p 4000 --webpack",
+        "dev": "next dev -p 4000",
         "knip": "knip",
         "lint": "biome check && tsc --noEmit",
         "lint:fix": "biome check --write",
@@ -84,6 +84,6 @@
         "test:watch": "vitest watch"
     },
     "trustedDependencies": ["@sentry/cli"],
-    "version": "0.12.18",
-    "versionDate": "2025-12-20"
+    "version": "0.12.19",
+    "versionDate": "2025-12-24"
 }
