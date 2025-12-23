@@ -1,7 +1,9 @@
 'use client'
 
 // materials
+import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 // vendors
 import { useRef, useState } from 'react'
 import SparePartFormDialog, {
@@ -24,13 +26,23 @@ import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 // utils
 import formatNumber from '@/utils/format-number'
 
+interface ApiDataType extends SparePart {
+    base_rp_per_unit: number
+    default_sell_price: number
+    default_installment_1_price: number
+    default_installment_2_price: number
+    qty: number
+    margin_percent: number
+    installment_margin_percent: number
+}
+
 let getRowDataRef: {
-    current?: GetRowDataType<SparePart>
+    current?: GetRowDataType<ApiDataType>
 }
 
 export default function PageClient() {
-    const mutateRef = useRef<MutateType<SparePart> | undefined>(undefined)
-    const _getRowDataRef = useRef<GetRowDataType<SparePart> | undefined>(
+    const mutateRef = useRef<MutateType<ApiDataType> | undefined>(undefined)
+    const _getRowDataRef = useRef<GetRowDataType<ApiDataType> | undefined>(
         undefined,
     )
     const [formData, setFormData] = useState<FormData>()
@@ -62,7 +74,7 @@ export default function PageClient() {
                 />
             </FlexBox>
 
-            <Datatable<SparePart>
+            <Datatable<ApiDataType>
                 apiUrl="repair-shop/spare-parts/datatable"
                 apiUrlParams={{
                     withDeletedItems: withDeletedItems ? 1 : 0,
@@ -80,14 +92,7 @@ export default function PageClient() {
                         const data = getRowDataRef.current?.(dataIndex)
 
                         if (data) {
-                            setFormData({
-                                ...data,
-                                installment_margin_percent:
-                                    data.warehouses[0]
-                                        .installment_margin_percent,
-                                margin_percent:
-                                    data.warehouses[0].margin_percent,
-                            } satisfies Required<FormData>)
+                            setFormData(data)
                         }
                     }
                 }}
@@ -113,7 +118,7 @@ export default function PageClient() {
     )
 }
 
-const DATATABLE_COLUMNS: DataTableProps<SparePart>['columns'] = [
+const DATATABLE_COLUMNS: DataTableProps<ApiDataType>['columns'] = [
     {
         label: 'ID',
         name: 'id',
@@ -160,10 +165,10 @@ const DATATABLE_COLUMNS: DataTableProps<SparePart>['columns'] = [
         name: 'note',
     },
     {
-        label: 'Total QTY',
-        name: 'id',
+        label: 'QTY',
+        name: 'qty',
         options: {
-            customBodyRender: (_, rowIndex) => {
+            customBodyRenderLite: (_, rowIndex) => {
                 const totalQty =
                     getRowDataRef
                         .current?.(rowIndex)
@@ -178,24 +183,18 @@ const DATATABLE_COLUMNS: DataTableProps<SparePart>['columns'] = [
     },
     {
         label: 'HPP',
-        name: 'warehouses.base_rp_per_unit',
+        name: 'base_rp_per_unit',
         options: {
-            customBodyRender: (_, rowIndex) => {
-                const baseRpPerUnit =
-                    getRowDataRef.current?.(rowIndex)?.warehouses[0]
-                        .base_rp_per_unit ?? 0
-
-                return formatNumber(baseRpPerUnit)
-            },
+            customBodyRender: (value: number) => formatNumber(value),
             searchable: false,
             sort: false,
         },
     },
     {
         label: 'Harga Jual',
-        name: 'warehouses.margin_percent',
+        name: 'default_sell_price',
         options: {
-            customBodyRender: (_, rowIndex) => {
+            customBodyRenderLite: (_, rowIndex) => {
                 const data = getRowDataRef.current?.(rowIndex)
 
                 if (!data) return '-'
@@ -203,14 +202,105 @@ const DATATABLE_COLUMNS: DataTableProps<SparePart>['columns'] = [
                 return (
                     <>
                         <Chip
-                            label={data.warehouses[0].margin_percent + '%'}
+                            label={data.margin_percent + '%'}
                             size="small"
                             sx={{
                                 mr: 1,
                             }}
                         />
-                        {formatNumber(data.warehouses[0].default_sell_price)}
+                        {formatNumber(data.default_sell_price)}
                     </>
+                )
+            },
+            searchable: false,
+            setCellProps: getNoWrapCellProps,
+            sort: false,
+        },
+    },
+    {
+        label: 'Harga Angsuran 1x',
+        name: 'default_installment_1_price',
+        options: {
+            customBodyRenderLite: (_, rowIndex) => {
+                const data = getRowDataRef.current?.(rowIndex)
+
+                if (!data) return '-'
+
+                const {
+                    margin_percent,
+                    installment_margin_percent,
+                    base_rp_per_unit,
+                } = data
+
+                const finalRp =
+                    (base_rp_per_unit *
+                        (100 + margin_percent + installment_margin_percent)) /
+                    100
+
+                return (
+                    <FlexBox>
+                        <Chip
+                            label={`${margin_percent + installment_margin_percent}%`}
+                            size="small"
+                        />
+
+                        <Box>
+                            {formatNumber(Math.ceil(finalRp))}
+                            <Typography
+                                color="success"
+                                component="div"
+                                variant="caption">
+                                + {installment_margin_percent}%
+                            </Typography>
+                        </Box>
+                    </FlexBox>
+                )
+            },
+            searchable: false,
+            setCellProps: getNoWrapCellProps,
+            sort: false,
+        },
+    },
+
+    {
+        label: 'Harga Angsuran 2x',
+        name: 'default_installment_2_price',
+        options: {
+            customBodyRenderLite: (_, rowIndex) => {
+                const data = getRowDataRef.current?.(rowIndex)
+
+                if (!data) return '-'
+
+                const {
+                    margin_percent,
+                    installment_margin_percent,
+                    base_rp_per_unit,
+                } = data
+
+                const finalRp =
+                    (base_rp_per_unit *
+                        (100 +
+                            margin_percent +
+                            installment_margin_percent * 2)) /
+                    100
+
+                return (
+                    <FlexBox>
+                        <Chip
+                            label={`${margin_percent + installment_margin_percent * 2}%`}
+                            size="small"
+                        />
+
+                        <Box>
+                            {formatNumber(Math.ceil(finalRp))}
+                            <Typography
+                                color="success"
+                                component="div"
+                                variant="caption">
+                                + {installment_margin_percent}% x 2
+                            </Typography>
+                        </Box>
+                    </FlexBox>
                 )
             },
             searchable: false,

@@ -59,7 +59,12 @@ function InnerComponent({
             required
             value={value === undefined ? '' : value}
             {...numericFormatProps}
-            {...errorsToHelperTextObj(error)}
+            {...(error
+                ? errorsToHelperTextObj(error)
+                : {
+                      error: numericFormatProps?.error,
+                      helperText: numericFormatProps?.helperText,
+                  })}
         />
     )
 }
