@@ -2,8 +2,6 @@ import { type SentryBuildOptions, withSentryConfig } from '@sentry/nextjs'
 import type { NextConfig } from 'next'
 
 const SENTRY_CONFIG: SentryBuildOptions = {
-    disableLogger: true,
-
     org: 'sensasi-apps',
 
     project: 'ekbs-nextjs',
