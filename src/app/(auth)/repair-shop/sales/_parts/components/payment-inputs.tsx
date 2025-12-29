@@ -212,11 +212,9 @@ export default function PaymentInput({
                             disabled={isDisabled}
                             error={Boolean(errors.installment_data)}
                             fullWidth
-                            margin="dense"
+                            margin="normal"
                             required>
-                            <InputLabel size="small">
-                                Satuan Waktu Angsuran
-                            </InputLabel>
+                            <InputLabel>Satuan Waktu Angsuran</InputLabel>
 
                             <Select
                                 label="Satuan Waktu Angsuran"
@@ -228,7 +226,6 @@ export default function PaymentInput({
                                     )
                                 }
                                 required
-                                size="small"
                                 value={
                                     values.installment_data?.term_unit ?? ''
                                 }>
@@ -271,7 +268,7 @@ function CashPicker({
                         endpoint="/data/cashes"
                         fullWidth
                         label="Telah dibayar ke kas"
-                        margin="dense"
+                        margin="normal"
                         onValueChange={(value: CashType) =>
                             setFieldValue(name, value.uuid)
                         }
@@ -280,7 +277,6 @@ function CashPicker({
                             name: name,
                             value: value ?? '',
                         }}
-                        size="small"
                         {...errorsToHelperTextObj(error)}
                     />
                 )
@@ -389,7 +385,7 @@ function BuCashPicker({
                         disabled={isDisabled}
                         endpoint="/data/business-unit-cashes"
                         label="Unit Bisnis"
-                        margin="dense"
+                        margin="normal"
                         onValueChange={(value: CashType) =>
                             setFieldValue(name, value.uuid)
                         }
@@ -403,7 +399,6 @@ function BuCashPicker({
                             name: name,
                             value: value ?? '',
                         }}
-                        size="small"
                         {...errorsToHelperTextObj(error)}
                     />
                 )

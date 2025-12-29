@@ -225,7 +225,7 @@ function DetailItem({
 
     const rpPerUnitDisplay =
         margin_percentage !== undefined
-            ? `(${rpPerUnitDisplayBase} + ${margin_percentage}%)`
+            ? `(${rpPerUnitDisplayBase} + RP ${formatNumber(margin_rp)})`
             : rpPerUnitDisplayBase
 
     const subtotalDisplay = `${formatNumber(Math.ceil(-qty * (rp_per_unit + margin_rp)))}`

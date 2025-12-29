@@ -60,7 +60,7 @@ export default function ServicesArrayField({
                                 alignItems="center"
                                 display="flex"
                                 gap={2}
-                                key={service_id}>
+                                key={service_id ?? i}>
                                 <RemoveButton
                                     isDisabled={isDisabled}
                                     onClick={() => remove(i)}
@@ -149,7 +149,6 @@ function ServiceField({
                                 label="Layanan"
                                 margin="none"
                                 required
-                                size="small"
                             />
                         )}
                         value={value}

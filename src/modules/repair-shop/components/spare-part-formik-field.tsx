@@ -10,8 +10,10 @@ import useSWR from 'swr'
 import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 
 interface SparePartForSale {
-    default_sell_price: number
+    base_rp_per_unit: number
+    margin_percent: number
     default_installment_margin_percentage: number
+    default_sell_price: number
     qty: number
     name: string
     spare_part_warehouse_id: number
@@ -97,7 +99,6 @@ function InnerComponent({
                     label="Suku Cadang"
                     margin="none"
                     required
-                    size="small"
                 />
             )}
             value={selectedValue}
