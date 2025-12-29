@@ -32,6 +32,7 @@ export default interface SaleFormValues {
     }>[]
 
     spare_part_margins?: {
+        _base_rp_per_unit: number // temporary value
         spare_part_warehouse_id: number
         margin_percentage: number
     }[]
