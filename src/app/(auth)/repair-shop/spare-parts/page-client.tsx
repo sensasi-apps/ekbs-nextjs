@@ -23,13 +23,20 @@ import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
 import type VehicleType from '@/modules/repair-shop/enums/vehicle-type'
 // feature scope
 import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
+import additionalPercentToFloat from '@/utils/additional-percent-to-float'
 // utils
 import formatNumber from '@/utils/format-number'
 
 interface ApiDataType extends SparePart {
     base_rp_per_unit: number
     default_sell_price: number
+    /**
+     * for download
+     */
     default_installment_1_price: number
+    /**
+     * for download
+     */
     default_installment_2_price: number
     qty: number
     margin_percent: number
@@ -54,6 +61,9 @@ export default function PageClient() {
                 in={!formData}
                 onClick={() =>
                     setFormData({
+                        _base_rp_per_unit: 0,
+                        _default_installment_rp: 0,
+                        _default_sell_rp: 0,
                         unit: 'pcs',
                     })
                 }
@@ -92,7 +102,20 @@ export default function PageClient() {
                         const data = getRowDataRef.current?.(dataIndex)
 
                         if (data) {
-                            setFormData(data)
+                            setFormData({
+                                ...data,
+                                _base_rp_per_unit: data.base_rp_per_unit,
+                                _default_installment_rp:
+                                    additionalPercentToFloat(
+                                        data.margin_percent +
+                                            data.installment_margin_percent,
+                                    ) * data.base_rp_per_unit,
+
+                                _default_sell_rp:
+                                    additionalPercentToFloat(
+                                        data.margin_percent,
+                                    ) * data.base_rp_per_unit,
+                            })
                         }
                     }
                 }}
@@ -185,7 +208,7 @@ const DATATABLE_COLUMNS: DataTableProps<ApiDataType>['columns'] = [
         label: 'HPP',
         name: 'base_rp_per_unit',
         options: {
-            customBodyRender: (value: number) => formatNumber(value),
+            customBodyRender: (value: number) => formatNumber(Math.ceil(value)),
             searchable: false,
             sort: false,
         },
@@ -233,9 +256,10 @@ const DATATABLE_COLUMNS: DataTableProps<ApiDataType>['columns'] = [
                 } = data
 
                 const finalRp =
-                    (base_rp_per_unit *
-                        (100 + margin_percent + installment_margin_percent)) /
-                    100
+                    base_rp_per_unit *
+                    additionalPercentToFloat(
+                        margin_percent + installment_margin_percent,
+                    )
 
                 return (
                     <FlexBox>
@@ -278,11 +302,10 @@ const DATATABLE_COLUMNS: DataTableProps<ApiDataType>['columns'] = [
                 } = data
 
                 const finalRp =
-                    (base_rp_per_unit *
-                        (100 +
-                            margin_percent +
-                            installment_margin_percent * 2)) /
-                    100
+                    base_rp_per_unit *
+                    additionalPercentToFloat(
+                        margin_percent + installment_margin_percent * 2,
+                    )
 
                 return (
                     <FlexBox>

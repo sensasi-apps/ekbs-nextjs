@@ -21,30 +21,40 @@ export default function calculateTotals({
     const totalRpWithoutInterest =
         totalMovementRp + totalServiceRp + (adjustment_rp ?? 0)
 
+    const n_term = installment_data?.n_term ?? 0
+
     const totalInterest =
         payment_method === 'installment'
-            ? (spare_part_margins
-                  ?.map(({ margin_percentage, spare_part_warehouse_id }) => {
-                      const sparePart = spare_parts?.find(
-                          sparePart =>
-                              sparePart.spare_part_warehouse_id ===
-                              spare_part_warehouse_id,
-                      )
+            ? Math.ceil(
+                  spare_part_margins
+                      ?.map(sparePartMargin => {
+                          const sparePart = spare_parts?.find(
+                              sparePart =>
+                                  sparePart.spare_part_warehouse_id ===
+                                  sparePartMargin.spare_part_warehouse_id,
+                          )
 
-                      if (!sparePart?.qty || !sparePart?.rp_per_unit) return 0
+                          const baseRpPerUnit =
+                              sparePart?.spare_part_state?.warehouses[0]
+                                  ?.base_rp_per_unit ??
+                              sparePartMargin._base_rp_per_unit ??
+                              0
 
-                      const marginRate = margin_percentage / 100
+                          if (!sparePart?.qty || !baseRpPerUnit) return 0
 
-                      return sparePart.qty * sparePart.rp_per_unit * marginRate
-                  })
-                  .reduce((acc, cur) => acc + cur, 0) ?? 0) *
-              (installment_data?.n_term ?? 0)
+                          const marginRate =
+                              sparePartMargin.margin_percentage / 100
+
+                          return sparePart.qty * baseRpPerUnit * marginRate
+                      })
+                      .reduce((acc, cur) => acc + cur, 0) ?? 0,
+              ) * n_term
             : 0
 
     const totalRp = Math.ceil(totalRpWithoutInterest + totalInterest)
 
     return {
-        totalInterest,
+        totalInterest: Math.ceil(totalInterest),
         totalMovementRp,
         totalRp,
         totalRpWithoutInterest,

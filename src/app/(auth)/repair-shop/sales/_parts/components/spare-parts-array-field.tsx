@@ -31,7 +31,7 @@ export default function SparePartsArrayField({
     isDisabled: boolean
 }) {
     const {
-        values: { spare_parts, payment_method },
+        values: { spare_parts, payment_method, installment_data },
     } = useFormikContext<SaleFormValues>()
 
     return (
@@ -56,7 +56,7 @@ export default function SparePartsArrayField({
                                     alignItems="center"
                                     container
                                     display="flex"
-                                    key={row.spare_part_state?.id}
+                                    key={row.spare_part_state?.id ?? index}
                                     spacing={1}
                                     width="100%">
                                     <Grid
@@ -114,11 +114,16 @@ export default function SparePartsArrayField({
                                                 setFieldValue(
                                                     `spare_part_margins.${index}`,
                                                     {
+                                                        _base_rp_per_unit:
+                                                            selected?.base_rp_per_unit ??
+                                                            0,
                                                         margin_percentage:
-                                                            selected?.default_installment_margin_percentage,
+                                                            selected?.default_installment_margin_percentage ??
+                                                            0,
                                                         spare_part_warehouse_id:
-                                                            selected?.spare_part_warehouse_id,
-                                                    },
+                                                            selected?.spare_part_warehouse_id ??
+                                                            0,
+                                                    } satisfies SparePartMargin,
                                                 )
                                             }}
                                             state={row.spare_part_state}
@@ -141,23 +146,28 @@ export default function SparePartsArrayField({
                                         />
 
                                         {payment_method === 'installment' && (
-                                            <NumericField
-                                                disabled={isDisabled}
-                                                label="Marjin Angsuran"
-                                                name={`spare_part_margins.${index}.margin_percentage`}
-                                                numericFormatProps={{
-                                                    margin: 'none',
-                                                    slotProps: {
-                                                        input: {
-                                                            endAdornment: (
-                                                                <InputAdornment position="end">
-                                                                    %
-                                                                </InputAdornment>
-                                                            ),
+                                            <FlexBox gap={2}>
+                                                <NumericField
+                                                    disabled={isDisabled}
+                                                    label="Marjin Angsuran"
+                                                    name={`spare_part_margins.${index}.margin_percentage`}
+                                                    numericFormatProps={{
+                                                        margin: 'none',
+                                                        slotProps: {
+                                                            input: {
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        %
+                                                                    </InputAdornment>
+                                                                ),
+                                                            },
                                                         },
-                                                    },
-                                                }}
-                                            />
+                                                    }}
+                                                />
+                                                &times;{' '}
+                                                {installment_data?.n_term}{' '}
+                                                {installment_data?.term_unit}
+                                            </FlexBox>
                                         )}
                                     </Grid>
 
@@ -269,25 +279,33 @@ function QtyInput({ name, isDisabled }: { name: string; isDisabled: boolean }) {
 }
 
 function SubTotal({ index }: { index: number }) {
-    const { getFieldProps } = useFormikContext<FormData>()
+    const { getFieldProps } = useFormikContext<SaleFormValues>()
 
-    const { value: row } = getFieldProps(`spare_parts.${index}`)
-    const { value: payment_method } = getFieldProps('payment_method')
-    const { value: installment_margin } = getFieldProps(
-        `spare_part_margins.${index}.margin_percentage`,
+    const { value: row } = getFieldProps<SaleFormValues['spare_parts'][number]>(
+        `spare_parts.${index}`,
     )
+    const { value: payment_method } = getFieldProps('payment_method')
+    const { value: spare_part_margin } = getFieldProps<
+        SparePartMargin | undefined
+    >(`spare_part_margins.${index}`)
     const { value: n_term } = getFieldProps<number>(`installment_data.n_term`)
 
     const rpWithoutMargin = (row.qty ?? 0) * (row.rp_per_unit ?? 0)
 
+    const baseRpPerUnit =
+        spare_part_margin?._base_rp_per_unit ??
+        row.spare_part_state?.warehouses[0]?.base_rp_per_unit ??
+        0
+
     const totalInterestRp =
-        (rpWithoutMargin *
+        (baseRpPerUnit *
             (payment_method === 'installment'
-                ? (installment_margin ?? 0) * (n_term ?? 0)
+                ? (spare_part_margin?.margin_percentage ?? 0) * (n_term ?? 0)
                 : 0)) /
         100
 
-    const totalRp = Math.ceil(rpWithoutMargin + totalInterestRp)
+    const totalRp =
+        Math.ceil((rpWithoutMargin + totalInterestRp) / n_term) * n_term
 
     return (
         <>
@@ -304,4 +322,10 @@ function SubTotal({ index }: { index: number }) {
             </Typography>
         </>
     )
+}
+
+type SparePartMargin = {
+    _base_rp_per_unit: number
+    margin_percentage: number
+    spare_part_warehouse_id: number
 }

@@ -1,26 +1,34 @@
-// vendors
-
 // materials
 import Alert from '@mui/material/Alert'
-import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import InputAdornment from '@mui/material/InputAdornment'
+// vendors
 import { Formik, type FormikProps } from 'formik'
 import { useState } from 'react'
+// components
+import FlexBox from '@/components/flex-box'
 import NumericField from '@/components/formik-fields/numeric-field'
 import Radio from '@/components/formik-fields/radio'
 import TextField from '@/components/formik-fields/text-field'
-// components
 import FormikForm from '@/components/formik-form'
+import RpInputAdornment from '@/components/input-adornments/rp'
 //
 import myAxios from '@/lib/axios'
+import additionalPercentToFloat from '@/utils/additional-percent-to-float'
 // utils
 import handle422 from '@/utils/handle-422'
 import toDmy from '@/utils/to-dmy'
 
-export type FormData = Partial<{
+export type FormData = {
+    /**
+     * only for helper, not accepted by backend
+     */
+    _base_rp_per_unit: number
+    _default_sell_rp: number
+    _default_installment_rp: number
+} & Partial<{
     id: number
     code: string
     name: string
@@ -35,6 +43,7 @@ export type FormData = Partial<{
      * margin percent should be per warehouse not per spare part but it's ok for now
      */
     installment_margin_percent: number
+
     vehicle_type: 'motorcycle' | 'car'
     deleted_at: string
 }>
@@ -46,20 +55,21 @@ export default function SparePartFormDialog({
     formData: FormData | undefined
     handleClose: () => void
 }) {
+    if (!formData) {
+        return null
+    }
+
     const isNew = !formData?.id
 
     return (
-        <Dialog maxWidth="xs" open={Boolean(formData)}>
+        <Dialog maxWidth="xs" open>
             <DialogTitle>
                 {isNew ? 'Tambah' : 'Ubah'} Data Suku Cadang
             </DialogTitle>
-            <DialogContent
-                sx={{
-                    display: 'flex',
-                }}>
+            <DialogContent>
                 <Formik<FormData>
                     component={SparePartFormikForm}
-                    initialValues={formData ?? {}}
+                    initialValues={formData}
                     onReset={handleClose}
                     onSubmit={(values, { setErrors, resetForm }) => {
                         const request = isNew ? myAxios.post : myAxios.put
@@ -84,6 +94,7 @@ function SparePartFormikForm({
     isSubmitting,
     setErrors,
     values,
+    setFieldValue,
 }: FormikProps<FormData>) {
     const [isDeleting, setIsDeleting] = useState(false)
 
@@ -165,11 +176,21 @@ function SparePartFormikForm({
                 }}
             />
 
-            <Box display="flex" gap={1.5}>
+            <FlexBox gap={1.5}>
                 <NumericField
                     label="Marjin Default"
                     name="margin_percent"
                     numericFormatProps={{
+                        allowNegative: true,
+                        decimalScale: 4,
+                        onBlur: () => {
+                            setFieldValue(
+                                '_default_sell_rp',
+                                additionalPercentToFloat(
+                                    values.margin_percent ?? 0,
+                                ) * (values._base_rp_per_unit ?? 0),
+                            )
+                        },
                         slotProps: {
                             input: {
                                 endAdornment: (
@@ -202,7 +223,32 @@ function SparePartFormikForm({
                         },
                     }}
                 />
-            </Box>
+            </FlexBox>
+
+            <FlexBox gap={1.5}>
+                <NumericField
+                    label="Harga Jual Default"
+                    name="_default_sell_rp"
+                    numericFormatProps={{
+                        decimalScale: 4,
+                        min: values._base_rp_per_unit,
+                        onBlur: () => {
+                            setFieldValue(
+                                'margin_percent',
+                                (values._default_sell_rp /
+                                    (values._base_rp_per_unit ?? 0)) *
+                                    100 -
+                                    100,
+                            )
+                        },
+                        slotProps: {
+                            input: {
+                                startAdornment: <RpInputAdornment />,
+                            },
+                        },
+                    }}
+                />
+            </FlexBox>
 
             <TextField
                 label="Catatan"
