@@ -83,7 +83,6 @@ export default function UserAutocomplete<
                             setSearchValue(value)
                         }}
                         required
-                        size="small"
                         variant="outlined"
                         {...slotProps?.textField}
                     />
