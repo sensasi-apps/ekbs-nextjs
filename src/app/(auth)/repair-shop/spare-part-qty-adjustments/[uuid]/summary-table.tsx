@@ -99,7 +99,7 @@ export default function SummaryTable({
                     <TableCell>
                         Rp{' '}
                         {formatNumber(
-                            rpTotalMovementPlusQty - rpTotalMovementMinusQty,
+                            rpTotalMovementPlusQty + rpTotalMovementMinusQty,
                         )}
                     </TableCell>
                 </TableRow>
