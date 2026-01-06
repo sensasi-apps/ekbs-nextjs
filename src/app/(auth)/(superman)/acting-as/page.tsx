@@ -29,10 +29,16 @@ export default function Page() {
                     setLoading(true)
 
                     axios
-                        .post<AuthInfo>(`/acting-as/${user.uuid}`)
+                        .post<AuthInfo | []>(`/acting-as/${user.uuid}`)
                         .then(res => {
-                            setCurrentAuthInfo(res.data)
-                            router.push('/')
+                            if (Array.isArray(res.data)) {
+                                // biome-ignore lint/suspicious: Intended using console
+                                console.error(res)
+                                throw new Error('Invalid response')
+                            } else {
+                                setCurrentAuthInfo(res.data)
+                                router.push('/')
+                            }
                         })
                         .catch(() => setLoading(false))
                 }}
