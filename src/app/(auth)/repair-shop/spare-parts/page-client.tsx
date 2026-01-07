@@ -20,6 +20,8 @@ import Fab from '@/components/fab'
 import FlexBox from '@/components/flex-box'
 import TextShortener from '@/components/text-shortener'
 import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import Permission from '@/modules/repair-shop/enums/permission'
 import type VehicleType from '@/modules/repair-shop/enums/vehicle-type'
 // feature scope
 import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
@@ -54,11 +56,15 @@ export default function PageClient() {
     )
     const [formData, setFormData] = useState<FormData>()
     const [withDeletedItems, setWithDeletedItems] = useState<boolean>(false)
+    const isAuthHasPermission = useIsAuthHasPermission()
 
     return (
         <>
             <Fab
-                in={!formData}
+                in={
+                    !formData &&
+                    isAuthHasPermission(Permission.CREATE_SPARE_PART)
+                }
                 onClick={() =>
                     setFormData({
                         _base_rp_per_unit: 0,
@@ -97,28 +103,34 @@ export default function PageClient() {
                     getRowDataRef = _getRowDataRef
                 }}
                 mutateCallback={mutate => (mutateRef.current = mutate)}
-                onRowClick={(_, { dataIndex }, event) => {
-                    if (event.detail === 2) {
-                        const data = getRowDataRef.current?.(dataIndex)
+                onRowClick={
+                    isAuthHasPermission(Permission.UPDATE_SPARE_PART)
+                        ? (_, { dataIndex }, event) => {
+                              if (event.detail === 2) {
+                                  const data =
+                                      getRowDataRef.current?.(dataIndex)
 
-                        if (data) {
-                            setFormData({
-                                ...data,
-                                _base_rp_per_unit: data.base_rp_per_unit,
-                                _default_installment_rp:
-                                    additionalPercentToFloat(
-                                        data.margin_percent +
-                                            data.installment_margin_percent,
-                                    ) * data.base_rp_per_unit,
+                                  if (data) {
+                                      setFormData({
+                                          ...data,
+                                          _base_rp_per_unit:
+                                              data.base_rp_per_unit,
+                                          _default_installment_rp:
+                                              additionalPercentToFloat(
+                                                  data.margin_percent +
+                                                      data.installment_margin_percent,
+                                              ) * data.base_rp_per_unit,
 
-                                _default_sell_rp:
-                                    additionalPercentToFloat(
-                                        data.margin_percent,
-                                    ) * data.base_rp_per_unit,
-                            })
-                        }
-                    }
-                }}
+                                          _default_sell_rp:
+                                              additionalPercentToFloat(
+                                                  data.margin_percent,
+                                              ) * data.base_rp_per_unit,
+                                      })
+                                  }
+                              }
+                          }
+                        : undefined
+                }
                 setRowProps={(_, dataIndex) => {
                     const isDeleted =
                         getRowDataRef.current?.(dataIndex)?.deleted_at
