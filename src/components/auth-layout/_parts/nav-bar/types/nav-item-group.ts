@@ -26,6 +26,6 @@ interface NavItem {
 }
 
 export default interface NavItemGroup {
-    label?: string
+    label: string
     items: NavItem[]
 }

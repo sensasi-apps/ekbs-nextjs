@@ -56,7 +56,13 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
                 icon: BugReport,
                 label: 'Laporan Isu',
             },
+            {
+                href: '/settings',
+                icon: SettingIcon,
+                label: 'Pengaturan',
+            },
         ],
+        label: '',
     },
 
     executives,
@@ -71,15 +77,9 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
     financesNavItemGroup,
     systemsNavItemGroup,
     supermans,
-    {
-        items: [
-            {
-                href: '/settings',
-                icon: SettingIcon,
-                label: 'Pengaturan',
-            },
-        ],
-    },
 ]
 
-export default NAV_ITEM_GROUPS
+export default NAV_ITEM_GROUPS.map(group => ({
+    ...group,
+    items: group.items.sort((a, b) => a.label.localeCompare(b.label)),
+})).sort((a, b) => a.label.localeCompare(b.label))
