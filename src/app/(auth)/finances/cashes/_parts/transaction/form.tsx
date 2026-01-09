@@ -104,7 +104,7 @@ export default function TransactionForm({
                             marginBottom: 16,
                             textAlign: 'end',
                         }}>
-                        {txFromDB?.user_activity_logs && (
+                        {txFromDB?.user_activity_logs?.length && (
                             <UserActivityLogs
                                 data={txFromDB.user_activity_logs}
                             />

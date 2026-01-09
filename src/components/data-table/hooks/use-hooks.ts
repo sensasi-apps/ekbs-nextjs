@@ -147,6 +147,15 @@ export default function useHooks<T>(
 
             return false
         },
+        // onFilterChange(
+        //     changedColumn,
+        //     filterList,
+        //     type,
+        //     changedColumnIndex,
+        //     displayData,
+        // ) {
+        //     console.log(changedColumn)
+        // },
         onSearchClose: () => {
             handleSearchChange(
                 '',

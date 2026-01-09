@@ -14,7 +14,7 @@ export default function formatToDatatableParams<T>(
     )
 
     return {
-        columns: formatColumns(tableState.columns),
+        columns: formatColumns(tableState.columns, tableState.filterList),
         draw: tableState.page + 1,
         length: tableState.rowsPerPage,
         order: [
@@ -33,11 +33,19 @@ export default function formatToDatatableParams<T>(
 
 function formatColumns<T>(
     columns: DataTableState<T>['columns'],
+    filterList: DataTableState<T>['filterList'],
 ): DataTableRequest['columns'] {
-    return columns.map(({ name, searchable, sort }) => ({
+    return columns.map(({ name, searchable, sort }, index) => ({
         data: name,
         name: name,
         orderable: sort ?? true,
+        search:
+            filterList[index].toString() && (searchable ?? true)
+                ? {
+                      regex: false,
+                      value: filterList[index].toString(),
+                  }
+                : undefined,
         searchable: searchable ?? true,
     }))
 }
