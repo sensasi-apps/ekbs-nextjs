@@ -59,6 +59,7 @@ const txAccounts: {
         TransactionTag.PENDAPATAN_LAIN_LAIN,
 
         // coffee
+        TransactionTag.PENDAPATAN_WARKOP,
         TransactionTag.PENDAPATAN_JASA_STAN_MAKANAN,
 
         // repair shop

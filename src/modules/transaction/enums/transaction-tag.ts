@@ -51,6 +51,8 @@ enum TransactionTag {
     PENDAPATAN_ADMINISTRASI = 'Pendapatan Administrasi',
 
     // coffee
+    PENDAPATAN_WARKOP = 'Pendapatan Warkop',
+
     PENDAPATAN_JASA_STAN_MAKANAN = 'Pendapatan Jasa Stan Makanan',
 
     // repair shop
