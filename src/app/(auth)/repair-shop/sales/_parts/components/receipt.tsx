@@ -135,6 +135,7 @@ export default function Receipt({ data }: { data: Sale }) {
                                             detail.spare_part_warehouse_id,
                                     )}
                                     key={detail.id}
+                                    nTerm={data.installment_parent?.n_term ?? 1}
                                 />
                             ))}
                         </Grid>
@@ -209,9 +210,11 @@ function RowGrids({
 }
 
 function DetailItem({
+    nTerm,
     data,
     installmentMargin,
 }: {
+    nTerm: number
     data: SparePartMovement['details'][number]
     installmentMargin: SaleSparePartInstallmentMargin | undefined
 }) {
@@ -225,10 +228,10 @@ function DetailItem({
 
     const rpPerUnitDisplay =
         margin_percentage !== undefined
-            ? `(${rpPerUnitDisplayBase} + RP ${formatNumber(margin_rp)})`
+            ? `(${rpPerUnitDisplayBase} + RP ${formatNumber(margin_rp * nTerm)})`
             : rpPerUnitDisplayBase
 
-    const subtotalDisplay = `${formatNumber(Math.ceil(-qty * (rp_per_unit + margin_rp)))}`
+    const subtotalDisplay = `${formatNumber(Math.ceil(-qty * (rp_per_unit + margin_rp * nTerm)))}`
 
     return (
         <>

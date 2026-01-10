@@ -300,14 +300,19 @@ function SubTotal({ index }: { index: number }) {
         0
 
     const totalInterestRp =
-        (baseRpPerUnit *
-            (payment_method === 'installment'
-                ? (spare_part_margin?.margin_percentage ?? 0) * (n_term ?? 0)
-                : 0)) /
-        100
+        payment_method === 'installment'
+            ? Math.ceil(
+                  (baseRpPerUnit *
+                      (spare_part_margin?.margin_percentage ?? 0)) /
+                      100 /
+                      n_term,
+              ) *
+              n_term *
+              n_term *
+              (row.qty ?? 0)
+            : 0
 
-    const totalRp =
-        Math.ceil((rpWithoutMargin + totalInterestRp) / n_term) * n_term
+    const totalRp = rpWithoutMargin + totalInterestRp
 
     return (
         <>
