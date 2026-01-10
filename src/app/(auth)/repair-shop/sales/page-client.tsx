@@ -52,6 +52,7 @@ export default function PageClient() {
                     push(`/repair-shop/sales/${data.uuid}`)
                 }
             }}
+            storageKey="sales-datatable"
             tableId="sales-datatable"
             title="Riwayat"
         />

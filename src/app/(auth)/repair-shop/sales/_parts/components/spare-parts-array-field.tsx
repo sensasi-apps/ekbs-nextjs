@@ -288,7 +288,9 @@ function SubTotal({ index }: { index: number }) {
     const { value: spare_part_margin } = getFieldProps<
         SparePartMargin | undefined
     >(`spare_part_margins.${index}`)
-    const { value: n_term } = getFieldProps<number>(`installment_data.n_term`)
+    const { value: n_term = 1 } = getFieldProps<number>(
+        `installment_data.n_term`,
+    )
 
     const rpWithoutMargin = (row.qty ?? 0) * (row.rp_per_unit ?? 0)
 
