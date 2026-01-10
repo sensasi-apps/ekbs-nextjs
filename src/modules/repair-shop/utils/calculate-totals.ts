@@ -44,10 +44,12 @@ export default function calculateTotals({
                       const marginRate = sparePartMargin.margin_percentage / 100
 
                       return (
-                          sparePart.qty * Math.ceil(baseRpPerUnit * marginRate)
+                          sparePart.qty *
+                          Math.ceil((baseRpPerUnit * marginRate) / n_term) *
+                          n_term
                       )
                   })
-                  .reduce((acc, cur) => acc + cur, 0) ?? 0 * n_term)
+                  .reduce((acc, cur) => acc + cur, 0) ?? 0) * n_term
             : 0
 
     return {
