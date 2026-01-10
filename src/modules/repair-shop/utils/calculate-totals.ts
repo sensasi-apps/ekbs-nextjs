@@ -25,38 +25,35 @@ export default function calculateTotals({
 
     const totalInterest =
         payment_method === 'installment'
-            ? Math.ceil(
-                  spare_part_margins
-                      ?.map(sparePartMargin => {
-                          const sparePart = spare_parts?.find(
-                              sparePart =>
-                                  sparePart.spare_part_warehouse_id ===
-                                  sparePartMargin.spare_part_warehouse_id,
-                          )
+            ? (spare_part_margins
+                  ?.map(sparePartMargin => {
+                      const sparePart = spare_parts?.find(
+                          sparePart =>
+                              sparePart.spare_part_warehouse_id ===
+                              sparePartMargin.spare_part_warehouse_id,
+                      )
 
-                          const baseRpPerUnit =
-                              sparePart?.spare_part_state?.warehouses[0]
-                                  ?.base_rp_per_unit ??
-                              sparePartMargin._base_rp_per_unit ??
-                              0
+                      const baseRpPerUnit =
+                          sparePart?.spare_part_state?.warehouses[0]
+                              ?.base_rp_per_unit ??
+                          sparePartMargin._base_rp_per_unit ??
+                          0
 
-                          if (!sparePart?.qty || !baseRpPerUnit) return 0
+                      if (!sparePart?.qty || !baseRpPerUnit) return 0
 
-                          const marginRate =
-                              sparePartMargin.margin_percentage / 100
+                      const marginRate = sparePartMargin.margin_percentage / 100
 
-                          return sparePart.qty * baseRpPerUnit * marginRate
-                      })
-                      .reduce((acc, cur) => acc + cur, 0) ?? 0,
-              ) * n_term
+                      return (
+                          sparePart.qty * Math.ceil(baseRpPerUnit * marginRate)
+                      )
+                  })
+                  .reduce((acc, cur) => acc + cur, 0) ?? 0 * n_term)
             : 0
 
-    const totalRp = Math.ceil(totalRpWithoutInterest + totalInterest)
-
     return {
-        totalInterest: Math.ceil(totalInterest),
+        totalInterest,
         totalMovementRp,
-        totalRp,
+        totalRp: totalRpWithoutInterest + totalInterest,
         totalRpWithoutInterest,
         totalServiceRp,
     }
