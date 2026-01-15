@@ -47,6 +47,9 @@ const txAccounts: {
         // TransactionTag.BEBAN_PPH_BADAN_PERIODE_SEBELUMNYA,
 
         TransactionTag.BANK_INTEREST_TAX,
+
+        // coffee
+        TransactionTag.PEMBELIAN_BAHAN_BAKU,
     ],
     income: [
         //user loans
