@@ -52,6 +52,7 @@ enum TransactionTag {
 
     // coffee
     PENDAPATAN_WARKOP = 'Pendapatan Warkop',
+    PEMBELIAN_BAHAN_BAKU = 'Pembelian Bahan Baku',
 
     PENDAPATAN_JASA_STAN_MAKANAN = 'Pendapatan Jasa Stan Makanan',
 
