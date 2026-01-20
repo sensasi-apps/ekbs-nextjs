@@ -83,6 +83,6 @@
         "test:watch": "vitest watch"
     },
     "trustedDependencies": ["@sentry/cli"],
-    "version": "0.12.26",
-    "versionDate": "2026-01-16"
+    "version": "0.12.27",
+    "versionDate": "2026-01-20"
 }
