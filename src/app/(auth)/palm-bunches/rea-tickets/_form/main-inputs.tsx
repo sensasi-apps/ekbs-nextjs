@@ -200,7 +200,7 @@ function PalmBunchesReaDeliveryMainInputs({
             <TextField
                 disabled={disabled}
                 inputProps={{
-                    maxLength: 12,
+                    maxLength: 14,
                     minLength: 10,
                 }}
                 label="No. Tiket"
