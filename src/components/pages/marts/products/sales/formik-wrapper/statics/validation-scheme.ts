@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import type { FormValuesType } from '../@types/form-values-type'
 
 export const VALIDATION_SCHEMA = yup.object().shape({
-    buyer_user_uuid: yup.string().uuid(),
+    buyer_user_uuid: yup.string(),
     // at: // no need to validate this field because it's auto-generated when submitting form
     // paid: // no need to validate this field because it's auto-generated when submitting form
 
