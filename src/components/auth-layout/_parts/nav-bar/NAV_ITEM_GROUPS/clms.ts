@@ -9,7 +9,7 @@ const clms: NavItemGroup = {
     items: [
         {
             forPermission: Permission.READ_MASTER,
-            href: '/clm/requisites',
+            href: process.env.NEXT_PUBLIC_V2_DOMAIN + '/clm/requisites',
             icon: Build,
             label: 'Syarat',
         },
