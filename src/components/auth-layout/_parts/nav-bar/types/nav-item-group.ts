@@ -4,7 +4,7 @@ import type Role from '@/enums/role'
 import type { Permission } from '@/types/permission'
 
 interface NavItem {
-    href: Route
+    href: Route | string
     label: string
     icon: ElementType
 
