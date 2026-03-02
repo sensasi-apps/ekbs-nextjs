@@ -1,9 +1,8 @@
-// types
-
 // vendors
 import MuiTableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import MuiTableRow from '@mui/material/TableRow'
+// types
 import type ProductSaleORM from '@/modules/farm-inputs/types/orms/product-sale'
 // components
 import TableRow from './table-row'
@@ -19,7 +18,7 @@ export default function TableBody({ data }: { data: ProductSaleORM[] }) {
             {data.length === 0 && (
                 <MuiTableRow>
                     <TableCell
-                        colSpan={15}
+                        colSpan={17}
                         sx={{
                             textAlign: 'center',
                         }}>
