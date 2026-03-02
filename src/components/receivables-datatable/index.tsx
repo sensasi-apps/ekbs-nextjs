@@ -274,5 +274,8 @@ function getInstallmentTypeByClassname(classname: string) {
 
         case 'Modules\\RepairShop\\Models\\Sale':
             return 'Belayan Spare Parts'
+
+        default:
+            return classname
     }
 }
