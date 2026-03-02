@@ -50,7 +50,7 @@ export default function PageClient() {
                 row.payment_method,
                 row.total_biaya_dasar,
                 row.subtotal_penjualan,
-                row.subtotal_penjualan,
+                row.penyesuaian_jasa,
                 row.total_rp,
                 row.marjin,
             ]
@@ -190,6 +190,7 @@ function buildFooters(
 
         return [
             [
+                null,
                 null,
                 null,
                 null,
