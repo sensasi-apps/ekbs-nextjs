@@ -42,9 +42,24 @@ export default function PageClient() {
 
     const rows = data.map((row, i) => {
         if (type === 'per-sale' && 'code' in row)
-            return [i + 1, row.code, row.total_rp]
+            return [
+                i + 1,
+                row.tgl,
+                row.code,
+                row.user,
+                row.payment_method,
+                row.total_biaya_dasar,
+                row.subtotal_penjualan,
+                row.subtotal_penjualan,
+                row.total_rp,
+                row.marjin,
+            ]
 
-        if (type === 'per-payment-method' && 'payment_method' in row)
+        if (
+            type === 'per-payment-method' &&
+            'payment_method' in row &&
+            'count' in row
+        )
             return [i + 1, row.payment_method, row.count, row.total_rp]
 
         if (type === 'per-spare-part' && 'spare_part_name' in row)
@@ -82,7 +97,14 @@ type ApiResponse = ({
 } & (
     | {
           // per-sale
+          tgl: string
           code: string
+          user: string | null
+          payment_method: Sale['payment_method']
+          total_biaya_dasar: number
+          subtotal_penjualan: number
+          penyesuaian_jasa: number
+          marjin: number
       }
     | {
           // per-payment-method
@@ -98,7 +120,19 @@ type ApiResponse = ({
 ))[]
 
 function getHeader(type: 'per-sale' | 'per-payment-method' | 'per-spare-part') {
-    if (type === 'per-sale') return ['#', 'KODE PENJUALAN', 'SUBTOTAL (Rp)']
+    if (type === 'per-sale')
+        return [
+            '#',
+            'TGL',
+            'KODE PENJUALAN',
+            'PENGGUNA',
+            'METODE PEMBAYARAN',
+            'TOTAL BIAYA DASAR (Rp)',
+            'SUBTOTAL PENJUALAN (Rp)',
+            'PENYESUAIAN/JASA (Rp)',
+            'TOTAL PENJUALAN (Rp)',
+            'MARJIN (Rp)',
+        ]
 
     if (type === 'per-payment-method')
         return ['#', 'METODE PEMBAYARAN', 'JUMLAH', 'SUBTOTAL (Rp)']
@@ -122,7 +156,51 @@ function buildFooters(
     const grandTotal = data.reduce((acc, cur) => acc + cur.total_rp, 0)
 
     if (type === 'per-sale') {
-        return [[null, 'TOTAL', grandTotal]]
+        const {
+            marjin,
+            penyesuaian_jasa,
+            subtotal_penjualan,
+            total_biaya_dasar,
+        } = data.reduce(
+            (acc, cur) => {
+                const marjin = 'marjin' in cur ? cur.marjin : 0
+                const penyesuaian_jasa =
+                    'penyesuaian_jasa' in cur ? cur.penyesuaian_jasa : 0
+                const subtotal_penjualan =
+                    'subtotal_penjualan' in cur ? cur.subtotal_penjualan : 0
+                const total_biaya_dasar =
+                    'total_biaya_dasar' in cur ? cur.total_biaya_dasar : 0
+
+                return {
+                    marjin: acc.marjin + marjin,
+                    penyesuaian_jasa: acc.penyesuaian_jasa + penyesuaian_jasa,
+                    subtotal_penjualan:
+                        acc.subtotal_penjualan + subtotal_penjualan,
+                    total_biaya_dasar:
+                        acc.total_biaya_dasar + total_biaya_dasar,
+                }
+            },
+            {
+                marjin: 0,
+                penyesuaian_jasa: 0,
+                subtotal_penjualan: 0,
+                total_biaya_dasar: 0,
+            },
+        )
+
+        return [
+            [
+                null,
+                null,
+                null,
+                'TOTAL',
+                total_biaya_dasar,
+                subtotal_penjualan,
+                penyesuaian_jasa,
+                grandTotal,
+                marjin,
+            ],
+        ]
     }
 
     const totalQty = data.reduce(
