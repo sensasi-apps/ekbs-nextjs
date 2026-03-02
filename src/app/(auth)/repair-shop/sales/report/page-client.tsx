@@ -1,6 +1,9 @@
 'use client'
 
+// icons
+import BackupTableIcon from '@mui/icons-material/BackupTable'
 // materials
+import Button from '@mui/material/Button'
 import LinearProgress from '@mui/material/LinearProgress'
 // vendors
 import { useSearchParams } from 'next/navigation'
@@ -10,6 +13,7 @@ import { AoaTable } from '@/components/aoa-table'
 import LoadingCenter from '@/components/loading-center'
 // modules
 import type { Sale } from '@/modules/repair-shop/types/orms/sale'
+import aoaToXlsx from '@/utils/aoa-to-xlsx'
 import FilterInputs, {
     DEFAULT_FROM_DATE,
     DEFAULT_TILL_DATE,
@@ -86,6 +90,22 @@ export default function PageClient() {
             </div>
 
             {isValidating && <LinearProgress />}
+
+            <div>
+                <Button
+                    onClick={() => {
+                        aoaToXlsx(
+                            `Laporan Penjualan Belayan Spare Parts — ${type}`,
+                            rows,
+                            headers,
+                        )
+                    }}
+                    size="small"
+                    startIcon={<BackupTableIcon />}
+                    variant="outlined">
+                    Unduh
+                </Button>
+            </div>
 
             <AoaTable dataRows={rows} footers={footers} headers={headers} />
         </>
