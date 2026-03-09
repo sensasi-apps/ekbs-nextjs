@@ -15,7 +15,7 @@ const clms: NavItemGroup = {
         },
         {
             forPermission: Permission.READ_MEMBER,
-            href: '/clm/members',
+            href: process.env.NEXT_PUBLIC_V2_DOMAIN + '/clm/members',
             icon: Group,
             label: 'Anggota',
         },
