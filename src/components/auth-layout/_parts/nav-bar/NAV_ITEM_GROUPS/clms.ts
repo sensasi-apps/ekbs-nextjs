@@ -2,7 +2,7 @@
 import Build from '@mui/icons-material/Build'
 import Group from '@mui/icons-material/Group'
 // modules
-import Permission from '@/modules/clm/enums/permission'
+import Permission from '@/enums/permissions/clm'
 import type NavItemGroup from '../types/nav-item-group'
 
 const clms: NavItemGroup = {

@@ -2,9 +2,9 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import Typography from '@mui/material/Typography'
-import type LandORM from '@/modules/clm/types/orms/land'
 import UserLandListItemText from '@/modules/user/components/user-land-list-item'
 import useFormData from '@/providers/useFormData'
+import type LandORM from '@/types/orms/land'
 
 export default function LandList({ data: lands }: { data: LandORM[] }) {
     const { handleEdit } = useFormData()

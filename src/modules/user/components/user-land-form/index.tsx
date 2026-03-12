@@ -21,8 +21,8 @@ import SelectFromApi from '@/components/Global/SelectFromApi'
 import Autocomplete from '@/components/Inputs/Autocomplete'
 import NumericFormat from '@/components/numeric-format'
 import axios from '@/lib/axios'
-import type LandORM from '@/modules/clm/types/orms/land'
 import type Address from '@/types/orms/address'
+import type LandORM from '@/types/orms/land'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 const INITIAL_STATE = {
