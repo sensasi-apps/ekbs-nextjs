@@ -38,10 +38,10 @@ import Role from '@/enums/role'
 import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 import useIsAuthHasRole from '@/hooks/use-is-auth-has-role'
-import type Land from '@/modules/clm/types/orms/land'
 import type PalmBunchesReaTicket from '@/modules/palm-bunch/types/orms/palm-bunch-rea-ticket'
 // providers
 import useFormData, { FormDataProvider } from '@/providers/useFormData'
+import type Land from '@/types/orms/land'
 import blinkSxValue from '@/utils/blink-sx-value'
 // utils
 import formatNumber from '@/utils/format-number'

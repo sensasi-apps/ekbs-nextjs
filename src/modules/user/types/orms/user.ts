@@ -1,9 +1,9 @@
 import type { UUID } from 'crypto'
-import type Land from '@/modules/clm/types/orms/land'
 // features
 import type Employee from '@/modules/user/types/orms/employee'
 import type UserSocial from '@/modules/user/types/orms/user-social'
 import type { Ymd } from '@/types/date-string'
+import type Land from '@/types/orms/land'
 import type VehicleORM from '@/types/orms/vehicle'
 import type UserAddressORM from './user-address'
 import type UserBankAccountORM from './user-bank-account'

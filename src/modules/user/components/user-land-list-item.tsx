@@ -2,7 +2,7 @@
 
 import ListItemText from '@mui/material/ListItemText'
 import dayjs from 'dayjs'
-import type LandORM from '@/modules/clm/types/orms/land'
+import type LandORM from '@/types/orms/land'
 // utils
 import formatNumber from '@/utils/format-number'
 

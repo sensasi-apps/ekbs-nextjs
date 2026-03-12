@@ -1,8 +1,8 @@
 import Dialog from '@/components/Global/Dialog'
 import LoadingCenter from '@/components/loading-center'
-import type Land from '@/modules/clm/types/orms/land'
 import UserLandForm from '@/modules/user/components/user-land-form'
 import useFormData from '@/providers/useFormData'
+import type Land from '@/types/orms/land'
 import useUserDetailSwr from '../../hooks/use-user-detail-swr'
 
 export default function UserLandFormDialogWithUseContexts() {

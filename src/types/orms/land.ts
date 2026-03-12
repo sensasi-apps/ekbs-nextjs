@@ -1,7 +1,7 @@
 import { type UUID } from 'crypto'
-import type MemberORM from '@/modules/clm/types/orms/member'
+// import type MemberORM from '@/modules/clm/types/orms/member'
 // modules
-import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
+// import type RequisiteLandORM from '@/modules/clm/types/orms/requisite-land'
 import type Address from '@/types/orms/address'
 import type FarmerGroupType from '@/types/orms/farmer-group'
 
@@ -17,7 +17,7 @@ export default interface LandORM {
 
     // relationships
     farmer_group?: FarmerGroupType
-    member?: MemberORM
-    requisite_lands?: RequisiteLandORM[]
-    requisite_lands_with_default?: RequisiteLandORM[]
+    // member?: MemberORM
+    // requisite_lands?: RequisiteLandORM[]
+    // requisite_lands_with_default?: RequisiteLandORM[]
 }

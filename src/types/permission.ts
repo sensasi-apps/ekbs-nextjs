@@ -1,5 +1,6 @@
 import type SurveyPermission from '@/app/(auth)/surveys/_enums/permission'
 import type Cash from '@/enums/permissions/Cash'
+import type Clm from '@/enums/permissions/clm'
 import type Executive from '@/enums/permissions/Executive'
 import type FarmInput from '@/enums/permissions/FarmInput'
 import type Finance from '@/enums/permissions/Finance'
@@ -10,7 +11,6 @@ import type PalmBunch from '@/enums/permissions/PalmBunch'
 import type Transaction from '@/enums/permissions/Transaction'
 import type UserLoan from '@/enums/permissions/UserLoan'
 import type Wallet from '@/enums/permissions/Wallet'
-import type Clm from '@/modules/clm/enums/permission'
 // modules
 import type RepairShop from '@/modules/repair-shop/enums/permission'
 
