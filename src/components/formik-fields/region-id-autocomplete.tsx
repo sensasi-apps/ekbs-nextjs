@@ -18,7 +18,7 @@ export default function RegionIdAutocomplete() {
         <>
             <Autocomplete
                 disabled={isSubmitting}
-                endpoint="/select2/administrative-regions"
+                endpoint="/v2/autocompletes/administrative-regions"
                 label="Wilayah Administratif"
                 margin="dense"
                 onChange={(_, value) => {

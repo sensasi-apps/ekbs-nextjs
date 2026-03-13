@@ -192,7 +192,7 @@ export default function UserLandForm(props: {
             <Autocomplete
                 defaultValue={getRegion(address)}
                 disabled={isLoading}
-                endpoint="/select2/administrative-regions"
+                endpoint="/v2/autocompletes/administrative-regions"
                 label="Wilayah Administratif"
                 margin="dense"
                 onChange={(ev, value) => {

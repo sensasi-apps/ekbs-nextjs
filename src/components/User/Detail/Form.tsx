@@ -187,7 +187,7 @@ export default function UserDetailForm() {
 
             <Autocomplete
                 disabled={isLoading}
-                endpoint={`/select2/administrative-regions`}
+                endpoint="/v2/autocompletes/administrative-regions"
                 label="Tempat Lahir"
                 onChange={(
                     _,
