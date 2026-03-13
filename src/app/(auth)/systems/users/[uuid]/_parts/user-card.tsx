@@ -89,6 +89,7 @@ export default function UserCard() {
                 <IsActiveDisplay isActive={userWithDetails?.is_active} />
 
                 <Box mt={2}>
+                    {/* @ts-expect-error IDK BRO `/public/profile/` is not detected as Route */}
                     <Chip
                         component={Link}
                         href={`/public/profile/${uuid as string}`}
