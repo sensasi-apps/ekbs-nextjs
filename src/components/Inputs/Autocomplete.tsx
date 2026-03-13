@@ -16,8 +16,18 @@ import useSWRMutation from 'swr/mutation'
 import TextField from '@/components/text-field'
 import axios from '@/lib/axios'
 
-// biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove
-type MuiAutocompleteProps = MuiAutocompletePropsTemp<any, false, false, false>
+interface TOption {
+    id: number | string
+    label: string
+    chip?: string
+}
+
+type MuiAutocompleteProps = MuiAutocompletePropsTemp<
+    TOption,
+    false,
+    false,
+    false
+>
 type AutocompleteProps = Omit<MuiAutocompleteProps, 'options' | 'renderInput'>
 
 export default function Autocomplete({
@@ -35,8 +45,7 @@ export default function Autocomplete({
 } & AutocompleteProps) {
     const [searchText, setSearchText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
-    // biome-ignore lint/suspicious/noExplicitAny: TODO: any will be remove
-    const [options, setOptions] = useState<any[]>([])
+    const [options, setOptions] = useState<TOption[]>([])
 
     const fetchUserOptions = async (
         searchUrl: string,
@@ -93,7 +102,7 @@ export default function Autocomplete({
                 },
             }}
             filterOptions={x => x}
-            getOptionLabel={option => `#${option.id} - ${option.name}`}
+            getOptionLabel={option => `#${option.id} - ${option.label}`}
             isOptionEqualToValue={(option, value) => option?.id === value?.id}
             loading={isMutating}
             loadingText="Memuat..."
@@ -133,7 +142,7 @@ export default function Autocomplete({
                         {option.chip && (
                             <Chip label={option.chip} size="small" />
                         )}
-                        <Typography ml={1}>{option.name}</Typography>
+                        <Typography ml={1}>{option.label}</Typography>
                     </Box>
                 </li>
             )}
