@@ -93,7 +93,7 @@ export default function AddressForm({
             <input name="region_id" type="hidden" />
 
             <Autocomplete
-                endpoint={`/select2/administrative-regions`}
+                endpoint="/v2/autocompletes/administrative-regions"
                 label="Wilayah Administratif"
                 margin="normal"
                 onChange={(_, value) => {
