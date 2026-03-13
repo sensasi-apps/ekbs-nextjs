@@ -100,7 +100,8 @@ export default function AddressForm({
                     const inputEl = document.querySelector(
                         'input[name="region_id"]',
                     ) as HTMLInputElement
-                    if (inputEl && value?.id) inputEl.value = value.id
+                    if (inputEl && value?.id)
+                        inputEl.value = value.id.toString()
                 }}
                 required
             />

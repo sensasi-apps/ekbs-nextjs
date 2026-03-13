@@ -35,8 +35,11 @@ const INITIAL_STATE = {
     zip_code: undefined,
 }
 
-const getRegion = (address?: Address): { id: number } | null => {
-    return address?.village || address?.district || address?.regency || null
+const getRegion = (address?: Address) => {
+    const region =
+        address?.village || address?.district || address?.regency || null
+
+    return region ? { id: region.id, label: region.name } : null
 }
 
 export default function UserLandForm(props: {
@@ -198,7 +201,7 @@ export default function UserLandForm(props: {
                 onChange={(ev, value) => {
                     document
                         .querySelector('input[name="region_id"]')
-                        ?.setAttribute('value', value?.id ?? '')
+                        ?.setAttribute('value', value?.id.toString() ?? '')
 
                     clearValidationError(ev)
                 }}

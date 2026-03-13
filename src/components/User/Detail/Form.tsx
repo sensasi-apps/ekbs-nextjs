@@ -31,18 +31,19 @@ import useUserDetailSwr from '@/modules/user/hooks/use-user-detail-swr'
 import type UserDetailORM from '@/modules/user/types/orms/user-detail'
 // providers
 import useFormData from '@/providers/FormData'
-import type DistrictType from '@/types/orms/district'
-import type RegencyType from '@/types/orms/regency'
-import type VillageType from '@/types/orms/village'
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
 
 function getBirthRegion(userDetail?: UserDetailORM) {
-    return (
+    const region =
         userDetail?.birth_village ??
         userDetail?.birth_district ??
         userDetail?.birth_regency ??
         null
-    )
+
+    return {
+        id: region?.id.toString() ?? '',
+        name: region?.name ?? '',
+    }
 }
 
 export default function UserDetailForm() {
@@ -52,7 +53,10 @@ export default function UserDetailForm() {
     const userDetail = data as UserDetailORM
 
     const [gender, setGender] = useState<string>()
-    const [birthRegion, setBirthRegion] = useState(getBirthRegion(userDetail))
+    const [birthRegion, setBirthRegion] = useState<{
+        id: string
+        name: string
+    }>(getBirthRegion(userDetail))
     const [lastEducationId, setLastEducationId] = useState()
     const [maritalStatusId, setMaritalStatusId] = useState<MaritalStatusEnum>()
     const [isLoading, setIsLoading] = useState(false)
@@ -189,12 +193,23 @@ export default function UserDetailForm() {
                 disabled={isLoading}
                 endpoint="/v2/autocompletes/administrative-regions"
                 label="Tempat Lahir"
-                onChange={(
-                    _,
-                    value: DistrictType | RegencyType | VillageType,
-                ) => setBirthRegion(value)}
+                onChange={(_, value) => {
+                    if (value) {
+                        setBirthRegion({
+                            id: value.id.toString(),
+                            name: value.label,
+                        })
+                    }
+                }}
                 required={false}
-                value={birthRegion}
+                value={
+                    birthRegion
+                        ? {
+                              id: birthRegion.id,
+                              label: birthRegion.name,
+                          }
+                        : null
+                }
             />
 
             <DatePicker
