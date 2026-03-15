@@ -23,7 +23,9 @@ export default function WarehouseSelectionButton() {
                 aria-labelledby="gudang-buttons-group-label"
                 color="primary"
                 exclusive
-                onChange={(_, value) => replace(`?warehouse=${value}`)}
+                onChange={(_, value: string | null) =>
+                    replace(`?warehouse=${value ?? 'muai'}`)
+                }
                 value={warehouse}>
                 {Object.values(Warehouse).map(warehouse => (
                     <ToggleButton key={warehouse} value={warehouse}>
