@@ -21,8 +21,9 @@ import FlexBox from '@/components/flex-box'
 import TextShortener from '@/components/text-shortener'
 import WithDeletedItemsCheckbox from '@/components/with-deleted-items-checkbox'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import type { VehicleType } from '@/modules/repair-shop/constants/vehicle-types'
+import { vehicleTypeNames } from '@/modules/repair-shop/constants/vehicle-types'
 import Permission from '@/modules/repair-shop/enums/permission'
-import type VehicleType from '@/modules/repair-shop/enums/vehicle-type'
 // feature scope
 import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 import additionalPercentToFloat from '@/utils/additional-percent-to-float'
@@ -186,9 +187,8 @@ const DATATABLE_COLUMNS: DataTableProps<ApiDataType>['columns'] = [
 
                 return (
                     <Chip
-                        color={value === 'car' ? 'success' : 'warning'}
                         disabled={isDeleted}
-                        label={value === 'car' ? 'mobil' : 'motor'}
+                        label={vehicleTypeNames[value]}
                         size="small"
                     />
                 )
