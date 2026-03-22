@@ -1,4 +1,4 @@
-import type VehicleType from '../../enums/vehicle-type'
+import type { VehicleType } from '../../constants/vehicle-types'
 import type SparePartWarehouseORM from './spare-part-warehouse'
 
 export default interface SparePartORM {
@@ -9,7 +9,7 @@ export default interface SparePartORM {
     note: string // [💾]
     category: string // [💾]
 
-    vehicle_type: VehicleType.CAR | VehicleType.MOTORCYCLE
+    vehicle_type: VehicleType
 
     created_at: string
     updated_at: string

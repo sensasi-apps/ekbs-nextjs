@@ -16,6 +16,10 @@ import FormikForm from '@/components/formik-form'
 import RpInputAdornment from '@/components/input-adornments/rp'
 //
 import myAxios from '@/lib/axios'
+import type { VehicleType } from '@/modules/repair-shop/constants/vehicle-types'
+import vehicleTypes, {
+    vehicleTypeNames,
+} from '@/modules/repair-shop/constants/vehicle-types'
 import additionalPercentToFloat from '@/utils/additional-percent-to-float'
 // utils
 import handle422 from '@/utils/handle-422'
@@ -44,7 +48,7 @@ export type FormData = {
      */
     installment_margin_percent: number
 
-    vehicle_type: 'motorcycle' | 'car'
+    vehicle_type: VehicleType
     deleted_at: string
 }>
 
@@ -262,16 +266,10 @@ function SparePartFormikForm({
             <Radio
                 label="Jenis"
                 name="vehicle_type"
-                options={[
-                    {
-                        label: 'Motor',
-                        value: 'motorcycle',
-                    },
-                    {
-                        label: 'Mobil',
-                        value: 'car',
-                    },
-                ]}
+                options={vehicleTypes.map(key => ({
+                    label: vehicleTypeNames[key],
+                    value: key,
+                }))}
             />
         </FormikForm>
     )
