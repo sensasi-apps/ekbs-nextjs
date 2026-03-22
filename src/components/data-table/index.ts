@@ -6,5 +6,5 @@ export type { OnRowClick as OnRowClickType } from './types/on-row-click'
 import { DataTable, getRowData, mutate } from './data-table'
 import getNoWrapCellProps from './utils/get-no-wrap-cell-props'
 
-export { getRowData, getNoWrapCellProps, mutate }
+export { getNoWrapCellProps, getRowData, mutate }
 export default DataTable
