@@ -143,7 +143,7 @@ function SparePartFormikForm({
                 label="Kategori"
                 name="category"
                 textFieldProps={{
-                    required: false,
+                    required: true,
                 }}
             />
 
