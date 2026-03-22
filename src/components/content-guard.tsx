@@ -33,8 +33,13 @@ export default function ContentGuard({
         .join('/')
 
     useEffect(() => {
-        if (authInfo && !authInfo.is_agreed_tncp) return push('/policy')
-    }, [authInfo, push])
+        if (
+            authInfo &&
+            !authInfo.is_agreed_tncp &&
+            !EXCLUDE_PATHS.includes(route)
+        )
+            return push('/policy')
+    }, [authInfo, push, route])
 
     if (!authInfo || !route) return <LoadingCenter />
 
