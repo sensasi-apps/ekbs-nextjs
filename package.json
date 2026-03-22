@@ -64,7 +64,7 @@
         "@types/react-dom": "^19.2.3",
         "@types/react-virtualized": "^9.22.3",
         "@vitejs/plugin-react": "^6.0.1",
-        "knip": "^6.0.1",
+        "knip": "^6.0.2",
         "serwist": "~9.4.4",
         "typescript": "^5.9.3",
         "vite-tsconfig-paths": "^6.1.1",
