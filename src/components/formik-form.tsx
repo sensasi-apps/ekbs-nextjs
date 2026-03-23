@@ -11,6 +11,7 @@ import FormDeleteButton, {
 } from '@/components/form/FormDeleteButton'
 import FormResetButton from '@/components/form/ResetButton'
 import FormSubmitButton from '@/components/form/SubmitButton'
+import FormikErrorAlert from './formik-error-alert'
 
 /**
  * A memoized component that renders a Formik form with additional buttons and features.
@@ -59,6 +60,9 @@ function FormikForm({
     return (
         <>
             <DialogLoadingBar in={processing} {...loadingBarProps} />
+
+            <FormikErrorAlert />
+
             <Form autoComplete={autoComplete} id={formId} {...props}>
                 {children}
 
