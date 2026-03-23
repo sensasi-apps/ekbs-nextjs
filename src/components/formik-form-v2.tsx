@@ -2,17 +2,20 @@
 
 // materials
 import Button from '@mui/material/Button'
-import { Form, useFormikContext } from 'formik'
 // vendors
+import { Form, useFormikContext } from 'formik'
 import { type ReactNode } from 'react'
 // components
 import FlexBox from '@/components/flex-box'
+import FormikErrorAlert from './formik-error-alert'
 import TopLinearProgress from './top-linear-progress'
 
 export default function FormikForm({ children }: { children: ReactNode }) {
     return (
         <>
             <LoadingIndicator />
+
+            <FormikErrorAlert />
 
             <Form autoComplete="off">
                 {children}
