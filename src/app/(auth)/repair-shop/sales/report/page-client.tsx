@@ -50,7 +50,10 @@ export default function PageClient() {
                 i + 1,
                 row.tgl,
                 row.code,
-                row.user,
+                row.user_id,
+                row.user_name,
+                row.layanan,
+                row.suku_cadang,
                 row.payment_method,
                 row.total_biaya_dasar,
                 row.subtotal_penjualan,
@@ -119,12 +122,15 @@ type ApiResponse = ({
           // per-sale
           tgl: string
           code: string
-          user: string | null
+          user_id: string | number
+          user_name: string
           payment_method: Sale['payment_method']
           total_biaya_dasar: number
           subtotal_penjualan: number
           penyesuaian_jasa: number
           marjin: number
+          suku_cadang: string
+          layanan: string
       }
     | {
           // per-payment-method
@@ -145,7 +151,10 @@ function getHeader(type: 'per-sale' | 'per-payment-method' | 'per-spare-part') {
             '#',
             'TGL',
             'KODE PENJUALAN',
-            'PENGGUNA',
+            'ID PENGGUNA',
+            'NAMA',
+            'LAYANAN',
+            'SUKU CADANG',
             'METODE PEMBAYARAN',
             'TOTAL BIAYA DASAR (Rp)',
             'SUBTOTAL PENJUALAN (Rp)',
@@ -210,6 +219,9 @@ function buildFooters(
 
         return [
             [
+                null,
+                null,
+                null,
                 null,
                 null,
                 null,
