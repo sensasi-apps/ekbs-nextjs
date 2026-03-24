@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         optimizePackageImports: ['@mui/x-date-pickers', 'recharts', 'formik'],
     },
 
+    logging: {
+        browserToTerminal: false,
+    },
+
     pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
 
     productionBrowserSourceMaps: true,
