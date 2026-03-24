@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import type { ReactNode } from 'react'
+import { Fragment, type ReactNode } from 'react'
 import formatNumber from '@/utils/format-number'
 
 /**
@@ -71,11 +71,12 @@ export function AoaTable({
                         </TableRow>
                     )}
 
-                    {dataRows.map(row => (
-                        <TableRow
-                            key={row.map(cell => cell?.toString()).join('-')}>
-                            {row.map(cell => (
-                                <CustomTableCell key={cell?.toString()}>
+                    {dataRows.map((row, i) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: dynamic table does not have unique key
+                        <TableRow key={i}>
+                            {row.map((cell, j) => (
+                                // biome-ignore lint/suspicious/noArrayIndexKey: dynamic table does not have unique key
+                                <CustomTableCell key={`${i}-${j}`}>
                                     {cell}
                                 </CustomTableCell>
                             ))}
@@ -85,13 +86,12 @@ export function AoaTable({
 
                 {footers && footers.length > 0 && (
                     <TableFooter>
-                        {footers.map(row => (
-                            <TableRow
-                                key={row
-                                    .map(cell => cell?.toString())
-                                    .join('-')}>
-                                {row.map(cell => (
-                                    <CustomTableCell key={cell?.toString()}>
+                        {footers.map((row, i) => (
+                            // biome-ignore lint/suspicious/noArrayIndexKey: dynamic table does not have unique key
+                            <TableRow key={i}>
+                                {row.map((cell, j) => (
+                                    // biome-ignore lint/suspicious/noArrayIndexKey: dynamic table does not have unique key
+                                    <CustomTableCell key={`${i}-${j}`}>
                                         {cell}
                                     </CustomTableCell>
                                 ))}
@@ -107,6 +107,22 @@ export function AoaTable({
 function CustomTableCell({ children }: { children: ReactNode }) {
     if (typeof children === 'number') {
         return <TableCell align="right">{formatNumber(children)}</TableCell>
+    }
+
+    if (typeof children === 'string') {
+        const texts = children.split('\n')
+
+        return (
+            <TableCell>
+                {texts.map((text, i) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: dynamic table does not have unique key
+                    <Fragment key={i}>
+                        {text}
+                        {i < texts.length - 1 && <br />}
+                    </Fragment>
+                ))}
+            </TableCell>
+        )
     }
 
     return <TableCell>{children}</TableCell>
