@@ -27,6 +27,7 @@ enum Permission {
 
     READ_RECEIVABLE = '[repair shop] read receivable',
     READ_CASH = '[repair shop] read cash',
+    READ_REPORT = '[repair shop] read report',
 
     // unused for FE now
     // RETURN_SALE = '[repair shop] return spare part sale'

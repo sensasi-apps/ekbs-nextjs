@@ -5,6 +5,7 @@ import BackupTableIcon from '@mui/icons-material/BackupTable'
 // materials
 import Button from '@mui/material/Button'
 import LinearProgress from '@mui/material/LinearProgress'
+import Typography from '@mui/material/Typography'
 // vendors
 import { useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
@@ -12,6 +13,8 @@ import useSWR from 'swr'
 import { AoaTable } from '@/components/aoa-table'
 import LoadingCenter from '@/components/loading-center'
 // modules
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
+import Permission from '@/modules/repair-shop/enums/permission'
 import type { Sale } from '@/modules/repair-shop/types/orms/sale'
 import aoaToXlsx from '@/utils/aoa-to-xlsx'
 import FilterInputs, {
@@ -20,14 +23,23 @@ import FilterInputs, {
 } from './filter-inputs'
 
 export default function PageClient() {
+    const hasPermissions = useIsAuthHasPermission()
     const searchParams = useSearchParams()
 
-    const type = (searchParams.get('type') ?? 'per-sale') as
-        | 'per-sale'
-        | 'per-payment-method'
-        | 'per-spare-part'
-    const from_date = searchParams.get('from_date') ?? DEFAULT_FROM_DATE
-    const till_date = searchParams.get('till_date') ?? DEFAULT_TILL_DATE
+    const isHasPermission = hasPermissions(Permission.READ_REPORT)
+
+    const type = isHasPermission
+        ? ((searchParams.get('type') ?? 'per-sale') as
+              | 'per-sale'
+              | 'per-payment-method'
+              | 'per-spare-part')
+        : 'per-payment-method'
+    const from_date = isHasPermission
+        ? (searchParams.get('from_date') ?? DEFAULT_FROM_DATE)
+        : DEFAULT_TILL_DATE
+    const till_date = isHasPermission
+        ? (searchParams.get('till_date') ?? DEFAULT_TILL_DATE)
+        : DEFAULT_TILL_DATE
 
     const { data, isValidating } = useSWR<ApiResponse>([
         '/repair-shop/sales/get-sales-report-data',
@@ -85,12 +97,18 @@ export default function PageClient() {
 
     return (
         <>
-            <div
-                style={{
-                    marginBottom: '2rem',
-                }}>
-                <FilterInputs />
-            </div>
+            {isHasPermission ? (
+                <div
+                    style={{
+                        marginBottom: '2rem',
+                    }}>
+                    <FilterInputs />
+                </div>
+            ) : (
+                <Typography color="textSecondary" mb={2} variant="body2">
+                    Tanggal: {DEFAULT_TILL_DATE}
+                </Typography>
+            )}
 
             {isValidating && <LinearProgress />}
 
