@@ -63,7 +63,7 @@ const AddressListItem = ({
                 </Typography>
                 <Typography gutterBottom>{address.detail}</Typography>
                 <Typography component="p" variant="caption">
-                    {province.name}, {regency.name}
+                    {province?.name}, {regency?.name}
                     {district ? ', ' + district.name : ''}
                     {village ? ', ' + village.name : ''}
                 </Typography>

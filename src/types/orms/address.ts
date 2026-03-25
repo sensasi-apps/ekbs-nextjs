@@ -5,8 +5,8 @@ interface IdName {
 
 export default interface AddressORM {
     uuid: string
-    province: IdName
-    regency: IdName
+    province?: IdName
+    regency?: IdName
     district?: IdName
     village?: IdName
     detail?: string
