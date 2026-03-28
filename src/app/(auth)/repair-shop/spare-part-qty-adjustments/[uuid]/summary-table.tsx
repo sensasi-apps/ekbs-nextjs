@@ -1,5 +1,3 @@
-// vendors
-
 // icons-materials
 import Edit from '@mui/icons-material/Edit'
 // materials
@@ -8,6 +6,7 @@ import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
+// vendors
 import dayjs from 'dayjs'
 import { useState } from 'react'
 // components
@@ -25,7 +24,10 @@ export default function SummaryTable({
     data,
     handleRefreshData,
 }: {
-    data: SparePartMovementORM
+    data: SparePartMovementORM & {
+        n_items: number
+        categories: string[]
+    }
     handleRefreshData?: () => void
 }) {
     if (data.created_by_user === undefined) {
@@ -67,6 +69,18 @@ export default function SummaryTable({
                     <TableCell>
                         {dayjs(data.at).format('DD MMMM YYYY')}
                     </TableCell>
+                </TableRow>
+
+                <TableRow>
+                    <TableCell>Kategori</TableCell>
+                    <ColonCell />
+                    <TableCell>{data.categories.join(', ')}</TableCell>
+                </TableRow>
+
+                <TableRow>
+                    <TableCell>Jumlah Barang</TableCell>
+                    <ColonCell />
+                    <TableCell>{formatNumber(data.n_items)}</TableCell>
                 </TableRow>
 
                 <TableRow>
