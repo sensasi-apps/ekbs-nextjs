@@ -1,5 +1,3 @@
-// vendors
-
 // materials
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -8,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+// vendors
 import type { UUID } from 'crypto'
 import { memo } from 'react'
 import { validate } from 'uuid'
@@ -43,6 +42,7 @@ export default function DetailTable({
                         <TableCell>#</TableCell>
                         <TableCell>ID</TableCell>
                         <TableCell>Kode</TableCell>
+                        <TableCell>Kategori</TableCell>
                         <TableCell>Nama</TableCell>
                         <TableCell align="right">HPP Satuan</TableCell>
                         <TableCell align="right">QTY Sistem</TableCell>
@@ -144,6 +144,7 @@ const DetailRow = memo(function DetailRow({
             <TableCell>{formatNumber(index + 1)}</TableCell>
             <TableCell>{spare_part_state.id}</TableCell>
             <TableCell>{displayCode}</TableCell>
+            <TableCell>{spare_part_state.category}</TableCell>
             <TableCell>{spare_part_state.name}</TableCell>
             <TableCell align="right">
                 {formatNumber(warehouseState.base_rp_per_unit)}
@@ -197,13 +198,12 @@ function CalcCells({
     movementQty: number
     warehouseRp: number
 }) {
-    const qtyDiff = movementQty
-    const rpDiff = qtyDiff * warehouseRp
-
     return (
         <>
-            <TableCell align="right">{formatNumber(qtyDiff)}</TableCell>
-            <TableCell align="right">{formatNumber(rpDiff)}</TableCell>
+            <TableCell align="right">{formatNumber(movementQty)}</TableCell>
+            <TableCell align="right">
+                {formatNumber(movementQty * warehouseRp)}
+            </TableCell>
         </>
     )
 }

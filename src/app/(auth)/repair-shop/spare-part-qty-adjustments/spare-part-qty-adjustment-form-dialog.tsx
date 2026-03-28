@@ -1,11 +1,14 @@
-// vendors
-
 // materials
+
+import Chip from '@mui/material/Chip'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+//
 import type { UUID } from 'crypto'
-import { Formik, type FormikProps } from 'formik'
+import { Formik, type FormikProps, useFormikContext } from 'formik'
+import useSWR from 'swr'
+import AutoComplete from '@/components/formik-fields/auto-complete'
 // formik
 import DateField from '@/components/formik-fields/date-field'
 import TextField from '@/components/formik-fields/text-field'
@@ -30,7 +33,7 @@ export default function SparePartQtyAdjustmentFormDialog({
     return (
         <Dialog disableRestoreFocus maxWidth="xs" open={Boolean(formValues)}>
             <DialogTitle>
-                {(selectedRow?.uuid === undefined ? 'Tambah' : 'Perbaharui') +
+                {(selectedRow?.uuid === undefined ? 'Tambah' : 'Perbarui') +
                     ' Data Opname Suku Cadang'}
             </DialogTitle>
 
@@ -41,16 +44,21 @@ export default function SparePartQtyAdjustmentFormDialog({
                     initialValues={formValues ?? {}}
                     onReset={onClose}
                     onSubmit={(values, { setErrors }) =>
-                        (selectedRow?.uuid
+                        (values?.uuid
                             ? axios.put(
-                                  `/repair-shop/spare-parts/qty-adjustments/${selectedRow?.uuid}`,
+                                  `/repair-shop/spare-parts/qty-adjustments/${values?.uuid}`,
                                   {
                                       note: values.note,
                                   },
                               )
                             : axios.post<UUID>(
                                   '/repair-shop/spare-parts/qty-adjustments/create',
-                                  values,
+                                  {
+                                      ...values,
+                                      categories: values.categories?.map(
+                                          category => category.id,
+                                      ),
+                                  },
                               )
                         )
                             .then(res => onSubmitted(res.data))
@@ -62,22 +70,28 @@ export default function SparePartQtyAdjustmentFormDialog({
     )
 }
 
+interface Category {
+    category: string
+    total: number
+}
+
+interface CategoryOption {
+    id: string
+    label: string
+}
+
 function Form({
     // isSubmitting,
     // dirty,
     // status,
+    values,
 }: FormikProps<CreateFormValues>) {
+    const { data: categories = [] } = useSWR<Category[]>(
+        '/repair-shop/spare-parts/categories',
+    )
+
     return (
         <FormikForm>
-            {/* {dataFromDb?.short_uuid && (
-                <TextFieldDefault
-                    label="Kode"
-                    disabled
-                    required={false}
-                    value={dataFromDb.short_uuid}
-                />
-            )} */}
-
             <DateField
                 datePickerProps={{
                     format: 'YYYY-MM-DD HH:mm',
@@ -86,6 +100,23 @@ function Form({
                 label="Tanggal"
                 name="at"
             />
+
+            <AutoComplete
+                disabled={Boolean(values?.uuid)}
+                multiple
+                name="categories"
+                options={categories.map(category => ({
+                    id: category.category,
+                    label: category.category + ' (' + category.total + ')',
+                }))}
+                slotProps={{
+                    textField: {
+                        label: 'Kategori',
+                    },
+                }}
+            />
+
+            <TotalItem categories={categories} />
 
             <TextField
                 label="Catatan"
@@ -100,7 +131,30 @@ function Form({
     )
 }
 
+function TotalItem({ categories }: { categories: Category[] }) {
+    const { getFieldMeta } = useFormikContext()
+
+    const { value = [] } = getFieldMeta<CategoryOption[]>('categories')
+
+    const totalSelectedItem = value.reduce(
+        (total, category) =>
+            total +
+            (categories.find(cat => cat.category === category.id)?.total ?? 0),
+        0,
+    )
+
+    return (
+        <Chip
+            color="primary"
+            label={`Total Barang: ${totalSelectedItem}`}
+            size="small"
+        />
+    )
+}
+
 export type CreateFormValues = Partial<{
+    readonly uuid: string
     at: SparePartMovementORM['at']
     note: SparePartMovementORM['note']
+    categories: CategoryOption[]
 }>

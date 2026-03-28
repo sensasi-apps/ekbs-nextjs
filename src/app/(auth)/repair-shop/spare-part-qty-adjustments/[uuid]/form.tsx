@@ -23,7 +23,10 @@ const Form = memo(function Form({
     finished,
 }: {
     uuid: SparePartMovementORM['uuid']
-    data: SparePartMovementORM
+    data: SparePartMovementORM & {
+        n_items: number
+        categories: string[]
+    }
     finished: boolean
 }) {
     const [isSubmitting, setIsSubmitting] = useState(false)

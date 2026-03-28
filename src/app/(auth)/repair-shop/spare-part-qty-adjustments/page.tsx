@@ -119,6 +119,16 @@ const columns: DataTableProps<SparePartMovementORM>['columns'] = [
     },
 
     {
+        label: 'Kategori',
+        name: 'categories',
+        options: {
+            customBodyRender: (value: string[]) => value.join(', '),
+            searchable: false,
+            sort: false,
+        },
+    },
+
+    {
         label: 'Jumlah Suku Cadang',
         name: 'n_items',
         options: {

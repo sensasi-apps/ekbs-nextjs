@@ -29,9 +29,12 @@ export default function OpnameDetail() {
     const params = useParams()
     const uuid = params?.uuid
 
-    const { data, isValidating, mutate } = useSWR<SparePartMovementORM>(
-        uuid ? `repair-shop/spare-parts/qty-adjustments/${uuid}` : undefined,
-    )
+    const { data, isValidating, mutate } = useSWR<
+        SparePartMovementORM & {
+            n_items: number
+            categories: string[]
+        }
+    >(uuid ? `repair-shop/spare-parts/qty-adjustments/${uuid}` : undefined)
 
     function handleRefreshData() {
         mutate()
