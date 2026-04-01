@@ -28,6 +28,8 @@ function useLogout() {
             myAxios.post('/revoke-access-token')
         }
 
-        setAuthInfo(undefined)
+        myAxios.post('/logout').then(() => {
+            setAuthInfo(undefined)
+        })
     }, [authInfo, setAuthInfo])
 }
