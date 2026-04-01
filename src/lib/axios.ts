@@ -3,6 +3,7 @@
 import axios, { AxiosError } from 'axios'
 // vendors
 import { enqueueSnackbar } from 'notistack'
+import { LS_KEY } from '@/hooks/use-auth-info'
 // utils
 import { handleServerError } from './axios/functions/handle-server-error'
 import { getCurrentAuthToken } from './axios/getCurrentAuthToken'
@@ -14,22 +15,36 @@ const myAxios = axios.create({
 })
 
 if (typeof window !== 'undefined') {
-    myAxios.get('/sanctum/csrf-cookie').catch((error: AxiosError) => {
-        const { response, code, message } = error
+    myAxios
+        .get('/sanctum/csrf-cookie')
+        .then(() => {
+            const token = getCurrentAuthToken()
 
-        if (response) {
-            handleServerError(response)
-        } else if (code !== AxiosError.ERR_NETWORK) {
-            enqueueSnackbar(message ?? 'Terjadi kesalahan.', {
-                persist: true,
-                variant: 'error',
-            })
-        }
+            if (!token) {
+                myAxios.get('/current-auth-info').then(res => {
+                    if (res.data) {
+                        localStorage.setItem(LS_KEY, JSON.stringify(res.data))
+                        window.location.reload()
+                    }
+                })
+            }
+        })
+        .catch((error: AxiosError) => {
+            const { response, code, message } = error
 
-        if (response || code !== AxiosError.ERR_NETWORK) {
-            throw error
-        }
-    })
+            if (response) {
+                handleServerError(response)
+            } else if (code !== AxiosError.ERR_NETWORK) {
+                enqueueSnackbar(message ?? 'Terjadi kesalahan.', {
+                    persist: true,
+                    variant: 'error',
+                })
+            }
+
+            if (response || code !== AxiosError.ERR_NETWORK) {
+                throw error
+            }
+        })
 }
 
 myAxios.interceptors.request.use(config => {
