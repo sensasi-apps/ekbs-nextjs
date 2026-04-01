@@ -1,9 +1,8 @@
 // materials
 import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
+import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
-// components
-import Link from '@/components/link'
 
 export default function LoginForm({
     handleSubmit,
@@ -51,7 +50,11 @@ export default function LoginForm({
                     Masuk
                 </Fab>
 
-                <Link color="info" href="/forgot-password" variant="body2">
+                <Link
+                    color="info"
+                    component="a"
+                    href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/forgot-password`}
+                    variant="body2">
                     Lupa kata sandi?
                 </Link>
             </Box>
