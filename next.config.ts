@@ -6,6 +6,8 @@ import withSentry from './next.config/sentry'
 import withSerwist from './next.config/serwist'
 
 const nextConfig: NextConfig = {
+    enablePrerenderSourceMaps: process.env.NODE_ENV === 'production',
+
     experimental: {
         /**
          * Not listed all packages because this config has some libraries are optimized by default
@@ -13,6 +15,10 @@ const nextConfig: NextConfig = {
          * @see https://nextjs.org/docs/app/api-reference/config/next-config-js/optimizePackageImports
          */
         optimizePackageImports: ['@mui/x-date-pickers', 'recharts', 'formik'],
+
+        preloadEntriesOnStart: false,
+
+        serverSourceMaps: process.env.NODE_ENV === 'production',
     },
 
     logging: {
@@ -21,7 +27,7 @@ const nextConfig: NextConfig = {
 
     pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
 
-    productionBrowserSourceMaps: true,
+    productionBrowserSourceMaps: process.env.NODE_ENV === 'production',
 
     reactCompiler: true,
 
@@ -44,6 +50,10 @@ const nextConfig: NextConfig = {
     },
 
     typedRoutes: true,
+
+    typescript: {
+        ignoreBuildErrors: process.env.NODE_ENV !== 'production',
+    },
 }
 
 export default withBundleAnalyzer(withSentry(withSerwist(withMDX(nextConfig))))
