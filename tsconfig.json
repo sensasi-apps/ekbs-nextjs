@@ -30,7 +30,6 @@
     },
     "exclude": ["node_modules", "public/sw.js"],
     "include": [
-        "**/*.mjs",
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
