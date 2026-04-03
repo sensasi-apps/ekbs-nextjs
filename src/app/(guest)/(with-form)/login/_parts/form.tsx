@@ -40,6 +40,14 @@ export default function LoginForm({
                 display="flex"
                 justifyContent="space-between"
                 sx={{ mb: 2, mt: 3 }}>
+                <Link
+                    color="info"
+                    component="a"
+                    href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/forgot-password`}
+                    variant="body2">
+                    Lupa kata sandi?
+                </Link>
+
                 <Fab
                     color="success"
                     sx={{
@@ -49,14 +57,6 @@ export default function LoginForm({
                     variant="extended">
                     Masuk
                 </Fab>
-
-                <Link
-                    color="info"
-                    component="a"
-                    href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/forgot-password`}
-                    variant="body2">
-                    Lupa kata sandi?
-                </Link>
             </Box>
         </Box>
     )
