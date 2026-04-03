@@ -32,21 +32,27 @@ const nextConfig: NextConfig = {
 
     reactStrictMode: true,
 
-    async rewrites() {
-        return [
-            {
-                destination:
-                    process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/:path*',
-                source: '/oauth/:path*',
-            },
-            {
-                destination:
-                    process.env.NEXT_PUBLIC_BACKEND_URL +
-                    '/oauth/:path*/callback',
-                source: '/oauth/:path*/callback',
-            },
-        ]
-    },
+    rewrites: async () => [
+        {
+            destination: process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/google',
+            source: '/oauth/google',
+        },
+        {
+            destination:
+                process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/google/callback',
+            source: '/oauth/google/callback',
+        },
+        {
+            destination:
+                process.env.NEXT_PUBLIC_BACKEND_URL + '/forgot-password',
+            source: '/forgot-password',
+        },
+        {
+            destination:
+                process.env.NEXT_PUBLIC_BACKEND_URL + '/reset-password',
+            source: '/reset-password',
+        },
+    ],
 
     typedRoutes: true,
 
