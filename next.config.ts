@@ -42,16 +42,6 @@ const nextConfig: NextConfig = {
                 process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/google/callback',
             source: '/oauth/google/callback',
         },
-        {
-            destination:
-                process.env.NEXT_PUBLIC_BACKEND_URL + '/forgot-password',
-            source: '/forgot-password',
-        },
-        {
-            destination:
-                process.env.NEXT_PUBLIC_BACKEND_URL + '/reset-password',
-            source: '/reset-password',
-        },
     ],
 
     typedRoutes: true,

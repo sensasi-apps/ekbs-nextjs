@@ -43,7 +43,7 @@ export default function LoginForm({
                 <Link
                     color="info"
                     component="a"
-                    href="/forgot-password"
+                    href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/forgot-password`}
                     variant="body2">
                     Lupa kata sandi?
                 </Link>
