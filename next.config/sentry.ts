@@ -10,13 +10,9 @@ const SENTRY_CONFIG: SentryBuildOptions = {
 
     sourcemaps: {
         deleteSourcemapsAfterUpload: true,
-
-        disable: process.env.VERCEL_ENV !== `production`,
     },
 
-    telemetry: process.env.VERCEL_ENV === `production`,
-
-    widenClientFileUpload: process.env.VERCEL_ENV === `production`,
+    widenClientFileUpload: true,
 }
 
 export default function withSentry(nextConfig: NextConfig) {
