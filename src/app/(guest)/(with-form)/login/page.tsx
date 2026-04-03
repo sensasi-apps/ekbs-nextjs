@@ -49,7 +49,7 @@ export default function Page() {
                 component="a"
                 disabled={isOffline}
                 fullWidth
-                href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/oauth/google`}
+                href="/oauth/google"
                 startIcon={<GoogleIcon />}
                 sx={{
                     mb: 2,
