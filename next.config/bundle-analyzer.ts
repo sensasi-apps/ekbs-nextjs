@@ -1,7 +1,7 @@
 import withBundleAnalyzerInit from '@next/bundle-analyzer'
 
 const withBundleAnalyzer = withBundleAnalyzerInit({
-    enabled: process.env.ANALYZE === 'true',
+    enabled: true,
 })
 
 export default withBundleAnalyzer

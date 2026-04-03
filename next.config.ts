@@ -1,7 +1,6 @@
 import type { NextConfig } from 'next'
 
 import withBundleAnalyzer from './next.config/bundle-analyzer'
-import withMDX from './next.config/mdx'
 import withSentry from './next.config/sentry'
 import withSerwist from './next.config/serwist'
 
@@ -25,7 +24,7 @@ const nextConfig: NextConfig = {
         browserToTerminal: false,
     },
 
-    pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
+    pageExtensions: ['ts', 'tsx'],
 
     productionBrowserSourceMaps: process.env.NODE_ENV === 'production',
 
@@ -56,4 +55,13 @@ const nextConfig: NextConfig = {
     },
 }
 
-export default withBundleAnalyzer(withSentry(withSerwist(withMDX(nextConfig))))
+const baseConfig = withSentry(withSerwist(nextConfig))
+
+const exportDefault =
+    process.env.ANALYZE === 'true'
+        ? withBundleAnalyzer(baseConfig)
+        : process.env.NODE_ENV == 'production'
+          ? baseConfig
+          : nextConfig
+
+export default exportDefault
