@@ -1,6 +1,8 @@
 import withSerwistInit from '@serwist/next'
 
 const withSerwist = withSerwistInit({
+    disable: process.env.NODE_ENV !== 'production',
+
     /**
      * @see https://github.com/serwist/serwist/discussions/228
      */
