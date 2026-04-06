@@ -106,7 +106,7 @@ function Footer({ data }: { data: SparePartMovementORM['details'] }) {
     return (
         <TableFooter>
             <TableRow>
-                <TableCell align="right" colSpan={8}>
+                <TableCell align="right" colSpan={9}>
                     TOTAL
                 </TableCell>
 
