@@ -43,7 +43,7 @@ export default function LoanDatatable({
     const TITLE = mode === 'manager' ? 'Daftar Pinjaman' : 'Riwayat'
 
     if (mode === 'applier') {
-        DATATABLE_COLUMNS.splice(3, 1)
+        DATATABLE_COLUMNS.splice(6, 1).splice(3, 2)
     }
 
     return (
