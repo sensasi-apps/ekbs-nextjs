@@ -35,7 +35,7 @@ const DATATABLE_COLUMNS: DataTableProps<UserLoanORM>['columns'] = [
         },
     },
     {
-        label: 'Nama',
+        label: 'ID Pengguna',
         name: 'user.id',
     },
     {
@@ -57,7 +57,7 @@ const DATATABLE_COLUMNS: DataTableProps<UserLoanORM>['columns'] = [
     },
     {
         label: 'Total Jasa (Rp)',
-        name: 'total_service_rp',
+        name: 'total_interest_rp',
         options: {
             customBodyRender: (value: number) => formatNumber(value),
             setCellProps: () => ({
