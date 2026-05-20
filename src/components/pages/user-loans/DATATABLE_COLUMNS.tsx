@@ -4,7 +4,7 @@
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 // utils
-import { type DataTableProps, getRowData } from '@/components/data-table'
+import { type DataTableProps } from '@/components/data-table'
 import type UserLoanORM from '@/modules/installment/types/orms/user-loan'
 import formatNumber from '@/utils/format-number'
 import getLoanStatusColor from '@/utils/get-loan-status-color'
@@ -36,25 +36,30 @@ const DATATABLE_COLUMNS: DataTableProps<UserLoanORM>['columns'] = [
     },
     {
         label: 'Nama',
+        name: 'user.id',
+    },
+    {
+        label: 'Nama',
         name: 'user.name',
-        options: {
-            customBodyRenderLite: dataIndex => {
-                const user = getRowData<UserLoanORM>(dataIndex)?.user
-
-                if (!user) return ''
-
-                const { id, name } = user
-
-                return `#${id} — ${name}`
-            },
-        },
     },
     {
         label: 'Jumlah Pengajuan (Rp)',
         name: 'proposed_rp',
         options: {
-            customBodyRender: (value: UserLoanORM['proposed_rp']) =>
-                formatNumber(value),
+            customBodyRender: (value: number) => formatNumber(value),
+            setCellProps: () => ({
+                style: {
+                    textAlign: 'right',
+                    whiteSpace: 'nowrap',
+                },
+            }),
+        },
+    },
+    {
+        label: 'Total Jasa (Rp)',
+        name: 'total_service_rp',
+        options: {
+            customBodyRender: (value: number) => formatNumber(value),
             setCellProps: () => ({
                 style: {
                     textAlign: 'right',
