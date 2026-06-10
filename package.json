@@ -22,7 +22,6 @@
         "@sentry/nextjs": "^10.55.0",
         "@serwist/next": "~9.4.4",
         "@uidotdev/usehooks": "^2.4.1",
-        "ably": "^2.21.0",
         "axios": "^1.16.1",
         "babel-plugin-react-compiler": "^1.0.0",
         "dayjs": "^1.11.21",
