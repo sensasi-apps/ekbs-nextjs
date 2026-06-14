@@ -49,12 +49,15 @@ export default function PalmBunchRatesForm({
 }) {
     const { data, setData, loading, isDirty, handleClose, setSubmitting } =
         useFormData<PalmBunchRateValidDateORM>()
-    const { id, valid_from, rates } = data
+    const { id, valid_from, valid_until, rates } = data
 
     const { validationErrors, setValidationErrors, clearByName } =
         useValidationErrors()
     const [validFrom, setValidFrom] = useState(
         valid_from ? dayjs(valid_from) : null,
+    )
+    const [validUntil, setValidUntil] = useState(
+        valid_until ? dayjs(valid_until) : null,
     )
     const [ratesState, setRatesState] = useState<PalmBunchRateORM[]>(
         rates ??
@@ -139,7 +142,7 @@ export default function PalmBunchRatesForm({
         debounceSetData()
     }
 
-    const handleDateChange = (date: Dayjs | null) => {
+    const handleValidFromChange = (date: Dayjs | null) => {
         clearByName('valid_from')
 
         if (!date || temp === undefined) return
@@ -149,6 +152,19 @@ export default function PalmBunchRatesForm({
             .clone()
             .add(6, 'days')
             .format('YYYY-MM-DD') as Ymd
+
+        setValidUntil(date.clone().add(6, 'days'))
+
+        debounceSetData()
+    }
+
+    const handleValidUntilChange = (date: Dayjs | null) => {
+        clearByName('valid_until')
+
+        if (!date || temp === undefined) return
+
+        temp.valid_until = date.format('YYYY-MM-DD') as Ymd
+        setValidUntil(date)
 
         debounceSetData()
     }
@@ -168,8 +184,7 @@ export default function PalmBunchRatesForm({
                 <Grid item sm={6} xs={6}>
                     <DatePicker
                         disabled={loading}
-                        onChange={handleDateChange}
-                        shouldDisableDate={date => date?.day() !== 2}
+                        onChange={handleValidFromChange}
                         slotProps={{
                             textField: {
                                 label: 'Tanggal Berlaku',
@@ -186,22 +201,20 @@ export default function PalmBunchRatesForm({
                 <Grid item sm={6} xs={6}>
                     <DatePicker
                         disabled={loading}
-                        readOnly
+                        maxDate={validFrom?.add(6, 'day')}
+                        minDate={validFrom?.add(1, 'day')}
+                        onChange={handleValidUntilChange}
                         slotProps={{
                             textField: {
-                                error: Boolean(validationErrors.valid_from),
+                                error: Boolean(validationErrors.valid_until),
                                 fullWidth: true,
-                                helperText: validationErrors.valid_from,
+                                helperText: validationErrors.valid_until,
                                 label: 'Hingga',
-                                margin: 'dense',
                                 name: 'valid_until',
                                 required: true,
-                                size: 'small',
                             },
                         }}
-                        value={
-                            validFrom ? validFrom.clone().add(6, 'days') : null
-                        }
+                        value={validUntil}
                     />
                 </Grid>
             </Grid>
