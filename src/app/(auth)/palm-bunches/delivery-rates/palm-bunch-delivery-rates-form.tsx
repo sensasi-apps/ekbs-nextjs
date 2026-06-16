@@ -37,7 +37,7 @@ const indexMap = oilMillCodes.reduce(
 
 const SHARED_DATE_FIELD_PROPS = {
     disableFuture: false,
-    maxDate: dayjs().endOf('week'),
+    maxDate: dayjs().add(6, 'day'),
 } as const
 
 export default function PalmBunchDeliveryRatesForm({
