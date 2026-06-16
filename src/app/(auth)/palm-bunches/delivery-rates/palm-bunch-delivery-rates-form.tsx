@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography'
 // vendors
 import dayjs from 'dayjs'
 import { type FormikProps } from 'formik'
-import { Activity, useEffect, useEffectEvent } from 'react'
+import { Activity } from 'react'
 // components
 import FlexBox from '@/components/flex-box'
 import DateField from '@/components/formik-fields/date-field'
@@ -39,43 +39,24 @@ const indexMap = oilMillCodes.reduce(
 export default function PalmBunchDeliveryRatesForm({
     values,
     isSubmitting,
-    setFieldValue,
 }: FormikProps<PalmBunchDeliveryRateValidDateType>) {
-    const { valid_from, valid_until } = values
+    const { valid_from } = values
 
     const validFrom = valid_from ? dayjs(valid_from) : null
-
-    const _setFieldValue = useEffectEvent(setFieldValue)
-
-    useEffect(() => {
-        if (validFrom) {
-            const validUntil = validFrom.add(6, 'day').endOf('day').toDate()
-
-            _setFieldValue('valid_until', validUntil)
-        }
-    }, [validFrom])
 
     return (
         <FormikForm>
             <FlexBox>
                 <DateField
-                    datePickerProps={{
-                        shouldDisableDate: date => date?.day() !== 2,
-                    }}
                     disabled={isSubmitting}
                     label="Tanggal Berlaku"
                     name="valid_from"
                 />
 
                 <TextField
-                    disabled
+                    disabled={isSubmitting}
                     label="Hingga"
                     name="valid_until"
-                    value={
-                        valid_until
-                            ? dayjs(valid_until).format('DD-MM-YYYY')
-                            : ''
-                    }
                 />
             </FlexBox>
 
