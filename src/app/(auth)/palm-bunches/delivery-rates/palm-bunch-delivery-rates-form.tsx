@@ -17,7 +17,6 @@ import DateField from '@/components/formik-fields/date-field'
 import NumericField from '@/components/formik-fields/numeric-field'
 import FormikForm from '@/components/formik-form-v2'
 import RpInputAdornment from '@/components/input-adornments/rp'
-import TextField from '@/components/text-field'
 import type PalmBunchDeliveryRateValidDateType from '@/modules/palm-bunch/types/orms/palm-bunch-delivery-rate-valid-date'
 import weekOfMonths from '@/utils/week-of-month'
 
@@ -36,6 +35,11 @@ const indexMap = oilMillCodes.reduce(
     {} as { [key: string]: number },
 )
 
+const SHARED_DATE_FIELD_PROPS = {
+    disableFuture: false,
+    maxDate: dayjs().endOf('week'),
+} as const
+
 export default function PalmBunchDeliveryRatesForm({
     values,
     isSubmitting,
@@ -48,12 +52,14 @@ export default function PalmBunchDeliveryRatesForm({
         <FormikForm>
             <FlexBox>
                 <DateField
+                    datePickerProps={SHARED_DATE_FIELD_PROPS}
                     disabled={isSubmitting}
                     label="Tanggal Berlaku"
                     name="valid_from"
                 />
 
-                <TextField
+                <DateField
+                    datePickerProps={SHARED_DATE_FIELD_PROPS}
                     disabled={isSubmitting}
                     label="Hingga"
                     name="valid_until"
