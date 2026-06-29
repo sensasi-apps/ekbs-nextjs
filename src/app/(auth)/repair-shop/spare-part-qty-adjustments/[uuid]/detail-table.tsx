@@ -149,7 +149,16 @@ const DetailRow = memo(function DetailRow({
             <TableCell align="right">
                 {formatNumber(warehouseState.base_rp_per_unit)}
             </TableCell>
-            <TableCell align="right">{warehouseState.qty}</TableCell>
+            <TableCell
+                align="right"
+                sx={{
+                    color:
+                        warehouseState.qty === 0
+                            ? 'var(--mui-palette-text-disabled)'
+                            : 'inherit',
+                }}>
+                {warehouseState.qty}
+            </TableCell>
 
             <TableCell align="right">
                 {finished || print ? (
@@ -198,10 +207,27 @@ function CalcCells({
     movementQty: number
     warehouseRp: number
 }) {
+    const colorVar =
+        movementQty === 0
+            ? 'text-disabled'
+            : movementQty > 0
+              ? 'success-main'
+              : 'error-main'
+
     return (
         <>
-            <TableCell align="right">{formatNumber(movementQty)}</TableCell>
-            <TableCell align="right">
+            <TableCell
+                align="right"
+                sx={{
+                    color: `var(--mui-palette-${colorVar})`,
+                }}>
+                {formatNumber(movementQty)}
+            </TableCell>
+            <TableCell
+                align="right"
+                sx={{
+                    color: `var(--mui-palette-${colorVar})`,
+                }}>
                 {formatNumber(movementQty * warehouseRp)}
             </TableCell>
         </>
