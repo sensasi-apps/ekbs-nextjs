@@ -124,7 +124,7 @@ export default function UserCard() {
                         size="small"
                         startIcon={<Edit />}
                         variant="outlined">
-                        Perbaharui data akun
+                        Perbarui data akun
                     </Button>
 
                     <SetPasswordButtonAndDialogForm data={userWithDetails} />
