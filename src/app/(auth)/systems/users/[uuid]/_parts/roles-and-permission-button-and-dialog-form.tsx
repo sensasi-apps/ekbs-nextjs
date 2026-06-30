@@ -175,11 +175,15 @@ function DialogTitle({
 }
 
 function isDisabled(user: User, role: string): boolean {
-    if (role === 'anggota' && user.member) {
+    if (role === 'anggota' && user.member && user.member.unjoined_at === null) {
         return true
     }
 
-    if (role === 'karyawan' && user.employee) {
+    if (
+        role === 'karyawan' &&
+        user.employee &&
+        user.employee.unjoined_at === null
+    ) {
         return true
     }
 
