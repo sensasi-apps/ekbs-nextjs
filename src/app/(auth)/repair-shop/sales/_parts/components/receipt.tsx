@@ -142,7 +142,7 @@ export default function Receipt({ data }: { data: Sale }) {
                     </Box>
                 )}
 
-            <Grid alignItems="center" container my={1}>
+            <Grid alignItems="center" container mt={1}>
                 {Boolean(data.adjustment_rp && data.adjustment_rp > 0) && (
                     <>
                         <RowGrids
@@ -161,9 +161,9 @@ export default function Receipt({ data }: { data: Sale }) {
 
             <Typography
                 component="div"
-                fontSize="0.9em"
+                fontSize="0.8em"
                 lineHeight="unset"
-                mt={1}
+                mt={2}
                 variant="caption">
                 <b>Penting</b>: Barang yang sudah dibeli tidak dapat ditukar,
                 dikembalikan, atau dibatalkan.
