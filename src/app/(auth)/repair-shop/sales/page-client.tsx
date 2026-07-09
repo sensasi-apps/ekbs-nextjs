@@ -126,7 +126,7 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         },
     },
     {
-        label: 'Kwitansi',
+        label: 'Cetak',
         name: '',
         options: {
             customBodyRender: (_, rowIndex) => {
