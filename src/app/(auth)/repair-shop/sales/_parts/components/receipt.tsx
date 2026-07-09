@@ -159,9 +159,14 @@ export default function Receipt({ data }: { data: Sale }) {
                 <RowGrids bold desc="Total Akhir" value={data.final_rp} />
             </Grid>
 
-            <Typography variant="subtitle1">
-                *Barang yang sudah dibeli tidak dapat ditukar, dikembalikan,
-                atau dibatalkan.
+            <Typography
+                component="div"
+                fontSize="0.9em"
+                lineHeight="unset"
+                mt={1}
+                variant="caption">
+                <b>Penting</b>: Barang yang sudah dibeli tidak dapat ditukar,
+                dikembalikan, atau dibatalkan.
             </Typography>
         </Box>
     )
