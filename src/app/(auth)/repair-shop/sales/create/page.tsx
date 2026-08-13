@@ -14,7 +14,7 @@ export default function Page() {
                 installment_data: {
                     n_term: 1,
                 },
-                is_finished: true,
+                is_finished: false,
                 services: [],
                 spare_part_margins: [],
                 spare_parts: [],

@@ -1,5 +1,3 @@
-// vendors
-
 // materials
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
@@ -20,7 +18,6 @@ import myAxios from '@/lib/axios'
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
 import handle422 from '@/utils/handle-422'
-
 import numberToCurrency from '@/utils/number-to-currency'
 // features
 import PaymentInputs from './payment-inputs'
@@ -64,8 +61,6 @@ export default function SaleFormDialog({
                     initialValues={formData}
                     onReset={handleClose}
                     onSubmit={(values, { setErrors, resetForm }) => {
-                        values.is_finished = true
-
                         const axiosInstance = values.uuid
                             ? myAxios.put(
                                   `repair-shop/sales/${values.uuid}`,
@@ -89,7 +84,7 @@ function SaleFormikForm({
     isSubmitting,
     values,
 }: FormikProps<SaleFormValues>) {
-    const isDisabled = isSubmitting || status?.isDisabled || values.uuid
+    const isDisabled = isSubmitting || status?.isDisabled
 
     return (
         <FormikForm>
@@ -155,12 +150,7 @@ function LeftGrid({ isDisabled, values }: InnerGrid) {
                 />
             </Box>
 
-            <BooleanField
-                disabled={true}
-                label="Selesaikan Transaksi"
-                name="is_finished"
-                switch
-            />
+            <BooleanField checkbox label="Sudah Dibayar" name="is_finished" />
 
             {values.is_finished && <PaymentInputs name="payment_method" />}
         </Grid>

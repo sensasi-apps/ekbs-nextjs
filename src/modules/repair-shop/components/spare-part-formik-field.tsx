@@ -1,5 +1,3 @@
-// vendors
-
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Skeleton from '@mui/material/Skeleton'
@@ -27,7 +25,7 @@ type OnChangeType = (
 
 export default function SparePartFormikField({
     name,
-    state,
+    // state,
     isDisabled,
     onChange,
 }: {
@@ -36,10 +34,6 @@ export default function SparePartFormikField({
     state: SparePart | undefined
     onChange: OnChangeType
 }) {
-    if (state) {
-        return `${state.id} — ${state.name}`
-    }
-
     return (
         <Field
             component={InnerComponent}

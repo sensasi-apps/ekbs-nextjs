@@ -1,11 +1,9 @@
-// vendors
-
-// import Image from 'next/image'
 // materials
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import type { UUID } from 'crypto'
+import dayjs from 'dayjs'
 import type { ReactNode } from 'react'
 import ChipSmall from '@/components/chip-small'
 // assets
@@ -42,11 +40,11 @@ export default function Receipt({ data }: { data: Sale }) {
                 textTransform: 'uppercase',
             }}>
             <Typography fontWeight="bold" lineHeight="1em">
-                {`${data.finished_at ? 'Struk' : 'Faktur'} Penjualan Belayan Spare Part`}
+                {`${data.finished_at ? 'Nota Penjualan' : 'Tagihan'} Belayan Spare Parts`}
             </Typography>
 
             <Typography fontSize="0.5em" variant="overline">
-                {data.uuid}
+                {data.uuid} — {data.finished_at ?? dayjs().format('YYYY-MM-DD')}
             </Typography>
 
             <Box alignItems="center" display="flex" gap={2} mb={1} mt={1}>
@@ -63,7 +61,12 @@ export default function Receipt({ data }: { data: Sale }) {
                         value={data.uuid ? shortUuid(data.uuid as UUID) : ''}
                     />
 
-                    <DefaultItemDesc desc="Pada" value={data.at ?? ''} />
+                    <DefaultItemDesc desc="TGL. Masuk" value={data.at} />
+
+                    <DefaultItemDesc
+                        desc="TGL. Keluar"
+                        value={data.finished_at}
+                    />
 
                     <DefaultItemDesc
                         desc="Kasir"
@@ -84,15 +87,17 @@ export default function Receipt({ data }: { data: Sale }) {
                                     {data.customer.name}
                                 </>
                             ) : (
-                                ''
+                                '-'
                             )
                         }
                     />
 
-                    <DefaultItemDesc
-                        desc="Metode Pembayaran"
-                        value={translatePaymentMethod(data.payment_method)}
-                    />
+                    {data.finished_at && (
+                        <DefaultItemDesc
+                            desc="Metode Pembayaran"
+                            value={translatePaymentMethod(data.payment_method)}
+                        />
+                    )}
                 </Box>
             </Box>
 
