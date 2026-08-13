@@ -109,6 +109,15 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
         name: 'payment_method',
         options: {
             customBodyRender: (value: Sale['payment_method']) => {
+                if (!value)
+                    return (
+                        <ChipSmall
+                            color="warning"
+                            label="Belum Dibayar"
+                            variant="outlined"
+                        />
+                    )
+
                 if (value === 'cash') return 'Tunai'
                 if (value === 'business-unit') return 'Unit Bisnis'
                 if (value === 'installment') return 'Angsuran'
@@ -127,7 +136,7 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
     },
     {
         label: 'Cetak',
-        name: '',
+        name: 'print',
         options: {
             customBodyRender: (_, rowIndex) => {
                 const data = getRowDataRef.current?.(rowIndex)
@@ -146,12 +155,12 @@ const DATATABLE_COLUMNS: DataTableProps<Sale>['columns'] = [
     },
     {
         label: 'Retur',
-        name: '',
+        name: 'return',
         options: {
             customBodyRender: (_, rowIndex) => {
                 const data = getRowDataRef.current?.(rowIndex)
 
-                if (!data) return null
+                if (!data || !data.finished_at) return null
 
                 return <ReturnButtonCustomBodyRender data={data} />
             },
