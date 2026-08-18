@@ -96,7 +96,7 @@ export default function HeavyEquipmentRent() {
 
             <DialogWithTitle
                 open={isDialogOpen}
-                title={`${isNew ? 'Tambah' : 'Perbaharui'} Data Penyewaan`}>
+                title={`${isNew ? 'Tambah' : 'Perbarui'} Data Penyewaan`}>
                 <Formik
                     enableReinitialize
                     initialValues={initialFormikValues}

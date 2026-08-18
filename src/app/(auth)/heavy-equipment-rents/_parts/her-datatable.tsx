@@ -1,12 +1,9 @@
-// vendors
-
 // materials
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 import dayjs from 'dayjs'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
 // enums
 import ApiUrlEnum from '@/app/(auth)/heavy-equipment-rents/_parts/api-url-enum'
 // components
@@ -23,8 +20,9 @@ import toDmy from '@/utils/to-dmy'
 
 let getRowData: GetRowDataType<RentItemRent>
 const CURRENT_DATE = dayjs()
+const MIN_DATE = dayjs('2020-01-01')
 
-type DataCategory = 'all' | 'unpaid' | 'unfinished'
+type DataCategory = 'all' | 'scheduled' | 'awaiting-payment'
 
 export default function HeavyEquipmentRentsDatatable({
     mutateCallback,
@@ -39,12 +37,9 @@ export default function HeavyEquipmentRentsDatatable({
 }) {
     const { replace } = useRouter()
     const searchParams = useSearchParams()
+    const type = (searchParams?.get('type') ?? 'all') as DataCategory
     const year = searchParams?.get('year') ?? CURRENT_DATE.format('YYYY')
     const month = searchParams?.get('month') ?? CURRENT_DATE.format('MM')
-
-    const [type, setType] = useState<DataCategory>(
-        as === 'operator' ? 'unfinished' : 'all',
-    )
 
     const selectedDate = dayjs(`${year}-${month}-01`)
 
@@ -60,13 +55,16 @@ export default function HeavyEquipmentRentsDatatable({
                 <DatePicker
                     format="MMMM YYYY"
                     label="Bulan"
+                    minDate={MIN_DATE}
                     onAccept={date => {
                         if (!date) return
 
                         const newYear = date.format('YYYY')
                         const newMonth = date.format('MM')
 
-                        replace(`?year=${newYear}&month=${newMonth}`)
+                        replace(
+                            `?year=${newYear}&month=${newMonth}&type=${type}`,
+                        )
                     }}
                     openTo="month"
                     slotProps={{
@@ -90,20 +88,30 @@ export default function HeavyEquipmentRentsDatatable({
                 <Chip
                     color={type === 'all' ? 'success' : undefined}
                     label="Semua"
-                    onClick={() => setType('all')}
+                    onClick={() => {
+                        replace(`?year=${year}&month=${month}&type=all`)
+                    }}
                 />
 
                 <Chip
-                    color={type === 'unfinished' ? 'success' : undefined}
-                    label="Belum Selesai"
-                    onClick={() => setType('unfinished')}
+                    color={type === 'scheduled' ? 'success' : undefined}
+                    label="Terjadwal"
+                    onClick={() => {
+                        replace(`?year=${year}&month=${month}&type=scheduled`)
+                    }}
                 />
 
                 {as === 'admin' && (
                     <Chip
-                        color={type === 'unpaid' ? 'success' : undefined}
-                        label="Belum Dibayar"
-                        onClick={() => setType('unpaid')}
+                        color={
+                            type === 'awaiting-payment' ? 'success' : undefined
+                        }
+                        label="Menunggu Pembayaran"
+                        onClick={() => {
+                            replace(
+                                `?year=${year}&month=${month}&type=awaiting-payment`,
+                            )
+                        }}
                     />
                 )}
             </Box>
@@ -285,7 +293,7 @@ const DATATABLE_COLUMNS: DataTableProps<RentItemRent>['columns'] = [
 ]
 
 enum RentStatus {
-    PAID = 'Lunas',
+    PAID = 'Selesai',
     FINISHED = 'Pekerjaan Selesai / Menunggu Pembayaran',
     SCHEDULED = 'Terjadwal',
 }
