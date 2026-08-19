@@ -70,6 +70,7 @@ export default function InventoryItems() {
                 getRowDataCallback={fn => (getRowData = fn)}
                 mutateCallback={fn => (mutate = fn)}
                 onRowClick={handleRowClick}
+                storageKey="inventory-item-table"
                 tableId="inventory-item-table"
                 title="Daftar"
             />
