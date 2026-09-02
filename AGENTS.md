@@ -41,7 +41,10 @@ bun run test       # Run tests with Vitest
 
 ### Auth & Permissions
 
-Auth stored in localStorage (`currentAuthInfo`) via `useAuthInfo()`. Token auto-injected by axios interceptor.
+Laravel's shared session cookie is the authentication authority. Browser storage
+only caches `currentAuthInfo` metadata for rendering and offline access; it must
+never contain or supply an access token. Axios sends credentials and the XSRF
+token with every backend request.
 
 ```tsx
 // Permission checks (Superman role bypasses all checks)
@@ -136,7 +139,7 @@ See `src/lib/axios/functions/handle-server-error.ts` for full logic.
 ### API Communication
 
 - Base URL from `NEXT_PUBLIC_BACKEND_URL` + `/api` prefix
-- Bearer token auto-injected from localStorage
+- Shared Laravel session cookie sent with credentials; no browser bearer token
 - OAuth routes proxied via Next.js rewrites (`/oauth/:path*`)
 - Params serialized with `qs.stringify()` for Laravel compatibility
 

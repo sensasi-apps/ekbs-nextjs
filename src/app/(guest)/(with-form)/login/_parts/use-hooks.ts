@@ -4,7 +4,7 @@ import { sha3_256 } from 'js-sha3'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { type FormEvent, useCallback, useEffect, useState } from 'react'
 import useAuthInfoState from '@/hooks/use-auth-info-state'
-import axios from '@/lib/axios'
+import axios, { currentAuthInfoPromise } from '@/lib/axios'
 //
 import type AuthInfo from '@/modules/user/types/auth-info'
 
@@ -37,6 +37,8 @@ async function loginUser(
     password: string,
     setAuthInfo: (info: AuthInfo | undefined) => void,
 ) {
+    await currentAuthInfoPromise
+
     const key = createAuthInfoKey(email, password)
     const storedAuthInfo = getStoredAuthInfo(email, password)
 

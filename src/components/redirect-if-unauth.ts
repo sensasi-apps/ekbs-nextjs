@@ -2,24 +2,32 @@
 
 import type { Route } from 'next'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-// providers
+import { useEffect, useState } from 'react'
 import useAuthInfo from '@/hooks/use-auth-info'
+import { currentAuthInfoPromise } from '@/lib/axios'
 
 export default function RedirectIfUnauth() {
     const { push } = useRouter()
     const authInfo = useAuthInfo()
+    const [isInitialized, setIsInitialized] = useState(false)
     const pathname = usePathname()
 
     useEffect(() => {
-        if (!pathname || authInfo) return
+        currentAuthInfoPromise.then(
+            () => setIsInitialized(true),
+            () => setIsInitialized(true),
+        )
+    }, [])
+
+    useEffect(() => {
+        if (!isInitialized || !pathname || authInfo) return
 
         const toLocation: Route = ['/logout', '/policy'].includes(pathname)
             ? '/'
             : `/login?redirectTo=${pathname}`
 
         push(toLocation)
-    }, [authInfo, pathname, push])
+    }, [authInfo, isInitialized, pathname, push])
 
     return null
 }
