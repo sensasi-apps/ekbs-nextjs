@@ -22,7 +22,7 @@ export const currentAuthInfoPromise: Promise<AuthInfo | undefined> =
               .get('/sanctum/csrf-cookie')
               .then(() => myAxios.get<AuthInfo | null>('/current-auth-info'))
               .then(({ data }) => {
-                  const currentAuthInfo = getCurrentAuthInfo()
+                  const currentAuthInfo = getCurrentAuthInfo() ?? undefined
                   const nextAuthInfo = data ?? undefined
 
                   if (
