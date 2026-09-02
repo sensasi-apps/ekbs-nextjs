@@ -2,10 +2,7 @@ import { expect, test, vi } from 'vitest'
 import '@/test-utils/mock-setup'
 
 const { get } = vi.hoisted(() => ({
-    get: vi
-        .fn()
-        .mockResolvedValueOnce({})
-        .mockResolvedValueOnce({ data: null }),
+    get: vi.fn().mockResolvedValueOnce({}).mockResolvedValueOnce({ data: '' }),
 }))
 
 vi.mock('axios', async importOriginal => {
@@ -25,7 +22,7 @@ vi.mock('axios', async importOriginal => {
     }
 })
 
-test('does not reload when browser and server are unauthenticated', async () => {
+test('does not reload for an empty unauthenticated response', async () => {
     localStorage.removeItem('currentAuthInfo')
     const removeItem = vi.spyOn(localStorage, 'removeItem')
     const { currentAuthInfoPromise } = await import('./axios')

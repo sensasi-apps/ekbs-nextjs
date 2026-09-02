@@ -23,7 +23,7 @@ export const currentAuthInfoPromise: Promise<AuthInfo | undefined> =
               .then(() => myAxios.get<AuthInfo | null>('/current-auth-info'))
               .then(({ data }) => {
                   const currentAuthInfo = getCurrentAuthInfo() ?? undefined
-                  const nextAuthInfo = data ?? undefined
+                  const nextAuthInfo = data || undefined
 
                   if (
                       JSON.stringify(currentAuthInfo) !==
