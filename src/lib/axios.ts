@@ -4,9 +4,10 @@ import axios, { AxiosError } from 'axios'
 // vendors
 import { enqueueSnackbar } from 'notistack'
 import { LS_KEY } from '@/hooks/use-auth-info'
+import type AuthInfo from '@/modules/user/types/auth-info'
+import { getCurrentAuthInfo } from '@/utils/get-current-auth-info'
 // utils
 import { handleServerError } from './axios/functions/handle-server-error'
-import { getCurrentAuthToken } from './axios/getCurrentAuthToken'
 
 const myAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
@@ -14,46 +15,54 @@ const myAxios = axios.create({
     withXSRFToken: true,
 })
 
-if (typeof window !== 'undefined') {
-    myAxios
-        .get('/sanctum/csrf-cookie')
-        .then(() => {
-            const token = getCurrentAuthToken()
+export const currentAuthInfoPromise: Promise<AuthInfo | undefined> =
+    typeof window === 'undefined'
+        ? Promise.resolve(undefined)
+        : myAxios
+              .get('/sanctum/csrf-cookie')
+              .then(() => myAxios.get<AuthInfo | null>('/current-auth-info'))
+              .then(({ data }) => {
+                  const currentAuthInfo = getCurrentAuthInfo()
+                  const nextAuthInfo = data ?? undefined
 
-            if (!token) {
-                myAxios.get('/current-auth-info').then(res => {
-                    if (res.data) {
-                        localStorage.setItem(LS_KEY, JSON.stringify(res.data))
-                        window.location.reload()
-                    }
-                })
-            }
-        })
-        .catch((error: AxiosError) => {
-            const { response, code, message } = error
+                  if (
+                      JSON.stringify(currentAuthInfo) !==
+                      JSON.stringify(nextAuthInfo)
+                  ) {
+                      if (nextAuthInfo) {
+                          localStorage.setItem(
+                              LS_KEY,
+                              JSON.stringify(nextAuthInfo),
+                          )
+                      } else {
+                          localStorage.removeItem(LS_KEY)
+                      }
 
-            if (response) {
-                handleServerError(response)
-            } else if (code !== AxiosError.ERR_NETWORK) {
-                enqueueSnackbar(message ?? 'Terjadi kesalahan.', {
-                    persist: true,
-                    variant: 'error',
-                })
-            }
+                      window.location.reload()
+                  }
 
-            if (response || code !== AxiosError.ERR_NETWORK) {
-                throw error
-            }
-        })
-}
+                  return nextAuthInfo
+              })
+              .catch((error: AxiosError) => {
+                  const { response, code, message } = error
+
+                  if (response) {
+                      handleServerError(response)
+                  } else if (code !== AxiosError.ERR_NETWORK) {
+                      enqueueSnackbar(message ?? 'Terjadi kesalahan.', {
+                          persist: true,
+                          variant: 'error',
+                      })
+                  }
+
+                  if (response || code !== AxiosError.ERR_NETWORK) {
+                      throw error
+                  }
+
+                  return getCurrentAuthInfo() ?? undefined
+              })
 
 myAxios.interceptors.request.use(config => {
-    const token = getCurrentAuthToken()
-
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`
-    }
-
     config.baseURL += '/api'
 
     return config

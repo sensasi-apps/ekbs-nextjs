@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import LoadingCenter from '@/components/statuses/loading-center'
 // hooks
 import useAuthInfoState from '@/hooks/use-auth-info-state'
-import myAxios from '@/lib/axios'
+import myAxios, { currentAuthInfoPromise } from '@/lib/axios'
 
 export default function Page() {
     useLogout()
@@ -19,17 +19,11 @@ export default function Page() {
 }
 
 function useLogout() {
-    const [authInfo, setAuthInfo] = useAuthInfoState()
+    const [, setAuthInfo] = useAuthInfoState()
 
     useEffect(() => {
-        if (!authInfo) return
-
-        if (authInfo?.should_revoke_access_token_on_logout) {
-            myAxios.post('/revoke-access-token')
-        }
-
-        myAxios.post('/logout').then(() => {
-            setAuthInfo(undefined)
-        })
-    }, [authInfo, setAuthInfo])
+        currentAuthInfoPromise
+            .then(() => myAxios.post('/logout'))
+            .then(() => setAuthInfo(undefined))
+    }, [setAuthInfo])
 }
