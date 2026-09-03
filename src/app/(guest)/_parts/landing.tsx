@@ -97,7 +97,9 @@ function PublicPagesSection() {
     return (
         <Section introText="kunjungi halaman publik">
             <Box display="flex" flexWrap="wrap" gap={2}>
-                <Fab href="katalog-saprodi" {...FAB_DEFAULT_PROPS}>
+                <Fab
+                    href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/katalog-saprodi`}
+                    {...FAB_DEFAULT_PROPS}>
                     <Warehouse sx={MR_ICON_DEFAULT_SX} />
                     Katalog Saprodi
                 </Fab>

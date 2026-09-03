@@ -74,7 +74,7 @@ export const farmInputsNavItemGroup: NavItemGroup = {
             label: 'Penjualan BBM ke Alat Berat',
         },
         {
-            href: '/katalog-saprodi',
+            href: `${process.env.NEXT_PUBLIC_V2_DOMAIN}/katalog-saprodi`,
             icon: Warehouse,
             label: 'Katalog',
         },
