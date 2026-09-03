@@ -1,5 +1,3 @@
-// types
-
 // materials
 import Autocomplete from '@mui/material/Autocomplete'
 import Chip from '@mui/material/Chip'
@@ -14,14 +12,16 @@ import dayjs from 'dayjs'
 import type { FormikProps } from 'formik'
 import { FastField } from 'formik'
 // vendors
-import { useState } from 'react'
-import DatePicker from '@/components/date-picker'
+import { Activity, useState } from 'react'
 // components
+import DatePicker from '@/components/date-picker'
 import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 import NumericFormat from '@/components/numeric-format'
 import TextField from '@/components/text-field'
+// enums
 import TransactionTag from '@/modules/transaction/enums/transaction-tag'
+// types
 import type CashType from '@/types/orms/cash'
 // utils
 import errorsToHelperTextObj from '@/utils/errors-to-helper-text-obj'
@@ -33,13 +33,12 @@ export default function WalletTxForm({
     dirty,
     errors,
     isSubmitting,
-    values: { from_cash_uuid },
+    values: { from_cash_uuid, type, to_business_unit_cash_uuid },
     setFieldValue,
 }: FormikProps<FormValuesType>) {
     const [fromCash, setFromCash] = useState<CashType>()
-
-    const isPropcessing = isSubmitting
-    const disabled = isPropcessing
+    const [toBusinessUnitCash, setToBusinessUnitCash] = useState<CashType>()
+    const [cashType, setCashType] = useState<'cash' | 'business-unit'>()
 
     return (
         <FormikForm
@@ -47,16 +46,15 @@ export default function WalletTxForm({
             dirty={dirty}
             id="user-wallet-tx-form"
             isNew={false}
-            processing={isPropcessing}
+            processing={isSubmitting}
             slotProps={{
                 submitButton: {
-                    disabled: disabled,
+                    disabled: isSubmitting,
                 },
             }}
             submitting={isSubmitting}>
-            <FormControl disabled={disabled} size="small">
+            <FormControl disabled={isSubmitting} size="small">
                 <FormLabel id="tx-radio-group">Jenis</FormLabel>
-
                 <RadioGroup
                     aria-labelledby="tx-radio-group"
                     onChange={({ target: { value } }) =>
@@ -65,21 +63,45 @@ export default function WalletTxForm({
                     row>
                     <FormControlLabel
                         control={<Radio size="small" />}
-                        label="Masuk"
+                        label="Masuk ke Wallet"
                         required
                         value="in"
                     />
 
                     <FormControlLabel
                         control={<Radio size="small" />}
-                        label="Keluar"
+                        label="Keluar dari Wallet"
                         value="out"
                     />
                 </RadioGroup>
             </FormControl>
 
+            <FormControl disabled={isSubmitting} size="small">
+                <RadioGroup
+                    aria-labelledby="tx-radio-group"
+                    onChange={({ target: { value } }) => {
+                        setCashType(value as 'cash' | 'business-unit')
+                        setFieldValue('from_cash_uuid', null)
+                        setFieldValue('to_business_unit_cash_uuid', null)
+                    }}
+                    row>
+                    <FormControlLabel
+                        control={<Radio size="small" />}
+                        label="Melalui Kas"
+                        required
+                        value="cash"
+                    />
+
+                    <FormControlLabel
+                        control={<Radio size="small" />}
+                        label={(type === 'in' ? 'Dari' : 'Ke') + ' Unit Bisnis'}
+                        value="business-unit"
+                    />
+                </RadioGroup>
+            </FormControl>
+
             <DatePicker
-                disabled={disabled}
+                disabled={isSubmitting}
                 label="Tanggal"
                 maxDate={dayjs().endOf('month')}
                 onChange={value =>
@@ -87,45 +109,78 @@ export default function WalletTxForm({
                 }
             />
 
-            <SelectFromApi
-                disabled={disabled}
-                endpoint="/data/cashes2"
-                error={Boolean(errors?.from_cash_uuid)}
-                helperText={
-                    errors.from_cash_uuid ??
-                    'Saldo: ' + numberToCurrency(fromCash?.balance ?? 0)
-                }
-                label="Melalui Kas"
-                margin="dense"
-                onValueChange={(cash: CashType) => {
-                    setFromCash(cash)
-                    setFieldValue('from_cash_uuid', cash.uuid)
-                }}
-                renderOption={(cash: CashType) => (
-                    <MenuItem key={cash.uuid} value={cash.uuid}>
-                        {cash.code && (
-                            <Chip
-                                label={cash.code}
-                                size="small"
-                                sx={{
-                                    mr: 1,
-                                }}
-                                variant="outlined"
-                            />
-                        )}
+            <Activity mode={cashType === 'cash' ? 'visible' : 'hidden'}>
+                <SelectFromApi
+                    disabled={isSubmitting}
+                    endpoint="/data/cashes"
+                    error={Boolean(errors?.from_cash_uuid)}
+                    helperText={
+                        errors.from_cash_uuid ??
+                        'Saldo: ' + numberToCurrency(fromCash?.balance ?? 0)
+                    }
+                    label="Melalui Kas"
+                    margin="dense"
+                    onValueChange={(cash: CashType) => {
+                        setFromCash(cash)
+                        setToBusinessUnitCash(undefined)
 
-                        {cash.name}
-                    </MenuItem>
-                )}
-                required
-                selectProps={{
-                    value: from_cash_uuid ?? '',
-                }}
-                size="small"
-            />
+                        setFieldValue('from_cash_uuid', cash.uuid)
+                    }}
+                    renderOption={(cash: CashType) => (
+                        <MenuItem key={cash.uuid} value={cash.uuid}>
+                            {cash.code && (
+                                <Chip
+                                    label={cash.code}
+                                    size="small"
+                                    sx={{
+                                        mr: 1,
+                                    }}
+                                    variant="outlined"
+                                />
+                            )}
+
+                            {cash.name}
+                        </MenuItem>
+                    )}
+                    required={cashType === 'cash'}
+                    selectProps={{
+                        value: from_cash_uuid ?? '',
+                    }}
+                />
+            </Activity>
+
+            <Activity
+                mode={cashType === 'business-unit' ? 'visible' : 'hidden'}>
+                <SelectFromApi
+                    disabled={isSubmitting}
+                    endpoint="/data/business-unit-cashes2"
+                    error={Boolean(errors?.to_business_unit_cash_uuid)}
+                    helperText={
+                        errors.to_business_unit_cash_uuid ??
+                        'Saldo: ' +
+                            numberToCurrency(toBusinessUnitCash?.balance ?? 0)
+                    }
+                    label={(type === 'in' ? 'Dari' : 'Ke') + ' Unit Bisnis'}
+                    margin="dense"
+                    onValueChange={(cash: CashType) => {
+                        setFromCash(undefined)
+                        setToBusinessUnitCash(cash)
+                        setFieldValue('to_business_unit_cash_uuid', cash.uuid)
+                    }}
+                    renderOption={(cash: CashType) => (
+                        <MenuItem key={cash.uuid} value={cash.uuid}>
+                            {cash.name}
+                        </MenuItem>
+                    )}
+                    required={cashType === 'business-unit'}
+                    selectProps={{
+                        value: to_business_unit_cash_uuid ?? '',
+                    }}
+                />
+            </Activity>
 
             <NumericFormat
-                disabled={disabled}
+                disabled={isSubmitting}
                 InputProps={{
                     startAdornment: <RpInputAdornment />,
                 }}
@@ -138,17 +193,17 @@ export default function WalletTxForm({
             />
 
             <Autocomplete
-                disabled={disabled}
+                disabled={isSubmitting}
                 onChange={(_, value) => setFieldValue('tag', value)}
                 options={[
-                    TransactionTag.ARISAN,
+                    TransactionTag.ANGSURAN_ALAT_BERAT,
                     TransactionTag.ANGSURAN_BELAYAN_SPARE_PARTS,
-                    TransactionTag.EXCAVATOR,
                     TransactionTag.GAJIAN_TBS,
                     TransactionTag.KOREKSI,
                     TransactionTag.POTONGAN_JASA_PANEN,
                     TransactionTag.POTONGAN_JASA_PERAWATAN,
                     TransactionTag.TARIK_TUNAI,
+                    TransactionTag.LAIN_LAIN,
                 ]}
                 renderInput={params => (
                     <TextField
@@ -162,7 +217,7 @@ export default function WalletTxForm({
 
             <FastField
                 component={TextFieldFastableComponent}
-                disabled={disabled}
+                disabled={isSubmitting}
                 label="Keterangan"
                 multiline
                 name="desc"
@@ -177,6 +232,7 @@ type FormValuesType = Partial<{
     amount: number
     desc: string
     from_cash_uuid: UUID
+    to_business_unit_cash_uuid: UUID
     type: 'in' | 'out'
     tag: TransactionTag
 }>

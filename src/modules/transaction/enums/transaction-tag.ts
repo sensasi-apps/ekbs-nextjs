@@ -3,11 +3,20 @@
  */
 enum TransactionTag {
     // general
+
+    /**
+     * @deprecated  need to update database for previous tsx before deletion
+     */
     ARISAN = 'Arisan',
+
+    /**
+     * @deprecated  need to update database for previous tsx before deletion
+     */
     EXCAVATOR = 'Excavator',
     GAJIAN_TBS = 'Gajian TBS',
     KOREKSI = 'Koreksi',
     TARIK_TUNAI = 'Tarik Tunai',
+    LAIN_LAIN = 'Lain-lain',
 
     // palm bunch / TBS
     PELUNASAN_TBS = 'Pelunasan TBS',

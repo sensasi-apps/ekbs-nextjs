@@ -1,5 +1,3 @@
-// types
-
 // materials
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -379,14 +377,20 @@ function getTotalAndData(
     }
 
     const txses = txs.reduce<TxsGroup[]>((acc, tx) => {
-        const tag =
-            tx.tags[0]?.name.id === TransactionTag.GAJIAN_TBS
-                ? tx.cash_transfer_origin?.transaction_destination?.cash?.name
-                : tx.tags[0]?.name.id
+        const tag = tx.tags.some(
+            tag => tag.name.id === TransactionTag.GAJIAN_TBS,
+        )
+            ? tx.cash_transfer_origin?.transaction_destination?.cash?.name
+            : tx.tags.some(tag => tag.name.id === TransactionTag.LAIN_LAIN)
+              ? tx.desc?.trim()
+              : tx.tags[0]?.name.id
         const index = acc.findIndex(d => d.name === tag)
 
         if (index === -1) {
-            acc.push({ data: [tx], name: tag ?? 'Lain-lain' })
+            acc.push({
+                data: [tx],
+                name: tag ?? 'Lain-lain',
+            })
         } else {
             acc[index].data.push(tx)
         }
