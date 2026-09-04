@@ -9,8 +9,6 @@ import FormHelperText from '@mui/material/FormHelperText'
 import Switch from '@mui/material/Switch'
 // vendors
 import { Field, type FieldProps } from 'formik'
-import { useState } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
 
 interface BooleanFieldBaseProps {
     name: string
@@ -47,12 +45,6 @@ function InnerComponent({
     Omit<BooleanFieldBaseProps, 'name'> &
     ShouldBeACheckboxOrSwitch) {
     const { error, value } = getFieldMeta<boolean>(name)
-    const [innerValue, setInnerValue] = useState(value)
-
-    const debounceSetFieldValue = useDebouncedCallback(
-        (value: boolean) => setFieldValue(name, value),
-        250,
-    )
 
     const Control = checkbox ? Checkbox : Switch
 
@@ -62,11 +54,10 @@ function InnerComponent({
                 <FormControlLabel
                     control={
                         <Control
-                            checked={innerValue}
-                            onChange={({ target: { checked } }) => {
-                                setInnerValue(checked)
-                                debounceSetFieldValue(checked)
-                            }}
+                            checked={value}
+                            onChange={({ target: { checked } }) =>
+                                setFieldValue(name, checked)
+                            }
                         />
                     }
                     disabled={disabled || isSubmitting || status.isDisabled}
