@@ -31,7 +31,7 @@ export const heavyEquipments: NavItemGroup = {
         },
         {
             forPermission: HeavyEquipmentRent.READ,
-            href: `${process.env.NEXT_PUBLIC_BACKEND_URL}/heavy-equipment-rents`,
+            href: `${process.env.NEXT_PUBLIC_V2_DOMAIN}/heavy-equipment-rents`,
             icon: EventNote,
             label: 'Penyewaan',
         },
