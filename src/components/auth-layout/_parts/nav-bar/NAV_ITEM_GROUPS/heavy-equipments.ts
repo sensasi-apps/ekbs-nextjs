@@ -30,19 +30,10 @@ export const heavyEquipments: NavItemGroup = {
             label: 'Piutang',
         },
         {
-            forPermission: [
-                HeavyEquipmentRent.CREATE,
-                HeavyEquipmentRent.UPDATE,
-            ],
-            href: '/heavy-equipment-rents/rents',
+            forPermission: HeavyEquipmentRent.READ,
+            href: `${process.env.NEXT_PUBLIC_BACKEND_URL}/heavy-equipment-rents`,
             icon: EventNote,
             label: 'Penyewaan',
-        },
-        {
-            forPermission: HeavyEquipmentRent.FINISH_TASK,
-            href: '/heavy-equipment-rents/tasks',
-            icon: EventNote,
-            label: 'Tugas',
         },
     ],
     label: 'Alat Berat',
