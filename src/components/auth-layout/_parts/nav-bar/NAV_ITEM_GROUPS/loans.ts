@@ -26,9 +26,9 @@ export const loans: NavItemGroup = {
         },
         {
             forPermission: UserLoan.READ,
-            href: '/loans/manages',
+            href: `${process.env.NEXT_PUBLIC_V2_DOMAIN}/saving-and-loan/loans`,
             icon: BackupTable,
-            label: 'Kelola',
+            label: 'Pinjaman',
         },
         // {
         //     href: '/user-loans/reviews',
