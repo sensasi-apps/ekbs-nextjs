@@ -3,7 +3,6 @@ import type { UUID } from 'crypto'
 import type UserLoanStatusEnum from '@/modules/installment/enums/user-loan-status'
 import type InstallmentORM from '@/modules/installment/types/orms/installment'
 // modules
-import type UserLoanResponseORM from '@/modules/installment/types/orms/user-loan-response'
 import type TransactionORM from '@/modules/transaction/types/orms/transaction'
 // auth modules
 import type UserType from '@/modules/user/types/orms/user'
@@ -30,5 +29,4 @@ export default interface UserLoanORM {
     transaction?: TransactionORM
     is_approved?: boolean
     installments?: InstallmentORM[]
-    responses?: UserLoanResponseORM[]
 }
