@@ -1,11 +1,8 @@
-// types
-
-import AlignHorizontalLeft from '@mui/icons-material/AlignHorizontalLeft'
 // icons-materials
-import AutoStories from '@mui/icons-material/AutoStories'
-import BackupTable from '@mui/icons-material/BackupTable'
-import CurrencyExchange from '@mui/icons-material/CurrencyExchange'
-import PointOfSale from '@mui/icons-material/PointOfSale'
+import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet'
+import Payments from '@mui/icons-material/Payments'
+import QueryStats from '@mui/icons-material/QueryStats'
+import RequestQuote from '@mui/icons-material/RequestQuote'
 // enums
 import UserLoan from '@/enums/permissions/UserLoan'
 import type NavItemGroup from '../types/nav-item-group'
@@ -15,44 +12,26 @@ export const loans: NavItemGroup = {
         {
             forPermission: UserLoan.READ_STATISTIC,
             href: '/loans/statistics',
-            icon: AlignHorizontalLeft,
+            icon: QueryStats,
             label: 'Statistik',
         },
         {
             forPermission: UserLoan.READ_STATISTIC,
             href: '/loans/cashes',
-            icon: AutoStories,
+            icon: AccountBalanceWallet,
             label: 'Kas',
         },
         {
             forPermission: UserLoan.READ,
             href: `${process.env.NEXT_PUBLIC_V2_DOMAIN}/saving-and-loan/loans`,
-            icon: BackupTable,
-            label: 'Pinjaman',
+            icon: RequestQuote,
+            label: 'Kelola Pinjaman',
         },
-        // {
-        //     href: '/user-loans/reviews',
-        //     label: 'Persetujuan',
-        //     icon: RateReview,
-        //     forPermission: UserLoan.READ_NEED_REVIEW,
-        // },
-        // {
-        //     href: '/user-loans/disburses',
-        //     label: 'Pencairan',
-        //     icon: RequestQuote,
-        //     forPermission: UserLoan.READ_NEED_DISBURSE,
-        // },
         {
             forPermission: UserLoan.READ_INSTALLMENT,
             href: '/loans/installments',
-            icon: PointOfSale,
-            label: 'Angsuran',
-        },
-        {
-            forPermission: UserLoan.READ_OWN,
-            href: '/loans',
-            icon: CurrencyExchange,
-            label: 'Pinjaman Anda',
+            icon: Payments,
+            label: 'Pembayaran Angsuran',
         },
     ],
     label: 'Simpan Pinjam',
