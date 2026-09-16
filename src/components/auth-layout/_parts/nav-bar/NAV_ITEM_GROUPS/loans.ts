@@ -1,7 +1,6 @@
 // icons-materials
 import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet'
 import Payments from '@mui/icons-material/Payments'
-import QueryStats from '@mui/icons-material/QueryStats'
 import RequestQuote from '@mui/icons-material/RequestQuote'
 // enums
 import UserLoan from '@/enums/permissions/UserLoan'
@@ -9,12 +8,6 @@ import type NavItemGroup from '../types/nav-item-group'
 
 export const loans: NavItemGroup = {
     items: [
-        {
-            forPermission: UserLoan.READ_STATISTIC,
-            href: '/loans/statistics',
-            icon: QueryStats,
-            label: 'Statistik',
-        },
         {
             forPermission: UserLoan.READ_STATISTIC,
             href: '/loans/cashes',
