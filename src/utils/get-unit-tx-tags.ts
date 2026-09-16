@@ -10,7 +10,6 @@ export default function getUnitTxTags(
     if (
         ![
             BusinessUnit.SAPRODI,
-            BusinessUnit.SPP,
             BusinessUnit.ALAT_BERAT,
             BusinessUnit.TBS,
         ].includes(businessUnit)
@@ -22,8 +21,6 @@ export default function getUnitTxTags(
             return getSaprodiTags(type).sort()
         case BusinessUnit.ALAT_BERAT:
             return getHeTags(type)
-        case BusinessUnit.SPP:
-            return getUserLoanTags(type)
         case BusinessUnit.TBS:
             return getPalmBunchTags(type)
     }
@@ -62,23 +59,6 @@ function getSaprodiTags(type: TypeType): string[] {
         TransactionTag.BEBAN_JASA_BAGI_HASIL_INVESTASI,
         TransactionTag.BEBAN_PERAWATAN_KANTOR,
         ...basicTags,
-    ]
-}
-
-function getUserLoanTags(type: TypeType): string[] {
-    if (type === 'income') {
-        return [
-            TransactionTag.PENDAPATAN_DENDA,
-            TransactionTag.PENDAPATAN_BUNGA_BANK,
-            ...getBasicTags(type),
-        ]
-    }
-
-    return [
-        TransactionTag.BEBAN_AIR_DAN_LISTRIK,
-        TransactionTag.BEBAN_OPERASIONAL,
-        TransactionTag.BEBAN_JASA_SIMPANAN,
-        ...getBasicTags(type),
     ]
 }
 

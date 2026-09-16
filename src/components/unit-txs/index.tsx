@@ -306,10 +306,6 @@ const DATATABLE_COLUMNS: DataTableProps<CustomTx>['columns'] = [
 
 function getStatApiUrl(businessUnit: BusinessUnit) {
     switch (businessUnit) {
-        case BusinessUnit.SPP:
-            return 'user-loans/statistic-data'
-            break
-
         case BusinessUnit.SAPRODI:
             return 'farm-inputs/statistic-data'
             break
