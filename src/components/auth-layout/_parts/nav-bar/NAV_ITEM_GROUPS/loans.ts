@@ -10,7 +10,7 @@ export const loans: NavItemGroup = {
     items: [
         {
             forPermission: UserLoan.READ_STATISTIC,
-            href: '/loans/cashes',
+            href: `${process.env.NEXT_PUBLIC_V2_DOMAIN}/saving-and-loan/cashes`,
             icon: AccountBalanceWallet,
             label: 'Kas',
         },
