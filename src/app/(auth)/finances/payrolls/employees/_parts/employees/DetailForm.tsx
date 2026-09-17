@@ -158,6 +158,15 @@ export default function PayrollEmployeeDetailsForm({
                                                             )
                                                         }
                                                         freeSolo
+                                                        onChange={(
+                                                            _,
+                                                            newValue,
+                                                        ) =>
+                                                            setFieldValue(
+                                                                name,
+                                                                newValue ?? '',
+                                                            )
+                                                        }
                                                         options={[
                                                             'Gaji Pokok',
                                                             'T. Jabatan',
