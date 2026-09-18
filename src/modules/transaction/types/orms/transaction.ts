@@ -18,7 +18,10 @@ export default interface Transaction {
         | CashType['uuid']
         | WalletType['uuid']
         | BusinessUnitCash['uuid']
-    cashable_classname: CashableClassname
+    cashable_classname:
+        | CashableClassname.BusinessUnitCash
+        | CashableClassname.Cash
+        | CashableClassname.UserCash
 
     // appends
     short_uuid: string
