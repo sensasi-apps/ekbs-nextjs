@@ -22,7 +22,9 @@ export const loans: NavItemGroup = {
         },
         {
             forPermission: UserLoan.READ_INSTALLMENT,
-            href: '/loans/installments',
+            href:
+                process.env.NEXT_PUBLIC_V2_DOMAIN +
+                '/saving-and-loan/loans/installments',
             icon: Payments,
             label: 'Pembayaran Angsuran',
         },
