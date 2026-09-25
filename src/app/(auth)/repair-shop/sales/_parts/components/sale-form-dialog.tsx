@@ -58,7 +58,27 @@ export default function SaleFormDialog({
                 <Formik<SaleFormValues>
                     component={SaleFormikForm}
                     initialStatus={status}
-                    initialValues={formData}
+                    initialValues={{
+                        ...formData,
+                        installment_data: formData.installment_data ?? {
+                            n_term: 1,
+                        },
+                        spare_part_margins: formData.spare_parts.map(
+                            (sparePart, index) =>
+                                formData.spare_part_margins?.[index] ?? {
+                                    _base_rp_per_unit:
+                                        sparePart.spare_part_state
+                                            ?.warehouses?.[0]
+                                            ?.base_rp_per_unit ?? 0,
+                                    margin_percentage:
+                                        sparePart.spare_part_state
+                                            ?.warehouses?.[0]
+                                            ?.installment_margin_percent ?? 0,
+                                    spare_part_warehouse_id:
+                                        sparePart.spare_part_warehouse_id ?? 0,
+                                },
+                        ),
+                    }}
                     onReset={handleClose}
                     onSubmit={(values, { setErrors, resetForm }) => {
                         const axiosInstance = values.uuid
