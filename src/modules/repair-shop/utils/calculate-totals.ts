@@ -27,6 +27,8 @@ export default function calculateTotals({
         payment_method === 'installment'
             ? (spare_part_margins
                   ?.map(sparePartMargin => {
+                      if (!sparePartMargin) return 0
+
                       const sparePart = spare_parts?.find(
                           sparePart =>
                               sparePart.spare_part_warehouse_id ===

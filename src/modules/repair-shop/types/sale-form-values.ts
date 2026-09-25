@@ -19,7 +19,7 @@ export default interface SaleFormValues {
     installment_data?: {
         n_term: number
         term_unit?: 'minggu' | 'bulan'
-    }
+    } | null
 
     // business unit
     business_unit_cash_uuid?: string
@@ -31,11 +31,11 @@ export default interface SaleFormValues {
         rp_per_unit: number
     }>[]
 
-    spare_part_margins?: {
+    spare_part_margins?: ({
         _base_rp_per_unit: number // temporary value
         spare_part_warehouse_id: number
         margin_percentage: number
-    }[]
+    } | null)[]
 
     services: Partial<{
         state?: Service // if defined, it's an existing sale
