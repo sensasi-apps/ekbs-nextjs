@@ -1,3 +1,5 @@
+// icons
+import DeleteIcon from '@mui/icons-material/Delete'
 // materials
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
@@ -6,15 +8,19 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { Formik, type FormikProps, useFormikContext } from 'formik'
+import { useSWRConfig } from 'swr'
 import SparePartsArrayField from '@/app/(auth)/repair-shop/sales/_parts/components/spare-parts-array-field'
 // formik
+import ConfirmationDialogWithButton from '@/components/confirmation-dialog-with-button'
 import BooleanField from '@/components/formik-fields/boolean-field'
 import DateField from '@/components/formik-fields/date-field'
 import TextField from '@/components/formik-fields/text-field'
 import UserSelect from '@/components/formik-fields/user-select'
 import FormikForm from '@/components/formik-form-v2'
+import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // utils
 import myAxios from '@/lib/axios'
+import Permission from '@/modules/repair-shop/enums/permission'
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
 import handle422 from '@/utils/handle-422'
@@ -35,6 +41,14 @@ export default function SaleFormDialog({
     handleClose: () => void
 }) {
     const isNew = !formData?.uuid
+    const hasPermission = useIsAuthHasPermission()
+    const { mutate } = useSWRConfig()
+    const saleUuid = formData.uuid
+    const canDelete =
+        saleUuid &&
+        formData.payment_method == null &&
+        !status.isDisabled &&
+        hasPermission(Permission.UPDATE_SALE)
 
     return (
         <Dialog disablePortal fullScreen maxWidth="md" open>
@@ -45,7 +59,40 @@ export default function SaleFormDialog({
                         sm: undefined,
                     },
                 }}>
-                {isNew ? 'Tambah' : 'Rincian'} Data Penjualan
+                <Box
+                    alignItems="center"
+                    display="flex"
+                    justifyContent="space-between">
+                    <span>{isNew ? 'Tambah' : 'Rincian'} Data Penjualan</span>
+                    {canDelete && saleUuid && (
+                        <ConfirmationDialogWithButton
+                            buttonProps={{
+                                size: 'small',
+                                startIcon: <DeleteIcon />,
+                                variant: 'outlined',
+                            }}
+                            buttonText="Hapus"
+                            color="error"
+                            onConfirm={() =>
+                                myAxios
+                                    .delete(`repair-shop/sales/${saleUuid}`)
+                                    .then(async () => {
+                                        await mutate(
+                                            key =>
+                                                Array.isArray(key) &&
+                                                key[0] ===
+                                                    'repair-shop/sales/datatable',
+                                        )
+                                        handleClose()
+                                    })
+                            }
+                            shouldConfirm
+                            title="Konfirmasi Hapus Penjualan">
+                            Penjualan yang belum dibayar akan dihapus permanen.
+                            Data ini tidak dapat dikembalikan.
+                        </ConfirmationDialogWithButton>
+                    )}
+                </Box>
             </DialogTitle>
 
             <DialogContent
