@@ -10,8 +10,9 @@ import Fade from '@mui/material/Fade'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import Grid from '@mui/material/Grid'
+import { isAxiosError } from 'axios'
 import { FieldArray, Formik, type FormikProps } from 'formik'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import DateField from '@/components/formik-fields/date-field'
 import TextField from '@/components/formik-fields/text-field'
 // components
@@ -19,6 +20,7 @@ import FormikForm from '@/components/formik-form'
 import SelectFromApi from '@/components/Global/SelectFromApi'
 // utils
 import myAxios from '@/lib/axios'
+import DeletePurchaseButton from '@/modules/repair-shop/components/delete-purchase-button'
 // feature scope
 import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 import type CashType from '@/types/orms/cash'
@@ -36,11 +38,22 @@ type FormData = Partial<
 export default function PurchaseFormDialog({
     formData,
     handleClose,
+    onDeleted,
 }: {
     formData: FormData | undefined
     handleClose: () => void
+    onDeleted?: () => void
 }) {
     const isNew = !formData?.uuid
+    const [deleting, setDeleting] = useState(false)
+    const [saving, setSaving] = useState(false)
+    const deletingRef = useRef(false)
+    const savingRef = useRef(false)
+
+    function onDeletingChange(value: boolean) {
+        deletingRef.current = value
+        setDeleting(value)
+    }
 
     return (
         <Dialog disablePortal fullScreen open>
@@ -50,10 +63,20 @@ export default function PurchaseFormDialog({
 
             <DialogContent>
                 <Formik<FormData>
-                    component={PurchaseFormikForm}
                     initialValues={formData ?? {}}
-                    onReset={handleClose}
-                    onSubmit={(values, { setErrors, resetForm }) => {
+                    onReset={() => {
+                        if (!deletingRef.current && !savingRef.current)
+                            handleClose()
+                    }}
+                    onSubmit={async (values, { setErrors, resetForm }) => {
+                        if (
+                            deletingRef.current ||
+                            savingRef.current ||
+                            values.finalized_at
+                        )
+                            return
+                        savingRef.current = true
+                        setSaving(true)
                         const request = isNew
                             ? myAxios.post(Endpoint.CREATE, values)
                             : myAxios.put(
@@ -64,12 +87,29 @@ export default function PurchaseFormDialog({
                                   values,
                               )
 
-                        return request
-                            .then(resetForm)
-                            .catch(error => handle422(error, setErrors))
+                        try {
+                            await request
+                            savingRef.current = false
+                            resetForm()
+                        } catch (error) {
+                            if (!isAxiosError(error)) throw error
+                            handle422(error, setErrors)
+                        } finally {
+                            savingRef.current = false
+                            setSaving(false)
+                        }
                     }}
-                    validateOnChange={false}
-                />
+                    validateOnChange={false}>
+                    {props => (
+                        <PurchaseFormikForm
+                            {...props}
+                            deleting={deleting}
+                            onDeleted={onDeleted ?? handleClose}
+                            onDeletingChange={onDeletingChange}
+                            saving={saving}
+                        />
+                    )}
+                </Formik>
             </DialogContent>
         </Dialog>
     )
@@ -80,8 +120,18 @@ function PurchaseFormikForm({
     setFieldValue,
     isSubmitting,
     values,
-}: FormikProps<FormData>) {
-    const isDisabled = isSubmitting || !!values.finalized_at
+    deleting,
+    saving,
+    onDeleted,
+    onDeletingChange,
+}: FormikProps<FormData> & {
+    deleting: boolean
+    saving: boolean
+    onDeleted: () => void
+    onDeletingChange: (deleting: boolean) => void
+}) {
+    const isDisabled =
+        isSubmitting || saving || deleting || !!values.finalized_at
 
     return (
         <FormikForm
@@ -89,13 +139,23 @@ function PurchaseFormikForm({
             dirty={dirty}
             id="spare-part-purchase-form"
             isNew={!values.uuid}
-            processing={isSubmitting}
+            processing={isSubmitting || saving || deleting}
             slotProps={{
                 submitButton: {
                     disabled: isDisabled,
                 },
             }}
             submitting={isSubmitting}>
+            {values.uuid && (
+                <Box mb={2}>
+                    <DeletePurchaseButton
+                        disabled={isSubmitting || saving || deleting}
+                        onDeleted={onDeleted}
+                        onDeletingChange={onDeletingChange}
+                        purchaseUuid={values.uuid}
+                    />
+                </Box>
+            )}
             <Grid container spacing={4}>
                 <LeftGrid
                     isDisabled={isDisabled}
