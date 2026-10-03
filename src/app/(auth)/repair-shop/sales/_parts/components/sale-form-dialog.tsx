@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import type { AxiosError } from 'axios'
 import { Formik, type FormikProps, useFormikContext } from 'formik'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useSWRConfig } from 'swr'
 import SparePartsArrayField from '@/app/(auth)/repair-shop/sales/_parts/components/spare-parts-array-field'
 // formik
@@ -25,6 +25,7 @@ import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // utils
 import myAxios from '@/lib/axios'
+import DeleteSaleButton from '@/modules/repair-shop/components/delete-sale-button'
 import Permission from '@/modules/repair-shop/enums/permission'
 import useSaleSubmission from '@/modules/repair-shop/hooks/use-sale-submission'
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
@@ -53,9 +54,13 @@ export default function SaleFormDialog({
     const authInfo = useAuthInfo()
     const submission = useSaleSubmission(authInfo?.uuid, saleUuid)
     const form = useRef<FormikProps<SaleFormValues>>(null)
+    const [isDeleting, setIsDeleting] = useState(false)
     const initialValues = submission.pending?.values ?? formData
     const isLocked =
-        Boolean(submission.pending) || submission.blocked || !submission.ready
+        Boolean(submission.pending) ||
+        submission.blocked ||
+        submission.sending ||
+        !submission.ready
     const finishSubmission = () => {
         handleClose()
         void mutate(
@@ -70,6 +75,7 @@ export default function SaleFormDialog({
         formData.payment_method == null &&
         !status.isDisabled &&
         !isLocked &&
+        !isDeleting &&
         hasPermission(Permission.UPDATE_SALE)
 
     return (
@@ -86,34 +92,44 @@ export default function SaleFormDialog({
                     display="flex"
                     justifyContent="space-between">
                     <span>{isNew ? 'Tambah' : 'Rincian'} Data Penjualan</span>
-                    {canDelete && saleUuid && (
-                        <ConfirmationDialogWithButton
-                            buttonProps={{
-                                size: 'small',
-                                startIcon: <DeleteIcon />,
-                                variant: 'outlined',
-                            }}
-                            buttonText="Hapus"
-                            color="error"
-                            onConfirm={() =>
-                                myAxios
-                                    .delete(`repair-shop/sales/${saleUuid}`)
-                                    .then(async () => {
-                                        await mutate(
-                                            key =>
-                                                Array.isArray(key) &&
-                                                key[0] ===
-                                                    'repair-shop/sales/datatable',
-                                        )
-                                        handleClose()
-                                    })
-                            }
-                            shouldConfirm
-                            title="Konfirmasi Hapus Penjualan">
-                            Penjualan yang belum dibayar akan dihapus permanen.
-                            Data ini tidak dapat dikembalikan.
-                        </ConfirmationDialogWithButton>
-                    )}
+                    <Box display="flex" gap={1}>
+                        {saleUuid && (
+                            <DeleteSaleButton
+                                disabled={isLocked}
+                                onDeleted={handleClose}
+                                onDeletingChange={setIsDeleting}
+                                saleUuid={saleUuid}
+                            />
+                        )}
+                        {canDelete && saleUuid && (
+                            <ConfirmationDialogWithButton
+                                buttonProps={{
+                                    size: 'small',
+                                    startIcon: <DeleteIcon />,
+                                    variant: 'outlined',
+                                }}
+                                buttonText="Hapus"
+                                color="error"
+                                onConfirm={() =>
+                                    myAxios
+                                        .delete(`repair-shop/sales/${saleUuid}`)
+                                        .then(async () => {
+                                            await mutate(
+                                                key =>
+                                                    Array.isArray(key) &&
+                                                    key[0] ===
+                                                        'repair-shop/sales/datatable',
+                                            )
+                                            handleClose()
+                                        })
+                                }
+                                shouldConfirm
+                                title="Konfirmasi Hapus Penjualan">
+                                Penjualan yang belum dibayar akan dihapus
+                                permanen. Data ini tidak dapat dikembalikan.
+                            </ConfirmationDialogWithButton>
+                        )}
+                    </Box>
                 </Box>
             </DialogTitle>
 
@@ -161,7 +177,7 @@ export default function SaleFormDialog({
                 )}
                 {submission.ready && (
                     <fieldset
-                        disabled={isLocked}
+                        disabled={isLocked || isDeleting}
                         style={{
                             border: 0,
                             margin: 0,
@@ -206,6 +222,7 @@ export default function SaleFormDialog({
                                 values,
                                 { setErrors, setStatus },
                             ) => {
+                                if (isDeleting) return
                                 setStatus({ isDisabled: true })
                                 try {
                                     if (await submission.submit(values))

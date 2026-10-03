@@ -1,8 +1,69 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { expect, test } from 'vitest'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import '@/test-utils/mock-setup'
 import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
 import SaleFormDialog from './sale-form-dialog'
+
+const auth = vi.hoisted(() => ({
+    current: undefined as { uuid: string; role_names: string[] } | undefined,
+}))
+vi.mock('@/hooks/use-auth-info', () => ({ default: () => auth.current }))
+afterEach(cleanup)
+beforeEach(() => {
+    auth.current = undefined
+    sessionStorage.clear()
+})
+
+test('superman can permanently delete a completed read-only sale', async () => {
+    auth.current = { role_names: ['superman'], uuid: 'admin' }
+    render(
+        <SaleFormDialog
+            formData={{
+                is_finished: true,
+                payment_method: 'cash',
+                services: [],
+                spare_parts: [],
+                uuid: 'sale',
+            }}
+            handleClose={() => {}}
+            status={{ isDisabled: true }}
+        />,
+    )
+    expect(
+        await screen.findByRole('button', {
+            hidden: true,
+            name: 'Hapus Permanen',
+        }),
+    ).toHaveProperty('disabled', false)
+}, 10000)
+
+test('an unresolved submission prevents permanent deletion in the actual sale dialog', async () => {
+    auth.current = { role_names: ['superman'], uuid: 'admin' }
+    const values = { services: [], spare_parts: [], uuid: 'sale' }
+    sessionStorage.setItem(
+        'repair-shop:sale-submission:admin:sale',
+        JSON.stringify({
+            expiresAt: Date.now() + 100000,
+            key: 'pending',
+            method: 'PUT',
+            path: 'repair-shop/sales/sale',
+            values,
+        }),
+    )
+    render(
+        <SaleFormDialog
+            formData={values}
+            handleClose={() => {}}
+            status={{ isDisabled: false }}
+        />,
+    )
+    expect(
+        await screen.findByRole('button', {
+            hidden: true,
+            name: 'Hapus Permanen',
+        }),
+    ).toHaveProperty('disabled', true)
+}, 10000)
 
 test('can choose installment for an unpaid sale with no saved margins', () => {
     render(
