@@ -1,13 +1,17 @@
 // icons
 import DeleteIcon from '@mui/icons-material/Delete'
+import Alert from '@mui/material/Alert'
 // materials
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import type { AxiosError } from 'axios'
 import { Formik, type FormikProps, useFormikContext } from 'formik'
+import { useRef } from 'react'
 import { useSWRConfig } from 'swr'
 import SparePartsArrayField from '@/app/(auth)/repair-shop/sales/_parts/components/spare-parts-array-field'
 // formik
@@ -17,10 +21,12 @@ import DateField from '@/components/formik-fields/date-field'
 import TextField from '@/components/formik-fields/text-field'
 import UserSelect from '@/components/formik-fields/user-select'
 import FormikForm from '@/components/formik-form-v2'
+import useAuthInfo from '@/hooks/use-auth-info'
 import useIsAuthHasPermission from '@/hooks/use-is-auth-has-permission'
 // utils
 import myAxios from '@/lib/axios'
 import Permission from '@/modules/repair-shop/enums/permission'
+import useSaleSubmission from '@/modules/repair-shop/hooks/use-sale-submission'
 import type SaleFormValues from '@/modules/repair-shop/types/sale-form-values'
 import calculateTotals from '@/modules/repair-shop/utils/calculate-totals'
 import handle422 from '@/utils/handle-422'
@@ -44,10 +50,26 @@ export default function SaleFormDialog({
     const hasPermission = useIsAuthHasPermission()
     const { mutate } = useSWRConfig()
     const saleUuid = formData.uuid
+    const authInfo = useAuthInfo()
+    const submission = useSaleSubmission(authInfo?.uuid, saleUuid)
+    const form = useRef<FormikProps<SaleFormValues>>(null)
+    const initialValues = submission.pending?.values ?? formData
+    const isLocked =
+        Boolean(submission.pending) || submission.blocked || !submission.ready
+    const finishSubmission = () => {
+        handleClose()
+        void mutate(
+            key =>
+                key === (saleUuid ? 'repair-shop/sales/' + saleUuid : '') ||
+                (Array.isArray(key) &&
+                    key[0] === 'repair-shop/sales/datatable'),
+        ).catch(() => undefined)
+    }
     const canDelete =
         saleUuid &&
         formData.payment_method == null &&
         !status.isDisabled &&
+        !isLocked &&
         hasPermission(Permission.UPDATE_SALE)
 
     return (
@@ -102,45 +124,101 @@ export default function SaleFormDialog({
                         sm: undefined,
                     },
                 }}>
-                <Formik<SaleFormValues>
-                    component={SaleFormikForm}
-                    initialStatus={status}
-                    initialValues={{
-                        ...formData,
-                        installment_data: formData.installment_data ?? {
-                            n_term: 1,
-                        },
-                        spare_part_margins: formData.spare_parts.map(
-                            (sparePart, index) =>
-                                formData.spare_part_margins?.[index] ?? {
-                                    _base_rp_per_unit:
-                                        sparePart.spare_part_state
-                                            ?.warehouses?.[0]
-                                            ?.base_rp_per_unit ?? 0,
-                                    margin_percentage:
-                                        sparePart.spare_part_state
-                                            ?.warehouses?.[0]
-                                            ?.installment_margin_percent ?? 0,
-                                    spare_part_warehouse_id:
-                                        sparePart.spare_part_warehouse_id ?? 0,
-                                },
-                        ),
-                    }}
-                    onReset={handleClose}
-                    onSubmit={(values, { setErrors, resetForm }) => {
-                        const axiosInstance = values.uuid
-                            ? myAxios.put(
-                                  `repair-shop/sales/${values.uuid}`,
-                                  values,
-                              )
-                            : myAxios.post('repair-shop/sales', values)
-
-                        return axiosInstance
-                            .then(resetForm)
-                            .catch(error => handle422(error, setErrors))
-                    }}
-                    validateOnChange={false}
-                />
+                {(submission.pending || submission.message) && (
+                    <Alert severity="warning" sx={{ mb: 2 }}>
+                        {submission.sending
+                            ? 'Pengiriman sedang diproses.'
+                            : (submission.message ??
+                              'Hasil penyimpanan sebelumnya belum dapat dipastikan. Coba kembali pengiriman yang sama.')}
+                        {submission.pending && (
+                            <Box display="flex" gap={1} mt={1}>
+                                <Button
+                                    disabled={submission.blocked}
+                                    loading={submission.sending}
+                                    onClick={async () => {
+                                        try {
+                                            if (await submission.retry())
+                                                finishSubmission()
+                                        } catch (error) {
+                                            form.current?.setStatus(status)
+                                            if (form.current)
+                                                handle422(
+                                                    error as AxiosError,
+                                                    form.current.setErrors,
+                                                )
+                                        }
+                                    }}>
+                                    Coba Lagi
+                                </Button>
+                                <Button
+                                    disabled={submission.sending}
+                                    onClick={handleClose}>
+                                    Tutup
+                                </Button>
+                            </Box>
+                        )}
+                    </Alert>
+                )}
+                {submission.ready && (
+                    <fieldset
+                        disabled={isLocked}
+                        style={{
+                            border: 0,
+                            margin: 0,
+                            minWidth: 0,
+                            padding: 0,
+                        }}>
+                        <Formik<SaleFormValues>
+                            component={SaleFormikForm}
+                            initialStatus={{
+                                isDisabled: status.isDisabled || isLocked,
+                            }}
+                            initialValues={{
+                                ...initialValues,
+                                installment_data:
+                                    initialValues.installment_data ?? {
+                                        n_term: 1,
+                                    },
+                                spare_part_margins:
+                                    initialValues.spare_parts.map(
+                                        (sparePart, index) =>
+                                            initialValues.spare_part_margins?.[
+                                                index
+                                            ] ?? {
+                                                _base_rp_per_unit:
+                                                    sparePart.spare_part_state
+                                                        ?.warehouses?.[0]
+                                                        ?.base_rp_per_unit ?? 0,
+                                                margin_percentage:
+                                                    sparePart.spare_part_state
+                                                        ?.warehouses?.[0]
+                                                        ?.installment_margin_percent ??
+                                                    0,
+                                                spare_part_warehouse_id:
+                                                    sparePart.spare_part_warehouse_id ??
+                                                    0,
+                                            },
+                                    ),
+                            }}
+                            innerRef={form}
+                            onReset={handleClose}
+                            onSubmit={async (
+                                values,
+                                { setErrors, setStatus },
+                            ) => {
+                                setStatus({ isDisabled: true })
+                                try {
+                                    if (await submission.submit(values))
+                                        finishSubmission()
+                                } catch (error) {
+                                    setStatus(status)
+                                    handle422(error as AxiosError, setErrors)
+                                }
+                            }}
+                            validateOnChange={false}
+                        />
+                    </fieldset>
+                )}
             </DialogContent>
         </Dialog>
     )
