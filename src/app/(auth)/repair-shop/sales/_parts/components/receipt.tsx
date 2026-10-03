@@ -15,6 +15,7 @@ import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-
 import formatNumber from '@/utils/format-number'
 // utils
 import shortUuid from '@/utils/short-uuid'
+import toDmy from '@/utils/to-dmy'
 
 export default function Receipt({ data }: { data: Sale }) {
     const totalRpSparePart =
@@ -44,7 +45,7 @@ export default function Receipt({ data }: { data: Sale }) {
             </Typography>
 
             <Typography fontSize="0.5em" variant="overline">
-                {data.uuid} — {data.finished_at ?? dayjs().format('YYYY-MM-DD')}
+                {data.uuid} — {toDmy(data.finished_at ?? dayjs())}
             </Typography>
 
             <Box alignItems="center" display="flex" gap={2} mb={1} mt={1}>
@@ -61,11 +62,13 @@ export default function Receipt({ data }: { data: Sale }) {
                         value={data.uuid ? shortUuid(data.uuid as UUID) : ''}
                     />
 
-                    <DefaultItemDesc desc="TGL. Masuk" value={data.at} />
+                    <DefaultItemDesc desc="TGL. Masuk" value={toDmy(data.at)} />
 
                     <DefaultItemDesc
                         desc="TGL. Keluar"
-                        value={data.finished_at}
+                        value={
+                            data.finished_at ? toDmy(data.finished_at) : null
+                        }
                     />
 
                     <DefaultItemDesc
