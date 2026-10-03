@@ -219,6 +219,23 @@ const DATATABLE_COLUMNS: DataTableProps<ProductSaleORM>['columns'] = [
         },
     },
     {
+        label: 'Alat Berat',
+        name: 'businessUnitProductSale.inventoryItemCheckup.inventoryItem.name',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const equipment =
+                    getRowData<ProductSaleORM>(dataIndex)
+                        ?.business_unit_product_sale?.inventory_item_checkup
+                        ?.inventory_item
+                if (!equipment) return '—'
+
+                return `${equipment.code ? `${equipment.code} - ` : ''}${equipment.name}`
+            },
+            searchable: false,
+            sort: false,
+        },
+    },
+    {
         label: 'Catatan',
         name: 'note',
         options: {
