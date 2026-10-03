@@ -10,19 +10,19 @@ import LoadingCenter from '@/components/loading-center'
 // libs
 import myAxios from '@/lib/axios'
 // features
-import type SparePart from '@/modules/repair-shop/types/orms/spare-part'
+import type SparePartMovement from '@/modules/repair-shop/types/orms/spare-part-movement'
 
 export default function Page() {
-    const { back } = useRouter()
+    const { back, replace } = useRouter()
     const params = useParams()
     const uuid = params?.uuid
 
-    const [data, setData] = useState<SparePart>()
+    const [data, setData] = useState<SparePartMovement>()
 
     useEffect(() => {
         if (uuid) {
             myAxios
-                .get<SparePart>(
+                .get<SparePartMovement>(
                     Endpoint.READ.replace('$1', (uuid as string) ?? ''),
                 )
                 .then(res => {
@@ -39,6 +39,7 @@ export default function Page() {
             handleClose={() => {
                 back()
             }}
+            onDeleted={() => replace('/repair-shop/spare-part-purchases')}
         />
     )
 }

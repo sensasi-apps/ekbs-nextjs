@@ -4,17 +4,17 @@ import DeleteRepairShopRecordButton, {
     type DeleteRepairShopRecordButtonProps,
 } from './delete-repair-shop-record-button'
 
-export default function DeleteSaleButton({
-    saleUuid,
+export default function DeletePurchaseButton({
+    purchaseUuid,
     ...props
 }: Omit<DeleteRepairShopRecordButtonProps, 'recordUuid' | 'kind'> & {
-    saleUuid: string
+    purchaseUuid: string
 }) {
     return (
         <DeleteRepairShopRecordButton
             {...props}
-            kind="sale"
-            recordUuid={saleUuid}
+            kind="purchase"
+            recordUuid={purchaseUuid}
         />
     )
 }
