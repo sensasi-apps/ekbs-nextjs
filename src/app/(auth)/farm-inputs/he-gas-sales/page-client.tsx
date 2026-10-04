@@ -231,7 +231,7 @@ const DATATABLE_COLUMNS: DataTableProps<ProductSaleORM>['columns'] = [
 
                 return `${equipment.code ? `${equipment.code} - ` : ''}${equipment.name}`
             },
-            searchable: false,
+            searchable: true,
             sort: false,
         },
     },
