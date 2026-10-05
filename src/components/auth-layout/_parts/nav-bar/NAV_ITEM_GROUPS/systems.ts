@@ -1,10 +1,12 @@
 // types
 
 // icons-materials
+import CreditCardIcon from '@mui/icons-material/CreditCard'
 import GroupIcon from '@mui/icons-material/Group'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 // import SettingsIcon from '@mui/icons-material/Settings'
 // enums
+import MemberCard from '@/enums/permissions/MemberCard'
 import PalmBunch from '@/enums/permissions/PalmBunch'
 import Role from '@/enums/role'
 import type NavItemGroup from '../types/nav-item-group'
@@ -22,6 +24,12 @@ export const systemsNavItemGroup: NavItemGroup = {
             href: `${process.env.NEXT_PUBLIC_V2_DOMAIN}/systems/user-search`,
             icon: ManageSearchIcon,
             label: 'Cari Pengguna',
+        },
+        {
+            forPermission: MemberCard.MANAGE,
+            href: `${process.env.NEXT_PUBLIC_V2_DOMAIN}/systems/member-cards`,
+            icon: CreditCardIcon,
+            label: 'Kartu Anggota',
         },
         // {
         //     href: '/systems/settings',

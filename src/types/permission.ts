@@ -7,6 +7,7 @@ import type Finance from '@/enums/permissions/Finance'
 import type HeavyEquipmentRent from '@/enums/permissions/heavy-equipment-rent'
 import type Issue from '@/enums/permissions/Issue'
 import type Mart from '@/enums/permissions/Mart'
+import type MemberCard from '@/enums/permissions/MemberCard'
 import type PalmBunch from '@/enums/permissions/PalmBunch'
 import type Transaction from '@/enums/permissions/Transaction'
 import type UserLoan from '@/enums/permissions/UserLoan'
@@ -21,6 +22,7 @@ export type Permission =
     | Finance
     | HeavyEquipmentRent
     | Mart
+    | MemberCard
     | PalmBunch
     | RepairShop
     | SurveyPermission
