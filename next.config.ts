@@ -42,6 +42,10 @@ const nextConfig: NextConfig = {
                 process.env.NEXT_PUBLIC_BACKEND_URL + '/oauth/google/callback',
             source: '/oauth/google/callback',
         },
+        {
+            destination: process.env.NEXT_PUBLIC_V2_DOMAIN + '/signage',
+            source: '/signage',
+        },
     ],
 
     typedRoutes: true,
