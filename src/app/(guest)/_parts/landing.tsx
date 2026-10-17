@@ -104,9 +104,11 @@ function PublicPagesSection() {
                     Katalog Saprodi
                 </Fab>
 
-                <Fab {...FAB_DEFAULT_PROPS} href="laporan-performa">
+                <Fab
+                    {...FAB_DEFAULT_PROPS}
+                    href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/laporan-kinerja`}>
                     <Insights sx={MR_ICON_DEFAULT_SX} />
-                    Performa Koperasi
+                    Laporan Kinerja
                 </Fab>
             </Box>
         </Section>
