@@ -43,6 +43,25 @@ const nextConfig: NextConfig = {
             source: '/oauth/google/callback',
         },
         {
+            destination: process.env.NEXT_PUBLIC_V2_DOMAIN + '/laporan-kinerja',
+            source: '/laporan-kinerja',
+        },
+        {
+            destination:
+                process.env.NEXT_PUBLIC_V2_DOMAIN + '/performance-report',
+            source: '/performance-report',
+        },
+        {
+            destination:
+                process.env.NEXT_PUBLIC_V2_DOMAIN + '/laporan-kinerja.pdf',
+            source: '/laporan-kinerja.pdf',
+        },
+        {
+            destination:
+                process.env.NEXT_PUBLIC_V2_DOMAIN + '/performance-report.pdf',
+            source: '/performance-report.pdf',
+        },
+        {
             destination: process.env.NEXT_PUBLIC_V2_DOMAIN + '/signage',
             source: '/signage',
         },
