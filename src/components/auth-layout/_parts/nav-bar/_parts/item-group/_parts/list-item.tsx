@@ -31,7 +31,9 @@ export default function NavBarListItem({
 
     const isActive = href === route || route.startsWith(href)
 
-    const isV2Domain = typeof href === 'string' && href.startsWith('http')
+    const isFullPageLink =
+        typeof href === 'string' &&
+        (href.startsWith('http') || href === '/laporan-kinerja')
 
     return (
         <ListItem
@@ -42,7 +44,7 @@ export default function NavBarListItem({
                 disabled={isActive}
                 disableGutters
                 href={href}
-                LinkComponent={isV2Domain ? 'a' : Link}
+                LinkComponent={isFullPageLink ? 'a' : Link}
                 selected={isActive}
                 sx={{
                     backgroundColor: isActive
