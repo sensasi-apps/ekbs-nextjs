@@ -34,7 +34,7 @@ const NAV_ITEM_GROUPS: NavItemGroup[] = [
                 label: 'Dasbor',
             },
             {
-                href: `${process.env.NEXT_PUBLIC_V2_DOMAIN}/laporan-kinerja`,
+                href: '/laporan-kinerja',
                 icon: Assessment,
                 label: 'Laporan Kinerja',
             },

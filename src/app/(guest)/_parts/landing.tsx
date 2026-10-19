@@ -106,7 +106,8 @@ function PublicPagesSection() {
 
                 <Fab
                     {...FAB_DEFAULT_PROPS}
-                    href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/laporan-kinerja`}>
+                    href="/laporan-kinerja"
+                    LinkComponent="a">
                     <Insights sx={MR_ICON_DEFAULT_SX} />
                     Laporan Kinerja
                 </Fab>
