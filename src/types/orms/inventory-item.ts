@@ -36,6 +36,7 @@ type InventoryItemPic = {
 }
 
 export type InventoryItemCheckupORM = {
+    voided_at?: string | null
     uuid: UUID
     by_user: UserORM
     note: string
