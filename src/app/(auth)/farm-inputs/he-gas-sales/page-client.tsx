@@ -17,6 +17,7 @@ import Fab from '@/components/fab'
 import FarmInputHeGasSaleForm, {
     type FormValues,
 } from '@/components/pages/farm-input-he-gas-sales/Form'
+import RefundHeGasSale from '@/components/pages/farm-input-he-gas-sales/refund'
 // enums
 import FarmInputPermission from '@/enums/permissions/FarmInput'
 // hooks
@@ -45,7 +46,7 @@ export default function PageClient() {
     const handleRowClick: OnRowClickType = (_, { dataIndex }, event) => {
         if (event.detail === 2) {
             const productSale = getRowData<ProductSaleORM>(dataIndex)
-            if (!productSale) return
+            if (!productSale || productSale.refund_product_sale) return
 
             setInitialFormikValues({
                 at: productSale.at,
@@ -232,6 +233,22 @@ const DATATABLE_COLUMNS: DataTableProps<ProductSaleORM>['columns'] = [
                 return `${equipment.code ? `${equipment.code} - ` : ''}${equipment.name}`
             },
             searchable: true,
+            sort: false,
+        },
+    },
+    {
+        label: 'Refund',
+        name: 'refundProductSale.at',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const sale = getRowData<ProductSaleORM>(dataIndex)
+                return sale ? (
+                    <RefundHeGasSale onRefund={() => mutate()} sale={sale} />
+                ) : (
+                    ''
+                )
+            },
+            searchable: false,
             sort: false,
         },
     },

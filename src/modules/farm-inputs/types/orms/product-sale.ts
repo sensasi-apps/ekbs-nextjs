@@ -13,6 +13,8 @@ export default interface ProductSaleORM {
     short_uuid: string
     at: Ymd
     note: string
+    created_at?: string
+    can_refund?: boolean
 
     // getter
     is_paid: boolean

@@ -181,6 +181,14 @@ const CHECKUP_DATATABLE_COLUMNS: DataTableProps<
     {
         label: 'Pemeriksaan',
         name: 'note',
+        options: {
+            customBodyRenderLite: dataIndex => {
+                const checkup = getCheckupRowData(dataIndex)
+                return checkup?.voided_at
+                    ? `${checkup.note} (Dibatalkan karena refund)`
+                    : (checkup?.note ?? '')
+            },
+        },
     },
     {
         label: 'Oleh',
