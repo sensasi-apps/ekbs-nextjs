@@ -8,6 +8,7 @@ import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import InputAdornment from '@mui/material/InputAdornment'
+import MenuItem from '@mui/material/MenuItem'
 import Switch from '@mui/material/Switch'
 import dayjs from 'dayjs'
 import type { FormikProps } from 'formik'
@@ -44,6 +45,8 @@ const InventoryItemForm = memo(function InventoryItemForm({
         rentable,
         default_rate_rp_per_unit,
         default_rate_unit,
+        requires_hm,
+        meter_unit,
     },
     setFieldValue,
 }: FormikProps<InventoryItemFormValues>) {
@@ -284,6 +287,75 @@ const InventoryItemForm = memo(function InventoryItemForm({
 
             <Fade in={isRentable} unmountOnExit>
                 <span>
+                    <TextField
+                        disabled={isDisabled}
+                        fullWidth
+                        label="Satuan Meter Alat"
+                        onChange={event => {
+                            setFieldValue('meter_unit', event.target.value)
+                            if (event.target.value === 'KM')
+                                setFieldValue('requires_hm', false)
+                        }}
+                        required={
+                            Boolean(default_rate_rp_per_unit) &&
+                            (default_rate_unit ?? 'H.M') === 'H.M'
+                        }
+                        select
+                        value={meter_unit ?? ''}
+                        {...errorsToHelperTextObj(errors.meter_unit)}>
+                        <MenuItem disabled value="">
+                            Pilih satuan meter
+                        </MenuItem>
+                        <MenuItem value="H.M">H.M</MenuItem>
+                        <MenuItem value="KM">KM</MenuItem>
+                    </TextField>
+                    <TextField
+                        disabled={isDisabled}
+                        fullWidth
+                        label="Satuan Tarif Default"
+                        onChange={event => {
+                            setFieldValue(
+                                'default_rate_unit',
+                                event.target.value,
+                            )
+                            if (
+                                event.target.value === 'H.M' &&
+                                meter_unit !== 'KM'
+                            )
+                                setFieldValue('requires_hm', true)
+                        }}
+                        select
+                        value={default_rate_unit ?? 'H.M'}>
+                        <MenuItem value="H.M">H.M</MenuItem>
+                        <MenuItem value="ritase">Ritase</MenuItem>
+                        <MenuItem value="borongan">Borongan</MenuItem>
+                    </TextField>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={
+                                    meter_unit !== 'KM' &&
+                                    ((default_rate_unit ?? 'H.M') === 'H.M' ||
+                                        (requires_hm ?? false))
+                                }
+                                disabled={
+                                    isDisabled ||
+                                    meter_unit === 'KM' ||
+                                    (default_rate_unit ?? 'H.M') === 'H.M'
+                                }
+                                onChange={(_, checked) =>
+                                    setFieldValue('requires_hm', checked)
+                                }
+                            />
+                        }
+                        label={
+                            meter_unit === 'KM'
+                                ? 'Tidak perlu catat H.M harian untuk alat bermeter KM'
+                                : (default_rate_unit ?? 'H.M') === 'H.M'
+                                  ? 'Wajib catat H.M harian (tarif H.M)'
+                                  : 'Wajib catat H.M harian'
+                        }
+                    />
                     <NumericFormat
                         disabled={isDisabled}
                         InputProps={{
@@ -323,6 +395,9 @@ export type InventoryItemFormValues = Partial<
     Omit<InventoryItem, 'tags'> & {
         default_rate_rp_per_unit: number
         default_rate_unit: string
+        /** @deprecated Remove after requires_hm is sunset. */
+        requires_hm: boolean
+        meter_unit: 'H.M' | 'KM' | null
         tags: string[]
     }
 >

@@ -44,8 +44,14 @@ const formDataFormatter = (values: InventoryItemFormValues) => ({
     desc: values.desc ?? undefined,
     disowned_at: values.disowned_at ?? undefined,
     disowned_note: values.disowned_note ?? undefined,
+    meter_unit: values.meter_unit ?? undefined,
     name: values.name,
     owned_at: values.owned_at,
+    requires_hm:
+        values.meter_unit === 'KM'
+            ? false
+            : (values.requires_hm ??
+              (values.default_rate_unit ?? 'H.M') === 'H.M'),
     tags: values.tags ?? undefined,
     unfunctional_note: values.unfunctional_note ?? undefined,
 })

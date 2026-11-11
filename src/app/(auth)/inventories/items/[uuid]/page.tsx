@@ -130,6 +130,10 @@ export default function InventoryItemDetail() {
                                     default_rate_unit:
                                         inventoryItem.rentable
                                             ?.default_rate_unit ?? undefined,
+                                    meter_unit:
+                                        inventoryItem.rentable?.meter_unit,
+                                    requires_hm:
+                                        inventoryItem.rentable?.requires_hm,
                                     tags: inventoryItem.tags ?? [],
                                 }}
                                 onReset={() => null}
