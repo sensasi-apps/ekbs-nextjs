@@ -1,5 +1,6 @@
 // types
 
+import Engineering from '@mui/icons-material/Engineering'
 import Insights from '@mui/icons-material/Insights'
 import Login from '@mui/icons-material/Login'
 import OpenInNew from '@mui/icons-material/OpenInNew'
@@ -102,6 +103,14 @@ function PublicPagesSection() {
                     {...FAB_DEFAULT_PROPS}>
                     <Warehouse sx={MR_ICON_DEFAULT_SX} />
                     Katalog Saprodi
+                </Fab>
+
+                <Fab
+                    {...FAB_DEFAULT_PROPS}
+                    href={`${process.env.NEXT_PUBLIC_V2_DOMAIN}/monitor-alat-berat`}
+                    LinkComponent="a">
+                    <Engineering sx={MR_ICON_DEFAULT_SX} />
+                    Monitor Alat Berat
                 </Fab>
 
                 <Fab
